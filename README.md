@@ -1,8 +1,6 @@
 **Onto2D**
 Onto2D is a 2D semantic constraint engine for complex system modelling.
 
-**Onto2D Version 1.0 Preview**
-
 ---
 
 **Features**
@@ -97,17 +95,6 @@ Tested on:
 * Technical Specification (includes Emergence Catalogue extensions)
 * API Reference
 * Visual Examples Gallery
-
----
-
-**Community**
-
-* Discord Server (discussion, support, feature requests)
-* GitHub Issues for bugs and feedback
-* Planned GitHub Discussions space
-
-**Contributing**
-We welcome feedback and suggestions. For now, please file issues rather than direct pull requests. We aim to stabilize the core before accepting code contributions.
 
 ---
 
