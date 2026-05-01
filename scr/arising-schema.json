@@ -1,0 +1,238 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "description": "Schema for describing an arising (SOMA) along multiple classification axes, including per-parent causal directions, interaction modes, and optional quantization carriers.",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "Id": {
+            "description": "Global unique identifier for the arising.",
+            "type": "integer"
+        },
+        "Name": {
+            "description": "Name or short title of the arising.",
+            "type": "string",
+            "maxLength": 80
+        },
+        "ShortDescription": {
+            "description": "Short description of the arising.",
+            "type": "string",
+            "maxLength": 160
+        },
+        "Description": {
+            "description": "Detailed description of the arising.",
+            "type": "string",
+            "maxLength": 2000
+        },
+        "Level": {
+            "description": "Identifier for the level of the arising. Refers to entries in the Levels dictionary.",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 13
+        },
+        "Phase": {
+            "description": "Identifier for the phase (0–3) of the arising within its level. Refers to entries in the LevelPhases dictionary.",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 3
+        },
+        "TypeRole": {
+            "description": "Identifier for the primary type/role of the arising (Process, Object, Pattern, Property, Effect). Refers to entries in the type_roles dictionary.",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 4
+        },
+        "Science": {
+            "description": "Identifiers of ontological disciplines or fields that study this arising.",
+            "type": "array",
+            "items": {
+                "type": "integer"
+            },
+            "uniqueItems": true
+        },
+        "ScientificStatus": {
+            "description": "Status of scientific validity for this arising.",
+            "type": "string",
+            "enum": [
+                "established",
+                "well-supported",
+                "hypothesized",
+                "speculative",
+                "methodological-placeholder"
+            ]
+        },
+        "Requirements": {
+            "description": "Causal category requirements for this arising, partitioned into mandatory, recommended, and optional sets. Refers to entries in the DependencyTypes dictionary.",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "MustCover": {
+                    "description": "List of identifiers of causal categories that must be covered for structural admissibility.",
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    },
+                    "uniqueItems": true
+                },
+                "ShouldCover": {
+                    "description": "List of identifiers of causal categories that should be covered for robustness.",
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    },
+                    "uniqueItems": true
+                },
+                "OptionalCover": {
+                    "description": "List of identifiers of causal categories that may be covered for higher-order stabilization.",
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    },
+                    "uniqueItems": true
+                }
+            }
+        },
+        "Parents": {
+            "description": "List of parent relations from which the current arising arises or is constrained. Each parent relation encodes the parent identifier together with its specific data.",
+            "type": "array",
+            "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                    "ParentCode": {
+                        "description": "Human-readable code of the parent in the form level.localIndex, e.g. \"1.2\".",
+                        "type": "string",
+                        "pattern": "^[0-9]+\\.[0-9]+$"
+                    },
+                    "CausalDirections": {
+                        "description": "Identifiers of causal directions characterizing this specific relation from the parent to the current arising. Values refer to entries in the causal_directions dictionary.",
+                        "type": "array",
+                        "items": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 5
+                        },
+                        "minItems": 1
+                    },
+                    "InteractionModes": {
+                        "description": "Identifiers of interaction modes through which this parent contributes to the arising. Values refer to entries in the interaction_modes dictionary.",
+                        "type": "array",
+                        "items": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 4
+                        },
+                        "minItems": 1
+                    },
+                    "Weight": {
+                        "description": "Relative weight (0.0–1.0) of this parent relation in contributing to the arising. Expected to be normalized across Parents.",
+                        "type": "number",
+                        "minimum": 0.0,
+                        "maximum": 1.0
+                    },
+                    "Necessity": {
+                        "description": "Characterizes how essential this parent relation is for the arising.",
+                        "type": "string",
+                        "enum": [
+                            "necessary",
+                            "enabling",
+                            "contextual",
+                            "optional"
+                        ]
+                    },
+                    "DependencyType": {
+                        "description": "Identifier of dependency type for this parent relation (DependencyTypes.Id). Maps the relation to exactly one causal category.",
+                        "type": "integer"
+                    },
+                    "OntologicalRole": {
+                        "description": "Ontological role of this parent relation in the lifecycle of the child arising.",
+                        "type": "string",
+                        "enum": [
+                            "arising",
+                            "maintenance",
+                            "modulation"
+                        ]
+                    },
+                    "Quantization": {
+                        "description": "Quantization block for this parent relation: carrier ontology and optional thresholds.",
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                            "CarrierGroupId": {
+                                "description": "Identifier of carrier group (CarrierGroups.Id).",
+                                "type": "integer",
+                                "minimum": 0
+                            },
+                            "CarrierTypeId": {
+                                "description": "Identifier of carrier type (CarrierTypes.Id).",
+                                "type": "integer",
+                                "minimum": 0
+                            },
+                            "N_min": {
+                                "description": "Minimal unit count for activation (optional).",
+                                "type": [
+                                    "number",
+                                    "null"
+                                ],
+                                "minimum": 0
+                            },
+                            "N_crit": {
+                                "description": "Critical unit count for regime change (optional).",
+                                "type": [
+                                    "number",
+                                    "null"
+                                ],
+                                "minimum": 0
+                            },
+                            "N_sat": {
+                                "description": "Saturation unit count beyond which regime novelty saturates (optional).",
+                                "type": [
+                                    "number",
+                                    "null"
+                                ],
+                                "minimum": 0
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "Evidence": {
+            "description": "Optional list of evidence items that support the existence and characterization of this arising.",
+            "type": "array",
+            "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                    "Type": {
+                        "description": "Type of evidence.",
+                        "type": "string",
+                        "enum": [
+                            "theoretical",
+                            "empirical",
+                            "simulation",
+                            "meta-analysis",
+                            "review",
+                            "conceptual",
+                            "other"
+                        ]
+                    },
+                    "Reference": {
+                        "description": "Short bibliographic or descriptive reference (e.g., \"Author Year, Journal\").",
+                        "type": "string",
+                        "maxLength": 300
+                    },
+                    "DOI": {
+                        "description": "Digital Object Identifier if available.",
+                        "type": "string",
+                        "maxLength": 100
+                    },
+                    "Link": {
+                        "description": "URL to the publication, dataset, or resource, if available.",
+                        "type": "string",
+                        "format": "uri"
+                    }
+                }
+            }
+        }
+    }
+}
