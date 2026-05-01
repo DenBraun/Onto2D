@@ -77,6 +77,40 @@ Outputs optimized distributable files.
 * Instantiate with your system graph and constraint configuration
 * Use exposed API for programmatic manipulation and validation
 
+**Core Runtime Concept**
+
+Onto2D separates the hidden ontology graph from the user world:
+
+* `scr/level-*.json` and `scr/descriptions.json` define the hidden emergence catalogue.
+* User-created bodies are concrete instances bound to ontology node categories.
+* The engine validates body relations against the hidden graph and reports semantic contacts.
+
+Minimal Node.js example:
+
+```js
+const fs = require("fs");
+const Onto2D = require("./onto2d.js");
+
+const levels = Array.from({ length: 8 }, (_, index) => {
+  return JSON.parse(fs.readFileSync(`scr/level-${index}.json`, "utf8"));
+});
+const descriptions = JSON.parse(fs.readFileSync("scr/descriptions.json", "utf8"));
+
+const engine = new Onto2D.Onto2DEngine();
+engine.loadOntology({ levels, descriptions });
+
+const world = engine.createWorld();
+
+world.createBody({
+  id: "protein_1",
+  name: "Example protein",
+  category: "3.0"
+});
+
+const capabilities = world.getCapabilities("protein_1");
+const contacts = world.step().contacts;
+```
+
 ---
 
 **Compatibility**
