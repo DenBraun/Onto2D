@@ -1,0 +1,152 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/skeleton-enumeration-result.schema.json",
+  "title": "Onto2D Skeleton Enumeration Result",
+  "type": "object",
+  "required": ["schemaVersion", "status", "interpretable", "nodeCount", "skeletons", "counts", "budget"],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "status": { "enum": ["complete", "budget-exhausted"] },
+    "interpretable": { "type": "boolean" },
+    "nodeCount": { "type": "integer", "minimum": 1, "maximum": 6 },
+    "skeletons": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/enumeratedSkeleton" }
+    },
+    "counts": {
+      "type": "object",
+      "required": [
+        "totalLabelledGraphs",
+        "examinedLabelledGraphs",
+        "connectedLabelledGraphs",
+        "canonicalizedLabelledGraphs",
+        "uniqueSkeletons",
+        "duplicateLabelings"
+      ],
+      "properties": {
+        "totalLabelledGraphs": { "type": "integer", "minimum": 1 },
+        "examinedLabelledGraphs": { "type": "integer", "minimum": 0 },
+        "connectedLabelledGraphs": { "type": "integer", "minimum": 0 },
+        "canonicalizedLabelledGraphs": { "type": "integer", "minimum": 0 },
+        "uniqueSkeletons": { "type": "integer", "minimum": 0 },
+        "duplicateLabelings": { "type": "integer", "minimum": 0 }
+      },
+      "additionalProperties": false
+    },
+    "budget": {
+      "type": "object",
+      "required": ["maxLabelledGraphs", "maxSkeletons", "canonicalizationLimits", "exhausted"],
+      "properties": {
+        "maxLabelledGraphs": { "type": "integer", "minimum": 1 },
+        "maxSkeletons": { "type": "integer", "minimum": 1 },
+        "canonicalizationLimits": { "$ref": "#/$defs/canonicalizationLimits" },
+        "exhausted": {
+          "oneOf": [
+            { "type": "null" },
+            { "$ref": "#/$defs/exhaustion" }
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "status": { "const": "complete" } }, "required": ["status"] },
+      "then": {
+        "properties": {
+          "interpretable": { "const": true },
+          "budget": { "properties": { "exhausted": { "type": "null" } } }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "status": { "const": "budget-exhausted" } }, "required": ["status"] },
+      "then": {
+        "properties": {
+          "interpretable": { "const": false },
+          "budget": { "properties": { "exhausted": { "$ref": "#/$defs/exhaustion" } } }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "contentHash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "canonicalizationLimits": {
+      "type": "object",
+      "required": ["maxNodes", "maxEdges", "maxSearchStates"],
+      "properties": {
+        "maxNodes": { "type": "integer", "minimum": 1 },
+        "maxEdges": { "type": "integer", "minimum": 0 },
+        "maxSearchStates": { "type": "integer", "minimum": 1 }
+      },
+      "additionalProperties": false
+    },
+    "canonicalForm": {
+      "type": "object",
+      "required": ["schemaVersion", "bytesBase64", "hash"],
+      "properties": {
+        "schemaVersion": { "type": "string", "minLength": 1 },
+        "bytesBase64": { "type": "string", "contentEncoding": "base64" },
+        "hash": { "$ref": "#/$defs/contentHash" }
+      },
+      "additionalProperties": false
+    },
+    "enumeratedSkeleton": {
+      "type": "object",
+      "required": ["id", "nodeCount", "edges", "canonicalForm", "labelledMultiplicity"],
+      "properties": {
+        "id": { "$ref": "#/$defs/contentHash" },
+        "nodeCount": { "type": "integer", "minimum": 1, "maximum": 6 },
+        "edges": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "prefixItems": [
+              { "type": "integer", "minimum": 0 },
+              { "type": "integer", "minimum": 0 }
+            ],
+            "minItems": 2,
+            "maxItems": 2
+          }
+        },
+        "canonicalForm": { "$ref": "#/$defs/canonicalForm" },
+        "labelledMultiplicity": { "type": "integer", "minimum": 1 }
+      },
+      "additionalProperties": false
+    },
+    "exhaustion": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["budget", "used", "maximum", "nextMask", "totalLabelledGraphs"],
+          "properties": {
+            "budget": { "const": "maxLabelledGraphs" },
+            "used": { "type": "integer", "minimum": 0 },
+            "maximum": { "type": "integer", "minimum": 1 },
+            "nextMask": { "type": "integer", "minimum": 0 },
+            "totalLabelledGraphs": { "type": "integer", "minimum": 1 }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["budget", "used", "maximum", "firstExcludedSkeletonId", "mask"],
+          "properties": {
+            "budget": { "const": "maxSkeletons" },
+            "used": { "type": "integer", "minimum": 0 },
+            "maximum": { "type": "integer", "minimum": 1 },
+            "firstExcludedSkeletonId": { "$ref": "#/$defs/contentHash" },
+            "mask": { "type": "integer", "minimum": 0 }
+          },
+          "additionalProperties": false
+        }
+      ]
+    }
+  },
+  "additionalProperties": false
+}

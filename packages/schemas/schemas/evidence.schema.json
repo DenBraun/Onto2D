@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/evidence.schema.json",
+  "title": "Onto2D Evidence Reference",
+  "type": "object",
+  "required": ["id", "state", "source"],
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "state": {
+      "enum": [
+        "paper-assumption",
+        "paper-derivation",
+        "package-operationalization",
+        "computationally-verified",
+        "externally-supported",
+        "falsified",
+        "unresolved"
+      ]
+    },
+    "source": { "$ref": "artifact-ref.schema.json" },
+    "locator": {
+      "type": "object",
+      "properties": {
+        "page": { "type": "integer", "minimum": 1 },
+        "equation": { "type": "integer", "minimum": 1 },
+        "fragment": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "method": {
+      "type": "object",
+      "required": ["id", "version", "inputHash"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "version": { "type": "string", "minLength": 1 },
+        "inputHash": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

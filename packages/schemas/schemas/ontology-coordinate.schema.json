@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/ontology-coordinate.schema.json",
+  "title": "Onto2D Ontology Coordinate",
+  "type": "object",
+  "required": ["level"],
+  "properties": {
+    "level": { "type": "integer", "minimum": 0 },
+    "phase": { "type": "string", "pattern": "^(A|B|C|D|custom:[A-Za-z0-9][A-Za-z0-9._-]*)$" },
+    "segment": { "type": "string", "minLength": 1 }
+  },
+  "additionalProperties": false
+}

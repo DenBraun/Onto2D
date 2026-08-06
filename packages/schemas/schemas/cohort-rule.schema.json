@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/cohort-rule.schema.json",
+  "title": "Onto2D Cohort Rule",
+  "type": "object",
+  "properties": {
+    "id": { "$ref": "#/$defs/id" },
+    "kind": { "enum": ["shared-support", "profile-role", "invariant-window", "singleton", "global"] },
+    "resourceKey": { "$ref": "#/$defs/expressionList" },
+    "roleKey": { "$ref": "#/$defs/expressionList" },
+    "value": { "$ref": "#/$defs/expression" },
+    "origin": { "$ref": "quantity.schema.json" },
+    "width": { "$ref": "quantity.schema.json" },
+    "bins": { "const": "lower-closed-upper-open" }
+  },
+  "oneOf": [
+    {
+      "type": "object",
+      "required": ["id", "kind", "resourceKey"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "kind": { "const": "shared-support" },
+        "resourceKey": { "$ref": "#/$defs/expressionList" }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": ["id", "kind", "roleKey"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "kind": { "const": "profile-role" },
+        "roleKey": { "$ref": "#/$defs/expressionList" }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": ["id", "kind", "value", "origin", "width", "bins"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "kind": { "const": "invariant-window" },
+        "value": { "$ref": "#/$defs/expression" },
+        "origin": { "$ref": "quantity.schema.json" },
+        "width": { "$ref": "quantity.schema.json" },
+        "bins": { "const": "lower-closed-upper-open" }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": ["id", "kind"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "kind": { "const": "singleton" }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": ["id", "kind"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "kind": { "const": "global" }
+      },
+      "additionalProperties": false
+    }
+  ],
+  "$defs": {
+    "id": { "type": "string", "minLength": 1 },
+    "expression": {
+      "type": "object",
+      "required": ["kind"],
+      "properties": { "kind": { "type": "string", "minLength": 1 } }
+    },
+    "expressionList": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/expression" }
+    }
+  },
+  "additionalProperties": false
+}

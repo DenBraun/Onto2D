@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/functional.schema.json",
+  "title": "Onto2D Functional",
+  "type": "object",
+  "required": ["id", "expr", "coefficients", "sensitivityCoefficients", "result", "explain", "claimRefs"],
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "expr": {
+      "type": "object",
+      "required": ["kind"],
+      "properties": { "kind": { "type": "string", "minLength": 1 } },
+      "additionalProperties": true
+    },
+    "coefficients": { "type": "object", "additionalProperties": { "$ref": "quantity.schema.json" } },
+    "sensitivityCoefficients": { "type": "array", "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+    "result": {
+      "type": "object",
+      "required": ["id", "unit", "semantic", "toleranceTarget"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "unit": { "type": "string", "minLength": 1 },
+        "semantic": { "type": "string", "minLength": 1 },
+        "toleranceTarget": {
+          "type": "object",
+          "properties": {
+            "absolute": { "type": "number", "minimum": 0 },
+            "relative": { "type": "number", "minimum": 0 }
+          },
+          "anyOf": [{ "required": ["absolute"] }, { "required": ["relative"] }],
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "explain": { "type": "string", "minLength": 1 },
+    "claimRefs": { "type": "array", "uniqueItems": true, "items": { "type": "string", "minLength": 1 } }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,131 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/run-config.schema.json",
+  "title": "Onto2D Normalized Run Configuration",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "countingDomain",
+    "sourceDepths",
+    "reportAxes",
+    "roleAlphabet",
+    "budget",
+    "seed",
+    "invariantPrecision",
+    "graphPolicy",
+    "substructurePolicy",
+    "nullModels",
+    "evidencePolicy",
+    "indeterminateThreshold"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "countingDomain": { "enum": ["profile-quotient", "element-exact", "single-candidate"] },
+    "sourceDepths": { "enum": ["all-below", "previous-only"] },
+    "reportAxes": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "derivation-depth",
+          "ontology-level",
+          "ontology-phase",
+          "catalogue-level",
+          "catalogue-phase",
+          "predicate-phase"
+        ]
+      }
+    },
+    "roleAlphabet": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "budget": {
+      "type": "object",
+      "required": ["maxNodes", "maxEdges", "maxCandidates", "perturbationSamples", "nullModelRuns"],
+      "properties": {
+        "maxNodes": { "type": "integer", "minimum": 1, "maximum": 6 },
+        "maxEdges": {
+          "oneOf": [
+            { "type": "integer", "minimum": 0 },
+            { "const": "n+2" }
+          ]
+        },
+        "maxCandidates": { "type": "integer", "minimum": 1 },
+        "perturbationSamples": { "type": "integer", "minimum": 0 },
+        "nullModelRuns": { "type": "integer", "minimum": 0 },
+        "maxWallTimeMs": { "type": "integer", "minimum": 1 },
+        "maxResidentBytes": { "type": "integer", "minimum": 1 }
+      },
+      "additionalProperties": false
+    },
+    "seed": { "type": "string", "minLength": 1 },
+    "invariantPrecision": {
+      "type": "object",
+      "required": ["id", "decimalPlaces", "rounding", "summation"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "decimalPlaces": { "type": "integer", "minimum": 0 },
+        "rounding": { "enum": ["half-even", "half-up", "toward-zero"] },
+        "summation": { "enum": ["exact-decimal", "compensated-binary64"] }
+      },
+      "additionalProperties": false
+    },
+    "graphPolicy": { "$ref": "graph-policy.schema.json" },
+    "substructurePolicy": {
+      "type": "object",
+      "required": ["id", "remove", "includeDisconnected", "includeEmpty", "retainIsolatedNodes"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "remove": { "enum": ["nodes", "edges", "nodes-and-edges"] },
+        "includeDisconnected": { "type": "boolean" },
+        "includeEmpty": { "type": "boolean" },
+        "retainIsolatedNodes": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    },
+    "nullModels": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "enum": ["role-shuffle", "degree-rewire", "uniform"] }
+    },
+    "ontologyTarget": { "$ref": "ontology-coordinate.schema.json" },
+    "evidencePolicy": { "enum": ["require-all", "allow-declared"] },
+    "indeterminateThreshold": { "type": "number", "minimum": 0, "maximum": 1 },
+    "levelBoundaryPolicy": {
+      "type": "object",
+      "required": ["enabled", "maximumCollapseError", "tieTolerance"],
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "searchIntervals": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["fromDepth", "toDepth"],
+            "properties": {
+              "fromDepth": { "type": "integer", "minimum": 0 },
+              "toDepth": { "type": "integer", "minimum": 0 }
+            },
+            "additionalProperties": false
+          }
+        },
+        "maximumCollapseError": { "type": "number", "minimum": 0, "maximum": 1 },
+        "tieTolerance": { "type": "number", "minimum": 0 }
+      },
+      "additionalProperties": false
+    },
+    "boundedFixpoint": {
+      "type": "object",
+      "required": ["enabled", "maxIterations"],
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "maxIterations": { "type": "integer", "minimum": 1 }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

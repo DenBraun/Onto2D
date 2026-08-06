@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/selector.schema.json",
+  "title": "Onto2D Cohort Selector",
+  "type": "object",
+  "required": ["id", "objective", "functional", "cohortRule", "epsilon", "tiePolicy", "sensitivity", "explain", "claimRefs"],
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "objective": { "enum": ["min", "max"] },
+    "functional": { "type": "string", "minLength": 1 },
+    "cohortRule": { "type": "string", "minLength": 1 },
+    "epsilon": { "$ref": "quantity.schema.json" },
+    "tiePolicy": { "const": "retain-all" },
+    "sensitivity": {
+      "type": "object",
+      "required": ["amplitudes", "sweep", "topK", "robustLeaderSetThreshold", "robustTopKThreshold"],
+      "properties": {
+        "amplitudes": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "number", "exclusiveMinimum": 0, "exclusiveMaximum": 1 } },
+        "sweep": { "enum": ["one-at-a-time", "cartesian"] },
+        "topK": { "type": "integer", "minimum": 1 },
+        "robustLeaderSetThreshold": { "type": "number", "minimum": 0, "maximum": 1 },
+        "robustTopKThreshold": { "type": "number", "minimum": 0, "maximum": 1 }
+      },
+      "additionalProperties": false
+    },
+    "explain": {
+      "type": "object",
+      "required": ["pass", "fail", "indeterminate"],
+      "properties": {
+        "pass": { "type": "string", "minLength": 1 },
+        "fail": { "type": "string", "minLength": 1 },
+        "indeterminate": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": false
+    },
+    "claimRefs": { "type": "array", "uniqueItems": true, "items": { "type": "string", "minLength": 1 } }
+  },
+  "additionalProperties": false
+}

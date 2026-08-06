@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/skeleton.schema.json",
+  "title": "Onto2D Canonical Skeleton",
+  "type": "object",
+  "required": ["id", "nodeCount", "edges", "canonicalForm"],
+  "properties": {
+    "id": { "$ref": "#/$defs/contentHash" },
+    "nodeCount": { "type": "integer", "minimum": 1 },
+    "edges": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "prefixItems": [
+          { "type": "integer", "minimum": 0 },
+          { "type": "integer", "minimum": 0 }
+        ],
+        "minItems": 2,
+        "maxItems": 2
+      }
+    },
+    "canonicalForm": { "$ref": "#/$defs/canonicalForm" }
+  },
+  "$defs": {
+    "contentHash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "canonicalForm": {
+      "type": "object",
+      "required": ["schemaVersion", "bytesBase64", "hash"],
+      "properties": {
+        "schemaVersion": { "type": "string", "minLength": 1 },
+        "bytesBase64": { "type": "string", "contentEncoding": "base64" },
+        "hash": { "$ref": "#/$defs/contentHash" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

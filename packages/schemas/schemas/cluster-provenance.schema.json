@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/cluster-provenance.schema.json",
+  "title": "Onto2D Cluster Provenance",
+  "type": "object",
+  "required": [
+    "disposition",
+    "members",
+    "internalRelations",
+    "internalOrder",
+    "classificationPolicyHash",
+    "classificationArtifact",
+    "nodeResolutionArtifact",
+    "condensationArtifact"
+  ],
+  "properties": {
+    "disposition": {
+      "enum": [
+        "distributed-structure",
+        "constitutive-cluster",
+        "unresolved-generative-cluster",
+        "mixed-unresolved-cluster"
+      ]
+    },
+    "members": {
+      "type": "array",
+      "minItems": 2,
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "internalRelations": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "internalOrder": { "const": "undefined" },
+    "classificationPolicyHash": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "classificationArtifact": { "$ref": "artifact-ref.schema.json" },
+    "nodeResolutionArtifact": { "$ref": "artifact-ref.schema.json" },
+    "condensationArtifact": { "$ref": "artifact-ref.schema.json" }
+  },
+  "additionalProperties": false
+}

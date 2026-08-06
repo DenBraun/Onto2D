@@ -1,94 +1,87 @@
-**Onto2D**
-Onto2D is a 2D semantic constraint engine for complex system modelling.
+# Onto2D
 
----
+Onto2D is an ontology-backed JavaScript toolkit being refactored into a
+deterministic admissibility-closure kernel for complex-system modelling.
 
-**Features**
+## Current status
 
-**Semantic Graph Representation**
+The repository now has a dependency-free Node.js workspace prepared for
+development. Shipped application behavior remains the catalogue-backed legacy
+runtime in `onto2d.js`. The new `@onto2d/kernel` package now implements its
+deterministic package and graph-identity foundation, but not candidate
+decoration, predicate evaluation, or closure.
 
-* Multilayer Emergence Graph structure
-* Nodes represent complex, potentially recursive systems
-* Supports structural folding and unfolding
-* Causal and hierarchical relationships
-* Dynamic approximation levels
-* Integrated phase and system-level constraints
+Available foundations include:
 
-**Ontological Constraint Engine**
+- five packages with explicit dependency boundaries;
+- guarded canonical JSON and domain-separated SHA-256 identities;
+- deterministic `RulePackage` normalization, structural validation, and
+  `createKernel().loadPackage()`;
+- exact refinement/individualization canonicalization for supplied candidate
+  graphs, with separate candidate and skeleton identities;
+- bounded connected-unlabeled skeleton enumeration through six nodes and a
+  deterministic candidate deduplication store;
+- JSON Schema Draft 2020-12 contracts for the first kernel artifacts;
+- a non-mutating loader and reproducible audit for all 249 catalogue cards;
+- characterization tests for the legacy ontology/world API;
+- locked identities for the supplied theory sources;
+- repository, documentation, schema, source, and catalogue checks.
 
-* Real-time validation of node connections
-* Automatic enforcement of Emergence Catalogue rules
-* Semantic collision detection (prevents invalid system configurations)
-* Supports cross-level interaction with strict control
-* Guided structural composition for users
+No current command changes `scr/` catalogue records or claims that raw
+`ParentCode` relations are generative. Relation classification, SCC
+condensation, decorated-candidate enumeration, closure, scientific predicates,
+and sensitivity execution remain scheduled implementation work.
 
-**Interactive Tools**
+## Start developing
 
-* Visual 2D graph editor (Cytoscape.js-based)
-* Manual and programmatic folding/unfolding of system nodes
-* Approximation control per node or globally
-* Structural integrity indicators and warnings
-* Debug and trace tools for causal paths
+Prerequisite: Node.js 20 or newer with npm.
 
-**System Design**
-
-* Data-driven JSON structure, compatible with OntoUML extensions
-* Written in portable, modular JavaScript
-* Designed for web-based and standalone applications
-* Clear separation of visual layer and constraint logic
-* Extensible plugin architecture for diagnostics, simulation, and AI assistants
-
-**Samples**
-
-* Preconfigured emergence catalogue samples
-* Healthcare system modelling examples
-* Biological, cognitive, and organizational system demos
-* Diagnostic interface mockups with Paучок AI assistant
-
----
-
-**Building and Installation**
-
-**Prerequisites**
-
-* Node.js and npm
-* Recommended: modern browser for testing visual components
-
-**Quick Start**
-
-```bash
-npm install
-npm run dev
-```
-
-Opens a local development server with Onto2D visual environment.
-
-**Production Build**
-
-```bash
+```sh
+npm ci
+npm test
+npm run check
 npm run build
 ```
 
-Outputs optimized distributable files.
+There are no third-party runtime or development dependencies in this bootstrap
+slice. `npm run build` performs the complete readiness validation; packages are
+served directly from checked source, so it does not create a transpiled `dist/`
+tree.
 
-**Embedding Onto2D as a Library**
+Additional commands:
 
-* Include core `onto2d.js` script in your project
-* Instantiate with your system graph and constraint configuration
-* Use exposed API for programmatic manipulation and validation
+```sh
+npm run audit:catalogue
+npm run check:docs
+npm run check:schemas
+npm run test:legacy
+npm run test:kernel
+```
 
-**Core Runtime Concept**
+See [Development Guide](docs/DEVELOPMENT.md) and
+[Contributing](CONTRIBUTING.md) for the workflow.
 
-Onto2D separates the hidden ontology graph from the user world:
+## Repository map
 
-* `scr/level-*.json` and `scr/descriptions.json` define the hidden emergence catalogue.
-* User-created bodies are concrete instances bound to ontology node categories.
-* The engine validates body relations against the hidden graph and reports semantic contacts.
+- `onto2d.js` — stable UMD/CommonJS legacy ontology and world validator.
+- `scr/` — source catalogue, legacy schema, and preserved theory PDFs.
+- `packages/kernel/` — dependency-free model, canonical graph/hash, and package-loader foundation.
+- `packages/schemas/` — versioned machine-readable contracts.
+- `packages/catalog-adapter/` — legacy catalogue loading and read-only audit.
+- `packages/scientific-adapter/` — validated port for future scientific tools.
+- `packages/legacy-runtime/` — compatibility package for `onto2d.js`.
+- `cases/` — research-case source locks and, later, executable fixtures.
+- `scripts/` — zero-dependency repository checks and test orchestration.
+- `test/` — cross-package, legacy, source-lock, and golden fixtures.
+- `docs/` — normative architecture, migration plan, and source accounting.
 
-Minimal Node.js example:
+The exact current layout and intended growth path are documented in
+[Project Structure](docs/PROJECT_STRUCTURE.md).
+
+## Legacy runtime example
 
 ```js
-const fs = require("fs");
+const fs = require("node:fs");
 const Onto2D = require("./onto2d.js");
 
 const levels = Array.from({ length: 8 }, (_, index) => {
@@ -100,7 +93,6 @@ const engine = new Onto2D.Onto2DEngine();
 engine.loadOntology({ levels, descriptions });
 
 const world = engine.createWorld();
-
 world.createBody({
   id: "protein_1",
   name: "Example protein",
@@ -111,28 +103,33 @@ const capabilities = world.getCapabilities("protein_1");
 const contacts = world.step().contacts;
 ```
 
----
+The same API is available through `@onto2d/legacy-runtime` after `npm ci`.
 
-**Compatibility**
-Onto2D runs in any modern browser or Node.js environment.
+## Architecture documentation
 
-Tested on:
+- [Kernel Architecture](docs/KERNEL_ARCHITECTURE.md) — detailed normative
+  target architecture in English.
+- [Foundational Paper Analysis](docs/FOUNDATIONAL_PAPER_ANALYSIS.md) —
+  page/equation-level analysis of `scr/topology-of-arising.pdf` and
+  computational traceability.
+- [Kernel Refactor Plan](docs/KERNEL_REFACTOR_PLAN.md) — staged repository
+  migration, work packages, tests, and delivery gates.
+- [Kernel Implementation Status](docs/KERNEL_IMPLEMENTATION_STATUS.md) — exact
+  implemented and pending runtime boundaries.
+- [Review Guide](docs/REVIEW_GUIDE.md) — review order, decision points, static
+  verification record, and deferred execution gates.
+- [Draft/Addendum Omissions, Corrections, and Additions](docs/KERNEL_DRAFT_OMISSIONS.md)
+  — explicit accounting for source material not placed verbatim in the
+  architecture and all addendum dispositions.
 
-* Windows, macOS, Linux
-* Chromium-based and Firefox browsers
+## Compatibility
 
----
+The development workspace requires Node.js 20 or newer. The root `onto2d.js`
+file retains its UMD wrapper for direct CommonJS and browser-script use; browser
+compatibility is a legacy contract but is not covered by the initial Node-only
+CI matrix yet.
 
-**Documentation**
+## License
 
-* User Manual (work in progress)
-* Technical Specification (includes Emergence Catalogue extensions)
-* API Reference
-* Visual Examples Gallery
-
----
-
-**License**
-Onto2D is developed by Denis Britov as part of the Causal Emergence Catalogue project and is distributed under the MIT license.
-
----
+Onto2D is developed by Denis Britov as part of the Causal Emergence Catalogue
+project and is distributed under the [MIT License](LICENSE).

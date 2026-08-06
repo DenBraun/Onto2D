@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/claim.schema.json",
+  "title": "Onto2D Claim",
+  "type": "object",
+  "required": ["id", "statement", "state", "evidence"],
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "statement": { "type": "string", "minLength": 1 },
+    "state": {
+      "enum": [
+        "paper-assumption",
+        "paper-derivation",
+        "package-operationalization",
+        "computationally-verified",
+        "externally-supported",
+        "falsified",
+        "unresolved"
+      ]
+    },
+    "evidence": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    }
+  },
+  "additionalProperties": false
+}

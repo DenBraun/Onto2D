@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/sensitivity-report.schema.json",
+  "title": "Onto2D Selector Sensitivity Report",
+  "type": "object",
+  "required": ["selectorId", "policy", "status", "points", "verdict", "reasons"],
+  "properties": {
+    "selectorId": { "type": "string", "minLength": 1 },
+    "policy": { "$ref": "#/$defs/sensitivityPolicy" },
+    "status": { "enum": ["complete", "indeterminate"] },
+    "points": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/sensitivityPoint" }
+    },
+    "verdict": {
+      "oneOf": [
+        { "enum": ["robust", "fragile"] },
+        { "type": "null" }
+      ]
+    },
+    "reasons": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "status": { "const": "complete" } },
+        "required": ["status"]
+      },
+      "then": {
+        "properties": {
+          "points": { "minItems": 1 },
+          "verdict": { "enum": ["robust", "fragile"] }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "status": { "const": "indeterminate" } },
+        "required": ["status"]
+      },
+      "then": {
+        "properties": {
+          "verdict": { "type": "null" },
+          "reasons": { "minItems": 1 }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "sensitivityPolicy": {
+      "type": "object",
+      "required": ["amplitudes", "sweep", "topK", "robustLeaderSetThreshold", "robustTopKThreshold"],
+      "properties": {
+        "amplitudes": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "number", "exclusiveMinimum": 0, "exclusiveMaximum": 1 }
+        },
+        "sweep": { "enum": ["one-at-a-time", "cartesian"] },
+        "topK": { "type": "integer", "minimum": 1 },
+        "robustLeaderSetThreshold": { "type": "number", "minimum": 0, "maximum": 1 },
+        "robustTopKThreshold": { "type": "number", "minimum": 0, "maximum": 1 }
+      },
+      "additionalProperties": false
+    },
+    "sensitivityPoint": {
+      "type": "object",
+      "required": [
+        "perturbation",
+        "evaluatedVariants",
+        "leaderSetStability",
+        "presentationLeaderStability",
+        "topKStability"
+      ],
+      "properties": {
+        "perturbation": { "type": "number", "exclusiveMinimum": 0, "exclusiveMaximum": 1 },
+        "evaluatedVariants": { "type": "integer", "minimum": 0 },
+        "leaderSetStability": { "type": "number", "minimum": 0, "maximum": 1 },
+        "presentationLeaderStability": { "type": "number", "minimum": 0, "maximum": 1 },
+        "topKStability": { "type": "number", "minimum": 0, "maximum": 1 }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

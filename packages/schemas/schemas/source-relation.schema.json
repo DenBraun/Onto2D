@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/source-relation.schema.json",
+  "title": "Onto2D Classified Source Relation",
+  "type": "object",
+  "required": ["id", "source", "target", "kind", "scope", "policyHash", "classificationArtifact"],
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "source": { "type": "string", "minLength": 1 },
+    "target": { "type": "string", "minLength": 1 },
+    "kind": {
+      "enum": [
+        "generative",
+        "constitutive",
+        "intra-closure-support",
+        "evidential",
+        "descriptive",
+        "regulatory-feedback"
+      ]
+    },
+    "scope": { "enum": ["inter-cluster", "intra-cluster"] },
+    "policyHash": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "classificationArtifact": { "$ref": "artifact-ref.schema.json" },
+    "postUnblindingChange": {
+      "type": "object",
+      "required": ["previousKind", "reason", "approvalArtifact"],
+      "properties": {
+        "previousKind": {
+          "enum": ["generative", "constitutive", "intra-closure-support", "evidential", "descriptive", "regulatory-feedback"]
+        },
+        "reason": { "type": "string", "minLength": 1 },
+        "approvalArtifact": { "$ref": "artifact-ref.schema.json" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

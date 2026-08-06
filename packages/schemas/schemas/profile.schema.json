@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/profile.schema.json",
+  "title": "Onto2D Profile",
+  "type": "object",
+  "required": ["slots", "invariantVector", "precisionPolicy"],
+  "properties": {
+    "slots": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["role", "polarity", "capacity"],
+        "properties": {
+          "role": { "type": "string", "minLength": 1 },
+          "polarity": { "enum": ["in", "out", "sym"] },
+          "capacity": {
+            "type": "object",
+            "required": ["min", "max"],
+            "properties": {
+              "min": { "type": "integer", "minimum": 0 },
+              "max": { "type": ["integer", "null"], "minimum": 0 }
+            },
+            "additionalProperties": false
+          },
+          "guard": {}
+        },
+        "additionalProperties": false
+      }
+    },
+    "invariantVector": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["semantic", "normalized", "quantization"],
+        "properties": {
+          "semantic": { "type": "string", "minLength": 1 },
+          "normalized": { "$ref": "quantity.schema.json" },
+          "quantization": { "$ref": "quantity.schema.json" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "precisionPolicy": { "type": "string", "minLength": 1 },
+    "hash": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" }
+  },
+  "additionalProperties": false
+}

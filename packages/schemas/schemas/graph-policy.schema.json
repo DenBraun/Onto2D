@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/graph-policy.schema.json",
+  "title": "Onto2D Graph Policy",
+  "type": "object",
+  "required": [
+    "connected",
+    "allowParallelEdges",
+    "allowSelfLoops",
+    "connectivityProjection",
+    "structuralNodeAttributes",
+    "structuralEdgeAttributes"
+  ],
+  "properties": {
+    "connected": { "type": "boolean" },
+    "allowParallelEdges": { "type": "boolean" },
+    "allowSelfLoops": { "type": "boolean" },
+    "connectivityProjection": {
+      "enum": ["undirected", "directed-strong", "directed-weak"]
+    },
+    "structuralNodeAttributes": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "structuralEdgeAttributes": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    }
+  },
+  "additionalProperties": false
+}

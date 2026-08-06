@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/quantity.schema.json",
+  "title": "Onto2D Quantity",
+  "type": "object",
+  "required": ["value", "unit", "tolerance", "semantic", "provenance"],
+  "properties": {
+    "value": { "type": "number" },
+    "unit": { "type": "string", "minLength": 1 },
+    "tolerance": {
+      "type": "object",
+      "properties": {
+        "absolute": { "type": "number", "minimum": 0 },
+        "relative": { "type": "number", "minimum": 0 }
+      },
+      "anyOf": [
+        { "required": ["absolute"] },
+        { "required": ["relative"] }
+      ],
+      "additionalProperties": false
+    },
+    "semantic": { "type": "string", "minLength": 1 },
+    "provenance": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["kind", "evidence"],
+          "properties": {
+            "kind": { "const": "declared" },
+            "evidence": { "type": "array", "uniqueItems": true, "items": { "type": "string", "minLength": 1 } }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["kind", "method", "evidence"],
+          "properties": {
+            "kind": { "const": "computed" },
+            "method": { "type": "string", "minLength": 1 },
+            "evidence": { "type": "array", "uniqueItems": true, "items": { "type": "string", "minLength": 1 } }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["kind", "source", "method", "evidence"],
+          "properties": {
+            "kind": { "const": "oracle" },
+            "source": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+            "method": { "type": "string", "minLength": 1 },
+            "evidence": { "type": "array", "uniqueItems": true, "items": { "type": "string", "minLength": 1 } }
+          },
+          "additionalProperties": false
+        }
+      ]
+    }
+  },
+  "additionalProperties": false
+}

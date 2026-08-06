@@ -83,13 +83,19 @@
       }
 
       for (const node of flatNodes) {
-        this.addNode(node);
+        this.#insertNode(node);
       }
 
       this.#rebuildEdges();
     }
 
     addNode(rawNode) {
+      const node = this.#insertNode(rawNode);
+      this.#rebuildEdges();
+      return node;
+    }
+
+    #insertNode(rawNode) {
       if (!rawNode || typeof rawNode !== "object") {
         throw new TypeError("Ontology node must be an object.");
       }

@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/ontology-axis.schema.json",
+  "title": "Onto2D Ontology Axis Definition",
+  "type": "object",
+  "required": ["phasePrecedence", "levelPolicy"],
+  "properties": {
+    "phasePrecedence": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "required": ["before", "after"],
+        "properties": {
+          "before": { "type": "string", "pattern": "^(A|B|C|D|custom:[A-Za-z0-9][A-Za-z0-9._-]*)$" },
+          "after": { "type": "string", "pattern": "^(A|B|C|D|custom:[A-Za-z0-9][A-Za-z0-9._-]*)$" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "levelPolicy": { "enum": ["declared", "profile-collapse-computed", "mixed-with-comparison"] }
+  },
+  "additionalProperties": false
+}

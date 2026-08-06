@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/primitive.schema.json",
+  "title": "Onto2D Primitive Definition",
+  "type": "object",
+  "required": ["sourceId", "kind", "typeTags", "invariants", "profile", "claimRefs"],
+  "properties": {
+    "sourceId": { "type": "string", "minLength": 1 },
+    "kind": { "enum": ["primitive", "condensed-cluster"] },
+    "cluster": { "$ref": "cluster-provenance.schema.json" },
+    "ontologyCoordinate": { "$ref": "ontology-coordinate.schema.json" },
+    "axisProvenance": {
+      "type": "object",
+      "properties": {
+        "ontologyLevel": { "enum": ["declared", "computed"] },
+        "ontologyPhase": { "const": "declared" },
+        "catalogueLevel": { "const": "declared" },
+        "cataloguePhase": { "const": "declared" }
+      },
+      "additionalProperties": false
+    },
+    "typeTags": { "type": "array", "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+    "invariants": { "type": "object", "additionalProperties": { "$ref": "quantity.schema.json" } },
+    "profile": { "$ref": "profile.schema.json" },
+    "claimRefs": { "type": "array", "uniqueItems": true, "items": { "type": "string", "minLength": 1 } }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "kind": { "const": "condensed-cluster" } }, "required": ["kind"] },
+      "then": { "required": ["cluster"] },
+      "else": { "not": { "required": ["cluster"] } }
+    },
+    {
+      "if": { "required": ["ontologyCoordinate"] },
+      "then": { "required": ["axisProvenance"] }
+    }
+  ],
+  "additionalProperties": false
+}
