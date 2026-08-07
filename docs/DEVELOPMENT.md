@@ -29,7 +29,6 @@ Focused commands:
 
 | Command | Purpose |
 |---|---|
-| `npm run test:legacy` | Characterize only the root legacy API |
 | `npm run test:kernel` | Check canonicalization, loading, and kernel contracts |
 | `npm run audit:catalogue` | Print the current catalogue audit snapshot |
 | `npm run check:catalogue` | Compare the audit with its reviewed golden |
@@ -38,14 +37,7 @@ Focused commands:
 | `npm run check:source` | Parse every JSON file and syntax-check JavaScript |
 | `npm run check:workspace` | Validate package names, exports, and kernel isolation |
 
-## Working on the legacy runtime
-
-`onto2d.js` remains the compatibility source of truth. Its package wrapper is a
-thin re-export. Add characterization tests under `test/legacy/` before changing
-observable behavior. Never move or rewrite the legacy catalogue in the same
-change as a semantic migration.
-
-## Working on the new kernel
+## Working on the kernel
 
 The public architecture is normative. Canonical JSON, domain-separated hashes,
 package normalization/validation, primitive/profile identity, rules hash,

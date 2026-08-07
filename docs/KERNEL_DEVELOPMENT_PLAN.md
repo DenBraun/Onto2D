@@ -68,7 +68,7 @@ Public operations for unavailable capabilities fail with
 applications / CLI / research tooling
                 |
                 v
-catalog adapter / scientific adapter / compatibility package
+catalog adapter / scientific adapter
                 |
                 v
           @onto2d/kernel
@@ -79,7 +79,7 @@ catalog adapter / scientific adapter / compatibility package
 
 `@onto2d/kernel` may use supported Node.js built-ins and reviewed general-purpose
 libraries. It must not import the catalogue adapter, scientific implementations,
-compatibility runtime, or UI packages.
+or UI packages.
 
 ## 4. Development rules
 

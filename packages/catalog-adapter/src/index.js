@@ -7,10 +7,10 @@ export function catalogueNodeCode(node) {
   return `${node.Level}.${node.Id}`;
 }
 
-export async function loadLegacyCatalogue(options = {}) {
+export async function loadSourceCatalogue(options = {}) {
   const catalogueDirectory = options.catalogueDirectory;
   if (!catalogueDirectory) {
-    throw new TypeError("loadLegacyCatalogue requires catalogueDirectory.");
+    throw new TypeError("loadSourceCatalogue requires catalogueDirectory.");
   }
 
   const entries = await readdir(catalogueDirectory);
@@ -89,7 +89,7 @@ function stronglyConnectedComponents(codes, adjacency) {
   return components;
 }
 
-export function auditLegacyCatalogue(catalogue, options = {}) {
+export function auditSourceCatalogue(catalogue, options = {}) {
   const tolerance = options.weightTolerance ?? 0.05;
   if (!Number.isFinite(tolerance) || tolerance < 0) {
     throw new TypeError("Catalogue weight tolerance must be finite and non-negative.");

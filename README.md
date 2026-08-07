@@ -5,15 +5,13 @@ admissibility-closure kernel for complex-system modelling.
 
 ## Current status
 
-The repository has a dependency-free Node.js workspace. Shipped application
-behavior remains available through the catalogue-backed compatibility runtime
-in `onto2d.js`. The `@onto2d/kernel` package implements its
-deterministic package and graph-identity foundation, but not candidate
-decoration, predicate evaluation, or closure.
+The repository has a dependency-free Node.js workspace. The `@onto2d/kernel`
+package implements the deterministic package and graph-identity foundation,
+but not candidate decoration, predicate evaluation, or closure.
 
 Available foundations include:
 
-- five packages with explicit dependency boundaries;
+- four packages with explicit dependency boundaries;
 - guarded canonical JSON and domain-separated SHA-256 identities;
 - deterministic `RulePackage` normalization, structural validation, and
   `createKernel().loadPackage()`;
@@ -30,7 +28,6 @@ Available foundations include:
   deterministic candidate deduplication store;
 - JSON Schema Draft 2020-12 contracts for the first kernel artifacts;
 - a non-mutating loader and reproducible audit for all 249 catalogue cards;
-- characterization tests for the legacy ontology/world API;
 - locked identities for the supplied theory sources;
 - repository, documentation, schema, source, and catalogue checks.
 
@@ -60,7 +57,6 @@ Additional commands:
 npm run audit:catalogue
 npm run check:docs
 npm run check:schemas
-npm run test:legacy
 npm run test:kernel
 ```
 
@@ -69,47 +65,18 @@ See [Development Guide](docs/DEVELOPMENT.md) and
 
 ## Repository map
 
-- `onto2d.js` — stable UMD/CommonJS legacy ontology and world validator.
-- `scr/` — source catalogue, legacy schema, and preserved theory PDFs.
+- `scr/` — source catalogue, source schema, and preserved theory PDFs.
 - `packages/kernel/` — dependency-free model, canonical graph/hash, and package-loader foundation.
 - `packages/schemas/` — versioned machine-readable contracts.
-- `packages/catalog-adapter/` — legacy catalogue loading and read-only audit.
+- `packages/catalog-adapter/` — source catalogue loading and read-only audit.
 - `packages/scientific-adapter/` — validated boundary for external scientific tools.
-- `packages/legacy-runtime/` — compatibility package for `onto2d.js`.
 - `cases/` — research-case source locks and, later, executable fixtures.
 - `scripts/` — zero-dependency repository checks and test orchestration.
-- `test/` — cross-package, legacy, source-lock, and golden fixtures.
+- `test/` — cross-package, source-lock, and golden fixtures.
 - `docs/` — normative architecture, development plan, and design decisions.
 
 The exact current layout and intended growth path are documented in
 [Project Structure](docs/PROJECT_STRUCTURE.md).
-
-## Legacy runtime example
-
-```js
-const fs = require("node:fs");
-const Onto2D = require("./onto2d.js");
-
-const levels = Array.from({ length: 8 }, (_, index) => {
-  return JSON.parse(fs.readFileSync(`scr/level-${index}.json`, "utf8"));
-});
-const descriptions = JSON.parse(fs.readFileSync("scr/descriptions.json", "utf8"));
-
-const engine = new Onto2D.Onto2DEngine();
-engine.loadOntology({ levels, descriptions });
-
-const world = engine.createWorld();
-world.createBody({
-  id: "protein_1",
-  name: "Example protein",
-  category: "3.0"
-});
-
-const capabilities = world.getCapabilities("protein_1");
-const contacts = world.step().contacts;
-```
-
-The same API is available through `@onto2d/legacy-runtime` after `npm ci`.
 
 ## Architecture documentation
 
@@ -127,12 +94,9 @@ The same API is available through `@onto2d/legacy-runtime` after `npm ci`.
 - [Kernel Design Decisions](docs/KERNEL_DESIGN_DECISIONS.md) — decisions,
   exclusions, and open scientific inputs behind the architecture.
 
-## Compatibility
+## Requirements
 
-The development workspace requires Node.js 20 or newer. The root `onto2d.js`
-file retains its UMD wrapper for direct CommonJS and browser-script use; browser
-compatibility is a legacy contract but is not covered by the initial Node-only
-CI matrix yet.
+The development workspace and published packages require Node.js 20 or newer.
 
 ## License
 

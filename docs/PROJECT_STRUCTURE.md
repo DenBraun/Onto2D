@@ -14,15 +14,12 @@ catalog-adapter      scientific-adapter
        +---------+----------+
                  |
           applications/cases
-
-legacy-runtime --> onto2d.js
 ```
 
 `@onto2d/kernel` is the innermost executable boundary and remains free of
 package dependencies. Schemas are transport contracts. Adapters translate
 external formats or scientific implementations inward; the kernel never imports
-them. The compatibility runtime remains isolated from the kernel and retains
-its existing behavior contract.
+them.
 
 ## Current tree
 
@@ -46,18 +43,15 @@ Onto2D/
 ├── packages/
 │   ├── kernel/                 # model, graph identity, quantities, expressions, enumeration/store
 │   ├── schemas/                # JSON Schema Draft 2020-12 contracts
-│   ├── catalog-adapter/        # legacy loader and read-only graph audit
-│   ├── scientific-adapter/     # validated external-computation port
-│   └── legacy-runtime/         # compatibility wrapper
+│   ├── catalog-adapter/        # source loader and read-only graph audit
+│   └── scientific-adapter/     # validated external-computation port
 ├── scripts/                    # dependency-free checks and test runner
-├── scr/                        # preserved legacy catalogue and locked sources
+├── scr/                        # preserved source catalogue and locked sources
 ├── test/
 │   ├── cases/
 │   ├── fixtures/
-│   ├── legacy/
 │   └── workspace/
 ├── runs/                       # ignored runtime output boundary
-├── onto2d.js                   # existing public legacy runtime
 ├── package.json
 └── package-lock.json
 ```
@@ -70,16 +64,15 @@ Onto2D/
 | `packages/schemas` | versioned external data shapes | scientific or cross-record truth |
 | `packages/catalog-adapter` | source loading, audit, explicit loss-aware migration | post-hoc edge relabelling, hidden source edits |
 | `packages/scientific-adapter` | adapter validation and oracle boundary | pretending a solver exists or promoting failures to passes |
-| `packages/legacy-runtime` | stable import path for current API | new closure semantics inside legacy classes |
 | `cases` | source locks, frozen rules, fixtures, expected artifacts | hard-coded kernel branches |
 | `scripts` | repository automation | domain semantics duplicated from packages |
-| `scr` | preserved legacy data and reference artifacts | generated run results |
+| `scr` | preserved source data and reference artifacts | generated run results |
 
 ## Growth sequence
 
 Implementation grows through the following sequence:
 
-1. complete R0 checks and compatibility coverage;
+1. complete R0 checks and contract coverage;
 2. execute and harden the implemented model/load/canonical/hash foundation;
 3. review the graph canonicalizer against an independent implementation and
    freeze its golden byte fixtures;
@@ -93,5 +86,5 @@ Implementation grows through the following sequence:
    operationally defined;
 9. add applications after kernel artifact contracts stabilize.
 
-Catalogue files remain in `scr/` during early stages. Moving them under a
-`legacy/` tree is optional and is not required by the kernel architecture.
+Catalogue files remain in `scr/` as immutable source inputs and reference
+artifacts.

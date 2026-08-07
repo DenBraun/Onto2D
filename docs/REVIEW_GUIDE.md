@@ -45,8 +45,6 @@ validation, explanations, and closure are not implemented.
 6. Review `graph-canonicalizer.js`, `skeleton-enumerator.js`, and
    `candidate-store.js`, then their tests.
 7. Compare `packages/kernel/src/index.d.ts` with `packages/schemas/schemas/`.
-8. Review the legacy `onto2d.js` change and its characterization fixtures
-   separately from the new kernel.
 
 ## Decisions that deserve explicit approval
 
@@ -85,14 +83,14 @@ validation, explanations, and closure are not implemented.
 
 ## Static verification record
 
-The static documentation pass checks all 51 JSON files for parseability, all
+The static documentation pass checks all 50 JSON files for parseability, all
 32 schema identifiers and relative references, schema export coverage,
 relative source imports, Markdown links/fences, public implementation/type
 names, source-lock hashes and sizes, and whitespace errors in the maintained
 source/documentation surface outside the preserved catalogue.
 `git diff --check` is also required to remain clean.
 
-All 39 maintained JavaScript source and test files were also passed through a
+All 38 maintained JavaScript source and test files were also passed through a
 syntax-only JavaScriptCore parse of isolated copies with module linkage
 removed. No repository module was evaluated by that check.
 

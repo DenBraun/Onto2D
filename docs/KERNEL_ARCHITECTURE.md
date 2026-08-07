@@ -26,7 +26,7 @@ The kernel exists because a selectivity profile cannot be derived reliably by ma
 
 The words **MUST**, **MUST NOT**, **SHOULD**, and **MAY** are normative.
 
-This document defines the intended behavior and boundaries of the kernel. The repository currently contains a catalogue-backed single-configuration validator in `onto2d.js` plus a dependency-free workspace, guarded canonical JSON, domain-separated hashes, a deterministic schema-v1 package loader, multiplicative SI quantity normalization, deterministic decimal arithmetic, typed value/Boolean expression analysis and predicate-plan compilation, exact canonicalization for supplied candidate graphs and their skeletons, a bounded reference enumerator for connected unlabeled simple skeletons through six nodes, a deterministic CandidateStore, initial contracts and schemas, source locks, catalogue audit, and compatibility tests. It does not yet implement candidate decoration, predicate execution, or the closure engine defined here. The concrete implementation boundary is documented in [KERNEL_IMPLEMENTATION_STATUS.md](./KERNEL_IMPLEMENTATION_STATUS.md), and the repository layout in [PROJECT_STRUCTURE.md](./PROJECT_STRUCTURE.md).
+This document defines the intended behavior and boundaries of the kernel. The repository currently contains a dependency-free workspace, guarded canonical JSON, domain-separated hashes, a deterministic schema-v1 package loader, multiplicative SI quantity normalization, deterministic decimal arithmetic, typed value/Boolean expression analysis and predicate-plan compilation, exact canonicalization for supplied candidate graphs and their skeletons, a bounded reference enumerator for connected unlabeled simple skeletons through six nodes, a deterministic CandidateStore, initial contracts and schemas, source locks, and a source-catalogue audit. It does not yet implement candidate decoration, predicate execution, or the closure engine defined here. The concrete implementation boundary is documented in [KERNEL_IMPLEMENTATION_STATUS.md](./KERNEL_IMPLEMENTATION_STATUS.md), and the repository layout in [PROJECT_STRUCTURE.md](./PROJECT_STRUCTURE.md).
 
 ## 3. Scope
 
@@ -156,11 +156,11 @@ This rule makes unstratified negation, oscillating fixed points, and multiple im
 
 An element's `depth` is the minimum depth among all known derivations relative to the frozen primitive basis of that run. Every depth value carries a `depthBasis` hash. If a later derivation proves a smaller depth under the same basis, the index MUST be updated without changing the element's content-derived ID. Depths from different runs MUST NOT be compared unless their basis hashes are equal.
 
-Kernel derivation depth is a metric relative to a basis. Ontology level is a declared or explicitly computed partition associated with carrier change. Ontology phase is a declared partial order of conditions, not a distance. These axes are independent. In particular, the foundational paper's ontology `Level 0`/`Level 1`, its phases A–D, the legacy catalogue's `Level`/`Phase`, and predicate execution phases MUST NOT be inferred from one another. A rule package MAY attach an `OntologyCoordinate` to elements and transitions, but the mapping to derivation depth and the provenance of every axis MUST be explicit and hashed.
+Kernel derivation depth is a metric relative to a basis. Ontology level is a declared or explicitly computed partition associated with carrier change. Ontology phase is a declared partial order of conditions, not a distance. These axes are independent. In particular, the foundational paper's ontology `Level 0`/`Level 1`, its phases A–D, the source catalogue's `Level`/`Phase`, and predicate execution phases MUST NOT be inferred from one another. A rule package MAY attach an `OntologyCoordinate` to elements and transitions, but the mapping to derivation depth and the provenance of every axis MUST be explicit and hashed.
 
 The loader validates `phasePrecedence` as an acyclic relation; it does not invent distances between phases. Every aggregate and plotted series names its `AggregationAxis`. A series by derivation depth and a series by ontology level are different objects and MUST NOT be compared point-by-point merely because both use integer-looking labels.
 
-Legacy `ParentCode` relations are not generative by default, and one catalogue card is not assumed to equal one kernel element. The current catalogue contains three nontrivial strongly connected components, including `{0.8, 0.21, 0.22}` at Level 0. The adapter resolves them by typed condensation, never by deleting inconvenient edges.
+Source `ParentCode` relations are not generative by default, and one catalogue card is not assumed to equal one kernel element. The current catalogue contains three nontrivial strongly connected components, including `{0.8, 0.21, 0.22}` at Level 0. The adapter resolves them by typed condensation, never by deleting inconvenient edges.
 
 The source-relation categories are frozen before annotation:
 
@@ -257,7 +257,7 @@ External solvers and analytical tooling live behind an adapter boundary. The ker
 ## 6. System context and dependency rule
 
 ```text
-legacy catalogue JSON ----> catalogue adapter -------+
+source catalogue JSON ----> catalogue adapter -------+
                                                      |
 scientific solver output --> evidence adapter --------+
                                                      |
@@ -272,7 +272,7 @@ The dependency rule is strict:
 kernel <- adapters <- applications
 ```
 
-The kernel may depend on general-purpose libraries selected by the implementation, but it MUST NOT import from any other Onto2D product package. Legacy catalogue concepts are translated at an adapter boundary and MUST NOT leak into the core model unless they become explicit, general kernel contracts.
+The kernel may depend on general-purpose libraries selected by the implementation, but it MUST NOT import from any other Onto2D product package. Source-catalogue concepts are translated at an adapter boundary and MUST NOT leak into the core model unless they become explicit, general kernel contracts.
 
 ## 7. Logical components
 
@@ -633,7 +633,7 @@ A cluster's member cards remain addressable through `ClusterMemberProjection` an
 
 Cluster canonical bytes sort normalized member identities and internal typed relations, then bind the cluster disposition and node-resolution policy version under a dedicated hash domain. SCC traversal order and classifier ordering cannot affect the resulting element ID. Annotation/evidence artifact hashes remain in provenance and the semantic manifest even when they do not alter structural identity.
 
-Inherited kernel depth does not overwrite member catalogue levels, phases, or other declared coordinates. A cluster may expose coordinate disagreement or span several legacy levels; that is a migration diagnostic, not permission to manufacture one source label.
+Inherited kernel depth does not overwrite member catalogue levels, phases, or other declared coordinates. A cluster may expose coordinate disagreement or span several source levels; that is a migration diagnostic, not permission to manufacture one source label.
 
 `depthBasis` is the domain-separated hash of the normalized primitive structural identities and the generative basis policy used by the run. Changing the primitive basis, even while leaving a derived element structurally unchanged, changes the depth basis. Reports MUST group or compare depth only after displaying and checking this hash. Axis provenance is mandatory for every axis that is present.
 
@@ -2173,7 +2173,7 @@ An implementation is conformant only if all of the following remain true:
 - each condensed cluster is one depth vertex whose members share depth and have no asserted internal precedence;
 - the inter-cluster generative quotient is a DAG;
 - non-generative and internal source relations remain available to the explanation graph;
-- derivation depth, ontology level, ontology phase, legacy catalogue coordinates, and predicate phase are never conflated;
+- derivation depth, ontology level, ontology phase, source-catalogue coordinates, and predicate phase are never conflated;
 - profiles are content-addressed under an explicit precision policy;
 - profile interchangeability remains independently testable;
 - scientific quantities have units, tolerances, semantic definitions, and evidence provenance;
@@ -2187,4 +2187,4 @@ An implementation is conformant only if all of the following remain true:
 - every null trial reruns its own predicates and cohort selectors;
 - explanations are bound to candidate, rules, and source-migration hashes;
 - timestamps do not contaminate semantic identity;
-- the kernel remains independent of the Onto2D shell and legacy catalogue model.
+- the kernel remains independent of the Onto2D shell and source-catalogue model.

@@ -13,12 +13,10 @@ npm run check
 ```
 
 Use Node.js 20 or newer. The repository intentionally has no third-party
-third-party dependencies in the current repository.
+dependencies.
 
 ## Change rules
 
-- Preserve the public behavior of `onto2d.js` unless a breaking change is
-  explicitly reviewed and documented.
 - Do not rewrite `scr/` data to make an audit pass. Update a reviewed golden
   only when the source change and its scientific rationale are intentional.
 - Do not classify every `ParentCode` as generative. Source relation policy and

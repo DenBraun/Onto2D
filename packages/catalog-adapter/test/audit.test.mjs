@@ -4,15 +4,15 @@ import test from "node:test";
 import { fileURLToPath } from "node:url";
 import {
   CATALOG_ADAPTER_STATUS,
-  auditLegacyCatalogue,
-  loadLegacyCatalogue
+  auditSourceCatalogue,
+  loadSourceCatalogue
 } from "../src/index.js";
 
 const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../..");
 
-test("legacy catalogue audit reproduces the reviewed R0 facts", async () => {
-  const catalogue = await loadLegacyCatalogue({ catalogueDirectory: path.join(repositoryRoot, "scr") });
-  const audit = auditLegacyCatalogue(catalogue);
+test("source catalogue audit reproduces the reviewed R0 facts", async () => {
+  const catalogue = await loadSourceCatalogue({ catalogueDirectory: path.join(repositoryRoot, "scr") });
+  const audit = auditSourceCatalogue(catalogue);
 
   assert.equal(CATALOG_ADAPTER_STATUS, "audit-implemented/classification-pending");
   assert.deepEqual(audit.catalogue, { levelCount: 8, nodeCount: 249, edgeCount: 971 });
@@ -26,13 +26,13 @@ test("legacy catalogue audit reproduces the reviewed R0 facts", async () => {
 
 test("catalogue audit rejects invalid tolerance configuration", () => {
   assert.throws(
-    () => auditLegacyCatalogue({ levels: [], descriptions: {} }, { weightTolerance: Number.NaN }),
+    () => auditSourceCatalogue({ levels: [], descriptions: {} }, { weightTolerance: Number.NaN }),
     TypeError
   );
 });
 
 test("catalogue audit reports non-finite relation weights", () => {
-  const audit = auditLegacyCatalogue({
+  const audit = auditSourceCatalogue({
     levels: [[{
       Level: 0,
       Id: 0,

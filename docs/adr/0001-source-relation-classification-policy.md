@@ -4,7 +4,7 @@ Status: template awaiting blind-policy authorship
 
 ## Context
 
-Legacy `ParentCode` edges mix possible generative, constitutive,
+Source `ParentCode` edges mix possible generative, constitutive,
 intra-closure-support, evidential, descriptive, and regulatory-feedback
 semantics. The published architecture already exposes the current SCCs, so its
 authors cannot retroactively claim prospective blindness.
