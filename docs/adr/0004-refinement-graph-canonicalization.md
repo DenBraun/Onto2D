@@ -1,6 +1,7 @@
 # ADR-0004: Refinement-based graph canonicalization
 
-Status: proposed implementation baseline; conformance execution pending
+Status: proposed implementation baseline; local conformance passed,
+independent and cross-platform review pending
 
 ## Context
 
@@ -31,8 +32,15 @@ change canonical bytes or identifiers.
 The candidate payload contains its counting domain, canonical structural nodes
 and edges, and a derived `SkeletonId`. The skeleton is canonicalized separately
 as an unlabeled undirected simple graph: edge direction, roles, parallel copies,
-and self-loops are projected away. Skeleton and candidate forms use distinct
-`onto2d:skeleton:v1` and `onto2d:candidate:v1` hash domains.
+and self-loops are projected away. Because the supported range ends at six
+nodes, skeleton labeling evaluates every node permutation and chooses the
+globally lexicographically smallest sorted edge serialization. This separate,
+reviewable path avoids making a refinement color order part of skeleton bytes.
+Permutation generation is budgeted incrementally rather than materialized
+before the search-state guard, and runtime options cannot raise the node limit
+above six.
+Skeleton and candidate forms use distinct `onto2d:skeleton:v1` and
+`onto2d:candidate:v1` hash domains.
 
 Connectivity, parallel-edge, and self-loop flags decide admissibility. They do
 not by themselves change the identity of a graph that is valid under two
@@ -72,6 +80,7 @@ Exhaustion throws `CANONICALIZATION_BUDGET_EXHAUSTED`; no partial ID is emitted.
 - independently reviewed canonical byte goldens;
 - repeat execution on every supported Node.js platform.
 
-The tests are present but have not been executed under the current no-run
-instruction. This ADR must not be marked accepted until those checks and an
-independent reference comparison pass.
+The tests and independently generated canonical skeleton-byte goldens agree on
+local Node.js 20 and 22. The first comparison caught and corrected non-minimal
+five-node skeleton bytes before freeze. This ADR must not be marked accepted
+until independent review and additional supported-platform checks pass.

@@ -1,7 +1,31 @@
 import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 
-export const CATALOG_ADAPTER_STATUS = "audit-implemented/classification-pending";
+export {
+  SOURCE_CLASSIFICATION_VIEW_VERSION,
+  SOURCE_CLASSIFIED_RELATIONS_VERSION,
+  SOURCE_PROJECTION_LIMITS,
+  buildSourceClassifiedRelations,
+  createSourceClassificationView
+} from "./source-projection.js";
+
+export const CATALOG_ADAPTER_STATUS = "audit-active/classified-projection-active/migration-pending";
+
+export const CATALOG_ADAPTER_CAPABILITIES = Object.freeze({
+  implemented: Object.freeze([
+    "source-catalogue-audit",
+    "source-classification-view",
+    "source-classified-relations",
+    "source-scc-projections"
+  ]),
+  pending: Object.freeze([
+    "source-policy-authorship",
+    "source-annotation-collection",
+    "source-node-resolution",
+    "source-condensation",
+    "source-migration-package"
+  ])
+});
 
 export function catalogueNodeCode(node) {
   return `${node.Level}.${node.Id}`;

@@ -15,14 +15,25 @@ export const HASH_DOMAINS = Object.freeze({
   ELEMENT: "onto2d:element:v1",
   PREDICATE_EXPRESSION: "onto2d:predicate-expression:v1",
   PREDICATE_EXPRESSION_ANALYSIS: "onto2d:predicate-expression-analysis:v1",
+  PREDICATE_NUMERIC_BINDING: "onto2d:predicate-numeric-binding:v1",
   PREDICATE_PLAN: "onto2d:predicate-plan:v1",
   VALUE_EXPRESSION: "onto2d:value-expression:v1",
   VALUE_EXPRESSION_ANALYSIS: "onto2d:value-expression-analysis:v1",
   IDENTITY_POLICY: "onto2d:identity-policy:v1",
+  ORACLE_REQUEST: "onto2d:oracle-request:v1",
+  ORACLE_RESPONSE: "onto2d:oracle-response:v1",
+  ORACLE_VALIDATION: "onto2d:oracle-validation:v1",
   PACKAGE: "onto2d:package:v1",
   PROFILE: "onto2d:profile:v1",
   RULES: "onto2d:rules:v1",
-  SKELETON: "onto2d:skeleton:v1"
+  SKELETON: "onto2d:skeleton:v1",
+  SOURCE_CLASSIFICATION_ADJUDICATION: "onto2d:source-classification-adjudication:v1",
+  SOURCE_CLASSIFICATION_ANNOTATIONS: "onto2d:source-classification-annotations:v1",
+  SOURCE_CLASSIFICATION_POLICY: "onto2d:source-classification-policy:v1",
+  SOURCE_CLASSIFICATION_VIEW: "onto2d:source-classification-view:v1",
+  SOURCE_CLASSIFIED_RELATIONS: "onto2d:source-classified-relations:v1",
+  SOURCE_SCC_COMPONENT: "onto2d:source-scc-component:v1",
+  SOURCE_NODE_RESOLUTION_POLICY: "onto2d:source-node-resolution-policy:v1"
 });
 
 function assertDomain(domain) {

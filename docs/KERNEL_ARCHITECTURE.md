@@ -26,7 +26,7 @@ The kernel exists because a selectivity profile cannot be derived reliably by ma
 
 The words **MUST**, **MUST NOT**, **SHOULD**, and **MAY** are normative.
 
-This document defines the intended behavior and boundaries of the kernel. The repository currently contains a dependency-free workspace, guarded canonical JSON, domain-separated hashes, a deterministic schema-v1 package loader, multiplicative SI quantity normalization, deterministic decimal arithmetic, typed value/Boolean expression analysis and predicate-plan compilation, exact canonicalization for supplied candidate graphs and their skeletons, a bounded reference enumerator for connected unlabeled simple skeletons through six nodes, a deterministic CandidateStore, initial contracts and schemas, source locks, and a source-catalogue audit. It does not yet implement candidate decoration, predicate execution, or the closure engine defined here. The concrete implementation boundary is documented in [KERNEL_IMPLEMENTATION_STATUS.md](./KERNEL_IMPLEMENTATION_STATUS.md), and the repository layout in [PROJECT_STRUCTURE.md](./PROJECT_STRUCTURE.md).
+This document defines the intended behavior and boundaries of the kernel. The repository currently contains a dependency-free workspace, guarded canonical JSON, domain-separated hashes, a deterministic schema-v1 package loader, multiplicative SI quantity normalization, deterministic decimal arithmetic, typed value/Boolean expression analysis, predicate-plan compilation, run-specific numeric-policy binding, content-addressed scientific-Oracle validation without solver execution, neutral content-addressed source-policy and annotation/adjudication freeze contracts without catalogue classification, adapter-side policy-limited classification views and deterministic typed-relation/SCC projections for caller-supplied data, exact canonicalization for supplied candidate graphs and their skeletons, a bounded reference enumerator for connected unlabeled simple skeletons through six nodes, a deterministic CandidateStore, initial contracts and schemas, source locks, and a source-catalogue audit. It does not yet implement source-policy authorship, access-controlled annotation collection, application to the current catalogue, node dispositions/condensation, candidate decoration, predicate execution, or the closure engine defined here. The concrete implementation boundary is documented in [KERNEL_IMPLEMENTATION_STATUS.md](./KERNEL_IMPLEMENTATION_STATUS.md), and the repository layout in [PROJECT_STRUCTURE.md](./PROJECT_STRUCTURE.md).
 
 ## 3. Scope
 
@@ -1195,7 +1195,7 @@ The compatibility projection MAY expose `generated`, `budgetExhausted`, `eligibi
 
 ### 9.1 Canonical graph labeling
 
-Canonicalization MUST use refinement-based labeling:
+Decorated-candidate canonicalization MUST use refinement-based labeling:
 
 1. assign initial colors from structural node attributes and element/profile references;
 2. refine colors with directed, role-labelled incident-edge signatures using 1-WL;
@@ -1207,6 +1207,14 @@ Canonicalization MUST use refinement-based labeling:
 Parallel edges, direction, role, structural attributes, and self-loop policy MUST participate in refinement and final comparison. Non-structural annotations MUST NOT affect identity.
 
 For the intended `n <= 6`, correctness and determinism take precedence over asymptotic optimization.
+
+Simple-skeleton canonicalization MUST independently evaluate the complete node
+permutation orbit and choose the lexicographically smallest sorted edge
+serialization. The exhaustive skeleton path is the identity baseline against
+which the refinement-based decorated-candidate projection is checked. Each
+visited permutation consumes one declared canonicalization search state before
+it may be cached or evaluated. The executable exhaustive range is hard-capped
+at six nodes; a caller cannot raise `maxNodes` beyond that reviewed range.
 
 ### 9.2 Canonical serialization
 

@@ -2,6 +2,13 @@
 
 Status: template awaiting blind-policy authorship
 
+The executable artifact shape, hash, and exposure checks are implemented by
+[ADR-0012](0012-source-policy-freeze-contracts.md); no scientific rule content
+is supplied by that contract.
+Independent annotation and blind-adjudication artifact shapes are implemented
+by [ADR-0013](0013-source-classification-annotation-artifacts.md); it supplies
+no actual edge labels.
+
 ## Context
 
 Source `ParentCode` edges mix possible generative, constitutive,

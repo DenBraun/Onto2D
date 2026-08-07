@@ -3,7 +3,9 @@ import test from "node:test";
 import {
   KernelError,
   KernelValidationError,
-  canonicalizeCandidate
+  canonicalizeCandidate,
+  canonicalizeSkeleton,
+  normalizeGraphCanonicalizationOptions
 } from "../src/index.js";
 
 const REF_A = `sha256:${"a".repeat(64)}`;
@@ -69,6 +71,28 @@ test("thirty independent node and edge permutations retain canonical candidate b
     assert.equal(result.canonicalForm.bytesBase64, baseline.canonicalForm.bytesBase64);
     assert.equal(result.skeletonId, baseline.skeletonId);
   }
+});
+
+test("candidate skeleton identity matches standalone canonical projection", () => {
+  const edges = [
+    [0, 1],
+    [0, 2],
+    [0, 4],
+    [1, 3],
+    [2, 3]
+  ];
+  const candidate = canonicalizeCandidate({
+    domain: "element-exact",
+    nodes: Array.from({ length: 5 }, () => ({ ref: REF_A })),
+    edges: edges.map(([from, to], index) => ({
+      from,
+      to,
+      role: `role-${index}`
+    }))
+  });
+  const skeleton = canonicalizeSkeleton({ nodeCount: 5, edges });
+  assert.equal(candidate.skeletonId, skeleton.skeletonId);
+  assert.equal(candidate.skeletonCanonicalForm.bytesBase64, skeleton.canonicalForm.bytesBase64);
 });
 
 test("direction and role remain structural in non-isomorphic fixtures", () => {
@@ -238,5 +262,15 @@ test("canonicalization search has a hard deterministic budget", () => {
       ]
     }, { limits: { maxSearchStates: 1 } }),
     (error) => error instanceof KernelError && error.code === "CANONICALIZATION_BUDGET_EXHAUSTED"
+  );
+});
+
+test("graph canonicalization rejects node ceilings above the exhaustive supported range", () => {
+  assert.throws(
+    () => normalizeGraphCanonicalizationOptions({ limits: { maxNodes: 7 } }),
+    (error) => error instanceof KernelValidationError &&
+      error.issues.some((issue) =>
+        issue.code === "CANONICALIZATION_LIMIT_INVALID" && issue.details.maximum === 6
+      )
   );
 });

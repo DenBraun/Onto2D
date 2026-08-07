@@ -2,9 +2,10 @@
  * Public dependency-free boundary of the Onto2D kernel.
  *
  * The deterministic package, graph-identity, quantity/decimal, typed value and
- * Boolean analysis, and predicate-plan foundations are executable. Candidate
- * decoration, expression evaluation, selection, and closure remain explicit
- * pending capabilities.
+ * Boolean analysis, predicate-plan, numeric-policy binding, and scientific
+ * Oracle validation, and source policy/annotation artifact foundations are
+ * executable. Candidate decoration, source migration, expression evaluation,
+ * selection, and closure remain explicit pending capabilities.
  */
 
 export {
@@ -55,6 +56,33 @@ export {
   compilePredicate
 } from "./predicate-analyzer.js";
 export {
+  PREDICATE_NUMERIC_BINDING_LIMITS,
+  PREDICATE_NUMERIC_BINDER_VERSION,
+  bindPredicateNumericPolicy
+} from "./numeric-binding.js";
+export {
+  ORACLE_PROTOCOL_VERSION,
+  ORACLE_RESPONSE_VALIDATOR_VERSION,
+  ORACLE_VALIDATION_LIMITS,
+  createOracleRequestBinding,
+  validateOracleResponse
+} from "./oracle-validator.js";
+export {
+  SOURCE_CLASSIFICATION_VISIBLE_FIELDS,
+  SOURCE_CLASSIFICATION_POLICY_VERSION,
+  SOURCE_NODE_RESOLUTION_POLICY_VERSION,
+  SOURCE_POLICY_LIMITS,
+  freezeSourceClassificationPolicy,
+  freezeSourceNodeResolutionPolicy
+} from "./source-policy.js";
+export {
+  SOURCE_CLASSIFICATION_ADJUDICATION_VERSION,
+  SOURCE_CLASSIFICATION_ANNOTATIONS_VERSION,
+  SOURCE_CLASSIFICATION_LIMITS,
+  freezeSourceClassificationAdjudication,
+  freezeSourceClassificationAnnotations
+} from "./source-classification.js";
+export {
   DEFAULT_GRAPH_CANONICALIZATION_LIMITS,
   DEFAULT_GRAPH_POLICY,
   canonicalizeCandidate,
@@ -70,6 +98,7 @@ export {
   createCandidateStore
 } from "./candidate-store.js";
 export {
+  QUANTITY_COMPARISON_POLICY_VERSION,
   UNIT_GRAMMAR_VERSION,
   areUnitsCompatible,
   compareQuantities,

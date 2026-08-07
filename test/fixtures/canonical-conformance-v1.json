@@ -1,0 +1,98 @@
+{
+  "schemaVersion": "1",
+  "policy": "rfc8785-compatible-binary64-v1",
+  "generatedBy": {
+    "language": "Python 3 standard library",
+    "algorithm": "restricted-canonical-json-and-domain-frame-v1",
+    "importsKernel": false,
+    "command": "python3 scripts/reference/generate-conformance-fixtures.py"
+  },
+  "cases": [
+    {
+      "id": "nested-order-and-negative-zero",
+      "value": {
+        "z": [
+          3,
+          2,
+          1
+        ],
+        "a": {
+          "y": true,
+          "x": -0.0
+        }
+      },
+      "canonicalJson": "{\"a\":{\"x\":0,\"y\":true},\"z\":[3,2,1]}",
+      "bytesBase64": "eyJhIjp7IngiOjAsInkiOnRydWV9LCJ6IjpbMywyLDFdfQ==",
+      "bytesUtf8Hex": "7b2261223a7b2278223a302c2279223a747275657d2c227a223a5b332c322c315d7d",
+      "hashes": {
+        "onto2d:artifact:v1": "sha256:9d5360ece63a9a3cfa643dd892b6d70519950f4a704d5c74cffaa87a43dfcca9",
+        "onto2d:element:v1": "sha256:c85b09cd9bf5b7fd039a7119673839d49299b779d1dfc00250aa063390d1fb75",
+        "onto2d:candidate:v1": "sha256:374dd5b16cd20de9d4aa04bd72572d0e5311545c38e99e8d0af4cf6b78007b5e"
+      }
+    },
+    {
+      "id": "utf16-key-order",
+      "value": {
+        "�": "replacement",
+        "😀": "astral",
+        "€": "bmp",
+        "A": "ascii"
+      },
+      "canonicalJson": "{\"A\":\"ascii\",\"€\":\"bmp\",\"😀\":\"astral\",\"�\":\"replacement\"}",
+      "bytesBase64": "eyJBIjoiYXNjaWkiLCLigqwiOiJibXAiLCLwn5iAIjoiYXN0cmFsIiwi77+9IjoicmVwbGFjZW1lbnQifQ==",
+      "bytesUtf8Hex": "7b2241223a226173636969222c22e282ac223a22626d70222c22f09f9880223a2261737472616c222c22efbfbd223a227265706c6163656d656e74227d",
+      "hashes": {
+        "onto2d:artifact:v1": "sha256:f5bb3c1163692edab9ff6d1389bb587dcd2ced5e79fd80ebc10aaf6dd5682edd",
+        "onto2d:element:v1": "sha256:e56a4dee91e8438ab81b572000d86196319d3cdf41fb269f815fd2dcbbf06dad",
+        "onto2d:candidate:v1": "sha256:06a3371d1a0c3cbe1aa9e9f3693bdb65323c61b8230bd23fddea71c33af9d1e9"
+      }
+    },
+    {
+      "id": "json-string-escaping",
+      "value": {
+        "text": "quote=\" slash=/ backslash=\\ controls=\b\t\n\f\r\u0000 line= "
+      },
+      "canonicalJson": "{\"text\":\"quote=\\\" slash=/ backslash=\\\\ controls=\\b\\t\\n\\f\\r\\u0000 line= \"}",
+      "bytesBase64": "eyJ0ZXh0IjoicXVvdGU9XCIgc2xhc2g9LyBiYWNrc2xhc2g9XFwgY29udHJvbHM9XGJcdFxuXGZcclx1MDAwMCBsaW5lPeKAqCJ9",
+      "bytesUtf8Hex": "7b2274657874223a2271756f74653d5c2220736c6173683d2f206261636b736c6173683d5c5c20636f6e74726f6c733d5c625c745c6e5c665c725c7530303030206c696e653de280a8227d",
+      "hashes": {
+        "onto2d:artifact:v1": "sha256:ce325674370d877cc85b56aec0bc0f9d99eb8c82eb0c99031a88c64e5870f635",
+        "onto2d:element:v1": "sha256:991db934ed97987807396137cc076370b2c7f4547920d5385825db9dd2ef48b8",
+        "onto2d:candidate:v1": "sha256:4d938f264457b41347db011c9db0c001657ab7509849e1e93631e45ca26382eb"
+      }
+    },
+    {
+      "id": "scalar-array-and-safe-integers",
+      "value": {
+        "values": [
+          null,
+          false,
+          true,
+          -12,
+          0,
+          9007199254740991
+        ]
+      },
+      "canonicalJson": "{\"values\":[null,false,true,-12,0,9007199254740991]}",
+      "bytesBase64": "eyJ2YWx1ZXMiOltudWxsLGZhbHNlLHRydWUsLTEyLDAsOTAwNzE5OTI1NDc0MDk5MV19",
+      "bytesUtf8Hex": "7b2276616c756573223a5b6e756c6c2c66616c73652c747275652c2d31322c302c393030373139393235343734303939315d7d",
+      "hashes": {
+        "onto2d:artifact:v1": "sha256:674b81acba8ada01d3ecda7a42075256a88684f0bae37e9be0fe862c043b3593",
+        "onto2d:element:v1": "sha256:8c40083db841490f07a85c3b4f683e4b2c902b07d4130b418bb34eff8f559432",
+        "onto2d:candidate:v1": "sha256:e7c3c396a2a4a70d354506d3c2858fe81ad05af0348562109da3dacafad32a34"
+      }
+    },
+    {
+      "id": "root-string",
+      "value": "Onto2D/канон/😀",
+      "canonicalJson": "\"Onto2D/канон/😀\"",
+      "bytesBase64": "Ik9udG8yRC/QutCw0L3QvtC9L/CfmIAi",
+      "bytesUtf8Hex": "224f6e746f32442fd0bad0b0d0bdd0bed0bd2ff09f988022",
+      "hashes": {
+        "onto2d:artifact:v1": "sha256:52403f7dbfc549c7fe4f711e45418b24fa5a05386c86da41ed11fca810fa3bd7",
+        "onto2d:element:v1": "sha256:28cc4da6b90b743b76d1aec4a716e76f0dede309c2241c418547956d7200ffa6",
+        "onto2d:candidate:v1": "sha256:206ee2eac5f2e02a4a96b37c32ddfd458aa29bf4e41a9f825250f9eedfb349ac"
+      }
+    }
+  ]
+}

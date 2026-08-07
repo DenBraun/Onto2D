@@ -29,6 +29,7 @@ const PROVENANCE_FIELDS = Object.freeze({
   computed: new Set(["kind", "method", "evidence"]),
   oracle: new Set(["kind", "source", "method", "evidence"])
 });
+const SIMPLE_PERMUTATION_CACHE = new Map();
 
 export const DEFAULT_GRAPH_POLICY = deepFreeze({
   connected: true,
@@ -198,10 +199,18 @@ function normalizeOptions(options, issues) {
     for (const field of LIMIT_FIELDS) {
       if (limitsInput[field] === undefined) continue;
       const minimum = field === "maxEdges" ? 0 : 1;
-      if (!Number.isSafeInteger(limitsInput[field]) || limitsInput[field] < minimum) {
+      const maximum = field === "maxNodes"
+        ? DEFAULT_GRAPH_CANONICALIZATION_LIMITS.maxNodes
+        : Number.MAX_SAFE_INTEGER;
+      if (
+        !Number.isSafeInteger(limitsInput[field]) ||
+        limitsInput[field] < minimum ||
+        limitsInput[field] > maximum
+      ) {
         addIssue(issues, "CANONICALIZATION_LIMIT_INVALID", `$options.limits.${field}`, "Canonicalization limit is outside its valid range.", {
           value: limitsInput[field],
-          minimum
+          minimum,
+          maximum
         });
       } else {
         limits[field] = limitsInput[field];
@@ -824,6 +833,112 @@ function canonicalLabel(graph, budget, phase) {
   return { ...best, statistics };
 }
 
+function simplePairData(nodeCount) {
+  const pairs = [];
+  const pairIndices = Array.from({ length: nodeCount }, () => Array(nodeCount));
+  for (let from = 0; from < nodeCount; from += 1) {
+    for (let to = from + 1; to < nodeCount; to += 1) {
+      pairIndices[from][to] = pairs.length;
+      pairIndices[to][from] = pairs.length;
+      pairs.push([from, to]);
+    }
+  }
+  return { pairCount: pairs.length, pairIndices };
+}
+
+function canonicalLabelSimpleSkeleton(graph, budget) {
+  const statistics = { searchStates: 0, leaves: 0, refinementRounds: 0 };
+  const nodeCount = graph.nodes.length;
+  const { pairCount, pairIndices } = simplePairData(nodeCount);
+  const bitForPair = Array.from(
+    { length: pairCount },
+    (unused, index) => 1n << BigInt(pairCount - index - 1)
+  );
+  let bestCode = -1n;
+  let bestMapping;
+  const cached = SIMPLE_PERMUTATION_CACHE.get(nodeCount);
+  const collected = cached === undefined ? [] : null;
+  const workingMapping = Array(nodeCount);
+  const used = Array(nodeCount).fill(false);
+
+  function evaluate(permutation) {
+    budget.used += 1;
+    statistics.searchStates += 1;
+    if (budget.used > budget.maximum) {
+      throw new KernelError({
+        code: "CANONICALIZATION_BUDGET_EXHAUSTED",
+        stage: "CANONICALIZE_GRAPH",
+        message: "Graph canonicalization exhausted its deterministic search-state budget.",
+        details: {
+          phase: "skeleton",
+          used: budget.used,
+          maximum: budget.maximum,
+          nodeCount: graph.nodes.length
+        }
+      });
+    }
+    statistics.leaves += 1;
+    let code = 0n;
+    for (const edge of graph.edges) {
+      const canonicalFrom = Math.min(permutation[edge.from], permutation[edge.to]);
+      const canonicalTo = Math.max(permutation[edge.from], permutation[edge.to]);
+      code |= bitForPair[pairIndices[canonicalFrom][canonicalTo]];
+    }
+    if (code > bestCode) {
+      bestCode = code;
+      bestMapping = permutation;
+    }
+  }
+
+  function visit(inputNode) {
+    if (inputNode === nodeCount) {
+      const permutation = [...workingMapping];
+      collected.push(permutation);
+      evaluate(permutation);
+      return;
+    }
+    for (let canonicalNode = 0; canonicalNode < nodeCount; canonicalNode += 1) {
+      if (used[canonicalNode]) continue;
+      used[canonicalNode] = true;
+      workingMapping[inputNode] = canonicalNode;
+      visit(inputNode + 1);
+      used[canonicalNode] = false;
+    }
+  }
+
+  if (cached === undefined) {
+    visit(0);
+    SIMPLE_PERMUTATION_CACHE.set(nodeCount, collected);
+  } else {
+    for (const permutation of cached) evaluate(permutation);
+  }
+
+  const inputToCanonical = [...bestMapping];
+  const canonicalToInput = Array(inputToCanonical.length);
+  inputToCanonical.forEach((canonical, input) => { canonicalToInput[canonical] = input; });
+  const decoratedEdges = graph.edges.map((edge) => {
+    const from = Math.min(inputToCanonical[edge.from], inputToCanonical[edge.to]);
+    const to = Math.max(inputToCanonical[edge.from], inputToCanonical[edge.to]);
+    return { record: graph.edgeRecord(from, to, edge.label), inputIndex: edge.inputIndex };
+  }).sort((left, right) =>
+    left.record[0] - right.record[0] ||
+    left.record[1] - right.record[1] ||
+    left.inputIndex - right.inputIndex
+  );
+  const inputEdgeToCanonical = Array(graph.edges.length);
+  decoratedEdges.forEach((entry, canonical) => { inputEdgeToCanonical[entry.inputIndex] = canonical; });
+  return {
+    serialized: graph.serialize(
+      canonicalToInput.map((inputNode) => graph.nodes[inputNode]),
+      decoratedEdges.map((entry) => entry.record)
+    ),
+    canonicalToInput,
+    inputToCanonical,
+    inputEdgeToCanonical,
+    statistics
+  };
+}
+
 function makeSimpleSkeletonGraph(nodeCount, edges) {
   return {
     directed: false,
@@ -930,7 +1045,10 @@ export function canonicalizeSkeleton(input, options = {}) {
   }
 
   const budget = { used: 0, maximum: limits.maxSearchStates };
-  const canonical = canonicalLabel(makeSimpleSkeletonGraph(skeleton.nodeCount, skeleton.edges), budget, "skeleton");
+  const canonical = canonicalLabelSimpleSkeleton(
+    makeSimpleSkeletonGraph(skeleton.nodeCount, skeleton.edges),
+    budget
+  );
   const canonicalForm = createCanonicalForm(HASH_DOMAINS.SKELETON, canonical.serialized, "1");
   const result = {
     skeletonId: canonicalForm.hash,
@@ -966,7 +1084,7 @@ export function canonicalizeCandidate(input, options = {}) {
   }
 
   const budget = { used: 0, maximum: limits.maxSearchStates };
-  const skeletonResult = canonicalLabel(makeSkeletonGraph(candidate), budget, "skeleton");
+  const skeletonResult = canonicalLabelSimpleSkeleton(makeSkeletonGraph(candidate), budget);
   const skeletonCanonicalForm = createCanonicalForm(HASH_DOMAINS.SKELETON, skeletonResult.serialized, "1");
   const candidateResult = canonicalLabel(
     makeCandidateGraph(candidate, policy, skeletonCanonicalForm.hash),

@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/source-node-resolution-policy.schema.json",
+  "title": "Onto2D Frozen Source Node-Resolution Policy",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "freezer",
+    "version",
+    "classificationPolicyHash",
+    "visibleInputs",
+    "forbiddenCriteria",
+    "dispositionRules",
+    "edgeReconciliation",
+    "clusterSemantics",
+    "reviewRule",
+    "policyHash"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "freezer": { "const": "source-node-resolution-policy-v1" },
+    "version": { "$ref": "#/$defs/identifier" },
+    "classificationPolicyHash": { "$ref": "#/$defs/hash" },
+    "visibleInputs": { "$ref": "#/$defs/textSet" },
+    "forbiddenCriteria": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "component-size-only",
+          "cycle-removal-outcome",
+          "desired-acyclicity",
+          "paper-resemblance-only"
+        ]
+      }
+    },
+    "dispositionRules": {
+      "type": "object",
+      "required": [
+        "distributed-structure",
+        "constitutive-cluster",
+        "unresolved-generative-cluster",
+        "mixed-unresolved-cluster"
+      ],
+      "properties": {
+        "distributed-structure": { "$ref": "#/$defs/dispositionRule" },
+        "constitutive-cluster": { "$ref": "#/$defs/dispositionRule" },
+        "unresolved-generative-cluster": { "$ref": "#/$defs/dispositionRule" },
+        "mixed-unresolved-cluster": { "$ref": "#/$defs/dispositionRule" }
+      },
+      "additionalProperties": false
+    },
+    "edgeReconciliation": {
+      "type": "object",
+      "required": ["destinations", "requireExactlyOnce", "preserveRawRelationReferences"],
+      "properties": {
+        "destinations": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "uniqueItems": true,
+          "items": { "enum": ["inter-cluster", "internal", "typed-explanation"] }
+        },
+        "requireExactlyOnce": { "const": true },
+        "preserveRawRelationReferences": { "const": true }
+      },
+      "additionalProperties": false
+    },
+    "clusterSemantics": {
+      "type": "object",
+      "required": ["internalOrder", "memberDepthInheritance", "requireCondensationDag"],
+      "properties": {
+        "internalOrder": { "const": "undefined" },
+        "memberDepthInheritance": { "const": "cluster-depth" },
+        "requireCondensationDag": { "const": true }
+      },
+      "additionalProperties": false
+    },
+    "reviewRule": { "$ref": "#/$defs/text" },
+    "policyHash": { "$ref": "#/$defs/hash" }
+  },
+  "$defs": {
+    "hash": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "identifier": { "type": "string", "minLength": 1, "maxLength": 1024, "pattern": "^\\S(?:[\\s\\S]*\\S)?$" },
+    "text": { "type": "string", "minLength": 1, "maxLength": 16384, "pattern": "^\\S(?:[\\s\\S]*\\S)?$" },
+    "textSet": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1000,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/text" }
+    },
+    "dispositionRule": {
+      "type": "object",
+      "required": ["decisionQuestion", "criteria", "positiveExamples", "negativeExamples"],
+      "properties": {
+        "decisionQuestion": { "$ref": "#/$defs/text" },
+        "criteria": { "$ref": "#/$defs/textSet" },
+        "positiveExamples": { "$ref": "#/$defs/textSet" },
+        "negativeExamples": { "$ref": "#/$defs/textSet" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

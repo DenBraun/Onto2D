@@ -2,6 +2,11 @@
 
 Status: template awaiting policy authorship
 
+The executable artifact shape, hash, forbidden-criterion checks, and fixed
+reconciliation invariants are implemented by
+[ADR-0012](0012-source-policy-freeze-contracts.md); no current component is
+resolved by that contract.
+
 ## Context
 
 After eligible relation annotations are frozen, nontrivial formation-support

@@ -14,7 +14,7 @@ test("source catalogue audit reproduces the reviewed R0 facts", async () => {
   const catalogue = await loadSourceCatalogue({ catalogueDirectory: path.join(repositoryRoot, "scr") });
   const audit = auditSourceCatalogue(catalogue);
 
-  assert.equal(CATALOG_ADAPTER_STATUS, "audit-implemented/classification-pending");
+  assert.equal(CATALOG_ADAPTER_STATUS, "audit-active/classified-projection-active/migration-pending");
   assert.deepEqual(audit.catalogue, { levelCount: 8, nodeCount: 249, edgeCount: 971 });
   assert.equal(audit.summary.weightSumAnomalyCount, 3);
   assert.equal(audit.summary.nodesWithUncoveredRequirements, 107);

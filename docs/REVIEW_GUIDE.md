@@ -1,8 +1,8 @@
 # Kernel Foundation Review Guide
 
-Status: maintainer review notes as of 2026-08-07. The reviewed files were
-checked statically under an explicit instruction not to run the project. No
-Node.js module, npm script, test, build, or application runtime was executed.
+Status: maintainer review notes as of 2026-08-07. Static review is followed by
+local conformance execution on macOS arm64 with Node.js 20.19.4 and 22.18.0;
+cross-platform and independent review gates remain.
 
 ## Review scope
 
@@ -10,19 +10,30 @@ The current foundation contains guarded canonical JSON, domain-separated
 content hashes, deterministic schema-v1 package loading, primitive/profile
 identity, exact supplied-graph canonicalization, bounded connected-skeleton
 enumeration, a deterministic CandidateStore, public TypeScript contracts, and
-32 JSON Schemas. The quantity layer adds versioned multiplicative SI parsing,
+41 JSON Schemas. The quantity layer adds versioned multiplicative SI parsing,
 normalization, comparison, exact decimals, declared rounding, and exact or
 compensated accumulation. The typed value-expression layer adds recursive AST
 validation, dimensional inference, dependency extraction, and content hashes
 without executing expressions. The Boolean layer adds strict predicate AST
-analysis, typed comparisons/balances, conservative monotonicity facts, and
-compiled predicate plans. Pending execution and closure capabilities fail
-explicitly; they do not return placeholder results.
+analysis, typed comparisons/balances, conservative monotonicity facts,
+compiled predicate plans, and verified run-specific numeric-policy bindings.
+The Oracle layer adds request identity and response validation without solver
+execution. The source-policy layer adds classification and node-resolution
+artifact freezing, exposure/risk checks, and lossless reconciliation
+invariants without applying a policy to the catalogue. The classification-
+artifact layer adds complete independent matrices, precommitted tool binding,
+blind adjudication, preserved disagreement, and ordered unblinding without
+collecting or inventing actual labels.
+The catalog-adapter projection layer constructs the exact frozen visible view,
+preserves verified typed relations, and computes both required SCC partitions
+without applying a policy to the repository catalogue.
+Pending execution and closure capabilities fail explicitly; they do not return
+placeholder results.
 
 The review boundary is intentionally smaller than the target architecture.
 Candidate decoration, value-expression and predicate evaluation, cohort ranking,
-sensitivity execution, source migration/condensation, scientific-oracle
-validation, explanations, and closure are not implemented.
+sensitivity execution, source migration/condensation, explanations, and
+closure are not implemented.
 
 ## Recommended review order
 
@@ -37,14 +48,23 @@ validation, explanations, and closure are not implemented.
    [ADR-0005](adr/0005-skeleton-enumeration-and-candidate-store.md), followed
    by [ADR-0006](adr/0006-multiplicative-si-quantities.md) and
    [ADR-0007](adr/0007-deterministic-decimal-arithmetic.md), then
-   [ADR-0008](adr/0008-typed-value-expression-analysis.md) and
-   [ADR-0009](adr/0009-predicate-analysis-and-plans.md).
+   [ADR-0008](adr/0008-typed-value-expression-analysis.md),
+   [ADR-0009](adr/0009-predicate-analysis-and-plans.md), and
+   [ADR-0010](adr/0010-predicate-numeric-policy-binding.md), then
+   [ADR-0011](adr/0011-scientific-oracle-validation.md), then
+   [ADR-0012](adr/0012-source-policy-freeze-contracts.md), then
+   [ADR-0013](adr/0013-source-classification-annotation-artifacts.md), then
+   [ADR-0014](adr/0014-classified-relations-and-scc-projections.md).
 5. Review `packages/kernel/src/canonical.js`, `hash.js`, and
    `quantity.js`, followed by `decimal.js`, `expression-analyzer.js`,
-   `predicate-analyzer.js`, their tests, and the package-loader integration.
+   `predicate-analyzer.js`, `numeric-binding.js`, `oracle-validator.js`,
+   `source-policy.js`, and `source-classification.js`, their tests, and the
+   package-loader integration.
 6. Review `graph-canonicalizer.js`, `skeleton-enumerator.js`, and
    `candidate-store.js`, then their tests.
-7. Compare `packages/kernel/src/index.d.ts` with `packages/schemas/schemas/`.
+7. Review `packages/catalog-adapter/src/source-projection.js`, its public types,
+   and its order/tamper fixtures.
+8. Compare public TypeScript declarations with `packages/schemas/schemas/`.
 
 ## Decisions that deserve explicit approval
 
@@ -59,8 +79,10 @@ validation, explanations, and closure are not implemented.
   structural attributes. Standalone skeleton canonicalization accepts
   disconnected simple graphs; the enumerator and candidate policy enforce
   connectedness where required.
-- Graph labeling uses exact refinement plus exhaustive individualization within
-  a deterministic search budget. Exhaustion emits no partial identity.
+- Simple-skeleton labeling uses every node permutation and selects the global
+  minimum edge serialization. Decorated-candidate labeling uses exact
+  refinement plus exhaustive individualization. Both share a deterministic
+  search budget; exhaustion emits no partial identity.
 - Partial enumeration/store results are explicitly non-interpretable.
 - Quantity identity uses canonical SI bases; comparisons combine both declared
   tolerances and require matching semantics unless explicitly overridden.
@@ -74,6 +96,27 @@ validation, explanations, and closure are not implemented.
   partial-data availability. Only `static-proven` plans may later reach a
   pruning path, and every declared claim still requires the falsification
   audit specified by the architecture.
+- Predicate numeric bindings keep reusable package plans separate from run
+  precision, bind canonical selection order and declared-tolerance comparison
+  explicitly, and reproduce every analysis witness and pruning fact before
+  accepting a plan.
+- Oracle validation reproduces candidate graph canonicality and binds solver
+  identity, parameters, quantities, tolerance targets, residuals, and evidence
+  to one request hash;
+  failed or unapproved partial work stays indeterminate.
+- Policy freezing validates complete authored rule sets and honest exposure
+  declarations, uses a closed local visible-field vocabulary, and rejects
+  classifier minima above the executable ceiling, but supplies no scientific
+  category or SCC disposition. The
+  two implemented capabilities must not be described as migration execution.
+- Annotation/adjudication freezing validates supplied records and derives
+  disagreement, but does not guarantee that a declared view was actually
+  access-controlled or that a caller-supplied timestamp came from a trusted
+  clock. Those enforcement claims remain outside the kernel boundary.
+- Adapter SCC projection is a deterministic transformation of verified data,
+  not scientific classification. It covers relation endpoints but not isolated
+  catalogue cards; completed node reconciliation and condensation remain
+  mandatory migration gates.
 - The current loader accepts only `profileDefinition.kind = "explicit-only"`.
   It rejects source migration and condensed clusters until edge/member
   reconciliation and condensation validation exist.
@@ -83,16 +126,16 @@ validation, explanations, and closure are not implemented.
 
 ## Static verification record
 
-The static documentation pass checks all 50 JSON files for parseability, all
-32 schema identifiers and relative references, schema export coverage,
+The static documentation pass checks all 61 JSON files for parseability, all
+41 schema identifiers and relative references, schema export coverage,
 relative source imports, Markdown links/fences, public implementation/type
 names, source-lock hashes and sizes, and whitespace errors in the maintained
 source/documentation surface outside the preserved catalogue.
 `git diff --check` is also required to remain clean.
 
-All 38 maintained JavaScript source and test files were also passed through a
-syntax-only JavaScriptCore parse of isolated copies with module linkage
-removed. No repository module was evaluated by that check.
+All 48 maintained JavaScript source and test files pass the repository source
+check. The earlier syntax-only JavaScriptCore review did not evaluate modules;
+the current Node.js passes now exercise the complete test suite.
 
 This revision additionally compared direct runtime acceptance with the public
 TypeScript and JSON Schema shapes. It closed empty-tolerance and predicate-range
@@ -101,14 +144,24 @@ quantity semantic/provenance identifiers, discriminated exact from compensated
 decimal accumulation, made public option objects closed, and made package
 conversion overflow or non-zero underflow a structured validation failure.
 
+An independent Python standard-library generator now supplies canonical-byte,
+domain-hash, canonical-skeleton, and labelled-multiplicity fixtures without
+importing the kernel. Its exhaustive run covers all connected simple graphs
+through six nodes and reconciles the known `1, 1, 2, 6, 21, 112` unlabeled and
+`1, 1, 4, 38, 728, 26704` connected-labelled counts. Regeneration was replayed
+with byte-identical outputs. The JavaScript-side comparison has now executed on
+Node.js 20.19.4 and 22.18.0. It exposed non-minimal provisional
+skeleton bytes for two five-node classes; exhaustive permutation-minimum
+labeling corrected the discrepancy before identity freeze.
+
 `scr/theory-of-causal-arisings.pdf` and `scr/topology-of-arising.pdf` are the
 repository theory sources. Both PDF hashes and byte sizes match
 `cases/level-0-oscillator/source-lock.json`.
 
-## Deferred execution gates
+## Execution record and remaining gates
 
-The following commands are the maintainer's first authorized dynamic review
-step, in this order:
+The documented dynamic sequence has completed locally (using the exact Node.js
+entry points behind the npm scripts):
 
 ```sh
 npm ci
@@ -117,11 +170,11 @@ npm run check
 npm run build
 ```
 
-Passing them is required before changing ADR-0003, ADR-0004, or ADR-0005 from
-“proposed implementation baseline” to accepted. Acceptance also requires an
-independent canonical-byte implementation, an independent skeleton-generator
-comparison, supported-platform Node.js execution, and review of binary64 and
-Unicode edge cases.
+The full 117-test suite, repository checks, and build validation pass on both
+local Node.js versions. ADR-0003, ADR-0004, and ADR-0005 remain proposed until the
+goldens receive independent review and additional supported platforms
+reproduce them. RFC 8785 binary64 and Unicode edge cases are now explicitly
+covered by the canonical conformance tests.
 
 ## Known review risks
 
@@ -155,5 +208,5 @@ Unicode edge cases.
   acyclicity, identity, endpoint, unit, and count reconciliation checks.
 - Source-migration schemas describe the target contract, while the current
   loader deliberately rejects those inputs until the migration engine exists.
-- The tests are present but remain unexecuted under the current no-execution
-  constraint.
+- The local Node.js 20/22 suite and binary64/Unicode audit pass; cross-platform
+  reproduction and independent golden review remain open.

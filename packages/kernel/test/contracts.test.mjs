@@ -38,11 +38,21 @@ test("kernel publishes the complete source-relation vocabulary", () => {
   assert.ok(KERNEL_CAPABILITIES.implemented.includes("typed-value-expression-analysis"));
   assert.ok(KERNEL_CAPABILITIES.implemented.includes("boolean-expression-analysis"));
   assert.ok(KERNEL_CAPABILITIES.implemented.includes("predicate-plan-compilation"));
+  assert.ok(KERNEL_CAPABILITIES.implemented.includes("predicate-numeric-policy-binding"));
+  assert.ok(KERNEL_CAPABILITIES.implemented.includes("oracle-request-binding"));
+  assert.ok(KERNEL_CAPABILITIES.implemented.includes("oracle-response-validation"));
+  assert.ok(KERNEL_CAPABILITIES.implemented.includes("source-classification-policy-freeze"));
+  assert.ok(KERNEL_CAPABILITIES.implemented.includes("source-classification-annotation-freeze"));
+  assert.ok(KERNEL_CAPABILITIES.implemented.includes("source-classification-adjudication-freeze"));
+  assert.ok(KERNEL_CAPABILITIES.implemented.includes("source-node-resolution-policy-freeze"));
   assert.ok(!KERNEL_CAPABILITIES.pending.includes("graph-canonicalization"));
   assert.ok(!KERNEL_CAPABILITIES.pending.includes("deterministic-decimal-arithmetic"));
   assert.ok(!KERNEL_CAPABILITIES.pending.includes("typed-expression-analysis"));
   assert.ok(!KERNEL_CAPABILITIES.pending.includes("boolean-expression-analysis"));
-  assert.ok(KERNEL_CAPABILITIES.pending.includes("oracle-response-validation"));
+  assert.ok(!KERNEL_CAPABILITIES.pending.includes("oracle-response-validation"));
+  assert.ok(KERNEL_CAPABILITIES.pending.includes("source-classification"));
+  assert.ok(KERNEL_CAPABILITIES.pending.includes("source-node-resolution"));
+  assert.ok(KERNEL_CAPABILITIES.pending.includes("source-condensation"));
   assert.ok(KERNEL_CAPABILITIES.pending.includes("profile-collapse"));
   assert.ok(KERNEL_CAPABILITIES.pending.includes("level-boundary-detection"));
 });
@@ -60,6 +70,13 @@ test("kernel exposes the implemented graph generation foundation", () => {
   assert.equal(typeof kernel.analyzeValueExpression, "function");
   assert.equal(typeof kernel.analyzePredicateExpression, "function");
   assert.equal(typeof kernel.compilePredicate, "function");
+  assert.equal(typeof kernel.bindPredicateNumericPolicy, "function");
+  assert.equal(typeof kernel.createOracleRequestBinding, "function");
+  assert.equal(typeof kernel.validateOracleResponse, "function");
+  assert.equal(typeof kernel.freezeSourceClassificationPolicy, "function");
+  assert.equal(typeof kernel.freezeSourceClassificationAnnotations, "function");
+  assert.equal(typeof kernel.freezeSourceClassificationAdjudication, "function");
+  assert.equal(typeof kernel.freezeSourceNodeResolutionPolicy, "function");
   assert.throws(() => createKernel({ unknown: true }), TypeError);
 });
 

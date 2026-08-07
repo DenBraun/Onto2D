@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import test from "node:test";
 import {
   KernelValidationError,
@@ -6,14 +7,21 @@ import {
   enumerateConnectedSkeletons
 } from "../src/index.js";
 
-test("connected unlabeled simple skeleton counts match the architecture table", () => {
-  const expected = new Map([[1, 1], [2, 1], [3, 2], [4, 6], [5, 21], [6, 112]]);
-  for (const [nodeCount, count] of expected) {
-    const result = enumerateConnectedSkeletons(nodeCount);
+const conformanceFixture = JSON.parse(await readFile(
+  new URL("../../../test/fixtures/skeleton-conformance-v1.json", import.meta.url),
+  "utf8"
+));
+
+test("connected skeletons match independent exhaustive permutation-orbit goldens", () => {
+  assert.equal(conformanceFixture.generatedBy.importsKernel, false);
+  for (const level of conformanceFixture.levels) {
+    const result = enumerateConnectedSkeletons(level.nodeCount);
     assert.equal(result.status, "complete");
     assert.equal(result.interpretable, true);
-    assert.equal(result.counts.uniqueSkeletons, count);
-    assert.equal(result.skeletons.length, count);
+    assert.equal(result.counts.totalLabelledGraphs, level.totalLabelledGraphs);
+    assert.equal(result.counts.connectedLabelledGraphs, level.connectedLabelledGraphs);
+    assert.equal(result.counts.uniqueSkeletons, level.uniqueSkeletons);
+    assert.equal(result.skeletons.length, level.uniqueSkeletons);
     assert.equal(
       result.skeletons.reduce((sum, skeleton) => sum + skeleton.labelledMultiplicity, 0),
       result.counts.connectedLabelledGraphs
@@ -21,6 +29,16 @@ test("connected unlabeled simple skeleton counts match the architecture table", 
     assert.deepEqual(
       result.skeletons.map((skeleton) => skeleton.id),
       result.skeletons.map((skeleton) => skeleton.id).sort()
+    );
+    assert.deepEqual(
+      result.skeletons.map((skeleton) => ({
+        id: skeleton.id,
+        edges: skeleton.edges,
+        bytesBase64: skeleton.canonicalForm.bytesBase64,
+        labelledMultiplicity: skeleton.labelledMultiplicity
+      })),
+      level.skeletons,
+      `n=${level.nodeCount}`
     );
   }
 });

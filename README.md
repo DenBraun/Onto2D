@@ -22,8 +22,19 @@ Available foundations include:
   extraction, and domain-separated expression/analysis hashes;
 - typed Boolean predicate analysis, conservative monotonicity/partial-data
   inference, and content-addressed predicate plans;
+- run-specific, content-addressed precision/tolerance bindings for compiled
+  predicate numeric operations;
+- content-addressed scientific-Oracle request/response validation without
+  solver execution;
+- content-addressed source-classification policy, independent-annotation,
+  blind-adjudication, and node-resolution policy freezing, including exposure,
+  forbidden-input, disagreement-risk, and reconciliation invariants, without
+  assigning catalogue categories;
+- policy-limited classification-view construction plus verified, lossless
+  classified-relation and generative/formation-support SCC projections for
+  caller-supplied data;
 - exact refinement/individualization canonicalization for supplied candidate
-  graphs, with separate candidate and skeleton identities;
+  graphs and exhaustive permutation-minimum skeleton identities;
 - bounded connected-unlabeled skeleton enumeration through six nodes and a
   deterministic candidate deduplication store;
 - JSON Schema Draft 2020-12 contracts for the first kernel artifacts;
@@ -32,9 +43,11 @@ Available foundations include:
 - repository, documentation, schema, source, and catalogue checks.
 
 No current command changes `scr/` catalogue records or claims that raw
-`ParentCode` relations are generative. Relation classification, SCC
-condensation, decorated-candidate enumeration, closure, scientific predicates,
-and sensitivity execution remain scheduled implementation work.
+`ParentCode` relations are generative. Authorship of actual policy content,
+collection of actual annotations, access-controlled annotation-view delivery,
+application to the current catalogue, node dispositions, SCC condensation,
+decorated-candidate enumeration, closure, scientific predicates, and
+sensitivity execution remain scheduled implementation work.
 
 ## Start developing
 

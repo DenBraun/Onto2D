@@ -1,0 +1,181 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/source-classification-annotations.schema.json",
+  "title": "Onto2D Frozen Source Classification Annotations",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "freezer",
+    "policyHash",
+    "view",
+    "frozenAt",
+    "classifiers",
+    "annotations",
+    "statistics",
+    "annotationHash"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "freezer": { "const": "source-classification-annotations-v1" },
+    "policyHash": { "$ref": "#/$defs/hash" },
+    "view": {
+      "type": "object",
+      "required": ["hash", "visibleFields", "relationIds"],
+      "properties": {
+        "hash": { "$ref": "#/$defs/hash" },
+        "visibleFields": { "$ref": "#/$defs/visibleFieldSet" },
+        "relationIds": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 10000,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/identifier" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "frozenAt": { "$ref": "#/$defs/timestamp" },
+    "classifiers": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 100,
+      "items": { "$ref": "#/$defs/classifier" }
+    },
+    "annotations": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1000000,
+      "items": {
+        "type": "object",
+        "required": ["relationId", "classifierId", "kind", "observations", "rationale"],
+        "properties": {
+          "relationId": { "$ref": "#/$defs/identifier" },
+          "classifierId": { "$ref": "#/$defs/identifier" },
+          "kind": { "$ref": "#/$defs/relationKind" },
+          "observations": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 100,
+            "uniqueItems": true,
+            "items": { "$ref": "#/$defs/text" }
+          },
+          "rationale": { "$ref": "#/$defs/text" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "statistics": {
+      "type": "object",
+      "required": ["relationCount", "classifierCount", "annotationCount"],
+      "properties": {
+        "relationCount": { "type": "integer", "minimum": 1, "maximum": 10000 },
+        "classifierCount": { "type": "integer", "minimum": 1, "maximum": 100 },
+        "annotationCount": { "type": "integer", "minimum": 1, "maximum": 1000000 }
+      },
+      "additionalProperties": false
+    },
+    "annotationHash": { "$ref": "#/$defs/hash" }
+  },
+  "$defs": {
+    "hash": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "identifier": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1024,
+      "pattern": "^\\S(?:[\\s\\S]*\\S)?$"
+    },
+    "text": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 16384,
+      "pattern": "^\\S(?:[\\s\\S]*\\S)?$"
+    },
+    "textSet": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 10000,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/text" }
+    },
+    "visibleField": {
+      "enum": [
+        "causal-directions",
+        "dependency-type",
+        "interaction-modes",
+        "necessity",
+        "ontological-role",
+        "parent-code",
+        "quantization",
+        "source",
+        "source-text",
+        "statement",
+        "target",
+        "weight"
+      ]
+    },
+    "visibleFieldSet": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 12,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/visibleField" },
+      "allOf": [
+        { "contains": { "const": "source" } },
+        { "contains": { "const": "target" } }
+      ]
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\\.[0-9]{3}Z$"
+    },
+    "relationKind": {
+      "enum": [
+        "generative",
+        "constitutive",
+        "intra-closure-support",
+        "evidential",
+        "descriptive",
+        "regulatory-feedback"
+      ]
+    },
+    "exposure": {
+      "type": "object",
+      "required": ["status", "declaration", "sccAwareMaterialSeenBeforeAnnotation"],
+      "properties": {
+        "status": {
+          "enum": ["prospective-blind", "deterministic-precommitted", "historically-exposed"]
+        },
+        "declaration": { "$ref": "#/$defs/text" },
+        "sccAwareMaterialSeenBeforeAnnotation": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    },
+    "classifier": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["id", "type", "exposure"],
+          "properties": {
+            "id": { "$ref": "#/$defs/identifier" },
+            "type": { "const": "human" },
+            "exposure": { "$ref": "#/$defs/exposure" }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["id", "type", "version", "exposure"],
+          "properties": {
+            "id": { "$ref": "#/$defs/identifier" },
+            "type": { "const": "deterministic" },
+            "version": { "$ref": "#/$defs/identifier" },
+            "exposure": { "$ref": "#/$defs/exposure" }
+          },
+          "additionalProperties": false
+        }
+      ]
+    }
+  },
+  "additionalProperties": false
+}

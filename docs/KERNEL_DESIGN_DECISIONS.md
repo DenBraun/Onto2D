@@ -65,9 +65,10 @@ changing its ID. Depth remains bound to `depthBasis` and derivation artifacts.
 
 ## 4. Candidate and skeleton semantics
 
-Candidate node indices and edge-array order are input-local. Exact graph
-canonicalization uses refinement and exhaustive individualization within a
-declared search budget.
+Candidate node indices and edge-array order are input-local. Exact decorated-
+candidate canonicalization uses refinement and exhaustive individualization;
+simple-skeleton canonicalization uses the complete node-permutation orbit.
+Both consume a declared shared search budget.
 
 Candidate identity retains:
 
@@ -119,6 +120,11 @@ Scientific values use typed quantities with units, tolerance, semantic meaning,
 and provenance. Numeric equality is tolerance-aware; raw binary floating-point
 equality is not a scientific comparison rule.
 
+Compiled predicate plans remain package-owned and reusable. A separate hashed
+numeric binding combines one verified plan with the run precision policy,
+canonical selection order, and the versioned maximum-declared-tolerance rule.
+It inventories numeric operations but does not resolve or evaluate values.
+
 Predicates return `pass`, `fail`, or `indeterminate`. Functionals are separate
 typed score expressions and cannot prune generation. Selectors execute only
 after local eligibility filtering and retain the complete epsilon-equivalent
@@ -138,6 +144,11 @@ The kernel does not solve PDEs, continuous variational equations, field
 integrals, or stability problems. A versioned scientific adapter receives a
 content-addressed Oracle request and returns typed values, convergence state,
 residual, solver identity, parameters, and operational timing.
+
+The kernel now validates that boundary without invoking the adapter: canonical
+candidate bytes and normalized requests produce the provenance hash; solver,
+parameter, unit, semantic, tolerance, residual, and evidence drift fail; and
+operational wall time stays outside semantic response identity.
 
 `failed` and disallowed `partial` results make dependent evaluations
 `indeterminate`; they are never coerced to zero, `pass`, or `fail`. A permitted
@@ -179,6 +190,27 @@ Node merging cannot use “this removes a cycle” as a criterion. SCC size and
 structural resemblance are diagnostics only. Resolution reports quantify merge,
 condensation, nonformation-layer separation, descriptive resolution, and
 post-unblinding reclassification shares.
+
+The kernel implements the neutral freeze boundary for these two policies. It
+requires complete category/disposition rule sets, cross-checks exposure claims,
+sorts set-valued fields, and derives separate domain hashes. This is contract
+validation, not policy authorship: ADR-0001 and ADR-0002 still contain no
+catalogue classifications or component resolutions.
+
+The next neutral boundary freezes caller-supplied raw annotations and
+adjudication. It requires complete independent human matrices or exactly the
+precommitted deterministic classifier, derives rather than trusts disagreement,
+prevents adjudication from overwriting unanimous labels, and records canonical
+freeze/unblinding times. It does not provide the annotation UI, authenticate a
+clock, or assign a category to any current catalogue edge.
+
+The catalogue adapter then constructs the exact policy-visible relation view
+and can project a verified caller-supplied decision chain into typed relations.
+It computes both the generative and broader formation-support SCC partitions
+over relation endpoints. Component identity includes complete internal typed
+endpoint relations; input/traversal order is non-semantic. Isolated catalogue
+cards, node dispositions, and condensation remain separate reconciliation
+steps, so this projector cannot claim a completed migration.
 
 The Level-0 component `{0.8, 0.21, 0.22}` is a registered candidate for one
 distributed closure-bearing structure or a constitutive cluster. Its shape is

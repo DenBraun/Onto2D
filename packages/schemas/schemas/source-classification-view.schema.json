@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/source-classification-view.schema.json",
+  "title": "Onto2D Frozen Source Classification View",
+  "type": "object",
+  "required": ["schemaVersion", "builder", "policyHash", "relations", "statistics", "viewHash"],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "builder": { "const": "source-classification-view-v1" },
+    "policyHash": { "$ref": "#/$defs/hash" },
+    "relations": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 10000,
+      "items": {
+        "type": "object",
+        "required": ["id", "source", "target", "fields"],
+        "properties": {
+          "id": { "$ref": "#/$defs/identifier" },
+          "source": { "$ref": "#/$defs/identifier" },
+          "target": { "$ref": "#/$defs/identifier" },
+          "fields": {
+            "type": "object",
+            "required": ["source", "target"],
+            "propertyNames": { "$ref": "#/$defs/visibleField" },
+            "additionalProperties": { "$ref": "#/$defs/jsonValue" }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "statistics": {
+      "type": "object",
+      "required": ["relationCount"],
+      "properties": {
+        "relationCount": { "type": "integer", "minimum": 1, "maximum": 10000 }
+      },
+      "additionalProperties": false
+    },
+    "viewHash": { "$ref": "#/$defs/hash" }
+  },
+  "$defs": {
+    "hash": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "identifier": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1024,
+      "pattern": "^\\S(?:[\\s\\S]*\\S)?$"
+    },
+    "visibleField": {
+      "enum": [
+        "causal-directions",
+        "dependency-type",
+        "interaction-modes",
+        "necessity",
+        "ontological-role",
+        "parent-code",
+        "quantization",
+        "source",
+        "source-text",
+        "statement",
+        "target",
+        "weight"
+      ]
+    },
+    "jsonValue": {
+      "oneOf": [
+        { "type": ["string", "number", "boolean", "null"] },
+        { "type": "array", "items": { "$ref": "#/$defs/jsonValue" } },
+        { "type": "object", "additionalProperties": { "$ref": "#/$defs/jsonValue" } }
+      ]
+    }
+  },
+  "additionalProperties": false
+}

@@ -45,7 +45,7 @@ Onto2D/
 │   ├── schemas/                # JSON Schema Draft 2020-12 contracts
 │   ├── catalog-adapter/        # source loader and read-only graph audit
 │   └── scientific-adapter/     # validated external-computation port
-├── scripts/                    # dependency-free checks and test runner
+├── scripts/                    # checks, test runner, and conformance references
 ├── scr/                        # preserved source catalogue and locked sources
 ├── test/
 │   ├── cases/
@@ -65,7 +65,7 @@ Onto2D/
 | `packages/catalog-adapter` | source loading, audit, explicit loss-aware migration | post-hoc edge relabelling, hidden source edits |
 | `packages/scientific-adapter` | adapter validation and oracle boundary | pretending a solver exists or promoting failures to passes |
 | `cases` | source locks, frozen rules, fixtures, expected artifacts | hard-coded kernel branches |
-| `scripts` | repository automation | domain semantics duplicated from packages |
+| `scripts` | repository automation and isolated conformance references | runtime domain semantics duplicated from packages |
 | `scr` | preserved source data and reference artifacts | generated run results |
 
 ## Growth sequence
@@ -78,9 +78,12 @@ Implementation grows through the following sequence:
    freeze its golden byte fixtures;
 4. review skeleton reference counts/store truncation, then add deterministic
    candidate decoration;
-5. bind precision/tolerance policy to compiled numeric operations and validate
-   Oracle request/response contracts without invoking a solver;
-6. freeze source-classification and node-resolution ADRs before migration;
+5. author and review source-classification and node-resolution policies with
+   the executable freeze contracts now that predicate numeric bindings and
+   Oracle validation are executable, then collect independent annotations with
+   the executable annotation/adjudication contracts;
+6. extend the implemented lossless relation/SCC projection with isolated-node
+   reconciliation, reviewed node dispositions, and condensation;
 7. add migration fixtures to `packages/catalog-adapter/test/fixtures`;
 8. expand `cases/level-0-oscillator` only when quantities and evidence are
    operationally defined;

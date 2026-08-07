@@ -1,0 +1,174 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/source-classified-relations.schema.json",
+  "title": "Onto2D Classified Source Relations and SCC Projections",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "builder",
+    "policyHash",
+    "viewHash",
+    "annotationHash",
+    "adjudicationHash",
+    "relations",
+    "projections",
+    "statistics",
+    "projectionHash"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "builder": { "const": "source-classified-relations-v1" },
+    "policyHash": { "$ref": "#/$defs/hash" },
+    "viewHash": { "$ref": "#/$defs/hash" },
+    "annotationHash": { "$ref": "#/$defs/hash" },
+    "adjudicationHash": { "$ref": "#/$defs/hash" },
+    "relations": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 10000,
+      "items": { "$ref": "#/$defs/relation" }
+    },
+    "projections": {
+      "type": "object",
+      "required": ["generative", "formationSupport"],
+      "properties": {
+        "generative": { "$ref": "#/$defs/projection" },
+        "formationSupport": { "$ref": "#/$defs/projection" }
+      },
+      "additionalProperties": false
+    },
+    "statistics": {
+      "type": "object",
+      "required": [
+        "nodeCount",
+        "relationCount",
+        "classifiedByKind",
+        "generativeCyclicComponentCount",
+        "formationSupportCyclicComponentCount"
+      ],
+      "properties": {
+        "nodeCount": { "type": "integer", "minimum": 1, "maximum": 20000 },
+        "relationCount": { "type": "integer", "minimum": 1, "maximum": 10000 },
+        "classifiedByKind": {
+          "type": "object",
+          "required": [
+            "generative",
+            "constitutive",
+            "intra-closure-support",
+            "evidential",
+            "descriptive",
+            "regulatory-feedback"
+          ],
+          "properties": {
+            "generative": { "$ref": "#/$defs/count" },
+            "constitutive": { "$ref": "#/$defs/count" },
+            "intra-closure-support": { "$ref": "#/$defs/count" },
+            "evidential": { "$ref": "#/$defs/count" },
+            "descriptive": { "$ref": "#/$defs/count" },
+            "regulatory-feedback": { "$ref": "#/$defs/count" }
+          },
+          "additionalProperties": false
+        },
+        "generativeCyclicComponentCount": { "$ref": "#/$defs/count" },
+        "formationSupportCyclicComponentCount": { "$ref": "#/$defs/count" }
+      },
+      "additionalProperties": false
+    },
+    "projectionHash": { "$ref": "#/$defs/hash" }
+  },
+  "$defs": {
+    "hash": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "identifier": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1024,
+      "pattern": "^\\S(?:[\\s\\S]*\\S)?$"
+    },
+    "count": { "type": "integer", "minimum": 0, "maximum": 10000 },
+    "relationKind": {
+      "enum": [
+        "generative",
+        "constitutive",
+        "intra-closure-support",
+        "evidential",
+        "descriptive",
+        "regulatory-feedback"
+      ]
+    },
+    "relation": {
+      "type": "object",
+      "required": ["id", "source", "target", "kind", "decisionStatus", "rawKinds"],
+      "properties": {
+        "id": { "$ref": "#/$defs/identifier" },
+        "source": { "$ref": "#/$defs/identifier" },
+        "target": { "$ref": "#/$defs/identifier" },
+        "kind": { "$ref": "#/$defs/relationKind" },
+        "decisionStatus": { "enum": ["agreement", "adjudicated"] },
+        "rawKinds": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 6,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/relationKind" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "component": {
+      "type": "object",
+      "required": ["componentId", "members", "internalRelationIds", "cyclic"],
+      "properties": {
+        "componentId": { "$ref": "#/$defs/hash" },
+        "members": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 20000,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/identifier" }
+        },
+        "internalRelationIds": {
+          "type": "array",
+          "maxItems": 10000,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/identifier" }
+        },
+        "cyclic": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    },
+    "projection": {
+      "type": "object",
+      "required": ["name", "includedKinds", "relationIds", "components", "cyclicComponentIds"],
+      "properties": {
+        "name": { "enum": ["generative", "formation-support"] },
+        "includedKinds": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 3,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/relationKind" }
+        },
+        "relationIds": {
+          "type": "array",
+          "maxItems": 10000,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/identifier" }
+        },
+        "components": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 20000,
+          "items": { "$ref": "#/$defs/component" }
+        },
+        "cyclicComponentIds": {
+          "type": "array",
+          "maxItems": 20000,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/hash" }
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

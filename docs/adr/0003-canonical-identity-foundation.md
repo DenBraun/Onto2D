@@ -1,6 +1,7 @@
 # ADR-0003: Canonical identity foundation
 
-Status: proposed implementation baseline; conformance execution pending
+Status: proposed implementation baseline; local conformance passed,
+independent and cross-platform review pending
 
 ## Context
 
@@ -57,3 +58,11 @@ but does not change primitive element IDs or profile hashes.
 - review of binary64 edge cases and Unicode ordering.
 
 This ADR must not be marked accepted until those checks execute successfully.
+
+The independent restricted canonical-JSON/domain-frame generator and its
+committed positive goldens are now present. Their deterministic regeneration
+and JavaScript comparison pass on local Node.js 20 and 22. Every finite RFC
+8785 Appendix B vector, non-finite rejection, UTF-16 key ordering, Unicode
+preservation, and invalid-surrogate rejection now have direct fixtures.
+Independent review and cross-platform execution remain pending; the ADR status
+therefore does not change.

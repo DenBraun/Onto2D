@@ -16,7 +16,17 @@ import { analyzeValueExpression } from "./expression-analyzer.js";
 import { canonicalizeCandidate, canonicalizeSkeleton } from "./graph-canonicalizer.js";
 import { hashCanonical } from "./hash.js";
 import { loadKernelPackage } from "./package-loader.js";
+import { bindPredicateNumericPolicy } from "./numeric-binding.js";
+import { createOracleRequestBinding, validateOracleResponse } from "./oracle-validator.js";
 import { analyzePredicateExpression, compilePredicate } from "./predicate-analyzer.js";
+import {
+  freezeSourceClassificationPolicy,
+  freezeSourceNodeResolutionPolicy
+} from "./source-policy.js";
+import {
+  freezeSourceClassificationAdjudication,
+  freezeSourceClassificationAnnotations
+} from "./source-classification.js";
 import {
   compareQuantities,
   convertQuantity,
@@ -45,11 +55,21 @@ const IMPLEMENTED_CAPABILITIES = Object.freeze([
   "typed-value-expression-analysis",
   "boolean-expression-analysis",
   "predicate-plan-compilation",
+  "predicate-numeric-policy-binding",
+  "oracle-request-binding",
+  "oracle-response-validation",
+  "source-classification-policy-freeze",
+  "source-classification-annotation-freeze",
+  "source-classification-adjudication-freeze",
+  "source-node-resolution-policy-freeze",
   "depth-basis-hash",
   "rules-hash"
 ]);
 
 const PENDING_CAPABILITIES = Object.freeze([
+  "source-classification",
+  "source-node-resolution",
+  "source-condensation",
   "candidate-enumeration",
   "predicate-evaluation",
   "cohort-construction",
@@ -57,7 +77,6 @@ const PENDING_CAPABILITIES = Object.freeze([
   "sensitivity-analysis",
   "profile-collapse",
   "level-boundary-detection",
-  "oracle-response-validation",
   "closure",
   "explanation-index"
 ]);
@@ -112,6 +131,13 @@ export function createKernel(options = {}) {
     analyzeValueExpression,
     analyzePredicateExpression,
     compilePredicate,
+    bindPredicateNumericPolicy,
+    createOracleRequestBinding,
+    validateOracleResponse,
+    freezeSourceClassificationPolicy,
+    freezeSourceClassificationAnnotations,
+    freezeSourceClassificationAdjudication,
+    freezeSourceNodeResolutionPolicy,
     hash(domain, value) {
       return hashCanonical(domain, value);
     },

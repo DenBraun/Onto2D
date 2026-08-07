@@ -52,6 +52,9 @@ overflow is reported as a package validation issue before identity hashing.
 
 Comparison requires dimensional compatibility. It also requires equal semantic
 labels unless the caller explicitly selects `semanticPolicy: "ignore"`.
+The comparison algorithm is named `declared-max-tolerance-v1` at the public
+runtime boundary so compiled numeric bindings can reference it without copying
+its implementation.
 `require-equal` is selected only when `semanticPolicy` is absent; null, empty,
 or otherwise invalid supplied values fail instead of falling through to the
 default.

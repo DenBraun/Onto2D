@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/oracle-validation-result.schema.json",
+  "title": "Onto2D Oracle Response Validation Result",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "validator",
+    "validationHash",
+    "requestHash",
+    "responseHash",
+    "status",
+    "convergence",
+    "returnedValues",
+    "acceptedValues",
+    "solver",
+    "partialPolicy",
+    "toleranceAdjustments",
+    "reasons",
+    "wallTimeMs"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "validator": { "const": "oracle-response-validator-v1" },
+    "validationHash": { "$ref": "#/$defs/hash" },
+    "requestHash": { "$ref": "#/$defs/hash" },
+    "responseHash": { "$ref": "#/$defs/hash" },
+    "status": { "enum": ["accepted", "indeterminate"] },
+    "convergence": { "enum": ["converged", "partial", "failed"] },
+    "returnedValues": { "$ref": "#/$defs/quantityRecord" },
+    "acceptedValues": { "$ref": "#/$defs/quantityRecord" },
+    "residual": { "$ref": "quantity.schema.json" },
+    "solver": { "$ref": "oracle-response.schema.json#/properties/solver" },
+    "partialPolicy": { "$ref": "kernel-package.schema.json#/properties/partialOraclePolicy" },
+    "toleranceAdjustments": {
+      "type": "array",
+      "maxItems": 10000,
+      "items": {
+        "type": "object",
+        "required": ["quantityId", "original", "effective"],
+        "properties": {
+          "quantityId": { "$ref": "#/$defs/id" },
+          "original": { "$ref": "oracle-request.schema.json#/$defs/tolerance" },
+          "effective": { "$ref": "oracle-request.schema.json#/$defs/tolerance" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "reasons": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "oracle-failed",
+          "partial-policy-indeterminate",
+          "partial-response-incomplete",
+          "partial-residual-exceeds-maximum",
+          "partial-tolerance-target-unmet"
+        ]
+      }
+    },
+    "wallTimeMs": { "type": "number", "minimum": 0 }
+  },
+  "$defs": {
+    "hash": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1024,
+      "pattern": "^(?:\\S|\\S(?:.*\\S)?)$"
+    },
+    "quantityRecord": {
+      "type": "object",
+      "propertyNames": { "$ref": "#/$defs/id" },
+      "additionalProperties": { "$ref": "quantity.schema.json" }
+    }
+  },
+  "additionalProperties": false
+}

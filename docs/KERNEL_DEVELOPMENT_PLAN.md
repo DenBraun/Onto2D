@@ -34,7 +34,7 @@ Implemented:
 - primitive element IDs, profile hashes, rules hashes, identity-policy hashes,
   and depth-basis hashes;
 - exact refinement/individualization canonicalization for supplied candidates
-  and simple skeletons;
+  and exhaustive permutation-minimum canonicalization for simple skeletons;
 - exhaustive connected simple-skeleton enumeration through six nodes;
 - fixed-domain CandidateStore deduplication and explicit completion/truncation
   state;
@@ -45,7 +45,11 @@ Implemented:
   functional/cohort result dimensions;
 - recursive typed Boolean-expression analysis, graph/value requirement
   extraction, conservative truth-persistence and partial-detectability
-  inference, content-addressed predicate plans, and loader integration;
+  inference, content-addressed predicate plans, loader integration, and
+  run-specific numeric-policy binding;
+- content-addressed Oracle request binding and response validation for solver,
+  parameter, quantity, tolerance, residual, convergence, and evidence
+  contracts without solver execution;
 - JSON Schemas, TypeScript declarations, catalogue audit, source locks, CI
   configuration, and compatibility fixtures.
 
@@ -54,7 +58,6 @@ Not implemented:
 - decorated candidate generation and safe partial pruning;
 - value-expression and predicate execution;
 - cohort construction, functional evaluation, ranking, and sensitivity;
-- Oracle response validation;
 - source classification, node resolution, and SCC condensation execution;
 - profile extraction/collapse, level-boundary detection, and carrier promotion;
 - level/ladder closure, null models, explanation indexes, and run artifacts.
@@ -115,6 +118,17 @@ Scope:
 Gate: canonical identities and complete skeleton counts reproduce across
 supported environments and independent references.
 
+Current D0 progress: the independent Python canonical-byte/hash and exhaustive
+skeleton fixtures reproduce deterministically. Their comparison initially
+found non-minimal skeleton representatives at five nodes; the provisional
+skeleton identity algorithm was corrected to exhaustive permutation-minimum
+labeling. The supported CI matrix now covers Ubuntu, macOS, and Windows on
+Node.js 20 and 22. The RFC 8785 binary64 vectors, non-finite rejection,
+UTF-16 key ordering, Unicode preservation, and invalid-surrogate cases are
+covered explicitly. Local tests, checks, and build pass on macOS arm64 with
+Node.js 20.19.4 and 22.18.0. A completed cross-platform CI run and independent
+review remain before the D0 gate is accepted.
+
 ### Stage D1: quantities and expression IR
 
 Scope:
@@ -143,9 +157,15 @@ validates and normalizes all declared Boolean operators, type-checks embedded
 value comparisons and balances, records witness/data requirements, and derives
 only conservative pass/fail persistence. `predicate-plan-v1` binds that
 analysis to predicate metadata and blocks pruning when proof or partial data is
-absent.
-Value-expression and predicate execution, tolerance-policy binding, and Oracle
-validation remain.
+absent. `predicate-numeric-binding-v1` verifies a compiled plan, attaches one
+normalized run precision policy, explicit canonical summation order, and the
+versioned declared-tolerance comparison policy to every numeric operation, then
+emits a separate binding hash.
+`oracle-protocol-v1` now verifies candidate canonical bytes, normalizes and
+hashes scientific requests, validates response request/solver/parameter and
+quantity/evidence bindings, keeps failed or disallowed partial work
+indeterminate, and applies approved residual-guarded tolerance expansion.
+Value-expression and predicate execution remain.
 
 ### Stage D2: decorated candidate generation
 
@@ -164,11 +184,33 @@ generation; disabling pruning produces the same complete canonical set.
 
 ### Stage D3: source classification and condensation
 
+Current milestone: the closed, content-addressed policy-freeze contracts are
+implemented under [ADR-0012](adr/0012-source-policy-freeze-contracts.md), and
+the complete independent-annotation/adjudication artifact contracts are
+implemented under
+[ADR-0013](adr/0013-source-classification-annotation-artifacts.md). They
+validate authorship/exposure claims, complete relation/disposition rule sets,
+forbidden inputs/criteria, complete annotation matrices, preserved
+disagreement, ordered unblinding, risk thresholds, and reconciliation
+invariants. No actual catalogue policy, annotation, classification, or node
+resolution has been authored or executed.
+
+The next adapter foundation is implemented under
+[ADR-0014](adr/0014-classified-relations-and-scc-projections.md): it constructs
+the frozen visible relation payload, verifies the complete annotation chain,
+preserves every supplied relation exactly once, and computes the generative
+and formation-support SCC partitions. It has not been applied to the current
+catalogue, and isolated-node reconciliation, node dispositions, and
+condensation remain pending.
+
 Scope:
 
-- implement frozen relation-policy artifacts and exposure declarations;
-- collect independent classifications and blind adjudication records;
-- compute SCCs on generative and formation-support projections;
+- author reviewed frozen relation-policy content and exposure declarations
+  using the implemented artifact contract;
+- collect actual independent classifications and blind adjudication records
+  using the implemented artifact contracts;
+- apply the implemented classified-relation/SCC projector to actual reviewed
+  catalogue annotations;
 - apply general node-resolution criteria;
 - materialize cluster elements, member projections, and typed relation layers;
 - recompute the condensation quotient and require a DAG;
@@ -319,10 +361,18 @@ Research-case acceptance additionally requires:
 
 ## 9. Immediate next implementation slice
 
-1. Execute and independently compare the existing canonicalization and
-   skeleton foundation when execution is authorized.
-2. Freeze canonical-byte and graph-count fixtures.
-3. Bind declared precision/tolerance policy to compiled numeric operations.
-4. Implement Oracle request/response validation without invoking a solver.
-5. Freeze source-classification and node-resolution policies before processing
+The independent canonical-byte/hash and exhaustive skeleton fixtures are now
+frozen, with regeneration isolated from the JavaScript kernel. Their Python
+generation, deterministic replay, and local Node.js 20/22 comparisons have
+completed. The comparison caught and drove correction of provisional skeleton
+bytes before the identity baseline was accepted.
+
+The binary64/Unicode audit, predicate numeric-policy binding, and Oracle
+protocol validation are now implemented locally. The remaining immediate work
+is:
+
+1. Obtain cross-platform CI and independent-review evidence for the frozen
+   canonical and skeleton fixtures.
+2. Accept ADR-0003 through ADR-0005 after that evidence is reviewed.
+3. Freeze source-classification and node-resolution policies before processing
    SCC-aware catalogue output.

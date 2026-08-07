@@ -2,6 +2,7 @@ import { deepFreeze } from "./canonical.js";
 import { KernelError } from "./errors.js";
 
 export const UNIT_GRAMMAR_VERSION = "si-multiplicative-v1";
+export const QUANTITY_COMPARISON_POLICY_VERSION = "declared-max-tolerance-v1";
 
 const BASE_UNIT_ORDER = Object.freeze(["kg", "m", "s", "A", "K", "mol", "cd"]);
 const MAX_UNIT_EXPRESSION_LENGTH = 128;

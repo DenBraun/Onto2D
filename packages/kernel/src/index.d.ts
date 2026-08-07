@@ -27,6 +27,194 @@ export type MigrationExposureStatus =
   | "deterministic-precommitted"
   | "historically-exposed";
 
+export type SourceClassificationVisibleField =
+  | "causal-directions"
+  | "dependency-type"
+  | "interaction-modes"
+  | "necessity"
+  | "ontological-role"
+  | "parent-code"
+  | "quantization"
+  | "source"
+  | "source-text"
+  | "statement"
+  | "target"
+  | "weight";
+
+export type SourceClassificationAuthorship =
+  | {
+      mode: "human-independent";
+      minimumIndependentClassifiers: number;
+      adjudicationRule: string;
+    }
+  | {
+      mode: "deterministic-precommitted";
+      classifier: { id: string; version: string };
+      adjudicationRule: string;
+    };
+
+export interface SourceClassificationExposure {
+  status: MigrationExposureStatus;
+  declaration: string;
+  sccAwareMaterialSeenBeforeFreeze: boolean;
+}
+
+export interface SourceClassificationRelationRule {
+  decisionQuestion: string;
+  necessaryObservations: string[];
+  sufficientObservations: string[];
+  inclusions: string[];
+  exclusions: string[];
+  counterexamples: string[];
+}
+
+export interface SourceMigrationRiskPolicy {
+  maximumClassificationDisagreementRatio: number;
+  maximumDescriptiveResolutionShare: number;
+  maximumPostUnblindingReclassificationShare: number;
+  acceptedBlindness: MigrationExposureStatus[];
+}
+
+export interface SourceClassificationPolicyInput {
+  schemaVersion: "1";
+  version: string;
+  authorship: SourceClassificationAuthorship;
+  exposure: SourceClassificationExposure;
+  visibleFields: SourceClassificationVisibleField[];
+  forbiddenInputs: string[];
+  relationKinds: Record<SourceRelationKind, SourceClassificationRelationRule>;
+  conflictRule: string;
+  riskPolicy: SourceMigrationRiskPolicy;
+}
+
+export interface FrozenSourceClassificationPolicy extends SourceClassificationPolicyInput {
+  freezer: "source-classification-policy-v1";
+  policyHash: ContentHash;
+}
+
+export interface SourceClassifierExposure {
+  status: MigrationExposureStatus;
+  declaration: string;
+  sccAwareMaterialSeenBeforeAnnotation: boolean;
+}
+
+export type SourceClassifierDeclaration =
+  | {
+      id: string;
+      type: "human";
+      exposure: SourceClassifierExposure;
+    }
+  | {
+      id: string;
+      type: "deterministic";
+      version: string;
+      exposure: SourceClassifierExposure;
+    };
+
+export interface SourceClassificationAnnotation {
+  relationId: string;
+  classifierId: string;
+  kind: SourceRelationKind;
+  observations: string[];
+  rationale: string;
+}
+
+export interface SourceClassificationAnnotationsInput {
+  schemaVersion: "1";
+  policyHash: ContentHash;
+  view: {
+    hash: ContentHash;
+    visibleFields: string[];
+    relationIds: string[];
+  };
+  frozenAt: string;
+  classifiers: SourceClassifierDeclaration[];
+  annotations: SourceClassificationAnnotation[];
+}
+
+export interface FrozenSourceClassificationAnnotations extends SourceClassificationAnnotationsInput {
+  freezer: "source-classification-annotations-v1";
+  statistics: {
+    relationCount: number;
+    classifierCount: number;
+    annotationCount: number;
+  };
+  annotationHash: ContentHash;
+}
+
+export interface SourceClassificationAdjudicationDecisionInput {
+  relationId: string;
+  kind: SourceRelationKind;
+  rationale: string;
+}
+
+export interface SourceClassificationAdjudicationDecision
+  extends SourceClassificationAdjudicationDecisionInput {
+  status: "agreement" | "adjudicated";
+  rawKinds: SourceRelationKind[];
+}
+
+export interface SourceClassificationAdjudicationInput {
+  schemaVersion: "1";
+  policyHash: ContentHash;
+  annotationHash: ContentHash;
+  frozenAt: string;
+  unblindedAt: string;
+  adjudicator: SourceClassifierDeclaration;
+  decisions: SourceClassificationAdjudicationDecisionInput[];
+}
+
+export interface FrozenSourceClassificationAdjudication
+  extends Omit<SourceClassificationAdjudicationInput, "decisions"> {
+  freezer: "source-classification-adjudication-v1";
+  decisions: SourceClassificationAdjudicationDecision[];
+  statistics: {
+    relationCount: number;
+    disagreementCount: number;
+    disagreementRatio: number;
+    maximumClassificationDisagreementRatio: number;
+    thresholdExceeded: boolean;
+  };
+  fittingRisk: "not-flagged" | "elevated";
+  fittingRiskReasons: (
+    | "historically-exposed"
+    | "classification-disagreement-threshold-exceeded"
+  )[];
+  adjudicationHash: ContentHash;
+}
+
+export interface SourceNodeResolutionDispositionRule {
+  decisionQuestion: string;
+  criteria: string[];
+  positiveExamples: string[];
+  negativeExamples: string[];
+}
+
+export interface SourceNodeResolutionPolicyInput {
+  schemaVersion: "1";
+  version: string;
+  classificationPolicyHash: ContentHash;
+  visibleInputs: string[];
+  forbiddenCriteria: string[];
+  dispositionRules: Record<ClusterDisposition, SourceNodeResolutionDispositionRule>;
+  edgeReconciliation: {
+    destinations: ("inter-cluster" | "internal" | "typed-explanation")[];
+    requireExactlyOnce: true;
+    preserveRawRelationReferences: true;
+  };
+  clusterSemantics: {
+    internalOrder: "undefined";
+    memberDepthInheritance: "cluster-depth";
+    requireCondensationDag: true;
+  };
+  reviewRule: string;
+}
+
+export interface FrozenSourceNodeResolutionPolicy extends SourceNodeResolutionPolicyInput {
+  freezer: "source-node-resolution-policy-v1";
+  policyHash: ContentHash;
+}
+
 export type EvidenceState =
   | "paper-assumption"
   | "paper-derivation"
@@ -426,6 +614,49 @@ export interface PredicatePlan {
   statistics: PredicateExpressionAnalysis["statistics"];
 }
 
+export type PredicateNumericOperationKind =
+  | "value-add"
+  | "value-multiply"
+  | "value-sum"
+  | "numeric-compare"
+  | "quantity-compare"
+  | "balance"
+  | "stability-threshold";
+
+export type PredicateNumericPolicyRef =
+  | "arithmetic"
+  | "precision"
+  | "quantityComparison"
+  | "summation";
+
+export interface PredicateNumericBinding {
+  schemaVersion: "1";
+  binder: "predicate-numeric-binding-v1";
+  bindingHash: ContentHash;
+  predicatePlanHash: ContentHash;
+  expressionHash: ContentHash;
+  numericPolicy: {
+    arithmetic: "decimal-rational-v1";
+    precision: Readonly<PrecisionPolicy>;
+    roundingBoundary: "value-expression-result-v1";
+    summation: {
+      algorithm: PrecisionPolicy["summation"];
+      termOrder: "canonical-selection-order-v1";
+    };
+    quantityComparison: {
+      version: "declared-max-tolerance-v1";
+      semanticPolicy: "require-equal" | "ignore";
+      toleranceCombination: "maximum-declared-bound-v1";
+      boundary: "closed";
+    };
+  };
+  operations: {
+    path: string;
+    operation: PredicateNumericOperationKind;
+    policyRefs: PredicateNumericPolicyRef[];
+  }[];
+}
+
 export interface QuantitySpec {
   id: string;
   unit: string;
@@ -534,6 +765,44 @@ export interface OracleResponse {
     method: string;
     parameters: ParameterSet;
   };
+  wallTimeMs: number;
+}
+
+export interface OracleRequestBinding {
+  schemaVersion: "1";
+  protocol: "oracle-protocol-v1";
+  requestHash: ContentHash;
+  request: OracleRequest;
+}
+
+export type OracleValidationReason =
+  | "oracle-failed"
+  | "partial-policy-indeterminate"
+  | "partial-response-incomplete"
+  | "partial-residual-exceeds-maximum"
+  | "partial-tolerance-target-unmet";
+
+export interface OracleToleranceAdjustment {
+  quantityId: string;
+  original: Tolerance;
+  effective: Tolerance;
+}
+
+export interface OracleValidationResult {
+  schemaVersion: "1";
+  validator: "oracle-response-validator-v1";
+  validationHash: ContentHash;
+  requestHash: ContentHash;
+  responseHash: ContentHash;
+  status: "accepted" | "indeterminate";
+  convergence: OracleResponse["convergence"];
+  returnedValues: Record<string, Quantity>;
+  acceptedValues: Record<string, Quantity>;
+  residual?: Quantity;
+  solver: OracleResponse["solver"];
+  partialPolicy: PartialOraclePolicy;
+  toleranceAdjustments: OracleToleranceAdjustment[];
+  reasons: OracleValidationReason[];
   wallTimeMs: number;
 }
 
@@ -939,9 +1208,14 @@ export function deepFreeze<T>(value: T): Readonly<T>;
 
 export const HASH_DOMAINS: Readonly<Record<
   "ARTIFACT" | "CANDIDATE" | "CLUSTER" | "DEPTH_BASIS" | "ELEMENT" |
-  "PREDICATE_EXPRESSION" | "PREDICATE_EXPRESSION_ANALYSIS" | "PREDICATE_PLAN" |
+  "PREDICATE_EXPRESSION" | "PREDICATE_EXPRESSION_ANALYSIS" | "PREDICATE_NUMERIC_BINDING" | "PREDICATE_PLAN" |
   "VALUE_EXPRESSION" | "VALUE_EXPRESSION_ANALYSIS" | "IDENTITY_POLICY" |
-  "PACKAGE" | "PROFILE" | "RULES" | "SKELETON",
+  "ORACLE_REQUEST" | "ORACLE_RESPONSE" | "ORACLE_VALIDATION" |
+  "PACKAGE" | "PROFILE" | "RULES" | "SKELETON" |
+  "SOURCE_CLASSIFICATION_ADJUDICATION" | "SOURCE_CLASSIFICATION_ANNOTATIONS" |
+  "SOURCE_CLASSIFICATION_POLICY" | "SOURCE_CLASSIFICATION_VIEW" |
+  "SOURCE_CLASSIFIED_RELATIONS" | "SOURCE_SCC_COMPONENT" |
+  "SOURCE_NODE_RESOLUTION_POLICY",
   string
 >>;
 export function hashBytes(domain: string, bytes: Uint8Array): ContentHash;
@@ -974,6 +1248,7 @@ export function createCandidateStore(options: {
 }): CandidateStore;
 
 export const UNIT_GRAMMAR_VERSION: "si-multiplicative-v1";
+export const QUANTITY_COMPARISON_POLICY_VERSION: "declared-max-tolerance-v1";
 export function parseUnitExpression(expression: string): ParsedUnitExpression;
 export function normalizeUnitExpression(expression: string): string;
 export function areUnitsCompatible(left: string, right: string): boolean;
@@ -1025,6 +1300,64 @@ export function compilePredicate(
     limits?: Partial<PredicateExpressionLimits>;
   }
 ): PredicatePlan;
+export const PREDICATE_NUMERIC_BINDER_VERSION: "predicate-numeric-binding-v1";
+export const PREDICATE_NUMERIC_BINDING_LIMITS: Readonly<{ maxOperations: 10000 }>;
+export function bindPredicateNumericPolicy(
+  plan: PredicatePlan,
+  precisionPolicy: PrecisionPolicy,
+  options?: { semanticPolicy?: "require-equal" | "ignore" }
+): PredicateNumericBinding;
+export const ORACLE_PROTOCOL_VERSION: "oracle-protocol-v1";
+export const ORACLE_RESPONSE_VALIDATOR_VERSION: "oracle-response-validator-v1";
+export const ORACLE_VALIDATION_LIMITS: Readonly<{
+  maxQuantities: 10000;
+  maxParameters: 10000;
+  maxEvidenceIds: 10000;
+  maxIdentifierLength: 1024;
+}>;
+export function createOracleRequestBinding(request: OracleRequest): OracleRequestBinding;
+export function validateOracleResponse(
+  requestBinding: OracleRequestBinding,
+  response: OracleResponse,
+  options?: {
+    partialPolicy?: PartialOraclePolicy;
+    evidenceIds?: string[];
+  }
+): OracleValidationResult;
+export const SOURCE_CLASSIFICATION_POLICY_VERSION: "source-classification-policy-v1";
+export const SOURCE_NODE_RESOLUTION_POLICY_VERSION: "source-node-resolution-policy-v1";
+export const SOURCE_CLASSIFICATION_VISIBLE_FIELDS: readonly SourceClassificationVisibleField[];
+export const SOURCE_POLICY_LIMITS: Readonly<{
+  maxIdentifierLength: 1024;
+  maxTextLength: 16384;
+  maxListEntries: 1000;
+  maxIndependentClassifiers: 100;
+}>;
+export function freezeSourceClassificationPolicy(
+  policy: SourceClassificationPolicyInput
+): FrozenSourceClassificationPolicy;
+export const SOURCE_CLASSIFICATION_ANNOTATIONS_VERSION: "source-classification-annotations-v1";
+export const SOURCE_CLASSIFICATION_ADJUDICATION_VERSION: "source-classification-adjudication-v1";
+export const SOURCE_CLASSIFICATION_LIMITS: Readonly<{
+  maxRelations: 10000;
+  maxClassifiers: 100;
+  maxAnnotations: 1000000;
+  maxObservationsPerAnnotation: 100;
+  maxIdentifierLength: 1024;
+  maxTextLength: 16384;
+}>;
+export function freezeSourceClassificationAnnotations(
+  policy: FrozenSourceClassificationPolicy,
+  artifact: SourceClassificationAnnotationsInput
+): FrozenSourceClassificationAnnotations;
+export function freezeSourceClassificationAdjudication(
+  policy: FrozenSourceClassificationPolicy,
+  annotations: FrozenSourceClassificationAnnotations,
+  artifact: SourceClassificationAdjudicationInput
+): FrozenSourceClassificationAdjudication;
+export function freezeSourceNodeResolutionPolicy(
+  policy: SourceNodeResolutionPolicyInput
+): FrozenSourceNodeResolutionPolicy;
 
 export const KERNEL_IMPLEMENTATION_STATUS: "foundation-active/predicate-plans-active/closure-not-implemented";
 export const SOURCE_RELATION_KINDS: readonly SourceRelationKind[];
@@ -1107,6 +1440,35 @@ export interface Kernel {
       limits?: Partial<PredicateExpressionLimits>;
     }
   ): PredicatePlan;
+  bindPredicateNumericPolicy(
+    plan: PredicatePlan,
+    precisionPolicy: PrecisionPolicy,
+    options?: { semanticPolicy?: "require-equal" | "ignore" }
+  ): PredicateNumericBinding;
+  createOracleRequestBinding(request: OracleRequest): OracleRequestBinding;
+  validateOracleResponse(
+    requestBinding: OracleRequestBinding,
+    response: OracleResponse,
+    options?: {
+      partialPolicy?: PartialOraclePolicy;
+      evidenceIds?: string[];
+    }
+  ): OracleValidationResult;
+  freezeSourceClassificationPolicy(
+    policy: SourceClassificationPolicyInput
+  ): FrozenSourceClassificationPolicy;
+  freezeSourceClassificationAnnotations(
+    policy: FrozenSourceClassificationPolicy,
+    artifact: SourceClassificationAnnotationsInput
+  ): FrozenSourceClassificationAnnotations;
+  freezeSourceClassificationAdjudication(
+    policy: FrozenSourceClassificationPolicy,
+    annotations: FrozenSourceClassificationAnnotations,
+    artifact: SourceClassificationAdjudicationInput
+  ): FrozenSourceClassificationAdjudication;
+  freezeSourceNodeResolutionPolicy(
+    policy: SourceNodeResolutionPolicyInput
+  ): FrozenSourceNodeResolutionPolicy;
   hash(domain: string, value: JsonValue): ContentHash;
   closeLevel(input?: unknown): Promise<never>;
   closeLadder(input?: unknown): Promise<never>;

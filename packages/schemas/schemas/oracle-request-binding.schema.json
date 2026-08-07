@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/oracle-request-binding.schema.json",
+  "title": "Onto2D Oracle Request Binding",
+  "type": "object",
+  "required": ["schemaVersion", "protocol", "requestHash", "request"],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "protocol": { "const": "oracle-protocol-v1" },
+    "requestHash": { "$ref": "#/$defs/hash" },
+    "request": { "$ref": "oracle-request.schema.json" }
+  },
+  "$defs": {
+    "hash": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" }
+  },
+  "additionalProperties": false
+}
