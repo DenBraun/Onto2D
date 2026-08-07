@@ -1,9 +1,10 @@
 /**
  * Public dependency-free boundary of the Onto2D kernel.
  *
- * The deterministic package and graph-identity foundation is executable.
- * Candidate decoration, predicate evaluation, selection, and closure remain
- * explicit pending capabilities.
+ * The deterministic package, graph-identity, quantity/decimal, typed value and
+ * Boolean analysis, and predicate-plan foundations are executable. Candidate
+ * decoration, expression evaluation, selection, and closure remain explicit
+ * pending capabilities.
  */
 
 export {
@@ -21,6 +22,19 @@ export {
   validationIssue
 } from "./errors.js";
 export {
+  DECIMAL_ARITHMETIC_VERSION,
+  DECIMAL_LIMITS,
+  addDecimals,
+  decimalToNumber,
+  divideDecimals,
+  multiplyDecimals,
+  normalizePrecisionPolicy,
+  parseDecimal,
+  roundDecimal,
+  subtractDecimals,
+  sumDecimals
+} from "./decimal.js";
+export {
   HASH_DOMAINS,
   assertContentHash,
   createCanonicalForm,
@@ -28,6 +42,18 @@ export {
   hashCanonical,
   isContentHash
 } from "./hash.js";
+export {
+  DEFAULT_VALUE_EXPRESSION_LIMITS,
+  VALUE_EXPRESSION_ANALYZER_VERSION,
+  analyzeValueExpression
+} from "./expression-analyzer.js";
+export {
+  DEFAULT_PREDICATE_EXPRESSION_LIMITS,
+  PREDICATE_EXPRESSION_ANALYZER_VERSION,
+  PREDICATE_PLAN_COMPILER_VERSION,
+  analyzePredicateExpression,
+  compilePredicate
+} from "./predicate-analyzer.js";
 export {
   DEFAULT_GRAPH_CANONICALIZATION_LIMITS,
   DEFAULT_GRAPH_POLICY,
@@ -43,12 +69,21 @@ export {
   DEFAULT_CANDIDATE_STORE_LIMITS,
   createCandidateStore
 } from "./candidate-store.js";
+export {
+  UNIT_GRAMMAR_VERSION,
+  areUnitsCompatible,
+  compareQuantities,
+  convertQuantity,
+  normalizeQuantity,
+  normalizeUnitExpression,
+  parseUnitExpression
+} from "./quantity.js";
 export { createKernel, KERNEL_CAPABILITIES } from "./kernel.js";
 export { loadKernelPackage, PACKAGE_DEFAULTS } from "./package-loader.js";
 
 import { KernelNotImplementedError } from "./errors.js";
 
-export const KERNEL_IMPLEMENTATION_STATUS = "foundation-active/closure-not-implemented";
+export const KERNEL_IMPLEMENTATION_STATUS = "foundation-active/predicate-plans-active/closure-not-implemented";
 
 export const SOURCE_RELATION_KINDS = Object.freeze([
   "generative",

@@ -1,7 +1,7 @@
 import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 
-export const CATALOG_ADAPTER_STATUS = "audit-ready/migration-policy-pending";
+export const CATALOG_ADAPTER_STATUS = "audit-implemented/classification-pending";
 
 export function catalogueNodeCode(node) {
   return `${node.Level}.${node.Id}`;

@@ -1,13 +1,13 @@
 # Onto2D
 
-Onto2D is an ontology-backed JavaScript toolkit being refactored into a
-deterministic admissibility-closure kernel for complex-system modelling.
+Onto2D is an ontology-backed JavaScript toolkit with a deterministic
+admissibility-closure kernel for complex-system modelling.
 
 ## Current status
 
-The repository now has a dependency-free Node.js workspace prepared for
-development. Shipped application behavior remains the catalogue-backed legacy
-runtime in `onto2d.js`. The new `@onto2d/kernel` package now implements its
+The repository has a dependency-free Node.js workspace. Shipped application
+behavior remains available through the catalogue-backed compatibility runtime
+in `onto2d.js`. The `@onto2d/kernel` package implements its
 deterministic package and graph-identity foundation, but not candidate
 decoration, predicate evaluation, or closure.
 
@@ -17,6 +17,13 @@ Available foundations include:
 - guarded canonical JSON and domain-separated SHA-256 identities;
 - deterministic `RulePackage` normalization, structural validation, and
   `createKernel().loadPackage()`;
+- versioned multiplicative SI units, canonical quantity conversion, and
+  tolerance-aware comparison;
+- exact decimal arithmetic with declared rounding and accumulation policies;
+- typed value-expression normalization, dimensional inference, dependency
+  extraction, and domain-separated expression/analysis hashes;
+- typed Boolean predicate analysis, conservative monotonicity/partial-data
+  inference, and content-addressed predicate plans;
 - exact refinement/individualization canonicalization for supplied candidate
   graphs, with separate candidate and skeleton identities;
 - bounded connected-unlabeled skeleton enumeration through six nodes and a
@@ -43,10 +50,9 @@ npm run check
 npm run build
 ```
 
-There are no third-party runtime or development dependencies in this bootstrap
-slice. `npm run build` performs the complete readiness validation; packages are
-served directly from checked source, so it does not create a transpiled `dist/`
-tree.
+There are no third-party runtime or development dependencies. `npm run build`
+performs repository validation; packages are served directly from checked
+source, so it does not create a transpiled `dist/` tree.
 
 Additional commands:
 
@@ -68,12 +74,12 @@ See [Development Guide](docs/DEVELOPMENT.md) and
 - `packages/kernel/` — dependency-free model, canonical graph/hash, and package-loader foundation.
 - `packages/schemas/` — versioned machine-readable contracts.
 - `packages/catalog-adapter/` — legacy catalogue loading and read-only audit.
-- `packages/scientific-adapter/` — validated port for future scientific tools.
+- `packages/scientific-adapter/` — validated boundary for external scientific tools.
 - `packages/legacy-runtime/` — compatibility package for `onto2d.js`.
 - `cases/` — research-case source locks and, later, executable fixtures.
 - `scripts/` — zero-dependency repository checks and test orchestration.
 - `test/` — cross-package, legacy, source-lock, and golden fixtures.
-- `docs/` — normative architecture, migration plan, and source accounting.
+- `docs/` — normative architecture, development plan, and design decisions.
 
 The exact current layout and intended growth path are documented in
 [Project Structure](docs/PROJECT_STRUCTURE.md).
@@ -112,15 +118,14 @@ The same API is available through `@onto2d/legacy-runtime` after `npm ci`.
 - [Foundational Paper Analysis](docs/FOUNDATIONAL_PAPER_ANALYSIS.md) —
   page/equation-level analysis of `scr/topology-of-arising.pdf` and
   computational traceability.
-- [Kernel Refactor Plan](docs/KERNEL_REFACTOR_PLAN.md) — staged repository
-  migration, work packages, tests, and delivery gates.
+- [Kernel Development Plan](docs/KERNEL_DEVELOPMENT_PLAN.md) — implementation
+  stages, work packages, tests, and delivery gates.
 - [Kernel Implementation Status](docs/KERNEL_IMPLEMENTATION_STATUS.md) — exact
   implemented and pending runtime boundaries.
 - [Review Guide](docs/REVIEW_GUIDE.md) — review order, decision points, static
   verification record, and deferred execution gates.
-- [Draft/Addendum Omissions, Corrections, and Additions](docs/KERNEL_DRAFT_OMISSIONS.md)
-  — explicit accounting for source material not placed verbatim in the
-  architecture and all addendum dispositions.
+- [Kernel Design Decisions](docs/KERNEL_DESIGN_DECISIONS.md) — decisions,
+  exclusions, and open scientific inputs behind the architecture.
 
 ## Compatibility
 

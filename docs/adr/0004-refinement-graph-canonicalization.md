@@ -40,6 +40,12 @@ policies. Attribute declarations affect identity through the selected
 structural data; non-structural annotations are omitted from canonical content.
 The returned normalized policy belongs in the future run manifest.
 
+Connectivity is not an invariant of the standalone `canonicalizeSkeleton`
+operation: it accepts any non-empty undirected simple graph, including a
+disconnected one. Connectedness is enforced by `enumerateConnectedSkeletons`
+and, for decorated candidates, by the materialized `GraphPolicy`. This keeps
+canonical identity separate from generation admissibility.
+
 The standalone canonicalizer defaults to six nodes, 64 decorated edges, and
 100,000 total search states shared by skeleton and candidate labeling. The edge
 limit is a safety ceiling, not the generator's stricter `n + 2` run budget.

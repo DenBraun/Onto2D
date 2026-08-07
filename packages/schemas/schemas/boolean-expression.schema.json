@@ -1,0 +1,258 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/boolean-expression.schema.json",
+  "title": "Onto2D Predicate Boolean Expression",
+  "type": "object",
+  "properties": {
+    "op": { "$ref": "#/$defs/operator" },
+    "args": { "$ref": "#/$defs/expressionList" },
+    "arg": { "$ref": "boolean-expression.schema.json" },
+    "node": { "$ref": "value-expression.schema.json#/$defs/nodeSelector" },
+    "role": { "$ref": "#/$defs/id" },
+    "roles": { "$ref": "#/$defs/roles" },
+    "min": { "$ref": "#/$defs/nonNegativeInteger" },
+    "max": { "$ref": "#/$defs/nonNegativeInteger" },
+    "projection": { "$ref": "#/$defs/projection" },
+    "minLength": { "$ref": "#/$defs/positiveInteger" },
+    "maxLength": { "$ref": "#/$defs/positiveInteger" },
+    "count": { "$ref": "#/$defs/nonNegativeInteger" },
+    "from": { "$ref": "value-expression.schema.json#/$defs/nodeSelector" },
+    "to": { "$ref": "value-expression.schema.json#/$defs/nodeSelector" },
+    "attribute": { "$ref": "#/$defs/id" },
+    "over": { "$ref": "value-expression.schema.json#/$defs/setSelector" },
+    "tolerance": { "$ref": "quantity.schema.json" },
+    "left": { "$ref": "value-expression.schema.json" },
+    "comparator": { "$ref": "#/$defs/comparator" },
+    "right": { "$ref": "value-expression.schema.json" },
+    "predicate": { "$ref": "boolean-expression.schema.json" },
+    "policy": { "$ref": "#/$defs/id" },
+    "perturbation": { "$ref": "#/$defs/id" },
+    "threshold": { "type": "number", "minimum": 0, "maximum": 1 },
+    "removal": { "enum": ["node", "edge"] }
+  },
+  "oneOf": [
+    { "$ref": "#/$defs/all" },
+    { "$ref": "#/$defs/any" },
+    { "$ref": "#/$defs/not" },
+    { "$ref": "#/$defs/degree" },
+    { "$ref": "#/$defs/cycleExists" },
+    { "$ref": "#/$defs/connected" },
+    { "$ref": "#/$defs/componentCount" },
+    { "$ref": "#/$defs/pathExists" },
+    { "$ref": "#/$defs/countRole" },
+    { "$ref": "#/$defs/balance" },
+    { "$ref": "#/$defs/compare" },
+    { "$ref": "#/$defs/minimal" },
+    { "$ref": "#/$defs/novel" },
+    { "$ref": "#/$defs/stableUnder" },
+    { "$ref": "#/$defs/irreducibleRemoval" }
+  ],
+  "$defs": {
+    "operator": {
+      "enum": [
+        "all",
+        "any",
+        "not",
+        "degree",
+        "cycleExists",
+        "connected",
+        "componentCount",
+        "pathExists",
+        "countRole",
+        "balance",
+        "compare",
+        "minimal",
+        "novel",
+        "stableUnder",
+        "irreducibleRemoval"
+      ]
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1024,
+      "pattern": "^(?:\\S|\\S(?:.*\\S)?)$"
+    },
+    "nonNegativeInteger": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "positiveInteger": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    },
+    "roles": {
+      "type": "array",
+      "maxItems": 256,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/id" }
+    },
+    "projection": {
+      "enum": ["directed", "undirected-simple", "undirected-multigraph"]
+    },
+    "comparator": {
+      "enum": ["eq", "ne", "lt", "lte", "gt", "gte"]
+    },
+    "expressionList": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 10000,
+      "items": { "$ref": "boolean-expression.schema.json" }
+    },
+    "all": {
+      "type": "object",
+      "required": ["op", "args"],
+      "properties": {
+        "op": { "const": "all" },
+        "args": { "$ref": "#/$defs/expressionList" }
+      },
+      "additionalProperties": false
+    },
+    "any": {
+      "type": "object",
+      "required": ["op", "args"],
+      "properties": {
+        "op": { "const": "any" },
+        "args": { "$ref": "#/$defs/expressionList" }
+      },
+      "additionalProperties": false
+    },
+    "not": {
+      "type": "object",
+      "required": ["op", "arg"],
+      "properties": {
+        "op": { "const": "not" },
+        "arg": { "$ref": "boolean-expression.schema.json" }
+      },
+      "additionalProperties": false
+    },
+    "degree": {
+      "type": "object",
+      "required": ["op", "node"],
+      "properties": {
+        "op": { "const": "degree" },
+        "node": { "$ref": "value-expression.schema.json#/$defs/nodeSelector" },
+        "role": { "$ref": "#/$defs/id" },
+        "min": { "$ref": "#/$defs/nonNegativeInteger" },
+        "max": { "$ref": "#/$defs/nonNegativeInteger" }
+      },
+      "anyOf": [{ "required": ["min"] }, { "required": ["max"] }],
+      "additionalProperties": false
+    },
+    "cycleExists": {
+      "type": "object",
+      "required": ["op", "projection"],
+      "properties": {
+        "op": { "const": "cycleExists" },
+        "roles": { "$ref": "#/$defs/roles" },
+        "projection": { "$ref": "#/$defs/projection" },
+        "minLength": { "$ref": "#/$defs/positiveInteger" },
+        "maxLength": { "$ref": "#/$defs/positiveInteger" }
+      },
+      "additionalProperties": false
+    },
+    "connected": {
+      "type": "object",
+      "required": ["op"],
+      "properties": { "op": { "const": "connected" } },
+      "additionalProperties": false
+    },
+    "componentCount": {
+      "type": "object",
+      "required": ["op", "count"],
+      "properties": {
+        "op": { "const": "componentCount" },
+        "count": { "$ref": "#/$defs/nonNegativeInteger" }
+      },
+      "additionalProperties": false
+    },
+    "pathExists": {
+      "type": "object",
+      "required": ["op", "from", "to"],
+      "properties": {
+        "op": { "const": "pathExists" },
+        "from": { "$ref": "value-expression.schema.json#/$defs/nodeSelector" },
+        "to": { "$ref": "value-expression.schema.json#/$defs/nodeSelector" },
+        "roles": { "$ref": "#/$defs/roles" }
+      },
+      "additionalProperties": false
+    },
+    "countRole": {
+      "type": "object",
+      "required": ["op", "role"],
+      "properties": {
+        "op": { "const": "countRole" },
+        "role": { "$ref": "#/$defs/id" },
+        "min": { "$ref": "#/$defs/nonNegativeInteger" },
+        "max": { "$ref": "#/$defs/nonNegativeInteger" }
+      },
+      "anyOf": [{ "required": ["min"] }, { "required": ["max"] }],
+      "additionalProperties": false
+    },
+    "balance": {
+      "type": "object",
+      "required": ["op", "attribute", "over", "tolerance"],
+      "properties": {
+        "op": { "const": "balance" },
+        "attribute": { "$ref": "#/$defs/id" },
+        "over": { "$ref": "value-expression.schema.json#/$defs/setSelector" },
+        "tolerance": { "$ref": "quantity.schema.json" }
+      },
+      "additionalProperties": false
+    },
+    "compare": {
+      "type": "object",
+      "required": ["op", "left", "comparator", "right"],
+      "properties": {
+        "op": { "const": "compare" },
+        "left": { "$ref": "value-expression.schema.json" },
+        "comparator": { "$ref": "#/$defs/comparator" },
+        "right": { "$ref": "value-expression.schema.json" }
+      },
+      "additionalProperties": false
+    },
+    "minimal": {
+      "type": "object",
+      "required": ["op", "predicate"],
+      "properties": {
+        "op": { "const": "minimal" },
+        "predicate": { "$ref": "boolean-expression.schema.json" },
+        "policy": { "$ref": "#/$defs/id" }
+      },
+      "additionalProperties": false
+    },
+    "novel": {
+      "type": "object",
+      "required": ["op", "predicate"],
+      "properties": {
+        "op": { "const": "novel" },
+        "predicate": { "$ref": "boolean-expression.schema.json" }
+      },
+      "additionalProperties": false
+    },
+    "stableUnder": {
+      "type": "object",
+      "required": ["op", "perturbation", "predicate", "threshold"],
+      "properties": {
+        "op": { "const": "stableUnder" },
+        "perturbation": { "$ref": "#/$defs/id" },
+        "predicate": { "$ref": "boolean-expression.schema.json" },
+        "threshold": { "type": "number", "minimum": 0, "maximum": 1 }
+      },
+      "additionalProperties": false
+    },
+    "irreducibleRemoval": {
+      "type": "object",
+      "required": ["op", "predicate", "removal"],
+      "properties": {
+        "op": { "const": "irreducibleRemoval" },
+        "predicate": { "$ref": "boolean-expression.schema.json" },
+        "removal": { "enum": ["node", "edge"] }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

@@ -14,7 +14,7 @@ test("legacy catalogue audit reproduces the reviewed R0 facts", async () => {
   const catalogue = await loadLegacyCatalogue({ catalogueDirectory: path.join(repositoryRoot, "scr") });
   const audit = auditLegacyCatalogue(catalogue);
 
-  assert.equal(CATALOG_ADAPTER_STATUS, "audit-ready/migration-policy-pending");
+  assert.equal(CATALOG_ADAPTER_STATUS, "audit-implemented/classification-pending");
   assert.deepEqual(audit.catalogue, { levelCount: 8, nodeCount: 249, edgeCount: 971 });
   assert.equal(audit.summary.weightSumAnomalyCount, 3);
   assert.equal(audit.summary.nodesWithUncoveredRequirements, 107);

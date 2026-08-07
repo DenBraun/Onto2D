@@ -42,6 +42,16 @@ test("skeleton identity is invariant under endpoint order and node permutation",
   });
 });
 
+test("standalone skeleton canonicalization preserves disconnected simple graphs", () => {
+  const result = canonicalizeSkeleton({
+    nodeCount: 4,
+    edges: [[0, 1], [2, 3]]
+  });
+  assert.equal(result.skeleton.nodeCount, 4);
+  assert.equal(result.skeleton.edges.length, 2);
+  assert.match(result.skeletonId, /^sha256:[a-f0-9]{64}$/);
+});
+
 test("simple skeleton validation rejects loops and duplicate undirected edges", () => {
   assert.throws(
     () => canonicalizeSkeleton({ nodeCount: 2, edges: [[0, 0]] }),

@@ -1,6 +1,10 @@
 import { canonicalClone, canonicalize, deepFreeze } from "./canonical.js";
 import { KernelError, KernelValidationError, validationIssue } from "./errors.js";
 import { HASH_DOMAINS, createCanonicalForm, isContentHash } from "./hash.js";
+import {
+  normalizeQuantity as normalizeRuntimeQuantity,
+  parseUnitExpression
+} from "./quantity.js";
 
 const INPUT_FIELDS = new Set(["id", "domain", "nodes", "edges", "skeleton", "canonicalForm"]);
 const SKELETON_INPUT_FIELDS = new Set(["id", "nodeCount", "edges", "canonicalForm"]);
@@ -244,8 +248,8 @@ function normalizeEvidenceList(value, path, issues) {
   const seen = new Set();
   const result = [];
   value.forEach((entry, index) => {
-    if (typeof entry !== "string" || entry.trim().length === 0) {
-      addIssue(issues, "QUANTITY_PROVENANCE_EVIDENCE_INVALID", `${path}[${index}]`, "Evidence IDs must be non-empty strings.");
+    if (typeof entry !== "string" || entry.trim().length === 0 || entry !== entry.trim()) {
+      addIssue(issues, "QUANTITY_PROVENANCE_EVIDENCE_INVALID", `${path}[${index}]`, "Evidence IDs must be normalized non-empty strings.");
     } else if (seen.has(entry)) {
       addIssue(issues, "QUANTITY_PROVENANCE_EVIDENCE_DUPLICATE", `${path}[${index}]`, "Evidence IDs must be unique.", {
         evidence: entry
@@ -264,9 +268,21 @@ function normalizeQuantity(value, path, issues) {
   if (!Number.isFinite(value.value)) {
     addIssue(issues, "QUANTITY_VALUE_INVALID", `${path}.value`, "Quantity value must be finite.", { value: value.value });
   }
-  requireIdentifier(value.unit, `${path}.unit`, issues, "QUANTITY_UNIT_INVALID");
-  if (typeof value.semantic !== "string" || value.semantic.trim().length === 0) {
-    addIssue(issues, "QUANTITY_SEMANTIC_INVALID", `${path}.semantic`, "Quantity semantic must be a non-empty string.");
+  let parsedUnit = null;
+  if (requireIdentifier(value.unit, `${path}.unit`, issues, "QUANTITY_UNIT_INVALID")) {
+    try {
+      parsedUnit = parseUnitExpression(value.unit);
+    } catch (error) {
+      if (!(error instanceof KernelError) || error.stage !== "QUANTITY") throw error;
+      addIssue(issues, error.code, `${path}.unit`, error.message, error.details);
+    }
+  }
+  if (
+    typeof value.semantic !== "string" ||
+    value.semantic.trim().length === 0 ||
+    value.semantic !== value.semantic.trim()
+  ) {
+    addIssue(issues, "QUANTITY_SEMANTIC_INVALID", `${path}.semantic`, "Quantity semantic must be a normalized non-empty string.");
   }
 
   const tolerance = {};
@@ -340,11 +356,38 @@ function normalizeQuantity(value, path, issues) {
     }
   }
 
+  let normalizedValue = Object.is(value.value, -0) ? 0 : value.value;
+  let normalizedUnit = typeof value.unit === "string" ? value.unit.trim() : value.unit;
+  let normalizedTolerance = tolerance;
+  if (
+    parsedUnit &&
+    Number.isFinite(value.value) &&
+    Object.keys(tolerance).length > 0 &&
+    typeof value.semantic === "string" &&
+    value.semantic.trim().length > 0
+  ) {
+    try {
+      const normalized = normalizeRuntimeQuantity({
+        value: normalizedValue,
+        unit: normalizedUnit,
+        tolerance,
+        semantic: value.semantic.trim(),
+        provenance
+      });
+      normalizedValue = normalized.value;
+      normalizedUnit = normalized.unit;
+      normalizedTolerance = normalized.tolerance;
+    } catch (error) {
+      if (!(error instanceof KernelError) || error.stage !== "QUANTITY") throw error;
+      addIssue(issues, error.code, path, error.message, error.details);
+    }
+  }
+
   return {
-    value: Object.is(value.value, -0) ? 0 : value.value,
-    unit: typeof value.unit === "string" ? value.unit.trim() : value.unit,
-    tolerance,
-    semantic: typeof value.semantic === "string" ? value.semantic.trim() : value.semantic,
+    value: normalizedValue,
+    unit: normalizedUnit,
+    tolerance: normalizedTolerance,
+    semantic: value.semantic,
     provenance
   };
 }

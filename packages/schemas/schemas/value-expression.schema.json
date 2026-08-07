@@ -1,0 +1,179 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/value-expression.schema.json",
+  "title": "Onto2D Value Expression",
+  "type": "object",
+  "properties": {
+    "kind": { "enum": ["constant", "invariant", "count", "sum", "add", "multiply", "coefficient"] },
+    "value": {},
+    "name": { "$ref": "#/$defs/id" },
+    "node": { "$ref": "#/$defs/nodeSelector" },
+    "set": { "$ref": "#/$defs/setSelector" },
+    "attribute": { "$ref": "#/$defs/id" },
+    "terms": { "$ref": "#/$defs/expressionList" },
+    "factors": { "$ref": "#/$defs/expressionList" }
+  },
+  "oneOf": [
+    {
+      "type": "object",
+      "required": ["kind", "value"],
+      "properties": {
+        "kind": { "const": "constant" },
+        "value": {
+          "oneOf": [
+            { "$ref": "#/$defs/scalar" },
+            { "$ref": "quantity.schema.json" }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": ["kind", "name"],
+      "properties": {
+        "kind": { "const": "invariant" },
+        "name": { "$ref": "#/$defs/id" },
+        "node": { "$ref": "#/$defs/nodeSelector" }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": ["kind", "set"],
+      "properties": {
+        "kind": { "const": "count" },
+        "set": { "$ref": "#/$defs/setSelector" }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": ["kind", "attribute", "set"],
+      "properties": {
+        "kind": { "const": "sum" },
+        "attribute": { "$ref": "#/$defs/id" },
+        "set": { "$ref": "#/$defs/setSelector" }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": ["kind", "terms"],
+      "properties": {
+        "kind": { "const": "add" },
+        "terms": { "$ref": "#/$defs/expressionList" }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": ["kind", "factors"],
+      "properties": {
+        "kind": { "const": "multiply" },
+        "factors": { "$ref": "#/$defs/expressionList" }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": ["kind", "name"],
+      "properties": {
+        "kind": { "const": "coefficient" },
+        "name": { "$ref": "#/$defs/id" }
+      },
+      "additionalProperties": false
+    }
+  ],
+  "$defs": {
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1024,
+      "pattern": "^(?:\\S|\\S(?:.*\\S)?)$"
+    },
+    "scalar": {
+      "oneOf": [
+        { "type": "null" },
+        { "type": "boolean" },
+        { "type": "number" },
+        { "type": "string", "maxLength": 1024 }
+      ]
+    },
+    "expressionList": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 10000,
+      "items": { "$ref": "value-expression.schema.json" }
+    },
+    "roles": {
+      "type": "array",
+      "maxItems": 256,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/id" }
+    },
+    "nodeSelector": {
+      "type": "object",
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["kind", "index"],
+          "properties": {
+            "kind": { "const": "canonical-index" },
+            "index": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["kind"],
+          "properties": { "kind": { "const": "all" } },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["kind", "attribute", "equals"],
+          "properties": {
+            "kind": { "const": "where" },
+            "attribute": { "$ref": "#/$defs/id" },
+            "equals": { "$ref": "#/$defs/scalar" }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "setSelector": {
+      "type": "object",
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["kind", "selector"],
+          "properties": {
+            "kind": { "const": "nodes" },
+            "selector": { "$ref": "#/$defs/nodeSelector" }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["kind"],
+          "properties": {
+            "kind": { "const": "edges" },
+            "roles": { "$ref": "#/$defs/roles" }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["kind"],
+          "properties": {
+            "kind": { "const": "cycle" },
+            "roles": { "$ref": "#/$defs/roles" }
+          },
+          "additionalProperties": false
+        }
+      ]
+    }
+  },
+  "additionalProperties": false
+}

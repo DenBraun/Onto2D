@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/decimal-value.schema.json",
+  "title": "Onto2D Canonical Decimal Value",
+  "type": "object",
+  "required": ["arithmetic", "coefficient", "scale", "canonical"],
+  "properties": {
+    "arithmetic": { "const": "decimal-rational-v1" },
+    "coefficient": {
+      "type": "string",
+      "maxLength": 2049,
+      "pattern": "^(?:0|-?[1-9](?:[0-9]*[1-9])?)$"
+    },
+    "scale": { "type": "integer", "minimum": -1024, "maximum": 1024 },
+    "canonical": {
+      "type": "string",
+      "maxLength": 4096,
+      "pattern": "^(?:0|-?(?:[1-9][0-9]*|0\\.[0-9]*[1-9]|[1-9][0-9]*\\.[0-9]*[1-9]))$"
+    }
+  },
+  "additionalProperties": false
+}

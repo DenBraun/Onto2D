@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/decimal-accumulation.schema.json",
+  "title": "Onto2D Decimal Accumulation",
+  "type": "object",
+  "required": ["arithmetic", "policy", "termCount", "exact", "value"],
+  "properties": {
+    "arithmetic": { "const": "decimal-rational-v1" },
+    "policy": { "$ref": "precision-policy.schema.json" },
+    "termCount": { "type": "integer", "minimum": 0, "maximum": 100000 },
+    "exact": { "type": "boolean" },
+    "value": { "$ref": "decimal-value.schema.json" }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "policy": {
+            "properties": { "summation": { "const": "exact-decimal" } },
+            "required": ["summation"]
+          }
+        }
+      },
+      "then": { "properties": { "exact": { "const": true } } },
+      "else": { "properties": { "exact": { "const": false } } }
+    }
+  ],
+  "additionalProperties": false
+}

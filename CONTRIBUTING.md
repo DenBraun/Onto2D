@@ -13,7 +13,7 @@ npm run check
 ```
 
 Use Node.js 20 or newer. The repository intentionally has no third-party
-dependencies in the bootstrap slice.
+third-party dependencies in the current repository.
 
 ## Change rules
 

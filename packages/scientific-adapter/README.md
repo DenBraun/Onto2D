@@ -7,5 +7,5 @@ that claims in the foundational paper are already operationalized.
 An adapter must expose the normalized solver identity fields `id`, `version`,
 and `method`, and provide an asynchronous `evaluate(request)` operation. These
 fields bind directly to the normative Oracle request/response contract.
-Requests and responses are validated against `@onto2d/schemas` by the future
+Requests and responses are validated against `@onto2d/schemas` by the
 orchestration layer.

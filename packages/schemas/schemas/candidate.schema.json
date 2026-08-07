@@ -32,7 +32,7 @@
     },
     "attributes": {
       "type": "object",
-      "propertyNames": { "minLength": 1 },
+      "propertyNames": { "$ref": "#/$defs/normalizedString" },
       "additionalProperties": { "$ref": "#/$defs/attributeValue" }
     },
     "node": {
@@ -48,9 +48,9 @@
       "type": "object",
       "required": ["from", "to", "role"],
       "properties": {
-        "from": { "type": "integer", "minimum": 0 },
-        "to": { "type": "integer", "minimum": 0 },
-        "role": { "type": "string", "minLength": 1 },
+        "from": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
+        "to": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
+        "role": { "$ref": "#/$defs/normalizedString" },
         "attrs": { "$ref": "#/$defs/attributes" }
       },
       "additionalProperties": false
@@ -64,6 +64,11 @@
         "hash": { "$ref": "#/$defs/contentHash" }
       },
       "additionalProperties": false
+    },
+    "normalizedString": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?:\\S|\\S(?:.*\\S)?)$"
     }
   },
   "additionalProperties": false

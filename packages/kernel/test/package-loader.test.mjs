@@ -47,7 +47,7 @@ function quantity(value, unit, semantic, evidence = []) {
 function addSelectorFixture(source, { amplitude = 0.1, epsilonUnit = "1" } = {}) {
   source.functionals = [{
     id: "score",
-    expr: { kind: "constant" },
+    expr: { kind: "constant", value: 0 },
     coefficients: {},
     sensitivityCoefficients: [],
     result: {
@@ -91,6 +91,7 @@ test("package loading materializes defaults and stable semantic identities", () 
   assert.equal(first.normalized.ontologyAxes.levelPolicy, "declared");
   assert.ok(first.normalized.primitives.every((entry) => entry.elementId.startsWith("sha256:")));
   assert.ok(Object.isFrozen(first));
+  assert.throws(() => loadKernelPackage(validPackage(), { unknown: true }), TypeError);
 });
 
 test("package loading rejects current-depth predicate references", () => {
@@ -154,6 +155,30 @@ test("package loading rejects malformed quantities before identity hashing", () 
     () => loadKernelPackage(source),
     (error) => error instanceof KernelValidationError &&
       error.issues.some((issue) => issue.code === "QUANTITY_TOLERANCE_MISSING")
+  );
+
+  const overflowing = validPackage();
+  overflowing.primitives[0].invariants.distance = quantity(1e308, "km", "fixture distance");
+  assert.throws(
+    () => loadKernelPackage(overflowing),
+    (error) => error instanceof KernelValidationError &&
+      error.issues.some((issue) => issue.code === "QUANTITY_CONVERSION_OVERFLOW")
+  );
+
+  const underflowing = validPackage();
+  underflowing.primitives[0].invariants.distance = quantity(Number.MIN_VALUE, "cm", "fixture distance");
+  assert.throws(
+    () => loadKernelPackage(underflowing),
+    (error) => error instanceof KernelValidationError &&
+      error.issues.some((issue) => issue.code === "QUANTITY_CONVERSION_UNDERFLOW")
+  );
+
+  const paddedSemantic = validPackage();
+  paddedSemantic.primitives[0].invariants.distance = quantity(1, "m", " fixture distance ");
+  assert.throws(
+    () => loadKernelPackage(paddedSemantic),
+    (error) => error instanceof KernelValidationError &&
+      error.issues.some((issue) => issue.code === "PACKAGE_IDENTIFIER_NOT_NORMALIZED")
   );
 });
 
@@ -259,6 +284,43 @@ test("selector epsilon uses the functional result unit", () => {
     (error) => error instanceof KernelValidationError &&
       error.issues.some((issue) => issue.code === "QUANTITY_UNIT_INCOMPATIBLE")
   );
+});
+
+test("package loading normalizes compatible quantity units before hashing", () => {
+  const centimeters = validPackage();
+  centimeters.primitives[0].invariants.length = quantity(100, "cm", "fixture length");
+  centimeters.primitives[0].profile.invariantVector = [{
+    semantic: "fixture length",
+    normalized: quantity(100, "cm", "fixture length"),
+    quantization: quantity(0.01, "m", "fixture length quantization")
+  }];
+  addSelectorFixture(centimeters, { epsilonUnit: "1" });
+
+  const meters = structuredClone(centimeters);
+  meters.primitives[0].invariants.length = quantity(1, "m", "fixture length");
+  meters.primitives[0].profile.invariantVector[0].normalized = quantity(1, "m", "fixture length");
+
+  const first = loadKernelPackage(centimeters);
+  const second = loadKernelPackage(meters);
+  const normalized = first.normalized.primitives.find((entry) => entry.sourceId === "source-b");
+
+  assert.equal(normalized.invariants.length.value, 1);
+  assert.equal(normalized.invariants.length.unit, "m");
+  assert.equal(first.packageId, second.packageId);
+});
+
+test("quantity specifications convert absolute tolerance with their unit", () => {
+  const source = validPackage();
+  addSelectorFixture(source);
+  source.functionals[0].result.unit = "cm";
+  source.functionals[0].result.semantic = "fixture length";
+  source.functionals[0].result.toleranceTarget = { absolute: 1 };
+  source.functionals[0].expr = { kind: "constant", value: quantity(0, "cm", "fixture length") };
+  source.selectors[0].epsilon = quantity(0, "m", "fixture length equivalence");
+
+  const loaded = loadKernelPackage(source);
+  assert.equal(loaded.normalized.functionals[0].result.unit, "m");
+  assert.equal(loaded.normalized.functionals[0].result.toleranceTarget.absolute, 0.01);
 });
 
 test("source migration cannot bypass unfinished reconciliation", () => {

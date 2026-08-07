@@ -7,7 +7,7 @@
 - Git.
 
 The workspace uses Node built-ins and npm workspaces only. No global build tool
-or external service is required for the bootstrap checks.
+or external service is required for the repository checks.
 
 ## Setup and verification
 
@@ -22,7 +22,7 @@ npm run build
 `*.test.js`, `*.test.mjs`, and `*.test.cjs` file outside ignored/generated
 directories. `npm run check` performs syntax and manifest validation, package
 boundary checks, schema/reference checks, Markdown link/fence checks, and the
-golden catalogue audit. `npm run build` runs the same readiness gate and then
+golden catalogue audit. `npm run build` runs the same validation and then
 confirms that no transpilation is required.
 
 Focused commands:
@@ -50,7 +50,19 @@ change as a semantic migration.
 The public architecture is normative. Canonical JSON, domain-separated hashes,
 package normalization/validation, primitive/profile identity, rules hash,
 depth-basis hash, and exact supplied-candidate graph canonicalization now form
-the first runtime layer. Canonical candidate work must preserve node/edge
+the first runtime layer. The quantity runtime additionally normalizes
+multiplicative SI-compatible values and absolute tolerances before hashing and
+comparison under [ADR-0006](adr/0006-multiplicative-si-quantities.md).
+Exact decimal arithmetic, declared rounding, and exact/compensated accumulation
+follow [ADR-0007](adr/0007-deterministic-decimal-arithmetic.md).
+Typed value-expression normalization, dependency extraction, dimensional
+inference, and analysis hashing follow
+[ADR-0008](adr/0008-typed-value-expression-analysis.md). Analysis does not
+authorize candidate-data access or expression execution.
+Boolean predicate analysis, persistence/detectability inference, and compiled
+plan hashes follow [ADR-0009](adr/0009-predicate-analysis-and-plans.md). A plan
+does not evaluate a predicate or authorize unproved partial pruning.
+Canonical candidate work must preserve node/edge
 permutation invariance, the structural-attribute projection, reversible index
 mappings, and the hard search budget in
 [ADR-0004](adr/0004-refinement-graph-canonicalization.md). The exact boundary
@@ -64,7 +76,7 @@ store or any budget-exhausted result is deliberately non-interpretable.
 
 Add further implementation only with the corresponding schema/type contract,
 positive and negative fixture, deterministic artifact rule, and acceptance test
-from the [Kernel Refactor Plan](KERNEL_REFACTOR_PLAN.md). Do not bypass the
+from the [Kernel Development Plan](KERNEL_DEVELOPMENT_PLAN.md). Do not bypass the
 loader by constructing a “loaded” package manually.
 
 The kernel package may use Node built-ins but has no package dependencies. UI,

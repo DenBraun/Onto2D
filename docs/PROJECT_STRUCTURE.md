@@ -1,7 +1,7 @@
 # Onto2D Project Structure
 
-Status: implemented bootstrap layout and deterministic kernel package
-foundation with explicit future extension points.
+Status: current package layout and deterministic kernel foundation with
+explicit extension points.
 
 ## Dependency direction
 
@@ -21,8 +21,8 @@ legacy-runtime --> onto2d.js
 `@onto2d/kernel` is the innermost executable boundary and remains free of
 package dependencies. Schemas are transport contracts. Adapters translate
 external formats or scientific implementations inward; the kernel never imports
-them. The legacy runtime is isolated until its behavior can be migrated with
-compatibility evidence.
+them. The compatibility runtime remains isolated from the kernel and retains
+its existing behavior contract.
 
 ## Current tree
 
@@ -39,12 +39,12 @@ Onto2D/
 │   ├── PROJECT_STRUCTURE.md
 │   ├── KERNEL_ARCHITECTURE.md
 │   ├── KERNEL_IMPLEMENTATION_STATUS.md
-│   ├── KERNEL_REFACTOR_PLAN.md
-│   ├── KERNEL_DRAFT_OMISSIONS.md
+│   ├── KERNEL_DEVELOPMENT_PLAN.md
+│   ├── KERNEL_DESIGN_DECISIONS.md
 │   ├── REVIEW_GUIDE.md
 │   └── FOUNDATIONAL_PAPER_ANALYSIS.md
 ├── packages/
-│   ├── kernel/                 # model, graph identity, skeleton enumeration/store
+│   ├── kernel/                 # model, graph identity, quantities, expressions, enumeration/store
 │   ├── schemas/                # JSON Schema Draft 2020-12 contracts
 │   ├── catalog-adapter/        # legacy loader and read-only graph audit
 │   ├── scientific-adapter/     # validated external-computation port
@@ -77,8 +77,7 @@ Onto2D/
 
 ## Growth sequence
 
-The directories are prepared so implementation can grow without another
-top-level reshuffle:
+Implementation grows through the following sequence:
 
 1. complete R0 checks and compatibility coverage;
 2. execute and harden the implemented model/load/canonical/hash foundation;
@@ -86,11 +85,13 @@ top-level reshuffle:
    freeze its golden byte fixtures;
 4. review skeleton reference counts/store truncation, then add deterministic
    candidate decoration;
-5. freeze source-classification and node-resolution ADRs before migration;
-6. add migration fixtures to `packages/catalog-adapter/test/fixtures`;
-7. expand `cases/level-0-oscillator` only when quantities and evidence are
+5. bind precision/tolerance policy to compiled numeric operations and validate
+   Oracle request/response contracts without invoking a solver;
+6. freeze source-classification and node-resolution ADRs before migration;
+7. add migration fixtures to `packages/catalog-adapter/test/fixtures`;
+8. expand `cases/level-0-oscillator` only when quantities and evidence are
    operationally defined;
-8. add applications after kernel artifact contracts stabilize.
+9. add applications after kernel artifact contracts stabilize.
 
 Catalogue files remain in `scr/` during early stages. Moving them under a
-`legacy/` tree is a later compatibility change, not a bootstrap requirement.
+`legacy/` tree is optional and is not required by the kernel architecture.

@@ -1,9 +1,29 @@
-import { canonicalize } from "./canonical.js";
+import { canonicalClone, canonicalize } from "./canonical.js";
 import { createCandidateStore } from "./candidate-store.js";
+import {
+  addDecimals,
+  decimalToNumber,
+  divideDecimals,
+  multiplyDecimals,
+  normalizePrecisionPolicy,
+  parseDecimal,
+  roundDecimal,
+  subtractDecimals,
+  sumDecimals
+} from "./decimal.js";
 import { KernelNotImplementedError } from "./errors.js";
+import { analyzeValueExpression } from "./expression-analyzer.js";
 import { canonicalizeCandidate, canonicalizeSkeleton } from "./graph-canonicalizer.js";
 import { hashCanonical } from "./hash.js";
 import { loadKernelPackage } from "./package-loader.js";
+import { analyzePredicateExpression, compilePredicate } from "./predicate-analyzer.js";
+import {
+  compareQuantities,
+  convertQuantity,
+  normalizeQuantity,
+  normalizeUnitExpression,
+  parseUnitExpression
+} from "./quantity.js";
 import { enumerateConnectedSkeletons } from "./skeleton-enumerator.js";
 
 const IMPLEMENTED_CAPABILITIES = Object.freeze([
@@ -16,6 +36,15 @@ const IMPLEMENTED_CAPABILITIES = Object.freeze([
   "skeleton-content-addressing",
   "connected-skeleton-enumeration",
   "candidate-deduplication-store",
+  "unit-grammar",
+  "quantity-normalization",
+  "tolerance-aware-comparison",
+  "decimal-rational-arithmetic",
+  "deterministic-decimal-rounding",
+  "numeric-accumulation",
+  "typed-value-expression-analysis",
+  "boolean-expression-analysis",
+  "predicate-plan-compilation",
   "depth-basis-hash",
   "rules-hash"
 ]);
@@ -28,6 +57,7 @@ const PENDING_CAPABILITIES = Object.freeze([
   "sensitivity-analysis",
   "profile-collapse",
   "level-boundary-detection",
+  "oracle-response-validation",
   "closure",
   "explanation-index"
 ]);
@@ -42,7 +72,11 @@ export function createKernel(options = {}) {
   if (!options || typeof options !== "object" || Array.isArray(options)) {
     throw new TypeError("Kernel options must be an object.");
   }
-  const version = options.version === undefined ? "0.1.0" : options.version;
+  const safeOptions = canonicalClone(options);
+  if (Object.keys(safeOptions).some((field) => field !== "version")) {
+    throw new TypeError("Unknown kernel option.");
+  }
+  const version = safeOptions.version === undefined ? "0.1.0" : safeOptions.version;
   if (typeof version !== "string" || version.trim().length === 0) {
     throw new TypeError("Kernel version must be a non-empty string.");
   }
@@ -61,6 +95,23 @@ export function createKernel(options = {}) {
     canonicalizeSkeleton,
     createCandidateStore,
     enumerateConnectedSkeletons,
+    parseUnitExpression,
+    normalizeUnitExpression,
+    normalizeQuantity,
+    convertQuantity,
+    compareQuantities,
+    parseDecimal,
+    normalizePrecisionPolicy,
+    addDecimals,
+    subtractDecimals,
+    multiplyDecimals,
+    divideDecimals,
+    roundDecimal,
+    sumDecimals,
+    decimalToNumber,
+    analyzeValueExpression,
+    analyzePredicateExpression,
+    compilePredicate,
     hash(domain, value) {
       return hashCanonical(domain, value);
     },

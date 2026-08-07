@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/precision-policy.schema.json",
+  "title": "Onto2D Precision Policy",
+  "type": "object",
+  "required": ["id", "decimalPlaces", "rounding", "summation"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?:\\S|\\S(?:.*\\S)?)$"
+    },
+    "decimalPlaces": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 256,
+      "$comment": "Bounded by decimal-rational-v1 resource policy."
+    },
+    "rounding": { "enum": ["half-even", "half-up", "toward-zero"] },
+    "summation": { "enum": ["exact-decimal", "compensated-binary64"] }
+  },
+  "additionalProperties": false
+}

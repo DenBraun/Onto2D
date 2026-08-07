@@ -1,0 +1,237 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/predicate-plan.schema.json",
+  "title": "Onto2D Compiled Predicate Plan",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "compiler",
+    "planHash",
+    "predicateId",
+    "phase",
+    "referencesDepth",
+    "monotoneViolation",
+    "expressionAnalysisHash",
+    "pruning",
+    "expressionHash",
+    "expression",
+    "requirements",
+    "symbols",
+    "truthPersistence",
+    "partialDetectability",
+    "statistics"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "compiler": { "const": "predicate-plan-v1" },
+    "planHash": { "$ref": "#/$defs/hash" },
+    "predicateId": { "$ref": "#/$defs/id" },
+    "phase": { "enum": ["formation", "maintenance", "termination"] },
+    "referencesDepth": { "enum": ["below", "self"] },
+    "monotoneViolation": { "type": "boolean" },
+    "expressionAnalysisHash": { "$ref": "#/$defs/hash" },
+    "pruning": {
+      "type": "object",
+      "required": ["declared", "staticFailurePersistence", "partialFailureDetectable", "auditRequired", "eligibility"],
+      "properties": {
+        "declared": { "type": "boolean" },
+        "staticFailurePersistence": { "$ref": "#/$defs/persistence" },
+        "partialFailureDetectable": { "type": "boolean" },
+        "auditRequired": { "type": "boolean" },
+        "eligibility": { "enum": ["disabled", "static-proven", "blocked-unproven", "blocked-partial-data"] }
+      },
+      "additionalProperties": false
+    },
+    "expressionHash": { "$ref": "#/$defs/hash" },
+    "expression": { "$ref": "boolean-expression.schema.json" },
+    "requirements": { "$ref": "#/$defs/requirements" },
+    "symbols": { "$ref": "#/$defs/symbols" },
+    "truthPersistence": { "$ref": "#/$defs/truthPersistence" },
+    "partialDetectability": { "$ref": "#/$defs/detectability" },
+    "statistics": {
+      "type": "object",
+      "required": ["nodes", "maxDepth", "valueExpressions", "substructureCombinators", "maxSubstructureNesting"],
+      "properties": {
+        "nodes": { "type": "integer", "minimum": 1, "maximum": 10000 },
+        "maxDepth": { "type": "integer", "minimum": 1, "maximum": 64 },
+        "valueExpressions": { "type": "integer", "minimum": 0, "maximum": 20000 },
+        "substructureCombinators": { "type": "integer", "minimum": 0, "maximum": 10000 },
+        "maxSubstructureNesting": { "type": "integer", "minimum": 0, "maximum": 8 }
+      },
+      "additionalProperties": false
+    }
+  },
+  "$defs": {
+    "hash": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1024,
+      "pattern": "^(?:\\S|\\S(?:.*\\S)?)$"
+    },
+    "persistence": { "enum": ["proven", "not-proven"] },
+    "stringList": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/id" }
+    },
+    "projectionList": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "enum": ["directed", "undirected-simple", "undirected-multigraph"] }
+    },
+    "operatorList": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "all",
+          "any",
+          "not",
+          "degree",
+          "cycleExists",
+          "connected",
+          "componentCount",
+          "pathExists",
+          "countRole",
+          "balance",
+          "compare",
+          "minimal",
+          "novel",
+          "stableUnder",
+          "irreducibleRemoval"
+        ]
+      }
+    },
+    "witnessKindList": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "node",
+          "edge",
+          "path",
+          "cycle",
+          "substructure",
+          "perturbation",
+          "quantity",
+          "cohort",
+          "evidence",
+          "source-relation",
+          "cluster"
+        ]
+      }
+    },
+    "hashList": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/hash" }
+    },
+    "requirements": {
+      "type": "object",
+      "required": [
+        "invariants",
+        "attributes",
+        "roles",
+        "perturbations",
+        "substructurePolicies",
+        "graphProjections",
+        "operators",
+        "valueExpressionHashes",
+        "witnessKinds",
+        "usesDefaultSubstructurePolicy"
+      ],
+      "properties": {
+        "invariants": { "$ref": "#/$defs/stringList" },
+        "attributes": { "$ref": "#/$defs/stringList" },
+        "roles": { "$ref": "#/$defs/stringList" },
+        "perturbations": { "$ref": "#/$defs/stringList" },
+        "substructurePolicies": { "$ref": "#/$defs/stringList" },
+        "graphProjections": { "$ref": "#/$defs/projectionList" },
+        "operators": { "$ref": "#/$defs/operatorList" },
+        "valueExpressionHashes": { "$ref": "#/$defs/hashList" },
+        "witnessKinds": { "$ref": "#/$defs/witnessKindList" },
+        "usesDefaultSubstructurePolicy": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    },
+    "numericSymbol": {
+      "type": "object",
+      "required": ["kind", "unit", "dimensionSignature", "dimensions"],
+      "properties": {
+        "kind": { "enum": ["number", "quantity"] },
+        "unit": { "type": "string", "minLength": 1 },
+        "dimensionSignature": {
+          "type": "string",
+          "pattern": "^-?(?:0|[1-9][0-9]*)(?::-?(?:0|[1-9][0-9]*)){6}$"
+        },
+        "dimensions": {
+          "type": "object",
+          "properties": {
+            "kg": { "$ref": "#/$defs/dimensionExponent" },
+            "m": { "$ref": "#/$defs/dimensionExponent" },
+            "s": { "$ref": "#/$defs/dimensionExponent" },
+            "A": { "$ref": "#/$defs/dimensionExponent" },
+            "K": { "$ref": "#/$defs/dimensionExponent" },
+            "mol": { "$ref": "#/$defs/dimensionExponent" },
+            "cd": { "$ref": "#/$defs/dimensionExponent" }
+          },
+          "additionalProperties": false
+        },
+        "semantic": { "$ref": "#/$defs/id" }
+      },
+      "additionalProperties": false
+    },
+    "dimensionExponent": {
+      "type": "integer",
+      "minimum": -16,
+      "maximum": 16,
+      "not": { "const": 0 }
+    },
+    "scalarSymbol": {
+      "type": "object",
+      "required": ["kind"],
+      "properties": { "kind": { "enum": ["string", "boolean", "null"] } },
+      "additionalProperties": false
+    },
+    "symbol": {
+      "oneOf": [
+        { "$ref": "#/$defs/numericSymbol" },
+        { "$ref": "#/$defs/scalarSymbol" }
+      ]
+    },
+    "symbolRecord": {
+      "type": "object",
+      "propertyNames": { "$ref": "#/$defs/id" },
+      "additionalProperties": { "$ref": "#/$defs/symbol" }
+    },
+    "symbols": {
+      "type": "object",
+      "required": ["invariants", "attributes"],
+      "properties": {
+        "invariants": { "$ref": "#/$defs/symbolRecord" },
+        "attributes": { "$ref": "#/$defs/symbolRecord" }
+      },
+      "additionalProperties": false
+    },
+    "truthPersistence": {
+      "type": "object",
+      "required": ["pass", "fail"],
+      "properties": {
+        "pass": { "$ref": "#/$defs/persistence" },
+        "fail": { "$ref": "#/$defs/persistence" }
+      },
+      "additionalProperties": false
+    },
+    "detectability": {
+      "type": "object",
+      "required": ["pass", "fail"],
+      "properties": {
+        "pass": { "type": "boolean" },
+        "fail": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

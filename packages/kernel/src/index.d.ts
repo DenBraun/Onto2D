@@ -61,10 +61,9 @@ export interface Claim {
   evidence: string[];
 }
 
-export interface Tolerance {
-  absolute?: number;
-  relative?: number;
-}
+export type Tolerance =
+  | { absolute: number; relative?: number }
+  | { absolute?: number; relative: number };
 
 export type QuantityProvenance =
   | { kind: "declared"; evidence: string[] }
@@ -78,6 +77,68 @@ export interface Quantity {
   semantic: string;
   provenance: QuantityProvenance;
 }
+
+export type SIBaseUnit = "kg" | "m" | "s" | "A" | "K" | "mol" | "cd";
+
+export interface ParsedUnitExpression {
+  grammar: "si-multiplicative-v1";
+  expression: string;
+  canonicalUnit: string;
+  dimensionSignature: string;
+  dimensions: Partial<Record<SIBaseUnit, number>>;
+  scale: number;
+}
+
+export type QuantityComparator = "eq" | "ne" | "lt" | "lte" | "gt" | "gte";
+
+export interface QuantityComparison {
+  comparator: QuantityComparator;
+  pass: boolean;
+  equivalent: boolean;
+  relation: -1 | 0 | 1;
+  unit: string;
+  leftValue: number;
+  rightValue: number;
+  difference: number;
+  effectiveTolerance: number;
+  semanticPolicy: "require-equal" | "ignore";
+}
+
+export interface DecimalValue {
+  arithmetic: "decimal-rational-v1";
+  coefficient: string;
+  scale: number;
+  canonical: string;
+}
+
+export type DecimalInput = number | bigint | string | DecimalValue;
+
+export interface DecimalLimits {
+  maxInputCharacters: number;
+  maxInputSignificantDigits: number;
+  maxResultSignificantDigits: number;
+  maxAbsoluteScale: number;
+  maxDecimalPlaces: number;
+  maxPowerOfTen: number;
+  maxTerms: number;
+  maxCanonicalCharacters: number;
+}
+
+export type DecimalAccumulation =
+  | {
+      arithmetic: "decimal-rational-v1";
+      policy: Readonly<PrecisionPolicy & { summation: "exact-decimal" }>;
+      termCount: number;
+      exact: true;
+      value: DecimalValue;
+    }
+  | {
+      arithmetic: "decimal-rational-v1";
+      policy: Readonly<PrecisionPolicy & { summation: "compensated-binary64" }>;
+      termCount: number;
+      exact: false;
+      value: DecimalValue;
+    };
 
 export type OntologyPhase = "A" | "B" | "C" | "D" | `custom:${string}`;
 
@@ -163,14 +224,206 @@ export interface Predicate {
   phase: "formation" | "maintenance" | "termination";
   monotoneViolation: boolean;
   referencesDepth: "below" | "self";
-  expr: { op: string; [key: string]: JsonValue };
+  expr: BooleanExpression;
   explain: { pass: string; fail: string; indeterminate: string };
   claimRefs: string[];
 }
 
-export interface ValueExpression {
-  kind: string;
-  [key: string]: JsonValue;
+export type NodeSelector =
+  | { kind: "canonical-index"; index: number }
+  | { kind: "all" }
+  | { kind: "where"; attribute: string; equals: JsonPrimitive };
+
+export type SetSelector =
+  | { kind: "nodes"; selector: NodeSelector }
+  | { kind: "edges"; roles?: string[] }
+  | { kind: "cycle"; roles?: string[] };
+
+export type ValueExpression =
+  | { kind: "constant"; value: JsonPrimitive | Quantity }
+  | { kind: "invariant"; name: string; node?: NodeSelector }
+  | { kind: "count"; set: SetSelector }
+  | { kind: "sum"; attribute: string; set: SetSelector }
+  | { kind: "add"; terms: ValueExpression[] }
+  | { kind: "multiply"; factors: ValueExpression[] }
+  | { kind: "coefficient"; name: string };
+
+export type GraphProjection = "directed" | "undirected-simple" | "undirected-multigraph";
+
+export type PredicateRange =
+  | { min: number; max?: number }
+  | { min?: number; max: number };
+
+export type BooleanExpression =
+  | { op: "all"; args: BooleanExpression[] }
+  | { op: "any"; args: BooleanExpression[] }
+  | { op: "not"; arg: BooleanExpression }
+  | ({ op: "degree"; node: NodeSelector; role?: string } & PredicateRange)
+  | {
+      op: "cycleExists";
+      roles?: string[];
+      projection: GraphProjection;
+      minLength?: number;
+      maxLength?: number;
+    }
+  | { op: "connected" }
+  | { op: "componentCount"; count: number }
+  | { op: "pathExists"; from: NodeSelector; to: NodeSelector; roles?: string[] }
+  | ({ op: "countRole"; role: string } & PredicateRange)
+  | { op: "balance"; attribute: string; over: SetSelector; tolerance: Quantity }
+  | { op: "compare"; left: ValueExpression; comparator: QuantityComparator; right: ValueExpression }
+  | { op: "minimal"; predicate: BooleanExpression; policy?: string }
+  | { op: "novel"; predicate: BooleanExpression }
+  | { op: "stableUnder"; perturbation: string; predicate: BooleanExpression; threshold: number }
+  | { op: "irreducibleRemoval"; predicate: BooleanExpression; removal: "node" | "edge" };
+
+export type ExpressionSymbolDescriptor =
+  | { kind: "number" }
+  | { kind: "quantity"; unit: string; semantic?: string }
+  | { kind: "string" }
+  | { kind: "boolean" }
+  | { kind: "null" };
+
+export type ExpressionSymbolInput = Quantity | QuantitySpec | ExpressionSymbolDescriptor;
+
+export interface ValueExpressionEnvironment {
+  coefficients?: Record<string, ExpressionSymbolInput>;
+  invariants?: Record<string, ExpressionSymbolInput>;
+  attributes?: Record<string, ExpressionSymbolInput>;
+}
+
+export interface ValueExpressionLimits {
+  maxDepth: number;
+  maxNodes: number;
+  maxTerms: number;
+  maxRoles: number;
+  maxStringLength: number;
+  maxAbsoluteDimensionExponent: number;
+}
+
+export type ExpressionResultType =
+  | {
+      kind: "number" | "quantity";
+      unit: string;
+      dimensionSignature: string;
+      dimensions: Partial<Record<SIBaseUnit, number>>;
+      semantic?: string;
+    }
+  | { kind: "string" | "boolean" | "null" };
+
+export interface ValueExpressionRequirements {
+  invariants: string[];
+  coefficients: string[];
+  attributes: string[];
+  roles: string[];
+}
+
+export interface ValueExpressionAnalysis {
+  schemaVersion: "1";
+  analyzer: "typed-value-expression-v1";
+  expressionHash: ContentHash;
+  analysisHash: ContentHash;
+  expression: ValueExpression;
+  result: ExpressionResultType;
+  requirements: ValueExpressionRequirements;
+  symbols: {
+    invariants: Record<string, ExpressionResultType>;
+    coefficients: Record<string, ExpressionResultType>;
+    attributes: Record<string, ExpressionResultType>;
+  };
+  statistics: { nodes: number; maxDepth: number };
+}
+
+export interface PredicateExpressionEnvironment {
+  invariants?: Record<string, ExpressionSymbolInput>;
+  attributes?: Record<string, ExpressionSymbolInput>;
+  perturbations?: string[];
+  substructurePolicies?: string[];
+}
+
+export interface PredicateExpressionLimits {
+  maxDepth: number;
+  maxNodes: number;
+  maxArgs: number;
+  maxRoles: number;
+  maxStringLength: number;
+  maxSubstructureNesting: number;
+}
+
+export type TruthPersistence = "proven" | "not-proven";
+
+export type PredicateWitnessKind =
+  | "node"
+  | "edge"
+  | "path"
+  | "cycle"
+  | "substructure"
+  | "perturbation"
+  | "quantity"
+  | "cohort"
+  | "evidence"
+  | "source-relation"
+  | "cluster";
+
+export interface PredicateExpressionRequirements {
+  invariants: string[];
+  attributes: string[];
+  roles: string[];
+  perturbations: string[];
+  substructurePolicies: string[];
+  graphProjections: GraphProjection[];
+  operators: BooleanExpression["op"][];
+  valueExpressionHashes: ContentHash[];
+  witnessKinds: PredicateWitnessKind[];
+  usesDefaultSubstructurePolicy: boolean;
+}
+
+export interface PredicateExpressionAnalysis {
+  schemaVersion: "1";
+  analyzer: "typed-predicate-expression-v1";
+  expressionHash: ContentHash;
+  analysisHash: ContentHash;
+  expression: BooleanExpression;
+  result: "predicate-outcome";
+  requirements: PredicateExpressionRequirements;
+  symbols: {
+    invariants: Record<string, ExpressionResultType>;
+    attributes: Record<string, ExpressionResultType>;
+  };
+  truthPersistence: { pass: TruthPersistence; fail: TruthPersistence };
+  partialDetectability: { pass: boolean; fail: boolean };
+  statistics: {
+    nodes: number;
+    maxDepth: number;
+    valueExpressions: number;
+    substructureCombinators: number;
+    maxSubstructureNesting: number;
+  };
+}
+
+export interface PredicatePlan {
+  schemaVersion: "1";
+  compiler: "predicate-plan-v1";
+  planHash: ContentHash;
+  predicateId: string;
+  phase: Predicate["phase"];
+  referencesDepth: Predicate["referencesDepth"];
+  monotoneViolation: boolean;
+  expressionAnalysisHash: ContentHash;
+  pruning: {
+    declared: boolean;
+    staticFailurePersistence: TruthPersistence;
+    partialFailureDetectable: boolean;
+    auditRequired: boolean;
+    eligibility: "disabled" | "static-proven" | "blocked-unproven" | "blocked-partial-data";
+  };
+  expressionHash: ContentHash;
+  expression: BooleanExpression;
+  requirements: PredicateExpressionRequirements;
+  symbols: PredicateExpressionAnalysis["symbols"];
+  truthPersistence: PredicateExpressionAnalysis["truthPersistence"];
+  partialDetectability: PredicateExpressionAnalysis["partialDetectability"];
+  statistics: PredicateExpressionAnalysis["statistics"];
 }
 
 export interface QuantitySpec {
@@ -322,7 +575,6 @@ export interface NormalizedPrimitiveDefinition extends Omit<PrimitiveDefinition,
 }
 
 export interface NormalizedRulePackage extends Required<Omit<RulePackage, "sourceMigration">> {
-  sourceMigration?: { [key: string]: JsonValue };
   primitives: NormalizedPrimitiveDefinition[];
   identityPolicy: IdentityPolicy;
 }
@@ -341,6 +593,7 @@ export interface LoadedRulePackage {
   schemaVersion: "1";
   packageId: ContentHash;
   normalized: NormalizedRulePackage;
+  predicatePlans: PredicatePlan[];
   semanticManifest: SemanticManifest;
 }
 
@@ -686,7 +939,9 @@ export function deepFreeze<T>(value: T): Readonly<T>;
 
 export const HASH_DOMAINS: Readonly<Record<
   "ARTIFACT" | "CANDIDATE" | "CLUSTER" | "DEPTH_BASIS" | "ELEMENT" |
-  "IDENTITY_POLICY" | "PACKAGE" | "PROFILE" | "RULES" | "SKELETON",
+  "PREDICATE_EXPRESSION" | "PREDICATE_EXPRESSION_ANALYSIS" | "PREDICATE_PLAN" |
+  "VALUE_EXPRESSION" | "VALUE_EXPRESSION_ANALYSIS" | "IDENTITY_POLICY" |
+  "PACKAGE" | "PROFILE" | "RULES" | "SKELETON",
   string
 >>;
 export function hashBytes(domain: string, bytes: Uint8Array): ContentHash;
@@ -718,7 +973,60 @@ export function createCandidateStore(options: {
   canonicalization?: GraphCanonicalizationOptions;
 }): CandidateStore;
 
-export const KERNEL_IMPLEMENTATION_STATUS: "foundation-active/closure-not-implemented";
+export const UNIT_GRAMMAR_VERSION: "si-multiplicative-v1";
+export function parseUnitExpression(expression: string): ParsedUnitExpression;
+export function normalizeUnitExpression(expression: string): string;
+export function areUnitsCompatible(left: string, right: string): boolean;
+export function convertQuantity(quantity: Quantity, targetUnit: string): Readonly<Quantity>;
+export function normalizeQuantity(quantity: Quantity): Readonly<Quantity>;
+export function compareQuantities(
+  left: Quantity,
+  comparator: QuantityComparator,
+  right: Quantity,
+  options?: { semanticPolicy?: "require-equal" | "ignore" }
+): QuantityComparison;
+
+export const DECIMAL_ARITHMETIC_VERSION: "decimal-rational-v1";
+export const DECIMAL_LIMITS: Readonly<DecimalLimits>;
+export function parseDecimal(input: DecimalInput): DecimalValue;
+export function normalizePrecisionPolicy(policy: PrecisionPolicy): Readonly<PrecisionPolicy>;
+export function addDecimals(left: DecimalInput, right: DecimalInput): DecimalValue;
+export function subtractDecimals(left: DecimalInput, right: DecimalInput): DecimalValue;
+export function multiplyDecimals(left: DecimalInput, right: DecimalInput): DecimalValue;
+export function divideDecimals(left: DecimalInput, right: DecimalInput, policy: PrecisionPolicy): DecimalValue;
+export function roundDecimal(value: DecimalInput, policy: PrecisionPolicy): DecimalValue;
+export function sumDecimals(values: DecimalInput[], policy: PrecisionPolicy): DecimalAccumulation;
+export function decimalToNumber(value: DecimalInput): number;
+
+export const VALUE_EXPRESSION_ANALYZER_VERSION: "typed-value-expression-v1";
+export const DEFAULT_VALUE_EXPRESSION_LIMITS: Readonly<ValueExpressionLimits>;
+export function analyzeValueExpression(
+  expression: ValueExpression,
+  options?: {
+    environment?: ValueExpressionEnvironment;
+    limits?: Partial<ValueExpressionLimits>;
+  }
+): ValueExpressionAnalysis;
+
+export const PREDICATE_EXPRESSION_ANALYZER_VERSION: "typed-predicate-expression-v1";
+export const PREDICATE_PLAN_COMPILER_VERSION: "predicate-plan-v1";
+export const DEFAULT_PREDICATE_EXPRESSION_LIMITS: Readonly<PredicateExpressionLimits>;
+export function analyzePredicateExpression(
+  expression: BooleanExpression,
+  options?: {
+    environment?: PredicateExpressionEnvironment;
+    limits?: Partial<PredicateExpressionLimits>;
+  }
+): PredicateExpressionAnalysis;
+export function compilePredicate(
+  predicate: Predicate,
+  options?: {
+    environment?: PredicateExpressionEnvironment;
+    limits?: Partial<PredicateExpressionLimits>;
+  }
+): PredicatePlan;
+
+export const KERNEL_IMPLEMENTATION_STATUS: "foundation-active/predicate-plans-active/closure-not-implemented";
 export const SOURCE_RELATION_KINDS: readonly SourceRelationKind[];
 export const CLUSTER_DISPOSITIONS: readonly ClusterDisposition[];
 export const MIGRATION_EXPOSURE_STATUSES: readonly MigrationExposureStatus[];
@@ -759,6 +1067,46 @@ export interface Kernel {
     maxCandidates?: number;
     canonicalization?: GraphCanonicalizationOptions;
   }): CandidateStore;
+  parseUnitExpression(expression: string): ParsedUnitExpression;
+  normalizeUnitExpression(expression: string): string;
+  normalizeQuantity(quantity: Quantity): Readonly<Quantity>;
+  convertQuantity(quantity: Quantity, targetUnit: string): Readonly<Quantity>;
+  compareQuantities(
+    left: Quantity,
+    comparator: QuantityComparator,
+    right: Quantity,
+    options?: { semanticPolicy?: "require-equal" | "ignore" }
+  ): QuantityComparison;
+  parseDecimal(input: DecimalInput): DecimalValue;
+  normalizePrecisionPolicy(policy: PrecisionPolicy): Readonly<PrecisionPolicy>;
+  addDecimals(left: DecimalInput, right: DecimalInput): DecimalValue;
+  subtractDecimals(left: DecimalInput, right: DecimalInput): DecimalValue;
+  multiplyDecimals(left: DecimalInput, right: DecimalInput): DecimalValue;
+  divideDecimals(left: DecimalInput, right: DecimalInput, policy: PrecisionPolicy): DecimalValue;
+  roundDecimal(value: DecimalInput, policy: PrecisionPolicy): DecimalValue;
+  sumDecimals(values: DecimalInput[], policy: PrecisionPolicy): DecimalAccumulation;
+  decimalToNumber(value: DecimalInput): number;
+  analyzeValueExpression(
+    expression: ValueExpression,
+    options?: {
+      environment?: ValueExpressionEnvironment;
+      limits?: Partial<ValueExpressionLimits>;
+    }
+  ): ValueExpressionAnalysis;
+  analyzePredicateExpression(
+    expression: BooleanExpression,
+    options?: {
+      environment?: PredicateExpressionEnvironment;
+      limits?: Partial<PredicateExpressionLimits>;
+    }
+  ): PredicateExpressionAnalysis;
+  compilePredicate(
+    predicate: Predicate,
+    options?: {
+      environment?: PredicateExpressionEnvironment;
+      limits?: Partial<PredicateExpressionLimits>;
+    }
+  ): PredicatePlan;
   hash(domain: string, value: JsonValue): ContentHash;
   closeLevel(input?: unknown): Promise<never>;
   closeLadder(input?: unknown): Promise<never>;

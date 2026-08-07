@@ -1,22 +1,28 @@
 # Kernel Foundation Review Guide
 
-Status: prepared for maintainer review on 2026-08-06. This review package was
+Status: maintainer review notes as of 2026-08-07. The reviewed files were
 checked statically under an explicit instruction not to run the project. No
 Node.js module, npm script, test, build, or application runtime was executed.
 
-## What is ready for review
+## Review scope
 
-The proposed foundation contains guarded canonical JSON, domain-separated
+The current foundation contains guarded canonical JSON, domain-separated
 content hashes, deterministic schema-v1 package loading, primitive/profile
 identity, exact supplied-graph canonicalization, bounded connected-skeleton
 enumeration, a deterministic CandidateStore, public TypeScript contracts, and
-26 JSON Schemas. Pending scientific and closure capabilities fail explicitly;
-they do not return placeholder results.
+32 JSON Schemas. The quantity layer adds versioned multiplicative SI parsing,
+normalization, comparison, exact decimals, declared rounding, and exact or
+compensated accumulation. The typed value-expression layer adds recursive AST
+validation, dimensional inference, dependency extraction, and content hashes
+without executing expressions. The Boolean layer adds strict predicate AST
+analysis, typed comparisons/balances, conservative monotonicity facts, and
+compiled predicate plans. Pending execution and closure capabilities fail
+explicitly; they do not return placeholder results.
 
 The review boundary is intentionally smaller than the target architecture.
-Candidate decoration, expression evaluation, predicates, cohort ranking,
-sensitivity execution, source migration/condensation, complete unit algebra,
-scientific-oracle validation, explanations, and closure are not implemented.
+Candidate decoration, value-expression and predicate evaluation, cohort ranking,
+sensitivity execution, source migration/condensation, scientific-oracle
+validation, explanations, and closure are not implemented.
 
 ## Recommended review order
 
@@ -24,13 +30,18 @@ scientific-oracle validation, explanations, and closure are not implemented.
    the implemented/pending boundary.
 2. Review [Kernel Architecture](KERNEL_ARCHITECTURE.md), especially sections 4,
    8, 9, and 11, as the normative target.
-3. Review [Draft/Addendum Omissions](KERNEL_DRAFT_OMISSIONS.md) for the complete
-   disposition of source material and the SCC-blocker note.
+3. Review [Kernel Design Decisions](KERNEL_DESIGN_DECISIONS.md) for the design
+   rationale, exclusions, open inputs, and SCC policy.
 4. Inspect [ADR-0003](adr/0003-canonical-identity-foundation.md),
    [ADR-0004](adr/0004-refinement-graph-canonicalization.md), and
-   [ADR-0005](adr/0005-skeleton-enumeration-and-candidate-store.md).
+   [ADR-0005](adr/0005-skeleton-enumeration-and-candidate-store.md), followed
+   by [ADR-0006](adr/0006-multiplicative-si-quantities.md) and
+   [ADR-0007](adr/0007-deterministic-decimal-arithmetic.md), then
+   [ADR-0008](adr/0008-typed-value-expression-analysis.md) and
+   [ADR-0009](adr/0009-predicate-analysis-and-plans.md).
 5. Review `packages/kernel/src/canonical.js`, `hash.js`, and
-   `package-loader.js`, then their tests.
+   `quantity.js`, followed by `decimal.js`, `expression-analyzer.js`,
+   `predicate-analyzer.js`, their tests, and the package-loader integration.
 6. Review `graph-canonicalizer.js`, `skeleton-enumerator.js`, and
    `candidate-store.js`, then their tests.
 7. Compare `packages/kernel/src/index.d.ts` with `packages/schemas/schemas/`.
@@ -47,10 +58,24 @@ scientific-oracle validation, explanations, and closure are not implemented.
 - Candidate and skeleton hashes use separate domains. Skeleton projection is
   undirected, simple, and unlabelled; candidate identity retains direction,
   roles, enabled multiplicity/loops, references, domain, and declared
-  structural attributes.
+  structural attributes. Standalone skeleton canonicalization accepts
+  disconnected simple graphs; the enumerator and candidate policy enforce
+  connectedness where required.
 - Graph labeling uses exact refinement plus exhaustive individualization within
   a deterministic search budget. Exhaustion emits no partial identity.
 - Partial enumeration/store results are explicitly non-interpretable.
+- Quantity identity uses canonical SI bases; comparisons combine both declared
+  tolerances and require matching semantics unless explicitly overridden.
+- Decimal operations round only at the declared boundary; exact and
+  compensated summation remain distinct result states.
+- Value-expression analysis is type-only: it canonicalizes commutative nodes,
+  ignores unreferenced environment symbols, and hashes referenced symbol types
+  without coefficient or invariant values. Package/rules hashes still retain
+  the normalized rule data and declared quantity values.
+- Predicate plans separate a declared monotonicity claim from static proof and
+  partial-data availability. Only `static-proven` plans may later reach a
+  pruning path, and every declared claim still requires the falsification
+  audit specified by the architecture.
 - The current loader accepts only `profileDefinition.kind = "explicit-only"`.
   It rejects source migration and condensed clusters until edge/member
   reconciliation and condensation validation exist.
@@ -60,17 +85,26 @@ scientific-oracle validation, explanations, and closure are not implemented.
 
 ## Static verification record
 
-The pre-review pass checks all 45 JSON files for parseability, all 26 schema
-identifiers and relative references, schema export coverage, relative source
-imports, Markdown links/fences, public implementation/type names, source-lock
-hashes and sizes, and whitespace errors in the maintained source/documentation
-surface outside the preserved catalogue. `git diff --check` is also required
-to remain clean.
+The static documentation pass checks all 51 JSON files for parseability, all
+32 schema identifiers and relative references, schema export coverage,
+relative source imports, Markdown links/fences, public implementation/type
+names, source-lock hashes and sizes, and whitespace errors in the maintained
+source/documentation surface outside the preserved catalogue.
+`git diff --check` is also required to remain clean.
 
-The locked external draft and addendum match their current files in
-`/Users/db/Downloads`. `scr/theory-of-causal-arisings.pdf` is byte-identical to
-the former tracked `scr/main.pdf`; `scr/topology-of-arising.pdf` is the newly
-analysed foundation source. Both repository PDF hashes and byte sizes match
+All 39 maintained JavaScript source and test files were also passed through a
+syntax-only JavaScriptCore parse of isolated copies with module linkage
+removed. No repository module was evaluated by that check.
+
+This revision additionally compared direct runtime acceptance with the public
+TypeScript and JSON Schema shapes. It closed empty-tolerance and predicate-range
+type gaps, bounded schema selector strings and canonical indices, normalized
+quantity semantic/provenance identifiers, discriminated exact from compensated
+decimal accumulation, made public option objects closed, and made package
+conversion overflow or non-zero underflow a structured validation failure.
+
+`scr/theory-of-causal-arisings.pdf` and `scr/topology-of-arising.pdf` are the
+repository theory sources. Both PDF hashes and byte sizes match
 `cases/level-0-oscillator/source-lock.json`.
 
 ## Deferred execution gates
@@ -95,10 +129,33 @@ Unicode edge cases.
 
 - Exact graph search is intentionally bounded and optimized for at most six
   nodes; highly symmetric inputs can exhaust the budget.
-- Unit strings currently receive exact same-unit guards, not dimensional
-  parsing or conversion.
+- A binary64 input enters exact decimal arithmetic through its shortest
+  round-trippable string; unavailable source-literal precision cannot be
+  recovered.
+- Compensated binary64 summation is deterministic only for a fixed declared
+  term order and is explicitly not an exact result.
+- Decimal-to-binary64 conversion rejects non-zero values that would underflow
+  to zero; representable subnormal values still follow binary64 rounding.
+- Affine and logarithmic units remain absent.
+- Package-level `sum` expressions require attribute type metadata, but the
+  schema-v1 package has no attribute-type registry yet; such expressions fail
+  explicitly until that registry is introduced.
+- Schema-v1 coefficient records do not distinguish fixed, free, and fitted
+  values. The loader checks listed sensitivity references but cannot yet prove
+  that every required coefficient is included in the sweep.
+- Perturbation entries remain generic JSON values. Predicate analysis can bind
+  only string entries or object entries carrying a normalized `id`.
+- A Quantity used as a declared structural candidate attribute currently
+  contributes its complete normalized provenance to candidate identity, while
+  ordinary primitive/profile quantity identity excludes evidence provenance.
+  This policy asymmetry needs an explicit decision before candidate decoration.
+- Static persistence is intentionally conservative. Combined lower/upper
+  ranges, arbitrary comparisons, balances, substructure combinators, and
+  canonical-index degree/path checks are not authorized for partial pruning;
+  lower-bound degree passes over growing selections are not marked persistent.
 - JSON Schema validates record shape but cannot replace executable reference,
   acyclicity, identity, endpoint, unit, and count reconciliation checks.
 - Source-migration schemas describe the target contract, while the current
   loader deliberately rejects those inputs until the migration engine exists.
-- The tests are present but remain unexecuted in this review package.
+- The tests are present but remain unexecuted under the current no-execution
+  constraint.

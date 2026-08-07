@@ -63,17 +63,7 @@
       "additionalProperties": false
     },
     "seed": { "type": "string", "minLength": 1 },
-    "invariantPrecision": {
-      "type": "object",
-      "required": ["id", "decimalPlaces", "rounding", "summation"],
-      "properties": {
-        "id": { "type": "string", "minLength": 1 },
-        "decimalPlaces": { "type": "integer", "minimum": 0 },
-        "rounding": { "enum": ["half-even", "half-up", "toward-zero"] },
-        "summation": { "enum": ["exact-decimal", "compensated-binary64"] }
-      },
-      "additionalProperties": false
-    },
+    "invariantPrecision": { "$ref": "precision-policy.schema.json" },
     "graphPolicy": { "$ref": "graph-policy.schema.json" },
     "substructurePolicy": {
       "type": "object",

@@ -50,8 +50,8 @@
       "required": ["id", "unit", "semantic", "toleranceTarget"],
       "properties": {
         "id": { "type": "string", "minLength": 1 },
-        "unit": { "type": "string", "minLength": 1 },
-        "semantic": { "type": "string", "minLength": 1 },
+        "unit": { "$ref": "quantity.schema.json#/$defs/unit" },
+        "semantic": { "$ref": "quantity.schema.json#/$defs/normalizedString" },
         "toleranceTarget": { "$ref": "#/$defs/tolerance" }
       },
       "additionalProperties": false

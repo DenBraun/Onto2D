@@ -1,0 +1,328 @@
+# Onto2D Kernel Development Plan
+
+Status: active implementation plan for the target defined in
+[KERNEL_ARCHITECTURE.md](./KERNEL_ARCHITECTURE.md). The exact current boundary
+is recorded in
+[KERNEL_IMPLEMENTATION_STATUS.md](./KERNEL_IMPLEMENTATION_STATUS.md).
+
+## 1. Objective
+
+Build a deterministic admissibility-closure kernel that:
+
+- enumerates connected structural candidates;
+- canonicalizes and deduplicates them exactly;
+- evaluates typed admissibility predicates with witnesses;
+- partitions eligible candidates into declared competition cohorts;
+- ranks complete cohorts with typed functionals;
+- measures Boolean and variational selectivity;
+- reports sensitivity and null-model controls;
+- extracts profiles and closes successive derivation depths;
+- preserves evidence, source relations, and reproducibility artifacts.
+
+The existing catalogue-backed API remains a compatibility surface. Catalogue
+loading, source classification, and scientific computation stay in adapters;
+they do not define core kernel semantics.
+
+## 2. Current implementation boundary
+
+Implemented:
+
+- dependency-free package boundaries and versioned public exports;
+- guarded canonical JSON and domain-separated SHA-256 hashing;
+- deterministic schema-v1 package defaults, validation, normalization, and
+  semantic manifests;
+- primitive element IDs, profile hashes, rules hashes, identity-policy hashes,
+  and depth-basis hashes;
+- exact refinement/individualization canonicalization for supplied candidates
+  and simple skeletons;
+- exhaustive connected simple-skeleton enumeration through six nodes;
+- fixed-domain CandidateStore deduplication and explicit completion/truncation
+  state;
+- multiplicative SI unit parsing, compatible conversion, tolerance-aware
+  comparison, and deterministic decimal arithmetic/accumulation;
+- recursive typed `ValueExpression` analysis, dependency extraction,
+  dimensional inference, normalized expression hashing, and loader checks for
+  functional/cohort result dimensions;
+- recursive typed Boolean-expression analysis, graph/value requirement
+  extraction, conservative truth-persistence and partial-detectability
+  inference, content-addressed predicate plans, and loader integration;
+- JSON Schemas, TypeScript declarations, catalogue audit, source locks, CI
+  configuration, and compatibility fixtures.
+
+Not implemented:
+
+- decorated candidate generation and safe partial pruning;
+- value-expression and predicate execution;
+- cohort construction, functional evaluation, ranking, and sensitivity;
+- Oracle response validation;
+- source classification, node resolution, and SCC condensation execution;
+- profile extraction/collapse, level-boundary detection, and carrier promotion;
+- level/ladder closure, null models, explanation indexes, and run artifacts.
+
+Public operations for unavailable capabilities fail with
+`KERNEL_NOT_IMPLEMENTED`.
+
+## 3. Dependency direction
+
+```text
+applications / CLI / research tooling
+                |
+                v
+catalog adapter / scientific adapter / compatibility package
+                |
+                v
+          @onto2d/kernel
+                |
+                v
+          @onto2d/schemas
+```
+
+`@onto2d/kernel` may use supported Node.js built-ins and reviewed general-purpose
+libraries. It must not import the catalogue adapter, scientific implementations,
+compatibility runtime, or UI packages.
+
+## 4. Development rules
+
+1. Normalize every semantic default before hashing.
+2. Keep generation, hard predicates, and functionals as separate stages.
+3. Treat budgets and indeterminate outcomes as first-class states.
+4. Preserve complete semantic ties; canonical IDs only stabilize order.
+5. Keep derivation depth independent from ontology/catalogue coordinates.
+6. Preserve every source relation through the generative quotient or a typed
+   explanation layer.
+7. Keep scientific computation outside the graph kernel.
+8. Add schemas, public types, positive/negative fixtures, and deterministic
+   artifact rules with each new contract.
+9. Never report an unexecuted or schema-only capability as scientifically
+   validated.
+10. Do not change reviewed catalogue observations to satisfy desired topology
+    or metrics.
+
+## 5. Implementation stages
+
+### Stage D0: foundation conformance
+
+Scope:
+
+- execute canonical JSON, package loader, graph canonicalization, skeleton
+  enumeration, CandidateStore, adapter, catalogue, and compatibility tests;
+- produce independent canonical-byte fixtures;
+- compare skeleton IDs/counts with an independent generator;
+- verify Node.js 20 and 22 behavior on supported platforms;
+- review binary64 edge cases, Unicode ordering, and explicit resource limits;
+- freeze ADR-0003, ADR-0004, and ADR-0005 after conformance evidence exists.
+
+Gate: canonical identities and complete skeleton counts reproduce across
+supported environments and independent references.
+
+### Stage D1: quantities and expression IR
+
+Scope:
+
+- implement a versioned unit grammar and dimensional algebra;
+- normalize compatible quantities before comparison;
+- implement deterministic decimal rounding and accumulation policies;
+- define typed value and Boolean expression ASTs;
+- infer expression result types, units, and required data;
+- implement tolerance-aware comparison;
+- validate Oracle request/response binding, convergence, residual, and evidence;
+- implement partial-Oracle policies.
+
+Gate: incompatible units fail before execution, all numeric comparisons use
+declared tolerance, and Oracle failures propagate as traceable indeterminate
+results.
+
+Current D1 progress: `si-multiplicative-v1` parsing, dimensional compatibility,
+SI-base normalization, tolerance conversion/comparison, schema integration,
+identity-path integration, and `decimal-rational-v1` arithmetic/accumulation are
+implemented. `typed-value-expression-v1` now validates and normalizes the value
+AST, infers scalar/quantity types and dimensions, records required symbols and
+roles, produces expression/analysis hashes, and verifies functional and cohort
+dimensions during package loading. `typed-predicate-expression-v1` now
+validates and normalizes all declared Boolean operators, type-checks embedded
+value comparisons and balances, records witness/data requirements, and derives
+only conservative pass/fail persistence. `predicate-plan-v1` binds that
+analysis to predicate metadata and blocks pruning when proof or partial data is
+absent.
+Value-expression and predicate execution, tolerance-policy binding, and Oracle
+validation remain.
+
+### Stage D2: decorated candidate generation
+
+Scope:
+
+- generate connected simple skeletons under run budget;
+- assign node references under the declared counting domain;
+- decorate direction, role, multiplicity, loops, and structural attributes;
+- canonicalize before insertion into CandidateStore;
+- implement safe monotone-violation pruning;
+- retain separate raw, pruned, canonical, duplicate, and excluded counts;
+- serialize resumable generator state if interruption support is enabled.
+
+Gate: bounded exhaustive fixtures reconcile exactly with brute-force reference
+generation; disabling pruning produces the same complete canonical set.
+
+### Stage D3: source classification and condensation
+
+Scope:
+
+- implement frozen relation-policy artifacts and exposure declarations;
+- collect independent classifications and blind adjudication records;
+- compute SCCs on generative and formation-support projections;
+- apply general node-resolution criteria;
+- materialize cluster elements, member projections, and typed relation layers;
+- recompute the condensation quotient and require a DAG;
+- reconcile every source node and edge exactly once;
+- emit fitting-risk and cluster-distribution metrics.
+
+Gate: all 249 catalogue cards and every parent relation reconcile without edge
+loss, fabricated precedence, or post-hoc hidden relabelling.
+
+### Stage D4: predicates, cohorts, ranking, and sensitivity
+
+Scope:
+
+- implement predicate phases and complete three-valued evaluation;
+- emit canonical witnesses and per-predicate census data;
+- implement shared-support, profile-role, invariant-window, singleton, and
+  explicit global cohorts;
+- evaluate typed finite functionals only after local filtering;
+- emit dense rankings, complete epsilon extrema, degeneracy, gaps, and reasons;
+- implement deterministic one-at-a-time and budgeted Cartesian sensitivity;
+- propagate missing or failed values without silently reducing cohorts.
+
+Gate: every evaluated candidate has a complete explanation, rankings preserve
+all semantic ties, and sensitivity denominators reconcile with required
+perturbation variants.
+
+### Stage D5: profiles and closure
+
+Scope:
+
+- extract normalized profiles from admitted elements;
+- group deterministic profile classes and representatives;
+- compare profile-quotient and element-exact outcomes;
+- detect declared ontology-level boundaries without conflating depth;
+- emit explicit carrier-promotion artifacts;
+- implement level closure and ladder state machines;
+- support bounded fixpoint mode only under explicit configuration;
+- persist alternate derivations outside structural element identity.
+
+Gate: every closed depth has a stable `depthBasis`, complete interpretation
+status, reproducible counts, and no current-depth self-reference outside the
+bounded fixpoint contract.
+
+### Stage D6: controls, artifacts, and research cases
+
+Scope:
+
+- implement seeded role-shuffle, degree-rewire, and uniform controls;
+- report mixing/acceptance diagnostics and degenerate null variance;
+- emit semantic manifests, normalized packages/configs, level results,
+  explanations, indexes, and operational logs;
+- bind predictions to run hashes before execution;
+- implement the Level-0 oscillator case from the foundational paper;
+- add independently sourced motif comparison only when dataset and graph
+  conventions are frozen.
+
+Gate: repeated identical semantic inputs produce byte-identical semantic
+artifacts; operational metadata does not contaminate semantic hashes.
+
+### Stage D7: integration and release
+
+Scope:
+
+- provide stable package exports and versioned schema publication;
+- add CLI/application consumers without reversing dependencies;
+- expand browser and platform compatibility coverage where required;
+- document versioning and migration rules for canonical identities;
+- define performance reference environments and benchmark reports;
+- publish only capabilities backed by executed conformance evidence.
+
+Gate: package APIs, schemas, artifacts, tests, and documentation describe the
+same implemented behavior on every supported environment.
+
+## 6. Work packages
+
+| ID | Work | Depends on | Primary evidence |
+|---|---|---|---|
+| HASH-01 | Independent canonical bytes and domain hashes | D0 | cross-implementation fixtures |
+| GRAPH-01 | Candidate/skeleton canonicalization conformance | HASH-01 | permutation and negative pairs |
+| GEN-01 | Decorated candidate generator | GRAPH-01 | exhaustive bounded reconciliation |
+| UNIT-01 | Unit grammar and conversion | HASH-01 | dimensional positive/negative fixtures |
+| EXPR-01 | Typed expression analyzer | UNIT-01 | type/unit truth tables |
+| ORACLE-01 | Oracle protocol verifier | UNIT-01 | convergence/residual fixtures |
+| DATA-01 | Frozen relation classifier | HASH-01 | blinded/deterministic annotation artifact |
+| DATA-02 | Node resolution and SCC condensation | DATA-01 | edge/member reconciliation |
+| PRED-01 | Three-valued predicate evaluator | EXPR-01, GEN-01 | witnesses and full census |
+| SELECT-01 | Cohorts and ranking | PRED-01, UNIT-01 | complete ranked cohorts |
+| SENS-01 | Coefficient sensitivity | SELECT-01 | robust/fragile/indeterminate fixtures |
+| PROFILE-01 | Profile extraction and collapse | SELECT-01 | quotient/exact comparison |
+| CLOSE-01 | Level and ladder closure | PROFILE-01 | deterministic level artifacts |
+| STATS-01 | Null models and distributions | CLOSE-01 | seeded control fixtures |
+| CASE-01 | Level-0 oscillator case | ORACLE-01, CLOSE-01 | paper-traceable case artifacts |
+| ART-01 | Manifests and explanation index | all emitting stages | byte-stable artifact set |
+
+## 7. Test strategy
+
+Unit tests cover:
+
+- canonicalization, hashes, units, tolerances, and error contracts;
+- graph refinement, individualization, connectivity, multiplicity, and budgets;
+- SCC discovery, condensation, edge conservation, and depth inheritance;
+- expression typing, predicate truth tables, and witnesses;
+- cohort partitions, ranking, degeneracy, gaps, and sensitivity;
+- null-model sampling, statistics, and interpretation status.
+
+Property tests cover:
+
+- invariance to input ordering and graph permutations;
+- alternate-derivation identity stability;
+- edge/member conservation under condensation;
+- pruning equivalence against pruning disabled;
+- deterministic seeded randomness;
+- serialization round trips.
+
+Differential tests compare:
+
+- canonical labels with an independent implementation;
+- skeleton enumeration with an independent graph generator;
+- optimized SCCs with a simple reference algorithm;
+- pruned generation with brute-force bounded generation;
+- unit conversion with reviewed dimensional fixtures.
+
+Integration tests cover complete package loading, one closed level, multi-depth
+closure, Oracle failure propagation, source condensation, and artifact
+reconstruction from manifests.
+
+## 8. Acceptance gates
+
+Engineering acceptance requires:
+
+- byte-stable semantic artifacts across supported environments;
+- exact canonical candidate/skeleton agreement with independent references;
+- complete budget/count reconciliation;
+- no silent `indeterminate` coercion;
+- no source node or edge loss;
+- no dependency reversal into the kernel;
+- schema/type/runtime agreement;
+- executed tests for every published capability.
+
+Research-case acceptance additionally requires:
+
+- content-addressed evidence and method identities;
+- frozen quantities, cohorts, selectors, thresholds, seeds, and null models;
+- complete per-candidate and per-cohort explanations;
+- explicit distinction between computational reproduction and empirical support;
+- publication of outcomes that weaken a hypothesis as faithfully as outcomes
+  that support it.
+
+## 9. Immediate next implementation slice
+
+1. Execute and independently compare the existing canonicalization and
+   skeleton foundation when execution is authorized.
+2. Freeze canonical-byte and graph-count fixtures.
+3. Bind declared precision/tolerance policy to compiled numeric operations.
+4. Implement Oracle request/response validation without invoking a solver.
+5. Freeze source-classification and node-resolution policies before processing
+   SCC-aware catalogue output.

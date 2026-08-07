@@ -1,15 +1,16 @@
 # Onto2D Kernel Architecture
 
-Status: target architecture for the kernel refactor; it does not describe the current implementation.
+Status: normative target architecture. The current implementation boundary is
+tracked separately in [KERNEL_IMPLEMENTATION_STATUS.md](./KERNEL_IMPLEMENTATION_STATUS.md).
 
 Source basis:
 
-- the 403-line Russian draft `Onto2D_Kernel_Spec.md`, SHA-256 `ec442fb48c1fa7e24f122aa8a73c5c5a64c60b53ef911e18e364b4697cfd8fd1`, normalized into an implementation-ready English specification;
-- the 345-line Russian addendum `Onto2D_Kernel_Addendum_Selection_and_Quantities.md`, SHA-256 `c563a560ddfce2352f211b289e8dd90463ef9ef8c736f65624dfe0563f0df4a1`, which has priority over the original draft where they conflict;
-- [*Topology of arising and the principle of minimal action in admissibility structures*](../scr/topology-of-arising.pdf), 36 pages, SHA-256 `3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7`;
-- the subsequent SCC blocker review recorded in [KERNEL_DRAFT_OMISSIONS.md](./KERNEL_DRAFT_OMISSIONS.md), which refines catalogue-migration semantics and must be frozen as an ADR before annotation begins.
+- [*Topology of arising and the principle of minimal action in admissibility structures*](../scr/topology-of-arising.pdf), 36 pages, SHA-256 `3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7`.
 
-The paper-to-kernel analysis is recorded in [FOUNDATIONAL_PAPER_ANALYSIS.md](./FOUNDATIONAL_PAPER_ANALYSIS.md). Deliberate corrections, unresolved research inputs, and source material that is not part of this architecture are recorded in [KERNEL_DRAFT_OMISSIONS.md](./KERNEL_DRAFT_OMISSIONS.md).
+Supporting documentation:
+
+- the paper-to-kernel analysis in [FOUNDATIONAL_PAPER_ANALYSIS.md](./FOUNDATIONAL_PAPER_ANALYSIS.md);
+- the design rationale, SCC policy, exclusions, and unresolved research inputs in [KERNEL_DESIGN_DECISIONS.md](./KERNEL_DESIGN_DECISIONS.md).
 
 ## 1. Purpose
 
@@ -25,7 +26,7 @@ The kernel exists because a selectivity profile cannot be derived reliably by ma
 
 The words **MUST**, **MUST NOT**, **SHOULD**, and **MAY** are normative.
 
-This document defines the intended behavior and boundaries of a future implementation. The repository currently contains a catalogue-backed single-configuration validator in `onto2d.js` plus a dependency-free workspace, guarded canonical JSON, domain-separated hashes, a deterministic schema-v1 package loader, exact canonicalization for supplied candidate graphs and their skeletons, a bounded reference enumerator for connected unlabeled simple skeletons through six nodes, a deterministic CandidateStore, initial contracts and schemas, source locks, catalogue audit, and compatibility tests. It does not yet implement candidate decoration, predicate execution, or the closure engine defined here. The concrete implementation boundary is documented in [KERNEL_IMPLEMENTATION_STATUS.md](./KERNEL_IMPLEMENTATION_STATUS.md), and the repository layout in [PROJECT_STRUCTURE.md](./PROJECT_STRUCTURE.md).
+This document defines the intended behavior and boundaries of the kernel. The repository currently contains a catalogue-backed single-configuration validator in `onto2d.js` plus a dependency-free workspace, guarded canonical JSON, domain-separated hashes, a deterministic schema-v1 package loader, multiplicative SI quantity normalization, deterministic decimal arithmetic, typed value/Boolean expression analysis and predicate-plan compilation, exact canonicalization for supplied candidate graphs and their skeletons, a bounded reference enumerator for connected unlabeled simple skeletons through six nodes, a deterministic CandidateStore, initial contracts and schemas, source locks, catalogue audit, and compatibility tests. It does not yet implement candidate decoration, predicate execution, or the closure engine defined here. The concrete implementation boundary is documented in [KERNEL_IMPLEMENTATION_STATUS.md](./KERNEL_IMPLEMENTATION_STATUS.md), and the repository layout in [PROJECT_STRUCTURE.md](./PROJECT_STRUCTURE.md).
 
 ## 3. Scope
 
@@ -360,10 +361,9 @@ interface EvidenceRef {
 
 type UnitExpr = string;              // normalized under the versioned unit grammar; use "1" for dimensionless
 
-interface Tolerance {
-  absolute?: number;                 // expressed in the quantity's normalized unit
-  relative?: number;                 // non-negative ratio
-}
+type Tolerance =
+  | { absolute: number; relative?: number }  // absolute uses the normalized unit
+  | { absolute?: number; relative: number }; // relative is a non-negative ratio
 
 interface ToleranceUse {
   unit: UnitExpr;
@@ -734,12 +734,12 @@ type Expr =
   | { op: "all"; args: Expr[] }
   | { op: "any"; args: Expr[] }
   | { op: "not"; arg: Expr }
-  | { op: "degree"; node: NodeSelector; role?: string; min?: number; max?: number }
+  | ({ op: "degree"; node: NodeSelector; role?: string } & PredicateRange)
   | { op: "cycleExists"; roles?: string[]; projection: GraphProjection; minLength?: number; maxLength?: number }
   | { op: "connected" }
   | { op: "componentCount"; count: number }
   | { op: "pathExists"; from: NodeSelector; to: NodeSelector; roles?: string[] }
-  | { op: "countRole"; role: string; min?: number; max?: number }
+  | ({ op: "countRole"; role: string } & PredicateRange)
   | { op: "balance"; attribute: string; over: SetSelector; tolerance: Quantity }
   | { op: "compare"; left: ValueExpr; comparator: Comparator; right: ValueExpr }
   | { op: "minimal"; predicate: Expr; policy?: SubstructurePolicyRef }
@@ -750,6 +750,9 @@ type Expr =
 type ExprRef = `sha256:${string}`;
 type Comparator = "eq" | "ne" | "lt" | "lte" | "gt" | "gte";
 type GraphProjection = "directed" | "undirected-simple" | "undirected-multigraph";
+type PredicateRange =
+  | { min: number; max?: number }
+  | { min?: number; max: number };
 
 type NodeSelector =
   | { kind: "canonical-index"; index: number }
@@ -839,7 +842,83 @@ interface Witness {
 }
 ```
 
+Quantity semantic strings, provenance method identifiers, and evidence IDs
+MUST be normalized non-empty strings without leading or trailing whitespace.
+Canonical normalization MUST reject, rather than silently trim, a
+non-normalized form.
+
 Expressions are declarative data. The core loader MUST NOT execute JavaScript, shell commands, templates, or package-provided native code while evaluating rules.
+
+Value-expression analysis is a distinct pre-execution capability. It MUST:
+
+- validate every AST node and selector recursively, reject unknown fields and
+  undeclared symbol references, and enforce explicit depth, node, operand,
+  role, string, and dimensional-exponent limits;
+- normalize quantity constants to canonical SI-base units, normalize negative
+  zero, sort unique selector roles, and canonicalize `add` terms and `multiply`
+  factors because those operations are commutative under the declared exact
+  decimal execution model;
+- distinguish `number`, dimensioned or dimensionless `quantity`, `string`,
+  `boolean`, and `null`; addition requires equal dimensions and multiplication
+  adds dimension exponents;
+- collect sorted dependencies on invariants, coefficients, attributes, and
+  roles; an untyped attribute used by `sum` is an analysis error;
+- hash the normalized AST separately from the typed analysis. The analysis hash
+  binds the analyzer version, inferred result, sorted requirements, and types
+  of referenced symbols, but does not bind unused environment symbols or their
+  runtime values;
+- reject a functional whose declared result unit differs from the inferred
+  dimension, and reject an `invariant-window` whose value is non-numeric or
+  incompatible with its origin/width dimension.
+
+A `where` selector may infer an otherwise undeclared scalar attribute type from
+its equality literal. Repeated uses MUST agree. Quantity-valued aggregation
+cannot infer a unit from an attribute name and therefore requires explicit
+attribute type metadata. Expression analysis does not fetch candidate data,
+perform arithmetic, evaluate a predicate, or call a scientific Oracle.
+
+The string ceiling applies to selector literals and to semantic, method, and
+evidence strings nested in quantity constants or quantity-backed symbol
+metadata. Canonical node indices and predicate bounds are non-negative safe
+integers. A `degree` or `countRole` expression MUST declare at least one of its
+lower or upper bounds.
+
+Boolean-expression analysis is also a pre-execution capability. It MUST close
+and recursively validate all built-in/combinator objects, normalize unordered
+role lists and `all`/`any` arguments, type-check embedded `ValueExpr` operands,
+and emit sorted requirements for invariants, attributes, roles, graph
+projections, perturbations, substructure policies, value-expression hashes,
+operators, and witness kinds. `compare` requires compatible numeric dimensions
+or equal scalar types; non-numeric scalars support only `eq` and `ne`.
+`balance` infers an undeclared attribute dimension from its explicit
+non-negative tolerance and rejects a conflicting declared type.
+
+Static pruning analysis MUST distinguish:
+
+- persistence of an observed `pass` under permitted additive extension;
+- persistence of an observed `fail`;
+- whether either outcome is detectable from the available partial candidate;
+- the package's `monotoneViolation` declaration;
+- the mandatory falsification audit for every declared monotone violation.
+
+An upper-only `countRole` failure and the failure of
+`not(cycleExists(...))` are statically persistent and partially detectable. A
+lower-only `countRole` bound proves persistence of a pass, not a failure. A
+combined range, balance, arbitrary comparison, component count, or
+substructure combinator is not assigned unconditional failure persistence. A
+degree selector based on a canonical index is not assumed stable before
+complete canonicalization, and a
+lower-bound degree pass over a selector whose membership can grow is not
+persistent. A path witness whose endpoint uses a canonical index is likewise
+not persistent until canonical labels are fixed.
+
+The compiled plan MUST use `static-proven` only when both failure persistence
+and partial detection are established. An unproved declaration is
+`blocked-unproven`; randomized audit samples may falsify a claim but MUST NOT
+manufacture proof. Plan hashes bind compiler version, predicate identity,
+phase, depth-reference policy, declaration, expression-analysis hash, and
+pruning state. Analysis and compilation do not evaluate three-valued truth,
+generate a witness, inspect a candidate, or prune a branch.
 
 `Predicate` and `Functional` are different schema types, registries, evaluator capabilities, and execution contexts. The generator receives only pruning-eligible predicate plans; it cannot resolve a functional ID or coefficient. This capability boundary is a conformance property, not a naming convention.
 
@@ -1153,6 +1232,11 @@ Enumeration, predicate evaluation, and null-model trials MAY execute concurrentl
 
 The generator first enumerates canonical connected, unlabeled, undirected simple skeletons. Reference counts for conformance are:
 
+The lower-level standalone skeleton canonicalizer also accepts disconnected
+simple graphs so that identity is not coupled to one generation policy.
+`enumerateConnectedSkeletons` is the boundary that enforces connectedness for
+the generator.
+
 | Nodes | Connected unlabeled simple graphs |
 |---:|---:|
 | 3 | 2 |
@@ -1255,7 +1339,7 @@ Let `V` be valid generated perturbations and `S` those for which `P` passes:
 stability = |S| / |V|
 ```
 
-The combinator passes when `stability >= threshold`. A threshold of `1` means preservation under every generated perturbation and preserves the strongest reading from the draft. When exhaustive enumeration is not requested, sampling MUST use the run seed and report sample size and uncertainty. `|V| = 0` produces `indeterminate` unless the package declares a vacuous-truth policy.
+The combinator passes when `stability >= threshold`. A threshold of `1` means preservation under every generated perturbation and applies the strictest policy. When exhaustive enumeration is not requested, sampling MUST use the run seed and report sample size and uncertainty. `|V| = 0` produces `indeterminate` unless the package declares a vacuous-truth policy.
 
 ### 11.7 Cohort selectors
 
@@ -1764,7 +1848,7 @@ Large candidate and explanation collections SHOULD use deterministic NDJSON orde
 
 ## 19. Public API
 
-The minimal API preserves the draft's shape while making state and artifacts explicit:
+The minimal API keeps state and artifacts explicit:
 
 ```ts
 const kernel = createKernel({ version: "0.1.0" });
@@ -1859,11 +1943,14 @@ Every error has `code`, `stage`, `message`, and structured `details`. Required e
 - `STRATIFICATION_*`: forbidden current-level references;
 - `DEPTH_BASIS_*`: absent, invalid, or cross-basis depth comparison;
 - `PREDICATE_TYPE_*`: invalid expression operands or selectors;
+- `EXPRESSION_*`: invalid value AST, selector, symbol, resource bound, or
+  dimensional inference;
 - `FUNCTIONAL_*`: invalid coefficients, dimensions, result contract, or forbidden generator access;
 - `COHORT_*`: invalid, overlapping, uncovered, or non-deterministic partition;
 - `SELECTOR_*`: invalid objective, functional/cohort reference, epsilon, ranking, or tie handling;
 - `SENSITIVITY_*`: invalid perturbation policy, budget, threshold, or report;
 - `QUANTITY_*`: malformed unit, tolerance, provenance, or incompatible arithmetic;
+- `DECIMAL_*`: invalid decimal grammar, policy, limit, arithmetic, or binary64 conversion;
 - `ORACLE_*`: request mismatch, solver-version mismatch, invalid response, convergence, or partial-policy failure;
 - `EVIDENCE_*`: missing, malformed, unhashed, or method-incompatible evidence;
 - `ONTOLOGY_COORDINATE_*`: implicit or invalid level/phase/depth mapping;
@@ -1907,7 +1994,7 @@ Default research budgets are:
 
 Five nodes are reasonable only with a narrow role alphabet and effective pruning. Six nodes are a research limit for selected cases. Budgets are semantic run inputs and MUST be reported even when not exhausted.
 
-The draft contains both a 10-second milestone target and a 60-second overall success target for `n = 4`. The architecture treats 60 seconds as the required acceptance ceiling and 10 seconds as an optimization target; the benchmark environment MUST be recorded by the implementation plan.
+Two performance targets are retained for `n = 4`: 60 seconds is the required acceptance ceiling and 10 seconds is an optimization target. The benchmark environment MUST be recorded by the implementation plan.
 
 ## 23. Conformance and acceptance
 
@@ -1987,7 +2074,7 @@ The draft contains both a 10-second milestone target and a 60-second overall suc
 
 ### 24.1 Case 1: Level 0 oscillator closure
 
-Case 1 is the computational decomposition of [the foundational paper](../scr/topology-of-arising.pdf), not only the triad-versus-dyad excerpt from the kernel draft. Its source artifact hash is part of every case package.
+Case 1 is the computational decomposition of [the foundational paper](../scr/topology-of-arising.pdf). Its source artifact hash is part of every case package.
 
 The paper's `Level 0` and phases A–D are domain coordinates. They span several kernel derivation depths.
 
@@ -1997,7 +2084,7 @@ Mode candidates carry typed `A`, `k`, `omega`, and `m2` quantities plus evidence
 
 The frozen Level-0 conformance variant includes a deliberately degenerate cohort. It MUST return every epsilon-equivalent extremum with explicit `degeneracy`/`degeneracyRatio`, not manufacture one winner.
 
-The core kernel does not solve the Klein–Gordon-type equation or calculate `deltaS`. Until a deterministic analytical or numerical adapter supplies these artifacts, Gate A remains a structurally prepared but scientifically incomplete case.
+The core kernel does not solve the Klein–Gordon-type equation or calculate `deltaS`. Until a deterministic analytical or numerical adapter supplies these artifacts, Gate A remains structurally specified but scientifically incomplete.
 
 #### Gate B: coherent resonant triad
 
@@ -2014,7 +2101,7 @@ AND irreducibleRemoval(triadicClosure, removal = node)
 
 With `maxNodes = 4`, the declared prediction is that the engine admits the intended triad and rejects a balanced dyad. A reciprocal directed dyad MUST NOT satisfy the simple length-three loop condition.
 
-The draft expects the dyad's census rejection to be attributed to `irreducibleRemoval`. To preserve that reporting intent without weakening semantics, the case SHOULD expose one named composite predicate such as `irreducible-triadic-closure` containing whole-closure, loop, rank, and removal checks. A bare removal combinator cannot by itself distinguish every balanced dyad.
+If the dyad's census rejection needs one attribution, the case SHOULD expose a named composite predicate such as `irreducible-triadic-closure` containing whole-closure, loop, rank, and removal checks. A bare removal combinator cannot by itself distinguish every balanced dyad.
 
 #### Gate C: CRT-node objecthood
 

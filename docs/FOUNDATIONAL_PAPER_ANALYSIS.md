@@ -12,8 +12,6 @@ Source identity used for this analysis:
 | SHA-256 | `3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7` |
 | Analysis status | Complete textual review of pages 1–36 |
 
-The paper-to-kernel operationalization was rechecked against the 345-line priority addendum `Onto2D_Kernel_Addendum_Selection_and_Quantities.md`, SHA-256 `c563a560ddfce2352f211b289e8dd90463ef9ef8c736f65624dfe0563f0df4a1`. The addendum does not change the paper's claims; it sharpens depth-basis, cohort, ranking, quantity, and oracle contracts used to test them.
-
 This document explains how the paper constrains the Onto2D kernel, which claims can be represented directly, which require external numerical or analytical evidence, and which remain research hypotheses rather than software facts.
 
 ## 1. Epistemic scope of the paper
@@ -159,7 +157,7 @@ Kernel disposition:
 - relational overdetermination needs a declared constraint-rank invariant or an explicit structural surrogate;
 - the complete predicate should test the whole closure condition and its removal behavior, not removal alone.
 
-This reveals an important nuance in the original kernel draft. A generic `cycleExists()` without projection and minimum-length parameters can misclassify a directed two-cycle as triadic closure.
+A generic `cycleExists()` without projection and minimum-length parameters can misclassify a directed two-cycle as triadic closure.
 
 ### 3.4 Coherent Resonant Triad
 
@@ -338,9 +336,9 @@ Kernel disposition:
 - promotion does not claim a physical quantum field has been derived;
 - Level 1 lies beyond the mandatory Level-0 closure case unless a separate package defines its predicates and external evidence.
 
-## 4. Required additions to the kernel architecture
+## 4. Kernel requirements implied by the paper
 
-The paper requires the following extensions beyond the original kernel draft.
+The paper implies the following kernel requirements.
 
 ### 4.1 Three coordinate systems
 
@@ -459,7 +457,7 @@ Acceptance:
 - rejection witnesses identify the missing nontrivial loop or closure condition;
 - removing any triad mode destroys the declared triadic closure class.
 
-The original draft's requirement that the dyad be rejected “by `irreducibleRemoval`” should be implemented as a named composite closure predicate if the census needs one attribution. A bare removal test is not enough to distinguish a balanced dyad.
+If the census needs one attribution for the dyad rejection, it should use a named composite closure predicate containing `irreducibleRemoval`. A bare removal test is not enough to distinguish a balanced dyad.
 
 ### 6.3 CRT objecthood gate
 

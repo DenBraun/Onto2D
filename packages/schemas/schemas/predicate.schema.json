@@ -9,12 +9,7 @@
     "phase": { "enum": ["formation", "maintenance", "termination"] },
     "monotoneViolation": { "type": "boolean" },
     "referencesDepth": { "enum": ["below", "self"] },
-    "expr": {
-      "type": "object",
-      "required": ["op"],
-      "properties": { "op": { "type": "string", "minLength": 1 } },
-      "additionalProperties": true
-    },
+    "expr": { "$ref": "boolean-expression.schema.json" },
     "explain": {
       "type": "object",
       "required": ["pass", "fail", "indeterminate"],

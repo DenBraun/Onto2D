@@ -1,6 +1,13 @@
 import { canonicalClone, canonicalize, deepFreeze } from "./canonical.js";
-import { KernelValidationError, validationIssue } from "./errors.js";
+import { KernelError, KernelValidationError, validationIssue } from "./errors.js";
+import { analyzeValueExpression } from "./expression-analyzer.js";
 import { HASH_DOMAINS, hashCanonical, isContentHash } from "./hash.js";
+import { compilePredicate } from "./predicate-analyzer.js";
+import {
+  areUnitsCompatible,
+  normalizeQuantity as normalizeRuntimeQuantity,
+  parseUnitExpression
+} from "./quantity.js";
 
 const ROOT_FIELDS = new Set([
   "schemaVersion",
@@ -297,7 +304,28 @@ function validateTolerance(tolerance, path, issues) {
   }
 }
 
+function validateUnit(unit, path, issues) {
+  if (!requireIdentifier(unit, path, issues)) return null;
+  try {
+    return parseUnitExpression(unit);
+  } catch (error) {
+    if (!(error instanceof KernelError) || error.stage !== "QUANTITY") throw error;
+    addIssue(issues, error.code, path, error.message, error.details);
+    return null;
+  }
+}
+
+function unitsCompatible(left, right) {
+  try {
+    return areUnitsCompatible(left, right);
+  } catch (error) {
+    if (!(error instanceof KernelError) || error.stage !== "QUANTITY") throw error;
+    return null;
+  }
+}
+
 function validateQuantity(quantity, path, issues) {
+  const initialIssueCount = issues.length;
   if (!requireObject(quantity, path, issues)) return;
   rejectUnknownFields(quantity, QUANTITY_FIELDS, path, issues);
   requireFields(quantity, QUANTITY_FIELDS, path, issues);
@@ -306,8 +334,8 @@ function validateQuantity(quantity, path, issues) {
       value: quantity.value
     });
   }
-  requireIdentifier(quantity.unit, `${path}.unit`, issues);
-  requireString(quantity.semantic, `${path}.semantic`, issues);
+  validateUnit(quantity.unit, `${path}.unit`, issues);
+  requireIdentifier(quantity.semantic, `${path}.semantic`, issues);
   validateTolerance(quantity.tolerance, `${path}.tolerance`, issues);
   if (requireObject(quantity.provenance, `${path}.provenance`, issues)) {
     const provenanceFields = {
@@ -324,13 +352,21 @@ function validateQuantity(quantity, path, issues) {
     }
     validateStringArray(quantity.provenance.evidence, `${path}.provenance.evidence`, issues);
     if (quantity.provenance.kind === "computed") {
-      requireString(quantity.provenance.method, `${path}.provenance.method`, issues);
+      requireIdentifier(quantity.provenance.method, `${path}.provenance.method`, issues);
     }
     if (quantity.provenance.kind === "oracle") {
-      requireString(quantity.provenance.method, `${path}.provenance.method`, issues);
+      requireIdentifier(quantity.provenance.method, `${path}.provenance.method`, issues);
       if (!isContentHash(quantity.provenance.source)) {
         addIssue(issues, "QUANTITY_PROVENANCE_SOURCE_INVALID", `${path}.provenance.source`, "Oracle source hash is invalid.");
       }
+    }
+  }
+  if (issues.length === initialIssueCount) {
+    try {
+      normalizeRuntimeQuantity(quantity);
+    } catch (error) {
+      if (!(error instanceof KernelError) || error.stage !== "QUANTITY") throw error;
+      addIssue(issues, error.code, path, error.message, error.details);
     }
   }
 }
@@ -382,8 +418,12 @@ function validateProfile(profile, path, issues) {
       if (isObject(entry.quantization) && Number.isFinite(entry.quantization.value) && entry.quantization.value <= 0) {
         addIssue(issues, "PACKAGE_PROFILE_QUANTIZATION_INVALID", `${entryPath}.quantization.value`, "Profile quantization must be positive.");
       }
-      if (isObject(entry.normalized) && isObject(entry.quantization) && entry.normalized.unit !== entry.quantization.unit) {
-        addIssue(issues, "QUANTITY_UNIT_INCOMPATIBLE", entryPath, "Normalized invariant and quantization must use the same unit in the bootstrap loader.", {
+      if (
+        isObject(entry.normalized) &&
+        isObject(entry.quantization) &&
+        unitsCompatible(entry.normalized.unit, entry.quantization.unit) === false
+      ) {
+        addIssue(issues, "QUANTITY_UNIT_INCOMPATIBLE", entryPath, "Normalized invariant and quantization must use compatible units.", {
           normalizedUnit: entry.normalized.unit,
           quantizationUnit: entry.quantization.unit
         });
@@ -488,7 +528,7 @@ function validatePrimitive(primitive, path, issues) {
     }
   }
   if (primitive.profile === undefined) {
-    addIssue(issues, "PACKAGE_PROFILE_REQUIRED", `${path}.profile`, "Bootstrap loader requires an explicit primitive profile.");
+    addIssue(issues, "PACKAGE_PROFILE_REQUIRED", `${path}.profile`, "The current loader requires an explicit primitive profile.");
   } else {
     validateProfile(primitive.profile, `${path}.profile`, issues);
   }
@@ -526,13 +566,28 @@ function validateValueExpression(expression, path, issues) {
 }
 
 function validateQuantitySpec(specification, path, issues) {
+  const initialIssueCount = issues.length;
   if (!requireObject(specification, path, issues)) return;
   rejectUnknownFields(specification, new Set(["id", "unit", "semantic", "toleranceTarget"]), path, issues);
   requireFields(specification, ["id", "unit", "semantic", "toleranceTarget"], path, issues);
   requireIdentifier(specification.id, `${path}.id`, issues);
-  requireIdentifier(specification.unit, `${path}.unit`, issues);
-  requireString(specification.semantic, `${path}.semantic`, issues);
+  validateUnit(specification.unit, `${path}.unit`, issues);
+  requireIdentifier(specification.semantic, `${path}.semantic`, issues);
   validateTolerance(specification.toleranceTarget, `${path}.toleranceTarget`, issues);
+  if (issues.length === initialIssueCount) {
+    try {
+      normalizeRuntimeQuantity({
+        value: 0,
+        unit: specification.unit,
+        tolerance: specification.toleranceTarget,
+        semantic: specification.semantic,
+        provenance: { kind: "declared", evidence: [] }
+      });
+    } catch (error) {
+      if (!(error instanceof KernelError) || error.stage !== "QUANTITY") throw error;
+      addIssue(issues, error.code, path, error.message, error.details);
+    }
+  }
 }
 
 function validateFunctional(functional, path, issues) {
@@ -590,8 +645,12 @@ function validateCohortRule(rule, path, issues) {
     if (isObject(rule.width) && Number.isFinite(rule.width.value) && rule.width.value <= 0) {
       addIssue(issues, "COHORT_WINDOW_WIDTH_INVALID", `${path}.width.value`, "Invariant-window width must be positive.");
     }
-    if (isObject(rule.origin) && isObject(rule.width) && rule.origin.unit !== rule.width.unit) {
-      addIssue(issues, "QUANTITY_UNIT_INCOMPATIBLE", path, "Invariant-window origin and width must use the same unit in the bootstrap loader.");
+    if (
+      isObject(rule.origin) &&
+      isObject(rule.width) &&
+      unitsCompatible(rule.origin.unit, rule.width.unit) === false
+    ) {
+      addIssue(issues, "QUANTITY_UNIT_INCOMPATIBLE", path, "Invariant-window origin and width must use compatible units.");
     }
     if (rule.bins !== "lower-closed-upper-open") {
       addIssue(issues, "COHORT_WINDOW_BINS_INVALID", `${path}.bins`, "Invariant-window bins must be lower-closed-upper-open.");
@@ -828,8 +887,8 @@ function validateReferences(raw, issues) {
       });
     } else {
       const functional = functionals.get(selector.functional);
-      if (selector.epsilon.unit !== functional.result.unit) {
-        addIssue(issues, "QUANTITY_UNIT_INCOMPATIBLE", `$.selectors[${index}].epsilon.unit`, "Selector epsilon and functional result must use the same unit in the bootstrap loader.", {
+      if (unitsCompatible(selector.epsilon.unit, functional.result.unit) === false) {
+        addIssue(issues, "QUANTITY_UNIT_INCOMPATIBLE", `$.selectors[${index}].epsilon.unit`, "Selector epsilon and functional result must use compatible units.", {
           epsilonUnit: selector.epsilon.unit,
           resultUnit: functional.result.unit,
           functional: selector.functional
@@ -852,9 +911,203 @@ function validateReferences(raw, issues) {
   }
 }
 
+function rebaseExpressionIssues(issues, error, path) {
+  if (!(error instanceof KernelValidationError) || error.code !== "EXPRESSION_ANALYSIS_FAILED") throw error;
+  for (const entry of error.issues) {
+    issues.push(validationIssue(
+      entry.code,
+      entry.path === "$" ? path : `${path}${entry.path.slice(1)}`,
+      entry.message,
+      entry.details
+    ));
+  }
+}
+
+function rebasePredicateCompilationIssues(issues, error, path) {
+  if (!(error instanceof KernelValidationError) || error.code !== "PREDICATE_COMPILATION_FAILED") throw error;
+  for (const entry of error.issues) {
+    issues.push(validationIssue(
+      entry.code,
+      entry.path === "$" ? path : `${path}${entry.path.slice(1)}`,
+      entry.message,
+      entry.details
+    ));
+  }
+}
+
+function collectPerturbationIds(raw, issues) {
+  const ids = new Set();
+  raw.perturbations.forEach((entry, index) => {
+    const path = `$.perturbations[${index}]`;
+    const id = typeof entry === "string" ? entry : isObject(entry) ? entry.id : undefined;
+    if (id === undefined) return;
+    if (!requireIdentifier(id, typeof entry === "string" ? path : `${path}.id`, issues)) return;
+    if (ids.has(id)) {
+      addIssue(issues, "PACKAGE_DUPLICATE_ID", typeof entry === "string" ? path : `${path}.id`, "Duplicate perturbation identifier.", {
+        id,
+        registry: "$.perturbations"
+      });
+    }
+    ids.add(id);
+  });
+  return [...ids].sort();
+}
+
+function buildInvariantEnvironment(raw, issues) {
+  const invariants = {};
+  const declarations = new Map();
+  raw.primitives.forEach((primitive, primitiveIndex) => {
+    for (const [name, quantity] of Object.entries(primitive.invariants)) {
+      const parsed = parseUnitExpression(quantity.unit);
+      const declaration = {
+        dimensionSignature: parsed.dimensionSignature,
+        semantic: quantity.semantic.trim(),
+        path: `$.primitives[${primitiveIndex}].invariants.${name}`
+      };
+      const previous = declarations.get(name);
+      if (
+        previous !== undefined &&
+        (
+          previous.dimensionSignature !== declaration.dimensionSignature ||
+          previous.semantic !== declaration.semantic
+        )
+      ) {
+        addIssue(
+          issues,
+          "EXPRESSION_INVARIANT_TYPE_CONFLICT",
+          declaration.path,
+          "Invariant declarations with the same name must have identical dimensions and semantics.",
+          {
+            name,
+            previousPath: previous.path,
+            previousDimensionSignature: previous.dimensionSignature,
+            dimensionSignature: declaration.dimensionSignature,
+            previousSemantic: previous.semantic,
+            semantic: declaration.semantic
+          }
+        );
+      } else if (previous === undefined) {
+        declarations.set(name, declaration);
+        invariants[name] = quantity;
+      }
+    }
+  });
+  return invariants;
+}
+
+function compilePackageExpressions(raw, issues) {
+  const invariants = buildInvariantEnvironment(raw, issues);
+  const perturbations = collectPerturbationIds(raw, issues);
+  const compiled = {
+    predicates: new Map(),
+    functionals: new Map(),
+    cohortRules: new Map()
+  };
+
+  raw.predicates.forEach((predicate, index) => {
+    try {
+      const plan = compilePredicate(predicate, {
+        environment: { invariants, perturbations }
+      });
+      compiled.predicates.set(predicate.id, plan);
+    } catch (error) {
+      rebasePredicateCompilationIssues(issues, error, `$.predicates[${index}]`);
+    }
+  });
+
+  raw.functionals.forEach((functional, index) => {
+    try {
+      const analysis = analyzeValueExpression(functional.expr, {
+        environment: { invariants, coefficients: functional.coefficients }
+      });
+      const resultUnit = parseUnitExpression(functional.result.unit);
+      if (analysis.result.kind !== "number" && analysis.result.kind !== "quantity") {
+        addIssue(
+          issues,
+          "FUNCTIONAL_RESULT_NON_NUMERIC",
+          `$.functionals[${index}].expr`,
+          "Functional expression must produce a number or quantity.",
+          {
+            functional: functional.id,
+            actualKind: analysis.result.kind
+          }
+        );
+      } else if (analysis.result.dimensionSignature !== resultUnit.dimensionSignature) {
+        addIssue(
+          issues,
+          "FUNCTIONAL_RESULT_UNIT_INCOMPATIBLE",
+          `$.functionals[${index}].result.unit`,
+          "Functional result unit is incompatible with the inferred expression dimension.",
+          {
+            functional: functional.id,
+            expressionUnit: analysis.result.unit,
+            expressionDimensionSignature: analysis.result.dimensionSignature,
+            resultUnit: functional.result.unit,
+            resultDimensionSignature: resultUnit.dimensionSignature
+          }
+        );
+      }
+      compiled.functionals.set(functional.id, analysis);
+    } catch (error) {
+      rebaseExpressionIssues(issues, error, `$.functionals[${index}].expr`);
+    }
+  });
+
+  raw.cohortRules.forEach((rule, index) => {
+    const environment = { invariants };
+    if (rule.kind === "shared-support" || rule.kind === "profile-role") {
+      const field = rule.kind === "shared-support" ? "resourceKey" : "roleKey";
+      const analyses = [];
+      rule[field].forEach((expression, expressionIndex) => {
+        try {
+          analyses.push(analyzeValueExpression(expression, { environment }));
+        } catch (error) {
+          rebaseExpressionIssues(issues, error, `$.cohortRules[${index}].${field}[${expressionIndex}]`);
+        }
+      });
+      if (analyses.length === rule[field].length) compiled.cohortRules.set(rule.id, { field, analyses });
+      return;
+    }
+    if (rule.kind !== "invariant-window") return;
+    try {
+      const analysis = analyzeValueExpression(rule.value, { environment });
+      if (analysis.result.kind !== "number" && analysis.result.kind !== "quantity") {
+        addIssue(
+          issues,
+          "COHORT_WINDOW_VALUE_NON_NUMERIC",
+          `$.cohortRules[${index}].value`,
+          "Invariant-window expression must produce a number or quantity.",
+          { actualKind: analysis.result.kind }
+        );
+      } else {
+        const originUnit = parseUnitExpression(rule.origin.unit);
+        if (analysis.result.dimensionSignature !== originUnit.dimensionSignature) {
+          addIssue(
+            issues,
+            "COHORT_WINDOW_VALUE_UNIT_INCOMPATIBLE",
+            `$.cohortRules[${index}].value`,
+            "Invariant-window expression and origin must have identical dimensions.",
+            {
+              expressionUnit: analysis.result.unit,
+              expressionDimensionSignature: analysis.result.dimensionSignature,
+              originUnit: rule.origin.unit,
+              originDimensionSignature: originUnit.dimensionSignature
+            }
+          );
+        }
+      }
+      compiled.cohortRules.set(rule.id, { field: "value", analysis });
+    } catch (error) {
+      rebaseExpressionIssues(issues, error, `$.cohortRules[${index}].value`);
+    }
+  });
+
+  return compiled;
+}
+
 function validatePackage(raw) {
   const issues = [];
-  if (!requireObject(raw, "$", issues)) return issues;
+  if (!requireObject(raw, "$", issues)) return { issues, compiledExpressions: null };
   rejectUnknownFields(raw, ROOT_FIELDS, "$", issues);
   requireFields(raw, ["schemaVersion", "id", "version"], "$", issues);
   if (raw.schemaVersion !== "1") {
@@ -917,8 +1170,10 @@ function validatePackage(raw) {
     addIssue(issues, "SOURCE_CLASSIFICATION_FOUNDATION_UNAVAILABLE", "$.sourceMigration", "Source migration requires edge reconciliation and condensation validation, which are not implemented in the foundation loader.");
   }
 
+  let compiledExpressions = null;
   if (issues.length === 0) validateReferences(raw, issues);
-  return issues;
+  if (issues.length === 0) compiledExpressions = compilePackageExpressions(raw, issues);
+  return { issues, compiledExpressions };
 }
 
 function sortedStrings(values) {
@@ -930,14 +1185,15 @@ function sortedRecord(record, transform = (value) => value) {
 }
 
 function normalizeQuantity(quantity) {
+  const normalized = normalizeRuntimeQuantity(quantity);
   return {
-    value: Object.is(quantity.value, -0) ? 0 : quantity.value,
-    unit: quantity.unit.trim(),
-    tolerance: sortedRecord(quantity.tolerance),
-    semantic: quantity.semantic.trim(),
+    value: normalized.value,
+    unit: normalized.unit,
+    tolerance: sortedRecord(normalized.tolerance),
+    semantic: normalized.semantic,
     provenance: {
-      ...quantity.provenance,
-      evidence: sortedStrings(quantity.provenance.evidence)
+      ...normalized.provenance,
+      evidence: sortedStrings(normalized.provenance.evidence)
     }
   };
 }
@@ -962,18 +1218,25 @@ function normalizeArtifact(artifact) {
 }
 
 function normalizeQuantitySpec(specification) {
+  const normalized = normalizeRuntimeQuantity({
+    value: 0,
+    unit: specification.unit,
+    tolerance: specification.toleranceTarget,
+    semantic: specification.semantic,
+    provenance: { kind: "declared", evidence: [] }
+  });
   return {
     id: specification.id.trim(),
-    unit: specification.unit.trim(),
-    semantic: specification.semantic.trim(),
-    toleranceTarget: sortedRecord(specification.toleranceTarget)
+    unit: normalized.unit,
+    semantic: normalized.semantic,
+    toleranceTarget: sortedRecord(normalized.tolerance)
   };
 }
 
-function normalizeFunctional(functional) {
+function normalizeFunctional(functional, analysis) {
   return {
     id: functional.id.trim(),
-    expr: functional.expr,
+    expr: analysis.expression,
     coefficients: sortedRecord(functional.coefficients, normalizeQuantity),
     sensitivityCoefficients: sortedStrings(functional.sensitivityCoefficients),
     result: normalizeQuantitySpec(functional.result),
@@ -982,18 +1245,34 @@ function normalizeFunctional(functional) {
   };
 }
 
-function normalizeCohortRule(rule) {
+function normalizePredicate(predicate, plan) {
+  return {
+    id: predicate.id.trim(),
+    phase: predicate.phase,
+    monotoneViolation: predicate.monotoneViolation,
+    referencesDepth: predicate.referencesDepth,
+    expr: plan.expression,
+    explain: {
+      pass: predicate.explain.pass.trim(),
+      fail: predicate.explain.fail.trim(),
+      indeterminate: predicate.explain.indeterminate.trim()
+    },
+    claimRefs: sortedStrings(predicate.claimRefs)
+  };
+}
+
+function normalizeCohortRule(rule, compiled) {
   if (rule.kind === "shared-support") {
-    return { id: rule.id.trim(), kind: rule.kind, resourceKey: rule.resourceKey };
+    return { id: rule.id.trim(), kind: rule.kind, resourceKey: compiled.analyses.map((analysis) => analysis.expression) };
   }
   if (rule.kind === "profile-role") {
-    return { id: rule.id.trim(), kind: rule.kind, roleKey: rule.roleKey };
+    return { id: rule.id.trim(), kind: rule.kind, roleKey: compiled.analyses.map((analysis) => analysis.expression) };
   }
   if (rule.kind === "invariant-window") {
     return {
       id: rule.id.trim(),
       kind: rule.kind,
-      value: rule.value,
+      value: compiled.analysis.expression,
       origin: normalizeQuantity(rule.origin),
       width: normalizeQuantity(rule.width),
       bins: "lower-closed-upper-open"
@@ -1099,7 +1378,7 @@ function primitiveIdentity(primitive, identityPolicy) {
   return identity;
 }
 
-function normalizePackage(raw, issues) {
+function normalizePackage(raw, issues, compiledExpressions) {
   const identityPolicy = { ...DEFAULT_IDENTITY_POLICY, ...raw.identityPolicy };
   const primitives = raw.primitives.map((primitive, index) => {
     const normalized = {
@@ -1134,12 +1413,15 @@ function normalizePackage(raw, issues) {
       evidence: sortedStrings(entry.evidence)
     })),
     primitives,
-    predicates: [...raw.predicates].sort((left, right) => compareStrings(left.id, right.id)).map((entry) => ({
-      ...entry,
-      claimRefs: sortedStrings(entry.claimRefs)
-    })),
-    functionals: [...raw.functionals].sort((left, right) => compareStrings(left.id, right.id)).map(normalizeFunctional),
-    cohortRules: [...raw.cohortRules].sort((left, right) => compareStrings(left.id, right.id)).map(normalizeCohortRule),
+    predicates: [...raw.predicates]
+      .sort((left, right) => compareStrings(left.id, right.id))
+      .map((entry) => normalizePredicate(entry, compiledExpressions.predicates.get(entry.id))),
+    functionals: [...raw.functionals]
+      .sort((left, right) => compareStrings(left.id, right.id))
+      .map((entry) => normalizeFunctional(entry, compiledExpressions.functionals.get(entry.id))),
+    cohortRules: [...raw.cohortRules]
+      .sort((left, right) => compareStrings(left.id, right.id))
+      .map((entry) => normalizeCohortRule(entry, compiledExpressions.cohortRules.get(entry.id))),
     selectors: [...raw.selectors].sort((left, right) => compareStrings(left.id, right.id)).map(normalizeSelector),
     partialOraclePolicy: normalizePartialOraclePolicy(raw.partialOraclePolicy),
     ontologyAxes: {
@@ -1180,12 +1462,21 @@ export function loadKernelPackage(input, options = {}) {
   if (!options || typeof options !== "object" || Array.isArray(options)) {
     throw new TypeError("Kernel package loader options must be an object.");
   }
+  const safeOptions = canonicalClone(options);
+  if (Object.keys(safeOptions).some((field) => field !== "kernelVersion")) {
+    throw new TypeError("Unknown kernel package loader option.");
+  }
+  const kernelVersion = safeOptions.kernelVersion === undefined ? "0.1.0" : safeOptions.kernelVersion;
+  if (typeof kernelVersion !== "string" || kernelVersion.trim().length === 0) {
+    throw new TypeError("Kernel version must be a non-empty string.");
+  }
   const cloned = canonicalClone(input);
   const withDefaults = materializeDefaults(cloned);
-  const issues = validatePackage(withDefaults);
+  const validation = validatePackage(withDefaults);
+  const { issues, compiledExpressions } = validation;
   if (issues.length > 0) throw new KernelValidationError(issues);
 
-  const normalized = normalizePackage(withDefaults, issues);
+  const normalized = normalizePackage(withDefaults, issues, compiledExpressions);
   const seenElementIds = new Set();
   normalized.primitives.forEach((primitive, index) => {
     if (seenElementIds.has(primitive.elementId)) {
@@ -1215,16 +1506,13 @@ export function loadKernelPackage(input, options = {}) {
     condensationHash: null
   });
   const packageId = hashCanonical(HASH_DOMAINS.PACKAGE, normalized);
-  const kernelVersion = options.kernelVersion === undefined ? "0.1.0" : options.kernelVersion;
-  if (typeof kernelVersion !== "string" || kernelVersion.trim().length === 0) {
-    throw new TypeError("Kernel version must be a non-empty string.");
-  }
-
   return deepFreeze({
     kind: "loaded-kernel-package",
     schemaVersion: "1",
     packageId,
     normalized,
+    predicatePlans: [...compiledExpressions.predicates.values()]
+      .sort((left, right) => compareStrings(left.predicateId, right.predicateId)),
     semanticManifest: {
       schemaVersion: "1",
       kernelVersion: kernelVersion.trim(),
