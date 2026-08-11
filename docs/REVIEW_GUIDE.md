@@ -1,6 +1,6 @@
 # Kernel Foundation Review Guide
 
-Status: maintainer review notes as of 2026-08-07. Static review is followed by
+Status: maintainer review notes as of 2026-08-11. Static review is followed by
 local conformance execution on macOS arm64 with Node.js 20.19.4 and 22.18.0;
 cross-platform and independent review gates remain.
 
@@ -8,9 +8,19 @@ cross-platform and independent review gates remain.
 
 The current foundation contains guarded canonical JSON, domain-separated
 content hashes, deterministic schema-v1 package loading, primitive/profile
-identity, exact supplied-graph canonicalization, bounded connected-skeleton
-enumeration, a deterministic CandidateStore, public TypeScript contracts, and
-41 JSON Schemas. The quantity layer adds versioned multiplicative SI parsing,
+identity, verified depth-zero `Element` population materialization, exact
+supplied-graph canonicalization, bounded connected-skeleton
+enumeration, deterministic finite decoration, a CandidateStore, public
+TypeScript contracts, normalized package/run candidate binding, and 52 JSON
+Schemas. The graph-predicate layer adds verified complete evaluation and
+partial persistent-failure diagnostics without pruning authority. The
+package-filter layer proves bound-universe membership, records exact/profile
+constituent resolution, reproduces numeric bindings, and combines graph plus
+supported exact-compare top-level outcomes into a local verdict without
+selector admission. The local comparison layer executes scalar constants,
+direct constant quantities, canonical counts, and exact dimensionless
+addition/multiplication with boundary-only rounding. The quantity layer adds versioned
+multiplicative SI parsing,
 normalization, comparison, exact decimals, declared rounding, and exact or
 compensated accumulation. The typed value-expression layer adds recursive AST
 validation, dimensional inference, dependency extraction, and content hashes
@@ -31,9 +41,13 @@ Pending execution and closure capabilities fail explicitly; they do not return
 placeholder results.
 
 The review boundary is intentionally smaller than the target architecture.
-Candidate decoration, value-expression and predicate evaluation, cohort ranking,
-sensitivity execution, source migration/condensation, explanations, and
-closure are not implemented.
+Derived-depth population binding and selected formation/profile
+materialization artifacts, derived decoration attributes, profile
+guards/capacities, partial predicate pruning authorization, runtime invariant/
+attribute/coefficient binding, quantity arithmetic, balance/substructure
+predicate evaluation, integrated complete verdicts,
+cohort ranking/selector admission, sensitivity execution, source migration/
+condensation, explanations, and closure are not implemented.
 
 ## Recommended review order
 
@@ -54,14 +68,25 @@ closure are not implemented.
    [ADR-0011](adr/0011-scientific-oracle-validation.md), then
    [ADR-0012](adr/0012-source-policy-freeze-contracts.md), then
    [ADR-0013](adr/0013-source-classification-annotation-artifacts.md), then
-   [ADR-0014](adr/0014-classified-relations-and-scc-projections.md).
+   [ADR-0014](adr/0014-classified-relations-and-scc-projections.md), then
+   [ADR-0015](adr/0015-decorated-candidate-enumeration.md), then
+   [ADR-0016](adr/0016-package-run-candidate-binding.md), then
+   [ADR-0017](adr/0017-graph-predicate-evaluation.md), then
+   [ADR-0018](adr/0018-primitive-depth-population.md), then
+   [ADR-0019](adr/0019-package-candidate-local-filter.md), then
+   [ADR-0020](adr/0020-local-exact-compare-evaluation.md).
 5. Review `packages/kernel/src/canonical.js`, `hash.js`, and
    `quantity.js`, followed by `decimal.js`, `expression-analyzer.js`,
-   `predicate-analyzer.js`, `numeric-binding.js`, `oracle-validator.js`,
+   `predicate-analyzer.js`, `predicate-plan-verifier.js`,
+   `graph-predicate-evaluator.js`, `numeric-binding.js`,
+   `local-predicate-evaluator.js`, `oracle-validator.js`,
    `source-policy.js`, and `source-classification.js`, their tests, and the
    package-loader integration.
-6. Review `graph-canonicalizer.js`, `skeleton-enumerator.js`, and
-   `candidate-store.js`, then their tests.
+6. Review `graph-canonicalizer.js`, `skeleton-enumerator.js`,
+   `candidate-enumerator.js`, `candidate-store.js`, `run-config.js`, and
+   `loaded-package-verifier.js`, `primitive-depth-population.js`, and
+   `package-candidate-generator.js`, followed by `package-candidate-filter.js`,
+   then their tests.
 7. Review `packages/catalog-adapter/src/source-projection.js`, its public types,
    and its order/tamper fixtures.
 8. Compare public TypeScript declarations with `packages/schemas/schemas/`.
@@ -84,6 +109,12 @@ closure are not implemented.
   refinement plus exhaustive individualization. Both share a deterministic
   search budget; exhaustion emits no partial identity.
 - Partial enumeration/store results are explicitly non-interpretable.
+- Package/run binding replays the loader, fixes the primitive source
+  population as canonical depth-zero `Element` records, binds the source-depth
+  selection, discloses profile quotient membership/representatives, and rejects
+  semantics the connected finite generator cannot enforce. Derived records
+  remain forbidden until selector admission and selected formation/profile
+  provenance are reproducible.
 - Quantity identity uses canonical SI bases; comparisons combine both declared
   tolerances and require matching semantics unless explicitly overridden.
 - Decimal operations round only at the declared boundary; exact and
@@ -96,6 +127,16 @@ closure are not implemented.
   partial-data availability. Only `static-proven` plans may later reach a
   pruning path, and every declared claim still requires the falsification
   audit specified by the architecture.
+- Complete graph evaluation re-canonicalizes the candidate and uses canonical
+  witnesses. Partial persistent-failure detection always reports
+  `pruningAuthorized: false`; it is evidence for a future audited controller,
+  not permission to change the generated universe.
+- Package filtering reproduces the complete package/run binding, rejects
+  canonical candidates that the bound decorator cannot emit, and evaluates all
+  graph or supported exact-compare top-level plans under reproduced numeric
+  bindings. Its `eligible` verdict remains local and cannot be presented as
+  selector admission or a materialized derived element. Unfrozen runtime value
+  sources and derived quantity tolerance propagation fail preflight.
 - Predicate numeric bindings keep reusable package plans separate from run
   precision, bind canonical selection order and declared-tolerance comparison
   explicitly, and reproduce every analysis witness and pruning fact before
@@ -126,14 +167,15 @@ closure are not implemented.
 
 ## Static verification record
 
-The static documentation pass checks all 61 JSON files for parseability, all
-41 schema identifiers and relative references, schema export coverage,
+The static documentation pass checks all 72 JSON files for parseability, all
+52 schema identifiers and relative references, schema export coverage and
+Draft 2020-12 compilation,
 relative source imports, Markdown links/fences, public implementation/type
 names, source-lock hashes and sizes, and whitespace errors in the maintained
 source/documentation surface outside the preserved catalogue.
 `git diff --check` is also required to remain clean.
 
-All 48 maintained JavaScript source and test files pass the repository source
+All 65 maintained JavaScript source and test files pass the repository source
 check. The earlier syntax-only JavaScriptCore review did not evaluate modules;
 the current Node.js passes now exercise the complete test suite.
 
@@ -143,6 +185,8 @@ type gaps, bounded schema selector strings and canonical indices, normalized
 quantity semantic/provenance identifiers, discriminated exact from compensated
 decimal accumulation, made public option objects closed, and made package
 conversion overflow or non-zero underflow a structured validation failure.
+Executable generation/evaluation artifacts are also validated against the
+compiled schemas, including witnesses above 64 edges.
 
 An independent Python standard-library generator now supplies canonical-byte,
 domain-hash, canonical-skeleton, and labelled-multiplicity fixtures without
@@ -170,7 +214,7 @@ npm run check
 npm run build
 ```
 
-The full 117-test suite, repository checks, and build validation pass on both
+The full 174-test suite, repository checks, and build validation pass on both
 local Node.js versions. ADR-0003, ADR-0004, and ADR-0005 remain proposed until the
 goldens receive independent review and additional supported platforms
 reproduce them. RFC 8785 binary64 and Unicode edge cases are now explicitly
@@ -199,7 +243,8 @@ covered by the canonical conformance tests.
 - A Quantity used as a declared structural candidate attribute currently
   contributes its complete normalized provenance to candidate identity, while
   ordinary primitive/profile quantity identity excludes evidence provenance.
-  This policy asymmetry needs an explicit decision before candidate decoration.
+  This policy asymmetry needs an explicit decision before derived attributes
+  feed integrated closure generation.
 - Static persistence is intentionally conservative. Combined lower/upper
   ranges, arbitrary comparisons, balances, substructure combinators, and
   canonical-index degree/path checks are not authorized for partial pruning;

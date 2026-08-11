@@ -614,6 +614,119 @@ export interface PredicatePlan {
   statistics: PredicateExpressionAnalysis["statistics"];
 }
 
+export type GraphPredicateOperator =
+  | "degree"
+  | "cycleExists"
+  | "connected"
+  | "componentCount"
+  | "pathExists"
+  | "countRole";
+
+export interface GraphPredicateWitness {
+  expressionPath: string;
+  operator: GraphPredicateOperator;
+  outcome: PredicateOutcome;
+  nodeIndexes?: number[];
+  edgeIndexes?: number[];
+  components?: number[][];
+  count?: number;
+  expectedCount?: number;
+  min?: number;
+  max?: number;
+  role?: string;
+  roles?: string[];
+  projection?: GraphProjection;
+  reason?:
+    | "selector-empty"
+    | "no-matching-cycle"
+    | "no-matching-path"
+    | "partial-connectivity-repairable";
+}
+
+export interface PredicateGraphEvaluation {
+  schemaVersion: "1";
+  evaluator: "graph-predicate-evaluator-v1";
+  predicatePlanHash: ContentHash;
+  candidateId: CandidateId;
+  graphPolicy: GraphPolicy;
+  outcome: PredicateOutcome;
+  witnesses: GraphPredicateWitness[];
+  evaluationHash: ContentHash;
+}
+
+export type LocalEvaluatedValue =
+  | { kind: "number"; exact: DecimalValue; rounded: DecimalValue }
+  | {
+      kind: "quantity";
+      exact: DecimalValue;
+      rounded: DecimalValue;
+      quantity: Quantity;
+    }
+  | { kind: "string"; value: string }
+  | { kind: "boolean"; value: boolean }
+  | { kind: "null"; value: null };
+
+export interface LocalValueSelectionWitness {
+  expressionPath: string;
+  setKind: "nodes" | "edges";
+  count: number;
+  nodeIndexes?: number[];
+  edgeIndexes?: number[];
+  roles?: string[];
+}
+
+export interface LocalComparePredicateWitness {
+  expressionPath: string;
+  operator: "compare";
+  outcome: "pass" | "fail";
+  comparator: QuantityComparator;
+  left: LocalEvaluatedValue;
+  right: LocalEvaluatedValue;
+  comparison:
+    | { kind: "number"; relation: -1 | 0 | 1 }
+    | ({ kind: "quantity" } & QuantityComparison)
+    | { kind: "scalar"; equal: boolean };
+  selections: LocalValueSelectionWitness[];
+}
+
+export interface PredicateLocalEvaluation {
+  schemaVersion: "1";
+  evaluator: "local-predicate-evaluator-v1";
+  predicatePlanHash: ContentHash;
+  numericBindingHash: ContentHash;
+  candidateId: CandidateId;
+  graphPolicy: GraphPolicy;
+  outcome: PredicateOutcome;
+  witnesses: (GraphPredicateWitness | LocalComparePredicateWitness)[];
+  evaluationHash: ContentHash;
+}
+
+export interface PartialPredicateGraph {
+  domain: CandidateDomain;
+  nodes: CandidateNode[];
+  edges: CandidateEdge[];
+  nodesComplete: boolean;
+}
+
+export interface PartialPredicateGraphEvaluation {
+  schemaVersion: "1";
+  evaluator: "partial-graph-predicate-evaluator-v1";
+  predicatePlanHash: ContentHash;
+  partialGraphHash: ContentHash;
+  outcome: PredicateOutcome;
+  detection: "persistent-failure" | "not-detected" | "blocked-plan";
+  reason:
+    | "persistent-failure-detected"
+    | "partial-failure-not-detected"
+    | "plan-not-static-proven";
+  persistentFailureDetected: boolean;
+  pruningEligibility: PredicatePlan["pruning"]["eligibility"];
+  auditRequired: boolean;
+  pruningAuthorized: false;
+  witnesses: GraphPredicateWitness[];
+  evaluationHash: ContentHash;
+}
+
 export type PredicateNumericOperationKind =
   | "value-add"
   | "value-multiply"
@@ -843,6 +956,63 @@ export interface NormalizedPrimitiveDefinition extends Omit<PrimitiveDefinition,
   elementId: ElementId;
 }
 
+export interface AxisProvenance extends PrimitiveAxisProvenance {
+  derivationDepth: "computed";
+}
+
+export interface ElementRoleAssignment {
+  edges: {
+    canonicalEdge: number;
+    role: string;
+    direction: "forward" | "reverse" | "symmetric";
+  }[];
+}
+
+export interface ElementProvenance {
+  constituents: ElementId[];
+  constituentProfiles: ProfileHash[];
+  skeleton: SkeletonId;
+  roleAssignment: ElementRoleAssignment;
+  sourceCandidate: CandidateId;
+  derivationDepth: number;
+  depthBasis: BasisHash;
+  evidence: string[];
+}
+
+export interface Element {
+  id: ElementId;
+  kind: "primitive" | "derived" | "condensed-cluster";
+  depth: number;
+  depthBasis: BasisHash;
+  axisProvenance: AxisProvenance;
+  canonicalForm: CanonicalForm;
+  profile: NormalizedProfile;
+  provenance: ElementProvenance | null;
+  ontologyCoordinate?: OntologyCoordinate;
+  typeTags: string[];
+  invariants: Record<string, Quantity>;
+  admittedBy: string[];
+  selectedBy: string[];
+  claimRefs: string[];
+  cluster?: ClusterProvenance;
+}
+
+export interface PrimitiveDepthElement extends Omit<Element, "kind" | "depth" | "provenance"> {
+  kind: "primitive" | "condensed-cluster";
+  depth: 0;
+  provenance: null;
+}
+
+export interface PrimitiveDepthPopulation {
+  schemaVersion: "1";
+  materializer: "primitive-depth-population-v1";
+  packageId: ContentHash;
+  depthBasis: BasisHash;
+  depth: 0;
+  elements: PrimitiveDepthElement[];
+  populationHash: ContentHash;
+}
+
 export interface NormalizedRulePackage extends Required<Omit<RulePackage, "sourceMigration">> {
   primitives: NormalizedPrimitiveDefinition[];
   identityPolicy: IdentityPolicy;
@@ -1021,6 +1191,10 @@ export interface RunConfig {
   boundedFixpoint?: { enabled: boolean; maxIterations: number };
 }
 
+export type RunConfigInput = Omit<RunConfig, "budget"> & {
+  budget?: Partial<RunBudget>;
+};
+
 export interface GraphCanonicalizationLimits {
   maxNodes: number;
   maxEdges: number;
@@ -1195,6 +1369,175 @@ export interface CandidateStore {
   snapshot(): CandidateStoreSnapshot;
 }
 
+export interface CandidateDecorationEdgeVariant {
+  role: string;
+  attrs?: Record<string, CandidateAttribute>;
+}
+
+export interface DecoratedCandidateEnumerationInput {
+  domain: CandidateDomain;
+  skeletons: (SkeletonInput | EnumeratedSkeleton)[];
+  nodeVariants: CandidateNode[];
+  edgeVariants: CandidateDecorationEdgeVariant[];
+  graphPolicy?: Partial<GraphPolicy>;
+}
+
+export interface CandidateEnumerationLimits {
+  maxEdges: number | "n+2";
+  maxRawCandidates: number;
+  maxCandidates: number;
+  maxDecorationStates: number;
+}
+
+export interface CandidateEnumerationCursor {
+  skeletonId: SkeletonId;
+  nodeIndex: number;
+  edgeGroupIndex: number | null;
+}
+
+export type CandidateEnumerationExhaustion =
+  | {
+      budget: "maxDecorationStates" | "maxRawCandidates";
+      used: number;
+      maximum: number;
+      cursor: CandidateEnumerationCursor;
+    }
+  | {
+      budget: "maxSearchStates";
+      used: number;
+      maximum: number;
+      skeletonId: SkeletonId;
+      canonicalizationPhase: "skeleton" | "candidate";
+    }
+  | CandidateStoreExhaustion;
+
+export interface DecoratedCandidateEnumerationResult {
+  schemaVersion: "1";
+  enumerator: "decorated-candidate-enumerator-v1";
+  status: "complete" | "budget-exhausted";
+  interpretable: boolean;
+  domain: CandidateDomain;
+  graphPolicy: GraphPolicy;
+  skeletonIds: SkeletonId[];
+  nodeVariants: CandidateNode[];
+  edgeVariants: CandidateDecorationEdgeVariant[];
+  candidateStore: CandidateStoreSnapshot;
+  counts: {
+    inputSkeletons: number;
+    edgeBoundExcludedSkeletons: number;
+    decorationStates: number;
+    generatedCandidates: number;
+    policyExcludedCandidates: number;
+    canonicalizationIndeterminateCandidates: number;
+    attemptedCandidates: number;
+    canonicalCandidates: number;
+    duplicateCandidates: number;
+  };
+  budget: CandidateEnumerationLimits & {
+    canonicalizationLimits: GraphCanonicalizationLimits;
+    exhausted: CandidateEnumerationExhaustion | null;
+  };
+}
+
+export interface PackageCandidateExecutionLimits {
+  maxRawCandidates: number;
+  maxDecorationStates: number;
+  maxSearchStates: number;
+}
+
+export interface LoadedPackageVerificationOptions {
+  kernelVersion?: string;
+}
+
+export type PackageCandidateExecutionOptions =
+  Partial<PackageCandidateExecutionLimits> & LoadedPackageVerificationOptions;
+
+export interface PackageCandidateProfileClass {
+  profileHash: ProfileHash;
+  members: ElementId[];
+  representativeElementId: ElementId;
+}
+
+export interface PackageCandidateBinding {
+  schemaVersion: "1";
+  binder: "package-candidate-binding-v1";
+  packageId: ContentHash;
+  depthBasis: BasisHash;
+  runConfigHash: ContentHash;
+  runConfig: RunConfig;
+  sourcePopulation: {
+    kind: "primitive-depth-population-selection-v1";
+    population: PrimitiveDepthPopulation;
+    selection: {
+      sourceDepths: RunConfig["sourceDepths"];
+      targetDepth: 1;
+      availableDepths: [0];
+      selectedDepths: [0];
+    };
+    elementIds: ElementId[];
+    profileRepresentativePolicy: "lexicographically-smallest-element-id-v1";
+    profileClasses: PackageCandidateProfileClass[];
+  };
+  enumerationInput: DecoratedCandidateEnumerationInput & { graphPolicy: GraphPolicy };
+  enumerationOptions: CandidateEnumerationLimits & {
+    canonicalizationLimits: GraphCanonicalizationLimits;
+  };
+  bindingHash: ContentHash;
+}
+
+export interface PackageCandidateEnumerationResult {
+  schemaVersion: "1";
+  generator: "package-candidate-generator-v1";
+  binding: PackageCandidateBinding;
+  enumeration: DecoratedCandidateEnumerationResult;
+}
+
+export interface PackageCandidateConstituentResolution {
+  canonicalNode: number;
+  sourceRef: ElementId | ProfileHash;
+  elementId: ElementId;
+  profileHash: ProfileHash;
+  resolution: "element-exact" | "profile-representative";
+  representativePolicy:
+    | "direct-element-reference-v1"
+    | "lexicographically-smallest-element-id-v1";
+  profileClassMembers: ElementId[];
+}
+
+export interface PackageCandidatePredicateEvaluation {
+  predicateId: string;
+  phase: Predicate["phase"];
+  claimRefs: string[];
+  evaluation: PredicateLocalEvaluation;
+}
+
+export interface PackageCandidateFilterEvaluation {
+  schemaVersion: "1";
+  evaluator: "package-candidate-filter-evaluator-v2";
+  packageId: ContentHash;
+  rulesHash: ContentHash;
+  bindingHash: ContentHash;
+  formation: {
+    targetDepth: 1;
+    depthBasis: BasisHash;
+    sourcePopulationHash: ContentHash;
+    candidate: Candidate;
+    constituents: PackageCandidateConstituentResolution[];
+  };
+  predicateEvaluations: PackageCandidatePredicateEvaluation[];
+  verdict: "eligible" | "predicate-rejected" | "filter-indeterminate";
+  counts: {
+    evaluated: number;
+    passed: number;
+    failed: number;
+    indeterminate: number;
+  };
+  passedPredicates: string[];
+  failedPredicates: string[];
+  indeterminatePredicates: string[];
+  filterHash: ContentHash;
+}
+
 export const CANONICAL_JSON_POLICY: "rfc8785-compatible-binary64-v1";
 export const CANONICAL_LIMITS: Readonly<{
   maxDepth: number;
@@ -1207,11 +1550,15 @@ export function canonicalClone<T extends JsonValue>(value: T, options?: Canonica
 export function deepFreeze<T>(value: T): Readonly<T>;
 
 export const HASH_DOMAINS: Readonly<Record<
-  "ARTIFACT" | "CANDIDATE" | "CLUSTER" | "DEPTH_BASIS" | "ELEMENT" |
-  "PREDICATE_EXPRESSION" | "PREDICATE_EXPRESSION_ANALYSIS" | "PREDICATE_NUMERIC_BINDING" | "PREDICATE_PLAN" |
+  "ARTIFACT" | "CANDIDATE" | "CLUSTER" | "DEPTH_BASIS" | "DEPTH_POPULATION" | "ELEMENT" |
+  "PREDICATE_EXPRESSION" | "PREDICATE_EXPRESSION_ANALYSIS" | "PREDICATE_GRAPH_EVALUATION" |
+  "PREDICATE_LOCAL_EVALUATION" |
+  "PREDICATE_NUMERIC_BINDING" | "PREDICATE_PLAN" | "PARTIAL_PREDICATE_EVALUATION" |
+  "PARTIAL_PREDICATE_GRAPH" |
   "VALUE_EXPRESSION" | "VALUE_EXPRESSION_ANALYSIS" | "IDENTITY_POLICY" |
   "ORACLE_REQUEST" | "ORACLE_RESPONSE" | "ORACLE_VALIDATION" |
-  "PACKAGE" | "PROFILE" | "RULES" | "SKELETON" |
+  "PACKAGE" | "PACKAGE_CANDIDATE_BINDING" | "PACKAGE_CANDIDATE_FILTER" |
+  "PROFILE" | "RUN_CONFIG" | "RULES" | "SKELETON" |
   "SOURCE_CLASSIFICATION_ADJUDICATION" | "SOURCE_CLASSIFICATION_ANNOTATIONS" |
   "SOURCE_CLASSIFICATION_POLICY" | "SOURCE_CLASSIFICATION_VIEW" |
   "SOURCE_CLASSIFIED_RELATIONS" | "SOURCE_SCC_COMPONENT" |
@@ -1246,6 +1593,46 @@ export function createCandidateStore(options: {
   maxCandidates?: number;
   canonicalization?: GraphCanonicalizationOptions;
 }): CandidateStore;
+export const DECORATED_CANDIDATE_ENUMERATOR_VERSION: "decorated-candidate-enumerator-v1";
+export const DEFAULT_CANDIDATE_ENUMERATION_LIMITS: Readonly<CandidateEnumerationLimits>;
+export function enumerateDecoratedCandidates(
+  input: DecoratedCandidateEnumerationInput,
+  options?: Partial<CandidateEnumerationLimits> & {
+    canonicalizationLimits?: Partial<GraphCanonicalizationLimits>;
+  }
+): DecoratedCandidateEnumerationResult;
+
+export const RUN_CONFIG_NORMALIZER_VERSION: "run-config-normalizer-v1";
+export const DEFAULT_RUN_BUDGET: Readonly<RunBudget>;
+export function normalizeRunConfig(input: RunConfigInput): Readonly<RunConfig>;
+
+export const PRIMITIVE_DEPTH_POPULATION_VERSION: "primitive-depth-population-v1";
+export function materializePrimitiveDepthPopulation(
+  loadedPackage: LoadedRulePackage,
+  options?: LoadedPackageVerificationOptions
+): PrimitiveDepthPopulation;
+
+export const PACKAGE_CANDIDATE_BINDER_VERSION: "package-candidate-binding-v1";
+export const PACKAGE_CANDIDATE_GENERATOR_VERSION: "package-candidate-generator-v1";
+export const DEFAULT_PACKAGE_CANDIDATE_EXECUTION_LIMITS: Readonly<PackageCandidateExecutionLimits>;
+export function createPackageCandidateBinding(
+  loadedPackage: LoadedRulePackage,
+  runConfig: RunConfigInput,
+  options?: PackageCandidateExecutionOptions
+): PackageCandidateBinding;
+export function enumeratePackageCandidates(
+  loadedPackage: LoadedRulePackage,
+  runConfig: RunConfigInput,
+  options?: PackageCandidateExecutionOptions
+): PackageCandidateEnumerationResult;
+export const PACKAGE_CANDIDATE_FILTER_EVALUATOR_VERSION:
+  "package-candidate-filter-evaluator-v2";
+export function evaluatePackageCandidateFilter(
+  loadedPackage: LoadedRulePackage,
+  binding: PackageCandidateBinding,
+  candidate: CandidateInput,
+  options?: LoadedPackageVerificationOptions
+): PackageCandidateFilterEvaluation;
 
 export const UNIT_GRAMMAR_VERSION: "si-multiplicative-v1";
 export const QUANTITY_COMPARISON_POLICY_VERSION: "declared-max-tolerance-v1";
@@ -1300,6 +1687,28 @@ export function compilePredicate(
     limits?: Partial<PredicateExpressionLimits>;
   }
 ): PredicatePlan;
+export const GRAPH_PREDICATE_EVALUATOR_VERSION: "graph-predicate-evaluator-v1";
+export const PARTIAL_GRAPH_PREDICATE_EVALUATOR_VERSION: "partial-graph-predicate-evaluator-v1";
+export function evaluateGraphPredicatePlan(
+  plan: PredicatePlan,
+  candidate: CandidateInput,
+  options?: GraphCanonicalizationOptions
+): PredicateGraphEvaluation;
+export const LOCAL_PREDICATE_EVALUATOR_VERSION: "local-predicate-evaluator-v1";
+export const LOCAL_PREDICATE_EVALUATION_LIMITS: Readonly<{
+  maxValueNodes: 10000;
+  maxSelectionWitnesses: 10000;
+}>;
+export function evaluateLocalPredicatePlan(
+  plan: PredicatePlan,
+  numericBinding: PredicateNumericBinding,
+  candidate: CandidateInput,
+  options?: GraphCanonicalizationOptions
+): PredicateLocalEvaluation;
+export function detectPartialGraphPredicateFailure(
+  plan: PredicatePlan,
+  partialGraph: PartialPredicateGraph
+): PartialPredicateGraphEvaluation;
 export const PREDICATE_NUMERIC_BINDER_VERSION: "predicate-numeric-binding-v1";
 export const PREDICATE_NUMERIC_BINDING_LIMITS: Readonly<{ maxOperations: 10000 }>;
 export function bindPredicateNumericPolicy(
@@ -1359,7 +1768,7 @@ export function freezeSourceNodeResolutionPolicy(
   policy: SourceNodeResolutionPolicyInput
 ): FrozenSourceNodeResolutionPolicy;
 
-export const KERNEL_IMPLEMENTATION_STATUS: "foundation-active/predicate-plans-active/closure-not-implemented";
+export const KERNEL_IMPLEMENTATION_STATUS: "foundation-active/decorated-generation-active/predicate-plans-active/closure-not-implemented";
 export const SOURCE_RELATION_KINDS: readonly SourceRelationKind[];
 export const CLUSTER_DISPOSITIONS: readonly ClusterDisposition[];
 export const MIGRATION_EXPOSURE_STATUSES: readonly MigrationExposureStatus[];
@@ -1400,6 +1809,31 @@ export interface Kernel {
     maxCandidates?: number;
     canonicalization?: GraphCanonicalizationOptions;
   }): CandidateStore;
+  enumerateDecoratedCandidates(
+    input: DecoratedCandidateEnumerationInput,
+    options?: Partial<CandidateEnumerationLimits> & {
+      canonicalizationLimits?: Partial<GraphCanonicalizationLimits>;
+    }
+  ): DecoratedCandidateEnumerationResult;
+  normalizeRunConfig(input: RunConfigInput): Readonly<RunConfig>;
+  materializePrimitiveDepthPopulation(
+    loadedPackage: LoadedRulePackage
+  ): PrimitiveDepthPopulation;
+  createPackageCandidateBinding(
+    loadedPackage: LoadedRulePackage,
+    runConfig: RunConfigInput,
+    options?: Partial<PackageCandidateExecutionLimits>
+  ): PackageCandidateBinding;
+  enumeratePackageCandidates(
+    loadedPackage: LoadedRulePackage,
+    runConfig: RunConfigInput,
+    options?: Partial<PackageCandidateExecutionLimits>
+  ): PackageCandidateEnumerationResult;
+  evaluatePackageCandidateFilter(
+    loadedPackage: LoadedRulePackage,
+    binding: PackageCandidateBinding,
+    candidate: CandidateInput
+  ): PackageCandidateFilterEvaluation;
   parseUnitExpression(expression: string): ParsedUnitExpression;
   normalizeUnitExpression(expression: string): string;
   normalizeQuantity(quantity: Quantity): Readonly<Quantity>;
@@ -1440,6 +1874,21 @@ export interface Kernel {
       limits?: Partial<PredicateExpressionLimits>;
     }
   ): PredicatePlan;
+  evaluateGraphPredicatePlan(
+    plan: PredicatePlan,
+    candidate: CandidateInput,
+    options?: GraphCanonicalizationOptions
+  ): PredicateGraphEvaluation;
+  evaluateLocalPredicatePlan(
+    plan: PredicatePlan,
+    numericBinding: PredicateNumericBinding,
+    candidate: CandidateInput,
+    options?: GraphCanonicalizationOptions
+  ): PredicateLocalEvaluation;
+  detectPartialGraphPredicateFailure(
+    plan: PredicatePlan,
+    partialGraph: PartialPredicateGraph
+  ): PartialPredicateGraphEvaluation;
   bindPredicateNumericPolicy(
     plan: PredicatePlan,
     precisionPolicy: PrecisionPolicy,

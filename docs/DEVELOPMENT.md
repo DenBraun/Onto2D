@@ -6,8 +6,9 @@
 - npm with lockfile v3 support;
 - Git.
 
-The workspace uses Node built-ins and npm workspaces only. No global build tool
-or external service is required for the repository checks.
+Runtime packages use Node built-ins and npm workspaces only. Repository schema
+checks use the lockfile-pinned Ajv development dependency; no global build tool
+or external service is required after `npm ci`.
 
 ## Setup and verification
 
@@ -21,7 +22,7 @@ npm run build
 `npm ci` materializes local workspace links. `npm test` discovers every
 `*.test.js`, `*.test.mjs`, and `*.test.cjs` file outside ignored/generated
 directories. `npm run check` performs syntax and manifest validation, package
-boundary checks, schema/reference checks, Markdown link/fence checks, and the
+boundary checks, schema compilation/reference checks, Markdown link/fence checks, and the
 golden catalogue audit. `npm run build` runs the same validation and then
 confirms that no transpilation is required.
 
@@ -32,7 +33,7 @@ Focused commands:
 | `npm run test:kernel` | Check canonicalization, loading, and kernel contracts |
 | `npm run audit:catalogue` | Print the current catalogue audit snapshot |
 | `npm run check:catalogue` | Compare the audit with its reviewed golden |
-| `npm run check:schemas` | Parse schemas, resolve references, and verify export coverage |
+| `npm run check:schemas` | Parse and compile schemas, resolve references, and verify export coverage |
 | `npm run check:docs` | Check local Markdown links and code fences |
 | `npm run check:source` | Parse every JSON file and syntax-check JavaScript |
 | `npm run check:workspace` | Validate package names, exports, and kernel isolation |
@@ -75,6 +76,11 @@ Run-specific precision, summation order, and quantity-comparison behavior bind
 to verified predicate plans under
 [ADR-0010](adr/0010-predicate-numeric-policy-binding.md). A binding inventories
 numeric operations but does not evaluate them.
+The separately verified local runtime in
+[ADR-0020](adr/0020-local-exact-compare-evaluation.md) consumes that binding
+only for scalar/direct-quantity constants, canonical counts, and exact
+dimensionless addition/multiplication. Unfrozen runtime value sources and
+derived quantity arithmetic remain rejected.
 Scientific requests and externally returned quantities are content-bound and
 validated without solver execution under
 [ADR-0011](adr/0011-scientific-oracle-validation.md).

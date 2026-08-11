@@ -43,6 +43,14 @@ the same absolute conversion factor; relative tolerance is unchanged.
 Quantity specifications normalize their unit expression even when they do not
 carry a value.
 
+Unit-scale composition is retained internally as a reduced rational. When the
+resulting conversion has a terminating decimal expansion, value and absolute
+tolerance are multiplied in `decimal-rational-v1` before a single conversion to
+the public binary64 quantity field. This prevents intermediate binary64
+products such as `0.1 * 0.1` from separating equivalent SI inputs. A genuinely
+non-terminating rational conversion is converted once under the existing
+binary64 policy rather than being labelled an exact decimal.
+
 A tolerance is non-empty by value, not merely by property name: at least one
 of `absolute` or `relative` must be defined, finite, and non-negative.
 Quantity semantics, evidence identifiers, and method identifiers are
@@ -77,13 +85,16 @@ policy, and Boolean outcome.
 All conversion and comparison operations reject non-finite results. A non-zero
 value or absolute tolerance that would underflow to binary64 zero also fails
 explicitly, as does a non-zero relative comparison bound that underflows to
-zero. This slice uses the repository's existing binary64 number policy. It does
-not claim the deterministic decimal rounding and accumulation policy required
-by expression evaluation.
+zero. Public quantity fields retain the repository's existing binary64 number
+policy; the exact rational/terminating-decimal conversion step only removes an
+avoidable intermediate-rounding artifact. General expression accumulation is
+still governed separately by ADR-0007.
 
 ## Consequences
 
 - dimensionally equivalent package inputs converge before structural hashing;
+- terminating SI conversions converge before local exact-decimal evaluation,
+  including powered prefix scales;
 - unsupported or malformed units fail package or candidate validation;
 - affine units such as degrees Celsius need a later explicit contract and
   cannot be approximated as multiplicative units;
@@ -98,6 +109,7 @@ by expression evaluation.
 - derived-unit and expanded-unit equivalence fixtures;
 - canonical unit-expression parse/normalize round trips above exponent 16;
 - prefix and absolute-tolerance conversion fixtures;
+- intermediate-rounding regressions for decimal prefixes and powered units;
 - incompatible-dimension, malformed-unit, and unknown-symbol failures;
 - tolerance-bound truth-table fixtures;
 - undefined tolerance bounds, invalid comparison-policy values, normalized

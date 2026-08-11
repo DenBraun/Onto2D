@@ -1,0 +1,145 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/element.schema.json",
+  "title": "Onto2D Materialized Element",
+  "type": "object",
+  "required": [
+    "id",
+    "kind",
+    "depth",
+    "depthBasis",
+    "axisProvenance",
+    "canonicalForm",
+    "profile",
+    "provenance",
+    "typeTags",
+    "invariants",
+    "admittedBy",
+    "selectedBy",
+    "claimRefs"
+  ],
+  "properties": {
+    "id": { "$ref": "#/$defs/hash" },
+    "kind": { "enum": ["primitive", "derived", "condensed-cluster"] },
+    "depth": { "$ref": "#/$defs/index" },
+    "depthBasis": { "$ref": "#/$defs/hash" },
+    "axisProvenance": { "$ref": "#/$defs/axisProvenance" },
+    "canonicalForm": { "$ref": "candidate.schema.json#/$defs/canonicalForm" },
+    "profile": {
+      "allOf": [
+        { "$ref": "profile.schema.json" },
+        { "required": ["hash"] }
+      ]
+    },
+    "provenance": {
+      "oneOf": [
+        { "type": "null" },
+        { "$ref": "#/$defs/provenance" }
+      ]
+    },
+    "ontologyCoordinate": { "$ref": "ontology-coordinate.schema.json" },
+    "typeTags": { "$ref": "#/$defs/stringSet" },
+    "invariants": {
+      "type": "object",
+      "propertyNames": { "$ref": "#/$defs/normalizedString" },
+      "additionalProperties": { "$ref": "quantity.schema.json" }
+    },
+    "admittedBy": { "$ref": "#/$defs/stringSet" },
+    "selectedBy": { "$ref": "#/$defs/stringSet" },
+    "claimRefs": { "$ref": "#/$defs/stringSet" },
+    "cluster": { "$ref": "cluster-provenance.schema.json" }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "kind": { "const": "condensed-cluster" } },
+        "required": ["kind"]
+      },
+      "then": { "required": ["cluster"] },
+      "else": { "not": { "required": ["cluster"] } }
+    }
+  ],
+  "$defs": {
+    "hash": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "index": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
+    "normalizedString": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1024,
+      "pattern": "^(?:\\S|\\S(?:.*\\S)?)$"
+    },
+    "stringSet": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/normalizedString" }
+    },
+    "axisProvenance": {
+      "type": "object",
+      "required": ["derivationDepth"],
+      "properties": {
+        "derivationDepth": { "const": "computed" },
+        "ontologyLevel": { "enum": ["declared", "computed"] },
+        "ontologyPhase": { "const": "declared" },
+        "catalogueLevel": { "const": "declared" },
+        "cataloguePhase": { "const": "declared" }
+      },
+      "additionalProperties": false
+    },
+    "provenance": {
+      "type": "object",
+      "required": [
+        "constituents",
+        "constituentProfiles",
+        "skeleton",
+        "roleAssignment",
+        "sourceCandidate",
+        "derivationDepth",
+        "depthBasis",
+        "evidence"
+      ],
+      "properties": {
+        "constituents": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/hash" }
+        },
+        "constituentProfiles": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/hash" }
+        },
+        "skeleton": { "$ref": "#/$defs/hash" },
+        "roleAssignment": {
+          "type": "object",
+          "required": ["edges"],
+          "properties": {
+            "edges": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["canonicalEdge", "role", "direction"],
+                "properties": {
+                  "canonicalEdge": { "$ref": "#/$defs/index" },
+                  "role": { "$ref": "#/$defs/normalizedString" },
+                  "direction": { "enum": ["forward", "reverse", "symmetric"] }
+                },
+                "additionalProperties": false
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        "sourceCandidate": { "$ref": "#/$defs/hash" },
+        "derivationDepth": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "depthBasis": { "$ref": "#/$defs/hash" },
+        "evidence": { "$ref": "#/$defs/stringSet" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

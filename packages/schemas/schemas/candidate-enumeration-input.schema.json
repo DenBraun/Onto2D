@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/candidate-enumeration-input.schema.json",
+  "title": "Onto2D Decorated Candidate Enumeration Input",
+  "type": "object",
+  "required": ["domain", "skeletons", "nodeVariants", "edgeVariants"],
+  "properties": {
+    "domain": { "enum": ["profile-quotient", "element-exact", "single-candidate"] },
+    "skeletons": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/skeletonInput" }
+    },
+    "nodeVariants": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "candidate.schema.json#/$defs/node" }
+    },
+    "edgeVariants": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/edgeVariant" }
+    },
+    "graphPolicy": { "$ref": "#/$defs/partialGraphPolicy" }
+  },
+  "$defs": {
+    "skeletonInput": {
+      "type": "object",
+      "required": ["nodeCount", "edges"],
+      "properties": {
+        "id": { "$ref": "#/$defs/contentHash" },
+        "nodeCount": { "type": "integer", "minimum": 1, "maximum": 6 },
+        "edges": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "prefixItems": [
+              { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
+              { "type": "integer", "minimum": 0, "maximum": 9007199254740991 }
+            ],
+            "minItems": 2,
+            "maxItems": 2
+          }
+        },
+        "canonicalForm": { "$ref": "candidate.schema.json#/$defs/canonicalForm" },
+        "labelledMultiplicity": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        }
+      },
+      "additionalProperties": false
+    },
+    "edgeVariant": {
+      "type": "object",
+      "required": ["role"],
+      "properties": {
+        "role": { "$ref": "candidate.schema.json#/$defs/normalizedString" },
+        "attrs": { "$ref": "#/$defs/attributes" }
+      },
+      "additionalProperties": false
+    },
+    "attributes": {
+      "type": "object",
+      "propertyNames": { "$ref": "candidate.schema.json#/$defs/normalizedString" },
+      "additionalProperties": { "$ref": "candidate.schema.json#/$defs/attributeValue" }
+    },
+    "partialGraphPolicy": {
+      "type": "object",
+      "properties": {
+        "connected": { "type": "boolean" },
+        "allowParallelEdges": { "type": "boolean" },
+        "allowSelfLoops": { "type": "boolean" },
+        "connectivityProjection": {
+          "enum": ["undirected", "directed-strong", "directed-weak"]
+        },
+        "structuralNodeAttributes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "candidate.schema.json#/$defs/normalizedString" }
+        },
+        "structuralEdgeAttributes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "candidate.schema.json#/$defs/normalizedString" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "contentHash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    }
+  },
+  "additionalProperties": false
+}

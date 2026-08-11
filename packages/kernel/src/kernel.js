@@ -1,4 +1,5 @@
 import { canonicalClone, canonicalize } from "./canonical.js";
+import { enumerateDecoratedCandidates } from "./candidate-enumerator.js";
 import { createCandidateStore } from "./candidate-store.js";
 import {
   addDecimals,
@@ -14,11 +15,22 @@ import {
 import { KernelNotImplementedError } from "./errors.js";
 import { analyzeValueExpression } from "./expression-analyzer.js";
 import { canonicalizeCandidate, canonicalizeSkeleton } from "./graph-canonicalizer.js";
+import {
+  detectPartialGraphPredicateFailure,
+  evaluateGraphPredicatePlan
+} from "./graph-predicate-evaluator.js";
 import { hashCanonical } from "./hash.js";
-import { loadKernelPackage } from "./package-loader.js";
+import { evaluateLocalPredicatePlan } from "./local-predicate-evaluator.js";
+import { DEFAULT_KERNEL_VERSION, loadKernelPackage } from "./package-loader.js";
+import {
+  createPackageCandidateBinding,
+  enumeratePackageCandidates
+} from "./package-candidate-generator.js";
+import { evaluatePackageCandidateFilter } from "./package-candidate-filter.js";
 import { bindPredicateNumericPolicy } from "./numeric-binding.js";
 import { createOracleRequestBinding, validateOracleResponse } from "./oracle-validator.js";
 import { analyzePredicateExpression, compilePredicate } from "./predicate-analyzer.js";
+import { materializePrimitiveDepthPopulation } from "./primitive-depth-population.js";
 import {
   freezeSourceClassificationPolicy,
   freezeSourceNodeResolutionPolicy
@@ -35,6 +47,7 @@ import {
   parseUnitExpression
 } from "./quantity.js";
 import { enumerateConnectedSkeletons } from "./skeleton-enumerator.js";
+import { normalizeRunConfig } from "./run-config.js";
 
 const IMPLEMENTED_CAPABILITIES = Object.freeze([
   "canonical-json",
@@ -45,6 +58,12 @@ const IMPLEMENTED_CAPABILITIES = Object.freeze([
   "graph-isomorphism-canonicalization",
   "skeleton-content-addressing",
   "connected-skeleton-enumeration",
+  "decorated-candidate-enumeration",
+  "run-config-normalization",
+  "primitive-depth-population-materialization",
+  "package-candidate-binding",
+  "package-candidate-enumeration",
+  "package-candidate-filter-evaluation",
   "candidate-deduplication-store",
   "unit-grammar",
   "quantity-normalization",
@@ -55,6 +74,9 @@ const IMPLEMENTED_CAPABILITIES = Object.freeze([
   "typed-value-expression-analysis",
   "boolean-expression-analysis",
   "predicate-plan-compilation",
+  "graph-predicate-evaluation",
+  "local-exact-compare-predicate-evaluation",
+  "partial-graph-predicate-failure-detection",
   "predicate-numeric-policy-binding",
   "oracle-request-binding",
   "oracle-response-validation",
@@ -70,8 +92,9 @@ const PENDING_CAPABILITIES = Object.freeze([
   "source-classification",
   "source-node-resolution",
   "source-condensation",
-  "candidate-enumeration",
-  "predicate-evaluation",
+  "derived-depth-population-binding",
+  "candidate-partial-pruning",
+  "numeric-and-substructure-predicate-evaluation",
   "cohort-construction",
   "functional-ranking",
   "sensitivity-analysis",
@@ -87,6 +110,11 @@ function unavailable(capability) {
   };
 }
 
+function withKernelVersion(options, version) {
+  if (!options || typeof options !== "object" || Array.isArray(options)) return options;
+  return { ...canonicalClone(options), kernelVersion: version };
+}
+
 export function createKernel(options = {}) {
   if (!options || typeof options !== "object" || Array.isArray(options)) {
     throw new TypeError("Kernel options must be an object.");
@@ -95,7 +123,7 @@ export function createKernel(options = {}) {
   if (Object.keys(safeOptions).some((field) => field !== "version")) {
     throw new TypeError("Unknown kernel option.");
   }
-  const version = safeOptions.version === undefined ? "0.1.0" : safeOptions.version;
+  const version = safeOptions.version === undefined ? DEFAULT_KERNEL_VERSION : safeOptions.version;
   if (typeof version !== "string" || version.trim().length === 0) {
     throw new TypeError("Kernel version must be a non-empty string.");
   }
@@ -114,6 +142,36 @@ export function createKernel(options = {}) {
     canonicalizeSkeleton,
     createCandidateStore,
     enumerateConnectedSkeletons,
+    enumerateDecoratedCandidates,
+    normalizeRunConfig,
+    materializePrimitiveDepthPopulation(loadedPackage, options = {}) {
+      return materializePrimitiveDepthPopulation(
+        loadedPackage,
+        withKernelVersion(options, version.trim())
+      );
+    },
+    createPackageCandidateBinding(loadedPackage, runConfig, options = {}) {
+      return createPackageCandidateBinding(
+        loadedPackage,
+        runConfig,
+        withKernelVersion(options, version.trim())
+      );
+    },
+    enumeratePackageCandidates(loadedPackage, runConfig, options = {}) {
+      return enumeratePackageCandidates(
+        loadedPackage,
+        runConfig,
+        withKernelVersion(options, version.trim())
+      );
+    },
+    evaluatePackageCandidateFilter(loadedPackage, binding, candidate, options = {}) {
+      return evaluatePackageCandidateFilter(
+        loadedPackage,
+        binding,
+        candidate,
+        withKernelVersion(options, version.trim())
+      );
+    },
     parseUnitExpression,
     normalizeUnitExpression,
     normalizeQuantity,
@@ -131,6 +189,9 @@ export function createKernel(options = {}) {
     analyzeValueExpression,
     analyzePredicateExpression,
     compilePredicate,
+    evaluateGraphPredicatePlan,
+    evaluateLocalPredicatePlan,
+    detectPartialGraphPredicateFailure,
     bindPredicateNumericPolicy,
     createOracleRequestBinding,
     validateOracleResponse,

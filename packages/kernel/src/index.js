@@ -3,9 +3,14 @@
  *
  * The deterministic package, graph-identity, quantity/decimal, typed value and
  * Boolean analysis, predicate-plan, numeric-policy binding, and scientific
- * Oracle validation, and source policy/annotation artifact foundations are
- * executable. Candidate decoration, source migration, expression evaluation,
- * selection, and closure remain explicit pending capabilities.
+ * Oracle validation, source policy/annotation artifact foundations, finite
+ * decorated-candidate enumeration, verified primitive depth populations,
+ * normalized package/run binding, complete graph-predicate evaluation,
+ * package-bound graph-plus-exact-compare local filtering, and conservative
+ * partial-failure detection are executable. Source migration, derived-element
+ * materialization, pruning authorization, remaining runtime-bound numeric/
+ * substructure evaluation, selection, and closure remain explicit pending
+ * capabilities.
  */
 
 export {
@@ -61,6 +66,17 @@ export {
   bindPredicateNumericPolicy
 } from "./numeric-binding.js";
 export {
+  GRAPH_PREDICATE_EVALUATOR_VERSION,
+  PARTIAL_GRAPH_PREDICATE_EVALUATOR_VERSION,
+  detectPartialGraphPredicateFailure,
+  evaluateGraphPredicatePlan
+} from "./graph-predicate-evaluator.js";
+export {
+  LOCAL_PREDICATE_EVALUATION_LIMITS,
+  LOCAL_PREDICATE_EVALUATOR_VERSION,
+  evaluateLocalPredicatePlan
+} from "./local-predicate-evaluator.js";
+export {
   ORACLE_PROTOCOL_VERSION,
   ORACLE_RESPONSE_VALIDATOR_VERSION,
   ORACLE_VALIDATION_LIMITS,
@@ -98,6 +114,31 @@ export {
   createCandidateStore
 } from "./candidate-store.js";
 export {
+  DECORATED_CANDIDATE_ENUMERATOR_VERSION,
+  DEFAULT_CANDIDATE_ENUMERATION_LIMITS,
+  enumerateDecoratedCandidates
+} from "./candidate-enumerator.js";
+export {
+  DEFAULT_RUN_BUDGET,
+  RUN_CONFIG_NORMALIZER_VERSION,
+  normalizeRunConfig
+} from "./run-config.js";
+export {
+  PRIMITIVE_DEPTH_POPULATION_VERSION,
+  materializePrimitiveDepthPopulation
+} from "./primitive-depth-population.js";
+export {
+  DEFAULT_PACKAGE_CANDIDATE_EXECUTION_LIMITS,
+  PACKAGE_CANDIDATE_BINDER_VERSION,
+  PACKAGE_CANDIDATE_GENERATOR_VERSION,
+  createPackageCandidateBinding,
+  enumeratePackageCandidates
+} from "./package-candidate-generator.js";
+export {
+  PACKAGE_CANDIDATE_FILTER_EVALUATOR_VERSION,
+  evaluatePackageCandidateFilter
+} from "./package-candidate-filter.js";
+export {
   QUANTITY_COMPARISON_POLICY_VERSION,
   UNIT_GRAMMAR_VERSION,
   areUnitsCompatible,
@@ -112,7 +153,7 @@ export { loadKernelPackage, PACKAGE_DEFAULTS } from "./package-loader.js";
 
 import { KernelNotImplementedError } from "./errors.js";
 
-export const KERNEL_IMPLEMENTATION_STATUS = "foundation-active/predicate-plans-active/closure-not-implemented";
+export const KERNEL_IMPLEMENTATION_STATUS = "foundation-active/decorated-generation-active/predicate-plans-active/closure-not-implemented";
 
 export const SOURCE_RELATION_KINDS = Object.freeze([
   "generative",

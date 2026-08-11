@@ -76,8 +76,13 @@ Implementation grows through the following sequence:
 2. execute and harden the implemented model/load/canonical/hash foundation;
 3. review the graph canonicalizer against an independent implementation and
    freeze its golden byte fixtures;
-4. review skeleton reference counts/store truncation, then add deterministic
-   candidate decoration;
+4. review skeleton reference counts/store truncation, the finite decorator,
+   the implemented primitive package/run binding, and verified graph-predicate
+   evaluation plus package-bound exact-compare local filtering; then complete
+   runtime invariant/attribute, balance and substructure verdicts, selector
+   admission, and derived profile formation,
+   extend the verified depth-zero population to derived closure depths, and add
+   the audit/controller required for safe partial pruning;
 5. author and review source-classification and node-resolution policies with
    the executable freeze contracts now that predicate numeric bindings and
    Oracle validation are executable, then collect independent annotations with

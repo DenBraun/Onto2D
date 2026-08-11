@@ -119,6 +119,8 @@ const DEFAULT_ONTOLOGY_AXES = Object.freeze({
 const DEFAULT_PARTIAL_ORACLE_POLICY = Object.freeze({ mode: "indeterminate" });
 const DEFAULT_PROFILE_DEFINITION = Object.freeze({ kind: "explicit-only" });
 
+export const DEFAULT_KERNEL_VERSION = "0.1.0";
+
 function compareStrings(left, right) {
   return left < right ? -1 : left > right ? 1 : 0;
 }
@@ -1358,7 +1360,7 @@ function normalizeCluster(cluster) {
   };
 }
 
-function primitiveIdentity(primitive, identityPolicy) {
+export function createPrimitiveIdentityBasis(primitive, identityPolicy) {
   const identity = { kind: primitive.kind };
   if (identityPolicy.sourceIdStructural) identity.sourceId = primitive.sourceId;
   if (identityPolicy.ontologyCoordinateStructural) identity.ontologyCoordinate = primitive.ontologyCoordinate || null;
@@ -1394,7 +1396,7 @@ function normalizePackage(raw, issues, compiledExpressions) {
     };
     return {
       ...normalized,
-      elementId: hashCanonical(HASH_DOMAINS.ELEMENT, primitiveIdentity(normalized, identityPolicy))
+      elementId: hashCanonical(HASH_DOMAINS.ELEMENT, createPrimitiveIdentityBasis(normalized, identityPolicy))
     };
   }).sort((left, right) => compareStrings(left.elementId, right.elementId) || compareStrings(left.sourceId, right.sourceId));
 
@@ -1466,7 +1468,9 @@ export function loadKernelPackage(input, options = {}) {
   if (Object.keys(safeOptions).some((field) => field !== "kernelVersion")) {
     throw new TypeError("Unknown kernel package loader option.");
   }
-  const kernelVersion = safeOptions.kernelVersion === undefined ? "0.1.0" : safeOptions.kernelVersion;
+  const kernelVersion = safeOptions.kernelVersion === undefined
+    ? DEFAULT_KERNEL_VERSION
+    : safeOptions.kernelVersion;
   if (typeof kernelVersion !== "string" || kernelVersion.trim().length === 0) {
     throw new TypeError("Kernel version must be a non-empty string.");
   }

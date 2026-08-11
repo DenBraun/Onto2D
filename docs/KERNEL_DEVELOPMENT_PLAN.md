@@ -36,6 +36,13 @@ Implemented:
 - exact refinement/individualization canonicalization for supplied candidates
   and exhaustive permutation-minimum canonicalization for simple skeletons;
 - exhaustive connected simple-skeleton enumeration through six nodes;
+- finite deterministic candidate decoration for explicit skeleton/node/edge
+  alphabets, including direction, roles, structural attributes, parallel-edge
+  multisets, enabled loops, count reconciliation, and explicit budgets;
+- closed RunConfig normalization and content-addressed binding/execution for
+  a verified materialized primitive depth population, element/profile
+  alphabets, explicit depth selection, roles, connected skeletons,
+  representatives, and semantic/execution budgets;
 - fixed-domain CandidateStore deduplication and explicit completion/truncation
   state;
 - multiplicative SI unit parsing, compatible conversion, tolerance-aware
@@ -47,6 +54,16 @@ Implemented:
   extraction, conservative truth-persistence and partial-detectability
   inference, content-addressed predicate plans, loader integration, and
   run-specific numeric-policy binding;
+- verified complete evaluation for logical and graph-structural predicate
+  plans, with canonical witnesses and conservative partial persistent-failure
+  diagnostics that explicitly do not authorize pruning;
+- package-bound local candidate filtering that reproduces the loaded package
+  and generation binding, proves finite-universe membership, resolves exact or
+  profile-representative constituents, and evaluates every graph or supported
+  exact-compare top-level predicate under a reproduced numeric binding;
+- local exact-compare execution for scalar constants, direct constant
+  quantities, canonical node/edge counts, and exact dimensionless
+  addition/multiplication with boundary-only rounding;
 - content-addressed Oracle request binding and response validation for solver,
   parameter, quantity, tolerance, residual, convergence, and evidence
   contracts without solver execution;
@@ -55,8 +72,11 @@ Implemented:
 
 Not implemented:
 
-- decorated candidate generation and safe partial pruning;
-- value-expression and predicate execution;
+- derived-depth population binding and selected formation/profile
+  materialization artifacts, derived decoration attributes, profile
+  guards/capacities, and safe partial pruning;
+- runtime invariant/attribute/coefficient binding, quantity arithmetic,
+  balance, remaining value-expression execution, and substructure predicates;
 - cohort construction, functional evaluation, ranking, and sensitivity;
 - source classification, node resolution, and SCC condensation execution;
 - profile extraction/collapse, level-boundary detection, and carrier promotion;
@@ -165,7 +185,10 @@ emits a separate binding hash.
 hashes scientific requests, validates response request/solver/parameter and
 quantity/evidence bindings, keeps failed or disallowed partial work
 indeterminate, and applies approved residual-guarded tolerance expansion.
-Value-expression and predicate execution remain.
+`local-predicate-evaluator-v1` now executes the contract-complete subset of
+graph predicates plus scalar/direct-quantity and exact dimensionless
+constant/count comparisons. Runtime invariants, attributes, coefficients,
+quantity arithmetic, balance, and substructure execution remain.
 
 ### Stage D2: decorated candidate generation
 
@@ -181,6 +204,47 @@ Scope:
 
 Gate: bounded exhaustive fixtures reconcile exactly with brute-force reference
 generation; disabling pruning produces the same complete canonical set.
+
+Current D2 progress: `decorated-candidate-enumerator-v1` now re-canonicalizes
+and sorts a finite skeleton set, normalizes explicit node/edge variants,
+assigns references, direction, roles, structural attributes, parallel-edge
+multisets, and enabled self-loops, and admits complete candidates through the
+fixed-policy CandidateStore. Raw, directed-connectivity-excluded,
+canonicalization-indeterminate, attempted, canonical, and duplicate counts
+remain separate. Edge, raw-candidate,
+logical-state, unique-candidate, and canonicalization-search boundaries are
+explicit; completed bounded fixtures reconcile with direct brute force.
+`run-config-normalizer-v1` now materializes the documented run budgets and
+normalizes the closed research configuration.
+`primitive-depth-population-v1` now replays the loaded package, reproduces each
+primitive identity basis and canonical form, emits complete depth-zero
+`Element` records, and hashes the sorted population. `package-candidate-binding-v1`
+binds that population plus the explicit target/source-depth selection, derives
+element/profile node alphabets, profile representatives, the role alphabet,
+and every connected skeleton through `maxNodes`, and freezes semantic plus
+execution budgets before `package-candidate-generator-v1` invokes the low-level
+decorator. The bridge
+rejects unsupported disconnected, single-candidate, structural-attribute,
+wall-time, and memory semantics before enumeration. Derived-depth population
+selection, selector admission, selected formation/profile materialization,
+profile guards/capacities, and derived attributes remain pending.
+`graph-predicate-evaluator-v1` now verifies compiled plans and evaluates the
+logical/graph subset on complete canonical candidates.
+`package-candidate-filter-evaluator-v2` now reproduces the package and complete
+generation binding, re-canonicalizes a candidate, proves domain/budget/
+skeleton/variant and edge-group membership in that universe, discloses exact or
+profile-representative constituent resolution, reproduces each plan's run
+numeric binding, and evaluates every graph or supported exact-compare top-level
+plan. It emits local eligibility only; selector admission, derived
+profile extraction, and derived `Element` materialization remain pending. This
+boundary is recorded in
+[ADR-0019](adr/0019-package-candidate-local-filter.md).
+`partial-graph-predicate-evaluator-v1` can detect selected statically persistent
+failures on bounded partial graphs, but always returns
+`pruningAuthorized: false`. A versioned monotonicity-audit/controller artifact,
+generator integration, pruning census, pruning-disabled differential
+conformance, and optional resumable state remain pending. This boundary is
+recorded in [ADR-0017](adr/0017-graph-predicate-evaluation.md).
 
 ### Stage D3: source classification and condensation
 
@@ -368,11 +432,18 @@ completed. The comparison caught and drove correction of provisional skeleton
 bytes before the identity baseline was accepted.
 
 The binary64/Unicode audit, predicate numeric-policy binding, and Oracle
-protocol validation are now implemented locally. The remaining immediate work
-is:
+protocol validation are implemented locally. Finite decorated-candidate
+enumeration now also passes bounded differential tests. The remaining immediate
+work is:
 
 1. Obtain cross-platform CI and independent-review evidence for the frozen
    canonical and skeleton fixtures.
 2. Accept ADR-0003 through ADR-0005 after that evidence is reviewed.
-3. Freeze source-classification and node-resolution policies before processing
+3. Extend the implemented exact-compare local filter with runtime-bound
+   invariant/attribute arithmetic, balance and substructure verdicts, selector
+   admission, and deterministic derived-profile formation;
+   materialize verified derived closure-depth populations; then add the
+   monotonicity-audit/controller artifact, pruning integration, and
+   pruning-disabled differential checks.
+4. Freeze source-classification and node-resolution policies before processing
    SCC-aware catalogue output.

@@ -13,7 +13,10 @@ import {
 } from "../src/index.js";
 
 test("kernel publishes the complete source-relation vocabulary", () => {
-  assert.equal(KERNEL_IMPLEMENTATION_STATUS, "foundation-active/predicate-plans-active/closure-not-implemented");
+  assert.equal(
+    KERNEL_IMPLEMENTATION_STATUS,
+    "foundation-active/decorated-generation-active/predicate-plans-active/closure-not-implemented"
+  );
   assert.deepEqual(SOURCE_RELATION_KINDS, [
     "generative",
     "constitutive",
@@ -28,6 +31,12 @@ test("kernel publishes the complete source-relation vocabulary", () => {
   assert.ok(Object.isFrozen(SOURCE_RELATION_KINDS));
   assert.ok(KERNEL_CAPABILITIES.implemented.includes("graph-isomorphism-canonicalization"));
   assert.ok(KERNEL_CAPABILITIES.implemented.includes("connected-skeleton-enumeration"));
+  assert.ok(KERNEL_CAPABILITIES.implemented.includes("decorated-candidate-enumeration"));
+  assert.ok(KERNEL_CAPABILITIES.implemented.includes("run-config-normalization"));
+  assert.ok(KERNEL_CAPABILITIES.implemented.includes("primitive-depth-population-materialization"));
+  assert.ok(KERNEL_CAPABILITIES.implemented.includes("package-candidate-binding"));
+  assert.ok(KERNEL_CAPABILITIES.implemented.includes("package-candidate-enumeration"));
+  assert.ok(KERNEL_CAPABILITIES.implemented.includes("package-candidate-filter-evaluation"));
   assert.ok(KERNEL_CAPABILITIES.implemented.includes("candidate-deduplication-store"));
   assert.ok(KERNEL_CAPABILITIES.implemented.includes("unit-grammar"));
   assert.ok(KERNEL_CAPABILITIES.implemented.includes("quantity-normalization"));
@@ -38,6 +47,9 @@ test("kernel publishes the complete source-relation vocabulary", () => {
   assert.ok(KERNEL_CAPABILITIES.implemented.includes("typed-value-expression-analysis"));
   assert.ok(KERNEL_CAPABILITIES.implemented.includes("boolean-expression-analysis"));
   assert.ok(KERNEL_CAPABILITIES.implemented.includes("predicate-plan-compilation"));
+  assert.ok(KERNEL_CAPABILITIES.implemented.includes("graph-predicate-evaluation"));
+  assert.ok(KERNEL_CAPABILITIES.implemented.includes("local-exact-compare-predicate-evaluation"));
+  assert.ok(KERNEL_CAPABILITIES.implemented.includes("partial-graph-predicate-failure-detection"));
   assert.ok(KERNEL_CAPABILITIES.implemented.includes("predicate-numeric-policy-binding"));
   assert.ok(KERNEL_CAPABILITIES.implemented.includes("oracle-request-binding"));
   assert.ok(KERNEL_CAPABILITIES.implemented.includes("oracle-response-validation"));
@@ -53,6 +65,10 @@ test("kernel publishes the complete source-relation vocabulary", () => {
   assert.ok(KERNEL_CAPABILITIES.pending.includes("source-classification"));
   assert.ok(KERNEL_CAPABILITIES.pending.includes("source-node-resolution"));
   assert.ok(KERNEL_CAPABILITIES.pending.includes("source-condensation"));
+  assert.ok(KERNEL_CAPABILITIES.pending.includes("derived-depth-population-binding"));
+  assert.ok(KERNEL_CAPABILITIES.pending.includes("candidate-partial-pruning"));
+  assert.ok(KERNEL_CAPABILITIES.pending.includes("numeric-and-substructure-predicate-evaluation"));
+  assert.ok(!KERNEL_CAPABILITIES.pending.includes("predicate-evaluation"));
   assert.ok(KERNEL_CAPABILITIES.pending.includes("profile-collapse"));
   assert.ok(KERNEL_CAPABILITIES.pending.includes("level-boundary-detection"));
 });
@@ -62,6 +78,12 @@ test("kernel exposes the implemented graph generation foundation", () => {
   assert.equal(typeof kernel.canonicalizeSkeleton, "function");
   assert.equal(typeof kernel.enumerateConnectedSkeletons, "function");
   assert.equal(typeof kernel.createCandidateStore, "function");
+  assert.equal(typeof kernel.enumerateDecoratedCandidates, "function");
+  assert.equal(typeof kernel.normalizeRunConfig, "function");
+  assert.equal(typeof kernel.materializePrimitiveDepthPopulation, "function");
+  assert.equal(typeof kernel.createPackageCandidateBinding, "function");
+  assert.equal(typeof kernel.enumeratePackageCandidates, "function");
+  assert.equal(typeof kernel.evaluatePackageCandidateFilter, "function");
   assert.equal(typeof kernel.parseUnitExpression, "function");
   assert.equal(typeof kernel.normalizeQuantity, "function");
   assert.equal(typeof kernel.compareQuantities, "function");
@@ -70,6 +92,9 @@ test("kernel exposes the implemented graph generation foundation", () => {
   assert.equal(typeof kernel.analyzeValueExpression, "function");
   assert.equal(typeof kernel.analyzePredicateExpression, "function");
   assert.equal(typeof kernel.compilePredicate, "function");
+  assert.equal(typeof kernel.evaluateGraphPredicatePlan, "function");
+  assert.equal(typeof kernel.evaluateLocalPredicatePlan, "function");
+  assert.equal(typeof kernel.detectPartialGraphPredicateFailure, "function");
   assert.equal(typeof kernel.bindPredicateNumericPolicy, "function");
   assert.equal(typeof kernel.createOracleRequestBinding, "function");
   assert.equal(typeof kernel.validateOracleResponse, "function");
@@ -82,9 +107,9 @@ test("kernel exposes the implemented graph generation foundation", () => {
 
 test("unimplemented capabilities fail explicitly", () => {
   assert.throws(
-    () => requireKernelCapability("candidate-enumeration"),
+    () => requireKernelCapability("candidate-partial-pruning"),
     (error) => error instanceof KernelNotImplementedError &&
       error.code === "KERNEL_NOT_IMPLEMENTED" &&
-      error.capability === "candidate-enumeration"
+      error.capability === "candidate-partial-pruning"
   );
 });

@@ -1,0 +1,222 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/candidate-enumeration-result.schema.json",
+  "title": "Onto2D Decorated Candidate Enumeration Result",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "enumerator",
+    "status",
+    "interpretable",
+    "domain",
+    "graphPolicy",
+    "skeletonIds",
+    "nodeVariants",
+    "edgeVariants",
+    "candidateStore",
+    "counts",
+    "budget"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "enumerator": { "const": "decorated-candidate-enumerator-v1" },
+    "status": { "enum": ["complete", "budget-exhausted"] },
+    "interpretable": { "type": "boolean" },
+    "domain": { "enum": ["profile-quotient", "element-exact", "single-candidate"] },
+    "graphPolicy": { "$ref": "graph-policy.schema.json" },
+    "skeletonIds": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/contentHash" }
+    },
+    "nodeVariants": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "$ref": "candidate.schema.json#/$defs/node" }
+    },
+    "edgeVariants": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/edgeVariant" }
+    },
+    "candidateStore": { "$ref": "candidate-store-snapshot.schema.json" },
+    "counts": {
+      "type": "object",
+      "required": [
+        "inputSkeletons",
+        "edgeBoundExcludedSkeletons",
+        "decorationStates",
+        "generatedCandidates",
+        "policyExcludedCandidates",
+        "canonicalizationIndeterminateCandidates",
+        "attemptedCandidates",
+        "canonicalCandidates",
+        "duplicateCandidates"
+      ],
+      "properties": {
+        "inputSkeletons": { "type": "integer", "minimum": 1 },
+        "edgeBoundExcludedSkeletons": { "type": "integer", "minimum": 0 },
+        "decorationStates": { "type": "integer", "minimum": 0 },
+        "generatedCandidates": { "type": "integer", "minimum": 0 },
+        "policyExcludedCandidates": { "type": "integer", "minimum": 0 },
+        "canonicalizationIndeterminateCandidates": { "type": "integer", "minimum": 0 },
+        "attemptedCandidates": { "type": "integer", "minimum": 0 },
+        "canonicalCandidates": { "type": "integer", "minimum": 0 },
+        "duplicateCandidates": { "type": "integer", "minimum": 0 }
+      },
+      "additionalProperties": false
+    },
+    "budget": {
+      "type": "object",
+      "required": [
+        "maxEdges",
+        "maxRawCandidates",
+        "maxCandidates",
+        "maxDecorationStates",
+        "canonicalizationLimits",
+        "exhausted"
+      ],
+      "properties": {
+        "maxEdges": {
+          "oneOf": [
+            { "type": "integer", "minimum": 0 },
+            { "const": "n+2" }
+          ]
+        },
+        "maxRawCandidates": { "type": "integer", "minimum": 1 },
+        "maxCandidates": { "type": "integer", "minimum": 1 },
+        "maxDecorationStates": { "type": "integer", "minimum": 1 },
+        "canonicalizationLimits": { "$ref": "#/$defs/canonicalizationLimits" },
+        "exhausted": {
+          "oneOf": [
+            { "type": "null" },
+            { "$ref": "#/$defs/stateExhaustion" },
+            { "$ref": "#/$defs/candidateExhaustion" },
+            { "$ref": "#/$defs/canonicalizationExhaustion" }
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "status": { "const": "complete" } }, "required": ["status"] },
+      "then": {
+        "properties": {
+          "interpretable": { "const": true },
+          "candidateStore": { "properties": { "status": { "const": "complete" } } },
+          "budget": { "properties": { "exhausted": { "type": "null" } } }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "status": { "const": "budget-exhausted" } }, "required": ["status"] },
+      "then": {
+        "properties": {
+          "interpretable": { "const": false },
+          "budget": {
+            "properties": {
+              "exhausted": {
+                "oneOf": [
+                  { "$ref": "#/$defs/stateExhaustion" },
+                  { "$ref": "#/$defs/candidateExhaustion" },
+                  { "$ref": "#/$defs/canonicalizationExhaustion" }
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "contentHash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "attributes": {
+      "type": "object",
+      "propertyNames": { "$ref": "candidate.schema.json#/$defs/normalizedString" },
+      "additionalProperties": { "$ref": "candidate.schema.json#/$defs/attributeValue" }
+    },
+    "edgeVariant": {
+      "type": "object",
+      "required": ["role"],
+      "properties": {
+        "role": { "$ref": "candidate.schema.json#/$defs/normalizedString" },
+        "attrs": { "$ref": "#/$defs/attributes" }
+      },
+      "additionalProperties": false
+    },
+    "canonicalizationLimits": {
+      "type": "object",
+      "required": ["maxNodes", "maxEdges", "maxSearchStates"],
+      "properties": {
+        "maxNodes": { "type": "integer", "minimum": 1, "maximum": 6 },
+        "maxEdges": { "type": "integer", "minimum": 0 },
+        "maxSearchStates": { "type": "integer", "minimum": 1 }
+      },
+      "additionalProperties": false
+    },
+    "cursor": {
+      "type": "object",
+      "required": ["skeletonId", "nodeIndex", "edgeGroupIndex"],
+      "properties": {
+        "skeletonId": { "$ref": "#/$defs/contentHash" },
+        "nodeIndex": { "type": "integer", "minimum": 0 },
+        "edgeGroupIndex": {
+          "oneOf": [
+            { "type": "integer", "minimum": 0 },
+            { "type": "null" }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "stateExhaustion": {
+      "type": "object",
+      "required": ["budget", "used", "maximum", "cursor"],
+      "properties": {
+        "budget": { "enum": ["maxDecorationStates", "maxRawCandidates"] },
+        "used": { "type": "integer", "minimum": 0 },
+        "maximum": { "type": "integer", "minimum": 1 },
+        "cursor": { "$ref": "#/$defs/cursor" }
+      },
+      "additionalProperties": false
+    },
+    "candidateExhaustion": {
+      "type": "object",
+      "required": ["budget", "used", "maximum", "firstExcludedCandidateId", "attemptedCandidates"],
+      "properties": {
+        "budget": { "const": "maxCandidates" },
+        "used": { "type": "integer", "minimum": 0 },
+        "maximum": { "type": "integer", "minimum": 1 },
+        "firstExcludedCandidateId": { "$ref": "#/$defs/contentHash" },
+        "attemptedCandidates": { "type": "integer", "minimum": 1 }
+      },
+      "additionalProperties": false
+    },
+    "canonicalizationExhaustion": {
+      "type": "object",
+      "required": [
+        "budget",
+        "used",
+        "maximum",
+        "skeletonId",
+        "canonicalizationPhase"
+      ],
+      "properties": {
+        "budget": { "const": "maxSearchStates" },
+        "used": { "type": "integer", "minimum": 1 },
+        "maximum": { "type": "integer", "minimum": 1 },
+        "skeletonId": { "$ref": "#/$defs/contentHash" },
+        "canonicalizationPhase": { "enum": ["skeleton", "candidate"] }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

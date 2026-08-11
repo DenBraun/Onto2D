@@ -5,9 +5,16 @@ admissibility-closure kernel for complex-system modelling.
 
 ## Current status
 
-The repository has a dependency-free Node.js workspace. The `@onto2d/kernel`
-package implements the deterministic package and graph-identity foundation,
-but not candidate decoration, predicate evaluation, or closure.
+The runtime packages form a dependency-free Node.js workspace; repository
+schema checks use a lockfile-pinned Ajv development dependency. The
+`@onto2d/kernel` package implements the deterministic package and graph-identity foundation,
+including normalized package/run binding and finite decorated-candidate
+enumeration, verified primitive depth-population materialization, and
+graph-only predicate evaluation with conservative partial-failure diagnostics
+plus package-bound local candidate filtering with exact constant/count
+comparisons, but not derived-element materialization, pruning authorization,
+runtime-bound invariant/attribute arithmetic, balance/substructure predicates,
+selector admission, or closure.
 
 Available foundations include:
 
@@ -22,6 +29,16 @@ Available foundations include:
   extraction, and domain-separated expression/analysis hashes;
 - typed Boolean predicate analysis, conservative monotonicity/partial-data
   inference, and content-addressed predicate plans;
+- verified complete evaluation of logical and graph-structural predicate plans
+  with canonical witnesses, plus hashed partial persistent-failure diagnostics
+  that explicitly cannot authorize pruning;
+- package-bound local filtering that reproduces the run binding, proves a
+  candidate belongs to its finite universe, resolves exact/profile
+  constituents, and evaluates every graph or supported exact-compare top-level
+  predicate without claiming selector admission;
+- content-addressed local predicate evaluation for scalar constants, direct
+  constant quantities, canonical node/edge counts, and exact dimensionless
+  addition/multiplication under the reproduced run numeric policy;
 - run-specific, content-addressed precision/tolerance bindings for compiled
   predicate numeric operations;
 - content-addressed scientific-Oracle request/response validation without
@@ -37,6 +54,13 @@ Available foundations include:
   graphs and exhaustive permutation-minimum skeleton identities;
 - bounded connected-unlabeled skeleton enumeration through six nodes and a
   deterministic candidate deduplication store;
+- finite deterministic decoration with node references, directions, roles,
+  structural attributes, enabled parallel edges/self-loops, reconciled counts,
+  and explicit generation budgets;
+- closed RunConfig normalization plus content-addressed package/run binding of
+  a verified materialized depth-0 `Element` population, element/profile node
+  alphabets, roles, connected skeletons, and execution limits, with unsupported
+  generation semantics rejected explicitly;
 - JSON Schema Draft 2020-12 contracts for the first kernel artifacts;
 - a non-mutating loader and reproducible audit for all 249 catalogue cards;
 - locked identities for the supplied theory sources;
@@ -46,8 +70,12 @@ No current command changes `scr/` catalogue records or claims that raw
 `ParentCode` relations are generative. Authorship of actual policy content,
 collection of actual annotations, access-controlled annotation-view delivery,
 application to the current catalogue, node dispositions, SCC condensation,
-decorated-candidate enumeration, closure, scientific predicates, and
-sensitivity execution remain scheduled implementation work.
+derived-depth population binding, structural-attribute/profile-guard
+derivation, remaining invariant/attribute/balance/substructure filtering,
+selector admission, derived profile
+extraction/materialization, partial pruning, closure, and sensitivity execution
+remain scheduled implementation work. The existing partial graph diagnostic is
+not connected to candidate enumeration.
 
 ## Start developing
 

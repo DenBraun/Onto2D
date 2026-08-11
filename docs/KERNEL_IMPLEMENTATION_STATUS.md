@@ -1,9 +1,14 @@
 # Kernel Implementation Status
 
-Status: deterministic package, graph identity, quantity/decimal arithmetic,
-typed value/Boolean analysis, predicate-plan compilation, and predicate
-numeric-policy binding, scientific-Oracle protocol validation, and source-
-policy plus classification-annotation artifact freeze contracts implemented;
+Status: deterministic package, normalized RunConfig and package/run candidate
+binding, verified primitive depth-population materialization, graph identity,
+finite decorated-candidate enumeration,
+quantity/decimal arithmetic, typed value/Boolean analysis,
+predicate-plan compilation, verified graph-only evaluation and partial
+persistent-failure diagnostics, package-bound graph-plus-exact-compare local
+candidate filtering, numeric-policy binding, scientific-Oracle protocol validation, and
+source-policy plus classification-annotation artifact freeze contracts
+implemented;
 catalog-adapter classified-relation/SCC projection implemented for verified
 caller-supplied data; independent conformance and local Node.js 20/22 execution
 complete, cross-platform review and the closure pipeline pending.
@@ -39,8 +44,40 @@ complete, cross-platform review and the closure pipeline pending.
   admits one canonical representative, counts duplicates, sorts snapshots by
   candidate ID, and requires explicit successful finalization for
   interpretability;
+- `candidate-enumerator.js` closes and normalizes finite skeleton/node/edge
+  alphabets, deterministically assigns references, direction, roles, parallel
+  multiplicity, enabled loops, and structural attributes, sends complete
+  decorations through CandidateStore, separates directed-connectivity
+  exclusions and canonicalization-indeterminate candidates from deduplication,
+  and returns explicit raw/state/unique/search budget exhaustion;
+- `run-config.js` validates the closed schema-v1 research configuration,
+  materializes only the five documented run-budget defaults, canonicalizes
+  set-valued fields, and returns an immutable normalized value;
+- `loaded-package-verifier.js` provides one shared replay boundary that
+  reconstructs the current loader artifact under an independently expected
+  kernel version before downstream runtimes trust its primitive identities,
+  plans, or semantic manifest;
+- `primitive-depth-population.js` reproduces each primitive identity basis and
+  canonical form, materializes complete depth-zero `Element` records, and
+  content-addresses the sorted population without accepting derived IDs;
+- `package-candidate-generator.js` reproduces the complete loaded-package
+  artifact through the shared verifier, binds its materialized primitive
+  population and explicit target/source-depth selection, derives element-exact
+  or profile-quotient node alphabets, discloses deterministic profile
+  representatives, binds the RunConfig role alphabet and complete connected
+  skeleton set, hashes the package/run/execution basis, and executes the
+  resulting finite universe;
+- `package-candidate-filter.js` reproduces the loaded package and complete
+  candidate binding, re-canonicalizes a candidate under the bound policy,
+  proves its domain/budget/skeleton/node/edge/adjacency-group membership,
+  resolves every canonical node to an exact element or disclosed profile
+  representative, rejects unavailable predicate attributes before they can
+  become empty selections, reproduces every plan's run numeric binding,
+  evaluates every graph or supported exact-compare top-level predicate, and
+  emits a content-addressed local verdict without claiming selector admission;
 - `quantity.js` implements the versioned `si-multiplicative-v1` grammar,
-  dimensional compatibility, canonical SI-base conversion, absolute-tolerance
+  exact rational unit-scale composition, dimensional compatibility, canonical
+  SI-base conversion, exact terminating-decimal value/absolute-tolerance
   conversion, and tolerance-aware comparisons;
 - `decimal.js` implements canonical coefficient/scale decimals, exact
   addition/subtraction/multiplication, bounded rounded division, all declared
@@ -55,6 +92,18 @@ complete, cross-platform review and the closure pipeline pending.
   witness requirements, conservatively derives pass/fail persistence and
   partial detectability, and emits content-addressed predicate plans without
   evaluating a candidate;
+- `predicate-plan-verifier.js` closes and reproduces compiled expression,
+  analysis, pruning, and plan identities before an execution boundary may
+  consume them;
+- `graph-predicate-evaluator.js` re-canonicalizes complete candidate graphs,
+  evaluates logical plus graph-structural plans with canonical witnesses, and
+  detects selected statically persistent failures on bounded partial graphs
+  without authorizing generator pruning;
+- `local-predicate-evaluator.js` composes the complete graph runtime with
+  scalar/direct-quantity comparison, canonical node/edge counts, exact
+  dimensionless addition/multiplication, boundary-only rounding, and verified
+  predicate numeric bindings while rejecting unfrozen value sources and
+  aggregate value/selection limit exhaustion before evaluation;
 - `numeric-binding.js` verifies compiled predicate identities, normalizes the
   run precision and quantity semantic policies, inventories numeric operations,
   and emits a separate content-addressed policy binding without evaluating
@@ -73,12 +122,16 @@ complete, cross-platform review and the closure pipeline pending.
   classifier, binds annotation-view and exposure declarations, preserves raw
   disagreement, freezes blind adjudication and unblinding time, and derives
   disagreement-risk state without supplying any catalogue annotation;
-- `kernel.js` exposes `createKernel().loadPackage()`,
-  graph/skeleton canonicalization, connected-skeleton enumeration,
-  CandidateStore creation, quantity/decimal operations, value/Boolean
-  analysis, predicate-plan compilation, predicate numeric-policy binding,
-  Oracle request/response validation, source-policy and annotation/adjudication
-  freezing, and a truthful capability manifest.
+- `kernel.js` exposes `createKernel().loadPackage()`, RunConfig normalization
+  and package candidate binding/execution,
+  graph/skeleton canonicalization, connected-skeleton and finite decorated-
+  candidate enumeration, primitive depth-population materialization,
+  CandidateStore creation, quantity/decimal operations,
+  value/Boolean analysis, predicate-plan compilation, graph and local exact-
+  compare predicate evaluation, package-bound local filtering and partial-failure diagnostics,
+  predicate numeric-policy binding, Oracle request/response validation,
+  source-policy and annotation/adjudication freezing, and a truthful capability
+  manifest.
 
 `@onto2d/catalog-adapter` retains its non-mutating source audit and now also
 constructs a policy-limited classification view. From a reproducible caller-
@@ -111,6 +164,37 @@ and every consuming numeric operation under a separate binding hash. The
 verification reproduces all analysis witnesses and pruning metadata rather
 than trusting duplicated plan fields.
 
+`graph-predicate-evaluator-v1` uses the same reproduced-plan boundary and
+accepts only `all`, `any`, `not`, `degree`, `cycleExists`, `connected`,
+`componentCount`, `pathExists`, and `countRole`. It binds a complete canonical
+candidate, effective graph policy, three-valued result, and canonical-index
+witnesses in a separate evaluation hash. `partial-graph-predicate-evaluator-v1`
+accepts only bounded partial graph data and only runs a plan already marked
+`static-proven`; even a detected persistent failure records
+`pruningAuthorized: false` until the required audit/controller artifact exists.
+
+`local-predicate-evaluator-v1` verifies both plan and numeric-policy binding,
+then executes mixed graph and `compare` plans for scalar constants, direct
+constant quantities, canonical node/edge counts, and exact dimensionless
+addition/multiplication. Nested arithmetic is exact and each operand rounds
+once at the declared result boundary; terminating SI unit conversions enter
+that boundary without intermediate binary64 multiplication. Runtime invariants, attributes,
+coefficients, cycle-set counts, quantity arithmetic, balance, and substructure
+operators fail preflight rather than acquiring hidden defaults.
+
+`package-candidate-filter-evaluator-v2` composes these verified boundaries for
+one complete package candidate. It reconstructs the complete binding from the
+recorded normalized run and execution limits, rejects candidates outside the
+bound decoration universe, and retains the canonical candidate plus exact or
+profile-representative constituent resolution as a formation basis. It
+preflights every top-level plan for local support, derives each numeric binding
+from the reproduced run precision, rejects attributes absent from the bound
+decoration alphabet, and evaluates all plans without top-level short-circuiting.
+Failure takes precedence over
+indeterminate; otherwise the result is locally `eligible`. This is not final
+admission: selectors, derived profiles, and element materialization remain
+absent.
+
 `source-classification-policy-v1` requires an authored rule for each of the six
 relation kinds, coherent human/deterministic authorship and exposure claims,
 the complete forbidden SCC-aware input set, a closed local visible-field
@@ -140,9 +224,11 @@ so self-consistently rehashed alternate node numberings are rejected. Response
 validation distinguishes malformed or
 misbound artifacts from scientifically indeterminate failed/partial results,
 checks value and residual provenance, and excludes operational wall time from
-semantic response and validation hashes. Sensitivity-report and normalized
-run-configuration schemas and public types remain aligned with normative
-contracts, but their evaluators are not implemented.
+semantic response and validation hashes. Sensitivity-report schemas and public
+types remain aligned with normative contracts, but their evaluators are not
+implemented. Normalized RunConfig is now executable for validation, budget
+materialization, hashing, primitive `Element` population selection, and package
+candidate binding; derived closure evaluation still does not consume it.
 
 The 2026-08-07 static revision tightened the executable boundary in six places:
 
@@ -176,10 +262,45 @@ RulePackage
 ```
 
 ```text
+Verified LoadedRulePackage + primitive identity policy
+  -> reproduced element canonical forms
+  -> complete depth-0 Element records
+  -> primitive depth-population hash
+  -> explicit target-depth/source-depth selection in package candidate binding
+```
+
+```text
 PredicatePlan + RunConfig.invariantPrecision + semantic comparison policy
   -> verified plan/analysis identities
   -> numeric-operation inventory + explicit arithmetic/tolerance policies
   -> predicate numeric binding hash
+```
+
+```text
+Verified graph-only PredicatePlan + canonicalized Candidate
+  -> complete three-valued graph evaluation + canonical witnesses
+  -> graph-predicate evaluation hash
+
+Verified static-proven plan + bounded partial graph
+  -> persistent-failure diagnostic
+  -> pruningAuthorized = false + partial evaluation hash
+```
+
+```text
+Verified PredicatePlan + reproduced numeric binding + canonicalized Candidate
+  -> graph operators + supported scalar/direct-quantity/exact-count compare
+  -> exact and rounded operand values + canonical selection witnesses
+  -> local-predicate evaluation hash
+```
+
+```text
+Verified LoadedRulePackage + reproduced PackageCandidateBinding
+  + complete canonical package candidate
+  -> bound-universe membership proof
+  -> exact/profile-representative constituent resolution
+  -> every graph or supported exact-compare top-level predicate evaluation
+  -> local eligible/rejected/indeterminate verdict
+  -> package-candidate filter hash
 ```
 
 ```text
@@ -246,8 +367,10 @@ units remain outside the implemented boundary.
 Typed value-expression analysis and its hashing rules are recorded in
 [ADR-0008](adr/0008-typed-value-expression-analysis.md). Boolean-expression
 analysis, persistence inference, and plan compilation are recorded in
-[ADR-0009](adr/0009-predicate-analysis-and-plans.md). Expression and predicate
-execution remain pending.
+[ADR-0009](adr/0009-predicate-analysis-and-plans.md). The bounded executable
+comparison subset is recorded in
+[ADR-0020](adr/0020-local-exact-compare-evaluation.md); the remaining runtime
+value sources, balance, quantity arithmetic, and substructures remain pending.
 Predicate numeric binding is recorded in
 [ADR-0010](adr/0010-predicate-numeric-policy-binding.md), and scientific request
 and response validation without solver execution is recorded in
@@ -258,6 +381,19 @@ annotation and blind-adjudication artifact freezing is recorded in
 [ADR-0013](adr/0013-source-classification-annotation-artifacts.md). Policy-
 limited views and verified typed-relation/SCC projection are recorded in
 [ADR-0014](adr/0014-classified-relations-and-scc-projections.md).
+Finite decorated-candidate enumeration and its budget/counting semantics are
+recorded in
+[ADR-0015](adr/0015-decorated-candidate-enumeration.md).
+Normalized RunConfig and package/run candidate binding are recorded in
+[ADR-0016](adr/0016-package-run-candidate-binding.md).
+Verified graph-only evaluation and partial persistent-failure diagnostics are
+recorded in [ADR-0017](adr/0017-graph-predicate-evaluation.md). Verified
+primitive `Element` and depth-population materialization are recorded in
+[ADR-0018](adr/0018-primitive-depth-population.md). The package-bound graph-only
+v1 filtering and formation-resolution boundary are recorded in
+[ADR-0019](adr/0019-package-candidate-local-filter.md). Its numeric-bound
+exact-compare extension is recorded in
+[ADR-0020](adr/0020-local-exact-compare-evaluation.md).
 
 Source IDs, claims, and evidence do not enter ordinary primitive structural
 identity by default. The provisional cluster identity branch binds the frozen
@@ -278,10 +414,13 @@ exist.
 
 ## Explicitly pending
 
-- candidate decoration, partial streaming/pruning, and the integrated generator
-  state machine;
-- value-expression and predicate execution, including three-valued evaluation
-  and witnesses;
+- derived-depth source-population selection, selector admission and selected
+  formation/profile materialization artifacts, profile guard/capacity and
+  structural-attribute derivation, partial streaming/pruning authorization,
+  pruning census, and resumable generator state;
+- runtime invariant/attribute/coefficient binding, quantity arithmetic,
+  balance, remaining value-expression and substructure predicate execution,
+  and level censuses;
 - cohort construction and functional ranking;
 - sensitivity, baselines, profiles derived from rules, closure, and ladder
   execution;
@@ -301,8 +440,9 @@ registry used by predicate analysis.
 For a candidate attribute explicitly selected as structural, the current graph
 canonicalizer hashes the complete normalized Quantity record, including its
 provenance. Primitive/profile quantity identity excludes evidence provenance.
-This asymmetry is recorded for explicit policy review before decorated
-candidate generation is implemented.
+The finite decorator preserves this existing behavior and accepts only
+explicitly structural attributes. The asymmetry remains recorded for policy
+review before derived profile attributes feed integrated closure generation.
 
 Calls to public pending operations throw `KERNEL_NOT_IMPLEMENTED`. They never
 return an empty or fabricated scientific result.
@@ -316,11 +456,28 @@ reversible mappings, connected-skeleton reference counts, candidate-store
 deduplication/order, policy failures, generator/canonicalization budgets,
 current-depth rejection, phase-cycle rejection, missing references, and
 unavailable closure.
+Decorated-generator fixtures differentially reconcile a bounded universe with
+direct brute force and cover input-order invariance, direction, roles,
+parallel-edge multisets, optional loops, directed-strong exclusions, empty
+edge-bounded universes, SI-normalized variant collapse, and independent raw,
+logical-state, unique-candidate, and canonicalization-search exhaustion.
+Run/package binding fixtures cover documented budget materialization, closed
+RunConfig validation, canonical set order, package reloading and tamper
+rejection, element/profile alphabets, representative provenance, role and
+skeleton binding, complete high-level execution, explicit raw exhaustion, and
+rejection of unsupported disconnected, single-candidate, structural-attribute,
+wall-time, and memory semantics.
+Primitive-depth fixtures cover complete immutable `Element` records,
+canonical-form rehashing, depth and axis provenance, order invariance,
+policy-controlled source identity, package/population provenance separation,
+stale package and element-ID rejection, explicit source-depth selection, and
+binding/profile derivation from the materialized population.
 Quantity fixtures cover derived and compound units, prefixes, conversion of
 absolute tolerance, dimensional compatibility, semantic guards, comparison
 windows, empty effective tolerances, invalid comparison policies, normalized
 provenance identifiers, conversion overflow, non-zero conversion underflow,
-canonical-unit round trips, and package/candidate identity equivalence.
+canonical-unit round trips, exact terminating prefix-scale conversion, and
+package/candidate identity equivalence.
 Decimal fixtures cover exact arithmetic, all rounding modes, rounded division,
 exact and compensated accumulation, canonical serialization, resource limits,
 non-zero binary64 underflow, and explicit arithmetic failures.
@@ -334,6 +491,24 @@ comparisons, dimensional balance, role/projection/perturbation requirements,
 substructure and embedded-value limits, canonical-selector stability,
 conservative persistence, pruning-state compilation, stable plan hashes,
 forbidden coefficient access, diagnostic paths, and loader-emitted plan order.
+Graph-evaluation fixtures cover complete aggregate/atomic witnesses, role
+counts and universal degree, directed versus undirected-simple cycles,
+attribute and empty selectors, zero-length and directed paths, weak/strong
+components, relabeling invariance, unsupported operators, partial upper-bound
+and forbidden-cycle failures, repairable absence, blocked plans, immutable
+diagnostics, compiled-plan tampering, and witnesses above the default 64-edge
+canonicalization limit.
+Package-filter fixtures cover complete top-level evaluation with simultaneous
+pass/fail/indeterminate outcomes, failure precedence, hash reproduction,
+exact/profile constituent resolution, relabeling invariance, stale bindings,
+foreign node/edge variants, non-generable reciprocal decorations, exact count
+comparison, unavailable-attribute rejection, unsupported balance, and empty-
+predicate local eligibility.
+Local-evaluation fixtures cover mixed graph/compare plans, canonical node and
+edge selections, exact arithmetic, boundary-only rounding, precision-dependent
+verdicts, SI-normalized direct quantities and tolerance, SI-equivalent exact
+decimal operands, scalar equality, relabeling invariance, stale numeric bindings, and explicit rejection of
+runtime invariants and derived quantity arithmetic.
 Numeric-binding fixtures cover arithmetic/summation discovery, dimensionless
 and quantity comparisons, balance, stability thresholds, explicit policy
 defaults/overrides, binding identity, non-numeric plans, and altered-plan
@@ -364,7 +539,8 @@ byte-identical fixture hashes. Its first JavaScript comparison exposed two
 non-minimal canonical representatives at five nodes. Skeleton labeling was
 therefore changed, before identity freeze, to evaluate the complete node
 permutation orbit and select the global canonical edge serialization. The full
-117-test suite, repository checks, and build validation now pass on macOS arm64
+174-test suite, repository checks, schema-compilation/runtime-artifact
+conformance, and build validation now pass on macOS arm64
 under Node.js 20.19.4 and 22.18.0. Independent review and completed runs on
 additional supported platforms remain open, so ADR-0003 through ADR-0005
 retain proposed status.

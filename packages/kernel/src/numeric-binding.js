@@ -1,13 +1,9 @@
-import { canonicalClone, canonicalize, deepFreeze } from "./canonical.js";
+import { canonicalClone, deepFreeze } from "./canonical.js";
 import { DECIMAL_ARITHMETIC_VERSION, normalizePrecisionPolicy } from "./decimal.js";
 import { KernelError } from "./errors.js";
 import { analyzeValueExpression } from "./expression-analyzer.js";
 import { HASH_DOMAINS, hashCanonical } from "./hash.js";
-import {
-  PREDICATE_EXPRESSION_ANALYZER_VERSION,
-  PREDICATE_PLAN_COMPILER_VERSION,
-  analyzePredicateExpression
-} from "./predicate-analyzer.js";
+import { verifyPredicatePlan } from "./predicate-plan-verifier.js";
 import { QUANTITY_COMPARISON_POLICY_VERSION } from "./quantity.js";
 
 export const PREDICATE_NUMERIC_BINDER_VERSION = "predicate-numeric-binding-v1";
@@ -16,24 +12,6 @@ export const PREDICATE_NUMERIC_BINDING_LIMITS = deepFreeze({
 });
 
 const SEMANTIC_POLICIES = new Set(["require-equal", "ignore"]);
-const PLAN_FIELDS = new Set([
-  "schemaVersion",
-  "compiler",
-  "planHash",
-  "predicateId",
-  "phase",
-  "referencesDepth",
-  "monotoneViolation",
-  "expressionAnalysisHash",
-  "pruning",
-  "expressionHash",
-  "expression",
-  "requirements",
-  "symbols",
-  "truthPersistence",
-  "partialDetectability",
-  "statistics"
-]);
 const POLICY_ORDER = Object.freeze([
   "arithmetic",
   "precision",
@@ -47,155 +25,6 @@ function isObject(value) {
 
 function fail(code, message, details = {}) {
   throw new KernelError({ code, stage: "NUMERIC_BIND", message, details });
-}
-
-function simplifiedSymbol(descriptor) {
-  if (!isObject(descriptor) || typeof descriptor.kind !== "string") {
-    fail("NUMERIC_BINDING_PLAN_INVALID", "Predicate plan contains invalid symbol metadata.", {
-      descriptor
-    });
-  }
-  if (descriptor.kind === "quantity") {
-    return {
-      kind: "quantity",
-      unit: descriptor.unit,
-      ...(descriptor.semantic === undefined ? {} : { semantic: descriptor.semantic })
-    };
-  }
-  return { kind: descriptor.kind };
-}
-
-function simplifiedRegistry(registry) {
-  if (!isObject(registry)) {
-    fail("NUMERIC_BINDING_PLAN_INVALID", "Predicate plan symbol registry must be an object.");
-  }
-  return Object.fromEntries(
-    Object.keys(registry).sort().map((name) => [name, simplifiedSymbol(registry[name])])
-  );
-}
-
-function analysisEnvironment(plan) {
-  return {
-    invariants: simplifiedRegistry(plan.symbols?.invariants),
-    attributes: simplifiedRegistry(plan.symbols?.attributes),
-    perturbations: plan.requirements?.perturbations,
-    substructurePolicies: plan.requirements?.substructurePolicies
-  };
-}
-
-function assertPredicatePlan(plan) {
-  if (!isObject(plan)) {
-    fail("NUMERIC_BINDING_PLAN_INVALID", "Numeric policy binding requires a compiled predicate plan.");
-  }
-  const fields = Object.keys(plan);
-  const unknown = fields.filter((field) => !PLAN_FIELDS.has(field));
-  const missing = [...PLAN_FIELDS].filter((field) => !fields.includes(field));
-  if (unknown.length > 0 || missing.length > 0) {
-    fail("NUMERIC_BINDING_PLAN_INVALID", "Predicate plan fields do not match the supported compiler contract.", {
-      unknown,
-      missing
-    });
-  }
-  if (plan.schemaVersion !== "1" || plan.compiler !== PREDICATE_PLAN_COMPILER_VERSION) {
-    fail("NUMERIC_BINDING_PLAN_INVALID", "Predicate plan version is not supported by the numeric binder.", {
-      schemaVersion: plan.schemaVersion,
-      compiler: plan.compiler
-    });
-  }
-  if (
-    typeof plan.predicateId !== "string" ||
-    plan.predicateId.length === 0 ||
-    plan.predicateId !== plan.predicateId.trim() ||
-    !new Set(["formation", "maintenance", "termination"]).has(plan.phase) ||
-    !new Set(["below", "self"]).has(plan.referencesDepth) ||
-    typeof plan.monotoneViolation !== "boolean"
-  ) {
-    fail("NUMERIC_BINDING_PLAN_INVALID", "Predicate plan metadata is not a valid compiler output.");
-  }
-
-  const expressionHash = hashCanonical(HASH_DOMAINS.PREDICATE_EXPRESSION, plan.expression);
-  if (expressionHash !== plan.expressionHash) {
-    fail("NUMERIC_BINDING_PLAN_HASH_MISMATCH", "Predicate expression does not match its declared hash.", {
-      expected: expressionHash,
-      actual: plan.expressionHash
-    });
-  }
-
-  let analysis;
-  try {
-    analysis = analyzePredicateExpression(plan.expression, {
-      environment: analysisEnvironment(plan)
-    });
-  } catch (error) {
-    if (!(error instanceof KernelError)) throw error;
-    fail("NUMERIC_BINDING_PLAN_INVALID", "Predicate plan cannot be reproduced by the supported analyzer.", {
-      causeCode: error.code
-    });
-  }
-  if (
-    analysis.analyzer !== PREDICATE_EXPRESSION_ANALYZER_VERSION ||
-    analysis.analysisHash !== plan.expressionAnalysisHash ||
-    analysis.expressionHash !== plan.expressionHash
-  ) {
-    fail("NUMERIC_BINDING_PLAN_HASH_MISMATCH", "Predicate analysis does not match the compiled plan.", {
-      expected: analysis.analysisHash,
-      actual: plan.expressionAnalysisHash
-    });
-  }
-
-  for (const [field, expected, actual] of [
-    ["expression", analysis.expression, plan.expression],
-    ["requirements", analysis.requirements, plan.requirements],
-    ["symbols", analysis.symbols, plan.symbols],
-    ["truthPersistence", analysis.truthPersistence, plan.truthPersistence],
-    ["partialDetectability", analysis.partialDetectability, plan.partialDetectability],
-    ["statistics", analysis.statistics, plan.statistics]
-  ]) {
-    if (canonicalize(expected) !== canonicalize(actual)) {
-      fail("NUMERIC_BINDING_PLAN_INVALID", "Predicate plan analysis witness is internally inconsistent.", {
-        field
-      });
-    }
-  }
-
-  const staticFailurePersistence = analysis.truthPersistence.fail;
-  const partialFailureDetectable = analysis.partialDetectability.fail;
-  const eligibility = plan.monotoneViolation === false
-    ? "disabled"
-    : staticFailurePersistence !== "proven"
-      ? "blocked-unproven"
-      : partialFailureDetectable
-        ? "static-proven"
-        : "blocked-partial-data";
-  const expectedPruning = {
-    declared: plan.monotoneViolation,
-    staticFailurePersistence,
-    partialFailureDetectable,
-    auditRequired: plan.monotoneViolation,
-    eligibility
-  };
-  if (canonicalize(expectedPruning) !== canonicalize(plan.pruning)) {
-    fail("NUMERIC_BINDING_PLAN_INVALID", "Predicate pruning metadata cannot be reproduced from its analysis.");
-  }
-
-  const planBasis = {
-    schemaVersion: plan.schemaVersion,
-    compiler: plan.compiler,
-    predicateId: plan.predicateId,
-    phase: plan.phase,
-    referencesDepth: plan.referencesDepth,
-    monotoneViolation: plan.monotoneViolation,
-    expressionAnalysisHash: plan.expressionAnalysisHash,
-    pruning: plan.pruning
-  };
-  const planHash = hashCanonical(HASH_DOMAINS.PREDICATE_PLAN, planBasis);
-  if (planHash !== plan.planHash) {
-    fail("NUMERIC_BINDING_PLAN_HASH_MISMATCH", "Predicate plan metadata does not match its declared hash.", {
-      expected: planHash,
-      actual: plan.planHash
-    });
-  }
-  return { analysis, environment: analysisEnvironment(plan) };
 }
 
 function orderedPolicyRefs(...refs) {
@@ -320,7 +149,20 @@ export function bindPredicateNumericPolicy(plan, precisionPolicy, options = {}) 
   }
 
   const normalizedPrecision = normalizePrecisionPolicy(precisionPolicy);
-  const { analysis, environment } = assertPredicatePlan(clonedPlan);
+  let verified;
+  try {
+    verified = verifyPredicatePlan(clonedPlan);
+  } catch (error) {
+    if (!(error instanceof KernelError)) throw error;
+    const code = error.code === "PREDICATE_PLAN_HASH_MISMATCH"
+      ? "NUMERIC_BINDING_PLAN_HASH_MISMATCH"
+      : "NUMERIC_BINDING_PLAN_INVALID";
+    fail(code, "Numeric policy binding rejected the predicate plan.", {
+      causeCode: error.code,
+      ...error.details
+    });
+  }
+  const { analysis, environment } = verified;
   const valueEnvironment = {
     invariants: environment.invariants,
     attributes: environment.attributes

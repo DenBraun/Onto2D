@@ -2,6 +2,7 @@ import { access, readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 import process from "node:process";
 import { fileURLToPath, pathToFileURL } from "node:url";
+import Ajv2020 from "ajv/dist/2020.js";
 
 const REPOSITORY_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const SCHEMA_ROOT = path.join(REPOSITORY_ROOT, "packages", "schemas", "schemas");
@@ -30,6 +31,7 @@ export async function run() {
   const schemaNames = (await readdir(SCHEMA_ROOT)).filter((name) => name.endsWith(".schema.json")).sort();
   const ids = new Map();
   const failures = [];
+  const parsedSchemas = [];
   const exportSource = await readFile(SCHEMA_EXPORT_FILE, "utf8");
   const exportedSchemaNames = [...exportSource.matchAll(/schema\("([a-z0-9-]+)"\)/g)]
     .map((match) => `${match[1]}.schema.json`);
@@ -50,6 +52,7 @@ export async function run() {
     let schema;
     try {
       schema = JSON.parse(await readFile(file, "utf8"));
+      parsedSchemas.push(schema);
     } catch (error) {
       failures.push(`${name}: invalid JSON: ${error.message}`);
       continue;
@@ -77,6 +80,20 @@ export async function run() {
       if (!await exists(path.resolve(path.dirname(file), target))) {
         failures.push(`${name}: unresolved local $ref ${reference}`);
       }
+    }
+  }
+
+  if (parsedSchemas.length === schemaNames.length) {
+    try {
+      const ajv = new Ajv2020({ allErrors: true, strict: false, validateFormats: false });
+      parsedSchemas.forEach((schema) => ajv.addSchema(schema));
+      parsedSchemas.forEach((schema) => {
+        if (ajv.getSchema(schema.$id) === undefined) {
+          failures.push(`${schema.$id}: schema did not compile`);
+        }
+      });
+    } catch (error) {
+      failures.push(`JSON Schema compilation failed: ${error.message}`);
     }
   }
 

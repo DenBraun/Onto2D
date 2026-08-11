@@ -14,10 +14,23 @@ implemented foundation provides:
 - exact supplied-candidate and policy-independent simple-skeleton
   canonicalization;
 - bounded connected-unlabeled skeleton enumeration through six nodes;
+- deterministic finite decoration of skeletons with node references, edge
+  directions/roles, parallel multiplicity, self-loops, and structural
+  attributes under explicit raw/state/canonical budgets;
+- closed RunConfig normalization with documented budget materialization;
+- verified materialization of normalized primitives as complete depth-0
+  `Element` records with reproduced canonical forms, axis provenance, and a
+  domain-separated population hash;
+- content-addressed package/run candidate binding that reproduces loaded
+  package identity, binds the materialized primitive population and depth
+  selection, derives element/profile alphabets and representatives, binds roles
+  and connected skeletons, and executes the resulting finite universe under
+  explicit semantic and execution budgets;
 - a fixed-domain CandidateStore with deterministic deduplication and explicit
   completion/budget state;
 - a versioned multiplicative SI unit grammar, canonical quantity conversion,
-  and tolerance-aware quantity comparison;
+  exact terminating-decimal SI scale application, and tolerance-aware quantity
+  comparison;
 - canonical exact decimals, declared rounding, rounded division, and exact or
   compensated accumulation;
 - recursive typed value-expression normalization, dimensional inference,
@@ -27,6 +40,17 @@ implemented foundation provides:
 - strict Boolean predicate analysis with typed comparisons, dimensional
   balances, graph/data/witness requirements, and conservative pruning facts;
 - content-addressed predicate plans emitted by package loading;
+- verified, content-addressed complete graph-predicate evaluation with
+  canonical witnesses, plus conservative partial persistent-failure detection
+  that always denies pruning authority;
+- verified package-bound local filtering that reproduces the loaded package and
+  run binding under an independently expected kernel version, proves candidate-
+  universe membership, rejects unavailable predicate attributes, discloses
+  exact/profile constituent resolution, and evaluates every graph or locally
+  executable exact-compare top-level predicate under a reproduced numeric binding;
+- verified mixed graph/compare evaluation for scalar constants, direct
+  constant quantities, structural node/edge counts, and exact dimensionless
+  addition/multiplication with rounding only at the result boundary;
 - verified, content-addressed run precision/tolerance bindings for compiled
   predicate numeric operations;
 - content-addressed Oracle requests and response validation for solver,
@@ -38,14 +62,21 @@ implemented foundation provides:
 - complete independent-annotation matrices and blind-adjudication artifact
   freezing with policy/view/identity/exposure binding, preserved disagreement,
   ordered unblinding, and derived risk flags;
-- `createKernel().loadPackage()`, graph operations, quantity/decimal
-  operations, value/Boolean analysis, predicate-plan compilation, and numeric
-  policy binding, Oracle protocol validation, and source-policy freezing as the
-  current public runtime boundary.
+- `createKernel().loadPackage()`, RunConfig/package binding, graph and
+  decorated-enumeration operations,
+  quantity/decimal
+  operations, value/Boolean analysis, predicate-plan compilation, graph-only
+  and local exact-compare predicate evaluation, package-bound local filtering and partial-failure
+  diagnostics, numeric policy binding, Oracle protocol validation, and
+  source-policy freezing as the current public runtime boundary.
 
-Candidate decoration, partial pruning, integrated candidate enumeration,
-value-expression and predicate evaluation, cohort execution, ranking, closure,
-explanations, and sensitivity execution remain explicit pending capabilities.
+Derived-depth source-population binding, derived structural attributes,
+profile guards/capacities, partial pruning authorization/integration,
+runtime-bound invariant/attribute/coefficient expressions, quantity arithmetic,
+balance and substructure predicate evaluation, cohort
+execution, selector admission, derived profile/materialization, ranking,
+closure, explanations, and sensitivity execution remain explicit pending
+capabilities.
 Source-policy authorship, actual annotation/adjudication data collection,
 access-controlled view delivery, classification application, SCC resolution,
 condensation, and migration loading also remain pending.

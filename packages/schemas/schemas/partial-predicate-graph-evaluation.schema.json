@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/partial-predicate-graph-evaluation.schema.json",
+  "title": "Onto2D Partial Graph Predicate Evaluation",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "evaluator",
+    "predicatePlanHash",
+    "partialGraphHash",
+    "outcome",
+    "detection",
+    "reason",
+    "persistentFailureDetected",
+    "pruningEligibility",
+    "auditRequired",
+    "pruningAuthorized",
+    "witnesses",
+    "evaluationHash"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "evaluator": { "const": "partial-graph-predicate-evaluator-v1" },
+    "predicatePlanHash": { "$ref": "#/$defs/hash" },
+    "partialGraphHash": { "$ref": "#/$defs/hash" },
+    "outcome": { "$ref": "predicate-graph-evaluation.schema.json#/$defs/outcome" },
+    "detection": { "enum": ["persistent-failure", "not-detected", "blocked-plan"] },
+    "reason": {
+      "enum": [
+        "persistent-failure-detected",
+        "partial-failure-not-detected",
+        "plan-not-static-proven"
+      ]
+    },
+    "persistentFailureDetected": { "type": "boolean" },
+    "pruningEligibility": {
+      "enum": ["disabled", "static-proven", "blocked-unproven", "blocked-partial-data"]
+    },
+    "auditRequired": { "type": "boolean" },
+    "pruningAuthorized": { "const": false },
+    "witnesses": {
+      "type": "array",
+      "maxItems": 60000,
+      "items": { "$ref": "predicate-graph-evaluation.schema.json#/$defs/witness" }
+    },
+    "evaluationHash": { "$ref": "#/$defs/hash" }
+  },
+  "$defs": {
+    "hash": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" }
+  },
+  "additionalProperties": false
+}

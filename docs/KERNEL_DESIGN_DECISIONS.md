@@ -86,6 +86,69 @@ therefore belong to skeleton generation, not decorated multigraph generation.
 Non-structural annotations never affect candidate identity. Exhausting exact
 canonical search emits no partial identifier.
 
+Finite decoration uses canonicalized node and edge variant alphabets. Each
+simple adjacency receives one directed variant unless parallel edges are
+enabled, in which case it receives a bounded multiset; enabled self-loops are
+optional bounded multisets per node. Input-local variant and edge order is
+non-semantic. Raw decorations, graph-policy exclusions, store attempts,
+canonical candidates, and duplicates are counted separately. This executable
+boundary is recorded in ADR-0015; it deliberately does not infer package role
+guards or authorize partial pruning.
+
+The first package/run bridge is intentionally narrower than closure
+generation. RunConfig materializes only documented budget defaults and hashes
+canonical set order. A supplied loaded package is reproduced by the current
+loader under an independently expected kernel version before its primitive
+element IDs or profile hashes are accepted.
+`element-exact` binds every primitive ID; `profile-quotient` binds one profile
+hash per class and records the lexicographically smallest member ID as the
+representative. Roles come from the declared run alphabet, not observation of
+the package. Unsupported disconnected universes, single-candidate input,
+derived structural attributes, and unenforceable time/memory limits fail
+before traversal. This boundary is recorded in ADR-0016. Derived closure-depth
+population selection, profile guards/capacities, and partial pruning remain
+separate decisions.
+
+Primitive population identity is now an explicit intermediate artifact rather
+than an ID list embedded only in generation. The materializer replays the
+loaded package, reconstructs every primitive identity basis and canonical form,
+adds depth-zero and axis provenance without changing structural identity, and
+hashes the complete population. The package bridge selects that population for
+target depth one and preserves `all-below` versus `previous-only` even though
+both select `[0]`. It does not accept fabricated derived elements. This
+boundary is recorded in ADR-0018; multi-depth derived selection still requires
+formation, admission, and profile artifacts.
+
+Graph-predicate execution is a separate, verified boundary. The evaluator
+reproduces a compiled plan before use and canonicalizes the candidate before
+emitting outcomes or witnesses. Complete `degree` is universal over the
+selection and counts one per incident edge record; empty selections are
+indeterminate. Paths are directed and may be zero-length for equal endpoints.
+Cycle projection keeps directed reciprocal dyads distinct from
+undirected-simple triads. These choices and the partial diagnostic boundary are
+recorded in ADR-0017.
+
+The v1 package-bound local filter composes the verified population, run
+binding, canonical candidate, and graph evaluator without claiming closure.
+The filter reproduces the package and binding, proves that the candidate could
+be emitted by the bound decorator (including non-parallel undirected edge-group
+multiplicity), discloses exact or profile-representative constituent
+resolution, and evaluates every graph-only top-level plan. Failure dominates
+indeterminate, which dominates local eligibility. Local eligibility is not
+selector admission and cannot materialize a derived element without a selected
+formation record and deterministic derived profile. This boundary is recorded
+in ADR-0019.
+
+The v2 package filter adds only the numeric subset whose runtime meaning is
+already closed. `local-predicate-evaluator-v1` reproduces a plan and its run
+numeric binding, then combines graph operators with scalar constants, direct
+constant quantities, canonical node/edge counts, and exact dimensionless
+addition/multiplication. Rounding occurs once per comparison operand. Runtime
+invariants, attributes, coefficients, cycle sets, derived quantity arithmetic,
+balance, and substructures fail preflight because their missing binding or
+tolerance semantics are not defaults. The local evaluation and v2 filter use
+new hash domains. This extension is recorded in ADR-0020.
+
 ## 5. Predicate monotonicity and explanations
 
 Monotonicity belongs to a violation under declared extension operations, not to
@@ -113,6 +176,13 @@ Every complete canonical candidate receives a full verdict. Short-circuiting
 may optimize execution but cannot erase outcomes, witnesses, or census data for
 other required predicates. Pruned partial branches use a separate pruning
 census and never enter completed-candidate denominators.
+
+The current partial graph evaluator deliberately emits
+`pruningAuthorized: false`, including when it detects a statically persistent
+failure. Static proof, runtime witness, audit evidence, and authorization to
+change the enumerated universe are four distinct facts. No generator consumes
+that diagnostic until the audit/controller contract and pruning-disabled
+differential gate exist.
 
 ## 6. Quantities, ranking, and sensitivity
 

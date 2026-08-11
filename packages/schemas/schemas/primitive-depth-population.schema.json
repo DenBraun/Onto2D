@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/primitive-depth-population.schema.json",
+  "title": "Onto2D Primitive Depth Population",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "materializer",
+    "packageId",
+    "depthBasis",
+    "depth",
+    "elements",
+    "populationHash"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "materializer": { "const": "primitive-depth-population-v1" },
+    "packageId": { "$ref": "#/$defs/hash" },
+    "depthBasis": { "$ref": "#/$defs/hash" },
+    "depth": { "const": 0 },
+    "elements": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "allOf": [
+          { "$ref": "element.schema.json" },
+          {
+            "properties": {
+              "kind": { "enum": ["primitive", "condensed-cluster"] },
+              "depth": { "const": 0 },
+              "provenance": { "type": "null" }
+            }
+          }
+        ]
+      }
+    },
+    "populationHash": { "$ref": "#/$defs/hash" }
+  },
+  "$defs": {
+    "hash": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" }
+  },
+  "additionalProperties": false
+}

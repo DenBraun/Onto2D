@@ -1,4 +1,5 @@
 import { deepFreeze } from "./canonical.js";
+import { decimalToNumber, multiplyDecimals, parseDecimal } from "./decimal.js";
 import { KernelError } from "./errors.js";
 
 export const UNIT_GRAMMAR_VERSION = "si-multiplicative-v1";
@@ -23,63 +24,63 @@ function dimensions(entries = {}) {
 }
 
 const UNIT_DEFINITIONS = Object.freeze({
-  "1": { scale: 1, dimensions: dimensions(), prefixable: false },
-  m: { scale: 1, dimensions: dimensions({ m: 1 }), prefixable: true },
-  kg: { scale: 1, dimensions: dimensions({ kg: 1 }), prefixable: false },
-  g: { scale: 1e-3, dimensions: dimensions({ kg: 1 }), prefixable: true },
-  s: { scale: 1, dimensions: dimensions({ s: 1 }), prefixable: true },
-  A: { scale: 1, dimensions: dimensions({ A: 1 }), prefixable: true },
-  K: { scale: 1, dimensions: dimensions({ K: 1 }), prefixable: true },
-  mol: { scale: 1, dimensions: dimensions({ mol: 1 }), prefixable: true },
-  cd: { scale: 1, dimensions: dimensions({ cd: 1 }), prefixable: true },
-  rad: { scale: 1, dimensions: dimensions(), prefixable: true },
-  sr: { scale: 1, dimensions: dimensions(), prefixable: true },
-  Hz: { scale: 1, dimensions: dimensions({ s: -1 }), prefixable: true },
-  N: { scale: 1, dimensions: dimensions({ kg: 1, m: 1, s: -2 }), prefixable: true },
-  Pa: { scale: 1, dimensions: dimensions({ kg: 1, m: -1, s: -2 }), prefixable: true },
-  J: { scale: 1, dimensions: dimensions({ kg: 1, m: 2, s: -2 }), prefixable: true },
-  W: { scale: 1, dimensions: dimensions({ kg: 1, m: 2, s: -3 }), prefixable: true },
-  C: { scale: 1, dimensions: dimensions({ A: 1, s: 1 }), prefixable: true },
-  V: { scale: 1, dimensions: dimensions({ kg: 1, m: 2, s: -3, A: -1 }), prefixable: true },
-  F: { scale: 1, dimensions: dimensions({ kg: -1, m: -2, s: 4, A: 2 }), prefixable: true },
-  ohm: { scale: 1, dimensions: dimensions({ kg: 1, m: 2, s: -3, A: -2 }), prefixable: true },
-  S: { scale: 1, dimensions: dimensions({ kg: -1, m: -2, s: 3, A: 2 }), prefixable: true },
-  Wb: { scale: 1, dimensions: dimensions({ kg: 1, m: 2, s: -2, A: -1 }), prefixable: true },
-  T: { scale: 1, dimensions: dimensions({ kg: 1, s: -2, A: -1 }), prefixable: true },
-  H: { scale: 1, dimensions: dimensions({ kg: 1, m: 2, s: -2, A: -2 }), prefixable: true },
-  lm: { scale: 1, dimensions: dimensions({ cd: 1 }), prefixable: true },
-  lx: { scale: 1, dimensions: dimensions({ cd: 1, m: -2 }), prefixable: true },
-  Bq: { scale: 1, dimensions: dimensions({ s: -1 }), prefixable: true },
-  Gy: { scale: 1, dimensions: dimensions({ m: 2, s: -2 }), prefixable: true },
-  Sv: { scale: 1, dimensions: dimensions({ m: 2, s: -2 }), prefixable: true },
-  kat: { scale: 1, dimensions: dimensions({ mol: 1, s: -1 }), prefixable: true },
-  min: { scale: 60, dimensions: dimensions({ s: 1 }), prefixable: false },
-  h: { scale: 3600, dimensions: dimensions({ s: 1 }), prefixable: false },
-  d: { scale: 86400, dimensions: dimensions({ s: 1 }), prefixable: false },
-  L: { scale: 1e-3, dimensions: dimensions({ m: 3 }), prefixable: true }
+  "1": { scale: "1", dimensions: dimensions(), prefixable: false },
+  m: { scale: "1", dimensions: dimensions({ m: 1 }), prefixable: true },
+  kg: { scale: "1", dimensions: dimensions({ kg: 1 }), prefixable: false },
+  g: { scale: "1e-3", dimensions: dimensions({ kg: 1 }), prefixable: true },
+  s: { scale: "1", dimensions: dimensions({ s: 1 }), prefixable: true },
+  A: { scale: "1", dimensions: dimensions({ A: 1 }), prefixable: true },
+  K: { scale: "1", dimensions: dimensions({ K: 1 }), prefixable: true },
+  mol: { scale: "1", dimensions: dimensions({ mol: 1 }), prefixable: true },
+  cd: { scale: "1", dimensions: dimensions({ cd: 1 }), prefixable: true },
+  rad: { scale: "1", dimensions: dimensions(), prefixable: true },
+  sr: { scale: "1", dimensions: dimensions(), prefixable: true },
+  Hz: { scale: "1", dimensions: dimensions({ s: -1 }), prefixable: true },
+  N: { scale: "1", dimensions: dimensions({ kg: 1, m: 1, s: -2 }), prefixable: true },
+  Pa: { scale: "1", dimensions: dimensions({ kg: 1, m: -1, s: -2 }), prefixable: true },
+  J: { scale: "1", dimensions: dimensions({ kg: 1, m: 2, s: -2 }), prefixable: true },
+  W: { scale: "1", dimensions: dimensions({ kg: 1, m: 2, s: -3 }), prefixable: true },
+  C: { scale: "1", dimensions: dimensions({ A: 1, s: 1 }), prefixable: true },
+  V: { scale: "1", dimensions: dimensions({ kg: 1, m: 2, s: -3, A: -1 }), prefixable: true },
+  F: { scale: "1", dimensions: dimensions({ kg: -1, m: -2, s: 4, A: 2 }), prefixable: true },
+  ohm: { scale: "1", dimensions: dimensions({ kg: 1, m: 2, s: -3, A: -2 }), prefixable: true },
+  S: { scale: "1", dimensions: dimensions({ kg: -1, m: -2, s: 3, A: 2 }), prefixable: true },
+  Wb: { scale: "1", dimensions: dimensions({ kg: 1, m: 2, s: -2, A: -1 }), prefixable: true },
+  T: { scale: "1", dimensions: dimensions({ kg: 1, s: -2, A: -1 }), prefixable: true },
+  H: { scale: "1", dimensions: dimensions({ kg: 1, m: 2, s: -2, A: -2 }), prefixable: true },
+  lm: { scale: "1", dimensions: dimensions({ cd: 1 }), prefixable: true },
+  lx: { scale: "1", dimensions: dimensions({ cd: 1, m: -2 }), prefixable: true },
+  Bq: { scale: "1", dimensions: dimensions({ s: -1 }), prefixable: true },
+  Gy: { scale: "1", dimensions: dimensions({ m: 2, s: -2 }), prefixable: true },
+  Sv: { scale: "1", dimensions: dimensions({ m: 2, s: -2 }), prefixable: true },
+  kat: { scale: "1", dimensions: dimensions({ mol: 1, s: -1 }), prefixable: true },
+  min: { scale: "60", dimensions: dimensions({ s: 1 }), prefixable: false },
+  h: { scale: "3600", dimensions: dimensions({ s: 1 }), prefixable: false },
+  d: { scale: "86400", dimensions: dimensions({ s: 1 }), prefixable: false },
+  L: { scale: "1e-3", dimensions: dimensions({ m: 3 }), prefixable: true }
 });
 
 const PREFIXES = Object.freeze([
-  ["da", 1e1],
-  ["Y", 1e24],
-  ["Z", 1e21],
-  ["E", 1e18],
-  ["P", 1e15],
-  ["T", 1e12],
-  ["G", 1e9],
-  ["M", 1e6],
-  ["k", 1e3],
-  ["h", 1e2],
-  ["d", 1e-1],
-  ["c", 1e-2],
-  ["m", 1e-3],
-  ["u", 1e-6],
-  ["n", 1e-9],
-  ["p", 1e-12],
-  ["f", 1e-15],
-  ["a", 1e-18],
-  ["z", 1e-21],
-  ["y", 1e-24]
+  ["da", "1e1"],
+  ["Y", "1e24"],
+  ["Z", "1e21"],
+  ["E", "1e18"],
+  ["P", "1e15"],
+  ["T", "1e12"],
+  ["G", "1e9"],
+  ["M", "1e6"],
+  ["k", "1e3"],
+  ["h", "1e2"],
+  ["d", "1e-1"],
+  ["c", "1e-2"],
+  ["m", "1e-3"],
+  ["u", "1e-6"],
+  ["n", "1e-9"],
+  ["p", "1e-12"],
+  ["f", "1e-15"],
+  ["a", "1e-18"],
+  ["z", "1e-21"],
+  ["y", "1e-24"]
 ]);
 
 function fail(code, message, details = {}) {
@@ -95,9 +96,76 @@ function normalizeFinite(value, code, message, details = {}) {
   return Object.is(value, -0) ? 0 : value;
 }
 
+function greatestCommonDivisor(left, right) {
+  let a = left < 0n ? -left : left;
+  let b = right < 0n ? -right : right;
+  while (b !== 0n) [a, b] = [b, a % b];
+  return a;
+}
+
+function createScaleRatio(numerator, denominator) {
+  const divisor = greatestCommonDivisor(numerator, denominator);
+  return {
+    numerator: numerator / divisor,
+    denominator: denominator / divisor
+  };
+}
+
+function decimalScaleRatio(value) {
+  const parsed = parseDecimal(value);
+  const coefficient = BigInt(parsed.coefficient);
+  return parsed.scale >= 0
+    ? createScaleRatio(coefficient, 10n ** BigInt(parsed.scale))
+    : createScaleRatio(coefficient * 10n ** BigInt(-parsed.scale), 1n);
+}
+
+function multiplyScaleRatios(left, right) {
+  return createScaleRatio(
+    left.numerator * right.numerator,
+    left.denominator * right.denominator
+  );
+}
+
+function divideScaleRatios(left, right) {
+  return createScaleRatio(
+    left.numerator * right.denominator,
+    left.denominator * right.numerator
+  );
+}
+
+function powerScaleRatio(value, exponent) {
+  const power = BigInt(Math.abs(exponent));
+  const powered = {
+    numerator: value.numerator ** power,
+    denominator: value.denominator ** power
+  };
+  return exponent < 0
+    ? { numerator: powered.denominator, denominator: powered.numerator }
+    : powered;
+}
+
+function leadingMantissa(text) {
+  const digits = text.slice(0, 16);
+  return Number(digits) / 10 ** (digits.length - 1);
+}
+
+function scaleRatioToNumber(value) {
+  const directNumerator = Number(value.numerator);
+  const directDenominator = Number(value.denominator);
+  if (Number.isFinite(directNumerator) && Number.isFinite(directDenominator)) {
+    return directNumerator / directDenominator;
+  }
+  const numerator = value.numerator.toString();
+  const denominator = value.denominator.toString();
+  return leadingMantissa(numerator) /
+    leadingMantissa(denominator) *
+    10 ** (numerator.length - denominator.length);
+}
+
 function resolveSymbol(symbol) {
   if (Object.prototype.hasOwnProperty.call(UNIT_DEFINITIONS, symbol)) {
-    return UNIT_DEFINITIONS[symbol];
+    const definition = UNIT_DEFINITIONS[symbol];
+    return { ...definition, scale: decimalScaleRatio(definition.scale) };
   }
   for (const [prefix, prefixScale] of PREFIXES) {
     if (!symbol.startsWith(prefix) || symbol.length === prefix.length) continue;
@@ -105,7 +173,10 @@ function resolveSymbol(symbol) {
     const definition = UNIT_DEFINITIONS[base];
     if (definition?.prefixable) {
       return {
-        scale: prefixScale * definition.scale,
+        scale: multiplyScaleRatios(
+          decimalScaleRatio(prefixScale),
+          decimalScaleRatio(definition.scale)
+        ),
         dimensions: definition.dimensions,
         prefixable: false
       };
@@ -131,7 +202,7 @@ function dimensionSignature(unitDimensions) {
   return BASE_UNIT_ORDER.map((symbol) => unitDimensions[symbol] || 0).join(":");
 }
 
-export function parseUnitExpression(expression) {
+function parseUnitExpressionInternal(expression) {
   if (typeof expression !== "string" || expression.length === 0) {
     fail("QUANTITY_UNIT_INVALID", "Unit expression must be a non-empty string.", { expression });
   }
@@ -147,7 +218,7 @@ export function parseUnitExpression(expression) {
   }
 
   const resultDimensions = {};
-  let scale = 1;
+  let scaleRatio = { numerator: 1n, denominator: 1n };
   let index = 0;
   let operatorSign = 1;
   let factorCount = 0;
@@ -183,15 +254,16 @@ export function parseUnitExpression(expression) {
     exponent *= operatorSign;
 
     const definition = resolveSymbol(symbol);
-    const scaleFactor = definition.scale ** exponent;
-    const nextScale = scale * scaleFactor;
+    const scaleFactor = powerScaleRatio(definition.scale, exponent);
+    const nextScaleRatio = multiplyScaleRatios(scaleRatio, scaleFactor);
+    const nextScale = scaleRatioToNumber(nextScaleRatio);
     if (!Number.isFinite(nextScale) || nextScale === 0) {
       fail("QUANTITY_UNIT_INVALID", "Unit scale is outside the supported finite non-zero range.", {
         expression,
         scale: nextScale
       });
     }
-    scale = nextScale;
+    scaleRatio = nextScaleRatio;
     for (const [base, baseExponent] of Object.entries(definition.dimensions)) {
       const combined = (resultDimensions[base] || 0) + baseExponent * exponent;
       if (Math.abs(combined) > MAX_COMBINED_EXPONENT) {
@@ -236,14 +308,21 @@ export function parseUnitExpression(expression) {
   for (const symbol of BASE_UNIT_ORDER) {
     if (resultDimensions[symbol] !== undefined) orderedDimensions[symbol] = resultDimensions[symbol];
   }
-  return deepFreeze({
-    grammar: UNIT_GRAMMAR_VERSION,
-    expression,
-    canonicalUnit: formatCanonicalUnit(orderedDimensions),
-    dimensionSignature: dimensionSignature(orderedDimensions),
-    dimensions: orderedDimensions,
-    scale
-  });
+  return {
+    parsed: deepFreeze({
+      grammar: UNIT_GRAMMAR_VERSION,
+      expression,
+      canonicalUnit: formatCanonicalUnit(orderedDimensions),
+      dimensionSignature: dimensionSignature(orderedDimensions),
+      dimensions: orderedDimensions,
+      scale: scaleRatioToNumber(scaleRatio)
+    }),
+    scaleRatio
+  };
+}
+
+export function parseUnitExpression(expression) {
+  return parseUnitExpressionInternal(expression).parsed;
 }
 
 export function normalizeUnitExpression(expression) {
@@ -367,76 +446,123 @@ function normalizeQuantityInput(quantity) {
       semantic: quantity.semantic
     });
   }
+  const unit = parseUnitExpressionInternal(quantity.unit);
   return {
     value,
-    unit: parseUnitExpression(quantity.unit),
+    unit: { ...unit.parsed, scaleRatio: unit.scaleRatio },
     tolerance: normalizeTolerance(quantity.tolerance),
     semantic: quantity.semantic,
     provenance: copyProvenance(quantity.provenance)
   };
 }
 
-function scaledFinite(value, multiplier, details) {
-  const scaled = normalizeFinite(
-    value * multiplier,
-    "QUANTITY_CONVERSION_OVERFLOW",
-    "Unit conversion produced a non-finite value.",
-    details
-  );
-  if (scaled === 0 && value !== 0 && multiplier !== 0) {
-    fail("QUANTITY_CONVERSION_UNDERFLOW", "Non-zero quantity conversion underflowed to zero.", {
-      ...details,
-      value,
-      multiplier
-    });
+function exactlyScaledDecimal(value, ratio) {
+  const parsed = parseDecimal(value);
+  if (parsed.coefficient === "0") return parsed;
+  let numerator = BigInt(parsed.coefficient) * ratio.numerator;
+  let denominator = ratio.denominator;
+  const reduced = createScaleRatio(numerator, denominator);
+  numerator = reduced.numerator;
+  denominator = reduced.denominator;
+
+  let powersOfTwo = 0;
+  let powersOfFive = 0;
+  while (denominator % 2n === 0n) {
+    denominator /= 2n;
+    powersOfTwo += 1;
   }
-  return scaled;
+  while (denominator % 5n === 0n) {
+    denominator /= 5n;
+    powersOfFive += 1;
+  }
+  if (denominator !== 1n) return null;
+
+  const decimalPlaces = Math.max(powersOfTwo, powersOfFive);
+  const coefficient = numerator *
+    2n ** BigInt(decimalPlaces - powersOfTwo) *
+    5n ** BigInt(decimalPlaces - powersOfFive);
+  const resultScale = parsed.scale + decimalPlaces;
+  return parseDecimal(`${coefficient}e${-resultScale}`);
+}
+
+function scaledFinite(value, ratio, details) {
+  const multiplier = scaleRatioToNumber(ratio);
+  try {
+    const exact = exactlyScaledDecimal(value, ratio);
+    const scaled = decimalToNumber(exact ??
+      multiplyDecimals(parseDecimal(value), parseDecimal(multiplier))
+    );
+    return normalizeFinite(
+      scaled,
+      "QUANTITY_CONVERSION_OVERFLOW",
+      "Unit conversion produced a non-finite value.",
+      details
+    );
+  } catch (error) {
+    if (!(error instanceof KernelError)) throw error;
+    if (error.code === "DECIMAL_NUMBER_UNDERFLOW") {
+      fail("QUANTITY_CONVERSION_UNDERFLOW", "Non-zero quantity conversion underflowed to zero.", {
+        ...details,
+        value,
+        multiplier
+      });
+    }
+    if (error.code === "DECIMAL_NUMBER_OVERFLOW") {
+      fail("QUANTITY_CONVERSION_OVERFLOW", "Unit conversion produced a non-finite value.", {
+        ...details,
+        value,
+        multiplier
+      });
+    }
+    throw error;
+  }
 }
 
 export function convertQuantity(quantity, targetUnit) {
   const source = normalizeQuantityInput(quantity);
-  const target = parseUnitExpression(targetUnit);
-  if (source.unit.dimensionSignature !== target.dimensionSignature) {
+  const target = parseUnitExpressionInternal(targetUnit);
+  if (source.unit.dimensionSignature !== target.parsed.dimensionSignature) {
     fail("QUANTITY_UNIT_INCOMPATIBLE", "Quantity units have different dimensions.", {
       sourceUnit: source.unit.expression,
       sourceDimensions: source.unit.dimensions,
-      targetUnit: target.expression,
-      targetDimensions: target.dimensions
+      targetUnit: target.parsed.expression,
+      targetDimensions: target.parsed.dimensions
     });
   }
-  const multiplier = source.unit.scale / target.scale;
+  const multiplierRatio = divideScaleRatios(source.unit.scaleRatio, target.scaleRatio);
+  const multiplier = scaleRatioToNumber(multiplierRatio);
   if (!Number.isFinite(multiplier)) {
     fail("QUANTITY_CONVERSION_OVERFLOW", "Unit conversion factor is outside the supported finite non-zero range.", {
       sourceUnit: source.unit.expression,
-      targetUnit: target.expression,
+      targetUnit: target.parsed.expression,
       multiplier
     });
   }
   if (multiplier === 0) {
     fail("QUANTITY_CONVERSION_UNDERFLOW", "Non-zero unit conversion factor underflowed to zero.", {
       sourceUnit: source.unit.expression,
-      targetUnit: target.expression
+      targetUnit: target.parsed.expression
     });
   }
   const tolerance = {
     ...(source.tolerance.absolute === undefined
       ? {}
       : {
-          absolute: scaledFinite(source.tolerance.absolute, Math.abs(multiplier), {
+          absolute: scaledFinite(source.tolerance.absolute, multiplierRatio, {
             sourceUnit: source.unit.expression,
-            targetUnit: target.expression,
+            targetUnit: target.parsed.expression,
             field: "tolerance.absolute"
           })
         }),
     ...(source.tolerance.relative === undefined ? {} : { relative: source.tolerance.relative })
   };
   return deepFreeze({
-    value: scaledFinite(source.value, multiplier, {
+    value: scaledFinite(source.value, multiplierRatio, {
       sourceUnit: source.unit.expression,
-      targetUnit: target.expression,
+      targetUnit: target.parsed.expression,
       field: "value"
     }),
-    unit: target.expression,
+    unit: target.parsed.expression,
     tolerance,
     semantic: source.semantic,
     provenance: source.provenance

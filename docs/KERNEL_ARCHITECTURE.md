@@ -26,7 +26,36 @@ The kernel exists because a selectivity profile cannot be derived reliably by ma
 
 The words **MUST**, **MUST NOT**, **SHOULD**, and **MAY** are normative.
 
-This document defines the intended behavior and boundaries of the kernel. The repository currently contains a dependency-free workspace, guarded canonical JSON, domain-separated hashes, a deterministic schema-v1 package loader, multiplicative SI quantity normalization, deterministic decimal arithmetic, typed value/Boolean expression analysis, predicate-plan compilation, run-specific numeric-policy binding, content-addressed scientific-Oracle validation without solver execution, neutral content-addressed source-policy and annotation/adjudication freeze contracts without catalogue classification, adapter-side policy-limited classification views and deterministic typed-relation/SCC projections for caller-supplied data, exact canonicalization for supplied candidate graphs and their skeletons, a bounded reference enumerator for connected unlabeled simple skeletons through six nodes, a deterministic CandidateStore, initial contracts and schemas, source locks, and a source-catalogue audit. It does not yet implement source-policy authorship, access-controlled annotation collection, application to the current catalogue, node dispositions/condensation, candidate decoration, predicate execution, or the closure engine defined here. The concrete implementation boundary is documented in [KERNEL_IMPLEMENTATION_STATUS.md](./KERNEL_IMPLEMENTATION_STATUS.md), and the repository layout in [PROJECT_STRUCTURE.md](./PROJECT_STRUCTURE.md).
+This document defines the intended behavior and boundaries of the kernel. The
+repository currently contains dependency-free runtime packages plus a pinned
+development-only schema validator, guarded canonical JSON, domain-separated
+hashes, a deterministic schema-v1 package loader,
+normalized RunConfig materialization, verified primitive depth-zero `Element`
+populations, multiplicative SI quantity normalization, deterministic decimal
+arithmetic, typed value/Boolean expression analysis, predicate-plan
+compilation, graph-only predicate evaluation and partial-failure diagnostics,
+package-bound graph-plus-exact-compare local candidate filtering, run-specific numeric-policy
+binding, content-addressed scientific-Oracle
+validation without solver execution, neutral content-addressed source-policy
+and annotation/adjudication freeze contracts without catalogue classification,
+adapter-side policy-limited classification views and deterministic typed-
+relation/SCC projections for caller-supplied data, exact canonicalization for
+supplied candidate graphs and their skeletons, a bounded reference enumerator
+for connected unlabeled simple skeletons through six nodes, deterministic
+finite decoration from explicit node/edge alphabets, verified content-addressed
+package/run binding for the materialized primitive population, a deterministic
+CandidateStore, initial contracts and schemas, source locks, and a source-
+catalogue audit. It does not yet implement source-policy authorship, access-
+controlled annotation collection, application to the current catalogue, node
+dispositions/condensation, derived-depth source-population binding, derived
+structural decoration attributes, profile guards/capacities, partial predicate
+pruning authorization, runtime-bound invariant/attribute arithmetic,
+balance/substructure predicate execution, selector
+admission, derived profile extraction/materialization, or the closure engine
+defined here. The concrete implementation boundary is
+documented in
+[KERNEL_IMPLEMENTATION_STATUS.md](./KERNEL_IMPLEMENTATION_STATUS.md), and the
+repository layout in [PROJECT_STRUCTURE.md](./PROJECT_STRUCTURE.md).
 
 ## 3. Scope
 
@@ -641,6 +670,24 @@ Element structural identity includes its canonical graph/content, normalized qua
 
 When profile-quotient generation uses deterministic representative members, the provenance MUST disclose that fact. Alternate derivations MAY be stored in a separate derivation index so that the immutable element record remains content-addressed.
 
+The current `primitive-depth-population-v1` materializer realizes the depth-zero
+subset of this contract. It MUST reproduce the complete loaded package and the
+identity-policy-selected canonical bytes of every primitive before emitting an
+`Element`. Primitive and source-condensed records have `depth: 0`, the package
+`depthBasis`, computed derivation-depth provenance, `provenance: null`, and
+empty admission/selection lists. The population is sorted by element ID and
+hashed in `onto2d:depth-population:v1`. Arbitrary caller-supplied or derived
+elements are not accepted at this boundary.
+
+The current `package-candidate-filter-evaluator-v2` adds a later formation
+basis without constructing an element. It binds a complete canonical candidate
+to the reproduced package/run universe, target depth, source population, and
+exact/profile-representative constituent resolution, reproduces each plan's
+numeric binding, then evaluates every graph or supported exact-compare
+top-level predicate. Its `eligible` verdict is local filtering only;
+it does not populate `selectedBy`, derive a profile, or authorize a derived
+element ID.
+
 Carrier promotion creates a new primitive definition or package input for the target ontology coordinate. It MUST NOT mutate the source element or confuse ontology level with derivation depth. For the foundational paper, promotion from a Level-0 ensemble-quantum to a Level-1 carrier is valid only after collective admissibility and effective profile extraction have both succeeded.
 
 ### 8.3 Profile
@@ -920,6 +967,13 @@ phase, depth-reference policy, declaration, expression-analysis hash, and
 pruning state. Analysis and compilation do not evaluate three-valued truth,
 generate a witness, inspect a candidate, or prune a branch.
 
+The current `predicate-plan-verifier-v1` MUST reproduce the normalized
+expression, analysis witnesses, pruning metadata, and hashes before any
+runtime consumes a compiled plan. `graph-predicate-evaluator-v1` is the first
+executable subset: it accepts only logical and graph-structural operators,
+re-canonicalizes the candidate, and emits a content-addressed complete
+evaluation. Numeric and substructure operators remain outside that boundary.
+
 `Predicate` and `Functional` are different schema types, registries, evaluator capabilities, and execution contexts. The generator receives only pruning-eligible predicate plans; it cannot resolve a functional ID or coefficient. This capability boundary is a conformance property, not a naming convention.
 
 Every coefficient carries quantity provenance and therefore a declared theoretical, computed, or oracle source. Every free or fitted coefficient, including each paper `alpha_i`, MUST appear in `sensitivityCoefficients`. Omitting a used free coefficient from the sweep is a package error, not an optimization.
@@ -937,6 +991,41 @@ Phase is an analysis and reporting dimension, not permission to skip predicates.
 This predicate phase is an engine execution classification. It is unrelated to ontology phases A–D in the foundational paper unless a rule package provides an explicit mapping.
 
 ### 8.6 Evaluation result and witnesses
+
+The current graph-only executable artifact is narrower than the target
+cross-domain result below:
+
+```ts
+interface PredicateGraphEvaluation {
+  schemaVersion: "1";
+  evaluator: "graph-predicate-evaluator-v1";
+  predicatePlanHash: ContentHash;
+  candidateId: CandidateId;
+  graphPolicy: GraphPolicy;
+  outcome: "pass" | "fail" | "indeterminate";
+  witnesses: GraphPredicateWitness[];
+  evaluationHash: ContentHash;
+}
+```
+
+Its witnesses use canonical node and edge indices and bind their expression
+path, atomic operator, local outcome, and relevant count, range, role,
+projection, component, path, or cycle data. The evaluation hash covers the
+verified plan, canonical candidate, effective graph policy, final outcome, and
+ordered witnesses.
+
+The separate `local-predicate-evaluator-v1` composes that graph runtime with
+the fully bound comparison subset. It accepts scalar constants, direct
+constant quantities, counts over canonical nodes or role-filtered edges, and
+dimensionless `add`/`multiply`. Dimensionless arithmetic remains exact until
+the bound result-rounding boundary; direct quantities normalize to SI bases,
+apply terminating rational unit scales in exact decimal arithmetic, round once,
+and use declared maximum tolerance plus the bound semantic policy.
+The artifact binds `predicatePlanHash`, `numericBindingHash`, canonical
+candidate and policy, exact/rounded values, and canonical selection witnesses
+under `onto2d:predicate-local-evaluation:v1`. Runtime invariants, attributes,
+coefficients, cycle-set counts, derived quantity arithmetic, balance, and
+substructures are rejected before evaluation until their contracts are frozen.
 
 ```ts
 interface PredicateEvaluation {
@@ -1266,11 +1355,60 @@ For each skeleton, decoration assigns:
 
 The decorator processes one skeleton at a time and yields a deterministic logical order. It MUST check hard budgets before materializing the next candidate.
 
+The current low-level `decorated-candidate-enumerator-v1` realizes this finite
+boundary from explicit caller-supplied node and edge variant alphabets. It
+canonicalizes and sorts those alphabets, treats decorations on one adjacency
+as a multiset rather than an edge sequence, applies the declared edge bound,
+and sends only complete graph-policy-admissible decorations to the fixed-domain
+CandidateStore.
+
+The current `run-config-normalizer-v1`, `primitive-depth-population-v1`, and
+`package-candidate-binding-v1` bridge first materializes the reproduced loaded
+package as complete depth-zero `Element` records. The binding records the full
+population artifact and a selection with `targetDepth: 1`,
+`availableDepths: [0]`, and `selectedDepths: [0]`. Both source-depth policies
+select depth zero, but the declared policy remains identity-bearing. The bridge
+uses element IDs in `element-exact`, one profile hash per disclosed class in
+`profile-quotient`, the normalized `roleAlphabet` as edge variants, and all
+connected skeletons from one through `budget.maxNodes`. The lexicographically
+smallest element ID is recorded as each profile class representative. The
+normalized run, population and depth identities, semantic generation budgets,
+and raw/state/search execution limits enter the binding hash.
+`package-candidate-generator-v1` executes that frozen input through the
+low-level decorator.
+
+`package-candidate-filter-evaluator-v2` separately reproduces the loaded
+package under an independently expected kernel version and reproduces the
+complete binding, re-canonicalizes a candidate under the bound
+policy, and proves domain, node/edge budget, skeleton, node variant, edge
+variant, and non-parallel adjacency-group membership. It discloses direct
+element or profile-representative resolution for every canonical node,
+reproduces each plan's run-specific numeric binding, and evaluates all graph or
+supported exact-compare top-level plans without stopping after a failure. The
+hashed result distinguishes `eligible`, `predicate-rejected`, and
+`filter-indeterminate`. It deliberately stops before selector-based final
+admission and derived-element materialization. A plan requiring an attribute
+absent from the bound structural node-decoration alphabet is rejected before
+evaluation; missing data never becomes a trusted empty selection.
+
+The generation bridge is not yet a derived closure-depth population selector. It rejects
+`single-candidate`, disconnected generation, non-empty structural attribute
+vocabularies, and unenforceable wall-time/resident-memory limits instead of
+silently weakening them. The decorator itself does not apply predicates, and
+profile slot guards/capacities cannot claim pruning.
+
 ### 10.3 Partial evaluation and pruning
 
 After every extension, the generator evaluates all pruning-eligible predicates whose required data is available. A monotone violation closes that branch. Pruned partial candidates are tracked separately from complete generated candidates and MUST NOT enter the selectivity denominator.
 
 The run report SHOULD include pruning counts by predicate because an incorrect or unexpectedly dominant pruning rule materially changes the explored universe.
+
+The current `partial-graph-predicate-evaluator-v1` stops before this target
+behavior. It can record a persistent failure only for a verified
+`static-proven` graph plan, but every result declares
+`pruningAuthorized: false`. The decorator MUST NOT close a branch from that
+diagnostic until a versioned audit artifact and pruning controller bind the
+allowed extension model and pass pruning-disabled differential conformance.
 
 ### 10.4 Deduplication
 
@@ -1303,6 +1441,18 @@ Budget exhaustion is a result state, not a normal completion. On exhaustion the 
 | `compare(left,op,right)` | Typed scalar comparison succeeds | Derived from operands and extension semantics |
 
 The analyzer MUST reason about individual lower- and upper-bound clauses rather than attach one unconditional monotonicity fact to a combined range predicate.
+
+In the current complete graph evaluator, a `degree` range applies to every
+selected node; each incident edge record, including a self-loop, contributes
+one. An empty selector is `indeterminate`. `pathExists` is directed and admits
+a zero-edge path when selected endpoints coincide. A missing endpoint selector
+is `indeterminate`. `connected` and `componentCount` use the effective graph
+policy's weak/undirected or directed-strong projection.
+
+Cycle projections are operationally distinct. `directed` preserves loops and
+reciprocal two-cycles, `undirected-multigraph` preserves loops and parallel
+two-cycles, and `undirected-simple` removes loops and collapses parallel and
+directional copies before searching for cycles of length at least three.
 
 `balance` directly expresses cases such as `k1 + k2 + k3 = 0` and `omega1 + omega2 + omega3 = 0`. Its operands MUST have compatible units. Its tolerance and numeric accumulation policy MUST be explicit and hashed.
 
@@ -1526,6 +1676,12 @@ LOAD -> AUDIT -> SKELETONS -> DECORATE -> CANON -> FILTER
 - collect witnesses and metrics;
 - decide local eligibility only when all required predicates pass;
 - build candidate explanations and the census.
+
+The current package-bound filter implements this state when every top-level
+plan is logical/graph-structural or uses the frozen exact-compare subset. It
+evaluates all such plans and emits per-candidate formation resolution and a
+local verdict, but does not yet aggregate the level census or resolve runtime
+invariants/attributes, balance, derived quantity arithmetic, or substructures.
 
 ### 13.7 Cohorts
 

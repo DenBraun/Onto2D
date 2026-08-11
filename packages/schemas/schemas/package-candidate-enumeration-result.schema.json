@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/package-candidate-enumeration-result.schema.json",
+  "title": "Onto2D Package Candidate Enumeration Result",
+  "type": "object",
+  "required": ["schemaVersion", "generator", "binding", "enumeration"],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "generator": { "const": "package-candidate-generator-v1" },
+    "binding": { "$ref": "package-candidate-binding.schema.json" },
+    "enumeration": { "$ref": "candidate-enumeration-result.schema.json" }
+  },
+  "additionalProperties": false
+}

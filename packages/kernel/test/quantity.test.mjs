@@ -56,6 +56,14 @@ test("quantity normalization converts prefixed values and absolute tolerance", (
   assert.equal(convertedBack.value, 250);
   assert.equal(convertedBack.unit, "cm");
   assert.equal(convertedBack.tolerance.absolute, 1);
+
+  const squaredPrefix = normalizeQuantity(quantity(1, "dm^2", "fixture area"));
+  assert.equal(parseUnitExpression("dm^2").scale, 0.01);
+  assert.equal(squaredPrefix.value, 0.01);
+  assert.equal(squaredPrefix.unit, "m^2");
+
+  const nonTerminating = convertQuantity(quantity(1, "s", "fixture time"), "min");
+  assert.equal(nonTerminating.value, 1 / 60);
 });
 
 test("compatibility is dimensional rather than textual", () => {
