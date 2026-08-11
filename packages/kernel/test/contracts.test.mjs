@@ -15,7 +15,7 @@ import {
 test("kernel publishes the complete source-relation vocabulary", () => {
   assert.equal(
     KERNEL_IMPLEMENTATION_STATUS,
-    "foundation-active/decorated-generation-active/predicate-plans-active/closure-not-implemented"
+    "foundation-active/decorated-generation-active/predicate-plans-active/local-census-active/closure-not-implemented"
   );
   assert.deepEqual(SOURCE_RELATION_KINDS, [
     "generative",
@@ -37,6 +37,10 @@ test("kernel publishes the complete source-relation vocabulary", () => {
   assert.ok(KERNEL_CAPABILITIES.implemented.includes("package-candidate-binding"));
   assert.ok(KERNEL_CAPABILITIES.implemented.includes("package-candidate-enumeration"));
   assert.ok(KERNEL_CAPABILITIES.implemented.includes("package-candidate-filter-evaluation"));
+  assert.ok(KERNEL_CAPABILITIES.implemented.includes("package-candidate-local-filter-census"));
+  assert.ok(KERNEL_CAPABILITIES.implemented.includes(
+    "package-candidate-local-filter-census-verification"
+  ));
   assert.ok(KERNEL_CAPABILITIES.implemented.includes("candidate-deduplication-store"));
   assert.ok(KERNEL_CAPABILITIES.implemented.includes("unit-grammar"));
   assert.ok(KERNEL_CAPABILITIES.implemented.includes("quantity-normalization"));
@@ -56,6 +60,7 @@ test("kernel publishes the complete source-relation vocabulary", () => {
   assert.ok(KERNEL_CAPABILITIES.implemented.includes("local-derived-quantity-addition-evaluation"));
   assert.ok(KERNEL_CAPABILITIES.implemented.includes("local-derived-quantity-scaling-evaluation"));
   assert.ok(KERNEL_CAPABILITIES.implemented.includes("local-element-invariant-evaluation"));
+  assert.ok(KERNEL_CAPABILITIES.implemented.includes("local-profile-invariant-consensus-evaluation"));
   assert.ok(KERNEL_CAPABILITIES.implemented.includes("local-balance-evaluation"));
   assert.ok(KERNEL_CAPABILITIES.implemented.includes("partial-graph-predicate-failure-detection"));
   assert.ok(KERNEL_CAPABILITIES.implemented.includes("predicate-numeric-policy-binding"));
@@ -92,6 +97,8 @@ test("kernel exposes the implemented graph generation foundation", () => {
   assert.equal(typeof kernel.createPackageCandidateBinding, "function");
   assert.equal(typeof kernel.enumeratePackageCandidates, "function");
   assert.equal(typeof kernel.evaluatePackageCandidateFilter, "function");
+  assert.equal(typeof kernel.evaluatePackageCandidateCensus, "function");
+  assert.equal(typeof kernel.verifyPackageCandidateCensus, "function");
   assert.equal(typeof kernel.parseUnitExpression, "function");
   assert.equal(typeof kernel.normalizeQuantity, "function");
   assert.equal(typeof kernel.compareQuantities, "function");

@@ -1,0 +1,292 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/package-candidate-census.schema.json",
+  "title": "Onto2D Complete Package Candidate Local-Filter Census",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "evaluator",
+    "scope",
+    "packageId",
+    "rulesHash",
+    "bindingHash",
+    "countingDomain",
+    "targetDepth",
+    "sourcePopulationHash",
+    "dominanceThreshold",
+    "indeterminateThreshold",
+    "generation",
+    "candidateEvaluations",
+    "counts",
+    "booleanSelectivity",
+    "indeterminateRatio",
+    "interpretation",
+    "census",
+    "censusHash"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "evaluator": { "const": "package-candidate-census-evaluator-v1" },
+    "scope": { "const": "complete-local-filter-census-v1" },
+    "packageId": { "$ref": "#/$defs/hash" },
+    "rulesHash": { "$ref": "#/$defs/hash" },
+    "bindingHash": { "$ref": "#/$defs/hash" },
+    "countingDomain": { "enum": ["profile-quotient", "element-exact"] },
+    "targetDepth": { "const": 1 },
+    "sourcePopulationHash": { "$ref": "#/$defs/hash" },
+    "dominanceThreshold": { "const": 0.9 },
+    "indeterminateThreshold": { "$ref": "#/$defs/ratio" },
+    "generation": {
+      "allOf": [
+        { "$ref": "package-candidate-enumeration-result.schema.json" },
+        {
+          "properties": {
+            "enumeration": {
+              "properties": {
+                "status": { "const": "complete" },
+                "interpretable": { "const": true },
+                "candidateStore": {
+                  "properties": { "status": { "const": "complete" } }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "candidateEvaluations": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "package-candidate-filter-evaluation.schema.json" }
+    },
+    "counts": {
+      "type": "object",
+      "required": [
+        "generatedBeforeCanonicalization",
+        "canonicalCandidates",
+        "evaluatedCandidates",
+        "predicateRejected",
+        "filterIndeterminate",
+        "eligibleCandidates"
+      ],
+      "properties": {
+        "generatedBeforeCanonicalization": { "$ref": "#/$defs/count" },
+        "canonicalCandidates": { "$ref": "#/$defs/count" },
+        "evaluatedCandidates": { "$ref": "#/$defs/count" },
+        "predicateRejected": { "$ref": "#/$defs/count" },
+        "filterIndeterminate": { "$ref": "#/$defs/count" },
+        "eligibleCandidates": { "$ref": "#/$defs/count" }
+      },
+      "additionalProperties": false
+    },
+    "booleanSelectivity": {
+      "oneOf": [{ "$ref": "#/$defs/ratio" }, { "type": "null" }]
+    },
+    "indeterminateRatio": {
+      "oneOf": [{ "$ref": "#/$defs/ratio" }, { "type": "null" }]
+    },
+    "interpretation": {
+      "type": "object",
+      "required": ["status", "reasons"],
+      "properties": {
+        "status": { "enum": ["valid", "empty", "indeterminate"] },
+        "reasons": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "no-evaluated-candidates",
+              "indeterminate-ratio-exceeds-threshold"
+            ]
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "census": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/predicateCensus" }
+    },
+    "censusHash": { "$ref": "#/$defs/hash" }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "interpretation": {
+            "properties": { "status": { "const": "empty" } },
+            "required": ["status"]
+          }
+        },
+        "required": ["interpretation"]
+      },
+      "then": {
+        "properties": {
+          "candidateEvaluations": { "maxItems": 0 },
+          "counts": {
+            "properties": {
+              "canonicalCandidates": { "const": 0 },
+              "evaluatedCandidates": { "const": 0 },
+              "predicateRejected": { "const": 0 },
+              "filterIndeterminate": { "const": 0 },
+              "eligibleCandidates": { "const": 0 }
+            }
+          },
+          "booleanSelectivity": { "type": "null" },
+          "indeterminateRatio": { "type": "null" },
+          "interpretation": {
+            "properties": {
+              "reasons": { "const": ["no-evaluated-candidates"] }
+            }
+          },
+          "census": {
+            "items": {
+              "properties": {
+                "evaluated": { "const": 0 },
+                "passed": { "const": 0 },
+                "failed": { "const": 0 },
+                "indeterminate": { "const": 0 },
+                "exclusivelyRejected": { "const": 0 },
+                "inert": { "const": true },
+                "dominating": { "const": false }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "interpretation": {
+            "properties": { "status": { "const": "valid" } },
+            "required": ["status"]
+          }
+        },
+        "required": ["interpretation"]
+      },
+      "then": {
+        "properties": {
+          "candidateEvaluations": { "minItems": 1 },
+          "counts": {
+            "properties": {
+              "canonicalCandidates": { "minimum": 1 },
+              "evaluatedCandidates": { "minimum": 1 }
+            }
+          },
+          "booleanSelectivity": { "$ref": "#/$defs/ratio" },
+          "indeterminateRatio": { "$ref": "#/$defs/ratio" },
+          "interpretation": {
+            "properties": { "reasons": { "const": [] } }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "interpretation": {
+            "properties": { "status": { "const": "indeterminate" } },
+            "required": ["status"]
+          }
+        },
+        "required": ["interpretation"]
+      },
+      "then": {
+        "properties": {
+          "candidateEvaluations": { "minItems": 1 },
+          "counts": {
+            "properties": {
+              "canonicalCandidates": { "minimum": 1 },
+              "evaluatedCandidates": { "minimum": 1 },
+              "filterIndeterminate": { "minimum": 1 }
+            }
+          },
+          "booleanSelectivity": { "$ref": "#/$defs/ratio" },
+          "indeterminateRatio": { "$ref": "#/$defs/ratio" },
+          "interpretation": {
+            "properties": {
+              "reasons": {
+                "const": ["indeterminate-ratio-exceeds-threshold"]
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "hash": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "normalizedString": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1024,
+      "pattern": "^(?:\\S|\\S(?:.*\\S)?)$"
+    },
+    "count": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
+    "ratio": { "type": "number", "minimum": 0, "maximum": 1 },
+    "predicateCensus": {
+      "type": "object",
+      "required": [
+        "predicateId",
+        "evaluated",
+        "passed",
+        "failed",
+        "indeterminate",
+        "exclusivelyRejected",
+        "inert",
+        "dominating"
+      ],
+      "properties": {
+        "predicateId": { "$ref": "#/$defs/normalizedString" },
+        "evaluated": { "$ref": "#/$defs/count" },
+        "passed": { "$ref": "#/$defs/count" },
+        "failed": { "$ref": "#/$defs/count" },
+        "indeterminate": { "$ref": "#/$defs/count" },
+        "exclusivelyRejected": { "$ref": "#/$defs/count" },
+        "inert": { "type": "boolean" },
+        "dominating": { "type": "boolean" }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "failed": { "const": 0 } },
+            "required": ["failed"]
+          },
+          "then": { "properties": { "inert": { "const": true } } },
+          "else": { "properties": { "inert": { "const": false } } }
+        },
+        {
+          "if": {
+            "properties": { "evaluated": { "const": 0 } },
+            "required": ["evaluated"]
+          },
+          "then": {
+            "properties": {
+              "passed": { "const": 0 },
+              "failed": { "const": 0 },
+              "indeterminate": { "const": 0 },
+              "exclusivelyRejected": { "const": 0 },
+              "dominating": { "const": false }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": { "dominating": { "const": true } },
+            "required": ["dominating"]
+          },
+          "then": {
+            "properties": {
+              "evaluated": { "minimum": 1 },
+              "failed": { "minimum": 1 }
+            }
+          }
+        }
+      ],
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

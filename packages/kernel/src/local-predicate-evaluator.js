@@ -16,7 +16,7 @@ import { bindPredicateNumericPolicy } from "./numeric-binding.js";
 import { verifyPredicatePlan } from "./predicate-plan-verifier.js";
 import { compareQuantities, normalizeQuantity } from "./quantity.js";
 
-export const LOCAL_PREDICATE_EVALUATOR_VERSION = "local-predicate-evaluator-v8";
+export const LOCAL_PREDICATE_EVALUATOR_VERSION = "local-predicate-evaluator-v9";
 export const LOCAL_PREDICATE_EVALUATION_LIMITS = deepFreeze({
   maxValueNodes: 10_000,
   maxSelectionWitnesses: 10_000,
@@ -28,9 +28,16 @@ const QUANTITY_ADD_METHOD = "local-quantity-add-v1";
 const QUANTITY_SCALE_METHOD = "local-quantity-scale-v1";
 const NUMBER_BALANCE_MAGNITUDE_METHOD = "local-number-balance-magnitude-v1";
 const QUANTITY_TOLERANCE_AGGREGATION = "sum-effective-absolute-bounds-v1";
+const PROFILE_INVARIANT_CONSENSUS_POLICY = "identical-normalized-quantity-v1";
 const LOCAL_OPTION_FIELDS = new Set(["policy", "limits", "invariantContext"]);
-const INVARIANT_CONTEXT_FIELDS = new Set(["sourcePopulationHash", "elements"]);
+const EXACT_INVARIANT_CONTEXT_FIELDS = new Set(["sourcePopulationHash", "elements"]);
+const PROFILE_INVARIANT_CONTEXT_FIELDS = new Set([
+  "sourcePopulationHash",
+  "elements",
+  "profileClasses"
+]);
 const INVARIANT_ELEMENT_FIELDS = new Set(["elementId", "invariants"]);
+const INVARIANT_PROFILE_CLASS_FIELDS = new Set(["profileHash", "members"]);
 
 const GRAPH_OPERATORS = new Set([
   "degree",
@@ -483,14 +490,11 @@ function normalizeInvariantContext(input, graph, requiredNames) {
     }
     return null;
   }
-  if (graph.domain !== "element-exact") {
-    const reason = graph.domain === "profile-quotient"
-      ? "profile-invariant-consensus-not-frozen"
-      : "single-candidate-invariant-binding-not-frozen";
+  if (graph.domain !== "element-exact" && graph.domain !== "profile-quotient") {
     fail(
       "PREDICATE_LOCAL_INVARIANT_DOMAIN_UNSUPPORTED",
-      "Runtime invariants currently require the element-exact counting domain.",
-      { domain: graph.domain, reason }
+      "Runtime invariants require an exact-element or profile-consensus counting domain.",
+      { domain: graph.domain, reason: "single-candidate-invariant-binding-not-frozen" }
     );
   }
   if (input === undefined) {
@@ -499,16 +503,23 @@ function normalizeInvariantContext(input, graph, requiredNames) {
       "Runtime invariant resolution requires an explicit source-population context."
     );
   }
-  if (!isObject(input) || !sameFields(input, INVARIANT_CONTEXT_FIELDS)) {
+  const expectedFields = graph.domain === "element-exact"
+    ? EXACT_INVARIANT_CONTEXT_FIELDS
+    : PROFILE_INVARIANT_CONTEXT_FIELDS;
+  if (!isObject(input) || !sameFields(input, expectedFields)) {
     fail(
       "PREDICATE_LOCAL_INVARIANT_CONTEXT_INVALID",
       "Invariant context fields do not match the local runtime contract."
     );
   }
-  if (!isContentHash(input.sourcePopulationHash) || !Array.isArray(input.elements)) {
+  if (
+    !isContentHash(input.sourcePopulationHash) ||
+    !Array.isArray(input.elements) ||
+    (graph.domain === "profile-quotient" && !Array.isArray(input.profileClasses))
+  ) {
     fail(
       "PREDICATE_LOCAL_INVARIANT_CONTEXT_INVALID",
-      "Invariant context requires a source-population hash and element array."
+      "Invariant context requires its domain-specific source-population arrays."
     );
   }
 
@@ -557,18 +568,81 @@ function normalizeInvariantContext(input, graph, requiredNames) {
     left.elementId < right.elementId ? -1 : left.elementId > right.elementId ? 1 : 0
   );
 
-  const expectedElementIds = [...new Set(graph.nodes.map((node) => node.ref))].sort();
+  let profileClasses = null;
+  let expectedElementIds;
+  if (graph.domain === "element-exact") {
+    expectedElementIds = [...new Set(graph.nodes.map((node) => node.ref))].sort();
+  } else {
+    const seenProfiles = new Set();
+    const seenMembers = new Set();
+    const normalizedProfiles = input.profileClasses.map((entry, index) => {
+      if (!isObject(entry) || !sameFields(entry, INVARIANT_PROFILE_CLASS_FIELDS)) {
+        fail(
+          "PREDICATE_LOCAL_INVARIANT_CONTEXT_INVALID",
+          "Invariant profile-class fields do not match the local runtime contract.",
+          { index }
+        );
+      }
+      if (
+        !isContentHash(entry.profileHash) ||
+        seenProfiles.has(entry.profileHash) ||
+        !Array.isArray(entry.members) ||
+        entry.members.length === 0
+      ) {
+        fail(
+          "PREDICATE_LOCAL_INVARIANT_CONTEXT_INVALID",
+          "Invariant profile classes require unique profile IDs and non-empty member arrays.",
+          { index, profileHash: entry.profileHash }
+        );
+      }
+      seenProfiles.add(entry.profileHash);
+      const members = [];
+      const localMembers = new Set();
+      for (const elementId of entry.members) {
+        if (
+          !isContentHash(elementId) ||
+          localMembers.has(elementId) ||
+          seenMembers.has(elementId)
+        ) {
+          fail(
+            "PREDICATE_LOCAL_INVARIANT_CONTEXT_INVALID",
+            "Invariant profile members must be unique content-addressed elements.",
+            { index, profileHash: entry.profileHash, elementId }
+          );
+        }
+        localMembers.add(elementId);
+        seenMembers.add(elementId);
+        members.push(elementId);
+      }
+      return { profileHash: entry.profileHash, members: members.sort() };
+    }).sort((left, right) =>
+      left.profileHash < right.profileHash ? -1 : left.profileHash > right.profileHash ? 1 : 0
+    );
+    const expectedProfileHashes = [...new Set(graph.nodes.map((node) => node.ref))].sort();
+    const actualProfileHashes = normalizedProfiles.map((entry) => entry.profileHash);
+    if (canonicalize(actualProfileHashes) !== canonicalize(expectedProfileHashes)) {
+      fail(
+        "PREDICATE_LOCAL_INVARIANT_CONTEXT_MISMATCH",
+        "Invariant context profile IDs differ from the canonical candidate references.",
+        { expectedProfileHashes, actualProfileHashes }
+      );
+    }
+    profileClasses = new Map(normalizedProfiles.map((entry) => [entry.profileHash, entry]));
+    expectedElementIds = [...seenMembers].sort();
+  }
   const actualElementIds = elements.map((entry) => entry.elementId);
   if (canonicalize(actualElementIds) !== canonicalize(expectedElementIds)) {
     fail(
       "PREDICATE_LOCAL_INVARIANT_CONTEXT_MISMATCH",
-      "Invariant context element IDs differ from the canonical candidate references.",
+      "Invariant context element IDs differ from the required source-element set.",
       { expectedElementIds, actualElementIds }
     );
   }
   return {
+    domain: graph.domain,
     sourcePopulationHash: input.sourcePopulationHash,
-    elements: new Map(elements.map((entry) => [entry.elementId, entry]))
+    elements: new Map(elements.map((entry) => [entry.elementId, entry])),
+    profileClasses
   };
 }
 
@@ -788,15 +862,67 @@ function resolveInvariantExpression(expression, path, graph, symbols, invariantC
     );
   }
   const canonicalNode = nodeIndexes[0];
-  const elementId = graph.nodes[canonicalNode].ref;
-  const element = invariantContext.elements.get(elementId);
-  const quantity = element?.invariants[expression.name];
-  if (quantity === undefined) {
-    fail(
-      "PREDICATE_LOCAL_INVARIANT_VALUE_UNAVAILABLE",
-      "The selected element does not provide the required invariant value.",
-      { path, name: expression.name, canonicalNode, elementId }
+  const sourceRef = graph.nodes[canonicalNode].ref;
+  let quantity;
+  let witnessBasis;
+  if (invariantContext.domain === "element-exact") {
+    const element = invariantContext.elements.get(sourceRef);
+    quantity = element?.invariants[expression.name];
+    if (quantity === undefined) {
+      fail(
+        "PREDICATE_LOCAL_INVARIANT_VALUE_UNAVAILABLE",
+        "The selected element does not provide the required invariant value.",
+        { path, name: expression.name, canonicalNode, elementId: sourceRef }
+      );
+    }
+    witnessBasis = { elementId: sourceRef };
+  } else {
+    const profileClass = invariantContext.profileClasses.get(sourceRef);
+    const missingElementIds = profileClass.members.filter((elementId) =>
+      invariantContext.elements.get(elementId)?.invariants[expression.name] === undefined
     );
+    if (missingElementIds.length > 0) {
+      fail(
+        "PREDICATE_LOCAL_INVARIANT_CONSENSUS_UNAVAILABLE",
+        "A selected profile class does not provide the invariant for every member.",
+        {
+          path,
+          name: expression.name,
+          canonicalNode,
+          profileHash: sourceRef,
+          reason: "member-values-missing",
+          missingElementIds
+        }
+      );
+    }
+    const memberQuantities = profileClass.members.map((elementId) =>
+      invariantContext.elements.get(elementId).invariants[expression.name]
+    );
+    const firstCanonical = canonicalize(memberQuantities[0]);
+    const disagreeingElementIds = profileClass.members.filter((elementId, index) =>
+      canonicalize(memberQuantities[index]) !== firstCanonical
+    );
+    if (disagreeingElementIds.length > 0) {
+      fail(
+        "PREDICATE_LOCAL_INVARIANT_CONSENSUS_UNAVAILABLE",
+        "A selected profile class does not have one identical normalized invariant Quantity.",
+        {
+          path,
+          name: expression.name,
+          canonicalNode,
+          profileHash: sourceRef,
+          reason: "member-values-disagree",
+          memberElementIds: profileClass.members,
+          disagreeingElementIds
+        }
+      );
+    }
+    quantity = memberQuantities[0];
+    witnessBasis = {
+      profileHash: sourceRef,
+      memberElementIds: [...profileClass.members],
+      consensusPolicy: PROFILE_INVARIANT_CONSENSUS_POLICY
+    };
   }
   const descriptor = symbols.invariants[expression.name];
   if (quantity.unit !== descriptor.unit) {
@@ -807,7 +933,7 @@ function resolveInvariantExpression(expression, path, graph, symbols, invariantC
         path,
         name: expression.name,
         canonicalNode,
-        elementId,
+        ...witnessBasis,
         expectedUnit: descriptor.unit,
         actualUnit: quantity.unit
       }
@@ -821,7 +947,7 @@ function resolveInvariantExpression(expression, path, graph, symbols, invariantC
         path,
         name: expression.name,
         canonicalNode,
-        elementId,
+        ...witnessBasis,
         expectedSemantic: descriptor.semantic,
         actualSemantic: quantity.semantic
       }
@@ -833,7 +959,7 @@ function resolveInvariantExpression(expression, path, graph, symbols, invariantC
       expressionPath: path,
       name: expression.name,
       canonicalNode,
-      elementId,
+      ...witnessBasis,
       quantity
     }
   };

@@ -133,7 +133,7 @@ test("package filtering evaluates every predicate and gives failure precedence",
     exactCandidate(packageArtifact)
   );
 
-  assert.equal(result.evaluator, "package-candidate-filter-evaluator-v9");
+  assert.equal(result.evaluator, "package-candidate-filter-evaluator-v10");
   assert.equal(result.verdict, "predicate-rejected");
   assert.deepEqual(result.counts, {
     evaluated: 3,
@@ -311,7 +311,7 @@ test("package filtering executes exact structural comparisons under the run nume
   });
 
   assert.equal(result.verdict, "eligible");
-  assert.equal(result.predicateEvaluations[0].evaluation.evaluator, "local-predicate-evaluator-v8");
+  assert.equal(result.predicateEvaluations[0].evaluation.evaluator, "local-predicate-evaluator-v9");
   assert.match(
     result.predicateEvaluations[0].evaluation.numericBindingHash,
     /^sha256:[a-f0-9]{64}$/
@@ -326,7 +326,7 @@ test("package filtering executes exact structural comparisons under the run nume
   );
 });
 
-test("package filtering resolves element-exact invariants from the bound population", () => {
+test("package filtering resolves exact invariants and proves profile-wide consensus", () => {
   const packageArtifact = loadKernelPackage({
     schemaVersion: "1",
     id: "package-filter-invariant-fixture",
@@ -381,9 +381,39 @@ test("package filtering resolves element-exact invariants from the bound populat
       edges: []
     }),
     (error) => error instanceof KernelError &&
-      error.code === "PACKAGE_CANDIDATE_FILTER_INVARIANT_DOMAIN_UNSUPPORTED" &&
-      error.details.reason === "profile-invariant-consensus-not-frozen"
+      error.code === "PREDICATE_LOCAL_INVARIANT_CONSENSUS_UNAVAILABLE" &&
+      error.details.reason === "member-values-disagree"
   );
+
+  const consensusPackage = loaded(
+    [predicate("profile-invariant", {
+      op: "compare",
+      left: { kind: "invariant", name: "length" },
+      comparator: "eq",
+      right: { kind: "constant", value: quantity(3, "m", "length") }
+    })],
+    { length: quantity(3, "m", "length") }
+  );
+  const consensusBinding = createPackageCandidateBinding(consensusPackage, {
+    ...config,
+    countingDomain: "profile-quotient"
+  });
+  const consensusClass = consensusBinding.sourcePopulation.profileClasses[0];
+  const consensusResult = evaluatePackageCandidateFilter(
+    consensusPackage,
+    consensusBinding,
+    {
+      domain: "profile-quotient",
+      nodes: [{ ref: consensusClass.profileHash }],
+      edges: []
+    }
+  );
+  const consensusResolution =
+    consensusResult.predicateEvaluations[0].evaluation.witnesses[0].invariants[0];
+  assert.equal(consensusResult.verdict, "eligible");
+  assert.equal(consensusResolution.profileHash, consensusClass.profileHash);
+  assert.deepEqual(consensusResolution.memberElementIds, consensusClass.members);
+  assert.equal(consensusResolution.consensusPolicy, "identical-normalized-quantity-v1");
 });
 
 test("package filtering rejects predicate attributes absent from the bound universe", () => {

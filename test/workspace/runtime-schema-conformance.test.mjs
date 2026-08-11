@@ -15,6 +15,7 @@ import {
   enumeratePackageCandidates,
   evaluateGraphPredicatePlan,
   evaluateLocalPredicatePlan,
+  evaluatePackageCandidateCensus,
   evaluatePackageCandidateFilter,
   loadKernelPackage,
   materializePrimitiveDepthPopulation,
@@ -190,6 +191,7 @@ test("implemented generation and evaluation artifacts conform to their published
     }
   );
   const filterEvaluation = evaluatePackageCandidateFilter(loaded, binding, candidate);
+  const candidateCensus = evaluatePackageCandidateCensus(loaded, normalizedConfig);
 
   assertSchema("run-config", normalizedConfig);
   assertSchema("skeleton-enumeration-result", skeletons);
@@ -203,6 +205,45 @@ test("implemented generation and evaluation artifacts conform to their published
   assertSchema("predicate-local-evaluation", localEvaluation);
   assertSchema("partial-predicate-graph-evaluation", partialEvaluation);
   assertSchema("package-candidate-filter-evaluation", filterEvaluation);
+  assertSchema("package-candidate-census", candidateCensus);
+  const invalidCandidateCensus = structuredClone(candidateCensus);
+  invalidCandidateCensus.interpretation.status = "empty";
+  assertNotSchema("package-candidate-census", invalidCandidateCensus);
+  const nonemptyDeclaredEmpty = structuredClone(candidateCensus);
+  nonemptyDeclaredEmpty.booleanSelectivity = null;
+  nonemptyDeclaredEmpty.indeterminateRatio = null;
+  nonemptyDeclaredEmpty.interpretation = {
+    status: "empty",
+    reasons: ["no-evaluated-candidates"]
+  };
+  assertNotSchema("package-candidate-census", nonemptyDeclaredEmpty);
+  const invalidInertness = structuredClone(candidateCensus);
+  invalidInertness.census[0].inert = false;
+  assertNotSchema("package-candidate-census", invalidInertness);
+  const invalidDominance = structuredClone(candidateCensus);
+  invalidDominance.census[0].dominating = true;
+  assertNotSchema("package-candidate-census", invalidDominance);
+
+  const indeterminateLoaded = loadKernelPackage({
+    schemaVersion: "1",
+    id: "runtime-schema-indeterminate-census",
+    version: "1.0.0",
+    primitives: [primitive()],
+    predicates: [predicate("unresolved-node", {
+      op: "degree",
+      node: { kind: "canonical-index", index: 9 },
+      min: 0
+    })]
+  });
+  const indeterminateCensus = evaluatePackageCandidateCensus(
+    indeterminateLoaded,
+    normalizedConfig
+  );
+  assert.equal(indeterminateCensus.interpretation.status, "indeterminate");
+  assertSchema("package-candidate-census", indeterminateCensus);
+  const contradictoryIndeterminate = structuredClone(indeterminateCensus);
+  contradictoryIndeterminate.interpretation.reasons.push("no-evaluated-candidates");
+  assertNotSchema("package-candidate-census", contradictoryIndeterminate);
 });
 
 test("published graph evaluation schema accepts witnesses above sixty-four edges", () => {
@@ -424,6 +465,11 @@ test("numeric structural-attribute sum evaluations conform to the published sche
   const invalidBalanceComparison = structuredClone(balanceEvaluation);
   invalidBalanceComparison.witnesses[0].comparison.comparator = "eq";
   assertNotSchema("predicate-local-evaluation", invalidBalanceComparison);
+  for (const field of ["attribute", "valueKind", "summation", "accumulationExact"]) {
+    const incompleteBalanceSelection = structuredClone(balanceEvaluation);
+    delete incompleteBalanceSelection.witnesses[0].selections[0][field];
+    assertNotSchema("predicate-local-evaluation", incompleteBalanceSelection);
+  }
 
   const quantityBalancePlan = compilePredicate(predicate("local-quantity-balance", {
     op: "balance",
@@ -492,4 +538,37 @@ test("numeric structural-attribute sum evaluations conform to the published sche
     ...evaluation,
     invariantSourcePopulationHash: invariantContext.sourcePopulationHash
   });
+
+  const profileHash = `sha256:${"9".repeat(64)}`;
+  const profileCandidate = {
+    domain: "profile-quotient",
+    nodes: [{ ref: profileHash }],
+    edges: []
+  };
+  const profileContext = {
+    sourcePopulationHash: invariantContext.sourcePopulationHash,
+    elements: candidate.nodes.map((node) => ({
+      elementId: node.ref,
+      invariants: { length: quantity(1, "m", "length") }
+    })),
+    profileClasses: [{
+      profileHash,
+      members: candidate.nodes.map((node) => node.ref)
+    }]
+  };
+  const profileEvaluation = evaluateLocalPredicatePlan(
+    invariantPlan,
+    bindPredicateNumericPolicy(invariantPlan, runConfig().invariantPrecision),
+    profileCandidate,
+    { ...options, invariantContext: profileContext }
+  );
+  assert.equal(profileEvaluation.outcome, "pass");
+  assert.equal(
+    profileEvaluation.witnesses[0].invariants[0].consensusPolicy,
+    "identical-normalized-quantity-v1"
+  );
+  assertSchema("predicate-local-evaluation", profileEvaluation);
+  const incompleteConsensus = structuredClone(profileEvaluation);
+  delete incompleteConsensus.witnesses[0].invariants[0].consensusPolicy;
+  assertNotSchema("predicate-local-evaluation", incompleteConsensus);
 });

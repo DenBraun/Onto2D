@@ -34,7 +34,8 @@ normalized RunConfig materialization, verified primitive depth-zero `Element`
 populations, multiplicative SI quantity normalization, deterministic decimal
 arithmetic, typed value/Boolean expression analysis, predicate-plan
 compilation, graph-only predicate evaluation and partial-failure diagnostics,
-package-bound local numeric candidate filtering, run-specific numeric-policy
+package-bound local numeric candidate filtering and complete local-filter
+censuses, run-specific numeric-policy
 binding, content-addressed scientific-Oracle
 validation without solver execution, neutral content-addressed source-policy
 and annotation/adjudication freeze contracts without catalogue classification,
@@ -49,7 +50,8 @@ catalogue audit. It does not yet implement source-policy authorship, access-
 controlled annotation collection, application to the current catalogue, node
 dispositions/condensation, derived-depth source-population binding, derived
 structural decoration attributes, profile guards/capacities, partial predicate
-pruning authorization, profile-domain/scalar invariant resolution and general Quantity products,
+pruning authorization, scalar and non-identical-profile invariant semantics
+and general Quantity products,
 cycle-set/substructure predicate execution, selector
 admission, derived profile extraction/materialization, or the closure engine
 defined here. The concrete implementation boundary is
@@ -245,6 +247,15 @@ Any discovered counterexample fails the run before selectivity is calculated. Pa
 All top-level predicates MUST be evaluated for every complete candidate that reaches filtering, even after one predicate has rejected it. Boolean subexpressions MAY use internal short-circuiting only if witness completeness is preserved.
 
 This full evaluation makes the census a diagnostic of the rule theory rather than an incidental log.
+
+The current `package-candidate-census-evaluator-v1` realizes the complete
+pre-selector portion of this requirement. It refuses exhausted enumeration,
+retains every full package-filter artifact in canonical candidate order, and
+hashes reconciled candidate totals, Boolean selectivity, indeterminate ratios,
+and per-predicate total/exclusive failures plus inert/dominating diagnostics.
+Stored results require exact package/run reproduction before acceptance. It is
+not a final `LevelResult` and does not supply cohorts, selectors, materialized
+elements, or null-model interpretation.
 
 ### 5.5 Mandatory null-model context
 
@@ -679,14 +690,22 @@ empty admission/selection lists. The population is sorted by element ID and
 hashed in `onto2d:depth-population:v1`. Arbitrary caller-supplied or derived
 elements are not accepted at this boundary.
 
-The current `package-candidate-filter-evaluator-v9` adds a later formation
+The current `package-candidate-filter-evaluator-v10` adds a later formation
 basis without constructing an element. It binds a complete canonical candidate
 to the reproduced package/run universe, target depth, source population, and
-exact/profile-representative constituent resolution, reproduces each plan's
-numeric binding, then evaluates every graph or supported local-numeric
-top-level predicate. Its `eligible` verdict is local filtering only;
-it does not populate `selectedBy`, derive a profile, or authorize a derived
+exact/profile constituent resolution, reproduces each plan's numeric binding,
+and derives invariant inputs from the complete reproduced source population
+and every selected profile class before evaluating every graph or supported
+local-numeric top-level predicate. Its `eligible` verdict is local filtering
+only; it does not populate `selectedBy`, derive a profile, or authorize a derived
 element ID.
+
+`package-candidate-census-evaluator-v1` composes that boundary over every
+candidate in a completed `package-candidate-generator-v1` artifact. The census
+hash binds the full generation, every complete filter explanation, all
+reconciled candidate and predicate counts, and raw Boolean selectivity. A
+budget-exhausted generation produces no census artifact; a serialized artifact
+is accepted only when exact deterministic reproduction matches it completely.
 
 Carrier promotion creates a new primitive definition or package input for the target ontology coordinate. It MUST NOT mutate the source element or confuse ontology level with derivation depth. For the foundational paper, promotion from a Level-0 ensemble-quantum to a Level-1 carrier is valid only after collective admissibility and effective profile extraction have both succeeded.
 
@@ -1014,7 +1033,7 @@ projection, component, path, or cycle data. The evaluation hash covers the
 verified plan, canonical candidate, effective graph policy, final outcome, and
 ordered witnesses.
 
-The separate `local-predicate-evaluator-v8` composes that graph runtime with
+The separate `local-predicate-evaluator-v9` composes that graph runtime with
 the fully bound comparison subset. It accepts scalar constants, direct
 constant quantities, counts over canonical nodes or role-filtered edges, and
 dimensionless `add`/`multiply`, plus exact-decimal or compensated-binary64 sums
@@ -1034,8 +1053,12 @@ and use declared maximum tolerance plus the bound semantic policy.
 An `element-exact` Quantity invariant additionally resolves from an explicit
 source-population context and exactly one canonical node. Its normalized source
 Quantity, element ID, node, and expression path are retained as witnesses, and
-the population hash is bound at artifact level. `profile-quotient` invariant
-resolution is rejected until class-wide consensus semantics are frozen.
+the population hash is bound at artifact level. A `profile-quotient` invariant
+resolves only from an explicit complete profile class when every member has an
+identical fully normalized Quantity record. Its profile hash, complete ordered
+member IDs, consensus policy, Quantity, node, and expression path are retained
+as witnesses. No representative lookup, averaging, tolerance union, or
+provenance synthesis is permitted.
 Complete node/edge `balance` forms the same typed attribute aggregate, rounds
 once at the result boundary, and compares its absolute magnitude with the
 explicit non-negative Quantity threshold using `lte` and the bound
@@ -1045,9 +1068,10 @@ uncertainty and provenance. Cycle-set balance remains rejected.
 The artifact binds `predicatePlanHash`, `numericBindingHash`, canonical
 candidate and policy, unrounded/rounded values, exactness state, and canonical
 selection/invariant/balance witnesses under
-`onto2d:predicate-local-evaluation:v8`. Scalar/profile-domain invariants,
-functional coefficients, general Quantity products, cycle-set counts, and
-substructures are rejected before evaluation until their contracts are frozen.
+`onto2d:predicate-local-evaluation:v9`. Scalar and non-identical-profile
+invariant semantics, functional coefficients, general Quantity products,
+cycle-set counts, and substructures are rejected before evaluation until their
+contracts are frozen.
 
 ```ts
 interface PredicateEvaluation {
@@ -1139,6 +1163,17 @@ interface PredicateCensus {
 ```
 
 An inert predicate has `failed === 0` in the applicable evaluated population. A dominating predicate fails at least the configured fraction of evaluated candidates; the default threshold is `0.90`. Because failures overlap, the census MUST report both total failures and exclusive rejections.
+
+The current complete local-filter census freezes `0.90` as an explicit
+artifact field, defines exclusive rejection as the sole definite failed
+top-level predicate for one candidate, and uses the RunConfig
+`indeterminateThreshold` only to classify interpretation. Raw reconciled
+counts and ratios remain inspectable when that threshold is exceeded. Its
+portable artifact serializes the conceptual predicate-keyed census as a
+predicate-ID-sorted entry array, avoiding promotion of package IDs to JSON
+object keys. A serialized local census is trusted only after exact
+whole-artifact reproduction from independently supplied package/run inputs;
+shape validation and a self-declared content hash are not sufficient.
 
 ### 8.8 Run configuration and budgets
 
@@ -1399,20 +1434,30 @@ and raw/state/search execution limits enter the binding hash.
 `package-candidate-generator-v1` executes that frozen input through the
 low-level decorator.
 
-`package-candidate-filter-evaluator-v9` separately reproduces the loaded
+`package-candidate-filter-evaluator-v10` separately reproduces the loaded
 package under an independently expected kernel version and reproduces the
 complete binding, re-canonicalizes a candidate under the bound
 policy, and proves domain, node/edge budget, skeleton, node variant, edge
 variant, and non-parallel adjacency-group membership. It discloses direct
-element or profile-representative resolution for every canonical node,
-reproduces each plan's run-specific numeric binding, and evaluates all graph or
-supported local-numeric top-level plans without stopping after a failure. The
+element or profile-class resolution for every canonical node, derives exact
+and complete class-member invariant contexts from the reproduced population,
+reproduces each plan's run-specific numeric binding, and evaluates all graph
+or supported local-numeric top-level plans without stopping after a failure. A
+profile representative is never used as an invariant value shortcut. The
 hashed result distinguishes `eligible`, `predicate-rejected`, and
 `filter-indeterminate`. It deliberately stops before selector-based final
 admission and derived-element materialization. A plan requiring an attribute
 absent from the corresponding bound structural node/edge decoration alphabet
 is rejected before evaluation; missing data never becomes a trusted empty
 selection.
+
+`package-candidate-census-evaluator-v1` prepares this verified filter boundary
+once, including immutable universe-membership and source/profile indexes,
+applies it to every canonical record of one complete package enumeration, and
+emits full per-candidate explanations together with total and exclusive
+predicate rejection counts. The v1 artifact is hashed under
+`onto2d:package-candidate-census:v1`, has an exact reproduction verifier for
+stored artifacts, and remains pre-selector.
 
 The generation bridge is not yet a derived closure-depth population selector. It rejects
 `single-candidate`, disconnected generation, non-empty structural attribute
@@ -1710,13 +1755,17 @@ LOAD -> AUDIT -> SKELETONS -> DECORATE -> CANON -> FILTER
 - decide local eligibility only when all required predicates pass;
 - build candidate explanations and the census.
 
-The current package-bound filter implements this state when every top-level
-plan is logical/graph-structural or uses the frozen local-numeric subset. It
-evaluates all such plans and emits per-candidate formation resolution and a
-local verdict, but does not yet aggregate the level census or resolve runtime
-profile/scalar invariants, derived attributes, general Quantity products,
-cycle sets, or substructures. Balance is executable when its bound node/edge
-attribute exists; unavailable package-derived attributes fail preflight.
+The current package-bound filter implements the per-candidate state when every
+top-level plan is logical/graph-structural or uses the frozen local-numeric
+subset. The complete local-filter census aggregates that verified state over a
+finished canonical package universe, retains every explanation, and reports
+Boolean selectivity plus predicate diagnostics. Its verifier reproduces all
+embedded generation/filter state rather than trusting shape or hash labels.
+Integrated selector/final `LevelResult` census fields remain pending, as do
+runtime scalar or non-identical-profile invariant semantics, derived
+attributes, general Quantity products, cycle sets, and substructures. Balance
+is executable when its bound node/edge attribute exists; unavailable package-
+derived attributes fail preflight.
 
 ### 13.7 Cohorts
 

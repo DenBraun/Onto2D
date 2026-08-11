@@ -6,9 +6,9 @@
  * Oracle validation, source policy/annotation artifact foundations, finite
  * decorated-candidate enumeration, verified primitive depth populations,
  * normalized package/run binding, complete graph-predicate evaluation,
- * package-bound local numeric filtering, and conservative
- * partial-failure detection are executable. Source migration, derived-element
- * materialization, pruning authorization, remaining runtime-bound numeric/
+ * package-bound local numeric filtering, complete local-filter censuses, and
+ * conservative partial-failure detection are executable. Source migration,
+ * derived-element materialization, pruning authorization, remaining runtime-bound numeric/
  * substructure evaluation, selection, and closure remain explicit pending
  * capabilities.
  */
@@ -140,6 +140,12 @@ export {
   evaluatePackageCandidateFilter
 } from "./package-candidate-filter.js";
 export {
+  PACKAGE_CANDIDATE_CENSUS_DOMINANCE_THRESHOLD,
+  PACKAGE_CANDIDATE_CENSUS_EVALUATOR_VERSION,
+  evaluatePackageCandidateCensus,
+  verifyPackageCandidateCensus
+} from "./package-candidate-census.js";
+export {
   QUANTITY_COMPARISON_POLICY_VERSION,
   UNIT_GRAMMAR_VERSION,
   areUnitsCompatible,
@@ -154,7 +160,7 @@ export { loadKernelPackage, PACKAGE_DEFAULTS } from "./package-loader.js";
 
 import { KernelNotImplementedError } from "./errors.js";
 
-export const KERNEL_IMPLEMENTATION_STATUS = "foundation-active/decorated-generation-active/predicate-plans-active/closure-not-implemented";
+export const KERNEL_IMPLEMENTATION_STATUS = "foundation-active/decorated-generation-active/predicate-plans-active/local-census-active/closure-not-implemented";
 
 export const SOURCE_RELATION_KINDS = Object.freeze([
   "generative",

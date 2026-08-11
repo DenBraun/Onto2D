@@ -27,6 +27,10 @@ import {
   createPackageCandidateBinding,
   enumeratePackageCandidates
 } from "./package-candidate-generator.js";
+import {
+  evaluatePackageCandidateCensus,
+  verifyPackageCandidateCensus
+} from "./package-candidate-census.js";
 import { evaluatePackageCandidateFilter } from "./package-candidate-filter.js";
 import { bindPredicateNumericPolicy } from "./numeric-binding.js";
 import { createOracleRequestBinding, validateOracleResponse } from "./oracle-validator.js";
@@ -65,6 +69,8 @@ const IMPLEMENTED_CAPABILITIES = Object.freeze([
   "package-candidate-binding",
   "package-candidate-enumeration",
   "package-candidate-filter-evaluation",
+  "package-candidate-local-filter-census",
+  "package-candidate-local-filter-census-verification",
   "candidate-deduplication-store",
   "unit-grammar",
   "quantity-normalization",
@@ -84,6 +90,7 @@ const IMPLEMENTED_CAPABILITIES = Object.freeze([
   "local-derived-quantity-addition-evaluation",
   "local-derived-quantity-scaling-evaluation",
   "local-element-invariant-evaluation",
+  "local-profile-invariant-consensus-evaluation",
   "local-balance-evaluation",
   "partial-graph-predicate-failure-detection",
   "predicate-numeric-policy-binding",
@@ -178,6 +185,26 @@ export function createKernel(options = {}) {
         loadedPackage,
         binding,
         candidate,
+        withKernelVersion(options, version.trim())
+      );
+    },
+    evaluatePackageCandidateCensus(loadedPackage, runConfig, options = {}) {
+      return evaluatePackageCandidateCensus(
+        loadedPackage,
+        runConfig,
+        withKernelVersion(options, version.trim())
+      );
+    },
+    verifyPackageCandidateCensus(
+      census,
+      loadedPackage,
+      runConfig,
+      options = {}
+    ) {
+      return verifyPackageCandidateCensus(
+        census,
+        loadedPackage,
+        runConfig,
         withKernelVersion(options, version.trim())
       );
     },

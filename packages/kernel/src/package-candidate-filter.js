@@ -13,7 +13,7 @@ import { bindPredicateNumericPolicy } from "./numeric-binding.js";
 import { createPackageCandidateBinding } from "./package-candidate-generator.js";
 
 export const PACKAGE_CANDIDATE_FILTER_EVALUATOR_VERSION =
-  "package-candidate-filter-evaluator-v9";
+  "package-candidate-filter-evaluator-v10";
 const FILTER_OPTION_FIELDS = new Set(["kernelVersion"]);
 
 function isObject(value) {
@@ -154,17 +154,37 @@ function edgeVariant(edge) {
   };
 }
 
-function validateUniverseMembership(candidate, binding) {
+function createFilterSessionIndexes(binding) {
+  const elements = new Map(
+    binding.sourcePopulation.population.elements.map((element) => [element.id, element])
+  );
+  const profileClasses = new Map(
+    binding.sourcePopulation.profileClasses.map((entry) => [entry.profileHash, entry])
+  );
+  const classByElement = new Map();
+  for (const profileClass of binding.sourcePopulation.profileClasses) {
+    for (const elementId of profileClass.members) {
+      classByElement.set(elementId, profileClass);
+    }
+  }
+  return Object.freeze({
+    allowedNodes: new Set(
+      binding.enumerationInput.nodeVariants.map((entry) => canonicalize(entry))
+    ),
+    allowedEdges: new Set(
+      binding.enumerationInput.edgeVariants.map((entry) => canonicalize(entry))
+    ),
+    allowedSkeletons: new Set(
+      binding.enumerationInput.skeletons.map((entry) => entry.id)
+    ),
+    elements,
+    profileClasses,
+    classByElement
+  });
+}
+
+function validateUniverseMembership(candidate, binding, indexes) {
   const issues = [];
-  const allowedNodes = new Set(
-    binding.enumerationInput.nodeVariants.map((entry) => canonicalize(entry))
-  );
-  const allowedEdges = new Set(
-    binding.enumerationInput.edgeVariants.map((entry) => canonicalize(entry))
-  );
-  const allowedSkeletons = new Set(
-    binding.enumerationInput.skeletons.map((entry) => entry.id)
-  );
 
   if (candidate.domain !== binding.runConfig.countingDomain) {
     issues.push(validationIssue(
@@ -191,7 +211,7 @@ function validateUniverseMembership(candidate, binding) {
       { maximum: maxEdges, actual: candidate.edges.length }
     ));
   }
-  if (!allowedSkeletons.has(candidate.skeleton)) {
+  if (!indexes.allowedSkeletons.has(candidate.skeleton)) {
     issues.push(validationIssue(
       "PACKAGE_CANDIDATE_FILTER_SKELETON_UNBOUND",
       "$candidate.skeleton",
@@ -200,7 +220,7 @@ function validateUniverseMembership(candidate, binding) {
     ));
   }
   candidate.nodes.forEach((node, index) => {
-    if (!allowedNodes.has(canonicalize(node))) {
+    if (!indexes.allowedNodes.has(canonicalize(node))) {
       issues.push(validationIssue(
         "PACKAGE_CANDIDATE_FILTER_NODE_VARIANT_UNBOUND",
         `$candidate.nodes[${index}]`,
@@ -210,7 +230,7 @@ function validateUniverseMembership(candidate, binding) {
     }
   });
   candidate.edges.forEach((edge, index) => {
-    if (!allowedEdges.has(canonicalize(edgeVariant(edge)))) {
+    if (!indexes.allowedEdges.has(canonicalize(edgeVariant(edge)))) {
       issues.push(validationIssue(
         "PACKAGE_CANDIDATE_FILTER_EDGE_VARIANT_UNBOUND",
         `$candidate.edges[${index}]`,
@@ -241,28 +261,15 @@ function validateUniverseMembership(candidate, binding) {
   if (issues.length > 0) failValidation(issues);
 }
 
-function resolveConstituents(candidate, binding) {
-  const elements = new Map(
-    binding.sourcePopulation.population.elements.map((element) => [element.id, element])
-  );
-  const profileClasses = new Map(
-    binding.sourcePopulation.profileClasses.map((entry) => [entry.profileHash, entry])
-  );
-  const classByElement = new Map();
-  for (const profileClass of binding.sourcePopulation.profileClasses) {
-    for (const elementId of profileClass.members) {
-      classByElement.set(elementId, profileClass);
-    }
-  }
-
+function resolveConstituents(candidate, binding, indexes) {
   return candidate.nodes.map((node, canonicalNode) => {
     const profileClass = candidate.domain === "profile-quotient"
-      ? profileClasses.get(node.ref)
-      : classByElement.get(node.ref);
+      ? indexes.profileClasses.get(node.ref)
+      : indexes.classByElement.get(node.ref);
     const elementId = candidate.domain === "profile-quotient"
       ? profileClass.representativeElementId
       : node.ref;
-    const element = elements.get(elementId);
+    const element = indexes.elements.get(elementId);
     return {
       canonicalNode,
       sourceRef: node.ref,
@@ -291,22 +298,6 @@ function assertLocalPredicateSupport(plans, binding) {
       { unsupported }
     );
   }
-  if (binding.runConfig.countingDomain !== "element-exact") {
-    const invariantPredicates = plans
-      .filter((plan) => plan.requirements.invariants.length > 0)
-      .map((plan) => plan.predicateId);
-    if (invariantPredicates.length > 0) {
-      fail(
-        "PACKAGE_CANDIDATE_FILTER_INVARIANT_DOMAIN_UNSUPPORTED",
-        "Package invariant evaluation requires the element-exact counting domain.",
-        {
-          domain: binding.runConfig.countingDomain,
-          predicateIds: invariantPredicates,
-          reason: "profile-invariant-consensus-not-frozen"
-        }
-      );
-    }
-  }
   const availableNodeAttributes = new Set(
     binding.runConfig.graphPolicy.structuralNodeAttributes
   );
@@ -334,16 +325,20 @@ function assertLocalPredicateSupport(plans, binding) {
   plans.forEach((plan) => assertLocalPredicatePlanSupported(plan));
 }
 
-function invariantContextForPlan(plan, candidate, binding) {
+function invariantContextForPlan(plan, candidate, binding, indexes) {
   if (plan.requirements.invariants.length === 0) return undefined;
-  const elements = new Map(
-    binding.sourcePopulation.population.elements.map((element) => [element.id, element])
-  );
-  const elementIds = [...new Set(candidate.nodes.map((node) => node.ref))].sort();
+  const selectedProfileClasses = candidate.domain === "profile-quotient"
+    ? [...new Set(candidate.nodes.map((node) => node.ref))]
+      .sort()
+      .map((profileHash) => indexes.profileClasses.get(profileHash))
+    : [];
+  const elementIds = candidate.domain === "profile-quotient"
+    ? [...new Set(selectedProfileClasses.flatMap((entry) => entry.members))].sort()
+    : [...new Set(candidate.nodes.map((node) => node.ref))].sort();
   return {
     sourcePopulationHash: binding.sourcePopulation.population.populationHash,
     elements: elementIds.map((elementId) => {
-      const source = elements.get(elementId);
+      const source = indexes.elements.get(elementId);
       const invariants = {};
       for (const name of plan.requirements.invariants) {
         if (Object.prototype.hasOwnProperty.call(source.invariants, name)) {
@@ -351,7 +346,15 @@ function invariantContextForPlan(plan, candidate, binding) {
         }
       }
       return { elementId, invariants };
-    })
+    }),
+    ...(candidate.domain === "profile-quotient"
+      ? {
+          profileClasses: selectedProfileClasses.map((entry) => ({
+            profileHash: entry.profileHash,
+            members: [...entry.members]
+          }))
+        }
+      : {})
   };
 }
 
@@ -381,6 +384,90 @@ function classify(evaluations) {
 }
 
 /**
+ * Prepares one verified package/binding pair for repeated candidate filtering.
+ * This is an internal batching boundary; every evaluated candidate still
+ * undergoes canonicalization and complete universe-membership validation.
+ */
+export function createPackageCandidateFilterSession(
+  loadedPackageInput,
+  bindingInput,
+  options = {}
+) {
+  const normalizedOptions = normalizeFilterOptions(options);
+  const loadedPackage = verifyLoadedPackage(loadedPackageInput, normalizedOptions);
+  const binding = verifyBinding(
+    loadedPackage,
+    bindingInput,
+    normalizedOptions.kernelVersion
+  );
+  assertLocalPredicateSupport(loadedPackage.predicatePlans, binding);
+  const indexes = createFilterSessionIndexes(binding);
+  const predicates = new Map(
+    loadedPackage.normalized.predicates.map((entry) => [entry.id, entry])
+  );
+  const preparedPlans = loadedPackage.predicatePlans.map((plan) => ({
+    plan,
+    predicate: predicates.get(plan.predicateId),
+    numericBinding: bindPredicateNumericPolicy(
+      plan,
+      binding.runConfig.invariantPrecision
+    )
+  }));
+  return Object.freeze({
+    evaluate(candidateInput) {
+      const canonicalization = canonicalizeCandidate(candidateInput, {
+        policy: binding.runConfig.graphPolicy,
+        limits: binding.enumerationOptions.canonicalizationLimits
+      });
+      const candidate = canonicalization.candidate;
+      validateUniverseMembership(candidate, binding, indexes);
+      const evaluations = preparedPlans.map(({ plan, predicate, numericBinding }) => {
+        return {
+          predicateId: plan.predicateId,
+          phase: plan.phase,
+          claimRefs: [...predicate.claimRefs],
+          evaluation: evaluateLocalPredicatePlan(plan, numericBinding, candidate, {
+            policy: binding.runConfig.graphPolicy,
+            limits: binding.enumerationOptions.canonicalizationLimits,
+            ...(plan.requirements.invariants.length === 0
+              ? {}
+              : {
+                  invariantContext: invariantContextForPlan(
+                    plan,
+                    candidate,
+                    binding,
+                    indexes
+                  )
+                })
+          })
+        };
+      });
+      const classification = classify(evaluations);
+      const basis = {
+        schemaVersion: "1",
+        evaluator: PACKAGE_CANDIDATE_FILTER_EVALUATOR_VERSION,
+        packageId: loadedPackage.packageId,
+        rulesHash: loadedPackage.semanticManifest.rulesHash,
+        bindingHash: binding.bindingHash,
+        formation: {
+          targetDepth: binding.sourcePopulation.selection.targetDepth,
+          depthBasis: binding.depthBasis,
+          sourcePopulationHash: binding.sourcePopulation.population.populationHash,
+          candidate,
+          constituents: resolveConstituents(candidate, binding, indexes)
+        },
+        predicateEvaluations: evaluations,
+        ...classification
+      };
+      return deepFreeze({
+        ...basis,
+        filterHash: hashCanonical(HASH_DOMAINS.PACKAGE_CANDIDATE_FILTER, basis)
+      });
+    }
+  });
+}
+
+/**
  * Evaluates the complete locally executable top-level predicate set for one
  * canonical candidate after reproducing its package/run universe, numeric
  * policy, and source resolution. This establishes local eligibility only;
@@ -392,62 +479,9 @@ export function evaluatePackageCandidateFilter(
   candidateInput,
   options = {}
 ) {
-  const normalizedOptions = normalizeFilterOptions(options);
-  const loadedPackage = verifyLoadedPackage(loadedPackageInput, normalizedOptions);
-  const binding = verifyBinding(
-    loadedPackage,
+  return createPackageCandidateFilterSession(
+    loadedPackageInput,
     bindingInput,
-    normalizedOptions.kernelVersion
-  );
-  const canonicalization = canonicalizeCandidate(candidateInput, {
-    policy: binding.runConfig.graphPolicy,
-    limits: binding.enumerationOptions.canonicalizationLimits
-  });
-  const candidate = canonicalization.candidate;
-  validateUniverseMembership(candidate, binding);
-  assertLocalPredicateSupport(loadedPackage.predicatePlans, binding);
-
-  const predicates = new Map(
-    loadedPackage.normalized.predicates.map((entry) => [entry.id, entry])
-  );
-  const evaluations = loadedPackage.predicatePlans.map((plan) => {
-    const predicate = predicates.get(plan.predicateId);
-    const numericBinding = bindPredicateNumericPolicy(
-      plan,
-      binding.runConfig.invariantPrecision
-    );
-    return {
-      predicateId: plan.predicateId,
-      phase: plan.phase,
-      claimRefs: [...predicate.claimRefs],
-      evaluation: evaluateLocalPredicatePlan(plan, numericBinding, candidate, {
-        policy: binding.runConfig.graphPolicy,
-        limits: binding.enumerationOptions.canonicalizationLimits,
-        ...(plan.requirements.invariants.length === 0
-          ? {}
-          : { invariantContext: invariantContextForPlan(plan, candidate, binding) })
-      })
-    };
-  });
-  const classification = classify(evaluations);
-  const basis = {
-    schemaVersion: "1",
-    evaluator: PACKAGE_CANDIDATE_FILTER_EVALUATOR_VERSION,
-    packageId: loadedPackage.packageId,
-    rulesHash: loadedPackage.semanticManifest.rulesHash,
-    bindingHash: binding.bindingHash,
-    formation: {
-      targetDepth: binding.sourcePopulation.selection.targetDepth,
-      depthBasis: binding.depthBasis,
-      sourcePopulationHash: binding.sourcePopulation.population.populationHash,
-      candidate,
-      constituents: resolveConstituents(candidate, binding)
-    },
-    predicateEvaluations: evaluations,
-    ...classification
-  };
-  return deepFreeze({
-    ...basis,
-    filterHash: hashCanonical(HASH_DOMAINS.PACKAGE_CANDIDATE_FILTER, basis)
-  });
+    options
+  ).evaluate(candidateInput);
 }

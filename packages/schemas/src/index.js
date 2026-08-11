@@ -44,6 +44,7 @@ export const schemaUrls = Object.freeze({
   packageCandidateBinding: schema("package-candidate-binding"),
   packageCandidateEnumerationResult: schema("package-candidate-enumeration-result"),
   packageCandidateFilterEvaluation: schema("package-candidate-filter-evaluation"),
+  packageCandidateCensus: schema("package-candidate-census"),
   candidateStoreSnapshot: schema("candidate-store-snapshot"),
   functional: schema("functional"),
   cohortRule: schema("cohort-rule"),

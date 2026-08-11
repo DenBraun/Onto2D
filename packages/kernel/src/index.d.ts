@@ -683,15 +683,38 @@ export type LocalEvaluatedValue =
   | { kind: "boolean"; value: boolean }
   | { kind: "null"; value: null };
 
-export type LocalValueSelectionWitness = {
+export interface LocalSelectionWitnessBase {
   expressionPath: string;
   setKind: "nodes" | "edges";
   count: number;
   nodeIndexes?: number[];
   edgeIndexes?: number[];
   roles?: string[];
-} & (
-  | {
+}
+
+export type LocalAttributeSelectionWitness = LocalSelectionWitnessBase &
+  {
+    attribute: string;
+  } & (
+    | { summation: "exact-decimal"; accumulationExact: true }
+    | { summation: "compensated-binary64"; accumulationExact: false }
+  ) & (
+    | {
+        valueKind: "number";
+        quantityUnit?: never;
+        quantitySemantic?: never;
+        toleranceAggregation?: never;
+      }
+    | {
+        valueKind: "quantity";
+        quantityUnit: string;
+        quantitySemantic: string;
+        toleranceAggregation: "sum-effective-absolute-bounds-v1";
+      }
+  );
+
+export type LocalValueSelectionWitness =
+  | (LocalSelectionWitnessBase & {
       attribute?: never;
       valueKind?: never;
       summation?: never;
@@ -699,43 +722,48 @@ export type LocalValueSelectionWitness = {
       quantityUnit?: never;
       quantitySemantic?: never;
       toleranceAggregation?: never;
-    }
-  | ({
-      attribute: string;
-    } & (
-      | { summation: "exact-decimal"; accumulationExact: true }
-      | { summation: "compensated-binary64"; accumulationExact: false }
-    ) & (
-      | {
-          valueKind: "number";
-          quantityUnit?: never;
-          quantitySemantic?: never;
-          toleranceAggregation?: never;
-        }
-      | {
-          valueKind: "quantity";
-          quantityUnit: string;
-          quantitySemantic: string;
-          toleranceAggregation: "sum-effective-absolute-bounds-v1";
-        }
-    ))
-);
+    })
+  | LocalAttributeSelectionWitness;
 
-export interface LocalInvariantResolutionWitness {
+export interface LocalInvariantResolutionWitnessBase {
   expressionPath: string;
   name: string;
   canonicalNode: number;
-  elementId: ElementId;
   quantity: Quantity;
 }
 
-export interface LocalInvariantContext {
-  sourcePopulationHash: ContentHash;
-  elements: {
-    elementId: ElementId;
-    invariants: Record<string, Quantity>;
-  }[];
+export type LocalInvariantResolutionWitness = LocalInvariantResolutionWitnessBase & (
+  | {
+      elementId: ElementId;
+      profileHash?: never;
+      memberElementIds?: never;
+      consensusPolicy?: never;
+    }
+  | {
+      elementId?: never;
+      profileHash: ProfileHash;
+      memberElementIds: ElementId[];
+      consensusPolicy: "identical-normalized-quantity-v1";
+    }
+);
+
+export interface LocalInvariantElementContext {
+  elementId: ElementId;
+  invariants: Record<string, Quantity>;
 }
+
+export type LocalInvariantContext = {
+  sourcePopulationHash: ContentHash;
+  elements: LocalInvariantElementContext[];
+} & (
+  | { profileClasses?: never }
+  | {
+      profileClasses: {
+        profileHash: ProfileHash;
+        members: ElementId[];
+      }[];
+    }
+);
 
 export interface LocalPredicateEvaluationOptions extends GraphCanonicalizationOptions {
   invariantContext?: LocalInvariantContext;
@@ -764,12 +792,12 @@ export interface LocalBalancePredicateWitness {
   aggregate: Extract<LocalEvaluatedValue, { kind: "number" | "quantity" }>;
   tolerance: Quantity;
   comparison: { kind: "quantity"; comparator: "lte" } & QuantityComparison;
-  selections: [LocalValueSelectionWitness];
+  selections: [LocalAttributeSelectionWitness];
 }
 
 export interface PredicateLocalEvaluation {
   schemaVersion: "1";
-  evaluator: "local-predicate-evaluator-v8";
+  evaluator: "local-predicate-evaluator-v9";
   predicatePlanHash: ContentHash;
   numericBindingHash: ContentHash;
   candidateId: CandidateId;
@@ -1429,6 +1457,15 @@ export interface CandidateStoreSnapshot {
   };
 }
 
+export type CompleteCandidateStoreSnapshot = Omit<
+  CandidateStoreSnapshot,
+  "status" | "interpretable" | "budget"
+> & {
+  status: "complete";
+  interpretable: true;
+  budget: CandidateStoreSnapshot["budget"] & { exhausted: null };
+};
+
 export type CandidateStoreAddResult =
   | {
       status: "admitted" | "duplicate";
@@ -1522,6 +1559,16 @@ export interface DecoratedCandidateEnumerationResult {
   };
 }
 
+export type CompleteDecoratedCandidateEnumerationResult = Omit<
+  DecoratedCandidateEnumerationResult,
+  "status" | "interpretable" | "candidateStore" | "budget"
+> & {
+  status: "complete";
+  interpretable: true;
+  candidateStore: CompleteCandidateStoreSnapshot;
+  budget: DecoratedCandidateEnumerationResult["budget"] & { exhausted: null };
+};
+
 export interface PackageCandidateExecutionLimits {
   maxRawCandidates: number;
   maxDecorationStates: number;
@@ -1575,6 +1622,13 @@ export interface PackageCandidateEnumerationResult {
   enumeration: DecoratedCandidateEnumerationResult;
 }
 
+export type CompletePackageCandidateEnumerationResult = Omit<
+  PackageCandidateEnumerationResult,
+  "enumeration"
+> & {
+  enumeration: CompleteDecoratedCandidateEnumerationResult;
+};
+
 export interface PackageCandidateConstituentResolution {
   canonicalNode: number;
   sourceRef: ElementId | ProfileHash;
@@ -1596,7 +1650,7 @@ export interface PackageCandidatePredicateEvaluation {
 
 export interface PackageCandidateFilterEvaluation {
   schemaVersion: "1";
-  evaluator: "package-candidate-filter-evaluator-v9";
+  evaluator: "package-candidate-filter-evaluator-v10";
   packageId: ContentHash;
   rulesHash: ContentHash;
   bindingHash: ContentHash;
@@ -1621,6 +1675,74 @@ export interface PackageCandidateFilterEvaluation {
   filterHash: ContentHash;
 }
 
+export interface PackagePredicateCensus {
+  predicateId: string;
+  evaluated: number;
+  passed: number;
+  failed: number;
+  indeterminate: number;
+  exclusivelyRejected: number;
+  inert: boolean;
+  dominating: boolean;
+}
+
+export interface PackageCandidateCensusCounts {
+  generatedBeforeCanonicalization: number;
+  canonicalCandidates: number;
+  evaluatedCandidates: number;
+  predicateRejected: number;
+  filterIndeterminate: number;
+  eligibleCandidates: number;
+}
+
+export interface PackageCandidateCensusBase {
+  schemaVersion: "1";
+  evaluator: "package-candidate-census-evaluator-v1";
+  scope: "complete-local-filter-census-v1";
+  packageId: ContentHash;
+  rulesHash: ContentHash;
+  bindingHash: ContentHash;
+  countingDomain: Exclude<CandidateDomain, "single-candidate">;
+  targetDepth: 1;
+  sourcePopulationHash: ContentHash;
+  dominanceThreshold: 0.9;
+  indeterminateThreshold: number;
+  generation: CompletePackageCandidateEnumerationResult;
+  candidateEvaluations: PackageCandidateFilterEvaluation[];
+  counts: PackageCandidateCensusCounts;
+  census: PackagePredicateCensus[];
+  censusHash: ContentHash;
+}
+
+export type PackageCandidateCensus = PackageCandidateCensusBase & (
+  | {
+      counts: PackageCandidateCensusCounts & {
+        canonicalCandidates: 0;
+        evaluatedCandidates: 0;
+        predicateRejected: 0;
+        filterIndeterminate: 0;
+        eligibleCandidates: 0;
+      };
+      candidateEvaluations: [];
+      booleanSelectivity: null;
+      indeterminateRatio: null;
+      interpretation: {
+        status: "empty";
+        reasons: ["no-evaluated-candidates"];
+      };
+    }
+  | {
+      booleanSelectivity: number;
+      indeterminateRatio: number;
+      interpretation:
+        | { status: "valid"; reasons: [] }
+        | {
+            status: "indeterminate";
+            reasons: ["indeterminate-ratio-exceeds-threshold"];
+          };
+    }
+);
+
 export const CANONICAL_JSON_POLICY: "rfc8785-compatible-binary64-v1";
 export const CANONICAL_LIMITS: Readonly<{
   maxDepth: number;
@@ -1640,7 +1762,8 @@ export const HASH_DOMAINS: Readonly<Record<
   "PARTIAL_PREDICATE_GRAPH" |
   "VALUE_EXPRESSION" | "VALUE_EXPRESSION_ANALYSIS" | "IDENTITY_POLICY" |
   "ORACLE_REQUEST" | "ORACLE_RESPONSE" | "ORACLE_VALIDATION" |
-  "PACKAGE" | "PACKAGE_CANDIDATE_BINDING" | "PACKAGE_CANDIDATE_FILTER" |
+  "PACKAGE" | "PACKAGE_CANDIDATE_BINDING" | "PACKAGE_CANDIDATE_CENSUS" |
+  "PACKAGE_CANDIDATE_FILTER" |
   "PROFILE" | "RUN_CONFIG" | "RULES" | "SKELETON" |
   "SOURCE_CLASSIFICATION_ADJUDICATION" | "SOURCE_CLASSIFICATION_ANNOTATIONS" |
   "SOURCE_CLASSIFICATION_POLICY" | "SOURCE_CLASSIFICATION_VIEW" |
@@ -1709,13 +1832,27 @@ export function enumeratePackageCandidates(
   options?: PackageCandidateExecutionOptions
 ): PackageCandidateEnumerationResult;
 export const PACKAGE_CANDIDATE_FILTER_EVALUATOR_VERSION:
-  "package-candidate-filter-evaluator-v9";
+  "package-candidate-filter-evaluator-v10";
 export function evaluatePackageCandidateFilter(
   loadedPackage: LoadedRulePackage,
   binding: PackageCandidateBinding,
   candidate: CandidateInput,
   options?: LoadedPackageVerificationOptions
 ): PackageCandidateFilterEvaluation;
+export const PACKAGE_CANDIDATE_CENSUS_EVALUATOR_VERSION:
+  "package-candidate-census-evaluator-v1";
+export const PACKAGE_CANDIDATE_CENSUS_DOMINANCE_THRESHOLD: 0.9;
+export function evaluatePackageCandidateCensus(
+  loadedPackage: LoadedRulePackage,
+  runConfig: RunConfigInput,
+  options?: PackageCandidateExecutionOptions
+): PackageCandidateCensus;
+export function verifyPackageCandidateCensus(
+  census: unknown,
+  loadedPackage: LoadedRulePackage,
+  runConfig: RunConfigInput,
+  options?: PackageCandidateExecutionOptions
+): PackageCandidateCensus;
 
 export const UNIT_GRAMMAR_VERSION: "si-multiplicative-v1";
 export const QUANTITY_COMPARISON_POLICY_VERSION: "declared-max-tolerance-v1";
@@ -1781,7 +1918,7 @@ export function evaluateGraphPredicatePlan(
   candidate: CandidateInput,
   options?: GraphCanonicalizationOptions
 ): PredicateGraphEvaluation;
-export const LOCAL_PREDICATE_EVALUATOR_VERSION: "local-predicate-evaluator-v8";
+export const LOCAL_PREDICATE_EVALUATOR_VERSION: "local-predicate-evaluator-v9";
 export const LOCAL_PREDICATE_EVALUATION_LIMITS: Readonly<{
   maxValueNodes: 10000;
   maxSelectionWitnesses: 10000;
@@ -1856,7 +1993,7 @@ export function freezeSourceNodeResolutionPolicy(
   policy: SourceNodeResolutionPolicyInput
 ): FrozenSourceNodeResolutionPolicy;
 
-export const KERNEL_IMPLEMENTATION_STATUS: "foundation-active/decorated-generation-active/predicate-plans-active/closure-not-implemented";
+export const KERNEL_IMPLEMENTATION_STATUS: "foundation-active/decorated-generation-active/predicate-plans-active/local-census-active/closure-not-implemented";
 export const SOURCE_RELATION_KINDS: readonly SourceRelationKind[];
 export const CLUSTER_DISPOSITIONS: readonly ClusterDisposition[];
 export const MIGRATION_EXPOSURE_STATUSES: readonly MigrationExposureStatus[];
@@ -1922,6 +2059,17 @@ export interface Kernel {
     binding: PackageCandidateBinding,
     candidate: CandidateInput
   ): PackageCandidateFilterEvaluation;
+  evaluatePackageCandidateCensus(
+    loadedPackage: LoadedRulePackage,
+    runConfig: RunConfigInput,
+    options?: Partial<PackageCandidateExecutionLimits>
+  ): PackageCandidateCensus;
+  verifyPackageCandidateCensus(
+    census: unknown,
+    loadedPackage: LoadedRulePackage,
+    runConfig: RunConfigInput,
+    options?: Partial<PackageCandidateExecutionLimits>
+  ): PackageCandidateCensus;
   parseUnitExpression(expression: string): ParsedUnitExpression;
   normalizeUnitExpression(expression: string): string;
   normalizeQuantity(quantity: Quantity): Readonly<Quantity>;

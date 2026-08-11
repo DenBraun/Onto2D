@@ -1,7 +1,7 @@
 # ADR-0026: Element-exact runtime invariant resolution
 
 Status: proposed implementation baseline; local conformance passed; extended
-by ADR-0027; independent and cross-platform review pending
+by ADR-0027 and ADR-0028; independent and cross-platform review pending
 
 ## Context
 
@@ -65,6 +65,8 @@ unsupported.
 
 ADR-0027 subsequently enables complete node/edge attribute balance while
 retaining this evaluator/domain version as the historical invariant boundary.
+ADR-0028 adds the separately proved identical-Quantity profile-consensus case;
+representative selection remains forbidden for scientific invariant values.
 
 ## Consequences
 

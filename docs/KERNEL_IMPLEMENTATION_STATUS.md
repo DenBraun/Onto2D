@@ -5,8 +5,9 @@ binding, verified primitive depth-population materialization, graph identity,
 finite decorated-candidate enumeration,
 quantity/decimal arithmetic, typed value/Boolean analysis,
 predicate-plan compilation, verified graph-only evaluation and partial
-persistent-failure diagnostics, package-bound local numeric
-candidate filtering, numeric-policy binding, scientific-Oracle protocol validation, and
+persistent-failure diagnostics, package-bound local numeric candidate
+filtering, complete local-filter censuses, numeric-policy binding,
+scientific-Oracle protocol validation, and
 source-policy plus classification-annotation artifact freeze contracts
 implemented;
 catalog-adapter classified-relation/SCC projection implemented for verified
@@ -76,6 +77,12 @@ complete, cross-platform review and the closure pipeline pending.
   selections, reproduces every plan's run numeric binding,
   evaluates every graph or supported local-numeric top-level predicate, and
   emits a content-addressed local verdict without claiming selector admission;
+- `package-candidate-census.js` requires complete package enumeration, prepares
+  one verified reusable filter session with immutable universe/source indexes,
+  retains every canonical candidate's full filter artifact, reconciles
+  candidate and per-predicate counts, derives Boolean selectivity plus
+  threshold-bound indeterminate interpretation, refuses to construct a census
+  from an exhausted budget, and verifies stored artifacts by exact reproduction;
 - `quantity.js` implements the versioned `si-multiplicative-v1` grammar,
   exact rational unit-scale composition, dimensional compatibility, canonical
   SI-base conversion, exact terminating-decimal value/absolute-tolerance
@@ -129,7 +136,8 @@ complete, cross-platform review and the closure pipeline pending.
   candidate enumeration, primitive depth-population materialization,
   CandidateStore creation, quantity/decimal operations,
   value/Boolean analysis, predicate-plan compilation, graph and local exact-
-  compare predicate evaluation, package-bound local filtering and partial-failure diagnostics,
+  compare predicate evaluation, package-bound local filtering, complete local-
+  filter censuses and partial-failure diagnostics,
   predicate numeric-policy binding, Oracle request/response validation,
   source-policy and annotation/adjudication freezing, and a truthful capability
   manifest.
@@ -174,7 +182,7 @@ accepts only bounded partial graph data and only runs a plan already marked
 `static-proven`; even a detected persistent failure records
 `pruningAuthorized: false` until the required audit/controller artifact exists.
 
-`local-predicate-evaluator-v8` verifies both plan and numeric-policy binding,
+`local-predicate-evaluator-v9` verifies both plan and numeric-policy binding,
 then executes mixed graph and `compare` plans for scalar constants, direct
 constant quantities, canonical node/edge counts, and exact dimensionless
 addition/multiplication. It also executes exact-decimal or compensated-binary64
@@ -193,25 +201,41 @@ terminating SI unit conversions enter that boundary without intermediate
 binary64 multiplication. An `element-exact` Quantity invariant resolves only
 from an explicit context covering the candidate's exact source elements; the
 artifact binds its source-population hash and a normalized source-Quantity
-resolution witness. Complete node/edge balance aggregates the declared
+resolution witness. A `profile-quotient` invariant resolves only when the
+explicit context covers the complete class and every member has one identical
+normalized Quantity; its profile, full membership, and consensus policy are
+retained without consulting the formation representative. Complete node/edge balance aggregates the declared
 attribute through the same path, rounds once, and compares its absolute
 magnitude with the explicit Quantity threshold under the bound tolerance
-policy. Profile-domain/scalar invariants, functional coefficients, general
+policy. Scalar and non-consensus profile invariants, functional coefficients, general
 Quantity products, cycle-set counts, and substructure operators fail preflight
 rather than acquiring hidden defaults.
 
-`package-candidate-filter-evaluator-v9` composes these verified boundaries for
+`package-candidate-filter-evaluator-v10` composes these verified boundaries for
 one complete package candidate. It reconstructs the complete binding from the
 recorded normalized run and execution limits, rejects candidates outside the
 bound decoration universe, and retains the canonical candidate plus exact or
 profile-representative constituent resolution as a formation basis. It
 preflights every top-level plan for local support, derives each numeric binding
-from the reproduced run precision, rejects attributes absent from the bound
-decoration alphabet, and evaluates all plans without top-level short-circuiting.
+from the reproduced run precision, derives invariant inputs from the complete
+selected source class without representative substitution, rejects attributes
+absent from the bound decoration alphabet, and evaluates all plans without
+top-level short-circuiting.
 Failure takes precedence over
 indeterminate; otherwise the result is locally `eligible`. This is not final
 admission: selectors, derived profiles, and element materialization remain
 absent.
+
+`package-candidate-census-evaluator-v1` composes one complete generated
+canonical population with the prepared v10 filter path. Its hash covers the
+generation artifact, every full filter explanation in candidate-ID order,
+reconciled rejected/indeterminate/eligible totals, raw Boolean selectivity and
+indeterminate ratio, and per-predicate total/exclusive rejection, inertness,
+and `0.90` dominance diagnostics. Enumeration exhaustion produces an explicit
+error instead of a partial denominator. This remains a pre-selector local
+artifact rather than a complete `LevelResult`. Its public verifier reproduces
+the whole artifact from independently supplied package/run inputs and rejects
+any hash, ordering, embedded evaluation, aggregate, or interpretation drift.
 
 `source-classification-policy-v1` requires an authored rule for each of the six
 relation kinds, coherent human/deterministic authorship and exposure claims,
@@ -401,7 +425,11 @@ and its point-interval contract are recorded in
 invariant resolution and its source-population witnesses are recorded in
 [ADR-0026](adr/0026-element-exact-runtime-invariants.md). Node/edge attribute
 balance is recorded in
-[ADR-0027](adr/0027-local-balance-evaluation.md); the remaining runtime value
+[ADR-0027](adr/0027-local-balance-evaluation.md). Strict identical-Quantity
+profile consensus is recorded in
+[ADR-0028](adr/0028-profile-invariant-consensus.md). Complete package-bound
+local-filter census construction is recorded in
+[ADR-0029](adr/0029-complete-local-filter-census.md); the remaining runtime value
 sources, general Quantity products, cycle sets, and substructures remain pending.
 Predicate numeric binding is recorded in
 [ADR-0010](adr/0010-predicate-numeric-policy-binding.md), and scientific request
@@ -439,7 +467,11 @@ scaling in
 Quantity invariant resolution in
 [ADR-0026](adr/0026-element-exact-runtime-invariants.md), followed by local
 balance evaluation in
-[ADR-0027](adr/0027-local-balance-evaluation.md).
+[ADR-0027](adr/0027-local-balance-evaluation.md), followed by strict profile-
+wide invariant consensus in
+[ADR-0028](adr/0028-profile-invariant-consensus.md), followed by complete
+package-bound local-filter census construction in
+[ADR-0029](adr/0029-complete-local-filter-census.md).
 
 Source IDs, claims, and evidence do not enter ordinary primitive structural
 identity by default. The provisional cluster identity branch binds the frozen
@@ -464,10 +496,10 @@ exist.
   formation/profile materialization artifacts, profile guard/capacity and
   structural-attribute derivation, partial streaming/pruning authorization,
   pruning census, and resumable generator state;
-- profile-domain/scalar invariant resolution, functional/coefficient execution,
+- scalar and non-identical profile invariant semantics, functional/coefficient execution,
   general Quantity products, cycle-set and remaining value-expression and
   substructure predicate execution,
-  and level censuses;
+  and integrated selector/final level-result censuses;
 - cohort construction and functional ranking;
 - sensitivity, baselines, profiles derived from rules, closure, and ladder
   execution;
@@ -552,6 +584,12 @@ exact/profile constituent resolution, relabeling invariance, stale bindings,
 foreign node/edge variants, non-generable reciprocal decorations, exact count
 comparison, unavailable balance/selector attribute rejection, unsupported
 substructures, and empty-predicate local eligibility.
+Package-census fixtures cover complete generation/filter reconciliation,
+canonical candidate ordering, hash reproduction, Boolean selectivity,
+overlapping and exclusive rejection counts, inert and dominating predicates,
+the exact `0.90` dominance boundary, indeterminate thresholds, raw/canonical
+candidate budget exhaustion, schema branch rejection, and stored-artifact
+reproduction/mismatch handling.
 Local-evaluation fixtures cover mixed graph/compare plans, canonical node and
 edge selections, exact and compensated scalar and Quantity-valued structural-
 attribute sums, canonical aggregation order, explicit approximation
@@ -563,10 +601,11 @@ additive tolerance/evidence propagation, signed and zero Quantity scaling,
 precision-dependent verdicts, SI-normalized
 direct quantities and tolerance, SI-equivalent exact decimal operands, scalar
 equality, relabeling invariance, stale numeric bindings, and explicit rejection
-of scalar/profile-domain invariants and multi-Quantity products. Invariant
+of scalar/non-consensus invariants and multi-Quantity products. Invariant
 fixtures additionally cover exact-element singleton/selector resolution,
 population/context drift, missing values, unit/semantic mismatch, retained
-provenance/tolerance, and package-derived contexts.
+provenance/tolerance, SI-equivalent profile-member consensus, full membership,
+consensus disagreement, and package-derived contexts.
 Balance fixtures cover closed scalar thresholds, threshold and aggregate
 uncertainty, exact/compensated state, boundary-only rounding, mixed SI units,
 semantic policy, empty selections, runtime data failures, and cycle rejection.
@@ -600,7 +639,7 @@ byte-identical fixture hashes. Its first JavaScript comparison exposed two
 non-minimal canonical representatives at five nodes. Skeleton labeling was
 therefore changed, before identity freeze, to evaluate the complete node
 permutation orbit and select the global canonical edge serialization. The full
-185-test suite, repository checks, schema-compilation/runtime-artifact
+189-test suite, repository checks, schema-compilation/runtime-artifact
 conformance, and build validation now pass on macOS arm64
 under Node.js 20.19.4 and 22.18.0. Independent review and completed runs on
 additional supported platforms remain open, so ADR-0003 through ADR-0005

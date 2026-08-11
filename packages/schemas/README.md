@@ -43,14 +43,24 @@ top-level predicate evaluation, its run-bound numeric policy, reconciled
 outcome counts, and a local eligibility verdict. The executable numeric subset
 is exact dimensionless constant/count arithmetic, exact-decimal or compensated-
 binary64 sums over finite scalar or Quantity-valued structural attributes,
-compatible derived Quantity addition, dimensionless scalar scaling, and
-element-exact Quantity invariants bound to the source population, scalar and
-Quantity node/edge balance, plus direct constant-quantity and scalar
+compatible derived Quantity addition, dimensionless scalar scaling,
+element-exact Quantity invariants and strict profile-wide consensus over
+identical normalized source Quantities, scalar and Quantity node/edge balance,
+plus direct constant-quantity and scalar
 comparison. Quantity sums disclose their
 canonical unit/semantic and conservative tolerance-aggregation policy; derived
 arithmetic exposes computed provenance and its effective absolute bound.
 Unrounded values and approximation state are explicit; these artifacts do not
 represent selector-based final admission.
+The package candidate census schema embeds one complete package enumeration and
+every corresponding filter artifact, then records reconciled candidate totals,
+Boolean selectivity, the indeterminate ratio and threshold interpretation, and
+per-predicate pass/fail/indeterminate, exclusive-rejection, inert, and
+dominating diagnostics. It admits only complete generation and remains
+strictly pre-selector. Status/reason/nullability branches and zero-population
+fields are shape-constrained; executable reproduction verifies hashes,
+predicate-ID uniqueness, ordering, arithmetic reconciliation, and all embedded
+artifacts.
 The element and primitive-depth schemas separate policy-controlled structural
 identity from package/population provenance, require a reproduced canonical
 form, fix primitive depth to zero, and forbid formation provenance on primitive
@@ -79,12 +89,15 @@ eligibility/audit state, and require `pruningAuthorized: false`; schema
 validity cannot authorize generator pruning.
 The local-predicate evaluation schema additionally binds the reproduced
 numeric-policy hash, unrounded and rounded decimal results, exactness state,
-direct and derived quantity comparisons, canonical node/edge selection witnesses,
-source-population-bound invariant-resolution witnesses, and signed balance
-aggregates with normalized threshold comparisons.
-Attribute-sum witnesses additionally bind the attribute value kind, selected
-accumulation algorithm, and its exactness. Quantity witnesses also bind unit,
-semantic, and `sum-effective-absolute-bounds-v1`. The standalone unrounded-
+direct and derived quantity comparisons, canonical node/edge selection
+witnesses, source-population-bound exact or complete profile-consensus
+invariant-resolution witnesses, and signed balance aggregates with normalized
+threshold comparisons. Profile witnesses bind the complete ordered member set
+and `identical-normalized-quantity-v1` policy.
+Attribute-sum and balance-selection witnesses additionally require the
+attribute value kind, selected accumulation algorithm, and its exactness.
+Quantity witnesses also bind unit, semantic, and
+`sum-effective-absolute-bounds-v1`. The standalone unrounded-
 accumulation schema enforces the same algorithm/exactness relation.
 The Oracle binding/result schemas separate normalized semantic request and
 response identities from operational wall time and record accepted versus
@@ -111,7 +124,7 @@ kernel loader. Passing schema validation is necessary but does not prove
 scientific validity or kernel conformance; cross-record references,
 stratification, phase acyclicity, structural identity, and other invariants are
 executable checks in the kernel and adapters.
-Repository checks compile all 53 schemas as Draft 2020-12, and workspace
+Repository checks compile all 54 schemas as Draft 2020-12, and workspace
 conformance tests validate emitted generation, population, binding, filter,
-complete/partial graph, and local-evaluation artifacts against those compiled
-contracts.
+complete local-filter census, complete/partial graph, and local-evaluation
+artifacts against those compiled contracts.

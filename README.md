@@ -10,10 +10,11 @@ schema checks use a lockfile-pinned Ajv development dependency. The
 `@onto2d/kernel` package implements the deterministic package and graph-identity foundation,
 including normalized package/run binding and finite decorated-candidate
 enumeration, verified primitive depth-population materialization, and
-graph-only predicate evaluation with conservative partial-failure diagnostics
-plus package-bound local candidate filtering with exact constant/count
-comparisons, but not derived-element materialization, pruning authorization,
-profile-domain/scalar invariant resolution, functional/coefficient execution,
+graph-only predicate evaluation with conservative partial-failure diagnostics,
+package-bound local numeric candidate filtering, and complete local-filter
+censuses, but not derived-element
+materialization, pruning authorization, scalar invariant resolution,
+functional/coefficient execution,
 substructure predicates,
 selector admission, or closure.
 
@@ -38,12 +39,18 @@ Available foundations include:
   candidate belongs to its finite universe, resolves exact/profile
   constituents, and evaluates every graph or supported local-numeric top-level
   predicate without claiming selector admission;
+- content-addressed complete local-filter censuses that bind the entire
+  canonical generated population, every per-candidate filter explanation,
+  reconciled Boolean selectivity, exclusive rejection counts, and
+  inert/dominating predicate diagnostics while refusing truncated generation,
+  plus exact reproduction verification for stored census artifacts;
 - content-addressed local predicate evaluation for scalar constants, direct
   constant quantities, canonical node/edge counts, exact or compensated scalar
   and Quantity-valued structural-attribute sums with disclosed approximation
   state and conservative quantity-tolerance aggregation, compatible derived
-  Quantity addition and scalar scaling, element-exact Quantity invariant
-  resolution from the reproduced source population, scalar and Quantity
+  Quantity addition and scalar scaling, element-exact and strict profile-wide
+  identical-Quantity invariant resolution from the reproduced source
+  population, scalar and Quantity
   balance over node/edge attributes, and dimensionless addition/multiplication
   under the reproduced run numeric policy;
 - run-specific, content-addressed precision/tolerance bindings for compiled
@@ -78,7 +85,8 @@ No current command changes `scr/` catalogue records or claims that raw
 collection of actual annotations, access-controlled annotation-view delivery,
 application to the current catalogue, node dispositions, SCC condensation,
 derived-depth population binding, structural-attribute/profile-guard
-derivation, profile/scalar-invariant, coefficient, general-Quantity-product,
+derivation, scalar and non-identical-profile invariant semantics, coefficient,
+general-Quantity-product,
 cycle-set/substructure filtering,
 selector admission, derived profile
 extraction/materialization, partial pruning, closure, and sensitivity execution
@@ -96,9 +104,10 @@ npm run check
 npm run build
 ```
 
-There are no third-party runtime or development dependencies. `npm run build`
-performs repository validation; packages are served directly from checked
-source, so it does not create a transpiled `dist/` tree.
+The runtime packages have no third-party dependencies. Repository schema tests
+use the lockfile-pinned Ajv development dependency. `npm run build` performs
+repository validation; packages are served directly from checked source, so it
+does not create a transpiled `dist/` tree.
 
 Additional commands:
 

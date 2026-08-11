@@ -139,8 +139,8 @@ selector admission and cannot materialize a derived element without a selected
 formation record and deterministic derived profile. This boundary is recorded
 in ADR-0019.
 
-The v9 package filter adds only the numeric subset whose runtime meaning is
-already closed. `local-predicate-evaluator-v8` reproduces a plan and its run
+The v10 package filter adds only the numeric subset whose runtime meaning is
+already closed. `local-predicate-evaluator-v9` reproduces a plan and its run
 numeric binding, then combines graph operators with scalar constants, direct
 constant quantities, canonical node/edge counts, and exact dimensionless
 addition/multiplication. It also sums finite scalar or Quantity-valued
@@ -153,21 +153,34 @@ sole Quantity factor can be scaled by dimensionless number expressions while
 preserving its semantic and scaling its absolute bound by the scalar magnitude.
 In `element-exact`, a Quantity invariant resolves only from an explicit,
 source-population-bound context and must select one canonical node; its source
-Quantity and resolution enter the evaluation artifact. `profile-quotient`
-invariants remain rejected until class-wide consensus semantics are frozen.
+Quantity and resolution enter the evaluation artifact. In `profile-quotient`,
+the complete member class must provide one identical normalized Quantity under
+`identical-normalized-quantity-v1`; representative substitution remains forbidden.
 Node/edge `balance` reuses the typed attribute-sum path, rounds the signed
 aggregate once, and compares its absolute magnitude to the explicit Quantity
 threshold. Source-aggregate and threshold uncertainty combine only through the
 bound maximum-declared-tolerance rule; compensated arithmetic remains a
 separate approximation flag.
 The unrounded value and its approximation state are explicit, and rounding
-occurs once per comparison operand. Scalar invariants, functional coefficients,
-cycle sets, general Quantity products,
+occurs once per comparison operand. Scalar and non-consensus profile invariants,
+functional coefficients, cycle sets, general Quantity products,
 and substructures fail preflight because their missing binding or tolerance
 semantics are not defaults. The current hash domains are versioned for these
 artifacts. The baseline, three attribute extensions, two derived-arithmetic
-extensions, exact-domain invariant extension, and balance extension are
-recorded in ADR-0020 through ADR-0027.
+extensions, exact-domain invariant extension, balance extension, and strict
+profile-consensus extension are recorded in ADR-0020 through ADR-0028.
+
+`package-candidate-census-evaluator-v1` composes the complete generator and the
+v10 filter without adding predicate semantics. It embeds the full generated
+canonical universe and every filter explanation, reconciles Boolean
+selectivity and the indeterminate ratio, and attributes total versus exclusive
+predicate failures. Inertness is zero observed failures; dominance uses the
+explicit v1 threshold `0.90`. Budget-exhausted enumeration produces no census,
+and this artifact stops before cohort construction or admission. Immutable
+universe/source indexes are prepared once per filter session. Serialized
+censuses can be verified only by whole-artifact deterministic reproduction;
+schema validity and a self-declared hash are insufficient. The boundary is
+recorded in ADR-0029.
 
 ## 5. Predicate monotonicity and explanations
 

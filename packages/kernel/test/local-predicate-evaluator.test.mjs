@@ -109,7 +109,7 @@ test("local evaluation combines graph predicates with exact count arithmetic", (
   const binding = bindPredicateNumericPolicy(compiled, precision());
   const evaluation = evaluateLocalPredicatePlan(compiled, binding, candidate(), options());
 
-  assert.equal(evaluation.evaluator, "local-predicate-evaluator-v8");
+  assert.equal(evaluation.evaluator, "local-predicate-evaluator-v9");
   assert.equal(evaluation.numericBindingHash, binding.bindingHash);
   assert.equal(evaluation.outcome, "pass");
   const comparison = evaluation.witnesses.find((entry) => entry.operator === "compare");
@@ -1488,21 +1488,149 @@ test("element-exact runtime invariants bind unique nodes and source quantities",
       error.code === "PREDICATE_LOCAL_INVARIANT_SEMANTIC_MISMATCH"
   );
 
-  const profileCandidate = {
+});
+
+test("profile invariants require identical normalized quantities from every class member", () => {
+  const sourcePopulationHash = `sha256:${"d".repeat(64)}`;
+  const profileHash = `sha256:${"9".repeat(64)}`;
+  const memberElementIds = [
+    `sha256:${"a".repeat(64)}`,
+    `sha256:${"b".repeat(64)}`
+  ];
+  const sourceQuantity = quantity(
+    1,
+    "m",
+    "length",
+    { absolute: 0.001 },
+    ["consensus-evidence"]
+  );
+  const compiled = plan({
+    op: "compare",
+    left: { kind: "invariant", name: "length" },
+    comparator: "eq",
+    right: { kind: "constant", value: quantity(100, "cm", "length") }
+  }, { invariants: { length: sourceQuantity } });
+  const candidateInput = {
     domain: "profile-quotient",
-    nodes: [{ ref: singleton.nodes[0].ref }],
+    nodes: [{ ref: profileHash }],
     edges: []
   };
+  const context = {
+    sourcePopulationHash,
+    elements: memberElementIds.map((elementId, index) => ({
+      elementId,
+      invariants: {
+        length: index === 0
+          ? sourceQuantity
+          : quantity(
+              100,
+              "cm",
+              "length",
+              { absolute: 0.1 },
+              ["consensus-evidence"]
+            )
+      }
+    })),
+    profileClasses: [{ profileHash, members: [...memberElementIds].reverse() }]
+  };
+  const binding = bindPredicateNumericPolicy(compiled, precision());
+  const evaluation = evaluateLocalPredicatePlan(
+    compiled,
+    binding,
+    candidateInput,
+    { ...options(), invariantContext: context }
+  );
+  const resolution = evaluation.witnesses[0].invariants[0];
+
+  assert.equal(evaluation.outcome, "pass");
+  assert.equal(resolution.profileHash, profileHash);
+  assert.equal(resolution.elementId, undefined);
+  assert.deepEqual(resolution.memberElementIds, memberElementIds);
+  assert.equal(resolution.consensusPolicy, "identical-normalized-quantity-v1");
+  assert.deepEqual(resolution.quantity, evaluation.witnesses[0].left.quantity);
+
+  const reordered = evaluateLocalPredicatePlan(
+    compiled,
+    binding,
+    candidateInput,
+    {
+      ...options(),
+      invariantContext: {
+        ...context,
+        elements: [...context.elements].reverse(),
+        profileClasses: [{ profileHash, members: [...memberElementIds] }]
+      }
+    }
+  );
+  assert.equal(reordered.evaluationHash, evaluation.evaluationHash);
+
+  const disagreement = canonicalClone(context);
+  disagreement.elements[1].invariants.length = quantity(
+    1.1,
+    "m",
+    "length",
+    { absolute: 0.001 },
+    ["consensus-evidence"]
+  );
   assert.throws(
     () => evaluateLocalPredicatePlan(
-      directPlan,
-      bindPredicateNumericPolicy(directPlan, precision()),
-      profileCandidate,
-      { ...options(), invariantContext: singletonContext }
+      compiled,
+      binding,
+      candidateInput,
+      { ...options(), invariantContext: disagreement }
     ),
     (error) => error instanceof KernelError &&
-      error.code === "PREDICATE_LOCAL_INVARIANT_DOMAIN_UNSUPPORTED" &&
-      error.details.reason === "profile-invariant-consensus-not-frozen"
+      error.code === "PREDICATE_LOCAL_INVARIANT_CONSENSUS_UNAVAILABLE" &&
+      error.details.reason === "member-values-disagree" &&
+      error.details.disagreeingElementIds[0] === memberElementIds[1]
+  );
+
+  const evidenceDisagreement = canonicalClone(context);
+  evidenceDisagreement.elements[1].invariants.length.provenance.evidence = [
+    "different-evidence"
+  ];
+  assert.throws(
+    () => evaluateLocalPredicatePlan(
+      compiled,
+      binding,
+      candidateInput,
+      { ...options(), invariantContext: evidenceDisagreement }
+    ),
+    (error) => error instanceof KernelError &&
+      error.code === "PREDICATE_LOCAL_INVARIANT_CONSENSUS_UNAVAILABLE" &&
+      error.details.reason === "member-values-disagree"
+  );
+
+  const missing = canonicalClone(context);
+  missing.elements[1].invariants = {};
+  assert.throws(
+    () => evaluateLocalPredicatePlan(
+      compiled,
+      binding,
+      candidateInput,
+      { ...options(), invariantContext: missing }
+    ),
+    (error) => error instanceof KernelError &&
+      error.code === "PREDICATE_LOCAL_INVARIANT_CONSENSUS_UNAVAILABLE" &&
+      error.details.reason === "member-values-missing" &&
+      error.details.missingElementIds[0] === memberElementIds[1]
+  );
+
+  assert.throws(
+    () => evaluateLocalPredicatePlan(
+      compiled,
+      binding,
+      candidateInput,
+      {
+        ...options(),
+        invariantContext: {
+          sourcePopulationHash: context.sourcePopulationHash,
+          elements: context.elements
+        }
+      }
+    ),
+    (error) => error instanceof KernelError &&
+      error.code === "PREDICATE_LOCAL_INVARIANT_CONTEXT_INVALID"
   );
 });
 

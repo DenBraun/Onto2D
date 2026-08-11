@@ -16,7 +16,7 @@
   ],
   "properties": {
     "schemaVersion": { "const": "1" },
-    "evaluator": { "const": "local-predicate-evaluator-v8" },
+    "evaluator": { "const": "local-predicate-evaluator-v9" },
     "predicatePlanHash": { "$ref": "#/$defs/hash" },
     "numericBindingHash": { "$ref": "#/$defs/hash" },
     "candidateId": { "$ref": "#/$defs/hash" },
@@ -167,15 +167,48 @@
     },
     "invariantResolution": {
       "type": "object",
-      "required": ["expressionPath", "name", "canonicalNode", "elementId", "quantity"],
+      "required": ["expressionPath", "name", "canonicalNode", "quantity"],
       "properties": {
         "expressionPath": { "$ref": "#/$defs/valuePath" },
         "name": { "$ref": "#/$defs/normalizedString" },
         "canonicalNode": { "$ref": "#/$defs/index" },
         "elementId": { "$ref": "#/$defs/hash" },
+        "profileHash": { "$ref": "#/$defs/hash" },
+        "memberElementIds": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/hash" }
+        },
+        "consensusPolicy": { "const": "identical-normalized-quantity-v1" },
         "quantity": { "$ref": "quantity.schema.json" }
       },
+      "oneOf": [
+        {
+          "required": ["elementId"],
+          "not": {
+            "anyOf": [
+              { "required": ["profileHash"] },
+              { "required": ["memberElementIds"] },
+              { "required": ["consensusPolicy"] }
+            ]
+          }
+        },
+        {
+          "required": ["profileHash", "memberElementIds", "consensusPolicy"],
+          "not": { "required": ["elementId"] }
+        }
+      ],
       "additionalProperties": false
+    },
+    "attributeSelection": {
+      "allOf": [
+        { "$ref": "#/$defs/selection" },
+        {
+          "type": "object",
+          "required": ["attribute", "valueKind", "summation", "accumulationExact"]
+        }
+      ]
     },
     "invariantCompareWitness": {
       "type": "object",
@@ -373,7 +406,7 @@
           "type": "array",
           "minItems": 1,
           "maxItems": 1,
-          "items": { "$ref": "#/$defs/selection" }
+          "items": { "$ref": "#/$defs/attributeSelection" }
         }
       },
       "additionalProperties": false

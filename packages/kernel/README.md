@@ -48,13 +48,19 @@ implemented foundation provides:
   universe membership, rejects unavailable predicate attributes, discloses
   exact/profile constituent resolution, and evaluates every graph or locally
   executable numeric top-level predicate under a reproduced numeric binding;
+- verified complete local-filter census construction over the full canonical
+  package candidate universe, with every filter artifact, reconciled Boolean
+  selectivity and indeterminate ratios, exclusive rejection attribution, and
+  inert/dominating predicate diagnostics; truncated enumeration is rejected,
+  and stored artifacts can be verified by exact deterministic reproduction;
 - verified mixed graph/compare evaluation for scalar constants, direct
   constant quantities, structural node/edge counts, exact or compensated
   scalar and Quantity-valued structural-attribute sums with disclosed
   approximation state and conservative quantity-tolerance/provenance
   aggregation, compatible derived Quantity addition and scalar scaling,
-  element-exact Quantity invariant resolution from an explicitly bound source
-  population, scalar and Quantity node/edge attribute balance, and
+  element-exact Quantity invariant resolution and strict profile-wide
+  consensus over identical normalized source Quantities, scalar and Quantity
+  node/edge attribute balance, and
   dimensionless addition/multiplication with rounding only at the result boundary;
 - verified, content-addressed run precision/tolerance bindings for compiled
   predicate numeric operations;
@@ -71,13 +77,15 @@ implemented foundation provides:
   decorated-enumeration operations,
   quantity/decimal
   operations, value/Boolean analysis, predicate-plan compilation, graph-only
-  and local numeric predicate evaluation, package-bound local filtering and partial-failure
+  and local numeric predicate evaluation, package-bound local filtering,
+  complete local-filter census construction/verification and partial-failure
   diagnostics, numeric policy binding, Oracle protocol validation, and
   source-policy freezing as the current public runtime boundary.
 
 Derived-depth source-population binding, derived structural attributes,
-profile guards/capacities, partial pruning authorization/integration,
-profile-domain/scalar invariant resolution, coefficient expressions, general Quantity products,
+profile guards/capacities, partial pruning authorization/integration, scalar
+and non-identical-profile invariant semantics, coefficient expressions,
+general Quantity products,
 cycle-set and substructure predicate evaluation, cohort
 execution, selector admission, derived profile/materialization, ranking,
 closure, explanations, and sensitivity execution remain explicit pending

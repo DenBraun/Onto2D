@@ -11,16 +11,22 @@ content hashes, deterministic schema-v1 package loading, primitive/profile
 identity, verified depth-zero `Element` population materialization, exact
 supplied-graph canonicalization, bounded connected-skeleton
 enumeration, deterministic finite decoration, a CandidateStore, public
-TypeScript contracts, normalized package/run candidate binding, and 52 JSON
+TypeScript contracts, normalized package/run candidate binding, and 54 JSON
 Schemas. The graph-predicate layer adds verified complete evaluation and
 partial persistent-failure diagnostics without pruning authority. The
 package-filter layer proves bound-universe membership, records exact/profile
 constituent resolution, reproduces numeric bindings, and combines graph plus
 supported local-numeric top-level outcomes into a local verdict without
-selector admission. The local comparison layer executes scalar constants,
-direct constant quantities, canonical counts, exact or compensated scalar
-structural-attribute sums with explicit approximation state, and dimensionless
-addition/multiplication with boundary-only rounding. The quantity layer adds versioned
+selector admission. The census layer requires a complete generated universe,
+retains every filter explanation, reconciles Boolean selectivity and
+indeterminate ratios, and reports total/exclusive failures plus
+inert/dominating predicates without claiming a final `LevelResult`. The local
+comparison layer executes scalar constants,
+direct constant quantities, canonical counts, exact or compensated scalar and
+Quantity structural-attribute sums with explicit approximation state,
+compatible derived Quantity arithmetic, element-exact and strict profile-wide
+identical-Quantity invariant resolution, node/edge attribute balance, and
+dimensionless addition/multiplication with boundary-only rounding. The quantity layer adds versioned
 multiplicative SI parsing,
 normalization, comparison, exact decimals, declared rounding, and exact or
 compensated accumulation. The typed value-expression layer adds recursive AST
@@ -45,7 +51,7 @@ The review boundary is intentionally smaller than the target architecture.
 Derived-depth population binding and selected formation/profile
 materialization artifacts, derived decoration attributes, profile
 guards/capacities, partial predicate pruning authorization,
-profile-consensus/scalar invariant resolution, functional/coefficient execution, general
+scalar and non-identical-profile invariant semantics, functional/coefficient execution, general
 Quantity products, cycle-set/substructure
 predicate evaluation, integrated complete verdicts,
 cohort ranking/selector admission, sensitivity execution, source migration/
@@ -82,8 +88,10 @@ condensation, explanations, and closure are not implemented.
    [ADR-0023](adr/0023-quantity-attribute-sums.md),
    [ADR-0024](adr/0024-derived-quantity-addition.md),
    [ADR-0025](adr/0025-derived-quantity-scaling.md),
-   [ADR-0026](adr/0026-element-exact-runtime-invariants.md), and
-   [ADR-0027](adr/0027-local-balance-evaluation.md).
+   [ADR-0026](adr/0026-element-exact-runtime-invariants.md),
+   [ADR-0027](adr/0027-local-balance-evaluation.md),
+   [ADR-0028](adr/0028-profile-invariant-consensus.md), and
+   [ADR-0029](adr/0029-complete-local-filter-census.md).
 5. Review `packages/kernel/src/canonical.js`, `hash.js`, and
    `quantity.js`, followed by `decimal.js`, `expression-analyzer.js`,
    `predicate-analyzer.js`, `predicate-plan-verifier.js`,
@@ -94,8 +102,8 @@ condensation, explanations, and closure are not implemented.
 6. Review `graph-canonicalizer.js`, `skeleton-enumerator.js`,
    `candidate-enumerator.js`, `candidate-store.js`, `run-config.js`, and
    `loaded-package-verifier.js`, `primitive-depth-population.js`, and
-   `package-candidate-generator.js`, followed by `package-candidate-filter.js`,
-   then their tests.
+   `package-candidate-generator.js`, followed by `package-candidate-filter.js`
+   and `package-candidate-census.js`, then their tests.
 7. Review `packages/catalog-adapter/src/source-projection.js`, its public types,
    and its order/tamper fixtures.
 8. Compare public TypeScript declarations with `packages/schemas/schemas/`.
@@ -124,6 +132,16 @@ condensation, explanations, and closure are not implemented.
   semantics the connected finite generator cannot enforce. Derived records
   remain forbidden until selector admission and selected formation/profile
   provenance are reproducible.
+- Package-bound profile invariants derive their value from every member of the
+  complete selected class and pass only when the fully normalized Quantity
+  records are identical; the formation representative is never a value
+  shortcut.
+- Complete local-filter censuses refuse incomplete enumeration, keep every
+  candidate explanation, distinguish total from exclusive predicate failures,
+  and expose their dominance and indeterminate thresholds in the hashed
+  artifact. Review that immutable universe/source indexes are session-scoped
+  and that serialized artifacts fail verification unless exact package/run
+  reproduction agrees field-for-field.
 - Quantity identity uses canonical SI bases; comparisons combine both declared
   tolerances and require matching semantics unless explicitly overridden.
 - Decimal operations round only at the declared boundary; exact and
@@ -177,15 +195,15 @@ condensation, explanations, and closure are not implemented.
 
 ## Static verification record
 
-The static documentation pass checks all 73 JSON files for parseability, all
-53 schema identifiers and relative references, schema export coverage and
+The static documentation pass checks all 74 JSON files for parseability, all
+54 schema identifiers and relative references, schema export coverage and
 Draft 2020-12 compilation,
 relative source imports, Markdown links/fences, public implementation/type
 names, source-lock hashes and sizes, and whitespace errors in the maintained
 source/documentation surface outside the preserved catalogue.
 `git diff --check` is also required to remain clean.
 
-All 65 maintained JavaScript source and test files pass the repository source
+All 67 maintained JavaScript source and test files pass the repository source
 check. The earlier syntax-only JavaScriptCore review did not evaluate modules;
 the current Node.js passes now exercise the complete test suite.
 
@@ -224,7 +242,7 @@ npm run check
 npm run build
 ```
 
-The full 185-test suite, repository checks, and build validation pass on both
+The full 189-test suite, repository checks, and build validation pass on both
 local Node.js versions. ADR-0003, ADR-0004, and ADR-0005 remain proposed until the
 goldens receive independent review and additional supported platforms
 reproduce them. RFC 8785 binary64 and Unicode edge cases are now explicitly
@@ -259,8 +277,14 @@ covered by the canonical conformance tests.
   ranges, arbitrary comparisons, balances, substructure combinators, and
   canonical-index degree/path checks are not authorized for partial pruning;
   lower-bound degree passes over growing selections are not marked persistent.
+- Complete local-filter census evaluation is synchronous and retains both the
+  completed generation artifact and every candidate filter artifact in memory.
+  `maxCandidates` bounds semantic cardinality, but streaming persistence and
+  independent resource enforcement remain future production work.
 - JSON Schema validates record shape but cannot replace executable reference,
-  acyclicity, identity, endpoint, unit, and count reconciliation checks.
+  acyclicity, identity, endpoint, unit, and count reconciliation checks. The
+  census reproduction verifier now supplies that executable boundary for its
+  stored artifact; equivalent verifiers remain necessary for future consumers.
 - Source-migration schemas describe the target contract, while the current
   loader deliberately rejects those inputs until the migration engine exists.
 - The local Node.js 20/22 suite and binary64/Unicode audit pass; cross-platform

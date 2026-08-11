@@ -80,9 +80,11 @@ Implementation grows through the following sequence:
    the implemented primitive package/run binding, and verified graph-predicate
    evaluation plus package-bound local numeric filtering, exact/compensated
    scalar and Quantity structural-attribute sums, compatible derived Quantity
-   addition and scalar scaling, plus element-exact Quantity invariant
-   resolution and node/edge attribute balance; then complete profile/scalar
-   invariant semantics, general Quantity products, cycle-set and substructure verdicts, selector
+   addition and scalar scaling, plus element-exact and strict profile-wide
+   identical-Quantity invariant resolution, node/edge attribute balance, and
+   complete package-bound local-filter census construction/verification;
+   then complete scalar and non-identical-profile invariant semantics, general
+   Quantity products, cycle-set and substructure verdicts, selector
    admission, and derived profile formation,
    extend the verified depth-zero population to derived closure depths, and add
    the audit/controller required for safe partial pruning;

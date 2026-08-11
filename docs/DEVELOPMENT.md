@@ -94,9 +94,18 @@ scaling under
 invariants resolve from an explicit source-population context under
 [ADR-0026](adr/0026-element-exact-runtime-invariants.md). Complete node/edge
 attribute balance is available under
-[ADR-0027](adr/0027-local-balance-evaluation.md). Profile-domain and scalar
-invariant resolution, functional/coefficient execution, general Quantity
-products, cycle-set selection, and substructures remain rejected.
+[ADR-0027](adr/0027-local-balance-evaluation.md). A profile-class Quantity
+invariant may resolve only from identical normalized values across every member
+under [ADR-0028](adr/0028-profile-invariant-consensus.md). Scalar invariants,
+non-identical profile aggregation, functional/coefficient execution, general
+Quantity products, cycle-set selection, and substructures remain rejected.
+Complete package candidate populations can be aggregated into a
+content-addressed local-filter census under
+[ADR-0029](adr/0029-complete-local-filter-census.md). The constructor refuses
+budget-exhausted enumeration, prepares immutable lookup indexes once per
+filter session, and remains separate from selector admission and the final
+`LevelResult`. Stored censuses are accepted only through exact reproduction
+from independently supplied package/run inputs.
 Scientific requests and externally returned quantities are content-bound and
 validated without solver execution under
 [ADR-0011](adr/0011-scientific-oracle-validation.md).

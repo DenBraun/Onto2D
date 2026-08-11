@@ -4,7 +4,7 @@ import { schemaUrls, SCHEMA_VERSION } from "../../packages/schemas/src/index.js"
 
 test("schema package exposes every initial contract as a file URL", () => {
   assert.equal(SCHEMA_VERSION, "1");
-  assert.equal(Object.keys(schemaUrls).length, 53);
+  assert.equal(Object.keys(schemaUrls).length, 54);
   assert.ok(
     schemaUrls.decimalUnroundedAccumulation.pathname.endsWith(
       "decimal-unrounded-accumulation.schema.json"
@@ -42,6 +42,11 @@ test("schema package exposes every initial contract as a file URL", () => {
   assert.ok(
     schemaUrls.packageCandidateFilterEvaluation.pathname.endsWith(
       "package-candidate-filter-evaluation.schema.json"
+    )
+  );
+  assert.ok(
+    schemaUrls.packageCandidateCensus.pathname.endsWith(
+      "package-candidate-census.schema.json"
     )
   );
   for (const url of Object.values(schemaUrls)) {
