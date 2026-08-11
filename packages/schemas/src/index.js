@@ -8,6 +8,7 @@ export const schemaUrls = Object.freeze({
   precisionPolicy: schema("precision-policy"),
   decimalValue: schema("decimal-value"),
   decimalAccumulation: schema("decimal-accumulation"),
+  decimalUnroundedAccumulation: schema("decimal-unrounded-accumulation"),
   valueExpression: schema("value-expression"),
   booleanExpression: schema("boolean-expression"),
   evidence: schema("evidence"),

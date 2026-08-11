@@ -13,7 +13,8 @@ enumeration, verified primitive depth-population materialization, and
 graph-only predicate evaluation with conservative partial-failure diagnostics
 plus package-bound local candidate filtering with exact constant/count
 comparisons, but not derived-element materialization, pruning authorization,
-runtime-bound invariant/attribute arithmetic, balance/substructure predicates,
+profile-domain/scalar invariant resolution, functional/coefficient execution,
+substructure predicates,
 selector admission, or closure.
 
 Available foundations include:
@@ -24,7 +25,8 @@ Available foundations include:
   `createKernel().loadPackage()`;
 - versioned multiplicative SI units, canonical quantity conversion, and
   tolerance-aware comparison;
-- exact decimal arithmetic with declared rounding and accumulation policies;
+- exact decimal arithmetic with declared rounding plus explicit rounded or
+  unrounded accumulation artifacts;
 - typed value-expression normalization, dimensional inference, dependency
   extraction, and domain-separated expression/analysis hashes;
 - typed Boolean predicate analysis, conservative monotonicity/partial-data
@@ -34,11 +36,16 @@ Available foundations include:
   that explicitly cannot authorize pruning;
 - package-bound local filtering that reproduces the run binding, proves a
   candidate belongs to its finite universe, resolves exact/profile
-  constituents, and evaluates every graph or supported exact-compare top-level
+  constituents, and evaluates every graph or supported local-numeric top-level
   predicate without claiming selector admission;
 - content-addressed local predicate evaluation for scalar constants, direct
-  constant quantities, canonical node/edge counts, and exact dimensionless
-  addition/multiplication under the reproduced run numeric policy;
+  constant quantities, canonical node/edge counts, exact or compensated scalar
+  and Quantity-valued structural-attribute sums with disclosed approximation
+  state and conservative quantity-tolerance aggregation, compatible derived
+  Quantity addition and scalar scaling, element-exact Quantity invariant
+  resolution from the reproduced source population, scalar and Quantity
+  balance over node/edge attributes, and dimensionless addition/multiplication
+  under the reproduced run numeric policy;
 - run-specific, content-addressed precision/tolerance bindings for compiled
   predicate numeric operations;
 - content-addressed scientific-Oracle request/response validation without
@@ -71,7 +78,8 @@ No current command changes `scr/` catalogue records or claims that raw
 collection of actual annotations, access-controlled annotation-view delivery,
 application to the current catalogue, node dispositions, SCC condensation,
 derived-depth population binding, structural-attribute/profile-guard
-derivation, remaining invariant/attribute/balance/substructure filtering,
+derivation, profile/scalar-invariant, coefficient, general-Quantity-product,
+cycle-set/substructure filtering,
 selector admission, derived profile
 extraction/materialization, partial pruning, closure, and sensitivity execution
 remain scheduled implementation work. The existing partial graph diagnostic is

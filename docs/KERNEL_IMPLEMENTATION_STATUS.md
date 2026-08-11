@@ -5,7 +5,7 @@ binding, verified primitive depth-population materialization, graph identity,
 finite decorated-candidate enumeration,
 quantity/decimal arithmetic, typed value/Boolean analysis,
 predicate-plan compilation, verified graph-only evaluation and partial
-persistent-failure diagnostics, package-bound graph-plus-exact-compare local
+persistent-failure diagnostics, package-bound local numeric
 candidate filtering, numeric-policy binding, scientific-Oracle protocol validation, and
 source-policy plus classification-annotation artifact freeze contracts
 implemented;
@@ -71,9 +71,10 @@ complete, cross-platform review and the closure pipeline pending.
   candidate binding, re-canonicalizes a candidate under the bound policy,
   proves its domain/budget/skeleton/node/edge/adjacency-group membership,
   resolves every canonical node to an exact element or disclosed profile
-  representative, rejects unavailable predicate attributes before they can
-  become empty selections, reproduces every plan's run numeric binding,
-  evaluates every graph or supported exact-compare top-level predicate, and
+  representative, rejects unavailable node/edge predicate attributes against
+  their respective structural alphabets before they can become empty
+  selections, reproduces every plan's run numeric binding,
+  evaluates every graph or supported local-numeric top-level predicate, and
   emits a content-addressed local verdict without claiming selector admission;
 - `quantity.js` implements the versioned `si-multiplicative-v1` grammar,
   exact rational unit-scale composition, dimensional compatibility, canonical
@@ -81,7 +82,7 @@ complete, cross-platform review and the closure pipeline pending.
   conversion, and tolerance-aware comparisons;
 - `decimal.js` implements canonical coefficient/scale decimals, exact
   addition/subtraction/multiplication, bounded rounded division, all declared
-  rounding modes, and exact or compensated accumulation;
+  rounding modes, and exact or compensated rounded/unrounded accumulation;
 - `expression-analyzer.js` validates and normalizes the recursive
   `ValueExpression` AST, infers scalar/quantity results and SI dimensions,
   records invariant/coefficient/attribute/role dependencies, enforces fixed
@@ -173,16 +174,33 @@ accepts only bounded partial graph data and only runs a plan already marked
 `static-proven`; even a detected persistent failure records
 `pruningAuthorized: false` until the required audit/controller artifact exists.
 
-`local-predicate-evaluator-v1` verifies both plan and numeric-policy binding,
+`local-predicate-evaluator-v8` verifies both plan and numeric-policy binding,
 then executes mixed graph and `compare` plans for scalar constants, direct
 constant quantities, canonical node/edge counts, and exact dimensionless
-addition/multiplication. Nested arithmetic is exact and each operand rounds
-once at the declared result boundary; terminating SI unit conversions enter
-that boundary without intermediate binary64 multiplication. Runtime invariants, attributes,
-coefficients, cycle-set counts, quantity arithmetic, balance, and substructure
-operators fail preflight rather than acquiring hidden defaults.
+addition/multiplication. It also executes exact-decimal or compensated-binary64
+sums over finite scalar or Quantity-valued structural node or edge attributes
+in canonical selection order. Quantity sums require matching declared SI
+units/semantics, conservatively sum each input's effective absolute tolerance,
+and emit computed provenance with canonical evidence union. Compatible
+Quantity constants, sums, and nested additions compose recursively with exact
+decimal value addition, additive effective absolute bounds, computed
+provenance, and propagated exactness. Exactly one Quantity factor may be
+scaled by supported dimensionless number expressions; its unit and semantic
+are preserved and its effective absolute bound is multiplied by the scalar
+magnitude. Accumulation remains unrounded until the operand boundary; nested
+dimensionless arithmetic propagates approximation state. Each operand rounds once at the declared result boundary, and
+terminating SI unit conversions enter that boundary without intermediate
+binary64 multiplication. An `element-exact` Quantity invariant resolves only
+from an explicit context covering the candidate's exact source elements; the
+artifact binds its source-population hash and a normalized source-Quantity
+resolution witness. Complete node/edge balance aggregates the declared
+attribute through the same path, rounds once, and compares its absolute
+magnitude with the explicit Quantity threshold under the bound tolerance
+policy. Profile-domain/scalar invariants, functional coefficients, general
+Quantity products, cycle-set counts, and substructure operators fail preflight
+rather than acquiring hidden defaults.
 
-`package-candidate-filter-evaluator-v2` composes these verified boundaries for
+`package-candidate-filter-evaluator-v9` composes these verified boundaries for
 one complete package candidate. It reconstructs the complete binding from the
 recorded normalized run and execution limits, rejects candidates outside the
 bound decoration universe, and retains the canonical candidate plus exact or
@@ -288,8 +306,8 @@ Verified static-proven plan + bounded partial graph
 
 ```text
 Verified PredicatePlan + reproduced numeric binding + canonicalized Candidate
-  -> graph operators + supported scalar/direct-quantity/exact-count compare
-  -> exact and rounded operand values + canonical selection witnesses
+  -> graph operators + supported scalar/direct-quantity/count/attribute-sum compare
+  -> unrounded and rounded operand values + exactness + canonical selection witnesses
   -> local-predicate evaluation hash
 ```
 
@@ -298,7 +316,7 @@ Verified LoadedRulePackage + reproduced PackageCandidateBinding
   + complete canonical package candidate
   -> bound-universe membership proof
   -> exact/profile-representative constituent resolution
-  -> every graph or supported exact-compare top-level predicate evaluation
+  -> every graph or supported local-numeric top-level predicate evaluation
   -> local eligible/rejected/indeterminate verdict
   -> package-candidate filter hash
 ```
@@ -369,8 +387,22 @@ Typed value-expression analysis and its hashing rules are recorded in
 analysis, persistence inference, and plan compilation are recorded in
 [ADR-0009](adr/0009-predicate-analysis-and-plans.md). The bounded executable
 comparison subset is recorded in
-[ADR-0020](adr/0020-local-exact-compare-evaluation.md); the remaining runtime
-value sources, balance, quantity arithmetic, and substructures remain pending.
+[ADR-0020](adr/0020-local-exact-compare-evaluation.md), and exact scalar
+structural-attribute aggregation is recorded in
+[ADR-0021](adr/0021-exact-scalar-attribute-sums.md). Unrounded compensated
+accumulation and approximation propagation are recorded in
+[ADR-0022](adr/0022-unrounded-compensated-attribute-sums.md). Quantity-valued
+attribute sums and their tolerance/provenance aggregation are recorded in
+[ADR-0023](adr/0023-quantity-attribute-sums.md). Compatible derived Quantity
+addition and its tolerance/provenance propagation are recorded in
+[ADR-0024](adr/0024-derived-quantity-addition.md). Dimensionless scalar scaling
+and its point-interval contract are recorded in
+[ADR-0025](adr/0025-derived-quantity-scaling.md). Element-exact Quantity
+invariant resolution and its source-population witnesses are recorded in
+[ADR-0026](adr/0026-element-exact-runtime-invariants.md). Node/edge attribute
+balance is recorded in
+[ADR-0027](adr/0027-local-balance-evaluation.md); the remaining runtime value
+sources, general Quantity products, cycle sets, and substructures remain pending.
 Predicate numeric binding is recorded in
 [ADR-0010](adr/0010-predicate-numeric-policy-binding.md), and scientific request
 and response validation without solver execution is recorded in
@@ -393,7 +425,21 @@ primitive `Element` and depth-population materialization are recorded in
 v1 filtering and formation-resolution boundary are recorded in
 [ADR-0019](adr/0019-package-candidate-local-filter.md). Its numeric-bound
 exact-compare extension is recorded in
-[ADR-0020](adr/0020-local-exact-compare-evaluation.md).
+[ADR-0020](adr/0020-local-exact-compare-evaluation.md), and the exact scalar
+attribute-sum extension in
+[ADR-0021](adr/0021-exact-scalar-attribute-sums.md), followed by the unrounded
+compensated extension in
+[ADR-0022](adr/0022-unrounded-compensated-attribute-sums.md), followed by the
+Quantity-valued extension in
+[ADR-0023](adr/0023-quantity-attribute-sums.md), followed by compatible derived
+Quantity addition in
+[ADR-0024](adr/0024-derived-quantity-addition.md), followed by derived Quantity
+scaling in
+[ADR-0025](adr/0025-derived-quantity-scaling.md), followed by element-exact
+Quantity invariant resolution in
+[ADR-0026](adr/0026-element-exact-runtime-invariants.md), followed by local
+balance evaluation in
+[ADR-0027](adr/0027-local-balance-evaluation.md).
 
 Source IDs, claims, and evidence do not enter ordinary primitive structural
 identity by default. The provisional cluster identity branch binds the frozen
@@ -418,8 +464,9 @@ exist.
   formation/profile materialization artifacts, profile guard/capacity and
   structural-attribute derivation, partial streaming/pruning authorization,
   pruning census, and resumable generator state;
-- runtime invariant/attribute/coefficient binding, quantity arithmetic,
-  balance, remaining value-expression and substructure predicate execution,
+- profile-domain/scalar invariant resolution, functional/coefficient execution,
+  general Quantity products, cycle-set and remaining value-expression and
+  substructure predicate execution,
   and level censuses;
 - cohort construction and functional ranking;
 - sensitivity, baselines, profiles derived from rules, closure, and ladder
@@ -479,8 +526,9 @@ provenance identifiers, conversion overflow, non-zero conversion underflow,
 canonical-unit round trips, exact terminating prefix-scale conversion, and
 package/candidate identity equivalence.
 Decimal fixtures cover exact arithmetic, all rounding modes, rounded division,
-exact and compensated accumulation, canonical serialization, resource limits,
-non-zero binary64 underflow, and explicit arithmetic failures.
+rounded and unrounded exact/compensated accumulation, algorithm/exactness
+coupling, canonical serialization, resource limits, non-zero binary64
+underflow, and explicit arithmetic failures.
 Value-expression fixtures cover recursive shape validation, additive and
 multiplicative dimensional inference, dependency extraction, selector
 normalization, stable analysis hashes, undeclared symbols, conflicting
@@ -502,13 +550,26 @@ Package-filter fixtures cover complete top-level evaluation with simultaneous
 pass/fail/indeterminate outcomes, failure precedence, hash reproduction,
 exact/profile constituent resolution, relabeling invariance, stale bindings,
 foreign node/edge variants, non-generable reciprocal decorations, exact count
-comparison, unavailable-attribute rejection, unsupported balance, and empty-
-predicate local eligibility.
+comparison, unavailable balance/selector attribute rejection, unsupported
+substructures, and empty-predicate local eligibility.
 Local-evaluation fixtures cover mixed graph/compare plans, canonical node and
-edge selections, exact arithmetic, boundary-only rounding, precision-dependent
-verdicts, SI-normalized direct quantities and tolerance, SI-equivalent exact
-decimal operands, scalar equality, relabeling invariance, stale numeric bindings, and explicit rejection of
-runtime invariants and derived quantity arithmetic.
+edge selections, exact and compensated scalar and Quantity-valued structural-
+attribute sums, canonical aggregation order, explicit approximation
+propagation, mixed SI input units, conservative absolute/relative tolerance
+aggregation, computed evidence provenance, typed empty sums, runtime
+type/unit/semantic failures, missing/type-drift/selection-limit failures, exact
+arithmetic, boundary-only rounding, compatible derived Quantity addition with
+additive tolerance/evidence propagation, signed and zero Quantity scaling,
+precision-dependent verdicts, SI-normalized
+direct quantities and tolerance, SI-equivalent exact decimal operands, scalar
+equality, relabeling invariance, stale numeric bindings, and explicit rejection
+of scalar/profile-domain invariants and multi-Quantity products. Invariant
+fixtures additionally cover exact-element singleton/selector resolution,
+population/context drift, missing values, unit/semantic mismatch, retained
+provenance/tolerance, and package-derived contexts.
+Balance fixtures cover closed scalar thresholds, threshold and aggregate
+uncertainty, exact/compensated state, boundary-only rounding, mixed SI units,
+semantic policy, empty selections, runtime data failures, and cycle rejection.
 Numeric-binding fixtures cover arithmetic/summation discovery, dimensionless
 and quantity comparisons, balance, stability thresholds, explicit policy
 defaults/overrides, binding identity, non-numeric plans, and altered-plan
@@ -539,7 +600,7 @@ byte-identical fixture hashes. Its first JavaScript comparison exposed two
 non-minimal canonical representatives at five nodes. Skeleton labeling was
 therefore changed, before identity freeze, to evaluate the complete node
 permutation orbit and select the global canonical edge serialization. The full
-174-test suite, repository checks, schema-compilation/runtime-artifact
+185-test suite, repository checks, schema-compilation/runtime-artifact
 conformance, and build validation now pass on macOS arm64
 under Node.js 20.19.4 and 22.18.0. Independent review and completed runs on
 additional supported platforms remain open, so ADR-0003 through ADR-0005

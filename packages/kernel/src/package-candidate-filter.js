@@ -6,13 +6,14 @@ import { verifyLoadedPackage } from "./loaded-package-verifier.js";
 import {
   assertLocalPredicatePlanSupported,
   evaluateLocalPredicatePlan,
+  localPredicateAttributeRequirements,
   localPredicateUnsupportedFeatures
 } from "./local-predicate-evaluator.js";
 import { bindPredicateNumericPolicy } from "./numeric-binding.js";
 import { createPackageCandidateBinding } from "./package-candidate-generator.js";
 
 export const PACKAGE_CANDIDATE_FILTER_EVALUATOR_VERSION =
-  "package-candidate-filter-evaluator-v2";
+  "package-candidate-filter-evaluator-v9";
 const FILTER_OPTION_FIELDS = new Set(["kernelVersion"]);
 
 function isObject(value) {
@@ -290,13 +291,38 @@ function assertLocalPredicateSupport(plans, binding) {
       { unsupported }
     );
   }
-  const availableAttributes = new Set(
+  if (binding.runConfig.countingDomain !== "element-exact") {
+    const invariantPredicates = plans
+      .filter((plan) => plan.requirements.invariants.length > 0)
+      .map((plan) => plan.predicateId);
+    if (invariantPredicates.length > 0) {
+      fail(
+        "PACKAGE_CANDIDATE_FILTER_INVARIANT_DOMAIN_UNSUPPORTED",
+        "Package invariant evaluation requires the element-exact counting domain.",
+        {
+          domain: binding.runConfig.countingDomain,
+          predicateIds: invariantPredicates,
+          reason: "profile-invariant-consensus-not-frozen"
+        }
+      );
+    }
+  }
+  const availableNodeAttributes = new Set(
     binding.runConfig.graphPolicy.structuralNodeAttributes
   );
+  const availableEdgeAttributes = new Set(
+    binding.runConfig.graphPolicy.structuralEdgeAttributes
+  );
   const unavailableAttributes = plans.flatMap((plan) => {
-    const attributes = plan.requirements.attributes
-      .filter((attribute) => !availableAttributes.has(attribute));
-    return attributes.length === 0 ? [] : [{ predicateId: plan.predicateId, attributes }];
+    const required = localPredicateAttributeRequirements(plan);
+    const nodeAttributes = required.nodeAttributes
+      .filter((attribute) => !availableNodeAttributes.has(attribute));
+    const edgeAttributes = required.edgeAttributes
+      .filter((attribute) => !availableEdgeAttributes.has(attribute));
+    const attributes = [...new Set([...nodeAttributes, ...edgeAttributes])].sort();
+    return attributes.length === 0
+      ? []
+      : [{ predicateId: plan.predicateId, attributes, nodeAttributes, edgeAttributes }];
   });
   if (unavailableAttributes.length > 0) {
     fail(
@@ -306,6 +332,27 @@ function assertLocalPredicateSupport(plans, binding) {
     );
   }
   plans.forEach((plan) => assertLocalPredicatePlanSupported(plan));
+}
+
+function invariantContextForPlan(plan, candidate, binding) {
+  if (plan.requirements.invariants.length === 0) return undefined;
+  const elements = new Map(
+    binding.sourcePopulation.population.elements.map((element) => [element.id, element])
+  );
+  const elementIds = [...new Set(candidate.nodes.map((node) => node.ref))].sort();
+  return {
+    sourcePopulationHash: binding.sourcePopulation.population.populationHash,
+    elements: elementIds.map((elementId) => {
+      const source = elements.get(elementId);
+      const invariants = {};
+      for (const name of plan.requirements.invariants) {
+        if (Object.prototype.hasOwnProperty.call(source.invariants, name)) {
+          invariants[name] = source.invariants[name];
+        }
+      }
+      return { elementId, invariants };
+    })
+  };
 }
 
 function classify(evaluations) {
@@ -375,7 +422,10 @@ export function evaluatePackageCandidateFilter(
       claimRefs: [...predicate.claimRefs],
       evaluation: evaluateLocalPredicatePlan(plan, numericBinding, candidate, {
         policy: binding.runConfig.graphPolicy,
-        limits: binding.enumerationOptions.canonicalizationLimits
+        limits: binding.enumerationOptions.canonicalizationLimits,
+        ...(plan.requirements.invariants.length === 0
+          ? {}
+          : { invariantContext: invariantContextForPlan(plan, candidate, binding) })
       })
     };
   });

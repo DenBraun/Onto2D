@@ -4,6 +4,7 @@ import {
   DECIMAL_ARITHMETIC_VERSION,
   DECIMAL_LIMITS,
   KernelError,
+  accumulateDecimals,
   addDecimals,
   decimalToNumber,
   divideDecimals,
@@ -80,6 +81,30 @@ test("compensated binary64 accumulation retains a lost low-order term", () => {
   );
   assert.equal(result.value.canonical, "1");
   assert.equal(result.exact, false);
+});
+
+test("unrounded accumulation records its algorithm and approximation state", () => {
+  const exact = accumulateDecimals(["0.052", "0.052"], "exact-decimal");
+  const compensated = accumulateDecimals(
+    ["10000000000000000", "1", "-10000000000000000"],
+    "compensated-binary64"
+  );
+
+  assert.deepEqual(exact, {
+    arithmetic: "decimal-rational-v1",
+    algorithm: "exact-decimal",
+    termCount: 2,
+    exact: true,
+    value: parseDecimal("0.104")
+  });
+  assert.equal(compensated.value.canonical, "1");
+  assert.equal(compensated.exact, false);
+  assert.ok(Object.isFrozen(exact));
+  assert.throws(
+    () => accumulateDecimals(["1"], "unknown"),
+    (error) => error instanceof KernelError &&
+      error.code === "DECIMAL_SUMMATION_ALGORITHM_INVALID"
+  );
 });
 
 test("precision policy and arithmetic failures are explicit", () => {

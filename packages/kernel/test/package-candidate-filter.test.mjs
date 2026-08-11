@@ -12,12 +12,12 @@ import {
   loadKernelPackage
 } from "../src/index.js";
 
-function primitive(sourceId, typeTag) {
+function primitive(sourceId, typeTag, invariants = {}) {
   return {
     sourceId,
     kind: "primitive",
     typeTags: [typeTag],
-    invariants: {},
+    invariants,
     profile: {
       slots: [],
       invariantVector: [],
@@ -49,14 +49,14 @@ function predicate(id, expr, phase = "formation") {
   };
 }
 
-function loaded(predicates = []) {
+function loaded(predicates = [], invariants = {}) {
   return loadKernelPackage({
     schemaVersion: "1",
     id: "package-filter-fixture",
     version: "1.0.0",
     primitives: [
-      primitive("source-b", "beta"),
-      primitive("source-a", "alpha")
+      primitive("source-b", "beta", invariants),
+      primitive("source-a", "alpha", invariants)
     ],
     predicates
   });
@@ -133,7 +133,7 @@ test("package filtering evaluates every predicate and gives failure precedence",
     exactCandidate(packageArtifact)
   );
 
-  assert.equal(result.evaluator, "package-candidate-filter-evaluator-v2");
+  assert.equal(result.evaluator, "package-candidate-filter-evaluator-v9");
   assert.equal(result.verdict, "predicate-rejected");
   assert.deepEqual(result.counts, {
     evaluated: 3,
@@ -277,6 +277,21 @@ test("package filtering executes exact structural comparisons under the run nume
       },
       comparator: "eq",
       right: { kind: "constant", value: 1 }
+    }),
+    predicate("quantity-scale", {
+      op: "compare",
+      left: {
+        kind: "multiply",
+        factors: [
+          {
+            kind: "count",
+            set: { kind: "nodes", selector: { kind: "all" } }
+          },
+          { kind: "constant", value: quantity(2, "m", "length") }
+        ]
+      },
+      comparator: "eq",
+      right: { kind: "constant", value: quantity(2, "m", "length") }
     })
   ]);
   const binding = createPackageCandidateBinding(packageArtifact, runConfig({
@@ -296,16 +311,89 @@ test("package filtering executes exact structural comparisons under the run nume
   });
 
   assert.equal(result.verdict, "eligible");
-  assert.equal(result.predicateEvaluations[0].evaluation.evaluator, "local-predicate-evaluator-v1");
+  assert.equal(result.predicateEvaluations[0].evaluation.evaluator, "local-predicate-evaluator-v8");
   assert.match(
     result.predicateEvaluations[0].evaluation.numericBindingHash,
     /^sha256:[a-f0-9]{64}$/
   );
-  assert.equal(result.predicateEvaluations[0].evaluation.witnesses[0].left.exact.canonical, "1");
+  assert.equal(
+    result.predicateEvaluations[0].evaluation.witnesses[0].left.unrounded.canonical,
+    "1"
+  );
+  assert.equal(
+    result.predicateEvaluations[1].evaluation.witnesses[0].left.quantity.provenance.method,
+    "local-quantity-scale-v1"
+  );
 });
 
-test("package filtering rejects selectors whose attributes are absent from the bound universe", () => {
+test("package filtering resolves element-exact invariants from the bound population", () => {
+  const packageArtifact = loadKernelPackage({
+    schemaVersion: "1",
+    id: "package-filter-invariant-fixture",
+    version: "1.0.0",
+    primitives: [
+      primitive("source-b", "beta", { length: quantity(2, "m", "length") }),
+      primitive("source-a", "alpha", { length: quantity(3, "m", "length") })
+    ],
+    predicates: [predicate("element-invariant", {
+      op: "compare",
+      left: { kind: "invariant", name: "length" },
+      comparator: "eq",
+      right: { kind: "constant", value: quantity(3, "m", "length") }
+    })]
+  });
+  const config = runConfig({
+    budget: {
+      maxNodes: 1,
+      maxEdges: 0,
+      maxCandidates: 10,
+      perturbationSamples: 0,
+      nullModelRuns: 0
+    }
+  });
+  const binding = createPackageCandidateBinding(packageArtifact, config);
+  const ref = packageArtifact.normalized.primitives
+    .find((entry) => entry.sourceId === "source-a").elementId;
+  const result = evaluatePackageCandidateFilter(packageArtifact, binding, {
+    domain: "element-exact",
+    nodes: [{ ref }],
+    edges: []
+  });
+  const evaluation = result.predicateEvaluations[0].evaluation;
+
+  assert.equal(result.verdict, "eligible");
+  assert.equal(
+    evaluation.invariantSourcePopulationHash,
+    binding.sourcePopulation.population.populationHash
+  );
+  assert.equal(evaluation.witnesses[0].invariants[0].elementId, ref);
+  assert.equal(evaluation.witnesses[0].invariants[0].name, "length");
+
+  const profileBinding = createPackageCandidateBinding(packageArtifact, {
+    ...config,
+    countingDomain: "profile-quotient"
+  });
+  const profileHash = profileBinding.sourcePopulation.profileClasses[0].profileHash;
+  assert.throws(
+    () => evaluatePackageCandidateFilter(packageArtifact, profileBinding, {
+      domain: "profile-quotient",
+      nodes: [{ ref: profileHash }],
+      edges: []
+    }),
+    (error) => error instanceof KernelError &&
+      error.code === "PACKAGE_CANDIDATE_FILTER_INVARIANT_DOMAIN_UNSUPPORTED" &&
+      error.details.reason === "profile-invariant-consensus-not-frozen"
+  );
+});
+
+test("package filtering rejects predicate attributes absent from the bound universe", () => {
   const packageArtifact = loaded([
+    predicate("balance-flux", {
+      op: "balance",
+      attribute: "flux",
+      over: { kind: "edges" },
+      tolerance: quantity(0.001, "1", "flux")
+    }),
     predicate("missing-active", {
       op: "compare",
       left: {
@@ -336,20 +424,28 @@ test("package filtering rejects selectors whose attributes are absent from the b
       nodes: [{ ref }],
       edges: []
     }),
-    (error) => error instanceof KernelError &&
-      error.code === "PACKAGE_CANDIDATE_FILTER_ATTRIBUTES_UNAVAILABLE" &&
-      error.details.unavailableAttributes[0].predicateId === "missing-active" &&
-      error.details.unavailableAttributes[0].attributes[0] === "active"
+    (error) => {
+      if (!(error instanceof KernelError) ||
+        error.code !== "PACKAGE_CANDIDATE_FILTER_ATTRIBUTES_UNAVAILABLE") return false;
+      const balance = error.details.unavailableAttributes
+        .find((entry) => entry.predicateId === "balance-flux");
+      const selector = error.details.unavailableAttributes
+        .find((entry) => entry.predicateId === "missing-active");
+      return balance?.attributes[0] === "flux" &&
+        balance.nodeAttributes.length === 0 &&
+        balance.edgeAttributes[0] === "flux" &&
+        selector?.attributes[0] === "active" &&
+        selector.nodeAttributes[0] === "active" &&
+        selector.edgeAttributes.length === 0;
+    }
   );
 });
 
-test("unfrozen numeric predicates block the whole local filter artifact", () => {
+test("unfrozen substructure predicates block the whole local filter artifact", () => {
   const packageArtifact = loaded([
-    predicate("balance", {
-      op: "balance",
-      attribute: "flux",
-      over: { kind: "edges" },
-      tolerance: quantity(0.001, "1", "flux")
+    predicate("minimal", {
+      op: "minimal",
+      predicate: { op: "connected" }
     })
   ]);
   const binding = createPackageCandidateBinding(packageArtifact, runConfig({
@@ -372,8 +468,8 @@ test("unfrozen numeric predicates block the whole local filter artifact", () => 
     (error) => error instanceof KernelError &&
       error.code === "PACKAGE_CANDIDATE_FILTER_PREDICATE_UNSUPPORTED" &&
       error.details.unsupported[0].features.some((entry) =>
-        entry.feature === "balance" &&
-        entry.reason === "derived-quantity-tolerance-propagation-not-frozen"
+        entry.feature === "minimal" &&
+        entry.reason === "substructure-runtime-not-supported"
       )
   );
 });

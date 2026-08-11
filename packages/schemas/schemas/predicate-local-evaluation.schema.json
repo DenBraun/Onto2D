@@ -16,10 +16,11 @@
   ],
   "properties": {
     "schemaVersion": { "const": "1" },
-    "evaluator": { "const": "local-predicate-evaluator-v1" },
+    "evaluator": { "const": "local-predicate-evaluator-v8" },
     "predicatePlanHash": { "$ref": "#/$defs/hash" },
     "numericBindingHash": { "$ref": "#/$defs/hash" },
     "candidateId": { "$ref": "#/$defs/hash" },
+    "invariantSourcePopulationHash": { "$ref": "#/$defs/hash" },
     "graphPolicy": { "$ref": "graph-policy.schema.json" },
     "outcome": { "$ref": "#/$defs/outcome" },
     "witnesses": {
@@ -28,12 +29,30 @@
       "items": {
         "oneOf": [
           { "$ref": "predicate-graph-evaluation.schema.json#/$defs/witness" },
-          { "$ref": "#/$defs/compareWitness" }
+          { "$ref": "#/$defs/compareWitness" },
+          { "$ref": "#/$defs/balanceWitness" }
         ]
       }
     },
     "evaluationHash": { "$ref": "#/$defs/hash" }
   },
+  "allOf": [
+    {
+      "if": { "required": ["invariantSourcePopulationHash"] },
+      "then": {
+        "properties": {
+          "witnesses": { "contains": { "$ref": "#/$defs/invariantCompareWitness" } }
+        }
+      },
+      "else": {
+        "properties": {
+          "witnesses": {
+            "not": { "contains": { "$ref": "#/$defs/invariantCompareWitness" } }
+          }
+        }
+      }
+    }
+  ],
   "$defs": {
     "hash": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
     "outcome": { "enum": ["pass", "fail", "indeterminate"] },
@@ -62,6 +81,13 @@
         "count": { "$ref": "#/$defs/index" },
         "nodeIndexes": { "$ref": "#/$defs/indexList" },
         "edgeIndexes": { "$ref": "#/$defs/indexList" },
+        "attribute": { "$ref": "#/$defs/normalizedString" },
+        "valueKind": { "enum": ["number", "quantity"] },
+        "summation": { "enum": ["exact-decimal", "compensated-binary64"] },
+        "accumulationExact": { "type": "boolean" },
+        "quantityUnit": { "$ref": "#/$defs/normalizedString" },
+        "quantitySemantic": { "$ref": "#/$defs/normalizedString" },
+        "toleranceAggregation": { "const": "sum-effective-absolute-bounds-v1" },
         "roles": {
           "type": "array",
           "maxItems": 256,
@@ -81,27 +107,104 @@
           "not": { "required": ["nodeIndexes"] }
         }
       ],
+      "allOf": [
+        {
+          "oneOf": [
+            {
+              "not": {
+                "anyOf": [
+                  { "required": ["attribute"] },
+                  { "required": ["valueKind"] },
+                  { "required": ["summation"] },
+                  { "required": ["accumulationExact"] },
+                  { "required": ["quantityUnit"] },
+                  { "required": ["quantitySemantic"] },
+                  { "required": ["toleranceAggregation"] }
+                ]
+              }
+            },
+            {
+              "properties": { "valueKind": { "const": "number" } },
+              "required": ["attribute", "valueKind", "summation", "accumulationExact"],
+              "not": {
+                "anyOf": [
+                  { "required": ["quantityUnit"] },
+                  { "required": ["quantitySemantic"] },
+                  { "required": ["toleranceAggregation"] }
+                ]
+              }
+            },
+            {
+              "properties": { "valueKind": { "const": "quantity" } },
+              "required": [
+                "attribute",
+                "valueKind",
+                "summation",
+                "accumulationExact",
+                "quantityUnit",
+                "quantitySemantic",
+                "toleranceAggregation"
+              ]
+            }
+          ]
+        },
+        {
+          "if": {
+            "properties": { "summation": { "const": "exact-decimal" } },
+            "required": ["summation"]
+          },
+          "then": { "properties": { "accumulationExact": { "const": true } } }
+        },
+        {
+          "if": {
+            "properties": { "summation": { "const": "compensated-binary64" } },
+            "required": ["summation"]
+          },
+          "then": { "properties": { "accumulationExact": { "const": false } } }
+        }
+      ],
       "additionalProperties": false
+    },
+    "invariantResolution": {
+      "type": "object",
+      "required": ["expressionPath", "name", "canonicalNode", "elementId", "quantity"],
+      "properties": {
+        "expressionPath": { "$ref": "#/$defs/valuePath" },
+        "name": { "$ref": "#/$defs/normalizedString" },
+        "canonicalNode": { "$ref": "#/$defs/index" },
+        "elementId": { "$ref": "#/$defs/hash" },
+        "quantity": { "$ref": "quantity.schema.json" }
+      },
+      "additionalProperties": false
+    },
+    "invariantCompareWitness": {
+      "type": "object",
+      "required": ["invariants"],
+      "properties": {
+        "invariants": { "type": "array", "minItems": 1 }
+      }
     },
     "evaluatedValue": {
       "oneOf": [
         {
           "type": "object",
-          "required": ["kind", "exact", "rounded"],
+          "required": ["kind", "unrounded", "rounded", "exact"],
           "properties": {
             "kind": { "const": "number" },
-            "exact": { "$ref": "decimal-value.schema.json" },
-            "rounded": { "$ref": "decimal-value.schema.json" }
+            "unrounded": { "$ref": "decimal-value.schema.json" },
+            "rounded": { "$ref": "decimal-value.schema.json" },
+            "exact": { "type": "boolean" }
           },
           "additionalProperties": false
         },
         {
           "type": "object",
-          "required": ["kind", "exact", "rounded", "quantity"],
+          "required": ["kind", "unrounded", "rounded", "exact", "quantity"],
           "properties": {
             "kind": { "const": "quantity" },
-            "exact": { "$ref": "decimal-value.schema.json" },
+            "unrounded": { "$ref": "decimal-value.schema.json" },
             "rounded": { "$ref": "decimal-value.schema.json" },
+            "exact": { "type": "boolean" },
             "quantity": { "$ref": "quantity.schema.json" }
           },
           "additionalProperties": false
@@ -197,7 +300,8 @@
         "left",
         "right",
         "comparison",
-        "selections"
+        "selections",
+        "invariants"
       ],
       "properties": {
         "expressionPath": {
@@ -213,6 +317,62 @@
         "selections": {
           "type": "array",
           "maxItems": 10000,
+          "items": { "$ref": "#/$defs/selection" }
+        },
+        "invariants": {
+          "type": "array",
+          "maxItems": 10000,
+          "items": { "$ref": "#/$defs/invariantResolution" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "balanceWitness": {
+      "type": "object",
+      "required": [
+        "expressionPath",
+        "operator",
+        "outcome",
+        "attribute",
+        "aggregate",
+        "tolerance",
+        "comparison",
+        "selections"
+      ],
+      "properties": {
+        "expressionPath": {
+          "type": "string",
+          "pattern": "^\\$(?:\\.(?:arg|args\\[[0-9]+\\]))*$"
+        },
+        "operator": { "const": "balance" },
+        "outcome": { "$ref": "#/$defs/outcome" },
+        "attribute": { "$ref": "#/$defs/normalizedString" },
+        "aggregate": {
+          "allOf": [
+            { "$ref": "#/$defs/evaluatedValue" },
+            {
+              "properties": { "kind": { "enum": ["number", "quantity"] } },
+              "required": ["kind"]
+            }
+          ]
+        },
+        "tolerance": { "$ref": "quantity.schema.json" },
+        "comparison": {
+          "allOf": [
+            { "$ref": "#/$defs/comparison" },
+            {
+              "properties": {
+                "kind": { "const": "quantity" },
+                "comparator": { "const": "lte" }
+              },
+              "required": ["kind", "comparator"]
+            }
+          ]
+        },
+        "selections": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
           "items": { "$ref": "#/$defs/selection" }
         }
       },

@@ -34,7 +34,7 @@ normalized RunConfig materialization, verified primitive depth-zero `Element`
 populations, multiplicative SI quantity normalization, deterministic decimal
 arithmetic, typed value/Boolean expression analysis, predicate-plan
 compilation, graph-only predicate evaluation and partial-failure diagnostics,
-package-bound graph-plus-exact-compare local candidate filtering, run-specific numeric-policy
+package-bound local numeric candidate filtering, run-specific numeric-policy
 binding, content-addressed scientific-Oracle
 validation without solver execution, neutral content-addressed source-policy
 and annotation/adjudication freeze contracts without catalogue classification,
@@ -49,8 +49,8 @@ catalogue audit. It does not yet implement source-policy authorship, access-
 controlled annotation collection, application to the current catalogue, node
 dispositions/condensation, derived-depth source-population binding, derived
 structural decoration attributes, profile guards/capacities, partial predicate
-pruning authorization, runtime-bound invariant/attribute arithmetic,
-balance/substructure predicate execution, selector
+pruning authorization, profile-domain/scalar invariant resolution and general Quantity products,
+cycle-set/substructure predicate execution, selector
 admission, derived profile extraction/materialization, or the closure engine
 defined here. The concrete implementation boundary is
 documented in
@@ -679,11 +679,11 @@ empty admission/selection lists. The population is sorted by element ID and
 hashed in `onto2d:depth-population:v1`. Arbitrary caller-supplied or derived
 elements are not accepted at this boundary.
 
-The current `package-candidate-filter-evaluator-v2` adds a later formation
+The current `package-candidate-filter-evaluator-v9` adds a later formation
 basis without constructing an element. It binds a complete canonical candidate
 to the reproduced package/run universe, target depth, source population, and
 exact/profile-representative constituent resolution, reproduces each plan's
-numeric binding, then evaluates every graph or supported exact-compare
+numeric binding, then evaluates every graph or supported local-numeric
 top-level predicate. Its `eligible` verdict is local filtering only;
 it does not populate `selectedBy`, derive a profile, or authorize a derived
 element ID.
@@ -1014,17 +1014,39 @@ projection, component, path, or cycle data. The evaluation hash covers the
 verified plan, canonical candidate, effective graph policy, final outcome, and
 ordered witnesses.
 
-The separate `local-predicate-evaluator-v1` composes that graph runtime with
+The separate `local-predicate-evaluator-v8` composes that graph runtime with
 the fully bound comparison subset. It accepts scalar constants, direct
 constant quantities, counts over canonical nodes or role-filtered edges, and
-dimensionless `add`/`multiply`. Dimensionless arithmetic remains exact until
-the bound result-rounding boundary; direct quantities normalize to SI bases,
+dimensionless `add`/`multiply`, plus exact-decimal or compensated-binary64 sums
+over scalar or Quantity-valued structural node or edge attributes. Compatible
+Quantity constants, sums, and nested additions compose recursively with exact
+decimal addition, additive effective absolute bounds, computed provenance, and
+a canonical evidence union. Exactly one Quantity-valued factor may be scaled
+by supported dimensionless number expressions; the result preserves its unit
+and semantic and scales its absolute bound by the scalar magnitude. Quantity
+sums require the declared SI unit and semantic and aggregate input uncertainty under
+`sum-effective-absolute-bounds-v1`. Accumulation remains unrounded until the
+bound result boundary and records whether its value is exact. Other
+dimensionless arithmetic preserves that approximation state; direct,
+aggregated, and derived quantities normalize to SI bases,
 apply terminating rational unit scales in exact decimal arithmetic, round once,
 and use declared maximum tolerance plus the bound semantic policy.
+An `element-exact` Quantity invariant additionally resolves from an explicit
+source-population context and exactly one canonical node. Its normalized source
+Quantity, element ID, node, and expression path are retained as witnesses, and
+the population hash is bound at artifact level. `profile-quotient` invariant
+resolution is rejected until class-wide consensus semantics are frozen.
+Complete node/edge `balance` forms the same typed attribute aggregate, rounds
+once at the result boundary, and compares its absolute magnitude with the
+explicit non-negative Quantity threshold using `lte` and the bound
+`declared-max-tolerance-v1` policy. Scalar aggregates are lifted only for this
+dimensionless comparison; Quantity aggregates retain their conservative source
+uncertainty and provenance. Cycle-set balance remains rejected.
 The artifact binds `predicatePlanHash`, `numericBindingHash`, canonical
-candidate and policy, exact/rounded values, and canonical selection witnesses
-under `onto2d:predicate-local-evaluation:v1`. Runtime invariants, attributes,
-coefficients, cycle-set counts, derived quantity arithmetic, balance, and
+candidate and policy, unrounded/rounded values, exactness state, and canonical
+selection/invariant/balance witnesses under
+`onto2d:predicate-local-evaluation:v8`. Scalar/profile-domain invariants,
+functional coefficients, general Quantity products, cycle-set counts, and
 substructures are rejected before evaluation until their contracts are frozen.
 
 ```ts
@@ -1377,19 +1399,20 @@ and raw/state/search execution limits enter the binding hash.
 `package-candidate-generator-v1` executes that frozen input through the
 low-level decorator.
 
-`package-candidate-filter-evaluator-v2` separately reproduces the loaded
+`package-candidate-filter-evaluator-v9` separately reproduces the loaded
 package under an independently expected kernel version and reproduces the
 complete binding, re-canonicalizes a candidate under the bound
 policy, and proves domain, node/edge budget, skeleton, node variant, edge
 variant, and non-parallel adjacency-group membership. It discloses direct
 element or profile-representative resolution for every canonical node,
 reproduces each plan's run-specific numeric binding, and evaluates all graph or
-supported exact-compare top-level plans without stopping after a failure. The
+supported local-numeric top-level plans without stopping after a failure. The
 hashed result distinguishes `eligible`, `predicate-rejected`, and
 `filter-indeterminate`. It deliberately stops before selector-based final
 admission and derived-element materialization. A plan requiring an attribute
-absent from the bound structural node-decoration alphabet is rejected before
-evaluation; missing data never becomes a trusted empty selection.
+absent from the corresponding bound structural node/edge decoration alphabet
+is rejected before evaluation; missing data never becomes a trusted empty
+selection.
 
 The generation bridge is not yet a derived closure-depth population selector. It rejects
 `single-candidate`, disconnected generation, non-empty structural attribute
@@ -1455,6 +1478,16 @@ two-cycles, and `undirected-simple` removes loops and collapses parallel and
 directional copies before searching for cycles of length at least three.
 
 `balance` directly expresses cases such as `k1 + k2 + k3 = 0` and `omega1 + omega2 + omega3 = 0`. Its operands MUST have compatible units. Its tolerance and numeric accumulation policy MUST be explicit and hashed.
+
+The current complete-candidate balance runtime supports node and edge sets. It
+accumulates in canonical selection order, rounds the signed aggregate once at
+the result boundary, and applies `abs(aggregate) <= tolerance.value` as a
+closed `lte` Quantity comparison. Declared uncertainty on the aggregate and
+threshold combines through `declared-max-tolerance-v1`; compensated arithmetic
+only changes the disclosed exactness flag. A dimensionless scalar aggregate is
+lifted solely for that comparison. A Quantity aggregate retains its canonical
+unit, semantic, evidence, and conservative absolute bound. Cycle-set balance
+remains outside this runtime boundary.
 
 For the foundational paper's coherent resonant triad, the rule package MUST use an `undirected-simple` projection with `minLength: 3`; reciprocal directed edges in a two-node dyad are not the paper's nontrivial loop.
 
@@ -1678,10 +1711,12 @@ LOAD -> AUDIT -> SKELETONS -> DECORATE -> CANON -> FILTER
 - build candidate explanations and the census.
 
 The current package-bound filter implements this state when every top-level
-plan is logical/graph-structural or uses the frozen exact-compare subset. It
+plan is logical/graph-structural or uses the frozen local-numeric subset. It
 evaluates all such plans and emits per-candidate formation resolution and a
 local verdict, but does not yet aggregate the level census or resolve runtime
-invariants/attributes, balance, derived quantity arithmetic, or substructures.
+profile/scalar invariants, derived attributes, general Quantity products,
+cycle sets, or substructures. Balance is executable when its bound node/edge
+attribute exists; unavailable package-derived attributes fail preflight.
 
 ### 13.7 Cohorts
 

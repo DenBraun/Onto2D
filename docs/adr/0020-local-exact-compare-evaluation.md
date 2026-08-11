@@ -1,7 +1,7 @@
 # ADR-0020: Bound local exact-compare predicate evaluation
 
-Status: proposed implementation baseline; local conformance passed,
-independent and cross-platform review pending
+Status: proposed implementation baseline; local conformance passed, extended
+by ADR-0021; independent and cross-platform review pending
 
 ## Context
 
@@ -100,6 +100,10 @@ instead of interpreting missing candidate data as an empty selected set.
   balance, derived-quantity uncertainty, and substructures remain pending;
 - adding any currently rejected feature requires a new reviewed runtime
   contract and, if artifact semantics change, a version/domain change.
+
+ADR-0021 applies that rule for the first extension: exact scalar structural-
+attribute sums execute under `local-predicate-evaluator-v2`, while the v1
+contract described here remains the historical baseline.
 
 ## Verification
 

@@ -61,6 +61,12 @@ rounds the final finite result through the same decimal boundary. The latter is
 not labelled exact; callers must supply canonical term order when the source
 collection is unordered.
 
+ADR-0022 separates those phases for nested runtime expressions.
+`accumulateDecimals` requires the algorithm explicitly and returns the
+canonical unrounded value plus its algorithm-derived exactness state.
+`sumDecimals` consumes that artifact internally and retains its existing
+policy-bound final rounding behavior.
+
 The fixed resource limits are part of the arithmetic version:
 
 | Limit | Value |
@@ -108,3 +114,7 @@ converted to zero. No partial numeric value is returned.
 - public capability and type-contract checks.
 
 Dynamic execution of these artifacts remains outside the current change.
+
+ADR-0022 subsequently exposes unrounded exact or compensated accumulation for
+structural-attribute sums, and ADR-0027 applies that accumulation plus a single
+result boundary to complete node/edge attribute balance.

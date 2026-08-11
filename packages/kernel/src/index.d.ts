@@ -328,6 +328,22 @@ export type DecimalAccumulation =
       value: DecimalValue;
     };
 
+export type DecimalUnroundedAccumulation =
+  | {
+      arithmetic: "decimal-rational-v1";
+      algorithm: "exact-decimal";
+      termCount: number;
+      exact: true;
+      value: DecimalValue;
+    }
+  | {
+      arithmetic: "decimal-rational-v1";
+      algorithm: "compensated-binary64";
+      termCount: number;
+      exact: false;
+      value: DecimalValue;
+    };
+
 export type OntologyPhase = "A" | "B" | "C" | "D" | `custom:${string}`;
 
 export interface OntologyCoordinate {
@@ -655,24 +671,74 @@ export interface PredicateGraphEvaluation {
 }
 
 export type LocalEvaluatedValue =
-  | { kind: "number"; exact: DecimalValue; rounded: DecimalValue }
+  | { kind: "number"; unrounded: DecimalValue; rounded: DecimalValue; exact: boolean }
   | {
       kind: "quantity";
-      exact: DecimalValue;
+      unrounded: DecimalValue;
       rounded: DecimalValue;
+      exact: boolean;
       quantity: Quantity;
     }
   | { kind: "string"; value: string }
   | { kind: "boolean"; value: boolean }
   | { kind: "null"; value: null };
 
-export interface LocalValueSelectionWitness {
+export type LocalValueSelectionWitness = {
   expressionPath: string;
   setKind: "nodes" | "edges";
   count: number;
   nodeIndexes?: number[];
   edgeIndexes?: number[];
   roles?: string[];
+} & (
+  | {
+      attribute?: never;
+      valueKind?: never;
+      summation?: never;
+      accumulationExact?: never;
+      quantityUnit?: never;
+      quantitySemantic?: never;
+      toleranceAggregation?: never;
+    }
+  | ({
+      attribute: string;
+    } & (
+      | { summation: "exact-decimal"; accumulationExact: true }
+      | { summation: "compensated-binary64"; accumulationExact: false }
+    ) & (
+      | {
+          valueKind: "number";
+          quantityUnit?: never;
+          quantitySemantic?: never;
+          toleranceAggregation?: never;
+        }
+      | {
+          valueKind: "quantity";
+          quantityUnit: string;
+          quantitySemantic: string;
+          toleranceAggregation: "sum-effective-absolute-bounds-v1";
+        }
+    ))
+);
+
+export interface LocalInvariantResolutionWitness {
+  expressionPath: string;
+  name: string;
+  canonicalNode: number;
+  elementId: ElementId;
+  quantity: Quantity;
+}
+
+export interface LocalInvariantContext {
+  sourcePopulationHash: ContentHash;
+  elements: {
+    elementId: ElementId;
+    invariants: Record<string, Quantity>;
+  }[];
+}
+
+export interface LocalPredicateEvaluationOptions extends GraphCanonicalizationOptions {
+  invariantContext?: LocalInvariantContext;
 }
 
 export interface LocalComparePredicateWitness {
@@ -687,17 +753,34 @@ export interface LocalComparePredicateWitness {
     | ({ kind: "quantity" } & QuantityComparison)
     | { kind: "scalar"; equal: boolean };
   selections: LocalValueSelectionWitness[];
+  invariants: LocalInvariantResolutionWitness[];
+}
+
+export interface LocalBalancePredicateWitness {
+  expressionPath: string;
+  operator: "balance";
+  outcome: "pass" | "fail";
+  attribute: string;
+  aggregate: Extract<LocalEvaluatedValue, { kind: "number" | "quantity" }>;
+  tolerance: Quantity;
+  comparison: { kind: "quantity"; comparator: "lte" } & QuantityComparison;
+  selections: [LocalValueSelectionWitness];
 }
 
 export interface PredicateLocalEvaluation {
   schemaVersion: "1";
-  evaluator: "local-predicate-evaluator-v1";
+  evaluator: "local-predicate-evaluator-v8";
   predicatePlanHash: ContentHash;
   numericBindingHash: ContentHash;
   candidateId: CandidateId;
+  invariantSourcePopulationHash?: ContentHash;
   graphPolicy: GraphPolicy;
   outcome: PredicateOutcome;
-  witnesses: (GraphPredicateWitness | LocalComparePredicateWitness)[];
+  witnesses: (
+    | GraphPredicateWitness
+    | LocalComparePredicateWitness
+    | LocalBalancePredicateWitness
+  )[];
   evaluationHash: ContentHash;
 }
 
@@ -1513,7 +1596,7 @@ export interface PackageCandidatePredicateEvaluation {
 
 export interface PackageCandidateFilterEvaluation {
   schemaVersion: "1";
-  evaluator: "package-candidate-filter-evaluator-v2";
+  evaluator: "package-candidate-filter-evaluator-v9";
   packageId: ContentHash;
   rulesHash: ContentHash;
   bindingHash: ContentHash;
@@ -1626,7 +1709,7 @@ export function enumeratePackageCandidates(
   options?: PackageCandidateExecutionOptions
 ): PackageCandidateEnumerationResult;
 export const PACKAGE_CANDIDATE_FILTER_EVALUATOR_VERSION:
-  "package-candidate-filter-evaluator-v2";
+  "package-candidate-filter-evaluator-v9";
 export function evaluatePackageCandidateFilter(
   loadedPackage: LoadedRulePackage,
   binding: PackageCandidateBinding,
@@ -1657,6 +1740,10 @@ export function subtractDecimals(left: DecimalInput, right: DecimalInput): Decim
 export function multiplyDecimals(left: DecimalInput, right: DecimalInput): DecimalValue;
 export function divideDecimals(left: DecimalInput, right: DecimalInput, policy: PrecisionPolicy): DecimalValue;
 export function roundDecimal(value: DecimalInput, policy: PrecisionPolicy): DecimalValue;
+export function accumulateDecimals(
+  values: DecimalInput[],
+  algorithm: PrecisionPolicy["summation"]
+): DecimalUnroundedAccumulation;
 export function sumDecimals(values: DecimalInput[], policy: PrecisionPolicy): DecimalAccumulation;
 export function decimalToNumber(value: DecimalInput): number;
 
@@ -1694,16 +1781,17 @@ export function evaluateGraphPredicatePlan(
   candidate: CandidateInput,
   options?: GraphCanonicalizationOptions
 ): PredicateGraphEvaluation;
-export const LOCAL_PREDICATE_EVALUATOR_VERSION: "local-predicate-evaluator-v1";
+export const LOCAL_PREDICATE_EVALUATOR_VERSION: "local-predicate-evaluator-v8";
 export const LOCAL_PREDICATE_EVALUATION_LIMITS: Readonly<{
   maxValueNodes: 10000;
   maxSelectionWitnesses: 10000;
+  maxSelectedValues: 5000;
 }>;
 export function evaluateLocalPredicatePlan(
   plan: PredicatePlan,
   numericBinding: PredicateNumericBinding,
   candidate: CandidateInput,
-  options?: GraphCanonicalizationOptions
+  options?: LocalPredicateEvaluationOptions
 ): PredicateLocalEvaluation;
 export function detectPartialGraphPredicateFailure(
   plan: PredicatePlan,
@@ -1851,6 +1939,10 @@ export interface Kernel {
   multiplyDecimals(left: DecimalInput, right: DecimalInput): DecimalValue;
   divideDecimals(left: DecimalInput, right: DecimalInput, policy: PrecisionPolicy): DecimalValue;
   roundDecimal(value: DecimalInput, policy: PrecisionPolicy): DecimalValue;
+  accumulateDecimals(
+    values: DecimalInput[],
+    algorithm: PrecisionPolicy["summation"]
+  ): DecimalUnroundedAccumulation;
   sumDecimals(values: DecimalInput[], policy: PrecisionPolicy): DecimalAccumulation;
   decimalToNumber(value: DecimalInput): number;
   analyzeValueExpression(
@@ -1883,7 +1975,7 @@ export interface Kernel {
     plan: PredicatePlan,
     numericBinding: PredicateNumericBinding,
     candidate: CandidateInput,
-    options?: GraphCanonicalizationOptions
+    options?: LocalPredicateEvaluationOptions
   ): PredicateLocalEvaluation;
   detectPartialGraphPredicateFailure(
     plan: PredicatePlan,

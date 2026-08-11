@@ -78,8 +78,11 @@ Implementation grows through the following sequence:
    freeze its golden byte fixtures;
 4. review skeleton reference counts/store truncation, the finite decorator,
    the implemented primitive package/run binding, and verified graph-predicate
-   evaluation plus package-bound exact-compare local filtering; then complete
-   runtime invariant/attribute, balance and substructure verdicts, selector
+   evaluation plus package-bound local numeric filtering, exact/compensated
+   scalar and Quantity structural-attribute sums, compatible derived Quantity
+   addition and scalar scaling, plus element-exact Quantity invariant
+   resolution and node/edge attribute balance; then complete profile/scalar
+   invariant semantics, general Quantity products, cycle-set and substructure verdicts, selector
    admission, and derived profile formation,
    extend the verified depth-zero population to derived closure depths, and add
    the audit/controller required for safe partial pruning;

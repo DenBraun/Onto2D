@@ -4,7 +4,12 @@ import { schemaUrls, SCHEMA_VERSION } from "../../packages/schemas/src/index.js"
 
 test("schema package exposes every initial contract as a file URL", () => {
   assert.equal(SCHEMA_VERSION, "1");
-  assert.equal(Object.keys(schemaUrls).length, 52);
+  assert.equal(Object.keys(schemaUrls).length, 53);
+  assert.ok(
+    schemaUrls.decimalUnroundedAccumulation.pathname.endsWith(
+      "decimal-unrounded-accumulation.schema.json"
+    )
+  );
   assert.ok(
     schemaUrls.candidateEnumerationInput.pathname.endsWith("candidate-enumeration-input.schema.json")
   );

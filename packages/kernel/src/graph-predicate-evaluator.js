@@ -378,6 +378,9 @@ export function evaluateCanonicalPredicateExpression(expression, path, context) 
   if (expression.op === "compare" && typeof context.evaluateCompare === "function") {
     return context.evaluateCompare(expression, path, context);
   }
+  if (expression.op === "balance" && typeof context.evaluateBalance === "function") {
+    return context.evaluateBalance(expression, path, context);
+  }
   if (expression.op === "countRole") {
     const edges = filteredEdgeRecords(context.graph, [expression.role]).map((edge) => edge.index);
     const outcome = context.partial

@@ -16,9 +16,10 @@ Schemas. The graph-predicate layer adds verified complete evaluation and
 partial persistent-failure diagnostics without pruning authority. The
 package-filter layer proves bound-universe membership, records exact/profile
 constituent resolution, reproduces numeric bindings, and combines graph plus
-supported exact-compare top-level outcomes into a local verdict without
+supported local-numeric top-level outcomes into a local verdict without
 selector admission. The local comparison layer executes scalar constants,
-direct constant quantities, canonical counts, and exact dimensionless
+direct constant quantities, canonical counts, exact or compensated scalar
+structural-attribute sums with explicit approximation state, and dimensionless
 addition/multiplication with boundary-only rounding. The quantity layer adds versioned
 multiplicative SI parsing,
 normalization, comparison, exact decimals, declared rounding, and exact or
@@ -43,8 +44,9 @@ placeholder results.
 The review boundary is intentionally smaller than the target architecture.
 Derived-depth population binding and selected formation/profile
 materialization artifacts, derived decoration attributes, profile
-guards/capacities, partial predicate pruning authorization, runtime invariant/
-attribute/coefficient binding, quantity arithmetic, balance/substructure
+guards/capacities, partial predicate pruning authorization,
+profile-consensus/scalar invariant resolution, functional/coefficient execution, general
+Quantity products, cycle-set/substructure
 predicate evaluation, integrated complete verdicts,
 cohort ranking/selector admission, sensitivity execution, source migration/
 condensation, explanations, and closure are not implemented.
@@ -74,7 +76,14 @@ condensation, explanations, and closure are not implemented.
    [ADR-0017](adr/0017-graph-predicate-evaluation.md), then
    [ADR-0018](adr/0018-primitive-depth-population.md), then
    [ADR-0019](adr/0019-package-candidate-local-filter.md), then
-   [ADR-0020](adr/0020-local-exact-compare-evaluation.md).
+   [ADR-0020](adr/0020-local-exact-compare-evaluation.md),
+   [ADR-0021](adr/0021-exact-scalar-attribute-sums.md),
+   [ADR-0022](adr/0022-unrounded-compensated-attribute-sums.md),
+   [ADR-0023](adr/0023-quantity-attribute-sums.md),
+   [ADR-0024](adr/0024-derived-quantity-addition.md),
+   [ADR-0025](adr/0025-derived-quantity-scaling.md),
+   [ADR-0026](adr/0026-element-exact-runtime-invariants.md), and
+   [ADR-0027](adr/0027-local-balance-evaluation.md).
 5. Review `packages/kernel/src/canonical.js`, `hash.js`, and
    `quantity.js`, followed by `decimal.js`, `expression-analyzer.js`,
    `predicate-analyzer.js`, `predicate-plan-verifier.js`,
@@ -133,10 +142,11 @@ condensation, explanations, and closure are not implemented.
   not permission to change the generated universe.
 - Package filtering reproduces the complete package/run binding, rejects
   canonical candidates that the bound decorator cannot emit, and evaluates all
-  graph or supported exact-compare top-level plans under reproduced numeric
+  graph or supported local-numeric top-level plans under reproduced numeric
   bindings. Its `eligible` verdict remains local and cannot be presented as
   selector admission or a materialized derived element. Unfrozen runtime value
-  sources and derived quantity tolerance propagation fail preflight.
+  sources, implicit scalar/Quantity addition, and multi-Quantity products fail
+  preflight.
 - Predicate numeric bindings keep reusable package plans separate from run
   precision, bind canonical selection order and declared-tolerance comparison
   explicitly, and reproduce every analysis witness and pruning fact before
@@ -167,8 +177,8 @@ condensation, explanations, and closure are not implemented.
 
 ## Static verification record
 
-The static documentation pass checks all 72 JSON files for parseability, all
-52 schema identifiers and relative references, schema export coverage and
+The static documentation pass checks all 73 JSON files for parseability, all
+53 schema identifiers and relative references, schema export coverage and
 Draft 2020-12 compilation,
 relative source imports, Markdown links/fences, public implementation/type
 names, source-lock hashes and sizes, and whitespace errors in the maintained
@@ -214,7 +224,7 @@ npm run check
 npm run build
 ```
 
-The full 174-test suite, repository checks, and build validation pass on both
+The full 185-test suite, repository checks, and build validation pass on both
 local Node.js versions. ADR-0003, ADR-0004, and ADR-0005 remain proposed until the
 goldens receive independent review and additional supported platforms
 reproduce them. RFC 8785 binary64 and Unicode edge cases are now explicitly

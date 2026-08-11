@@ -5,6 +5,7 @@ import test from "node:test";
 import { fileURLToPath } from "node:url";
 import Ajv2020 from "ajv/dist/2020.js";
 import {
+  accumulateDecimals,
   bindPredicateNumericPolicy,
   compilePredicate,
   createPackageCandidateBinding,
@@ -45,6 +46,13 @@ function assertSchema(name, value) {
   );
 }
 
+function assertNotSchema(name, value) {
+  const id = `https://onto2d.dev/schemas/v1/${name}.schema.json`;
+  const validate = ajv.getSchema(id);
+  assert.ok(validate, `missing compiled schema ${name}`);
+  assert.equal(validate(value), false, `${name} unexpectedly accepted an invalid artifact`);
+}
+
 function primitive() {
   return {
     sourceId: "schema-fixture-source",
@@ -69,6 +77,16 @@ function predicate(id, expr, monotoneViolation = false) {
     expr,
     explain: { pass: "passes", fail: "fails", indeterminate: "unknown" },
     claimRefs: []
+  };
+}
+
+function quantity(value, unit, semantic, tolerance = { absolute: 0 }, evidence = []) {
+  return {
+    value,
+    unit,
+    tolerance,
+    semantic,
+    provenance: { kind: "declared", evidence }
   };
 }
 
@@ -209,4 +227,269 @@ test("published graph evaluation schema accepts witnesses above sixty-four edges
 
   assert.equal(evaluation.witnesses[0].edgeIndexes.length, 65);
   assertSchema("predicate-graph-evaluation", evaluation);
+});
+
+test("numeric structural-attribute sum evaluations conform to the published schema", () => {
+  const exactAccumulation = accumulateDecimals(["0.1", "0.2"], "exact-decimal");
+  const compensatedAccumulation = accumulateDecimals(
+    ["10000000000000000", "1", "-10000000000000000"],
+    "compensated-binary64"
+  );
+  assertSchema("decimal-unrounded-accumulation", exactAccumulation);
+  assertSchema("decimal-unrounded-accumulation", compensatedAccumulation);
+  assertNotSchema("decimal-unrounded-accumulation", {
+    ...compensatedAccumulation,
+    exact: true
+  });
+  const plan = compilePredicate(predicate("attribute-sum", {
+    op: "compare",
+    left: {
+      kind: "sum",
+      attribute: "score",
+      set: { kind: "nodes", selector: { kind: "all" } }
+    },
+    comparator: "eq",
+    right: { kind: "constant", value: 0.3 }
+  }), { environment: { attributes: { score: { kind: "number" } } } });
+  const binding = bindPredicateNumericPolicy(plan, runConfig().invariantPrecision);
+  const candidate = {
+    domain: "element-exact",
+    nodes: [
+      {
+        ref: `sha256:${"a".repeat(64)}`,
+        attrs: {
+          score: 0.1,
+          distance: quantity(100, "cm", "length", { absolute: 10 }, ["evidence-b"])
+        }
+      },
+      {
+        ref: `sha256:${"b".repeat(64)}`,
+        attrs: {
+          score: 0.2,
+          distance: quantity(2, "m", "length", { relative: 0.1 }, ["evidence-a"])
+        }
+      }
+    ],
+    edges: [{ from: 0, to: 1, role: "support" }]
+  };
+  const options = {
+    policy: {
+      connected: true,
+      allowParallelEdges: false,
+      allowSelfLoops: false,
+      connectivityProjection: "undirected",
+      structuralNodeAttributes: ["distance", "score"],
+      structuralEdgeAttributes: []
+    }
+  };
+  const evaluation = evaluateLocalPredicatePlan(plan, binding, candidate, options);
+  const compensatedBinding = bindPredicateNumericPolicy(plan, {
+    ...runConfig().invariantPrecision,
+    summation: "compensated-binary64"
+  });
+  const compensated = evaluateLocalPredicatePlan(
+    plan,
+    compensatedBinding,
+    candidate,
+    options
+  );
+
+  assert.equal(evaluation.outcome, "pass");
+  assertSchema("predicate-local-evaluation", evaluation);
+  assert.equal(compensated.witnesses[0].left.exact, false);
+  assertSchema("predicate-local-evaluation", compensated);
+  const inconsistent = structuredClone(compensated);
+  inconsistent.witnesses[0].selections[0].accumulationExact = true;
+  assertNotSchema("predicate-local-evaluation", inconsistent);
+
+  const quantityPlan = compilePredicate(predicate("quantity-attribute-sum", {
+    op: "compare",
+    left: {
+      kind: "sum",
+      attribute: "distance",
+      set: { kind: "nodes", selector: { kind: "all" } }
+    },
+    comparator: "eq",
+    right: { kind: "constant", value: quantity(3.2, "m", "length") }
+  }), {
+    environment: {
+      attributes: {
+        distance: { kind: "quantity", unit: "m", semantic: "length" }
+      }
+    }
+  });
+  const quantityEvaluation = evaluateLocalPredicatePlan(
+    quantityPlan,
+    bindPredicateNumericPolicy(quantityPlan, runConfig().invariantPrecision),
+    candidate,
+    options
+  );
+  assert.equal(quantityEvaluation.outcome, "pass");
+  assert.equal(quantityEvaluation.witnesses[0].left.quantity.tolerance.absolute, 0.3);
+  assertSchema("predicate-local-evaluation", quantityEvaluation);
+  const incompleteQuantityWitness = structuredClone(quantityEvaluation);
+  delete incompleteQuantityWitness.witnesses[0].selections[0].toleranceAggregation;
+  assertNotSchema("predicate-local-evaluation", incompleteQuantityWitness);
+
+  const additionPlan = compilePredicate(predicate("derived-quantity-add", {
+    op: "compare",
+    left: {
+      kind: "add",
+      terms: [
+        { kind: "constant", value: quantity(0.05, "m", "length") },
+        {
+          kind: "sum",
+          attribute: "distance",
+          set: { kind: "nodes", selector: { kind: "all" } }
+        }
+      ]
+    },
+    comparator: "eq",
+    right: { kind: "constant", value: quantity(3.05, "m", "length") }
+  }), {
+    environment: {
+      attributes: {
+        distance: { kind: "quantity", unit: "m", semantic: "length" }
+      }
+    }
+  });
+  const additionEvaluation = evaluateLocalPredicatePlan(
+    additionPlan,
+    bindPredicateNumericPolicy(additionPlan, runConfig().invariantPrecision),
+    candidate,
+    options
+  );
+  assert.equal(additionEvaluation.outcome, "pass");
+  assert.equal(
+    additionEvaluation.witnesses[0].left.quantity.provenance.method,
+    "local-quantity-add-v1"
+  );
+  assertSchema("predicate-local-evaluation", additionEvaluation);
+
+  const scalingPlan = compilePredicate(predicate("derived-quantity-scale", {
+    op: "compare",
+    left: {
+      kind: "multiply",
+      factors: [
+        { kind: "constant", value: -2 },
+        {
+          kind: "sum",
+          attribute: "distance",
+          set: { kind: "nodes", selector: { kind: "all" } }
+        }
+      ]
+    },
+    comparator: "eq",
+    right: { kind: "constant", value: quantity(-6, "m", "length") }
+  }), {
+    environment: {
+      attributes: {
+        distance: { kind: "quantity", unit: "m", semantic: "length" }
+      }
+    }
+  });
+  const scalingEvaluation = evaluateLocalPredicatePlan(
+    scalingPlan,
+    bindPredicateNumericPolicy(scalingPlan, runConfig().invariantPrecision),
+    candidate,
+    options
+  );
+  assert.equal(scalingEvaluation.outcome, "pass");
+  assert.equal(scalingEvaluation.witnesses[0].left.quantity.tolerance.absolute, 0.6);
+  assert.equal(
+    scalingEvaluation.witnesses[0].left.quantity.provenance.method,
+    "local-quantity-scale-v1"
+  );
+  assertSchema("predicate-local-evaluation", scalingEvaluation);
+
+  const balancePlan = compilePredicate(predicate("local-balance", {
+    op: "balance",
+    attribute: "score",
+    over: { kind: "nodes", selector: { kind: "all" } },
+    tolerance: quantity(0.3, "1", "score-balance")
+  }), {
+    environment: {
+      attributes: { score: { kind: "number" } }
+    }
+  });
+  const balanceEvaluation = evaluateLocalPredicatePlan(
+    balancePlan,
+    bindPredicateNumericPolicy(balancePlan, runConfig().invariantPrecision),
+    candidate,
+    options
+  );
+  assert.equal(balanceEvaluation.outcome, "pass");
+  assert.equal(balanceEvaluation.witnesses[0].operator, "balance");
+  assertSchema("predicate-local-evaluation", balanceEvaluation);
+  const invalidBalanceComparison = structuredClone(balanceEvaluation);
+  invalidBalanceComparison.witnesses[0].comparison.comparator = "eq";
+  assertNotSchema("predicate-local-evaluation", invalidBalanceComparison);
+
+  const quantityBalancePlan = compilePredicate(predicate("local-quantity-balance", {
+    op: "balance",
+    attribute: "distance",
+    over: { kind: "nodes", selector: { kind: "all" } },
+    tolerance: quantity(3.2, "m", "length")
+  }), {
+    environment: {
+      attributes: {
+        distance: { kind: "quantity", unit: "m", semantic: "length" }
+      }
+    }
+  });
+  const quantityBalanceEvaluation = evaluateLocalPredicatePlan(
+    quantityBalancePlan,
+    bindPredicateNumericPolicy(
+      quantityBalancePlan,
+      runConfig().invariantPrecision
+    ),
+    candidate,
+    options
+  );
+  assert.equal(quantityBalanceEvaluation.outcome, "pass");
+  assert.equal(quantityBalanceEvaluation.witnesses[0].aggregate.kind, "quantity");
+  assertSchema("predicate-local-evaluation", quantityBalanceEvaluation);
+
+  const invariantPlan = compilePredicate(predicate("element-invariant", {
+    op: "compare",
+    left: {
+      kind: "invariant",
+      name: "length",
+      node: { kind: "canonical-index", index: 0 }
+    },
+    comparator: "eq",
+    right: { kind: "constant", value: quantity(1, "m", "length") }
+  }), {
+    environment: {
+      invariants: {
+        length: quantity(1, "m", "length")
+      }
+    }
+  });
+  const invariantContext = {
+    sourcePopulationHash: `sha256:${"d".repeat(64)}`,
+    elements: candidate.nodes.map((node) => ({
+      elementId: node.ref,
+      invariants: { length: quantity(1, "m", "length") }
+    }))
+  };
+  const invariantEvaluation = evaluateLocalPredicatePlan(
+    invariantPlan,
+    bindPredicateNumericPolicy(invariantPlan, runConfig().invariantPrecision),
+    candidate,
+    { ...options, invariantContext }
+  );
+  assert.equal(invariantEvaluation.outcome, "pass");
+  assert.equal(invariantEvaluation.witnesses[0].invariants.length, 1);
+  assertSchema("predicate-local-evaluation", invariantEvaluation);
+  const missingInvariantSource = structuredClone(invariantEvaluation);
+  delete missingInvariantSource.invariantSourcePopulationHash;
+  assertNotSchema("predicate-local-evaluation", missingInvariantSource);
+  const missingInvariantWitnesses = structuredClone(invariantEvaluation);
+  delete missingInvariantWitnesses.witnesses[0].invariants;
+  assertNotSchema("predicate-local-evaluation", missingInvariantWitnesses);
+  assertNotSchema("predicate-local-evaluation", {
+    ...evaluation,
+    invariantSourcePopulationHash: invariantContext.sourcePopulationHash
+  });
 });

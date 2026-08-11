@@ -32,7 +32,7 @@ implemented foundation provides:
   exact terminating-decimal SI scale application, and tolerance-aware quantity
   comparison;
 - canonical exact decimals, declared rounding, rounded division, and exact or
-  compensated accumulation;
+  compensated accumulation with a separately inspectable unrounded artifact;
 - recursive typed value-expression normalization, dimensional inference,
   dependency extraction, and content-addressed analysis;
 - package-load checks that expression dimensions match functional and cohort
@@ -47,10 +47,15 @@ implemented foundation provides:
   run binding under an independently expected kernel version, proves candidate-
   universe membership, rejects unavailable predicate attributes, discloses
   exact/profile constituent resolution, and evaluates every graph or locally
-  executable exact-compare top-level predicate under a reproduced numeric binding;
+  executable numeric top-level predicate under a reproduced numeric binding;
 - verified mixed graph/compare evaluation for scalar constants, direct
-  constant quantities, structural node/edge counts, and exact dimensionless
-  addition/multiplication with rounding only at the result boundary;
+  constant quantities, structural node/edge counts, exact or compensated
+  scalar and Quantity-valued structural-attribute sums with disclosed
+  approximation state and conservative quantity-tolerance/provenance
+  aggregation, compatible derived Quantity addition and scalar scaling,
+  element-exact Quantity invariant resolution from an explicitly bound source
+  population, scalar and Quantity node/edge attribute balance, and
+  dimensionless addition/multiplication with rounding only at the result boundary;
 - verified, content-addressed run precision/tolerance bindings for compiled
   predicate numeric operations;
 - content-addressed Oracle requests and response validation for solver,
@@ -66,14 +71,14 @@ implemented foundation provides:
   decorated-enumeration operations,
   quantity/decimal
   operations, value/Boolean analysis, predicate-plan compilation, graph-only
-  and local exact-compare predicate evaluation, package-bound local filtering and partial-failure
+  and local numeric predicate evaluation, package-bound local filtering and partial-failure
   diagnostics, numeric policy binding, Oracle protocol validation, and
   source-policy freezing as the current public runtime boundary.
 
 Derived-depth source-population binding, derived structural attributes,
 profile guards/capacities, partial pruning authorization/integration,
-runtime-bound invariant/attribute/coefficient expressions, quantity arithmetic,
-balance and substructure predicate evaluation, cohort
+profile-domain/scalar invariant resolution, coefficient expressions, general Quantity products,
+cycle-set and substructure predicate evaluation, cohort
 execution, selector admission, derived profile/materialization, ranking,
 closure, explanations, and sensitivity execution remain explicit pending
 capabilities.

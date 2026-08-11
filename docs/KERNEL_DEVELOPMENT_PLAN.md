@@ -60,10 +60,15 @@ Implemented:
 - package-bound local candidate filtering that reproduces the loaded package
   and generation binding, proves finite-universe membership, resolves exact or
   profile-representative constituents, and evaluates every graph or supported
-  exact-compare top-level predicate under a reproduced numeric binding;
-- local exact-compare execution for scalar constants, direct constant
-  quantities, canonical node/edge counts, and exact dimensionless
-  addition/multiplication with boundary-only rounding;
+  local-numeric top-level predicate under a reproduced numeric binding;
+- local numeric execution for scalar constants, direct constant quantities,
+  canonical node/edge counts, exact or compensated scalar structural-attribute
+  sums plus SI-normalized Quantity-valued structural-attribute sums with
+  explicit approximation state and conservative tolerance/provenance
+  aggregation, compatible derived Quantity addition and dimensionless scalar
+  scaling, element-exact Quantity invariant resolution from the reproduced
+  source population, scalar and Quantity node/edge attribute balance, and
+  dimensionless addition/multiplication with boundary-only rounding;
 - content-addressed Oracle request binding and response validation for solver,
   parameter, quantity, tolerance, residual, convergence, and evidence
   contracts without solver execution;
@@ -75,8 +80,9 @@ Not implemented:
 - derived-depth population binding and selected formation/profile
   materialization artifacts, derived decoration attributes, profile
   guards/capacities, and safe partial pruning;
-- runtime invariant/attribute/coefficient binding, quantity arithmetic,
-  balance, remaining value-expression execution, and substructure predicates;
+- profile-domain/scalar invariant resolution, functional/coefficient execution, general
+  Quantity products, cycle-set selection, remaining value-expression
+  execution, and substructure predicates;
 - cohort construction, functional evaluation, ranking, and sensitivity;
 - source classification, node resolution, and SCC condensation execution;
 - profile extraction/collapse, level-boundary detection, and carrier promotion;
@@ -185,10 +191,25 @@ emits a separate binding hash.
 hashes scientific requests, validates response request/solver/parameter and
 quantity/evidence bindings, keeps failed or disallowed partial work
 indeterminate, and applies approved residual-guarded tolerance expansion.
-`local-predicate-evaluator-v1` now executes the contract-complete subset of
+`local-predicate-evaluator-v8` now executes the contract-complete subset of
 graph predicates plus scalar/direct-quantity and exact dimensionless
-constant/count comparisons. Runtime invariants, attributes, coefficients,
-quantity arithmetic, balance, and substructure execution remain.
+constant/count comparisons plus exact-decimal or compensated-binary64 sums over
+finite numeric or Quantity-valued structural attributes. Quantity sums require
+matching declared SI units/semantics and conservatively aggregate effective
+absolute tolerance plus evidence provenance. Compatible Quantity constants,
+sums, and nested additions compose recursively with additive absolute bounds
+and computed provenance. A sole Quantity factor may also be scaled by supported
+dimensionless number expressions while preserving its unit/semantic and
+scaling its absolute bound by the scalar magnitude. In `element-exact`, a
+Quantity invariant may resolve one unique canonical node through an explicit
+source-population context; the artifact binds the population, element, source
+Quantity, and resolution witness. Accumulation remains
+unrounded until the operand boundary and exposes whether it is exact.
+Complete node/edge `balance` reuses the same aggregation boundary and compares
+the absolute rounded aggregate with its explicit Quantity threshold under the
+bound maximum-declared-tolerance policy. Profile-domain and scalar invariant
+semantics, functional/coefficient execution, general Quantity products,
+cycle-set selection, and substructure execution remain.
 
 ### Stage D2: decorated candidate generation
 
@@ -230,11 +251,11 @@ selection, selector admission, selected formation/profile materialization,
 profile guards/capacities, and derived attributes remain pending.
 `graph-predicate-evaluator-v1` now verifies compiled plans and evaluates the
 logical/graph subset on complete canonical candidates.
-`package-candidate-filter-evaluator-v2` now reproduces the package and complete
+`package-candidate-filter-evaluator-v9` now reproduces the package and complete
 generation binding, re-canonicalizes a candidate, proves domain/budget/
 skeleton/variant and edge-group membership in that universe, discloses exact or
 profile-representative constituent resolution, reproduces each plan's run
-numeric binding, and evaluates every graph or supported exact-compare top-level
+numeric binding, and evaluates every graph or supported local-numeric top-level
 plan. It emits local eligibility only; selector admission, derived
 profile extraction, and derived `Element` materialization remain pending. This
 boundary is recorded in
@@ -439,8 +460,9 @@ work is:
 1. Obtain cross-platform CI and independent-review evidence for the frozen
    canonical and skeleton fixtures.
 2. Accept ADR-0003 through ADR-0005 after that evidence is reviewed.
-3. Extend the implemented exact-compare local filter with runtime-bound
-   invariant/attribute arithmetic, balance and substructure verdicts, selector
+3. Extend the implemented local numeric filter with profile/scalar invariant
+   semantics, functional/coefficient execution, general Quantity products,
+   cycle-set and substructure verdicts, selector
    admission, and deterministic derived-profile formation;
    materialize verified derived closure-depth populations; then add the
    monotonicity-audit/controller artifact, pruning integration, and

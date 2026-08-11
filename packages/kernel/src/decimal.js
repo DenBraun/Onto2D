@@ -381,7 +381,7 @@ function compensatedBinary64Sum(values) {
   return parsedParts(Object.is(result, -0) ? 0 : result);
 }
 
-export function sumDecimals(values, policy) {
+function validateSummationInput(values) {
   if (!Array.isArray(values)) {
     fail("DECIMAL_SUM_INPUT_INVALID", "Decimal summation requires an array.", {
       inputType: typeof values
@@ -393,15 +393,42 @@ export function sumDecimals(values, policy) {
       maximum: DECIMAL_LIMITS.maxTerms
     });
   }
-  const normalizedPolicy = normalizePrecisionPolicy(policy);
-  const exact = normalizedPolicy.summation === "exact-decimal";
+}
+
+export function accumulateDecimals(values, algorithm) {
+  validateSummationInput(values);
+  if (algorithm !== "exact-decimal" && algorithm !== "compensated-binary64") {
+    fail(
+      "DECIMAL_SUMMATION_ALGORITHM_INVALID",
+      "Decimal accumulation requires an explicit supported summation algorithm.",
+      { algorithm }
+    );
+  }
+  const exact = algorithm === "exact-decimal";
   const accumulated = exact ? exactDecimalSum(values) : compensatedBinary64Sum(values);
-  const value = roundParts(accumulated, normalizedPolicy.decimalPlaces, normalizedPolicy.rounding);
+  return deepFreeze({
+    arithmetic: DECIMAL_ARITHMETIC_VERSION,
+    algorithm,
+    termCount: values.length,
+    exact,
+    value: createDecimalValue(accumulated.coefficient, accumulated.scale)
+  });
+}
+
+export function sumDecimals(values, policy) {
+  validateSummationInput(values);
+  const normalizedPolicy = normalizePrecisionPolicy(policy);
+  const accumulated = accumulateDecimals(values, normalizedPolicy.summation);
+  const value = roundParts(
+    parsedParts(accumulated.value),
+    normalizedPolicy.decimalPlaces,
+    normalizedPolicy.rounding
+  );
   return deepFreeze({
     arithmetic: DECIMAL_ARITHMETIC_VERSION,
     policy: normalizedPolicy,
     termCount: values.length,
-    exact,
+    exact: accumulated.exact,
     value
   });
 }

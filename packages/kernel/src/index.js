@@ -6,7 +6,7 @@
  * Oracle validation, source policy/annotation artifact foundations, finite
  * decorated-candidate enumeration, verified primitive depth populations,
  * normalized package/run binding, complete graph-predicate evaluation,
- * package-bound graph-plus-exact-compare local filtering, and conservative
+ * package-bound local numeric filtering, and conservative
  * partial-failure detection are executable. Source migration, derived-element
  * materialization, pruning authorization, remaining runtime-bound numeric/
  * substructure evaluation, selection, and closure remain explicit pending
@@ -30,6 +30,7 @@ export {
 export {
   DECIMAL_ARITHMETIC_VERSION,
   DECIMAL_LIMITS,
+  accumulateDecimals,
   addDecimals,
   decimalToNumber,
   divideDecimals,

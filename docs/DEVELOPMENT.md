@@ -79,8 +79,24 @@ numeric operations but does not evaluate them.
 The separately verified local runtime in
 [ADR-0020](adr/0020-local-exact-compare-evaluation.md) consumes that binding
 only for scalar/direct-quantity constants, canonical counts, and exact
-dimensionless addition/multiplication. Unfrozen runtime value sources and
-derived quantity arithmetic remain rejected.
+dimensionless addition/multiplication. Exact scalar structural-attribute sums
+extend that boundary under
+[ADR-0021](adr/0021-exact-scalar-attribute-sums.md). Unrounded compensated
+scalar sums are added under
+[ADR-0022](adr/0022-unrounded-compensated-attribute-sums.md) without adding an
+intermediate rounding boundary. Quantity-valued structural sums normalize SI
+units and aggregate uncertainty/provenance under
+[ADR-0023](adr/0023-quantity-attribute-sums.md). Compatible derived Quantity
+addition is available under
+[ADR-0024](adr/0024-derived-quantity-addition.md), and dimensionless scalar
+scaling under
+[ADR-0025](adr/0025-derived-quantity-scaling.md). Element-exact Quantity
+invariants resolve from an explicit source-population context under
+[ADR-0026](adr/0026-element-exact-runtime-invariants.md). Complete node/edge
+attribute balance is available under
+[ADR-0027](adr/0027-local-balance-evaluation.md). Profile-domain and scalar
+invariant resolution, functional/coefficient execution, general Quantity
+products, cycle-set selection, and substructures remain rejected.
 Scientific requests and externally returned quantities are content-bound and
 validated without solver execution under
 [ADR-0011](adr/0011-scientific-oracle-validation.md).

@@ -44,11 +44,19 @@ test("kernel publishes the complete source-relation vocabulary", () => {
   assert.ok(KERNEL_CAPABILITIES.implemented.includes("decimal-rational-arithmetic"));
   assert.ok(KERNEL_CAPABILITIES.implemented.includes("deterministic-decimal-rounding"));
   assert.ok(KERNEL_CAPABILITIES.implemented.includes("numeric-accumulation"));
+  assert.ok(KERNEL_CAPABILITIES.implemented.includes("unrounded-numeric-accumulation"));
   assert.ok(KERNEL_CAPABILITIES.implemented.includes("typed-value-expression-analysis"));
   assert.ok(KERNEL_CAPABILITIES.implemented.includes("boolean-expression-analysis"));
   assert.ok(KERNEL_CAPABILITIES.implemented.includes("predicate-plan-compilation"));
   assert.ok(KERNEL_CAPABILITIES.implemented.includes("graph-predicate-evaluation"));
   assert.ok(KERNEL_CAPABILITIES.implemented.includes("local-exact-compare-predicate-evaluation"));
+  assert.ok(KERNEL_CAPABILITIES.implemented.includes("local-exact-scalar-attribute-sum-evaluation"));
+  assert.ok(KERNEL_CAPABILITIES.implemented.includes("local-compensated-scalar-attribute-sum-evaluation"));
+  assert.ok(KERNEL_CAPABILITIES.implemented.includes("local-quantity-attribute-sum-evaluation"));
+  assert.ok(KERNEL_CAPABILITIES.implemented.includes("local-derived-quantity-addition-evaluation"));
+  assert.ok(KERNEL_CAPABILITIES.implemented.includes("local-derived-quantity-scaling-evaluation"));
+  assert.ok(KERNEL_CAPABILITIES.implemented.includes("local-element-invariant-evaluation"));
+  assert.ok(KERNEL_CAPABILITIES.implemented.includes("local-balance-evaluation"));
   assert.ok(KERNEL_CAPABILITIES.implemented.includes("partial-graph-predicate-failure-detection"));
   assert.ok(KERNEL_CAPABILITIES.implemented.includes("predicate-numeric-policy-binding"));
   assert.ok(KERNEL_CAPABILITIES.implemented.includes("oracle-request-binding"));
@@ -89,6 +97,7 @@ test("kernel exposes the implemented graph generation foundation", () => {
   assert.equal(typeof kernel.compareQuantities, "function");
   assert.equal(typeof kernel.parseDecimal, "function");
   assert.equal(typeof kernel.sumDecimals, "function");
+  assert.equal(typeof kernel.accumulateDecimals, "function");
   assert.equal(typeof kernel.analyzeValueExpression, "function");
   assert.equal(typeof kernel.analyzePredicateExpression, "function");
   assert.equal(typeof kernel.compilePredicate, "function");
