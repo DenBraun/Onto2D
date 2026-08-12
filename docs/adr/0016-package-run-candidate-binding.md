@@ -17,7 +17,7 @@ attributes.
 
 ## Decision
 
-`normalizeRunConfig`, versioned as `run-config-normalizer-v1`, validates a
+`normalizeRunConfig`, versioned as `run-config-normalizer-v2`, validates a
 closed schema-v1 configuration and returns an immutable normalized value.
 Research choices without normative defaults remain required. Only the five
 documented `RunBudget` defaults are materialized:
@@ -35,7 +35,7 @@ closed contracts. A normalized configuration is hashed in
 `onto2d:run-config:v1` when bound to generation.
 
 `createPackageCandidateBinding`, versioned as
-`package-candidate-binding-v1`, does not trust the label on a supplied loaded
+`package-candidate-binding-v2`, does not trust the label on a supplied loaded
 package. It removes only derived primitive element IDs, reloads the normalized
 package with an independently expected kernel version, and requires the entire
 reproduced loader artifact to match before deriving a universe. Direct calls
@@ -59,7 +59,7 @@ The binding freezes:
 
 The complete basis is hashed in `onto2d:package-candidate-binding:v1`.
 `enumeratePackageCandidates`, versioned as
-`package-candidate-generator-v1`, executes ADR-0015 directly from that frozen
+`package-candidate-generator-v5`, executes ADR-0015 directly from that frozen
 basis and returns the binding beside the low-level enumeration result.
 
 The current bridge is intentionally limited to the normalized package's
@@ -90,13 +90,17 @@ it is not inferred from observed profiles.
 - execution-safety limits that are not research RunBudget fields still affect
   binding identity and are reported on exhaustion;
 - unsupported semantics fail before any partial universe is returned;
-- derived source-depth population selection, structural-attribute derivation,
-  profile guards/capacities, complete numeric/substructure predicate
-  evaluation, selector admission, and partial pruning remain separate
-  implementation work. ADR-0017 later adds standalone graph-only evaluation
-  and diagnostics; ADR-0018 materializes and binds the primitive depth-zero
-  population; ADR-0019 combines those boundaries into package-bound graph-only
-  local filtering without changing the derived-depth limit.
+- these contracts were intentionally left to separate decisions. ADR-0017
+  through ADR-0078 subsequently add graph/local evaluation, primitive and
+  generalized depth populations, selection/materialization, audited pruning,
+  complete-candidate profile composition, and package-driven scalar candidate
+  attributes. ADR-0085 later adds package-driven Quantity attributes, and
+  ADR-0086 role-dependent edge values. ADR-0088 subsequently closes
+  formation-functional later-depth carry-forward through derived `Element`
+  invariants without adding same-candidate feedback to this bridge.
+  ADR-0081 subsequently adds portable replay-resumable
+  low-level traversal, ADR-0082 predicate-authorized node growth, and ADR-0084
+  audited profile-state raw-frontier pruning without changing the binding.
 
 ## Verification
 

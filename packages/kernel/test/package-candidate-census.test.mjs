@@ -47,7 +47,7 @@ function predicate(id, expr) {
   };
 }
 
-function loaded(predicates = []) {
+function loaded(predicates = [], perturbations = []) {
   return loadKernelPackage({
     schemaVersion: "1",
     id: "package-census-fixture",
@@ -56,7 +56,8 @@ function loaded(predicates = []) {
       primitive("source-b", "beta"),
       primitive("source-a", "alpha")
     ],
-    predicates
+    predicates,
+    perturbations
   });
 }
 
@@ -296,6 +297,45 @@ test("indeterminate thresholds are explicit and incomplete enumeration cannot fo
   });
   assert.deepEqual(boundary.interpretation, { status: "valid", reasons: [] });
 
+  const profileInvariantPackage = loadKernelPackage({
+    schemaVersion: "1",
+    id: "package-census-profile-invariant-disagreement",
+    version: "1.0.0",
+    primitives: [
+      primitive("profile-member-a", "shared", { length: quantity(1) }),
+      primitive("profile-member-b", "shared", { length: quantity(2) })
+    ],
+    predicates: [predicate("profile-invariant-consensus", {
+      op: "compare",
+      left: { kind: "invariant", name: "length" },
+      comparator: "eq",
+      right: { kind: "constant", value: quantity(1) }
+    })]
+  });
+  const profileInvariantCensus = evaluatePackageCandidateCensus(
+    profileInvariantPackage,
+    runConfig({
+      countingDomain: "profile-quotient",
+      budget: {
+        maxNodes: 1,
+        maxEdges: 0,
+        maxCandidates: 10,
+        perturbationSamples: 0,
+        nullModelRuns: 0
+      },
+      indeterminateThreshold: 1
+    })
+  );
+  assert.equal(profileInvariantCensus.counts.evaluatedCandidates, 1);
+  assert.equal(profileInvariantCensus.counts.filterIndeterminate, 1);
+  assert.equal(profileInvariantCensus.census[0].indeterminate, 1);
+  assert.equal(
+    profileInvariantCensus.candidateEvaluations[0]
+      .predicateEvaluations[0].evaluation.witnesses[0]
+      .invariantFailures[0].reason,
+    "profile-invariant-member-values-disagree"
+  );
+
   assert.throws(
     () => evaluatePackageCandidateCensus(loaded(), runConfig(), {
       maxRawCandidates: 1
@@ -318,4 +358,171 @@ test("indeterminate thresholds are explicit and incomplete enumeration cannot fo
       error.code === "PACKAGE_CANDIDATE_CENSUS_ENUMERATION_INCOMPLETE" &&
       error.details.exhausted.budget === "maxCandidates"
   );
+});
+
+test("complete census retains irreducible-removal failures and empty-domain uncertainty", () => {
+  const result = evaluatePackageCandidateCensus(loaded([
+    predicate("node-irreducible-connected", {
+      op: "irreducibleRemoval",
+      removal: "node",
+      predicate: { op: "connected" }
+    })
+  ]), runConfig());
+  const entry = result.census[0];
+
+  assert.equal(result.counts.eligibleCandidates, 0);
+  assert.ok(result.counts.predicateRejected > 0);
+  assert.ok(result.counts.filterIndeterminate > 0);
+  assert.equal(entry.passed, 0);
+  assert.equal(entry.failed, result.counts.predicateRejected);
+  assert.equal(entry.indeterminate, result.counts.filterIndeterminate);
+  assert.equal(result.interpretation.status, "indeterminate");
+  assert.ok(result.candidateEvaluations.every((candidate) =>
+    candidate.predicateEvaluations[0].evaluation.substructurePolicy.id ===
+      "node-removal-v1"
+  ));
+});
+
+test("complete census separates novel dyads from non-novel singletons", () => {
+  const result = evaluatePackageCandidateCensus(loaded([
+    predicate("novel-support", {
+      op: "novel",
+      predicate: { op: "countRole", role: "support", min: 1 }
+    })
+  ]), runConfig());
+  const entry = result.census[0];
+
+  assert.ok(result.counts.eligibleCandidates > 0);
+  assert.ok(result.counts.predicateRejected > 0);
+  assert.equal(result.counts.filterIndeterminate, 0);
+  assert.equal(entry.passed, result.counts.eligibleCandidates);
+  assert.equal(entry.failed, result.counts.predicateRejected);
+  assert.equal(entry.indeterminate, 0);
+  assert.ok(result.candidateEvaluations.every((candidate) => {
+    const evaluation = candidate.predicateEvaluations[0].evaluation;
+    return evaluation.substructurePolicy === undefined &&
+      evaluation.witnesses[0].operator === "novel" &&
+      (candidate.formation.candidate.nodes.length === 1
+        ? evaluation.outcome === "fail" &&
+          evaluation.witnesses[0].attemptedConstituents === 0
+        : evaluation.outcome === "pass" &&
+          evaluation.witnesses[0].evaluatedConstituents === 2);
+  }));
+});
+
+test("complete census retains exact stable-under verdicts for every candidate", () => {
+  const result = evaluatePackageCandidateCensus(loaded([
+    predicate("stable-connectivity", {
+      op: "stableUnder",
+      perturbation: "replace-support",
+      threshold: 1,
+      predicate: { op: "connected" }
+    })
+  ], [{
+    id: "replace-support",
+    kind: "edge-role-replacement",
+    replacements: [{ from: "support", to: "alternate" }]
+  }]), runConfig({ indeterminateThreshold: 1 }));
+  const entry = result.census[0];
+
+  assert.equal(result.counts.predicateRejected, 0);
+  assert.ok(result.counts.eligibleCandidates > 0);
+  assert.ok(result.counts.filterIndeterminate > 0);
+  assert.equal(entry.passed, result.counts.eligibleCandidates);
+  assert.equal(entry.failed, 0);
+  assert.equal(entry.indeterminate, result.counts.filterIndeterminate);
+  assert.ok(result.candidateEvaluations.every((candidate) => {
+    const evaluation = candidate.predicateEvaluations[0].evaluation;
+    const witness = evaluation.witnesses[0];
+    return evaluation.perturbationContextHash ===
+      witness.boundPerturbationContextHash &&
+      witness.operator === "stableUnder" &&
+      (candidate.formation.candidate.edges.length === 0
+        ? evaluation.outcome === "indeterminate" &&
+          witness.validPerturbations === 0
+        : evaluation.outcome === "pass" &&
+          witness.passedPerturbations === witness.validPerturbations);
+  }));
+});
+
+test("complete census retains sampled stability evidence for every candidate", () => {
+  const config = runConfig({
+    indeterminateThreshold: 1,
+    budget: {
+      maxNodes: 2,
+      maxEdges: 1,
+      maxCandidates: 100,
+      perturbationSamples: 32,
+      nullModelRuns: 0
+    }
+  });
+  const result = evaluatePackageCandidateCensus(loaded([
+    predicate("sampled-stable-connectivity", {
+      op: "stableUnder",
+      perturbation: "sample-replacement",
+      threshold: 0.4,
+      predicate: { op: "connected" }
+    })
+  ], [{
+    id: "sample-replacement",
+    kind: "edge-role-replacement",
+    enumeration: "sampled-valid-single-edits-v1",
+    replacements: [{ from: "support", to: "alternate" }]
+  }]), config);
+
+  assert.ok(result.counts.eligibleCandidates > 0);
+  assert.ok(result.counts.filterIndeterminate > 0);
+  assert.ok(result.candidateEvaluations.every((candidate) => {
+    const evaluation = candidate.predicateEvaluations[0].evaluation;
+    const witness = evaluation.witnesses[0];
+    return witness.enumeration === "sampled-valid-single-edits-v1" &&
+      witness.sampling.sampleSize === 32 &&
+      witness.sampling.streamKey === result.generation.binding.runConfigHash &&
+      (candidate.formation.candidate.edges.length === 0
+        ? evaluation.outcome === "indeterminate" &&
+          witness.sampling.status === "frame-empty"
+        : evaluation.outcome === "pass" &&
+          witness.sampling.status === "evaluated" &&
+          witness.confidenceBounds !== null);
+  }));
+});
+
+test("complete census propagates directed cycle-edge selection", () => {
+  const packageArtifact = loadKernelPackage({
+    schemaVersion: "1",
+    id: "package-census-cycle-fixture",
+    version: "1.0.0",
+    primitives: [primitive("source-a", "alpha")],
+    predicates: [predicate("loop-free-cycle-union", {
+      op: "compare",
+      left: { kind: "count", set: { kind: "cycle", roles: ["support"] } },
+      comparator: "eq",
+      right: { kind: "constant", value: 0 }
+    })]
+  });
+  const config = runConfig({
+    budget: {
+      maxNodes: 1,
+      maxEdges: 1,
+      maxCandidates: 20,
+      perturbationSamples: 0,
+      nullModelRuns: 0
+    },
+    graphPolicy: {
+      ...runConfig().graphPolicy,
+      allowSelfLoops: true
+    }
+  });
+  const result = evaluatePackageCandidateCensus(packageArtifact, config);
+  const entry = result.census[0];
+
+  assert.ok(entry.passed > 0);
+  assert.ok(entry.failed > 0);
+  assert.equal(entry.indeterminate, 0);
+  assert.ok(result.candidateEvaluations.every((candidate) => {
+    const selection = candidate.predicateEvaluations[0]
+      .evaluation.witnesses[0].selections[0];
+    return selection.setKind === "cycle" &&
+      selection.cycleSelection === "directed-cycle-edge-union-v1";
+  }));
 });

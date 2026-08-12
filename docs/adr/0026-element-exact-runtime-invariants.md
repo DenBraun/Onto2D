@@ -3,6 +3,9 @@
 Status: proposed implementation baseline; local conformance passed; extended
 by ADR-0027 and ADR-0028; independent and cross-platform review pending
 
+ADR-0046 later extends this Quantity-only v8 baseline with typed scalar
+resolution and candidate-local indeterminate outcomes.
+
 ## Context
 
 Every materialized primitive `Element` carries its normalized

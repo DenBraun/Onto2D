@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/package-generator-frontier-decision.schema.json",
+  "title": "Onto2D Package Generator-Frontier Authorization Decision",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "controller",
+    "packageId",
+    "rulesHash",
+    "bindingHash",
+    "runConfigHash",
+    "canonicalAuditHash",
+    "frontierAuditHash",
+    "predicateId",
+    "predicatePlanHash",
+    "extensionModel",
+    "frontier",
+    "frontierConnectivitySatisfied",
+    "diagnostic",
+    "pruningAuthorized",
+    "reason",
+    "decisionHash"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "controller": { "const": "package-generator-frontier-controller-v1" },
+    "packageId": { "$ref": "#/$defs/hash" },
+    "rulesHash": { "$ref": "#/$defs/hash" },
+    "bindingHash": { "$ref": "#/$defs/hash" },
+    "runConfigHash": { "$ref": "#/$defs/hash" },
+    "canonicalAuditHash": { "$ref": "#/$defs/hash" },
+    "frontierAuditHash": { "$ref": "#/$defs/hash" },
+    "predicateId": { "$ref": "#/$defs/id" },
+    "predicatePlanHash": { "$ref": "#/$defs/hash" },
+    "extensionModel": { "const": "complete-node-edge-group-frontier-v1" },
+    "frontier": { "$ref": "#/$defs/frontier" },
+    "frontierConnectivitySatisfied": { "type": "boolean" },
+    "diagnostic": { "$ref": "partial-predicate-graph-evaluation.schema.json" },
+    "pruningAuthorized": { "type": "boolean" },
+    "reason": {
+      "enum": [
+        "authorized-persistent-frontier-failure",
+        "frontier-audit-not-passed",
+        "plan-not-authorized",
+        "connectivity-frontier-not-satisfied",
+        "persistent-failure-not-detected"
+      ]
+    },
+    "decisionHash": { "$ref": "#/$defs/hash" }
+  },
+  "oneOf": [
+    {
+      "properties": {
+        "pruningAuthorized": { "const": true },
+        "frontierConnectivitySatisfied": { "const": true },
+        "reason": { "const": "authorized-persistent-frontier-failure" }
+      }
+    },
+    {
+      "properties": {
+        "pruningAuthorized": { "const": false },
+        "reason": {
+          "enum": [
+            "frontier-audit-not-passed",
+            "plan-not-authorized",
+            "connectivity-frontier-not-satisfied",
+            "persistent-failure-not-detected"
+          ]
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "hash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1024,
+      "pattern": "^(?:\\S|\\S(?:.*\\S)?)$"
+    },
+    "count": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "frontier": {
+      "type": "object",
+      "required": [
+        "skeletonId",
+        "completedEdgeGroups",
+        "totalEdgeGroups",
+        "edgeGroupCounts",
+        "remainingRawCandidates"
+      ],
+      "properties": {
+        "skeletonId": { "$ref": "#/$defs/hash" },
+        "completedEdgeGroups": { "$ref": "#/$defs/count" },
+        "totalEdgeGroups": { "$ref": "#/$defs/count" },
+        "edgeGroupCounts": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/count" }
+        },
+        "remainingRawCandidates": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

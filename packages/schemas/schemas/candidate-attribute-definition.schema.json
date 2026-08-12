@@ -1,0 +1,142 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/candidate-attribute-definition.schema.json",
+  "title": "Onto2D Package Candidate Attribute Definition",
+  "type": "object",
+  "required": ["name", "target", "source"],
+  "properties": {
+    "name": { "$ref": "quantity.schema.json#/$defs/normalizedString" },
+    "target": { "enum": ["nodes", "edges"] },
+    "source": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["kind", "value"],
+          "properties": {
+            "kind": { "const": "constant-scalar-v1" },
+            "value": {
+              "type": ["number", "string", "boolean", "null"]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["kind", "invariant"],
+          "properties": {
+            "kind": { "const": "element-invariant-scalar-v1" },
+            "invariant": {
+              "$ref": "quantity.schema.json#/$defs/normalizedString"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["kind", "value"],
+          "properties": {
+            "kind": { "const": "constant-quantity-v1" },
+            "value": { "$ref": "quantity.schema.json" }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["kind", "invariant"],
+          "properties": {
+            "kind": { "const": "element-invariant-quantity-v1" },
+            "invariant": {
+              "$ref": "quantity.schema.json#/$defs/normalizedString"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["kind", "values"],
+          "properties": {
+            "kind": { "const": "edge-role-scalar-v1" },
+            "values": {
+              "type": "object",
+              "minProperties": 1,
+              "maxProperties": 256,
+              "propertyNames": {
+                "$ref": "quantity.schema.json#/$defs/normalizedString"
+              },
+              "additionalProperties": {
+                "type": ["number", "string", "boolean", "null"]
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["kind", "values"],
+          "properties": {
+            "kind": { "const": "edge-role-quantity-v1" },
+            "values": {
+              "type": "object",
+              "minProperties": 1,
+              "maxProperties": 256,
+              "propertyNames": {
+                "$ref": "quantity.schema.json#/$defs/normalizedString"
+              },
+              "additionalProperties": { "$ref": "quantity.schema.json" }
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "source": {
+            "properties": {
+              "kind": {
+                "enum": [
+                  "element-invariant-scalar-v1",
+                  "element-invariant-quantity-v1"
+                ]
+              }
+            },
+            "required": ["kind"]
+          }
+        },
+        "required": ["source"]
+      },
+      "then": {
+        "properties": {
+          "target": { "const": "nodes" }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "source": {
+            "properties": {
+              "kind": {
+                "enum": [
+                  "edge-role-scalar-v1",
+                  "edge-role-quantity-v1"
+                ]
+              }
+            },
+            "required": ["kind"]
+          }
+        },
+        "required": ["source"]
+      },
+      "then": {
+        "properties": {
+          "target": { "const": "edges" }
+        }
+      }
+    }
+  ],
+  "additionalProperties": false
+}

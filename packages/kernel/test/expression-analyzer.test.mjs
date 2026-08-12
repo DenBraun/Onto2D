@@ -81,6 +81,7 @@ test("value-expression analysis infers compatible additive dimensions and depend
 test("multiplication composes dimensions into canonical base units", () => {
   const analysis = analyzeValueExpression({
     kind: "multiply",
+    resultSemantic: "work energy",
     factors: [
       { kind: "constant", value: quantity(2, "N", "force") },
       { kind: "constant", value: quantity(3, "m", "length") }
@@ -89,7 +90,24 @@ test("multiplication composes dimensions into canonical base units", () => {
 
   assert.equal(analysis.result.kind, "quantity");
   assert.equal(analysis.result.unit, "kg*m^2*s^-2");
+  assert.equal(analysis.result.semantic, "work energy");
+  assert.equal(analysis.expression.resultSemantic, "work energy");
   assert.equal(analysis.result.dimensionSignature, "1:2:-2:0:0:0:0");
+
+  assert.throws(
+    () => analyzeValueExpression({
+      kind: "multiply",
+      resultSemantic: "renamed length",
+      factors: [
+        { kind: "constant", value: 2 },
+        { kind: "constant", value: quantity(3, "m", "length") }
+      ]
+    }),
+    (error) => error instanceof KernelValidationError &&
+      error.issues.some((issue) =>
+        issue.code === "EXPRESSION_PRODUCT_SEMANTIC_UNEXPECTED"
+      )
+  );
 });
 
 test("selectors normalize role sets and expose inferred attribute requirements", () => {
@@ -205,6 +223,56 @@ test("analysis rejects undeclared symbols and incompatible addition", () => {
     }, { limits: { maxStringLength: 8 } }),
     (error) => error instanceof KernelValidationError &&
       error.issues.some((issue) => issue.code === "EXPRESSION_STRING_LIMIT")
+  );
+});
+
+test("profile aggregation is explicit and limited to numeric invariant types", () => {
+  const number = analyzeValueExpression({
+    kind: "invariant",
+    name: "score",
+    profileAggregation: "arithmetic-mean-conservative-v1"
+  }, { environment: { invariants: { score: { kind: "number" } } } });
+  const measured = analyzeValueExpression({
+    kind: "invariant",
+    name: "length",
+    profileAggregation: "arithmetic-mean-conservative-v1"
+  }, { environment: { invariants: { length: quantity(1, "m", "length") } } });
+
+  assert.equal(number.result.kind, "number");
+  assert.equal(measured.result.kind, "quantity");
+  assert.equal(
+    number.expression.profileAggregation,
+    "arithmetic-mean-conservative-v1"
+  );
+  assert.notEqual(
+    number.expressionHash,
+    analyzeValueExpression(
+      { kind: "invariant", name: "score" },
+      { environment: { invariants: { score: { kind: "number" } } } }
+    ).expressionHash
+  );
+
+  assert.throws(
+    () => analyzeValueExpression({
+      kind: "invariant",
+      name: "label",
+      profileAggregation: "arithmetic-mean-conservative-v1"
+    }, { environment: { invariants: { label: { kind: "string" } } } }),
+    (error) => error instanceof KernelValidationError &&
+      error.issues.some((issue) =>
+        issue.code === "EXPRESSION_PROFILE_AGGREGATION_TYPE_INVALID"
+      )
+  );
+  assert.throws(
+    () => analyzeValueExpression({
+      kind: "invariant",
+      name: "score",
+      profileAggregation: "mean-v0"
+    }, { environment: { invariants: { score: { kind: "number" } } } }),
+    (error) => error instanceof KernelValidationError &&
+      error.issues.some((issue) =>
+        issue.code === "EXPRESSION_PROFILE_AGGREGATION_POLICY_INVALID"
+      )
   );
 });
 

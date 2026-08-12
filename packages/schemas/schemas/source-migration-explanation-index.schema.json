@@ -1,0 +1,255 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/source-migration-explanation-index.schema.json",
+  "title": "Onto2D Source Migration Explanation Index",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "builder",
+    "classificationPolicyHash",
+    "amendmentsHash",
+    "projectionHash",
+    "resolutionHash",
+    "condensationHash",
+    "reconciliationHash",
+    "metricsHash",
+    "nodes",
+    "relations",
+    "rawComponents",
+    "statistics",
+    "indexHash"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "builder": { "const": "source-migration-explanation-index-v1" },
+    "classificationPolicyHash": { "$ref": "#/$defs/hash" },
+    "amendmentsHash": { "$ref": "#/$defs/hash" },
+    "projectionHash": { "$ref": "#/$defs/hash" },
+    "resolutionHash": { "$ref": "#/$defs/hash" },
+    "condensationHash": { "$ref": "#/$defs/hash" },
+    "reconciliationHash": { "$ref": "#/$defs/hash" },
+    "metricsHash": { "$ref": "#/$defs/hash" },
+    "nodes": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 20000,
+      "items": { "$ref": "#/$defs/node" }
+    },
+    "relations": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 10000,
+      "items": { "$ref": "#/$defs/relation" }
+    },
+    "rawComponents": {
+      "type": "array",
+      "maxItems": 20000,
+      "items": { "$ref": "#/$defs/rawComponent" }
+    },
+    "statistics": {
+      "type": "object",
+      "required": [
+        "sourceNodeCount",
+        "sourceRelationCount",
+        "rawComponentCount",
+        "condensedClusterCount",
+        "amendedRelationCount"
+      ],
+      "properties": {
+        "sourceNodeCount": { "$ref": "#/$defs/nodeCount" },
+        "sourceRelationCount": { "$ref": "#/$defs/relationCount" },
+        "rawComponentCount": { "$ref": "#/$defs/nodeCount" },
+        "condensedClusterCount": { "$ref": "#/$defs/nodeCount" },
+        "amendedRelationCount": { "$ref": "#/$defs/relationCount" }
+      },
+      "additionalProperties": false
+    },
+    "indexHash": { "$ref": "#/$defs/hash" }
+  },
+  "$defs": {
+    "hash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "identifier": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1024,
+      "pattern": "^\\S(?:[\\s\\S]*\\S)?$"
+    },
+    "nodeCount": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 20000
+    },
+    "relationCount": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 10000
+    },
+    "idList": {
+      "type": "array",
+      "maxItems": 20000,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/identifier" }
+    },
+    "hashList": {
+      "type": "array",
+      "maxItems": 20000,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/hash" }
+    },
+    "relationKind": {
+      "enum": [
+        "generative",
+        "constitutive",
+        "intra-closure-support",
+        "evidential",
+        "descriptive",
+        "regulatory-feedback"
+      ]
+    },
+    "clusterDisposition": {
+      "enum": [
+        "distributed-structure",
+        "constitutive-cluster",
+        "unresolved-generative-cluster",
+        "mixed-unresolved-cluster"
+      ]
+    },
+    "node": {
+      "type": "object",
+      "required": [
+        "sourceId",
+        "identityHash",
+        "sourceArtifact",
+        "catalogueLevel",
+        "vertexId",
+        "vertexKind",
+        "vertexMembers",
+        "rawComponentIds",
+        "inboundRelationIds",
+        "outboundRelationIds"
+      ],
+      "properties": {
+        "sourceId": { "$ref": "#/$defs/identifier" },
+        "identityHash": { "$ref": "#/$defs/hash" },
+        "sourceArtifact": { "$ref": "artifact-ref.schema.json" },
+        "catalogueLevel": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000
+        },
+        "vertexId": { "$ref": "#/$defs/hash" },
+        "vertexKind": { "enum": ["source-node", "condensed-cluster"] },
+        "clusterDisposition": { "$ref": "#/$defs/clusterDisposition" },
+        "vertexMembers": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 20000,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/identifier" }
+        },
+        "rawComponentIds": { "$ref": "#/$defs/hashList" },
+        "inboundRelationIds": { "$ref": "#/$defs/idList" },
+        "outboundRelationIds": { "$ref": "#/$defs/idList" }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "vertexKind": { "const": "condensed-cluster" } } },
+          "then": { "required": ["clusterDisposition"] },
+          "else": { "not": { "required": ["clusterDisposition"] } }
+        }
+      ],
+      "additionalProperties": false
+    },
+    "relation": {
+      "type": "object",
+      "required": [
+        "relationId",
+        "source",
+        "target",
+        "frozenKind",
+        "effectiveKind",
+        "decisionStatus",
+        "rawKinds",
+        "finalStateHash",
+        "changeIds",
+        "sourceVertex",
+        "targetVertex",
+        "destination",
+        "rawComponentIds"
+      ],
+      "properties": {
+        "relationId": { "$ref": "#/$defs/identifier" },
+        "source": { "$ref": "#/$defs/identifier" },
+        "target": { "$ref": "#/$defs/identifier" },
+        "frozenKind": { "$ref": "#/$defs/relationKind" },
+        "effectiveKind": { "$ref": "#/$defs/relationKind" },
+        "decisionStatus": { "enum": ["agreement", "adjudicated"] },
+        "rawKinds": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 6,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/relationKind" }
+        },
+        "finalStateHash": { "$ref": "#/$defs/hash" },
+        "changeIds": {
+          "type": "array",
+          "maxItems": 10000,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/hash" }
+        },
+        "sourceVertex": { "$ref": "#/$defs/hash" },
+        "targetVertex": { "$ref": "#/$defs/hash" },
+        "destination": {
+          "enum": ["inter-cluster", "internal", "typed-explanation"]
+        },
+        "rawComponentIds": { "$ref": "#/$defs/hashList" }
+      },
+      "additionalProperties": false
+    },
+    "rawComponent": {
+      "type": "object",
+      "required": [
+        "rawComponentId",
+        "members",
+        "edgeIds",
+        "primaryResolution",
+        "rationaleArtifact"
+      ],
+      "properties": {
+        "rawComponentId": { "$ref": "#/$defs/hash" },
+        "members": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 20000,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/identifier" }
+        },
+        "edgeIds": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 10000,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/identifier" }
+        },
+        "primaryResolution": {
+          "enum": [
+            "distributed-structure-merge",
+            "constitutive-condensation",
+            "generative-condensation",
+            "mixed-condensation",
+            "nonformation-layer-separation",
+            "post-unblinding-reclassification"
+          ]
+        },
+        "resultingCluster": { "$ref": "#/$defs/hash" },
+        "rationaleArtifact": { "$ref": "artifact-ref.schema.json" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

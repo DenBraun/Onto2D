@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/package-run-candidate-explanation.schema.json",
+  "title": "Onto2D Package Run Candidate Explanation",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "explainer",
+    "storeHash",
+    "bundleHash",
+    "runHash",
+    "levelHash",
+    "resultCensusHash",
+    "explanationIndexHash",
+    "targetDepth",
+    "candidateId",
+    "levelExplanation",
+    "explanationHash"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "explainer": { "const": "package-run-candidate-explainer-v1" },
+    "storeHash": { "$ref": "#/$defs/hash" },
+    "bundleHash": { "$ref": "#/$defs/hash" },
+    "runHash": { "$ref": "#/$defs/hash" },
+    "levelHash": { "$ref": "#/$defs/hash" },
+    "resultCensusHash": { "$ref": "#/$defs/hash" },
+    "explanationIndexHash": { "$ref": "#/$defs/hash" },
+    "targetDepth": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 64
+    },
+    "candidateId": { "$ref": "#/$defs/hash" },
+    "levelExplanation": {
+      "$ref": "package-level-candidate-explanation.schema.json"
+    },
+    "explanationHash": { "$ref": "#/$defs/hash" }
+  },
+  "$defs": {
+    "hash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    }
+  },
+  "additionalProperties": false
+}

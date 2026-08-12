@@ -1,0 +1,213 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/package-functional-evaluation.schema.json",
+  "title": "Onto2D Package Functional Evaluation",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "evaluator",
+    "packageId",
+    "rulesHash",
+    "bindingHash",
+    "filterHash",
+    "candidateId",
+    "functionalId",
+    "expressionHash",
+    "analysisHash",
+    "resultSpecification",
+    "precisionPolicy",
+    "claimRefs",
+    "status",
+    "score",
+    "diagnostic",
+    "selections",
+    "invariants",
+    "coefficients",
+    "evaluationHash"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "evaluator": { "const": "package-functional-evaluator-v1" },
+    "packageId": { "$ref": "#/$defs/hash" },
+    "rulesHash": { "$ref": "#/$defs/hash" },
+    "bindingHash": { "$ref": "#/$defs/hash" },
+    "filterHash": { "$ref": "#/$defs/hash" },
+    "candidateId": { "$ref": "#/$defs/hash" },
+    "functionalId": { "$ref": "#/$defs/normalizedString" },
+    "expressionHash": { "$ref": "#/$defs/hash" },
+    "analysisHash": { "$ref": "#/$defs/hash" },
+    "resultSpecification": { "$ref": "#/$defs/resultSpecification" },
+    "precisionPolicy": { "$ref": "precision-policy.schema.json" },
+    "claimRefs": { "$ref": "#/$defs/stringSet" },
+    "status": { "enum": ["scored", "indeterminate"] },
+    "reason": {
+      "enum": [
+        "result-tolerance-target-unmet",
+        "invariant-node-ambiguous",
+        "invariant-value-unavailable",
+        "profile-invariant-member-values-missing",
+        "profile-invariant-member-values-disagree"
+      ]
+    },
+    "details": { "type": "object", "maxProperties": 32 },
+    "score": {
+      "oneOf": [
+        { "$ref": "quantity.schema.json" },
+        { "type": "null" }
+      ]
+    },
+    "diagnostic": {
+      "oneOf": [
+        { "$ref": "#/$defs/diagnostic" },
+        { "type": "null" }
+      ]
+    },
+    "selections": {
+      "type": "array",
+      "maxItems": 10000,
+      "items": {
+        "$ref": "predicate-local-evaluation.schema.json#/$defs/selection"
+      }
+    },
+    "invariants": {
+      "type": "array",
+      "maxItems": 10000,
+      "items": {
+        "$ref": "predicate-local-evaluation.schema.json#/$defs/invariantResolution"
+      }
+    },
+    "coefficients": {
+      "type": "array",
+      "maxItems": 10000,
+      "items": { "$ref": "#/$defs/coefficient" }
+    },
+    "evaluationHash": { "$ref": "#/$defs/hash" }
+  },
+  "oneOf": [
+    {
+      "properties": {
+        "status": { "const": "scored" },
+        "score": { "$ref": "quantity.schema.json" },
+        "diagnostic": {
+          "allOf": [
+            { "$ref": "#/$defs/diagnostic" },
+            {
+              "properties": { "toleranceTargetMet": { "const": true } }
+            }
+          ]
+        }
+      },
+      "not": {
+        "anyOf": [
+          { "required": ["reason"] },
+          { "required": ["details"] }
+        ]
+      }
+    },
+    {
+      "properties": {
+        "status": { "const": "indeterminate" },
+        "reason": { "const": "result-tolerance-target-unmet" },
+        "score": { "type": "null" },
+        "diagnostic": {
+          "allOf": [
+            { "$ref": "#/$defs/diagnostic" },
+            {
+              "properties": { "toleranceTargetMet": { "const": false } }
+            }
+          ]
+        }
+      },
+      "required": ["reason", "details"]
+    },
+    {
+      "properties": {
+        "status": { "const": "indeterminate" },
+        "reason": {
+          "enum": [
+            "invariant-node-ambiguous",
+            "invariant-value-unavailable",
+            "profile-invariant-member-values-missing",
+            "profile-invariant-member-values-disagree"
+          ]
+        },
+        "score": { "type": "null" },
+        "diagnostic": { "type": "null" }
+      },
+      "required": ["reason", "details"]
+    }
+  ],
+  "$defs": {
+    "hash": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "normalizedString": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1024,
+      "pattern": "^(?:\\S|\\S(?:.*\\S)?)$"
+    },
+    "stringSet": {
+      "type": "array",
+      "maxItems": 10000,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/normalizedString" }
+    },
+    "resultSpecification": {
+      "type": "object",
+      "required": ["id", "unit", "semantic", "toleranceTarget"],
+      "properties": {
+        "id": { "$ref": "#/$defs/normalizedString" },
+        "unit": { "$ref": "quantity.schema.json#/$defs/unit" },
+        "semantic": { "$ref": "#/$defs/normalizedString" },
+        "toleranceTarget": {
+          "type": "object",
+          "properties": {
+            "absolute": { "type": "number", "minimum": 0 },
+            "relative": { "type": "number", "minimum": 0 }
+          },
+          "anyOf": [
+            { "required": ["absolute"] },
+            { "required": ["relative"] }
+          ],
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "diagnostic": {
+      "type": "object",
+      "required": [
+        "unrounded",
+        "rounded",
+        "exact",
+        "expressionUnit",
+        "effectiveAbsoluteTolerance",
+        "toleranceTargetBound",
+        "toleranceTargetMet"
+      ],
+      "properties": {
+        "unrounded": { "$ref": "decimal-value.schema.json" },
+        "rounded": { "$ref": "decimal-value.schema.json" },
+        "exact": { "type": "boolean" },
+        "expressionUnit": { "$ref": "quantity.schema.json#/$defs/unit" },
+        "effectiveAbsoluteTolerance": { "$ref": "decimal-value.schema.json" },
+        "toleranceTargetBound": { "$ref": "decimal-value.schema.json" },
+        "toleranceTargetMet": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    },
+    "coefficient": {
+      "type": "object",
+      "required": ["expressionPath", "name", "quantity"],
+      "properties": {
+        "expressionPath": {
+          "type": "string",
+          "pattern": "^\\$(?:\\.(?:terms\\[[0-9]+\\]|factors\\[[0-9]+\\]))*$"
+        },
+        "name": { "$ref": "#/$defs/normalizedString" },
+        "quantity": { "$ref": "quantity.schema.json" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

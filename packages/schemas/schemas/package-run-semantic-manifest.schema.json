@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/package-run-semantic-manifest.schema.json",
+  "title": "Onto2D Package Run Semantic Manifest",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "generator",
+    "kernelVersion",
+    "runHash",
+    "depthBasisHash",
+    "packageId",
+    "primitivesHash",
+    "rulesHash",
+    "functionalsHash",
+    "cohortRulesHash",
+    "selectorsHash",
+    "sensitivityPolicyHash",
+    "claimsHash",
+    "evidenceHash",
+    "oraclePolicyHash",
+    "configHash",
+    "numericalPolicyHash",
+    "seed",
+    "targetDepth",
+    "levelRuns",
+    "inputArtifacts",
+    "manifestHash"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "generator": { "const": "package-run-semantic-manifest-v1" },
+    "kernelVersion": { "$ref": "#/$defs/normalizedString" },
+    "runHash": { "$ref": "#/$defs/hash" },
+    "depthBasisHash": { "$ref": "#/$defs/hash" },
+    "sourceMigrationHash": { "$ref": "#/$defs/hash" },
+    "packageId": { "$ref": "#/$defs/hash" },
+    "primitivesHash": { "$ref": "#/$defs/hash" },
+    "rulesHash": { "$ref": "#/$defs/hash" },
+    "functionalsHash": { "$ref": "#/$defs/hash" },
+    "cohortRulesHash": { "$ref": "#/$defs/hash" },
+    "selectorsHash": { "$ref": "#/$defs/hash" },
+    "sensitivityPolicyHash": { "$ref": "#/$defs/hash" },
+    "claimsHash": { "$ref": "#/$defs/hash" },
+    "evidenceHash": { "$ref": "#/$defs/hash" },
+    "oraclePolicyHash": { "$ref": "#/$defs/hash" },
+    "configHash": { "$ref": "#/$defs/hash" },
+    "numericalPolicyHash": { "$ref": "#/$defs/hash" },
+    "seed": { "$ref": "#/$defs/normalizedString" },
+    "targetDepth": { "$ref": "#/$defs/depth" },
+    "levelRuns": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 64,
+      "items": {
+        "type": "object",
+        "required": [
+          "targetDepth",
+          "runHash",
+          "levelHash",
+          "resultCensusHash",
+          "explanationIndexHash"
+        ],
+        "properties": {
+          "targetDepth": { "$ref": "#/$defs/depth" },
+          "runHash": { "$ref": "#/$defs/hash" },
+          "levelHash": { "$ref": "#/$defs/hash" },
+          "resultCensusHash": { "$ref": "#/$defs/hash" },
+          "explanationIndexHash": { "$ref": "#/$defs/hash" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "inputArtifacts": {
+      "type": "array",
+      "minItems": 15,
+      "maxItems": 16,
+      "items": { "$ref": "artifact-ref.schema.json" }
+    },
+    "manifestHash": { "$ref": "#/$defs/hash" }
+  },
+  "$defs": {
+    "hash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "normalizedString": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 16384,
+      "pattern": "^(?:\\S|\\S(?:.*\\S)?)$"
+    },
+    "depth": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 64
+    }
+  },
+  "additionalProperties": false
+}

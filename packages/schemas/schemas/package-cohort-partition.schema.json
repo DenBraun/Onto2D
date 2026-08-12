@@ -1,0 +1,630 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/package-cohort-partition.schema.json",
+  "title": "Onto2D Complete Package Cohort Partition",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "partitioner",
+    "scope",
+    "packageId",
+    "rulesHash",
+    "bindingHash",
+    "censusHash",
+    "countingDomain",
+    "sourcePopulationHash",
+    "cohortRule",
+    "status",
+    "excludedCandidateIds",
+    "eligibleCandidateIds",
+    "keyEvaluations",
+    "cohorts",
+    "counts",
+    "partitionHash"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "partitioner": { "const": "package-cohort-partitioner-v1" },
+    "scope": { "const": "complete-locally-eligible-population-v1" },
+    "packageId": { "$ref": "#/$defs/hash" },
+    "rulesHash": { "$ref": "#/$defs/hash" },
+    "bindingHash": { "$ref": "#/$defs/hash" },
+    "censusHash": { "$ref": "#/$defs/hash" },
+    "countingDomain": { "enum": ["profile-quotient", "element-exact"] },
+    "sourcePopulationHash": { "$ref": "#/$defs/hash" },
+    "cohortRule": { "$ref": "cohort-rule.schema.json" },
+    "status": { "enum": ["complete", "empty", "indeterminate"] },
+    "reason": {
+      "enum": [
+        "no-eligible-candidates",
+        "source-census-indeterminate",
+        "cohort-key-indeterminate"
+      ]
+    },
+    "details": { "type": "object", "maxProperties": 32 },
+    "excludedCandidateIds": {
+      "type": "object",
+      "required": ["predicateRejected", "filterIndeterminate"],
+      "properties": {
+        "predicateRejected": { "$ref": "#/$defs/hashSet" },
+        "filterIndeterminate": { "$ref": "#/$defs/hashSet" }
+      },
+      "additionalProperties": false
+    },
+    "eligibleCandidateIds": { "$ref": "#/$defs/hashSet" },
+    "keyEvaluations": {
+      "type": "array",
+      "maxItems": 1000000,
+      "items": { "$ref": "#/$defs/candidateKeyEvaluation" }
+    },
+    "cohorts": {
+      "type": "array",
+      "maxItems": 1000000,
+      "items": { "$ref": "#/$defs/cohort" }
+    },
+    "counts": {
+      "type": "object",
+      "required": [
+        "evaluatedCandidates",
+        "eligibleCandidates",
+        "keyResolved",
+        "keyIndeterminate",
+        "cohorts",
+        "coveredMembers"
+      ],
+      "properties": {
+        "evaluatedCandidates": { "$ref": "#/$defs/index" },
+        "eligibleCandidates": { "$ref": "#/$defs/index" },
+        "keyResolved": { "$ref": "#/$defs/index" },
+        "keyIndeterminate": { "$ref": "#/$defs/index" },
+        "cohorts": { "$ref": "#/$defs/index" },
+        "coveredMembers": { "$ref": "#/$defs/index" }
+      },
+      "additionalProperties": false
+    },
+    "partitionHash": { "$ref": "#/$defs/hash" }
+  },
+  "oneOf": [
+    {
+      "properties": {
+        "status": { "const": "complete" },
+        "eligibleCandidateIds": { "minItems": 1 },
+        "keyEvaluations": { "minItems": 1 },
+        "cohorts": { "minItems": 1 }
+      },
+      "not": {
+        "anyOf": [
+          { "required": ["reason"] },
+          { "required": ["details"] }
+        ]
+      }
+    },
+    {
+      "properties": {
+        "status": { "const": "empty" },
+        "reason": { "const": "no-eligible-candidates" },
+        "details": { "maxProperties": 0 },
+        "eligibleCandidateIds": { "maxItems": 0 },
+        "keyEvaluations": { "maxItems": 0 },
+        "cohorts": { "maxItems": 0 },
+        "counts": {
+          "properties": {
+            "eligibleCandidates": { "const": 0 },
+            "keyResolved": { "const": 0 },
+            "keyIndeterminate": { "const": 0 },
+            "cohorts": { "const": 0 },
+            "coveredMembers": { "const": 0 }
+          }
+        }
+      },
+      "required": ["reason", "details"]
+    },
+    {
+      "properties": {
+        "status": { "const": "indeterminate" },
+        "reason": { "const": "source-census-indeterminate" },
+        "keyEvaluations": { "maxItems": 0 },
+        "cohorts": { "maxItems": 0 },
+        "counts": {
+          "properties": {
+            "keyResolved": { "const": 0 },
+            "keyIndeterminate": { "const": 0 },
+            "cohorts": { "const": 0 },
+            "coveredMembers": { "const": 0 }
+          }
+        }
+      },
+      "required": ["reason", "details"]
+    },
+    {
+      "properties": {
+        "status": { "const": "indeterminate" },
+        "reason": { "const": "cohort-key-indeterminate" },
+        "keyEvaluations": {
+          "minItems": 1,
+          "contains": {
+            "properties": { "status": { "const": "indeterminate" } },
+            "required": ["status"]
+          }
+        },
+        "cohorts": { "maxItems": 0 },
+        "counts": {
+          "properties": {
+            "keyIndeterminate": { "minimum": 1 },
+            "cohorts": { "const": 0 },
+            "coveredMembers": { "const": 0 }
+          }
+        }
+      },
+      "required": ["reason", "details"]
+    }
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "cohortRule": {
+            "properties": { "kind": { "const": "global" } },
+            "required": ["kind"]
+          }
+        },
+        "required": ["cohortRule"]
+      },
+      "then": {
+        "properties": {
+          "keyEvaluations": {
+            "items": {
+              "allOf": [
+                { "properties": { "expressions": { "maxItems": 0 } } },
+                {
+                  "if": {
+                    "properties": { "status": { "const": "resolved" } },
+                    "required": ["status"]
+                  },
+                  "then": {
+                    "properties": {
+                      "key": {
+                        "properties": { "kind": { "const": "global" } }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "cohorts": {
+            "items": {
+              "properties": {
+                "key": { "properties": { "kind": { "const": "global" } } }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "cohortRule": {
+            "properties": { "kind": { "const": "singleton" } },
+            "required": ["kind"]
+          }
+        },
+        "required": ["cohortRule"]
+      },
+      "then": {
+        "properties": {
+          "keyEvaluations": {
+            "items": {
+              "allOf": [
+                { "properties": { "expressions": { "maxItems": 0 } } },
+                {
+                  "if": {
+                    "properties": { "status": { "const": "resolved" } },
+                    "required": ["status"]
+                  },
+                  "then": {
+                    "properties": {
+                      "key": {
+                        "properties": { "kind": { "const": "singleton" } }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "cohorts": {
+            "items": {
+              "properties": {
+                "key": { "properties": { "kind": { "const": "singleton" } } },
+                "members": { "maxItems": 1 }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "cohortRule": {
+            "properties": { "kind": { "const": "shared-support" } },
+            "required": ["kind"]
+          }
+        },
+        "required": ["cohortRule"]
+      },
+      "then": {
+        "properties": {
+          "keyEvaluations": {
+            "items": {
+              "allOf": [
+                { "properties": { "expressions": { "minItems": 1 } } },
+                {
+                  "if": {
+                    "properties": { "status": { "const": "resolved" } },
+                    "required": ["status"]
+                  },
+                  "then": {
+                    "properties": {
+                      "key": {
+                        "properties": { "kind": { "const": "shared-support" } }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "cohorts": {
+            "items": {
+              "properties": {
+                "key": {
+                  "properties": { "kind": { "const": "shared-support" } }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "cohortRule": {
+            "properties": { "kind": { "const": "profile-role" } },
+            "required": ["kind"]
+          }
+        },
+        "required": ["cohortRule"]
+      },
+      "then": {
+        "properties": {
+          "keyEvaluations": {
+            "items": {
+              "allOf": [
+                { "properties": { "expressions": { "minItems": 1 } } },
+                {
+                  "if": {
+                    "properties": { "status": { "const": "resolved" } },
+                    "required": ["status"]
+                  },
+                  "then": {
+                    "properties": {
+                      "key": {
+                        "properties": { "kind": { "const": "profile-role" } }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "cohorts": {
+            "items": {
+              "properties": {
+                "key": { "properties": { "kind": { "const": "profile-role" } } }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "cohortRule": {
+            "properties": { "kind": { "const": "invariant-window" } },
+            "required": ["kind"]
+          }
+        },
+        "required": ["cohortRule"]
+      },
+      "then": {
+        "properties": {
+          "keyEvaluations": {
+            "items": {
+              "allOf": [
+                { "properties": { "expressions": { "minItems": 1, "maxItems": 1 } } },
+                {
+                  "if": {
+                    "properties": { "status": { "const": "resolved" } },
+                    "required": ["status"]
+                  },
+                  "then": {
+                    "properties": {
+                      "key": {
+                        "properties": { "kind": { "const": "invariant-window" } }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "cohorts": {
+            "items": {
+              "properties": {
+                "key": {
+                  "properties": { "kind": { "const": "invariant-window" } }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "hash": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "index": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
+    "hashSet": {
+      "type": "array",
+      "maxItems": 1000000,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/hash" }
+    },
+    "atom": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["kind", "value"],
+          "properties": {
+            "kind": { "const": "string" },
+            "value": { "type": "string", "maxLength": 1024 }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["kind", "value"],
+          "properties": {
+            "kind": { "const": "boolean" },
+            "value": { "type": "boolean" }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["kind", "value"],
+          "properties": {
+            "kind": { "const": "null" },
+            "value": { "type": "null" }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["kind", "value"],
+          "properties": {
+            "kind": { "const": "number" },
+            "value": { "$ref": "decimal-value.schema.json" }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "kind",
+            "value",
+            "unit",
+            "semantic",
+            "effectiveAbsoluteTolerance"
+          ],
+          "properties": {
+            "kind": { "const": "quantity" },
+            "value": { "$ref": "decimal-value.schema.json" },
+            "unit": { "$ref": "quantity.schema.json#/$defs/unit" },
+            "semantic": {
+              "oneOf": [
+                { "$ref": "quantity.schema.json#/$defs/normalizedString" },
+                { "type": "null" }
+              ]
+            },
+            "effectiveAbsoluteTolerance": {
+              "$ref": "decimal-value.schema.json"
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "key": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["kind"],
+          "properties": { "kind": { "const": "global" } },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["kind", "candidateId"],
+          "properties": {
+            "kind": { "const": "singleton" },
+            "candidateId": { "$ref": "#/$defs/hash" }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["kind", "resourceTokens"],
+          "properties": {
+            "kind": { "const": "shared-support" },
+            "resourceTokens": {
+              "allOf": [
+                { "$ref": "#/$defs/hashSet" },
+                { "minItems": 1 }
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["kind", "atoms"],
+          "properties": {
+            "kind": { "const": "profile-role" },
+            "atoms": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 10000,
+              "items": { "$ref": "#/$defs/atom" }
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["kind", "binIndex"],
+          "properties": {
+            "kind": { "const": "invariant-window" },
+            "binIndex": { "type": "string", "pattern": "^(?:0|-?[1-9][0-9]*)$" }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "expressionEvaluation": {
+      "type": "object",
+      "required": ["expressionIndex", "expressionHash", "analysisHash", "status"],
+      "properties": {
+        "expressionIndex": { "$ref": "#/$defs/index" },
+        "expressionHash": { "$ref": "#/$defs/hash" },
+        "analysisHash": { "$ref": "#/$defs/hash" },
+        "status": { "enum": ["resolved", "indeterminate"] },
+        "atom": { "$ref": "#/$defs/atom" },
+        "exact": { "type": "boolean" },
+        "selections": {
+          "type": "array",
+          "maxItems": 10000,
+          "items": {
+            "$ref": "predicate-local-evaluation.schema.json#/$defs/selection"
+          }
+        },
+        "invariants": {
+          "type": "array",
+          "maxItems": 10000,
+          "items": {
+            "$ref": "predicate-local-evaluation.schema.json#/$defs/invariantResolution"
+          }
+        },
+        "reason": {
+          "enum": [
+            "invariant-node-ambiguous",
+            "invariant-value-unavailable",
+            "profile-invariant-member-values-missing",
+            "profile-invariant-member-values-disagree"
+          ]
+        },
+        "details": { "type": "object", "maxProperties": 32 }
+      },
+      "oneOf": [
+        {
+          "properties": { "status": { "const": "resolved" } },
+          "required": ["atom", "exact", "selections", "invariants"],
+          "not": {
+            "anyOf": [
+              { "required": ["reason"] },
+              { "required": ["details"] }
+            ]
+          }
+        },
+        {
+          "properties": { "status": { "const": "indeterminate" } },
+          "required": ["reason", "details"],
+          "not": {
+            "anyOf": [
+              { "required": ["atom"] },
+              { "required": ["exact"] },
+              { "required": ["selections"] },
+              { "required": ["invariants"] }
+            ]
+          }
+        }
+      ],
+      "additionalProperties": false
+    },
+    "candidateKeyEvaluation": {
+      "type": "object",
+      "required": ["candidateId", "status", "expressions"],
+      "properties": {
+        "candidateId": { "$ref": "#/$defs/hash" },
+        "status": { "enum": ["resolved", "indeterminate"] },
+        "key": { "$ref": "#/$defs/key" },
+        "reason": {
+          "enum": [
+            "invariant-node-ambiguous",
+            "invariant-value-unavailable",
+            "profile-invariant-member-values-missing",
+            "profile-invariant-member-values-disagree",
+            "window-origin-uncertain",
+            "window-width-uncertain",
+            "window-value-crosses-boundary"
+          ]
+        },
+        "details": { "type": "object", "maxProperties": 32 },
+        "expressions": {
+          "type": "array",
+          "maxItems": 10000,
+          "items": { "$ref": "#/$defs/expressionEvaluation" }
+        }
+      },
+      "oneOf": [
+        {
+          "properties": { "status": { "const": "resolved" } },
+          "required": ["key"],
+          "not": {
+            "anyOf": [
+              { "required": ["reason"] },
+              { "required": ["details"] }
+            ]
+          }
+        },
+        {
+          "properties": { "status": { "const": "indeterminate" } },
+          "required": ["reason", "details"],
+          "not": { "required": ["key"] }
+        }
+      ],
+      "additionalProperties": false
+    },
+    "cohort": {
+      "type": "object",
+      "required": ["cohortId", "key", "members"],
+      "properties": {
+        "cohortId": { "$ref": "#/$defs/hash" },
+        "key": { "$ref": "#/$defs/key" },
+        "members": {
+          "allOf": [
+            { "$ref": "#/$defs/hashSet" },
+            { "minItems": 1 }
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

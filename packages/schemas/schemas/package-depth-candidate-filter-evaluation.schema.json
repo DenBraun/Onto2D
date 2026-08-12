@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/package-depth-candidate-filter-evaluation.schema.json",
+  "title": "Onto2D Depth-Aware Package Candidate Filter Evaluation",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "evaluator",
+    "packageId",
+    "rulesHash",
+    "bindingHash",
+    "formation",
+    "predicateEvaluations",
+    "verdict",
+    "counts",
+    "passedPredicates",
+    "failedPredicates",
+    "indeterminatePredicates",
+    "filterHash"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "evaluator": { "const": "package-depth-candidate-filter-evaluator-v1" },
+    "packageId": { "$ref": "#/$defs/hash" },
+    "rulesHash": { "$ref": "#/$defs/hash" },
+    "bindingHash": { "$ref": "#/$defs/hash" },
+    "formation": { "$ref": "#/$defs/formation" },
+    "predicateEvaluations": {
+      "type": "array",
+      "maxItems": 10000,
+      "items": {
+        "$ref": "package-candidate-filter-evaluation.schema.json#/$defs/predicateEvaluation"
+      }
+    },
+    "verdict": {
+      "enum": ["eligible", "predicate-rejected", "filter-indeterminate"]
+    },
+    "counts": { "$ref": "#/$defs/counts" },
+    "passedPredicates": { "$ref": "#/$defs/stringSet" },
+    "failedPredicates": { "$ref": "#/$defs/stringSet" },
+    "indeterminatePredicates": { "$ref": "#/$defs/stringSet" },
+    "filterHash": { "$ref": "#/$defs/hash" }
+  },
+  "$defs": {
+    "hash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "index": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "normalizedString": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1024,
+      "pattern": "^(?:\\S|\\S(?:.*\\S)?)$"
+    },
+    "stringSet": {
+      "type": "array",
+      "maxItems": 10000,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/normalizedString" }
+    },
+    "formation": {
+      "type": "object",
+      "required": [
+        "targetDepth",
+        "depthBasis",
+        "sourcePopulationHash",
+        "candidate",
+        "constituents"
+      ],
+      "properties": {
+        "targetDepth": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 64
+        },
+        "depthBasis": { "$ref": "#/$defs/hash" },
+        "sourcePopulationHash": { "$ref": "#/$defs/hash" },
+        "candidate": {
+          "allOf": [
+            { "$ref": "candidate.schema.json" },
+            {
+              "properties": {
+                "domain": { "enum": ["element-exact", "profile-quotient"] }
+              }
+            }
+          ]
+        },
+        "constituents": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 6,
+          "items": {
+            "$ref": "package-candidate-filter-evaluation.schema.json#/$defs/constituent"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "counts": {
+      "type": "object",
+      "required": ["evaluated", "passed", "failed", "indeterminate"],
+      "properties": {
+        "evaluated": { "$ref": "#/$defs/index" },
+        "passed": { "$ref": "#/$defs/index" },
+        "failed": { "$ref": "#/$defs/index" },
+        "indeterminate": { "$ref": "#/$defs/index" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

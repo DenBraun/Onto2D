@@ -13,6 +13,7 @@
     "seed",
     "invariantPrecision",
     "graphPolicy",
+    "profileCompositionPolicy",
     "substructurePolicy",
     "nullModels",
     "evidencePolicy",
@@ -73,6 +74,9 @@
     },
     "invariantPrecision": { "$ref": "precision-policy.schema.json" },
     "graphPolicy": { "$ref": "graph-policy.schema.json" },
+    "profileCompositionPolicy": {
+      "enum": ["post-admission-v1", "profile-slot-gate-v1"]
+    },
     "substructurePolicy": {
       "type": "object",
       "required": ["id", "remove", "includeDisconnected", "includeEmpty", "retainIsolatedNodes"],
@@ -97,6 +101,18 @@
     "ontologyTarget": { "$ref": "ontology-coordinate.schema.json" },
     "evidencePolicy": { "enum": ["require-all", "allow-declared"] },
     "indeterminateThreshold": { "type": "number", "minimum": 0, "maximum": 1 },
+    "levelBoundaryPolicy": { "$ref": "#/$defs/levelBoundaryPolicy" },
+    "boundedFixpoint": {
+      "type": "object",
+      "required": ["enabled", "maxIterations"],
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "maxIterations": { "type": "integer", "minimum": 1, "maximum": 10000 }
+      },
+      "additionalProperties": false
+    }
+  },
+  "$defs": {
     "levelBoundaryPolicy": {
       "type": "object",
       "required": ["enabled", "maximumCollapseError", "tieTolerance"],
@@ -116,15 +132,6 @@
         },
         "maximumCollapseError": { "type": "number", "minimum": 0, "maximum": 1 },
         "tieTolerance": { "type": "number", "minimum": 0 }
-      },
-      "additionalProperties": false
-    },
-    "boundedFixpoint": {
-      "type": "object",
-      "required": ["enabled", "maxIterations"],
-      "properties": {
-        "enabled": { "type": "boolean" },
-        "maxIterations": { "type": "integer", "minimum": 1, "maximum": 9007199254740991 }
       },
       "additionalProperties": false
     }

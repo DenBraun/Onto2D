@@ -1,0 +1,467 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/package-selector-ranking.schema.json",
+  "title": "Onto2D Complete Package Selector Ranking",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "ranker",
+    "scope",
+    "packageId",
+    "rulesHash",
+    "bindingHash",
+    "censusHash",
+    "partitionHash",
+    "countingDomain",
+    "sourcePopulationHash",
+    "selector",
+    "functionalId",
+    "cohortRuleId",
+    "precisionPolicy",
+    "rankingPolicy",
+    "status",
+    "excludedCandidateIds",
+    "cohortRankings",
+    "counts",
+    "variationalSummary",
+    "execution",
+    "rankingHash"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "ranker": { "const": "package-selector-ranker-v1" },
+    "scope": { "const": "complete-cohort-ranking-v1" },
+    "packageId": { "$ref": "#/$defs/hash" },
+    "rulesHash": { "$ref": "#/$defs/hash" },
+    "bindingHash": { "$ref": "#/$defs/hash" },
+    "censusHash": { "$ref": "#/$defs/hash" },
+    "partitionHash": { "$ref": "#/$defs/hash" },
+    "countingDomain": { "enum": ["profile-quotient", "element-exact"] },
+    "sourcePopulationHash": { "$ref": "#/$defs/hash" },
+    "selector": { "$ref": "selector.schema.json" },
+    "functionalId": { "$ref": "#/$defs/normalizedString" },
+    "cohortRuleId": { "$ref": "#/$defs/normalizedString" },
+    "precisionPolicy": { "$ref": "precision-policy.schema.json" },
+    "rankingPolicy": { "$ref": "#/$defs/rankingPolicy" },
+    "status": { "enum": ["ranked", "empty", "indeterminate"] },
+    "reason": {
+      "enum": [
+        "no-eligible-candidates",
+        "source-partition-indeterminate",
+        "member-functional-indeterminate"
+      ]
+    },
+    "details": { "type": "object", "maxProperties": 32 },
+    "excludedCandidateIds": {
+      "type": "object",
+      "required": ["predicateRejected", "filterIndeterminate"],
+      "properties": {
+        "predicateRejected": { "$ref": "#/$defs/hashSet" },
+        "filterIndeterminate": { "$ref": "#/$defs/hashSet" }
+      },
+      "additionalProperties": false
+    },
+    "cohortRankings": {
+      "type": "array",
+      "maxItems": 1000000,
+      "items": { "$ref": "#/$defs/cohortRanking" }
+    },
+    "counts": {
+      "type": "object",
+      "required": [
+        "cohorts",
+        "rankedCohorts",
+        "indeterminateCohorts",
+        "members",
+        "scoredMembers",
+        "indeterminateMembers",
+        "semanticExtrema"
+      ],
+      "properties": {
+        "cohorts": { "$ref": "#/$defs/index" },
+        "rankedCohorts": { "$ref": "#/$defs/index" },
+        "indeterminateCohorts": { "$ref": "#/$defs/index" },
+        "members": { "$ref": "#/$defs/index" },
+        "scoredMembers": { "$ref": "#/$defs/index" },
+        "indeterminateMembers": { "$ref": "#/$defs/index" },
+        "semanticExtrema": { "$ref": "#/$defs/index" }
+      },
+      "additionalProperties": false
+    },
+    "variationalSummary": {
+      "oneOf": [
+        { "type": "number", "minimum": 0, "maximum": 1 },
+        { "type": "null" }
+      ]
+    },
+    "execution": {
+      "type": "object",
+      "required": ["maxFunctionalEvaluations", "usedFunctionalEvaluations"],
+      "properties": {
+        "maxFunctionalEvaluations": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+        },
+        "usedFunctionalEvaluations": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000
+        }
+      },
+      "additionalProperties": false
+    },
+    "rankingHash": { "$ref": "#/$defs/hash" }
+  },
+  "oneOf": [
+    {
+      "properties": {
+        "status": { "const": "ranked" },
+        "cohortRankings": {
+          "minItems": 1,
+          "items": {
+            "properties": { "status": { "const": "ranked" } },
+            "required": ["status"]
+          }
+        },
+        "variationalSummary": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "counts": {
+          "properties": {
+            "cohorts": { "minimum": 1 },
+            "rankedCohorts": { "minimum": 1 },
+            "indeterminateCohorts": { "const": 0 },
+            "members": { "minimum": 1 },
+            "scoredMembers": { "minimum": 1 },
+            "indeterminateMembers": { "const": 0 },
+            "semanticExtrema": { "minimum": 1 }
+          }
+        }
+      },
+      "not": {
+        "anyOf": [
+          { "required": ["reason"] },
+          { "required": ["details"] }
+        ]
+      }
+    },
+    {
+      "properties": {
+        "status": { "const": "empty" },
+        "reason": { "const": "no-eligible-candidates" },
+        "details": { "maxProperties": 0 },
+        "cohortRankings": { "maxItems": 0 },
+        "variationalSummary": { "type": "null" },
+        "counts": {
+          "properties": {
+            "cohorts": { "const": 0 },
+            "rankedCohorts": { "const": 0 },
+            "indeterminateCohorts": { "const": 0 },
+            "members": { "const": 0 },
+            "scoredMembers": { "const": 0 },
+            "indeterminateMembers": { "const": 0 },
+            "semanticExtrema": { "const": 0 }
+          }
+        },
+        "execution": {
+          "properties": { "usedFunctionalEvaluations": { "const": 0 } }
+        }
+      },
+      "required": ["reason", "details"]
+    },
+    {
+      "properties": {
+        "status": { "const": "indeterminate" },
+        "reason": { "const": "source-partition-indeterminate" },
+        "cohortRankings": { "maxItems": 0 },
+        "variationalSummary": { "type": "null" },
+        "counts": {
+          "properties": {
+            "cohorts": { "const": 0 },
+            "rankedCohorts": { "const": 0 },
+            "indeterminateCohorts": { "const": 0 },
+            "members": { "const": 0 },
+            "scoredMembers": { "const": 0 },
+            "indeterminateMembers": { "const": 0 },
+            "semanticExtrema": { "const": 0 }
+          }
+        },
+        "execution": {
+          "properties": { "usedFunctionalEvaluations": { "const": 0 } }
+        }
+      },
+      "required": ["reason", "details"]
+    },
+    {
+      "properties": {
+        "status": { "const": "indeterminate" },
+        "reason": { "const": "member-functional-indeterminate" },
+        "cohortRankings": {
+          "minItems": 1,
+          "contains": {
+            "properties": { "status": { "const": "indeterminate" } },
+            "required": ["status"]
+          }
+        },
+        "variationalSummary": { "type": "null" },
+        "counts": {
+          "properties": {
+            "cohorts": { "minimum": 1 },
+            "indeterminateCohorts": { "minimum": 1 },
+            "members": { "minimum": 1 },
+            "indeterminateMembers": { "minimum": 1 }
+          }
+        }
+      },
+      "required": ["reason", "details"]
+    }
+  ],
+  "$defs": {
+    "hash": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "normalizedString": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1024,
+      "pattern": "^(?:\\S|\\S(?:.*\\S)?)$"
+    },
+    "index": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "hashSet": {
+      "type": "array",
+      "maxItems": 1000000,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/hash" }
+    },
+    "rankingPolicy": {
+      "type": "object",
+      "required": [
+        "scoreOrder",
+        "denseEquivalence",
+        "semanticExtrema",
+        "gap",
+        "indeterminate"
+      ],
+      "properties": {
+        "scoreOrder": {
+          "const": "objective-rounded-score-then-candidate-id-v1"
+        },
+        "denseEquivalence": {
+          "const": "transitive-overlapping-score-interval-components-v1"
+        },
+        "semanticExtrema": {
+          "const": "epsilon-boundary-maximum-effective-tolerance-v1"
+        },
+        "gap": {
+          "const": "objective-oriented-first-two-member-scores-v1"
+        },
+        "indeterminate": {
+          "const": "retain-all-members-null-cohort-metrics-v1"
+        }
+      },
+      "additionalProperties": false
+    },
+    "rankedMember": {
+      "type": "object",
+      "required": [
+        "candidateId",
+        "status",
+        "evaluation",
+        "rank",
+        "semanticExtremum"
+      ],
+      "properties": {
+        "candidateId": { "$ref": "#/$defs/hash" },
+        "status": { "enum": ["ranked", "indeterminate"] },
+        "evaluation": {
+          "$ref": "package-functional-evaluation.schema.json"
+        },
+        "rank": {
+          "oneOf": [
+            { "type": "integer", "minimum": 1, "maximum": 1000000 },
+            { "type": "null" }
+          ]
+        },
+        "semanticExtremum": {
+          "oneOf": [{ "type": "boolean" }, { "type": "null" }]
+        }
+      },
+      "oneOf": [
+        {
+          "properties": {
+            "status": { "const": "ranked" },
+            "evaluation": {
+              "allOf": [
+                { "$ref": "package-functional-evaluation.schema.json" },
+                { "properties": { "status": { "const": "scored" } } }
+              ]
+            },
+            "rank": { "type": "integer", "minimum": 1 },
+            "semanticExtremum": {
+              "oneOf": [{ "type": "boolean" }, { "type": "null" }]
+            }
+          }
+        },
+        {
+          "properties": {
+            "status": { "const": "indeterminate" },
+            "evaluation": {
+              "allOf": [
+                { "$ref": "package-functional-evaluation.schema.json" },
+                { "properties": { "status": { "const": "indeterminate" } } }
+              ]
+            },
+            "rank": { "type": "null" },
+            "semanticExtremum": { "type": "null" }
+          }
+        }
+      ],
+      "additionalProperties": false
+    },
+    "cohortRanking": {
+      "type": "object",
+      "required": [
+        "cohortId",
+        "key",
+        "memberIds",
+        "status",
+        "members",
+        "optimum",
+        "presentationLeader",
+        "semanticExtrema",
+        "epsilon",
+        "degeneracy",
+        "degeneracyRatio",
+        "variationalSelectivity",
+        "gap"
+      ],
+      "properties": {
+        "cohortId": { "$ref": "#/$defs/hash" },
+        "key": {
+          "$ref": "package-cohort-partition.schema.json#/$defs/key"
+        },
+        "memberIds": {
+          "allOf": [{ "$ref": "#/$defs/hashSet" }, { "minItems": 1 }]
+        },
+        "status": { "enum": ["ranked", "indeterminate"] },
+        "reason": { "const": "member-functional-indeterminate" },
+        "details": { "type": "object", "maxProperties": 32 },
+        "members": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1000000,
+          "items": { "$ref": "#/$defs/rankedMember" }
+        },
+        "optimum": {
+          "oneOf": [
+            { "$ref": "quantity.schema.json" },
+            { "type": "null" }
+          ]
+        },
+        "presentationLeader": {
+          "oneOf": [{ "$ref": "#/$defs/hash" }, { "type": "null" }]
+        },
+        "semanticExtrema": { "$ref": "#/$defs/hashSet" },
+        "epsilon": { "$ref": "quantity.schema.json" },
+        "degeneracy": {
+          "oneOf": [{ "$ref": "#/$defs/index" }, { "type": "null" }]
+        },
+        "degeneracyRatio": {
+          "oneOf": [
+            { "type": "number", "minimum": 0, "maximum": 1 },
+            { "type": "null" }
+          ]
+        },
+        "variationalSelectivity": {
+          "oneOf": [
+            { "type": "number", "minimum": 0, "maximum": 1 },
+            { "type": "null" }
+          ]
+        },
+        "gap": {
+          "oneOf": [
+            { "$ref": "quantity.schema.json" },
+            { "type": "null" }
+          ]
+        }
+      },
+      "oneOf": [
+        {
+          "properties": {
+            "status": { "const": "ranked" },
+            "members": {
+              "items": {
+                "allOf": [
+                  { "$ref": "#/$defs/rankedMember" },
+                  {
+                    "properties": {
+                      "status": { "const": "ranked" },
+                      "semanticExtremum": { "type": "boolean" }
+                    }
+                  }
+                ]
+              },
+              "contains": {
+                "properties": { "semanticExtremum": { "const": true } },
+                "required": ["semanticExtremum"]
+              }
+            },
+            "optimum": { "$ref": "quantity.schema.json" },
+            "presentationLeader": { "$ref": "#/$defs/hash" },
+            "semanticExtrema": { "minItems": 1 },
+            "degeneracy": { "type": "integer", "minimum": 1 },
+            "degeneracyRatio": {
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 1
+            },
+            "variationalSelectivity": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            }
+          },
+          "not": {
+            "anyOf": [
+              { "required": ["reason"] },
+              { "required": ["details"] }
+            ]
+          }
+        },
+        {
+          "properties": {
+            "status": { "const": "indeterminate" },
+            "reason": { "const": "member-functional-indeterminate" },
+            "members": {
+              "items": {
+                "allOf": [
+                  { "$ref": "#/$defs/rankedMember" },
+                  { "properties": { "semanticExtremum": { "type": "null" } } }
+                ]
+              },
+              "contains": {
+                "properties": { "status": { "const": "indeterminate" } },
+                "required": ["status"]
+              }
+            },
+            "optimum": { "type": "null" },
+            "presentationLeader": { "type": "null" },
+            "semanticExtrema": { "maxItems": 0 },
+            "degeneracy": { "type": "null" },
+            "degeneracyRatio": { "type": "null" },
+            "variationalSelectivity": { "type": "null" },
+            "gap": { "type": "null" }
+          },
+          "required": ["reason", "details"]
+        }
+      ],
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

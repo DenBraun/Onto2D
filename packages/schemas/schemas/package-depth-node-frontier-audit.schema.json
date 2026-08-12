@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/package-depth-node-frontier-audit.schema.json",
+  "title": "Onto2D Depth-Aware Package Node-Frontier Audit",
+  "type": "object",
+  "required": [
+    "schemaVersion", "auditor", "scope", "packageId", "rulesHash",
+    "bindingHash", "binding", "runConfigHash", "targetDepth",
+    "sourcePopulationHash", "canonicalAuditHash", "seed", "policy",
+    "samplesPerPredicate", "universe", "profileExtensionUniverse", "results",
+    "counts", "status", "nodeFrontierAuditHash"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "auditor": { "const": "package-depth-node-frontier-auditor-v1" },
+    "scope": { "const": "complete-depth-aware-raw-node-prefix-extension-pairs-v1" },
+    "packageId": { "$ref": "#/$defs/hash" },
+    "rulesHash": { "$ref": "#/$defs/hash" },
+    "bindingHash": { "$ref": "#/$defs/hash" },
+    "binding": { "$ref": "package-depth-candidate-binding.schema.json" },
+    "runConfigHash": { "$ref": "#/$defs/hash" },
+    "targetDepth": { "type": "integer", "minimum": 1, "maximum": 1000 },
+    "sourcePopulationHash": { "$ref": "#/$defs/hash" },
+    "canonicalAuditHash": { "$ref": "#/$defs/hash" },
+    "seed": { "$ref": "#/$defs/id" },
+    "policy": { "$ref": "package-node-frontier-audit.schema.json#/$defs/policy" },
+    "samplesPerPredicate": { "type": "integer", "minimum": 0, "maximum": 10000 },
+    "universe": { "$ref": "package-node-frontier-audit.schema.json#/$defs/universe" },
+    "profileExtensionUniverse": {
+      "allOf": [
+        { "$ref": "package-generator-frontier-audit.schema.json#/$defs/profileExtensionUniverse" },
+        { "properties": { "kind": { "const": "node-assignment" } } }
+      ]
+    },
+    "results": {
+      "type": "array", "uniqueItems": true,
+      "items": { "$ref": "package-node-frontier-audit.schema.json#/$defs/result" }
+    },
+    "counts": { "$ref": "package-node-frontier-audit.schema.json#/$defs/counts" },
+    "status": { "enum": ["not-applicable", "passed", "failed", "indeterminate"] },
+    "nodeFrontierAuditHash": { "$ref": "#/$defs/hash" }
+  },
+  "$defs": {
+    "hash": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "id": {
+      "type": "string", "minLength": 1, "maxLength": 1024,
+      "pattern": "^(?:\\S|\\S(?:.*\\S)?)$"
+    }
+  },
+  "additionalProperties": false
+}

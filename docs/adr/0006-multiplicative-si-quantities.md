@@ -1,7 +1,8 @@
 # ADR-0006: Multiplicative SI quantities
 
 Status: implemented decision; local comparison, structural sums, compatible
-derived addition, and scalar scaling available; general Quantity products pending
+derived addition, and scalar scaling available; general Quantity products are
+available only in the later package-functional boundary
 
 ## Context
 
@@ -122,6 +123,8 @@ ADR-0020 subsequently enables direct local Quantity comparison, ADR-0023
 enables Quantity-valued structural-attribute sums with explicit tolerance and
 provenance aggregation, and ADR-0024 enables compatible derived Quantity
 addition. ADR-0025 enables dimensionless scalar scaling while general Quantity
-products remain pending. ADR-0026 resolves element-exact runtime invariant
+products remain pending at the local-predicate boundary. ADR-0032 later enables
+them for package-bound functionals whose result specification closes the output
+semantic. ADR-0026 resolves element-exact runtime invariant
 Quantities through the same normalization and comparison contract. ADR-0027
 uses it for Quantity-valued balance thresholds and aggregate comparison.

@@ -3,12 +3,13 @@
   "$id": "https://onto2d.dev/schemas/v1/package-candidate-enumeration-result.schema.json",
   "title": "Onto2D Package Candidate Enumeration Result",
   "type": "object",
-  "required": ["schemaVersion", "generator", "binding", "enumeration"],
+  "required": ["schemaVersion", "generator", "binding", "enumeration", "profileComposition"],
   "properties": {
     "schemaVersion": { "const": "1" },
-    "generator": { "const": "package-candidate-generator-v1" },
+    "generator": { "const": "package-candidate-generator-v5" },
     "binding": { "$ref": "package-candidate-binding.schema.json" },
-    "enumeration": { "$ref": "candidate-enumeration-result.schema.json" }
+    "enumeration": { "$ref": "candidate-enumeration-result.schema.json" },
+    "profileComposition": { "$ref": "package-profile-composition.schema.json" }
   },
   "additionalProperties": false
 }

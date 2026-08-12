@@ -83,10 +83,11 @@ artifact and pruning controller can verify the exact allowed extension model.
 - reciprocal dyads cannot masquerade as undirected-simple triads;
 - partial persistent failures can be recorded and tested without silently
   changing the generated universe;
-- numeric value execution, balance, substructure combinators, audit artifacts,
-  pruning census/integration, and derived-depth population binding remain
-  separate implementation work. ADR-0019 later composes these graph outcomes
-  into a package-bound local filter while retaining those limits.
+- numeric value execution, balance, substructure combinators, and derived-depth
+  pruning remain separate from this evaluator. ADR-0019 later composes these
+  graph outcomes into a package-bound local filter, while ADR-0053 through
+  ADR-0055 add the audits/controllers and depth-one pre-admission plus raw-
+  frontier integration without changing this diagnostic's denied authority.
 
 ## Verification
 

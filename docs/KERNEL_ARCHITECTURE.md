@@ -35,8 +35,10 @@ populations, multiplicative SI quantity normalization, deterministic decimal
 arithmetic, typed value/Boolean expression analysis, predicate-plan
 compilation, graph-only predicate evaluation and partial-failure diagnostics,
 package-bound local numeric candidate filtering and complete local-filter
-censuses, run-specific numeric-policy
-binding, content-addressed scientific-Oracle
+censuses, package-bound finite functional evaluation, complete package-cohort
+partitioning, selector ranking/sensitivity, deterministic multi-selector
+admission, selected-formation materialization, run-specific numeric-policy binding,
+content-addressed scientific-Oracle
 validation without solver execution, neutral content-addressed source-policy
 and annotation/adjudication freeze contracts without catalogue classification,
 adapter-side policy-limited classification views and deterministic typed-
@@ -44,17 +46,25 @@ relation/SCC projections for caller-supplied data, exact canonicalization for
 supplied candidate graphs and their skeletons, a bounded reference enumerator
 for connected unlabeled simple skeletons through six nodes, deterministic
 finite decoration from explicit node/edge alphabets, verified content-addressed
-package/run binding for the materialized primitive population, a deterministic
-CandidateStore, initial contracts and schemas, source locks, and a source-
-catalogue audit. It does not yet implement source-policy authorship, access-
-controlled annotation collection, application to the current catalogue, node
-dispositions/condensation, derived-depth source-population binding, derived
-structural decoration attributes, profile guards/capacities, partial predicate
-pruning authorization, scalar and non-identical-profile invariant semantics
-and general Quantity products,
-cycle-set/substructure predicate execution, selector
-admission, derived profile extraction/materialization, or the closure engine
-defined here. The concrete implementation boundary is
+package/run binding for the materialized primitive population, deterministic
+opt-in complete-candidate profile-slot composition gates over exact capacity
+and typed partner guards, a deterministic CandidateStore, initial contracts
+and schemas, source locks, and a source-
+catalogue audit. Source-policy authorship, access-controlled annotation
+collection, application of the reviewed current catalogue, and remote artifact
+stores remain external project inputs/adapters. Primitive, generalized-depth,
+and round-specific current-level
+null-model execution and baseline comparison are implemented. Generic reviewed
+source resolution/condensation, explanation
+indexes, local run persistence, and formation-functional profile invariant
+derivation plus formation-derived type classification are implemented.
+Generalized explicit depth
+transitions, bounded ladder closure, profile-collapse conformance, and level-
+boundary diagnostics plus explicit carrier-promotion target inputs and bounded
+current-level fixpoint closure are implemented. Normalized run-target ontology
+coordinates and their independent axis provenance materialize on ordinary,
+arbitrary-depth, and current-level results and derived elements. The concrete
+implementation boundary is
 documented in
 [KERNEL_IMPLEMENTATION_STATUS.md](./KERNEL_IMPLEMENTATION_STATUS.md), and the
 repository layout in [PROJECT_STRUCTURE.md](./PROJECT_STRUCTURE.md).
@@ -114,7 +124,7 @@ Sigma_<=d        = union of Sigma_i for 0 <= i <= d
 Gen(Sigma_d, B)  = canonical candidate classes generated under budget B
 Phi              = a frozen ordered set of local admissibility predicates
 kappa            = a frozen partition of eligible candidates into competition cohorts
-F                = a frozen typed functional evaluated only after cohort construction
+F                = a frozen typed functional evaluated after local eligibility and consumed only for a complete cohort
 ~=               = candidate isomorphism under the declared graph semantics
 
 Eligible_(d+1) = { c in Gen(Sigma_<=d, B) : Phi(c) = pass } / ~=
@@ -219,6 +229,22 @@ Every surviving SCC becomes one cluster-level stratification vertex with `intern
 
 Evidential, descriptive, regulatory-feedback, and absorbed internal edges are not removed. They move to separately typed, content-addressed relation layers and remain traversable from the explanation graph. Bounded fixpoint mode remains relevant to actual runtime self-reference between kernel derivations; it is not required merely to preserve a source SCC that has been materialized as one cluster input.
 
+The generic executable adapter contract is frozen by
+[ADR-0061](adr/0061-reviewed-source-resolution-and-condensation.md). It replays
+the full supplied classification chain, requires an inventory that includes
+isolated records, derives cluster membership from the verified
+formation-support partition, checks reviewed dispositions/rationales and every
+relation destination, retains all six typed layers, and proves the inter-vertex
+generative quotient is a DAG. It is intentionally not an authored migration of
+the current repository catalogue.
+
+Approved post-unblinding changes are applied by the separately hashed
+effective projection defined in
+[ADR-0065](adr/0065-effective-source-classification-reprojection.md). It keeps
+the blind kind and raw votes beside the current kind, recomputes both SCC
+partitions, and makes any stale component disposition or edge destination fail
+before a new condensation can be emitted.
+
 ### 5.2 Profile factorization
 
 A profile is a canonical multiset descriptor of the roles an element may occupy in the next composition. It contains role slots, polarities, capacities, optional partner guards, and a normalized invariant vector.
@@ -241,6 +267,66 @@ A violation is extension-monotone when a partial candidate that violates a predi
 4. record the seed, sample count, and audit result.
 
 Any discovered counterexample fails the run before selectivity is calculated. Passing a randomized audit falsifies sampled errors but does not constitute a mathematical proof; the manifest MUST preserve that distinction.
+
+The current `package-predicate-monotonicity-auditor-v1` realizes this gate for
+the complete depth-one universe and the frozen complete-node canonical-edge-
+prefix extension model. It uses RunConfig-bound SHA-256 rejection sampling,
+retains every partial/extension evaluation identity, fails on a witnessed
+`partial fail -> extension pass`, and exactly replays stored artifacts. The
+separate `package-partial-pruning-controller-v1` authorizes only a
+`static-proven` plan with a passed whole-package audit and a reproduced
+persistent-failure diagnostic. Passing samples never manufacture proof. See
+[ADR-0053](adr/0053-monotonicity-audit-and-pruning-controller.md).
+
+`package-pruned-candidate-generator-v1` now prepares that controller once,
+applies its decisions to canonical prefixes before CandidateStore admission,
+and records raw/unique/duplicate removals plus a rolling decision transcript.
+It returns only after a pruning-disabled replay proves identical complete
+eligible and indeterminate result-set hashes and full filtering confirms every
+removed candidate fails its authorizing predicate. This correctness-first
+boundary remains the final guard used by recursive execution. See
+[ADR-0054](adr/0054-audited-pre-admission-pruning.md).
+
+`package-generator-frontier-auditor-v1` separately binds the decorator's
+actual complete-node raw edge-group traversal, exact reachable descendants,
+and sampled reachable extensions. Its prepared controller authorizes only a
+statically proven persistent failure under passed canonical and frontier
+audits. `package-recursive-pruned-candidate-generator-v1` may then close that
+subtree, but returns only after exact agreement with pre-admission-only and
+pruning-disabled references. Under directed-strong connectivity, it may close
+only a frontier that is already strongly connected, because edge addition then
+cannot turn a policy exclusion into an admitted descendant. See
+[ADR-0055](adr/0055-audited-recursive-frontier-pruning.md).
+
+`package-depth-predicate-monotonicity-auditor-v1` and the corresponding
+depth-aware canonical-prefix, raw-frontier, and recursive generation contracts
+extend this boundary to any target depth whose complete contiguous prior-level
+chain reproduces exactly. Every artifact additionally binds `targetDepth` and
+the selected source-population hash, uses depth-specific hash domains, and is
+accepted only after the same disabled/pre-admission/recursive differential
+checks. The optimized path is explicit and does not alter ordinary level
+closure unless a caller selects it. See
+[ADR-0056](adr/0056-generalized-depth-audited-pruning.md).
+
+`package-node-frontier-auditor-v1` adds a separate raw node-prefix extension
+frame. Its controller validates the exact assigned-node state and descendant
+count before a static persistent failure may authorize
+`package-node-growth-pruned-candidate-generator-v1`. The generator retains the
+complete-candidate pre-admission guard and returns only after exact differential
+agreement. Depth-aware variants bind the prior chain, target depth, and source
+population under separate domains. Directed-strong node prefixes are not
+authorized because future direction choices can still change policy exclusion
+counts. See [ADR-0082](adr/0082-audited-node-growth-pruning.md).
+
+`package-profile-pruning-extension-census-v1` independently classifies every
+graph-policy-admissible raw extension against the complete profile gate and
+aggregates exact compatible/excluded counts onto each stable edge-group or
+node-assignment prefix. An authorized live frontier must reproduce its hashed
+census key and descendant sum. Recursive and node-growth generators then
+reconcile skipped profile dispositions with the authoritative pre-admission
+profile transcript and retained result sets at depth one or arbitrary verified
+target depth. See
+[ADR-0084](adr/0084-profile-gated-raw-frontier-pruning.md).
 
 ### 5.4 Complete census rather than short-circuit diagnostics
 
@@ -424,6 +510,8 @@ interface Quantity {
   provenance: QuantityProvenance;
 }
 
+type InvariantValue = Quantity | JsonPrimitive;
+
 interface QuantitySpec {
   id: string;
   unit: UnitExpr;
@@ -571,7 +659,7 @@ interface PrimitiveDefinition {
   ontologyCoordinate?: OntologyCoordinate;
   axisProvenance?: Omit<AxisProvenance, "derivationDepth">;
   typeTags: string[];
-  invariants: Record<string, Quantity>;
+  invariants: Record<string, InvariantValue>;
   profile?: Profile;
   claimRefs: ClaimId[];
 }
@@ -586,14 +674,18 @@ interface RulePackage {
     blindnessStatus: MigrationBlindnessStatus;
     classificationPolicy: ArtifactRef;
     riskPolicy: ArtifactRef;
+    classificationView: ArtifactRef;
     classificationAnnotations: ArtifactRef;
     classificationAdjudication: ArtifactRef;
+    classificationAmendments: ArtifactRef;
     classifiedRelations: ArtifactRef;
     nodeResolutions: ArtifactRef;
     condensation: ArtifactRef;
     memberProjections: ArtifactRef;
     typedRelationLayers: ArtifactRef[];
+    reconciliation: ArtifactRef;
     metrics: ArtifactRef;
+    explanationIndex: ArtifactRef;
     concentration?: ArtifactRef;
   };
   evidence: EvidenceRef[];
@@ -605,16 +697,33 @@ interface RulePackage {
   selectors: CohortSelector[];
   partialOraclePolicy: PartialOraclePolicy;
   ontologyAxes: OntologyAxisDefinition;
-  perturbations: JsonValue[];
+  perturbations: (string | PerturbationDefinition)[];
   profileDefinition: JsonValue;
 }
 ```
 
 Every referenced source or solver artifact MUST be content-addressed. Missing evidence may be permitted only when the run's evidence policy allows a declared theoretical assumption; it must never be upgraded silently to computational or external support.
 
-A `PrimitiveDefinition` with `kind: "condensed-cluster"` MUST carry valid cluster provenance and member-depth projections; an ordinary primitive MUST NOT. The loader verifies that every raw source relation occurs exactly once in the classified relation artifact and remains reachable through either the inter-cluster generative graph or one typed explanation layer.
+A `PrimitiveDefinition` with `kind: "condensed-cluster"` MUST carry valid
+cluster provenance; an ordinary primitive MUST NOT. The catalogue adapter
+verifies from artifact bytes that every raw source node and relation is
+conserved through resolution and exactly one condensation destination. The
+kernel loader binds the resulting complete artifact references, requires six
+typed layers, matches cluster provenance to that binding, and rejects a source
+member assigned to multiple condensed-cluster primitives. It does not infer
+the contents of external bytes from their `ArtifactRef` labels.
 
 A primitive source profile may be omitted only when `profileDefinition` deterministically derives it during package normalization. Every loaded primitive `Element` has a complete profile before candidate generation; failure to derive one is a package error.
+
+Primitive invariant values MUST be a normalized Quantity or one finite JSON
+scalar. All declarations of one invariant name MUST agree on runtime kind;
+Quantity declarations MUST additionally agree on dimensions and semantic.
+Numeric negative zero normalizes to zero, scalar strings are bounded by the
+typed-expression ceiling, and composite JSON values are forbidden. These
+values participate in primitive identity and package runtime symbol binding.
+`Profile.invariantVector` remains Quantity-valued and is not an implicit source
+of scalar aggregation; see
+[ADR-0047](adr/0047-package-authored-scalar-invariants.md).
 
 ### 8.2 Element
 
@@ -630,7 +739,7 @@ interface Element {
   provenance: Provenance | null;
   ontologyCoordinate?: OntologyCoordinate;
   typeTags: string[];
-  invariants: Record<string, Quantity>;
+  invariants: Record<string, InvariantValue>;
   admittedBy: PredicateId[];
   selectedBy: SelectorId[];
   claimRefs: ClaimId[];
@@ -690,7 +799,7 @@ empty admission/selection lists. The population is sorted by element ID and
 hashed in `onto2d:depth-population:v1`. Arbitrary caller-supplied or derived
 elements are not accepted at this boundary.
 
-The current `package-candidate-filter-evaluator-v10` adds a later formation
+The current `package-candidate-filter-evaluator-v20` adds a later formation
 basis without constructing an element. It binds a complete canonical candidate
 to the reproduced package/run universe, target depth, source population, and
 exact/profile constituent resolution, reproduces each plan's numeric binding,
@@ -701,7 +810,7 @@ only; it does not populate `selectedBy`, derive a profile, or authorize a derive
 element ID.
 
 `package-candidate-census-evaluator-v1` composes that boundary over every
-candidate in a completed `package-candidate-generator-v1` artifact. The census
+candidate in a completed `package-candidate-generator-v5` artifact. The census
 hash binds the full generation, every complete filter explanation, all
 reconciled candidate and predicate counts, and raw Boolean selectivity. A
 budget-exhausted generation produces no census artifact; a serialized artifact
@@ -712,11 +821,18 @@ Carrier promotion creates a new primitive definition or package input for the ta
 ### 8.3 Profile
 
 ```ts
+type ProfileSlotGuard =
+  | ContentHash
+  | { op: "all" | "any"; args: ProfileSlotGuard[] }
+  | { op: "not"; arg: ProfileSlotGuard }
+  | { op: "partnerTypeTag"; typeTag: string }
+  | { op: "partnerInvariant"; name: string; comparator: Comparator; value: InvariantValue };
+
 interface Slot {
   role: string;
   polarity: "in" | "out" | "sym";
   capacity: { min: number; max: number | null };
-  guard?: ExprRef;
+  guard?: ProfileSlotGuard;
 }
 
 interface Profile {
@@ -845,6 +961,7 @@ interface Functional {
   id: FunctionalId;
   expr: ValueExpr;
   coefficients: Record<string, Quantity>;
+  coefficientRoles?: Record<string, "fixed" | "free" | "fitted">;
   sensitivityCoefficients: string[];
   result: QuantitySpec;
   explain: string;
@@ -995,7 +1112,15 @@ evaluation. Numeric and substructure operators remain outside that boundary.
 
 `Predicate` and `Functional` are different schema types, registries, evaluator capabilities, and execution contexts. The generator receives only pruning-eligible predicate plans; it cannot resolve a functional ID or coefficient. This capability boundary is a conformance property, not a naming convention.
 
-Every coefficient carries quantity provenance and therefore a declared theoretical, computed, or oracle source. Every free or fitted coefficient, including each paper `alpha_i`, MUST appear in `sensitivityCoefficients`. Omitting a used free coefficient from the sweep is a package error, not an optimization.
+Every coefficient carries quantity provenance and therefore a declared
+theoretical, computed, or oracle source. Every free or fitted coefficient,
+including each paper `alpha_i`, MUST appear in `sensitivityCoefficients`.
+When `coefficientRoles` is supplied it MUST cover every coefficient and its
+non-fixed set MUST equal `sensitivityCoefficients`. For legacy schema-v1
+inputs without that record, membership in `sensitivityCoefficients` declares
+`free` and omission declares `fixed`; normalization always materializes the
+complete role map. Omitting an explicitly free or fitted coefficient from the
+sweep is a package error, not an optimization.
 
 `shared-support` cohorts are the connected components of the candidate/resource incidence relation, making the result an actual partition even when support overlaps transitively. `profile-role` groups identical normalized role keys. `invariant-window` uses unit-compatible half-open bins anchored at the declared origin; pairwise “within epsilon” chaining is forbidden because it is not generally transitive. `singleton` encodes no competition. `global` is explicit and MUST NOT be injected as a default.
 
@@ -1033,7 +1158,7 @@ projection, component, path, or cycle data. The evaluation hash covers the
 verified plan, canonical candidate, effective graph policy, final outcome, and
 ordered witnesses.
 
-The separate `local-predicate-evaluator-v9` composes that graph runtime with
+The separate `local-predicate-evaluator-v19` composes that graph runtime with
 the fully bound comparison subset. It accepts scalar constants, direct
 constant quantities, counts over canonical nodes or role-filtered edges, and
 dimensionless `add`/`multiply`, plus exact-decimal or compensated-binary64 sums
@@ -1050,28 +1175,102 @@ dimensionless arithmetic preserves that approximation state; direct,
 aggregated, and derived quantities normalize to SI bases,
 apply terminating rational unit scales in exact decimal arithmetic, round once,
 and use declared maximum tolerance plus the bound semantic policy.
-An `element-exact` Quantity invariant additionally resolves from an explicit
-source-population context and exactly one canonical node. Its normalized source
-Quantity, element ID, node, and expression path are retained as witnesses, and
-the population hash is bound at artifact level. A `profile-quotient` invariant
-resolves only from an explicit complete profile class when every member has an
-identical fully normalized Quantity record. Its profile hash, complete ordered
-member IDs, consensus policy, Quantity, node, and expression path are retained
-as witnesses. No representative lookup, averaging, tolerance union, or
-provenance synthesis is permitted.
+An `element-exact` Quantity or package-authored scalar invariant additionally resolves
+from an explicit source-population context and exactly one canonical node. Its
+normalized source value, type-specific witness, element ID, node, and expression
+path are retained, and the population hash is bound at artifact level. A
+`profile-quotient` invariant defaults to resolution from an explicit complete
+profile class whose members have one identical fully normalized Quantity
+record or exact scalar value. A numeric invariant expression may instead bind
+`arithmetic-mean-conservative-v1`. That policy covers every member, uses exact-
+decimal summation and bound run precision for division, requires one declared
+type/unit/semantic, and for Quantities outwardly averages effective absolute
+bounds, covers division rounding, and forms a canonical evidence union with
+computed provenance. String, Boolean, and null invariants remain strict-
+consensus only. The profile hash, complete ordered member IDs, consensus or
+aggregation diagnostic, value, node, and expression path are retained as
+witnesses. Representative lookup and implicit aggregation are forbidden.
+Missing, ambiguous, or incomplete candidate data yields a
+structured indeterminate comparison witness; invalid contexts and
+type/unit/semantic mismatches remain hard errors. Any artifact that binds an
+invariant context also records the sorted non-empty `invariantNames`, including
+when a stability family yields no evaluated nested witness.
 Complete node/edge `balance` forms the same typed attribute aggregate, rounds
 once at the result boundary, and compares its absolute magnitude with the
 explicit non-negative Quantity threshold using `lte` and the bound
 `declared-max-tolerance-v1` policy. Scalar aggregates are lifted only for this
 dimensionless comparison; Quantity aggregates retain their conservative source
-uncertainty and provenance. Cycle-set balance remains rejected.
+uncertainty and provenance. The `cycle` set selects the role-filtered union of
+canonical edges participating in directed cycles; counts and aggregates use
+each selected edge exactly once.
+`irreducibleRemoval` evaluates its nested predicate on the whole canonical
+candidate and every permitted canonical single-node or single-edge removal
+under the explicit run substructure policy. Empty/disconnected exclusions are
+recorded rather than counted as inner failures; no evaluated removal yields
+`indeterminate`; and every evaluated substructure retains its normalized
+identity, parent-index mapping, outcome, and nested witnesses. Runtime
+invariants inside removed substructures resolve only through retained node
+references in the immutable source-population context.
+`minimal` uses the same explicit policy but enumerates every permitted proper
+parent-index subgraph rather than only single removals. Node-only mode uses
+induced edges, edge-only mode retains the parent node set before isolated-node
+policy, and combined mode enumerates every endpoint-valid node/edge subset.
+Raw selected indexes, effective retained indexes, normalized identity, parent
+mappings, outcomes, and skipped empty/disconnected cases remain in the
+witness. The exact selection count is preflighted against the shared 10,000-
+substructure ceiling before an exponential family is materialized.
+`novel` is restricted to `element-exact` candidates and evaluates the nested
+predicate on the whole candidate and on every canonical single-node,
+zero-edge constituent projection under
+`canonical-single-node-no-edge-v1`. It does not bind a substructure policy of
+its own. The witness retains every exact source element ID, projection ID,
+canonical-to-parent node mapping, outcome, and nested evidence. A whole
+failure or indeterminate result short-circuits; after a whole pass, any passing
+constituent yields failure, otherwise any indeterminate constituent or an
+empty denominator yields indeterminate, and only all constituents failing
+yields pass. `profile-quotient` novelty is a hard error rather than permission
+to substitute representative elements. Nested invariant selectors are
+reevaluated on each constituent projection and resolve its retained source
+element directly.
+`stableUnder` binds one typed package perturbation definition and either
+exhaustively enumerates or deterministically samples its canonical single
+edits. Schema v1 executes edge deletion, node
+deletion with incident-edge removal, edge-role replacement, and finite numeric
+displacement of a structural node/edge attribute. Every valid result is
+canonicalized under the original graph policy and retains its candidate ID,
+parent mappings, nested outcome, and witnesses; graph-policy-invalid,
+missing/non-numeric, non-finite, and ineffective numeric attempts remain
+auditable skipped records outside the denominator. The exact lower bound is
+`pass / valid` and the exact upper bound is
+`(pass + indeterminate) / valid`: the operator passes when the lower bound
+meets the exact decimal threshold, fails when the upper bound is below it, and
+is otherwise indeterminate. Rounded bounds are diagnostic only. An empty valid
+family is indeterminate unless the definition explicitly binds
+`vacuous-pass`. Perturbation and nested substructure attempts share the
+preflighted 10,000-operation ceiling. Registry-only perturbation strings are
+not executable. Sampled enumeration draws with replacement from the same
+canonical attempt frame using a RunConfig-hash-bound, unbiased SHA-256
+rejection stream. It binds every frame index and uses conservative outward
+six-decimal Chebyshev intervals with at least 95% joint coverage for passing
+and non-failure probabilities. A sampled pass/fail follows only when the
+corresponding confidence bound clears the exact threshold; otherwise it is
+`indeterminate`. The exact and sampled contracts are recorded in
+[ADR-0049](adr/0049-exhaustive-typed-stability.md) and
+[ADR-0050](adr/0050-seeded-sampled-stability.md).
+Explicit numeric profile aggregation is recorded in
+[ADR-0051](adr/0051-explicit-profile-invariant-aggregation.md).
+Explicit-semantic local Quantity products are recorded in
+[ADR-0052](adr/0052-local-general-quantity-products.md).
+Nested substructure invariant resolution is recorded in
+[ADR-0089](adr/0089-nested-substructure-invariant-resolution.md).
 The artifact binds `predicatePlanHash`, `numericBindingHash`, canonical
 candidate and policy, unrounded/rounded values, exactness state, and canonical
-selection/invariant/balance witnesses under
-`onto2d:predicate-local-evaluation:v9`. Scalar and non-identical-profile
-invariant semantics, functional coefficients, general Quantity products,
-cycle-set counts, and substructures are rejected before evaluation until their
-contracts are frozen.
+selection/invariant/balance/substructure witnesses under
+`onto2d:predicate-local-evaluation:v19`. The schema-v1 aggregation registry is
+closed to strict consensus and `arithmetic-mean-conservative-v1`; every other
+name is an invalid future extension under ADR-0090.
+Functional coefficient nodes remain deliberately forbidden by the predicate-
+only expression environment.
 
 ```ts
 interface PredicateEvaluation {
@@ -1174,6 +1373,276 @@ predicate-ID-sorted entry array, avoiding promotion of package IDs to JSON
 object keys. A serialized local census is trusted only after exact
 whole-artifact reproduction from independently supplied package/run inputs;
 shape validation and a self-declared content hash are not sufficient.
+
+### 8.7.1 Package functional evaluation
+
+The current `package-functional-evaluator-v1` is a candidate-local scoring
+primitive for the post-filter stage. It MUST independently reproduce the
+loaded package, package/run binding, and complete supplied filter artifact, and
+MUST reject every verdict except `eligible`. It reanalyzes the normalized
+functional and evaluates numeric/Quantity constants, canonical
+node/edge/directed-cycle counts, normalized coefficients, element-exact or
+identical-profile-consensus Quantity or numeric scalar invariants, addition,
+scalar/Quantity structural-attribute sums, and multiplication. Structural sums
+reuse the package candidate-attribute type environment and canonical set
+selection. Quantity sums require analyzed unit/semantic agreement, add
+effective absolute tolerance bounds exactly, and retain canonical evidence
+unions; scalar and Quantity accumulation follow the bound run summation policy.
+The same runtime evaluates structural cohort keys and formation-derived profile
+functionals. See
+[ADR-0087](adr/0087-package-functional-structural-attribute-sums.md).
+
+All expression values remain unrounded until one result boundary under the
+bound run precision. General Quantity products compose canonical units and
+propagate effective absolute interval bounds conservatively as
+`abs(a) * db + abs(b) * da + da * db`. The normalized functional result
+specification fixes the output semantic and canonical unit. Its declared
+`toleranceTarget` is a score-admissibility gate: an excessive bound produces a
+hashed `indeterminate` artifact and `score: null`. Missing or ambiguous exact
+invariants and missing/disagreeing profile-member values are also explicit
+indeterminate outcomes. Invalid package, binding, filter, expression, or unit
+state is a contract error. The artifact and its complete set/invariant/
+coefficient witnesses are hashed in
+`onto2d:package-functional-evaluation:v1`; see
+[ADR-0032](adr/0032-package-functional-evaluation.md).
+
+This primitive does not rank or admit a candidate. A selector may consume its
+scores only after constructing the complete cohort and retaining every
+indeterminate member, so invoking candidate-local calculation cannot prune
+generation or shrink a ranking denominator.
+
+### 8.7.2 Complete package-cohort partitioning
+
+`package-cohort-partitioner-v1` is the total pre-ranking boundary. It MUST
+reproduce the supplied complete census from independent package/run inputs,
+MUST select only the census's `eligible` candidates, and MUST preserve rejected
+and filter-indeterminate candidate IDs as explicit exclusions. An
+indeterminate census interpretation yields no cohorts, and an empty eligible
+population yields an explicit empty partition.
+
+Every cohort-key expression is reanalyzed and executed through the same
+verified package value runtime as finite functionals. `shared-support` uses
+connected components of a candidate/resource incidence graph with expression-
+slot namespaces; `profile-role` uses exact ordered normalized tuples;
+`invariant-window` uses arbitrary-precision floor bins anchored by the declared
+origin and positive width; `singleton` and explicit `global` have no hidden
+key expression. Quantity keys retain effective absolute tolerance. A value
+interval must lie wholly inside one invariant window, while uncertain origins,
+uncertain widths, missing values, or ambiguous values make the complete
+partition indeterminate.
+
+No rule may emit a partial cohort set. Complete partitions reconcile exact
+coverage and non-overlap, hash every cohort in `onto2d:cohort:v1`, and hash the
+full source census, rule, exclusions, evaluations, membership, and counts in
+`onto2d:package-cohort-partition:v1`. Serialized partitions are trusted only
+after exact deterministic replay; see
+[ADR-0033](adr/0033-complete-cohort-partitioning.md). This stage does not score,
+rank, admit, reject, or prune a candidate.
+
+### 8.7.3 Complete-cohort selector ranking
+
+`package-selector-ranker-v1` is the current finite ranking boundary. It MUST
+reproduce the complete census and partition, require the selector's declared
+cohort rule, and evaluate the referenced functional for every member through a
+reusable verified session. Every scored or indeterminate functional artifact
+remains embedded in the ranking; a caller cannot submit scores or omit a
+member.
+
+Scoreable members are serialized by objective-oriented rounded value and then
+candidate ID. Dense tolerance ranks are connected components of their closed
+effective-uncertainty intervals, avoiding order-dependent pairwise tolerance
+chaining. The semantic extremum set is separately defined by one closed
+comparison against the optimum plus the normalized epsilon value, using the
+maximum candidate, optimum, and epsilon effective bound. Canonical IDs only
+stabilize order and the presentation leader; they never reduce that set.
+
+Ranked cohorts report optimum, complete semantic extrema, degeneracy and its
+ratio, variational selectivity, and the objective-oriented first-to-second
+member gap. Singleton and fully degenerate cohorts therefore report zero
+variational concentration. If any member is unscoreable, provisional ranks of
+scoreable members remain diagnostics, but all cohort selection metrics become
+`null` and no member receives a semantic-extremum label. The level-wide summary
+is population-weighted across the complete partition and is also `null` when
+any required cohort is indeterminate.
+
+The artifact is protected by a preflight functional-evaluation ceiling and is
+hashed in `onto2d:package-selector-ranking:v1`; serialized rankings require
+exact replay under
+[ADR-0034](adr/0034-complete-cohort-functional-ranking.md). Multi-selector
+admission, derived-element materialization, and pruning remain separate
+boundaries.
+
+### 8.7.4 Complete coefficient-sensitivity execution
+
+`package-selector-sensitivity-evaluator-v1` MUST reproduce the complete base
+ranking and its package/run/census/partition basis before accepting any stored
+leader or score. For each normalized amplitude, `one-at-a-time` expands the
+negative and positive factor of each listed sensitivity coefficient;
+`cartesian` expands the complete lexicographic sign product. Factors are exact
+`1 - amplitude` or `1 + amplitude`. They scale coefficient value and absolute
+tolerance while retaining relative tolerance and provenance.
+
+Variant count, member evaluations, and cohort comparisons are calculated
+before execution. The run `perturbationSamples` budget limits variants, and a
+separate hard ceiling limits functional evaluations. Any insufficient budget
+emits a fully hashed indeterminate report without a partial sweep; counts above
+the JSON safe-integer range are preserved as exact decimal strings.
+
+Every executable variant reevaluates every member of every reproduced cohort
+and applies the ranking semantics in section 8.7.3. Each amplitude compares
+the complete semantic-extremum set, deterministic presentation leader, and
+canonical set of the first `min(topK, cohortSize)` ranked members over exactly
+`requiredVariants * cohortCount` comparisons. A missing perturbed score makes
+the report indeterminate and leaves stability ratios `null`; the denominator
+is never reduced. Empty rankings and functionals with no declared sensitivity
+coefficients are `not-applicable`, never robust.
+
+A complete report is `robust` only when every amplitude meets both declared
+leader-set and top-K thresholds; otherwise it is `fragile`. Full variants,
+cohort rankings, comparison witnesses, execution reconciliation, and the base
+hash chain are bound in `onto2d:package-selector-sensitivity:v1`. Variant IDs
+also bind that semantic basis in
+`onto2d:package-selector-sensitivity-variant:v1`. Serialized reports require
+exact replay under
+[ADR-0035](adr/0035-coefficient-sensitivity-execution.md). Schema-v1 still
+cannot prove that authors listed every coefficient that scientifically ought
+to be varied because coefficient disposition is not typed.
+
+### 8.7.5 Deterministic multi-selector admission
+
+`package-selector-admission-v1` MUST independently reproduce the complete
+local-filter census and exactly one partition/ranking/sensitivity chain for
+every normalized package selector. Missing, duplicate, or undeclared selector
+executions fail before an artifact is emitted. Normalized selector-ID order is
+the schema-v1 deterministic order bound by the rules hash; caller array order
+is non-semantic.
+
+Each selector continues to rank its own declared total partition of the same
+complete locally eligible population. Combination is not sequential reranking:
+an eligible candidate is selected only when it belongs to every applicable
+semantic-extremum set. A definite non-extremum under any selector yields
+`selector-excluded` even if another selector is indeterminate. Otherwise any
+unavailable semantic-extremum decision yields `selection-indeterminate`.
+With no declared selectors, identity admission retains every locally eligible
+candidate without inventing a ranking or variational metric.
+
+The artifact retains predicate-rejected and filter-indeterminate candidates,
+every selector evaluation, the selectors selecting/excluding/indetermining
+each eligible candidate, per-selector censuses, final reconciliation counts,
+selection and overall retention, and the exact final indeterminate ratio. That
+ratio is interpreted against the frozen run threshold. Sensitivity fragility
+does not mutate the reproducible base selected set, but marks the affected
+variational interpretation fragile; sensitivity or ranking indeterminacy
+remains explicit.
+
+The complete chain is bound in `onto2d:package-selector-admission:v1` and
+stored artifacts require exact replay under
+[ADR-0036](adr/0036-multi-selector-admission.md). This boundary selects
+candidate IDs only. Derived `Element` formation provenance, profile extraction,
+alternate-derivation reconciliation, and depth materialization remain separate.
+
+### 8.7.6 Selected formation materialization
+
+`package-selected-formations-v1` MUST reproduce both the complete local census
+and the complete admission artifact before emitting any record. It emits
+exactly one formation for each decision whose final outcome is `selected` and
+none for predicate-rejected, filter-indeterminate, selector-excluded, or
+selection-indeterminate candidates.
+
+Each formation preserves the canonical candidate, target depth, depth basis,
+source-population hash, filter hash, and complete exact/profile constituent
+resolution already proved at the filtering boundary. It binds every passed
+top-level predicate in `admittedBy`, every selecting selector in `selectedBy`,
+the cohort/functional/ranking/sensitivity witness chain for each selector, and
+the canonical predicate/functional/selector claim and claim-evidence union. A
+profile-quotient record retains both the deterministic representative and the
+complete profile class; the representative is not silently promoted to a
+structural value.
+
+Candidate ordering is canonical ID order, and the selected-formation count
+MUST equal the admission's selected-candidate count. The full candidate-domain
+admission counts remain part of the artifact because a future unique element
+count may be smaller after alternate derivations are reconciled. Individual
+records are bound in `onto2d:selected-formation:v1`; the complete set is bound
+in `onto2d:package-selected-formations:v1` and requires exact replay under
+[ADR-0037](adr/0037-selected-formation-materialization.md).
+
+This is intentionally a formation-only boundary. Schema-v1 has no executable
+derived-profile rule at this boundary, while profile identity is structural by
+default. The materializer therefore MUST NOT invent an empty or caller-
+supplied profile, derived element ID, alternate-derivation collapse, or depth
+population. ADR-0038 supplies the later separate D5 boundary below.
+
+### 8.7.7 Residual profiles and derived depth materialization
+
+The optional `profileDefinition.kind = "residual-slots-v1"` remains the base-
+only executable derived-profile hypothesis. `residual-slots-v2` retains those
+rules and adds a canonical set of formation-functional profile invariant
+definitions. Each definition binds one package functional, a unique semantic,
+and a compatible positive Quantity quantization. The normalized base profile,
+derived type tags, invariant definitions, and claim references are hashed
+package rules. The safe default remains `explicit-only`, which cannot produce
+a derived profile.
+
+`residual-slots-v3` further adds canonical formation-derived type rules. Each
+rule binds a unique output tag to one v2-derived invariant, a closed comparator,
+and a compatible same-semantic Quantity threshold. Rules run only after the
+complete invariant stage succeeds. They retain the source functional hash and
+full tolerance-aware comparison, then expose the sorted union of static and
+assigned type tags. See
+[ADR-0079](adr/0079-formation-derived-type-classification.md).
+
+`package-derived-profile-extractor-v3` MUST replay every prerequisite through
+the selected-formation set. It processes internal edges in canonical order,
+consuming one `out` capacity at the source and one `in` capacity at the target;
+`sym` may satisfy either endpoint. Exact polarity precedes `sym`, followed by
+normalized slot index. Used capacity is subtracted from both finite minimum and
+maximum (with minimum floored at zero); unbounded maximum stays unbounded and a
+zero-maximum slot disappears. The normalized result combines every residual
+constituent slot with the frozen base profile slots and uses the declared
+invariant vector and precision policy.
+
+Typed partner guards execute over every verified member of the partner profile
+class with three-valued logic; a legacy content-hash guard remains explicitly
+unsupported. Missing/incompatible data or class-member disagreement is
+indeterminate, while a unanimous false guard is unsatisfied. Exact polarity,
+then symmetric polarity, then normalized slot index defines preference, so an
+unresolved higher-preference guard cannot be skipped. Missing capacity is also indeterminate, and `explicit-only` is an unavailable
+derived-profile policy. Under `residual-slots-v2`, every declared functional is
+evaluated against the formation's verified eligible filter and exact binding.
+All evaluations remain embedded in the result; one indeterminate result makes
+the whole profile indeterminate before capacity consumption. Scored results
+are composed with the base invariant vector before profile hashing, and v3 type
+rules then classify that verified vector without reevaluating a functional. None of
+these failure cases emits an empty stand-in profile.
+Every result is bound in `onto2d:derived-profile-extraction:v1`, and the full
+set in `onto2d:package-derived-profiles:v1`. Any selected indeterminate profile
+makes the set indeterminate without reducing its denominator.
+
+`package-derived-depth-population-v3` emits a derived depth only from a complete
+profile set. Any profile indeterminacy yields no partial elements; no selected
+formations yields an explicit empty depth. Derived element identity binds the
+canonical candidate graph/content and the fields enabled by the loaded
+identity policy. Quantity structural attributes bind normalized value, unit,
+tolerance, and semantic meaning without evidence provenance. Derivation,
+evidence, claims, minimum depth, and selection witnesses remain non-structural.
+An explicit normalized `RunConfig.ontologyTarget` is copied to the derived
+element and level with declared ontology-axis provenance. It participates in
+element identity only when `ontologyCoordinateStructural` is enabled and is
+never inferred from derivation depth. See
+[ADR-0077](adr/0077-run-target-ontology-coordinate-materialization.md).
+
+Equal structural element IDs are reconciled after materialization. The
+lexicographically smallest formation hash supplies the primary immutable
+element record, while every formation remains in a separately hashed canonical
+derivation index. The population binds its full prerequisite chain, identity
+policy, elements, derivations, counts, depth basis, and interpretation in
+`onto2d:depth-population:v1`; exact replay is required under
+[ADR-0038](adr/0038-residual-slot-profiles-and-derived-depth.md).
+Formation-functional coordinates are frozen in
+[ADR-0069](adr/0069-formation-functional-profile-invariants.md).
+Typed guard execution is frozen in
+[ADR-0070](adr/0070-typed-profile-partner-guards.md).
 
 ### 8.8 Run configuration and budgets
 
@@ -1288,7 +1757,7 @@ interface LevelResult {
   profileClasses: ProfileClass[];
   carrierPromotions: CarrierPromotion[];
   boundaryDetection?: LevelBoundaryReport;
-  baseline: Record<NullModelId, BaselineResult>;
+  baseline: NullModelBaseline | NullModelDisabled;
   budgets: BudgetUsage;
   fixpoint?: FixpointResult;
   semanticManifest: SemanticRunManifest;
@@ -1412,15 +1881,17 @@ For each skeleton, decoration assigns:
 
 The decorator processes one skeleton at a time and yields a deterministic logical order. It MUST check hard budgets before materializing the next candidate.
 
-The current low-level `decorated-candidate-enumerator-v1` realizes this finite
+The current low-level `decorated-candidate-enumerator-v5` realizes this finite
 boundary from explicit caller-supplied node and edge variant alphabets. It
 canonicalizes and sorts those alphabets, treats decorations on one adjacency
 as a multiset rather than an edge sequence, applies the declared edge bound,
 and sends only complete graph-policy-admissible decorations to the fixed-domain
-CandidateStore.
+CandidateStore. Its internal complete-candidate gate records composition
+exclusions separately before store admission; the public generic enumerator
+does not infer any package profile semantics.
 
-The current `run-config-normalizer-v1`, `primitive-depth-population-v1`, and
-`package-candidate-binding-v1` bridge first materializes the reproduced loaded
+The current `run-config-normalizer-v2`, `primitive-depth-population-v1`, and
+`package-candidate-binding-v2` bridge first materializes the reproduced loaded
 package as complete depth-zero `Element` records. The binding records the full
 population artifact and a selection with `targetDepth: 1`,
 `availableDepths: [0]`, and `selectedDepths: [0]`. Both source-depth policies
@@ -1431,10 +1902,49 @@ connected skeletons from one through `budget.maxNodes`. The lexicographically
 smallest element ID is recorded as each profile class representative. The
 normalized run, population and depth identities, semantic generation budgets,
 and raw/state/search execution limits enter the binding hash.
-`package-candidate-generator-v1` executes that frozen input through the
+`package-candidate-generator-v5` executes that frozen input through the
 low-level decorator.
 
-`package-candidate-filter-evaluator-v10` separately reproduces the loaded
+The package's normalized `candidateAttributes` registry supplies the finite
+scalar or Quantity node/edge decorations selected by the RunConfig graph policy. A
+`constant-scalar-v1` definition contributes the same finite JSON scalar to
+every selected node or edge variant, while `constant-quantity-v1` contributes
+one SI-normalized Quantity. `element-invariant-scalar-v1` and
+`element-invariant-quantity-v1` copy the correspondingly typed package-authored
+invariant to exact node variants.
+Profile-quotient generation requires canonical consensus across every class
+member and never substitutes the disclosed representative. Missing or
+member-dependent values fail before enumeration. The same typed registry is
+used to compile predicates, functionals, and cohorts. A structural Quantity's
+complete normalized provenance participates in candidate identity; the derived
+element projection still excludes evidence provenance and retains it through
+the derivation index. `edge-role-scalar-v1` and `edge-role-quantity-v1` select
+one homogeneous map value per normalized run role and require complete role-
+alphabet coverage before enumeration. A scored formation functional can enter
+candidate structure only through the acyclic derived-profile → derived-
+`Element` invariant → later-depth `element-invariant-quantity-v1` path; direct
+same-candidate feedback remains forbidden. Loader and binding checks preserve
+the Quantity type across that boundary. See
+[ADR-0078](adr/0078-package-driven-scalar-candidate-attributes.md) and
+[ADR-0085](adr/0085-package-driven-quantity-candidate-attributes.md), and
+[ADR-0086](adr/0086-role-dependent-edge-candidate-attributes.md), plus
+[ADR-0088](adr/0088-formation-functional-candidate-attribute-carry-forward.md).
+
+The normalized identity-bearing `profileCompositionPolicy` preserves the
+historical `post-admission-v1` universe by default. With the explicit
+`profile-slot-gate-v1` policy, `package-profile-composition-gate-v1` evaluates
+each complete canonical candidate before CandidateStore admission. Canonical
+edge order, source-then-target endpoint order, exact-polarity-before-symmetric
+slot preference, and one-unit endpoint consumption mirror residual-profile
+materialization. Typed partner guards inspect every member of the complete
+partner profile class. Definite capacity or guard failures are separate
+composition exclusions; any indeterminate or legacy guard aborts the entire
+generation instead of reducing its denominator. Every decision and aggregate
+transcript is content-addressed under dedicated domains. The disabled policy
+still produces an explicit `not-run` artifact. See
+[ADR-0076](adr/0076-profile-slot-composition-generation-gate.md).
+
+`package-candidate-filter-evaluator-v20` separately reproduces the loaded
 package under an independently expected kernel version and reproduces the
 complete binding, re-canonicalizes a candidate under the bound
 policy, and proves domain, node/edge budget, skeleton, node variant, edge
@@ -1442,10 +1952,15 @@ variant, and non-parallel adjacency-group membership. It discloses direct
 element or profile-class resolution for every canonical node, derives exact
 and complete class-member invariant contexts from the reproduced population,
 reproduces each plan's run-specific numeric binding, and evaluates all graph
-or supported local-numeric top-level plans without stopping after a failure. A
+or supported local-numeric/top-level minimality, irreducible-removal, exact
+constituent-novelty, and exhaustive typed-stability plans
+without stopping after a failure. Each substructure plan is preflighted against
+the bound run substructure policy. A
 profile representative is never used as an invariant value shortcut. The
 hashed result distinguishes `eligible`, `predicate-rejected`, and
-`filter-indeterminate`. It deliberately stops before selector-based final
+`filter-indeterminate`; candidate-local invariant resolution failures enter
+the latter with structured evidence rather than aborting the complete census.
+It deliberately stops before selector-based final
 admission and derived-element materialization. A plan requiring an attribute
 absent from the corresponding bound structural node/edge decoration alphabet
 is rejected before evaluation; missing data never becomes a trusted empty
@@ -1459,11 +1974,33 @@ predicate rejection counts. The v1 artifact is hashed under
 `onto2d:package-candidate-census:v1`, has an exact reproduction verifier for
 stored artifacts, and remains pre-selector.
 
-The generation bridge is not yet a derived closure-depth population selector. It rejects
-`single-candidate`, disconnected generation, non-empty structural attribute
-vocabularies, and unenforceable wall-time/resident-memory limits instead of
-silently weakening them. The decorator itself does not apply predicates, and
-profile slot guards/capacities cannot claim pruning.
+The original generation bridge remains primitive-only.
+`package-depth-source-selector-v2` adds a separately hashed, exact-replay
+bridge for explicit target depths up to 64. It requires every complete prior
+level closure in contiguous order, records all available populations, executes
+`all-below` or `previous-only`, reconciles repeated element IDs at their
+minimum selected depth, and derives the selected profile classes.
+`package-depth-candidate-binding-v2` then substitutes that verified alphabet
+into the same finite skeleton/role/policy/budget surface, and
+`package-depth-candidate-generator-v3` enumerates it. The separate depth-aware
+filter exact-replays that binding, resolves constituents from the selected
+depths, and executes the same local predicate plans. Its complete census binds
+every canonical evaluation and reconciles Boolean selectivity. The depth-aware
+cohort, ranking, sensitivity, admission, formation, profile, and population
+boundaries reuse the verified primitive selection algorithms without changing
+their mathematical policies. `package-depth-level-closure-v1` embeds that
+entire target transition and hashes it under the level-result domain.
+
+Primitive, generalized-depth, and bounded current-level-fixpoint generation
+all use the same complete-candidate composition gate and package-driven scalar
+and Quantity attribute derivation, including later-depth formation-functional
+carry-forward. All ordinary generation bridges reject
+`single-candidate`, disconnected generation, selected structural attributes
+without a compatible package definition, and unenforceable wall-time/resident-memory limits instead of
+silently weakening them. The decorator itself does not apply predicates.
+Profile slot guards and capacities are evaluated only on complete candidates;
+raw subtree authority is derived from the separate complete extension census
+frozen by ADR-0084, never from a partial profile guess.
 
 ### 10.3 Partial evaluation and pruning
 
@@ -1471,12 +2008,37 @@ After every extension, the generator evaluates all pruning-eligible predicates w
 
 The run report SHOULD include pruning counts by predicate because an incorrect or unexpectedly dominant pruning rule materially changes the explored universe.
 
-The current `partial-graph-predicate-evaluator-v1` stops before this target
-behavior. It can record a persistent failure only for a verified
-`static-proven` graph plan, but every result declares
-`pruningAuthorized: false`. The decorator MUST NOT close a branch from that
-diagnostic until a versioned audit artifact and pruning controller bind the
-allowed extension model and pass pruning-disabled differential conformance.
+The current `partial-graph-predicate-evaluator-v1` can record a persistent
+failure only for a verified `static-proven` graph plan, and every diagnostic
+still declares `pruningAuthorized: false`. The v1 audit/controller now binds a
+narrow complete-node edge-prefix extension model and emits a separate hashed
+authorization decision. A prepared session now supplies those decisions to the
+depth-one pre-admission generator. The resulting artifact records a pruning
+census and proves pruning-disabled post-filter equivalence before it is
+interpretable. A second audit/controller binds the actual raw edge-group
+frontier frame and exact descendant counts; the recursive generator consumes
+it and proves exact agreement with both reference modes. Directed-strong
+frontiers are additionally required to be already strongly connected. The
+depth-aware variant reproduces the complete prior-level chain, target binding,
+and source selection before applying the same controller and conformance
+  rules. ADR-0082 separately freezes a raw node-prefix/complete-extension audit
+  frame, exact descendant-count validation, prepared authorization, and
+  differential-conformance generators at depth one and arbitrary target
+  depths. It permits only `static-proven` persistent failures and remains
+  fail-closed for `directed-strong` node
+  prefixes whose later policy exclusions are not yet fixed. ADR-0081 supplies
+  the underlying exact node-frontier counts and portable replay-resumable raw
+  traversal without bypassing semantic budgets. ADR-0083 separately composes
+  the complete-candidate profile gate with canonical-prefix pre-admission
+  pruning: the gate runs first, the audit binds exactly its compatible
+  universe, and exact profile transcripts plus pruning-disabled post-filter
+  conformance are required at depth one and arbitrary target depths. This
+  narrower integration grants no raw edge-group or node-frontier authority.
+  ADR-0084 adds that authority through an independent census over every
+  complete graph-policy-admissible raw extension, binds compatible/excluded
+  counts to exact frontier keys, and requires both generators to reconcile the
+  skipped dispositions with the complete profile transcript and reference
+  result sets.
 
 ### 10.4 Deduplication
 
@@ -1531,8 +2093,17 @@ closed `lte` Quantity comparison. Declared uncertainty on the aggregate and
 threshold combines through `declared-max-tolerance-v1`; compensated arithmetic
 only changes the disclosed exactness flag. A dimensionless scalar aggregate is
 lifted solely for that comparison. A Quantity aggregate retains its canonical
-unit, semantic, evidence, and conservative absolute bound. Cycle-set balance
-remains outside this runtime boundary.
+unit, semantic, evidence, and conservative absolute bound.
+
+`SetSelector { kind: "cycle" }` uses the frozen
+`directed-cycle-edge-union-v1` method. After its optional role filter, it
+selects every canonical edge `u -> v` for which `v` can reach `u` in the same
+directed filtered graph. Loops and reciprocal pairs are therefore retained,
+parallel qualifying edges remain distinct, overlapping cycles do not
+double-count an edge, and an empty union is an exact empty set. The selector
+does not infer an undirected projection from graph connectivity policy. Its
+witness records the method, role filter, and sorted edge indexes. See
+[ADR-0031](adr/0031-directed-cycle-edge-selection.md).
 
 For the foundational paper's coherent resonant triad, the rule package MUST use an `undirected-simple` projection with `minLength: 3`; reciprocal directed edges in a two-node dyad are not the paper's nontrivial loop.
 
@@ -1557,17 +2128,71 @@ An indeterminate required predicate is never counted as eligible. At final candi
 
 The policy MUST state whether substructures may remove nodes, edges, or both; whether empty and disconnected substructures are excluded; and how isolated nodes are treated. The default is every non-empty proper node-and-edge subgraph, including disconnected subgraphs.
 
+The implemented `exhaustive-proper-subgraphs-v1` order treats canonical parent
+index zero as the least-significant subset bit. `nodes` enumerates every proper
+node subset with its induced edges; `edges` enumerates every proper edge subset
+over the parent node set; and `nodes-and-edges` enumerates every node subset and
+every edge subset whose endpoints it retains, excluding only the complete
+parent graph. `retainIsolatedNodes` is applied before empty/connectivity
+filters. Excluded selections remain explicit skipped evidence and do not enter
+the evaluated denominator. A whole failure or indeterminate result terminates
+without enumeration; after a whole pass, a passing proper subgraph yields
+`fail`, otherwise an indeterminate subgraph or zero evaluated denominator
+yields `indeterminate`, and only all evaluated proper subgraphs failing yields
+`pass`. The selection family is preflighted against the shared hard limit of
+10,000 and is recorded in
+[ADR-0045](adr/0045-exhaustive-minimal-subgraphs.md), and direct scalar plus
+candidate-local invariant uncertainty in
+[ADR-0046](adr/0046-scalar-and-indeterminate-invariants.md), and package-
+authored scalar invariant integration in
+[ADR-0047](adr/0047-package-authored-scalar-invariants.md), and exact
+constituent novelty in
+[ADR-0048](adr/0048-exact-constituent-novelty.md).
+
 ### 11.4 `novel(P)`
 
 `novel(P)` passes when `P` passes for the whole candidate and fails for every proper constituent element referenced by that composition. It differs from `minimal(P)`: novelty compares the whole with its derivational constituents, whereas minimality searches structural subgraphs.
+
+The implemented `canonical-single-node-no-edge-v1` projection is available
+only in the `element-exact` domain. Canonical parent nodes are visited in index
+order. Each projection preserves that node and its structural attributes,
+removes all inter-element edges, canonicalizes with connectedness disabled,
+and records the source element, projection identity, parent mapping, outcome,
+and nested witnesses. `novel` has no run-selected projection policy. It shares
+the 10,000-attempt substructure ceiling, while nested policy-dependent
+operators still bind the explicit run `SubstructurePolicy`. A passing whole
+with no constituents is indeterminate, and quotient representatives are never
+treated as exact constituent evidence. This contract is recorded in
+[ADR-0048](adr/0048-exact-constituent-novelty.md).
 
 ### 11.5 `irreducibleRemoval(P)`
 
 `irreducibleRemoval(P, removal)` passes when `P` passes for the whole candidate and fails after every permitted single node or edge removal. Removal uses the same normalization rules as candidate evaluation. Invalid perturbations, such as an empty candidate excluded by policy, are reported and omitted from the denominator rather than treated as automatic failures.
 
+The irreducible-removal layer introduced in v10 enumerates removals in canonical parent-index
+order and binds the run `SubstructurePolicy`. Node removal also removes incident
+edges; `retainIsolatedNodes: false` then removes every remaining node without an
+incident edge. Included empty graphs receive a separate content-addressed
+substructure identity, while non-empty graphs use normal candidate
+canonicalization with disconnected normalization enabled. A whole failure or
+indeterminate result determines the combinator without enumerating removals.
+After a whole pass, any passing removal produces `fail`, otherwise any
+indeterminate removal or an empty evaluated denominator produces
+`indeterminate`, and only all evaluated removals failing produces `pass`.
+Attempted removals are bounded at 10,000 and all evaluated/skipped records are
+retained. This contract is recorded in
+[ADR-0030](adr/0030-irreducible-removal-evaluation.md).
+
 ### 11.6 `stableUnder(delta, P, threshold)`
 
-The perturbation class `delta` is declared in the rule package and may include edge deletion, role replacement, numeric attribute displacement by epsilon, or node deletion.
+The perturbation class `delta` is declared in the rule package. The executable
+schema-v1 classes are `edge-deletion`, `node-deletion`,
+`edge-role-replacement`, and `numeric-attribute-displacement`. Numeric
+displacement targets a structural node or edge attribute, uses a positive
+finite epsilon, and explicitly declares decrease and/or increase directions.
+Each class defaults to `exhaustive-valid-single-edits-v1` and may explicitly
+select `sampled-valid-single-edits-v1`; a registry-only string is not an
+executable definition.
 
 Let `V` be valid generated perturbations and `S` those for which `P` passes:
 
@@ -1575,7 +2200,42 @@ Let `V` be valid generated perturbations and `S` those for which `P` passes:
 stability = |S| / |V|
 ```
 
-The combinator passes when `stability >= threshold`. A threshold of `1` means preservation under every generated perturbation and applies the strictest policy. When exhaustive enumeration is not requested, sampling MUST use the run seed and report sample size and uncertainty. `|V| = 0` produces `indeterminate` unless the package declares a vacuous-truth policy.
+One applicable edit at one canonical parent index is one attempt even if two
+attempts canonicalize to the same graph. A valid result satisfies the original
+graph policy and enters `V`; graph-policy-invalid results and unavailable,
+non-finite, or ineffective numeric edits are omitted from `V` but retained as
+skipped witnesses. Other canonicalization failures propagate. All valid
+results retain candidate identity and canonical-to-parent mappings.
+
+Because `P` is three-valued, the exact runtime decision uses
+`lower = |S| / |V|` and
+`upper = (|S| + |indeterminate|) / |V|`. It passes when
+`lower >= threshold`, fails when `upper < threshold`, and is otherwise
+`indeterminate`. The threshold and fraction comparison are exact decimals;
+run-precision-rounded bounds are presentation evidence only. A threshold of
+`1` therefore requires every valid perturbation to pass. `|V| = 0` produces
+`indeterminate` unless the definition declares `emptyPolicy: "vacuous-pass"`.
+The exact family is preflighted against the shared 10,000
+substructure/perturbation-attempt ceiling.
+
+`sampled-valid-single-edits-v1` samples the same ordered attempt frame with
+replacement. The stream is derived independently for the run, plan, current
+canonical candidate, perturbation, sample ordinal, and rejection counter using
+domain-separated SHA-256 and unbiased modulo rejection. The requested sample
+count is the bound RunConfig `perturbationSamples` budget. Each accepted frame
+index is auditable, and skipped graph-invalid observations remain outside the
+valid sampled denominator.
+
+For `n` valid sampled draws, the runtime builds conservative outward
+six-decimal intervals around both `S/n` and `(S+I)/n`. The fixed
+`chebyshev-union-95-v1` radius is an upward-rounded `sqrt(10/n)`, so the two
+intervals have at least 95% joint coverage by Chebyshev's inequality and the
+union bound. Sampled stability passes only when the passing-probability lower
+bound meets the exact threshold, fails only when the non-failure-probability
+upper bound is below it, and otherwise remains `indeterminate`. Exact and
+sampled execution are recorded in
+[ADR-0049](adr/0049-exhaustive-typed-stability.md) and
+[ADR-0050](adr/0050-seeded-sampled-stability.md).
 
 ### 11.7 Cohort selectors
 
@@ -1623,7 +2283,14 @@ Changing the partial policy is semantic and changes the run hash. `wallTimeMs` i
 
 ### 11.9 Computational cost
 
-`minimal`, `novel`, and `irreducibleRemoval` may require an exponential number of evaluations in candidate size. This is accepted for the target range, normally `n <= 5` for exhaustive substructure combinators. Cache keys MUST include canonical substructure ID, expression hash, rules hash, and numerical policy.
+`minimal` may require an exponential number of evaluations in candidate size.
+Implemented `minimal` refuses a family above 10,000 selected proper subgraphs
+before materialization. One direct `novel` layer is linear in canonical parent
+nodes, and one `irreducibleRemoval` layer is linear in the selected parent
+nodes or edges, while nested removal combinators can again grow
+combinatorially. This is accepted for the target range, normally `n <= 5` for
+exhaustive substructure combinators. Cache keys MUST include canonical
+substructure ID, expression hash, rules hash, and numerical policy.
 
 ## 12. Profile extraction and equivalence
 
@@ -1655,6 +2322,18 @@ For a bounded fixture, the command MUST:
 
 `collapseError` is `null` when the exact/full set is empty. The specified ratio may exceed `1` if profile abstraction introduces more spurious candidates than the size of the full set; reports MUST NOT clamp it. The test is intended for small conformance configurations, not every production run.
 
+`package-profile-collapse-evaluator-v1` implements this bounded comparison by
+closing the requested depth independently in `element-exact` and `profile-
+quotient` modes. Every candidate is projected by replacing its verified
+constituents with their profile hashes and re-canonicalizing in the profile
+domain. The report groups all exact multiplicities under that projected ID,
+compares local predicate outcomes, final admission, selector outcomes, scores,
+ranks, and sensitivity status, then compares the final admitted projected sets.
+It retains the complete grouped observations, unclamped error, and
+lexicographically smallest set or observable counterexample. A target skipped
+because either ladder reached an earlier terminal is `truncated`; stored
+reports are accepted only by exact replay under ADR-0042.
+
 ### 12.2 Level-boundary detection
 
 The profile-collapse test also operationalizes the paper's effective-redescription boundary. `detectLevelBoundaries` runs the bounded exact-versus-profile comparison for every requested derivation transition under one `depthBasis` and emits:
@@ -1684,6 +2363,17 @@ interface LevelBoundaryReport {
 
 Within each frozen search interval, detected boundaries are every minimum within the declared tie tolerance whose `collapseError` does not exceed the declared maximum. Without explicit intervals, the command emits the full error profile and candidate minima but MUST NOT rewrite level labels automatically. The comparison table contains transition, error, declared level change, detection decision, and match/mismatch. A match is internal support for the profile-redescription hypothesis; a mismatch is a preserved falsifying result. Computed boundaries carry `axisProvenance.ontologyLevel = "computed"` only in a new derived mapping artifact and never mutate author-declared coordinates.
 
+`package-level-boundary-detector-v1` executes one paired bounded ladder and
+derives every requested transition point from it. Search-interval membership
+uses the target depth inclusively. Candidate minima must satisfy both the
+interval minimum plus tie tolerance and the maximum collapse error. Without
+intervals they are reported but not promoted to detected boundaries. Declared
+levels come only from a uniform element coordinate or the explicit run
+`ontologyTarget`; missing or mixed declarations produce a `null` match rather
+than an invented label. The report, comparison ladder hashes, points, minima,
+detections, declaration comparison, and terminal status are content-addressed
+and exactly replayed.
+
 ### 12.3 Effective redescription and carrier promotion
 
 The foundational paper requires a completed Level-0 ensemble to support effective redescription as a new carrier domain. Onto2D operationalizes this through a profile and an explicit `CarrierPromotion` artifact.
@@ -1699,13 +2389,25 @@ Promotion requires:
 
 This mapping is a falsifiable implementation hypothesis, not a theorem supplied by the paper. Promotion creates target-package input; it does not rewrite the identity, depth, or ontology coordinate of the source element.
 
+`package-carrier-promotion-materializer-v1` implements this boundary over one
+exactly replayed ladder level and one verified bounded collapse report. Its
+closed policy supplies source/target coordinates, target type tags,
+claim/evidence references, and an explicit counterexample disposition.
+Promotions are all-or-nothing for indeterminate inputs or empty profiles. A
+completed counterexample is either blocked or retained verbatim and explicitly
+accepted; it is never silently treated as equivalence. Each emitted mapping is
+domain-hashed and includes a complete loadable target `PrimitiveDefinition`.
+The set hash binds the source level/population, ladder, rules, collapse,
+policy, decisions, and terminal interpretation, and verification requires
+exact replay.
+
 ## 13. Closure execution pipeline
 
 One level executes the following state machine:
 
 ```text
 LOAD -> AUDIT -> SKELETONS -> DECORATE -> CANON -> FILTER
-     -> COHORTS -> RANK -> SENSITIVITY -> PROFILE
+     -> COHORTS -> RANK -> SENSITIVITY -> ADMIT -> FORMATIONS -> PROFILE
      -> BASELINE -> REPORT -> COMPLETE
 ```
 
@@ -1761,11 +2463,47 @@ subset. The complete local-filter census aggregates that verified state over a
 finished canonical package universe, retains every explanation, and reports
 Boolean selectivity plus predicate diagnostics. Its verifier reproduces all
 embedded generation/filter state rather than trusting shape or hash labels.
-Integrated selector/final `LevelResult` census fields remain pending, as do
-runtime scalar or non-identical-profile invariant semantics, derived
-attributes, general Quantity products, cycle sets, and substructures. Balance
+Integrated selector/final `LevelResult` census fields are now emitted by the
+verified `package-level-result-census-v1` projection described below.
+The schema-v1 profile aggregation registry is closed. All schema-v1
+substructure combinators and predicate-environment value-expression sources
+have executable local paths. Balance
 is executable when its bound node/edge attribute exists; unavailable package-
 derived attributes fail preflight.
+
+`package-level-explanation-indexer-v1` now supplies the per-level artifact
+lookup boundary for ordinary and depth-aware closures. It first reproduces the
+complete level and any required prior-level chain, then emits exactly one entry
+per evaluated candidate with the full filter, admission decision, optional
+formation/profile, and every derived-element derivation link. A separate
+content-addressed query snapshot can be produced by candidate ID. Full run-
+bundle persistence and source-migration explanation traversal remain separate
+because they require independently verified artifact chains. Run persistence
+is covered by ADR-0059/0060; generic source-node/relation/raw-SCC traversal is
+implemented later by
+[ADR-0067](adr/0067-source-migration-explanation-index.md). See
+[ADR-0057](adr/0057-verified-level-explanation-index.md).
+
+`package-level-result-census-v1` exactly reproduces the same ordinary or
+depth-aware level boundary, reconciles all final candidate, formation, profile,
+and element counts, and emits Boolean/variational selectivity plus the complete
+predicate and selector censuses. It preserves the source stages' level, local,
+admission, and per-selector interpretations instead of inventing a report-time
+verdict. Its admitted element IDs and five embedded artifact hashes make the
+compact census a stable input for later bundles without duplicating candidate
+lineage. See [ADR-0058](adr/0058-integrated-level-result-census.md).
+
+`package-run-artifact-bundle-v1` exactly reproduces a complete contiguous
+level chain and combines the normalized loaded package, RunConfig, semantic
+manifest, every level result, final census, and explanation index. Its sorted
+artifact table fixes logical path, media type, schema version, byte length,
+semantic identity, and the hash of exact canonical JSON bytes. The separate
+materializer returns those bytes without performing filesystem I/O.
+`package-run-artifact-store-v1` verifies serialized bundles and constructs a
+unique index for every per-level run hash. A kernel configured with that store
+can execute `explain({runHash,candidateId})`; an unbound kernel fails instead of
+using ambient inputs. Source explanations remain separate. See
+[ADR-0059](adr/0059-verified-run-artifact-bundles.md).
 
 ### 13.7 Cohorts
 
@@ -1776,7 +2514,8 @@ derived attributes fail preflight.
 
 ### 13.8 Rank
 
-- calculate and type-check functional scores only after all cohort members are known;
+- collect and type-check candidate-local functional scores for ranking only
+  after all cohort members are known;
 - preserve missing/non-finite/oracle-failed scores as selection-indeterminate records;
 - emit complete deterministic rankings;
 - calculate optima, epsilon-equivalent extremum sets, degeneracy, degeneracy ratio, gap, and variational selectivity;
@@ -1789,11 +2528,20 @@ derived attributes fail preflight.
 - classify each selector as robust or fragile under predeclared thresholds;
 - mark affected variational metrics non-interpretable when fragile without deleting raw rankings.
 
+### 13.9.1 Admission and formations
+
+- verify one complete partition/ranking/sensitivity chain for every selector;
+- combine semantic extrema under the declared all-selector admission policy;
+- preserve definite exclusion separately from selection indeterminacy;
+- materialize one provenance-complete formation per definitely selected
+  candidate before deriving profiles or element identity.
+
 ### 13.10 Profile
 
-- materialize selected admitted elements;
-- enforce minimum derivation depth;
-- extract profiles;
+- materialize selected formation records without inventing element identity;
+- extract profiles under the package's declared derivation policy;
+- materialize elements only from a complete profile set;
+- enforce minimum derivation depth and preserve alternate derivations;
 - form profile classes.
 
 ### 13.11 Baseline
@@ -1811,19 +2559,93 @@ derived attributes fail preflight.
 
 Every state transition and terminal failure MUST have a structured error code. A failed state MUST NOT be reported as a completed level.
 
+### 13.13 Current executable level boundary
+
+`package-level-closure-v1` implements the complete state chain currently
+available from the primitive depth-0 population through the derived depth-1
+population. It reproduces the package and normalized RunConfig, executes every
+declared selector chain, admission, selected formations, residual profiles,
+and element materialization, and emits a single content-addressed level
+artifact. Before selector work it totals ranking evaluations, required
+perturbation variants, and sensitivity evaluations across every selector and
+rejects an over-budget level without reporting a partial result.
+
+The primitive v1 coordinator has a deliberately narrower source scope than the
+complete state machine above. Source selection is the verified primitive
+population and target depth is one. Configured null models execute the complete
+plan, proposal, occurrence-census, occurrence-selection, and per-model
+distribution chain; disabled models retain `baseline.status = "not-run"` with
+the reason `null-models-disabled`. Complete, empty, and indeterminate terminals
+are distinct; profile indeterminacy cannot produce a partial element population.
+Run identity binds the normalized RunConfig and exact candidate binding, and a
+stored level is accepted only after exact replay. The generalized depth-level
+coordinator applies the same terminal, budget, and null-baseline contract to a
+verified contiguous prior-level chain. Audit/pruning coordination and
+persistence remain separate state-machine boundaries. Bounded current-level
+closure is the separate coordinator defined below; its round carrier still
+rejects configured null models and does not change this primitive contract.
+
 ## 14. Multi-level closure and bounded fixpoint
 
-`closeLadder` repeatedly calls level closure, adds newly admitted elements to the depth index, and uses their profiles for the next transition. Re-derived elements are not duplicated. Their minimum derivation depth remains authoritative.
+`package-ladder-closure-v1` implements the default non-self-referential form of
+`closeLadder`. It repeatedly closes consecutive levels, adds admitted elements
+to a canonical cross-depth index, and uses the configured `all-below` or
+`previous-only` populations for the next transition. Re-derived elements are
+not duplicated in the identity count: their minimum derivation depth remains
+authoritative and every population appearance is retained. Each level is
+preflighted independently against the run and caller ceilings; the ladder also
+records aggregate work without redefining those per-level limits. Execution
+terminates at the requested depth, the first level introducing no new element,
+or the first indeterminate level. The complete ladder, primitive population,
+levels, index, selectivity records, terminal status, and aggregate execution
+are domain-hashed and accepted only by exact replay.
 
-Default evaluation forbids current-level references. If bounded fixpoint mode is enabled:
+Default evaluation forbids current-level references. The package loader accepts
+`referencesDepth: "self"` only with the explicit
+`allowCurrentDepthReferences` option, and ordinary level/candidate APIs still
+refuse to execute that package without the fixpoint coordinator. The
+coordinator additionally requires `boundedFixpoint.enabled: true`; its
+`maxIterations` is a positive integer capped at 10,000 so emitted round arrays
+remain inside the published resource contract.
+
+`package-current-level-fixpoint-closure-v2` executes this protocol:
 
 1. start the current level with an empty admitted set;
-2. evaluate deterministic rounds against the previous round's set;
-3. add newly admitted canonical elements monotonically within the round protocol;
-4. stop when a round adds no elements or `maxIterations` is reached;
-5. report iteration count and convergence status.
+2. select the configured `all-below` or `previous-only` lower populations and
+   union them with the previous round's current set;
+3. reproduce the complete candidate census, selector, admission, formation,
+   profile, population, and configured null-model chain for that source;
+4. add newly admitted canonical elements monotonically, excluding identities
+   already present in the selected lower source;
+5. stop when a round adds no elements or `maxIterations` is reached;
+6. report iteration count and convergence status.
 
-If the limit is reached before convergence, the level is `indeterminate`; selectivity is not interpreted. Bounded fixpoint mode, iteration limit, and round semantics are part of the run hash.
+Each round binds its source selection, before/after current-set hashes,
+complete embedded artifacts, its own baseline, added identities, work totals,
+interpretation, and round hash. Null trials never pool across round carriers;
+an indeterminate baseline makes that round indeterminate. The level exposes the
+terminal round's baseline and null artifacts. A converged level publishes the monotone union with each unique
+derivation attributed to its first observed round. If a round becomes
+indeterminate or the iteration limit is reached after additions, the level is
+`indeterminate`: tentative elements and derivations remain auditable, the final
+population is empty, and selectivity is not interpreted. Bounded fixpoint
+mode, iteration limit, lower-population references, and round policy are part
+of run/result identity. Every supplied lower fixpoint level is deterministically
+replayed before a deeper direct closure is accepted.
+
+`package-fixpoint-ladder-closure-v1` applies those level coordinators in
+ascending depth order, indexes minimum depth and every final appearance, and
+stops at the requested depth, an indeterminate level, or a level introducing
+no globally new identity. The generic ladder and configured-kernel adapters
+dispatch to this contract whenever bounded mode is enabled. Stored current-
+level and ladder artifacts are accepted only by exact reproduction. The
+round-local null boundary is frozen by
+[ADR-0080](adr/0080-current-level-round-null-model-execution.md).
+
+Profile-collapse and level-boundary APIs currently reject bounded-fixpoint
+runs explicitly. Comparing only a terminal round would discard cumulative
+cross-round observations; a future version must define that projection before
+those diagnostics can truthfully consume fixpoint ladders.
 
 ## 15. Null models and statistical output
 
@@ -1869,15 +2691,99 @@ interface BaselineResult {
 }
 
 interface DistributionSummary {
+  expectedSamples: number;
+  availableSamples: number;
   mean: number | null;
   sd: number | null;
   z: number | null;
+  constantRelation: "equal" | "different" | "observed-unavailable" | null;
+  status: "complete" | "fragile" | "indeterminate";
+  notes: string[];
+  sampleTrialIds: string[];
+  distributionHash: string;
+}
+
+interface NullModelBaseline {
+  status: "complete" | "indeterminate";
+  models: Record<NullModelId, BaselineResult>;
+  observed: object;
+  trialSelectionsHash: string;
+  baselineHash: string;
+}
+
+interface NullModelDisabled {
+  status: "not-run";
+  reasons: ["null-models-disabled"];
 }
 ```
 
 For each metric, when `sd_null === 0`, `z` is `null` and the result explains whether the observed value equals the constant null value. The sign of `z` MUST be interpreted literally: with the defined formula, a lower observed ratio produces a negative z-score.
 
 Null-model random streams MUST be derived independently from the run seed and model/trial identifiers so that adding workers or reordering models does not change results.
+
+The executable `package-null-model-plan-v1` boundary freezes this context
+before sampling. It consumes a reproduced complete primitive or depth-aware
+candidate census, records its full canonical carrier, binds either the run's
+ontology coordinate or the target derivation depth, freezes the three proposal
+contracts and all-stage recomputation requirements, and derives one domain-
+separated stream and trial identity per normalized model/index pair. An enabled
+plan reports `planned`, never `complete`; the plan alone claims no execution.
+Proposal transformation, trial evaluation, and baseline interpretation remain
+separate downstream artifacts, so possession of a plan is never evidence that
+those stages ran.
+
+`package-null-model-proposals-v1` executes the transformation half of that
+contract. Each trial has carrier-size occurrence semantics. Role shuffles use
+candidate-wise Fisher-Yates; rewiring uses ten same-role directed target-swap
+attempts per edge with every invalid or outside-carrier proposal rejected and
+reported; uniform trials draw carrier indices independently with replacement.
+All draws use domain-separated SHA-256 counter rejection sampling, every output
+is canonicalized under the bound graph policy, duplicate occurrences are
+retained, and exact primitive/depth-aware replay is required. Proposal
+completion still does not satisfy the baseline gate until every occurrence is
+refiltered and trial-local cohorts, functionals, selectors, evidence,
+distributions, and interpretation have been rebuilt.
+
+`package-null-model-trial-censuses-v1` implements the next stage without
+collapsing proposal multiplicity. Every occurrence is assigned an identity over
+its trial, ordinal, source, and proposal and is passed through the reproduced
+primitive or depth-aware package filter session. Per-trial Boolean selectivity,
+indeterminate ratios, complete predicate censuses, and filter artifacts are
+hashed and exactly replayed. This completes local predicate reruns only;
+occurrence-aware cohort keys, functional values, selector extrema, external
+evidence invalidation, distributions, and baseline interpretation remain
+mandatory downstream stages.
+
+`package-null-model-trial-selections-v1` then changes the selection-domain
+identity from unique canonical candidate IDs to unique occurrence IDs while
+still evaluating every key and functional on the proposed canonical graph.
+It reconstructs every declared cohort, reruns every selector functional,
+recomputes dense ranks and epsilon extrema, repeats the full coefficient-
+sensitivity sweep, and readmits the occurrence population independently in
+each primitive or depth-aware trial. Replacement duplicates therefore remain
+separate cohort members and denominator contributions. Node-internal values
+stay fixed unless randomized by the model; graph-derived values are recomputed
+or remain indeterminate. The artifact retains raw rankings together with
+metric-specific fragile/indeterminate interpretation and aggregate execution
+ceilings. Trial selection completion itself does not claim metric distributions,
+standardized effects, or an integrated research baseline.
+
+`package-null-model-baseline-v1` implements that final statistical boundary.
+It exactly verifies the observed census/admission and the entire trial chain,
+keeps models separate, orders samples by trial identity, and computes fixed-
+order compensated means, sample standard deviations, and standardized effects
+for Boolean selectivity, every selector's variational selectivity, selection
+retention, overall retention, and indeterminate ratio. Missing samples never
+shrink a denominator. Fragile metrics retain their raw summaries but make the
+affected model indeterminate. Fewer than two samples and zero variance retain
+explicit notes and `z: null`; zero variance additionally records whether the
+observed value equals the null constant.
+
+Primitive and generalized-depth level coordinators execute and embed the
+complete plan/proposal/census/selection chain plus this baseline whenever null
+models are configured. Disabled runs retain the compact `not-run` state.
+Current-level fixpoint closure still rejects configured null models because its
+round carrier requires a separately frozen null hypothesis.
 
 ## 16. Diagnostics and explanations
 
@@ -1954,6 +2860,26 @@ interface MigrationMetrics {
 
 Two-node SCC count and the complete size histogram are diagnostics, not automatic rules. A reciprocal dyad may be mechanical duplicate entry, but it may also be substantive; a large component may encode joint constitution, but size alone cannot prove that interpretation.
 
+The executable generic reconciliation subset is recorded in
+[ADR-0063](adr/0063-source-migration-reconciliation-diagnostics.md). It derives
+the raw SCC histogram, all six classified edge counts, available frozen risk
+signals, cluster/member shares, relation-destination counts, and exact
+node/edge/DAG conservation only after full replay of the ADR-0061 chain. It
+requires the immutable ADR-0064 amendment snapshot and reports its frozen
+post-unblinding risk signal. ADR-0065 applies a non-empty log through a separate
+effective projection, recomputes SCCs, and requires newly bound reviewed
+resolution and condensation artifacts. ADR-0066 then constructs the complete
+`MigrationMetrics` artifact only from an exactly replayed reconciliation,
+exactly one reviewed disposition per raw SCC, and a total source-catalogue
+level mapping. It cannot substitute for missing current-catalogue review or
+the separately frozen concentration analysis.
+
+The generic concentration calculation is implemented under
+[ADR-0068](adr/0068-source-cluster-concentration.md). It requires a definition
+frozen without cluster-location exposure plus a complete one-depth-per-source-
+vertex partition, derives every cluster/member count, and returns
+`indeterminate` for a zero or missing enrichment denominator.
+
 The migration report also tests whether joint-constitution clusters concentrate at independently defined bottlenecks:
 
 ```ts
@@ -2014,6 +2940,9 @@ Operational metadata is separate so semantic outputs can be byte-reproducible:
 
 ```ts
 interface ExecutionRecord {
+  schemaVersion: "1";
+  recorder: "package-run-execution-record-v1";
+  executionId: `sha256:${string}`;
   runHash: string;
   startedAt: string;
   completedAt: string | null;
@@ -2025,6 +2954,10 @@ interface ExecutionRecord {
 ```
 
 Timestamps MUST NOT contribute to the semantic run hash. Two identical runs MUST produce byte-identical semantic artifacts; their execution records may differ.
+`executionId` is an operational raw-SHA-256 content address over the canonical
+record basis without the derived ID; it also does not contribute to semantic
+identity. A `complete` record requires `completedAt`. Failed or cancelled
+records may retain `null` when a terminal instant was not available.
 
 ### 17.3 Frozen prediction
 
@@ -2048,8 +2981,10 @@ The recommended layout is:
 
 ```text
 runs/<run-hash>/
+  artifact-bundle.json
   semantic-manifest.json
   normalized-input/
+    source-migration.json
     primitives.json
     predicates.json
     functionals.json
@@ -2092,16 +3027,41 @@ runs/<run-hash>/
   execution/<execution-id>.json
 ```
 
-Large candidate and explanation collections SHOULD use deterministic NDJSON ordering by canonical ID. Each artifact reference contains media type, schema version, byte length, and SHA-256 hash.
+Large candidate and explanation collections SHOULD use deterministic NDJSON
+ordering by canonical ID. Each artifact reference contains media type, schema
+version, byte length, and SHA-256 hash. The executable v1 kernel bundle uses
+canonical JSON for complete indexed artifacts; an application MAY project a
+large verified index to deterministic NDJSON in a later storage profile, but
+must retain a separately verified byte reference rather than relabeling the
+JSON artifact.
+
+The local filesystem profile uses the portable directory spelling
+`sha256-<digest>` for the semantic `sha256:<digest>` run hash. The complete
+canonical `artifact-bundle.json` envelope and every referenced byte are
+published atomically and reconstructed by `@onto2d/run-store` under
+[ADR-0060](adr/0060-verified-run-directory-persistence.md); the writer receipt
+is operational metadata and never enters semantic identity.
+Versioned execution records are appended separately under `execution/` with
+atomic no-overwrite publication and complete run binding under
+[ADR-0062](adr/0062-append-only-operational-execution-records.md). Their
+timestamps, platform labels, resource use, identities, and receipts never
+change the semantic envelope or bundle hash.
 
 ## 19. Public API
 
-The minimal API keeps state and artifacts explicit:
+The API keeps state and artifacts explicit. The executable level adapter takes
+a complete RunConfig and integrates its supported null-model plans.
+Candidate-level
+explanation indexing/querying is available through explicit verified indexes,
+and ambient run lookup is available only when `createKernel` receives a
+verified artifact-store snapshot. Source-migration explanation lookup remains
+on a catalogue-adapter session that replays the complete migration chain; the
+kernel does not import the adapter or infer external bytes from references:
 
 ```ts
-const kernel = createKernel({ version: "0.1.0" });
+const authoringKernel = createKernel({ version: "0.1.0" });
 
-const loaded = await kernel.loadPackage({
+const loaded = await authoringKernel.loadPackage({
   sourceArtifacts,
   sourceMigration,
   claims,
@@ -2117,41 +3077,47 @@ const loaded = await kernel.loadPackage({
   profileDefinition,
 });
 
-const level = await kernel.closeLevel({
+const level = authoringKernel.closeLevel({
   package: loaded,
-  from: primitives,
-  config: {
-    countingDomain: "profile-quotient",
-    sourceDepths: "all-below",
-    reportAxes: ["derivation-depth", "ontology-level", "ontology-phase"],
-    ontologyTarget: { level: 0, phase: "B", segment: "resonant-closure" },
-    evidencePolicy: "require-all",
-    indeterminateThreshold: 0.05,
-    seed: "case-1-v1",
-    budget: {
-      maxNodes: 4,
-      maxEdges: 6,
-      maxCandidates: 1_000_000,
-      perturbationSamples: 200,
-      nullModelRuns: 500,
-    },
-    nullModels: ["role-shuffle", "degree-rewire", "uniform"],
-  },
+  config: runConfig,
 });
 
+const bundle = authoringKernel.createPackageRunArtifactBundle(
+  loaded,
+  runConfig,
+  [level]
+);
+const artifactStore = authoringKernel.createPackageRunArtifactStore([bundle]);
+const kernel = createKernel({ version: "0.1.0", artifactStore });
+
 const why = await kernel.explain({
-  runHash: level.semanticManifest.runHash,
+  runHash: level.run.runHash,
   candidateId,
 });
 
-const sourceWhy = await kernel.explainSource({
-  runHash: level.semanticManifest.runHash,
-  subject: { kind: "source-relation", id: sourceRelationId },
+const sourceSession = createSourceMigrationExplanationSession(
+  classificationPolicy,
+  classificationView,
+  annotations,
+  adjudication,
+  amendments,
+  classifiedRelations,
+  nodeResolutionPolicy,
+  resolution,
+  condensation,
+  reconciliation,
+  metrics,
+  explanationIndex,
+);
+
+const sourceWhy = sourceSession.explain({
+  kind: "source-relation",
+  id: sourceRelationId,
 });
 
-const clusterWhy = await kernel.explainSource({
-  runHash: level.semanticManifest.runHash,
-  subject: { kind: "cluster", id: clusterElementId },
+const componentWhy = sourceSession.explain({
+  kind: "raw-component",
+  id: rawComponentId,
 });
 
 const ladder = await kernel.closeLadder({
@@ -2297,6 +3263,15 @@ Two performance targets are retained for `n = 4`: 60 seconds is the required acc
 
 ### 23.6 Null models
 
+- complete carrier disclosure, ontology gates, normalized model-order
+  invariance, independent trial stream identities, seed sensitivity, hard
+  limits, and exact plan replay pass for primitive and depth-aware censuses;
+- carrier-size role-shuffle, degree-rewire, and exact-uniform proposal
+  populations preserve their declared invariants, remain inside the complete
+  carrier, reconcile mixing/draw counts, and reproduce byte-for-byte;
+- every proposal occurrence, including repeated canonical uniform draws, is
+  independently refiltered and retained in exact per-trial Boolean and
+  predicate censuses for primitive and depth-aware carriers;
 - an intentionally non-selective rule set produces a null comparison consistent with no effect;
 - zero-variance null distributions are handled without infinity or `NaN`;
 - seeded trials reproduce independently of worker count.

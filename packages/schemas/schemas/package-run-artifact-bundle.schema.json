@@ -1,0 +1,355 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/package-run-artifact-bundle.schema.json",
+  "title": "Onto2D Verified Package Run Artifact Bundle",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "bundler",
+    "scope",
+    "packageId",
+    "rulesHash",
+    "depthBasis",
+    "runConfigHash",
+    "runHash",
+    "targetDepth",
+    "executionOptions",
+    "normalizedInput",
+    "semanticManifest",
+    "levels",
+    "artifacts",
+    "counts",
+    "bundleHash"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "bundler": { "const": "package-run-artifact-bundle-v1" },
+    "scope": { "const": "complete-verified-level-chain-artifacts-v1" },
+    "packageId": { "$ref": "#/$defs/hash" },
+    "rulesHash": { "$ref": "#/$defs/hash" },
+    "depthBasis": { "$ref": "#/$defs/hash" },
+    "runConfigHash": { "$ref": "#/$defs/hash" },
+    "runHash": { "$ref": "#/$defs/hash" },
+    "targetDepth": { "$ref": "#/$defs/depth" },
+    "executionOptions": { "$ref": "#/$defs/executionOptions" },
+    "normalizedInput": {
+      "type": "object",
+      "required": ["loadedPackage", "runConfig"],
+      "properties": {
+        "loadedPackage": { "$ref": "#/$defs/loadedPackage" },
+        "runConfig": { "$ref": "run-config.schema.json" }
+      },
+      "additionalProperties": false
+    },
+    "semanticManifest": {
+      "$ref": "package-run-semantic-manifest.schema.json"
+    },
+    "levels": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 64,
+      "items": { "$ref": "#/$defs/level" }
+    },
+    "artifacts": {
+      "type": "array",
+      "minItems": 19,
+      "maxItems": 4096,
+      "items": { "$ref": "#/$defs/artifact" }
+    },
+    "counts": {
+      "type": "object",
+      "required": ["levels", "runs", "artifacts", "candidates", "admittedElements"],
+      "properties": {
+        "levels": { "$ref": "#/$defs/count" },
+        "runs": { "$ref": "#/$defs/count" },
+        "artifacts": { "$ref": "#/$defs/count" },
+        "candidates": { "$ref": "#/$defs/count" },
+        "admittedElements": { "$ref": "#/$defs/count" }
+      },
+      "additionalProperties": false
+    },
+    "bundleHash": { "$ref": "#/$defs/hash" }
+  },
+  "$defs": {
+    "hash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "count": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "depth": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 64
+    },
+    "normalizedString": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 16384,
+      "pattern": "^(?:\\S|\\S(?:.*\\S)?)$"
+    },
+    "executionOptions": {
+      "type": "object",
+      "required": [
+        "kernelVersion",
+        "maxRawCandidates",
+        "maxDecorationStates",
+        "maxSearchStates",
+        "maxFunctionalEvaluations",
+        "maxSensitivityFunctionalEvaluations"
+      ],
+      "properties": {
+        "kernelVersion": { "$ref": "#/$defs/normalizedString" },
+        "maxRawCandidates": { "type": "integer", "minimum": 1, "maximum": 9007199254740991 },
+        "maxDecorationStates": { "type": "integer", "minimum": 1, "maximum": 9007199254740991 },
+        "maxSearchStates": { "type": "integer", "minimum": 1, "maximum": 9007199254740991 },
+        "maxFunctionalEvaluations": { "type": "integer", "minimum": 1, "maximum": 1000000 },
+        "maxSensitivityFunctionalEvaluations": { "type": "integer", "minimum": 1, "maximum": 1000000 }
+      },
+      "additionalProperties": false
+    },
+    "semanticManifest": {
+      "type": "object",
+      "required": [
+        "schemaVersion",
+        "kernelVersion",
+        "packageId",
+        "rulesHash",
+        "depthBasis",
+        "identityPolicyHash"
+      ],
+      "properties": {
+        "schemaVersion": { "const": "1" },
+        "kernelVersion": { "$ref": "#/$defs/normalizedString" },
+        "packageId": { "$ref": "#/$defs/hash" },
+        "rulesHash": { "$ref": "#/$defs/hash" },
+        "depthBasis": { "$ref": "#/$defs/hash" },
+        "identityPolicyHash": { "$ref": "#/$defs/hash" },
+        "sourceMigrationHash": { "$ref": "#/$defs/hash" }
+      },
+      "additionalProperties": false
+    },
+    "loadedPackage": {
+      "type": "object",
+      "required": [
+        "kind",
+        "schemaVersion",
+        "packageId",
+        "normalized",
+        "predicatePlans",
+        "semanticManifest"
+      ],
+      "properties": {
+        "kind": { "const": "loaded-kernel-package" },
+        "schemaVersion": { "const": "1" },
+        "packageId": { "$ref": "#/$defs/hash" },
+        "normalized": { "$ref": "#/$defs/normalizedPackage" },
+        "predicatePlans": {
+          "type": "array",
+          "maxItems": 10000,
+          "items": { "$ref": "predicate-plan.schema.json" }
+        },
+        "semanticManifest": { "$ref": "#/$defs/semanticManifest" }
+      },
+      "additionalProperties": false
+    },
+    "normalizedPackage": {
+      "type": "object",
+      "required": [
+        "schemaVersion",
+        "id",
+        "version",
+        "sourceArtifacts",
+        "evidence",
+        "claims",
+        "primitives",
+        "predicates",
+        "functionals",
+        "cohortRules",
+        "selectors",
+        "partialOraclePolicy",
+        "ontologyAxes",
+        "perturbations",
+        "candidateAttributes",
+        "profileDefinition",
+        "identityPolicy"
+      ],
+      "properties": {
+        "schemaVersion": { "const": "1" },
+        "id": { "$ref": "#/$defs/normalizedString" },
+        "version": { "$ref": "#/$defs/normalizedString" },
+        "sourceArtifacts": {
+          "type": "array",
+          "maxItems": 10000,
+          "items": { "$ref": "artifact-ref.schema.json" }
+        },
+        "sourceMigration": {
+          "$ref": "source-migration-binding.schema.json"
+        },
+        "evidence": {
+          "type": "array",
+          "maxItems": 10000,
+          "items": { "$ref": "evidence.schema.json" }
+        },
+        "claims": {
+          "type": "array",
+          "maxItems": 10000,
+          "items": { "$ref": "claim.schema.json" }
+        },
+        "primitives": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 10000,
+          "items": { "$ref": "#/$defs/normalizedPrimitive" }
+        },
+        "predicates": {
+          "type": "array",
+          "maxItems": 10000,
+          "items": { "$ref": "predicate.schema.json" }
+        },
+        "functionals": {
+          "type": "array",
+          "maxItems": 10000,
+          "items": { "$ref": "functional.schema.json" }
+        },
+        "cohortRules": {
+          "type": "array",
+          "maxItems": 10000,
+          "items": { "$ref": "cohort-rule.schema.json" }
+        },
+        "selectors": {
+          "type": "array",
+          "maxItems": 10000,
+          "items": { "$ref": "selector.schema.json" }
+        },
+        "partialOraclePolicy": {
+          "$ref": "kernel-package.schema.json#/properties/partialOraclePolicy"
+        },
+        "ontologyAxes": { "$ref": "ontology-axis.schema.json" },
+        "perturbations": {
+          "type": "array",
+          "maxItems": 10000,
+          "items": { "$ref": "perturbation-definition.schema.json" }
+        },
+        "candidateAttributes": {
+          "type": "array",
+          "maxItems": 256,
+          "items": { "$ref": "candidate-attribute-definition.schema.json" }
+        },
+        "profileDefinition": {
+          "$ref": "kernel-package.schema.json#/properties/profileDefinition"
+        },
+        "identityPolicy": { "$ref": "identity-policy.schema.json" }
+      },
+      "additionalProperties": false
+    },
+    "normalizedPrimitive": {
+      "type": "object",
+      "required": [
+        "sourceId",
+        "kind",
+        "typeTags",
+        "invariants",
+        "profile",
+        "claimRefs",
+        "elementId"
+      ],
+      "properties": {
+        "sourceId": { "$ref": "#/$defs/normalizedString" },
+        "kind": { "enum": ["primitive", "condensed-cluster"] },
+        "cluster": { "$ref": "cluster-provenance.schema.json" },
+        "ontologyCoordinate": { "$ref": "ontology-coordinate.schema.json" },
+        "axisProvenance": {
+          "$ref": "primitive.schema.json#/properties/axisProvenance"
+        },
+        "typeTags": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/normalizedString" }
+        },
+        "invariants": {
+          "type": "object",
+          "additionalProperties": { "$ref": "invariant-value.schema.json" }
+        },
+        "profile": { "$ref": "profile.schema.json" },
+        "claimRefs": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/normalizedString" }
+        },
+        "elementId": { "$ref": "#/$defs/hash" }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "kind": { "const": "condensed-cluster" } },
+            "required": ["kind"]
+          },
+          "then": { "required": ["cluster"] },
+          "else": { "not": { "required": ["cluster"] } }
+        },
+        {
+          "if": { "required": ["ontologyCoordinate"] },
+          "then": { "required": ["axisProvenance"] }
+        }
+      ],
+      "additionalProperties": false
+    },
+    "level": {
+      "type": "object",
+      "required": ["targetDepth", "level", "resultCensus", "explanationIndex"],
+      "properties": {
+        "targetDepth": { "$ref": "#/$defs/depth" },
+        "level": {
+          "oneOf": [
+            { "$ref": "package-level-closure.schema.json" },
+            { "$ref": "package-depth-level-closure.schema.json" }
+          ]
+        },
+        "resultCensus": { "$ref": "package-level-result-census.schema.json" },
+        "explanationIndex": { "$ref": "package-level-explanation-index.schema.json" }
+      },
+      "additionalProperties": false
+    },
+    "artifact": {
+      "type": "object",
+      "required": ["artifactKind", "targetDepth", "semanticHash", "ref"],
+      "properties": {
+        "artifactKind": {
+          "enum": [
+            "semantic-manifest",
+            "normalized-package",
+            "source-artifacts",
+            "source-migration",
+            "primitives",
+            "predicates",
+            "functionals",
+            "cohort-rules",
+            "selectors",
+            "claims",
+            "evidence",
+            "oracle-policy",
+            "ontology-axes",
+            "perturbations",
+            "profile-definition",
+            "identity-policy",
+            "run-config",
+            "level-result",
+            "level-census",
+            "level-explanations"
+          ]
+        },
+        "targetDepth": {
+          "oneOf": [{ "$ref": "#/$defs/depth" }, { "type": "null" }]
+        },
+        "semanticHash": { "$ref": "#/$defs/hash" },
+        "ref": { "$ref": "artifact-ref.schema.json" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

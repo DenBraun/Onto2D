@@ -78,7 +78,9 @@ The kernel binds a view hash and declared visible-field set but does not serve
 or access-control the annotation UI; that enforcement belongs in the catalogue
 adapter/application. This implementation also does not author a policy,
 classify a catalogue relation, resolve an SCC, load `sourceMigration`, or
-process post-unblinding amendments. Those capabilities remain pending.
+process post-unblinding amendments. The later
+[ADR-0064](0064-post-unblinding-classification-amendments.md) adds a separate
+non-overwriting amendment log; it does not mutate this frozen artifact.
 
 Verified decisions are translated into typed relations and SCC partitions by
 [ADR-0014](0014-classified-relations-and-scc-projections.md).

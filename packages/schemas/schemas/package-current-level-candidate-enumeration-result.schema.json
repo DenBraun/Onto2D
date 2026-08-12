@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/package-current-level-candidate-enumeration-result.schema.json",
+  "title": "Onto2D Current-Level Candidate Enumeration Result",
+  "type": "object",
+  "required": ["schemaVersion", "generator", "binding", "enumeration", "profileComposition"],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "generator": { "const": "package-current-level-candidate-generator-v3" },
+    "binding": { "$ref": "package-current-level-candidate-binding.schema.json" },
+    "enumeration": { "$ref": "candidate-enumeration-result.schema.json" },
+    "profileComposition": { "$ref": "package-profile-composition.schema.json" }
+  },
+  "additionalProperties": false
+}

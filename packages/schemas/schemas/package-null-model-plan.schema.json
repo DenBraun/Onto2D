@@ -1,0 +1,309 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/package-null-model-plan.schema.json",
+  "title": "Onto2D Package Null-Model Execution Plan",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "planner",
+    "packageId",
+    "rulesHash",
+    "depthBasis",
+    "runConfigHash",
+    "bindingHash",
+    "censusHash",
+    "ontologyGate",
+    "carrierPopulation",
+    "randomnessPolicy",
+    "executionRequirements",
+    "modelContracts",
+    "trials",
+    "counts",
+    "status",
+    "interpretation",
+    "planHash"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "planner": { "const": "package-null-model-plan-v1" },
+    "packageId": { "$ref": "#/$defs/hash" },
+    "rulesHash": { "$ref": "#/$defs/hash" },
+    "depthBasis": { "$ref": "#/$defs/hash" },
+    "runConfigHash": { "$ref": "#/$defs/hash" },
+    "bindingHash": { "$ref": "#/$defs/hash" },
+    "censusHash": { "$ref": "#/$defs/hash" },
+    "ontologyGate": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["kind", "targetDepth"],
+          "properties": {
+            "kind": { "const": "derivation-depth-target-v1" },
+            "targetDepth": { "$ref": "#/$defs/depth" }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["kind", "targetDepth", "ontologyCoordinate"],
+          "properties": {
+            "kind": { "const": "run-ontology-target-v1" },
+            "targetDepth": { "$ref": "#/$defs/depth" },
+            "ontologyCoordinate": { "$ref": "ontology-coordinate.schema.json" }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "carrierPopulation": { "$ref": "#/$defs/carrierPopulation" },
+    "randomnessPolicy": {
+      "type": "object",
+      "required": ["streamDerivation", "streamIndependence", "drawExpansion"],
+      "properties": {
+        "streamDerivation": { "const": "run-seed-model-trial-domain-hash-v1" },
+        "streamIndependence": { "const": "model-and-trial-order-independent-v1" },
+        "drawExpansion": { "const": "sha256-counter-rejection-sampling-v1" }
+      },
+      "additionalProperties": false
+    },
+    "executionRequirements": {
+      "type": "object",
+      "required": [
+        "localPredicates",
+        "cohorts",
+        "functionals",
+        "selectors",
+        "evidence",
+        "pooling"
+      ],
+      "properties": {
+        "localPredicates": { "const": "rerun-every-candidate-v1" },
+        "cohorts": { "const": "reconstruct-total-partition-per-trial-v1" },
+        "functionals": { "const": "reevaluate-every-cohort-member-v1" },
+        "selectors": { "const": "rerank-and-readmit-per-trial-v1" },
+        "evidence": { "const": "recompute-invalidated-or-indeterminate-v1" },
+        "pooling": { "const": "never-across-ontology-gates-or-carrier-populations-v1" }
+      },
+      "additionalProperties": false
+    },
+    "modelContracts": {
+      "type": "array",
+      "maxItems": 3,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/modelContract" }
+    },
+    "trials": {
+      "type": "array",
+      "maxItems": 10000,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/trial" }
+    },
+    "counts": {
+      "type": "object",
+      "required": ["models", "trialsPerModel", "totalTrials", "carrierCandidates"],
+      "properties": {
+        "models": { "type": "integer", "minimum": 0, "maximum": 3 },
+        "trialsPerModel": { "$ref": "#/$defs/count" },
+        "totalTrials": { "type": "integer", "minimum": 0, "maximum": 10000 },
+        "carrierCandidates": { "type": "integer", "minimum": 0, "maximum": 1000000 }
+      },
+      "additionalProperties": false
+    },
+    "status": { "enum": ["planned", "not-run"] },
+    "interpretation": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["status", "reasons"],
+          "properties": {
+            "status": { "const": "planned" },
+            "reasons": { "const": ["trial-execution-and-metric-distributions-pending"] }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["status", "reasons"],
+          "properties": {
+            "status": { "const": "not-run" },
+            "reasons": { "const": ["null-models-disabled"] }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "planHash": { "$ref": "#/$defs/hash" }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "status": { "const": "planned" } },
+        "required": ["status"]
+      },
+      "then": {
+        "properties": {
+          "modelContracts": { "minItems": 1 },
+          "trials": { "minItems": 1 },
+          "counts": {
+            "properties": {
+              "models": { "minimum": 1 },
+              "trialsPerModel": { "minimum": 1 },
+              "totalTrials": { "minimum": 1 }
+            }
+          },
+          "interpretation": {
+            "properties": { "status": { "const": "planned" } }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "status": { "const": "not-run" } },
+        "required": ["status"]
+      },
+      "then": {
+        "properties": {
+          "modelContracts": { "maxItems": 0 },
+          "trials": { "maxItems": 0 },
+          "counts": {
+            "properties": {
+              "models": { "const": 0 },
+              "trialsPerModel": { "const": 0 },
+              "totalTrials": { "const": 0 }
+            }
+          },
+          "interpretation": {
+            "properties": { "status": { "const": "not-run" } }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "hash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "count": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "depth": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 64
+    },
+    "carrierPopulation": {
+      "type": "object",
+      "required": [
+        "kind",
+        "bindingHash",
+        "censusHash",
+        "countingDomain",
+        "targetDepth",
+        "sourcePopulationHash",
+        "candidateIds",
+        "carrierHash",
+        "runConfigHash"
+      ],
+      "properties": {
+        "kind": { "const": "complete-canonical-candidate-census-v1" },
+        "bindingHash": { "$ref": "#/$defs/hash" },
+        "censusHash": { "$ref": "#/$defs/hash" },
+        "countingDomain": { "enum": ["profile-quotient", "element-exact"] },
+        "targetDepth": { "$ref": "#/$defs/depth" },
+        "sourcePopulationHash": { "$ref": "#/$defs/hash" },
+        "candidateIds": {
+          "type": "array",
+          "maxItems": 1000000,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/hash" }
+        },
+        "carrierHash": { "$ref": "#/$defs/hash" },
+        "runConfigHash": { "$ref": "#/$defs/hash" }
+      },
+      "additionalProperties": false
+    },
+    "modelContract": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["model", "proposal", "sampling", "population", "preserves"],
+          "properties": {
+            "model": { "const": "role-shuffle" },
+            "proposal": { "const": "uniform-edge-role-multiset-permutation-v1" },
+            "sampling": { "const": "candidate-wise-fisher-yates-v1" },
+            "population": { "const": "one-proposal-per-carrier-candidate-v1" },
+            "preserves": {
+              "const": [
+                "candidate-skeleton",
+                "edge-directions",
+                "structural-attributes",
+                "edge-role-multiset",
+                "declared-candidate-universe"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["model", "proposal", "sampling", "population", "mixing", "preserves"],
+          "properties": {
+            "model": { "const": "degree-rewire" },
+            "proposal": { "const": "role-wise-directed-degree-preserving-valid-swap-v1" },
+            "sampling": { "const": "uniform-same-role-edge-pair-v1" },
+            "population": { "const": "one-proposal-per-carrier-candidate-v1" },
+            "mixing": {
+              "type": "object",
+              "required": ["swap", "attemptsPerEdge", "minimumWhenEligible", "invalidProposal"],
+              "properties": {
+                "swap": { "const": "directed-target-swap-v1" },
+                "attemptsPerEdge": { "const": 10 },
+                "minimumWhenEligible": { "const": 1 },
+                "invalidProposal": { "const": "reject-and-retain-current-v1" }
+              },
+              "additionalProperties": false
+            },
+            "preserves": {
+              "const": [
+                "candidate-node-multiset",
+                "role-wise-directed-degree-sequence",
+                "structural-attributes",
+                "declared-candidate-universe"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["model", "proposal", "sampling", "population", "preserves"],
+          "properties": {
+            "model": { "const": "uniform" },
+            "proposal": { "const": "exact-uniform-index-from-finite-canonical-universe-v1" },
+            "sampling": { "const": "independent-with-replacement-v1" },
+            "population": { "const": "carrier-size-proposals-v1" },
+            "preserves": { "const": ["declared-candidate-universe", "counting-domain"] }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "trial": {
+      "type": "object",
+      "required": ["model", "trialIndex", "streamHash", "carrierHash", "trialId"],
+      "properties": {
+        "model": { "enum": ["role-shuffle", "degree-rewire", "uniform"] },
+        "trialIndex": { "type": "integer", "minimum": 0, "maximum": 9999 },
+        "streamHash": { "$ref": "#/$defs/hash" },
+        "carrierHash": { "$ref": "#/$defs/hash" },
+        "trialId": { "$ref": "#/$defs/hash" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

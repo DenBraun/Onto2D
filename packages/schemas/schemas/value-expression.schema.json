@@ -8,10 +8,12 @@
     "value": {},
     "name": { "$ref": "#/$defs/id" },
     "node": { "$ref": "#/$defs/nodeSelector" },
+    "profileAggregation": { "const": "arithmetic-mean-conservative-v1" },
     "set": { "$ref": "#/$defs/setSelector" },
     "attribute": { "$ref": "#/$defs/id" },
     "terms": { "$ref": "#/$defs/expressionList" },
-    "factors": { "$ref": "#/$defs/expressionList" }
+    "factors": { "$ref": "#/$defs/expressionList" },
+    "resultSemantic": { "$ref": "#/$defs/id" }
   },
   "oneOf": [
     {
@@ -34,7 +36,8 @@
       "properties": {
         "kind": { "const": "invariant" },
         "name": { "$ref": "#/$defs/id" },
-        "node": { "$ref": "#/$defs/nodeSelector" }
+        "node": { "$ref": "#/$defs/nodeSelector" },
+        "profileAggregation": { "const": "arithmetic-mean-conservative-v1" }
       },
       "additionalProperties": false
     },
@@ -71,7 +74,8 @@
       "required": ["kind", "factors"],
       "properties": {
         "kind": { "const": "multiply" },
-        "factors": { "$ref": "#/$defs/expressionList" }
+        "factors": { "$ref": "#/$defs/expressionList" },
+        "resultSemantic": { "$ref": "#/$defs/id" }
       },
       "additionalProperties": false
     },

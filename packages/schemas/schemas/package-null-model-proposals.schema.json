@@ -1,0 +1,393 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/package-null-model-proposals.schema.json",
+  "title": "Onto2D Package Null-Model Proposals",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "proposer",
+    "planHash",
+    "packageId",
+    "rulesHash",
+    "runConfigHash",
+    "bindingHash",
+    "censusHash",
+    "carrierHash",
+    "policy",
+    "trials",
+    "counts",
+    "status",
+    "interpretation",
+    "proposalsHash"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "proposer": { "const": "package-null-model-proposals-v1" },
+    "planHash": { "$ref": "#/$defs/hash" },
+    "packageId": { "$ref": "#/$defs/hash" },
+    "rulesHash": { "$ref": "#/$defs/hash" },
+    "runConfigHash": { "$ref": "#/$defs/hash" },
+    "bindingHash": { "$ref": "#/$defs/hash" },
+    "censusHash": { "$ref": "#/$defs/hash" },
+    "carrierHash": { "$ref": "#/$defs/hash" },
+    "policy": {
+      "type": "object",
+      "required": [
+        "occurrencePopulation",
+        "occurrenceIdentity",
+        "membership",
+        "canonicalization",
+        "roleShuffle",
+        "degreeRewire",
+        "uniform"
+      ],
+      "properties": {
+        "occurrencePopulation": { "const": "carrier-size-per-trial-v1" },
+        "occurrenceIdentity": { "const": "source-ordinal-and-proposed-candidate-v1" },
+        "membership": { "const": "verified-complete-carrier-v1" },
+        "canonicalization": { "const": "bound-run-graph-policy-v1" },
+        "roleShuffle": { "const": "candidate-wise-fisher-yates-v1" },
+        "degreeRewire": { "const": "ten-directed-target-swaps-per-edge-v1" },
+        "uniform": { "const": "independent-carrier-index-with-replacement-v1" }
+      },
+      "additionalProperties": false
+    },
+    "trials": {
+      "type": "array",
+      "maxItems": 10000,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/trial" }
+    },
+    "counts": { "$ref": "#/$defs/aggregateCounts" },
+    "status": { "enum": ["complete", "not-run"] },
+    "interpretation": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["status", "reasons"],
+          "properties": {
+            "status": { "const": "proposal-complete" },
+            "reasons": { "const": ["trial-evaluation-and-distributions-pending"] }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["status", "reasons"],
+          "properties": {
+            "status": { "const": "not-run" },
+            "reasons": { "const": ["null-models-disabled"] }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "proposalsHash": { "$ref": "#/$defs/hash" }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "status": { "const": "complete" } },
+        "required": ["status"]
+      },
+      "then": {
+        "properties": {
+          "trials": { "minItems": 1 },
+          "counts": {
+            "properties": { "trials": { "minimum": 1 } }
+          },
+          "interpretation": {
+            "properties": { "status": { "const": "proposal-complete" } },
+            "required": ["status"]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "status": { "const": "not-run" } },
+        "required": ["status"]
+      },
+      "then": {
+        "properties": {
+          "trials": { "maxItems": 0 },
+          "counts": {
+            "properties": {
+              "trials": { "const": 0 },
+              "occurrences": { "const": 0 },
+              "changed": { "const": 0 },
+              "randomDraws": { "const": 0 },
+              "attemptedSwaps": { "const": 0 },
+              "acceptedSwaps": { "const": 0 },
+              "rejectedSwaps": { "const": 0 }
+            }
+          },
+          "interpretation": {
+            "properties": { "status": { "const": "not-run" } },
+            "required": ["status"]
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "hash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "count": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "ratio": { "type": "number", "minimum": 0, "maximum": 1 },
+    "counts": {
+      "type": "object",
+      "required": [
+        "occurrences",
+        "changed",
+        "randomDraws",
+        "attemptedSwaps",
+        "acceptedSwaps",
+        "rejectedSwaps"
+      ],
+      "properties": {
+        "occurrences": { "$ref": "#/$defs/count" },
+        "changed": { "$ref": "#/$defs/count" },
+        "randomDraws": { "$ref": "#/$defs/count" },
+        "attemptedSwaps": { "$ref": "#/$defs/count" },
+        "acceptedSwaps": { "$ref": "#/$defs/count" },
+        "rejectedSwaps": { "$ref": "#/$defs/count" }
+      },
+      "additionalProperties": false
+    },
+    "aggregateCounts": {
+      "type": "object",
+      "required": [
+        "trials",
+        "occurrences",
+        "changed",
+        "randomDraws",
+        "attemptedSwaps",
+        "acceptedSwaps",
+        "rejectedSwaps"
+      ],
+      "properties": {
+        "trials": { "$ref": "#/$defs/count" },
+        "occurrences": { "$ref": "#/$defs/count" },
+        "changed": { "$ref": "#/$defs/count" },
+        "randomDraws": { "$ref": "#/$defs/count" },
+        "attemptedSwaps": { "$ref": "#/$defs/count" },
+        "acceptedSwaps": { "$ref": "#/$defs/count" },
+        "rejectedSwaps": { "$ref": "#/$defs/count" }
+      },
+      "additionalProperties": false
+    },
+    "roleShuffleOperation": {
+      "type": "object",
+      "required": ["kind", "algorithm", "randomDraws", "edgeRoles", "changed"],
+      "properties": {
+        "kind": { "const": "role-shuffle" },
+        "algorithm": { "const": "fisher-yates-uniform-v1" },
+        "randomDraws": { "$ref": "#/$defs/count" },
+        "edgeRoles": { "$ref": "#/$defs/count" },
+        "changed": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    },
+    "degreeRewireOperation": {
+      "type": "object",
+      "required": [
+        "kind",
+        "algorithm",
+        "randomDraws",
+        "eligibleEdgePairs",
+        "attemptedSwaps",
+        "acceptedSwaps",
+        "rejectedSwaps",
+        "acceptanceRatio",
+        "mixingStatus",
+        "changed"
+      ],
+      "properties": {
+        "kind": { "const": "degree-rewire" },
+        "algorithm": { "const": "role-wise-directed-target-swap-v1" },
+        "randomDraws": { "$ref": "#/$defs/count" },
+        "eligibleEdgePairs": { "$ref": "#/$defs/count" },
+        "attemptedSwaps": { "$ref": "#/$defs/count" },
+        "acceptedSwaps": { "$ref": "#/$defs/count" },
+        "rejectedSwaps": { "$ref": "#/$defs/count" },
+        "acceptanceRatio": {
+          "oneOf": [{ "$ref": "#/$defs/ratio" }, { "type": "null" }]
+        },
+        "mixingStatus": { "enum": ["not-applicable", "unmixed", "mixed"] },
+        "changed": { "type": "boolean" }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "attemptedSwaps": { "const": 0 } },
+            "required": ["attemptedSwaps"]
+          },
+          "then": {
+            "properties": {
+              "acceptedSwaps": { "const": 0 },
+              "rejectedSwaps": { "const": 0 },
+              "acceptanceRatio": { "type": "null" },
+              "mixingStatus": { "const": "not-applicable" }
+            }
+          },
+          "else": {
+            "properties": {
+              "acceptanceRatio": { "$ref": "#/$defs/ratio" },
+              "mixingStatus": { "enum": ["unmixed", "mixed"] }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": { "acceptedSwaps": { "const": 0 } },
+            "required": ["acceptedSwaps"]
+          },
+          "then": {
+            "properties": {
+              "mixingStatus": { "enum": ["not-applicable", "unmixed"] }
+            }
+          },
+          "else": {
+            "properties": { "mixingStatus": { "const": "mixed" } }
+          }
+        }
+      ],
+      "additionalProperties": false
+    },
+    "uniformOperation": {
+      "type": "object",
+      "required": [
+        "kind",
+        "algorithm",
+        "replacement",
+        "frameSize",
+        "frameIndex",
+        "randomDraws",
+        "changed"
+      ],
+      "properties": {
+        "kind": { "const": "uniform" },
+        "algorithm": { "const": "exact-uniform-carrier-index-v1" },
+        "replacement": { "const": "with-replacement" },
+        "frameSize": { "type": "integer", "minimum": 1, "maximum": 1000000 },
+        "frameIndex": { "type": "integer", "minimum": 0, "maximum": 999999 },
+        "randomDraws": { "$ref": "#/$defs/count" },
+        "changed": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    },
+    "occurrence": {
+      "type": "object",
+      "required": [
+        "occurrenceIndex",
+        "sourceCandidateId",
+        "candidateId",
+        "candidate",
+        "operation"
+      ],
+      "properties": {
+        "occurrenceIndex": { "type": "integer", "minimum": 0, "maximum": 999999 },
+        "sourceCandidateId": { "$ref": "#/$defs/hash" },
+        "candidateId": { "$ref": "#/$defs/hash" },
+        "candidate": { "$ref": "candidate.schema.json" },
+        "operation": {
+          "oneOf": [
+            { "$ref": "#/$defs/roleShuffleOperation" },
+            { "$ref": "#/$defs/degreeRewireOperation" },
+            { "$ref": "#/$defs/uniformOperation" }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "trial": {
+      "type": "object",
+      "required": [
+        "trialId",
+        "model",
+        "streamHash",
+        "occurrences",
+        "counts",
+        "trialProposalHash"
+      ],
+      "properties": {
+        "trialId": { "$ref": "#/$defs/hash" },
+        "model": { "enum": ["role-shuffle", "degree-rewire", "uniform"] },
+        "streamHash": { "$ref": "#/$defs/hash" },
+        "occurrences": {
+          "type": "array",
+          "maxItems": 1000000,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/occurrence" }
+        },
+        "counts": { "$ref": "#/$defs/counts" },
+        "trialProposalHash": { "$ref": "#/$defs/hash" }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "model": { "const": "role-shuffle" } },
+            "required": ["model"]
+          },
+          "then": {
+            "properties": {
+              "occurrences": {
+                "items": {
+                  "properties": {
+                    "operation": { "$ref": "#/$defs/roleShuffleOperation" }
+                  },
+                  "required": ["operation"]
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": { "model": { "const": "degree-rewire" } },
+            "required": ["model"]
+          },
+          "then": {
+            "properties": {
+              "occurrences": {
+                "items": {
+                  "properties": {
+                    "operation": { "$ref": "#/$defs/degreeRewireOperation" }
+                  },
+                  "required": ["operation"]
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": { "model": { "const": "uniform" } },
+            "required": ["model"]
+          },
+          "then": {
+            "properties": {
+              "occurrences": {
+                "items": {
+                  "properties": {
+                    "operation": { "$ref": "#/$defs/uniformOperation" }
+                  },
+                  "required": ["operation"]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

@@ -381,6 +381,17 @@ export function evaluateCanonicalPredicateExpression(expression, path, context) 
   if (expression.op === "balance" && typeof context.evaluateBalance === "function") {
     return context.evaluateBalance(expression, path, context);
   }
+  if (
+    (
+      expression.op === "minimal" ||
+      expression.op === "irreducibleRemoval" ||
+      expression.op === "novel" ||
+      expression.op === "stableUnder"
+    ) &&
+    typeof context.evaluateSubstructure === "function"
+  ) {
+    return context.evaluateSubstructure(expression, path, context);
+  }
   if (expression.op === "countRole") {
     const edges = filteredEdgeRecords(context.graph, [expression.role]).map((edge) => edge.index);
     const outcome = context.partial

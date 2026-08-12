@@ -22,9 +22,10 @@ npm run build
 `npm ci` materializes local workspace links. `npm test` discovers every
 `*.test.js`, `*.test.mjs`, and `*.test.cjs` file outside ignored/generated
 directories. `npm run check` performs syntax and manifest validation, package
-boundary checks, schema compilation/reference checks, Markdown link/fence checks, and the
-golden catalogue audit. `npm run build` runs the same validation and then
-confirms that no transpilation is required.
+boundary checks, schema compilation/reference checks, the frozen schema-v1
+kernel closure contract, Markdown link/fence checks, and the golden catalogue
+audit. `npm run build` runs the same validation and then confirms that no
+transpilation is required.
 
 Focused commands:
 
@@ -33,6 +34,8 @@ Focused commands:
 | `npm run test:kernel` | Check canonicalization, loading, and kernel contracts |
 | `npm run audit:catalogue` | Print the current catalogue audit snapshot |
 | `npm run check:catalogue` | Compare the audit with its reviewed golden |
+| `npm run check:closure` | Verify capability-to-test evidence, the closed registry, independent fixture hashes, required CI matrix, and post-closure visualization flag |
+| `npm run check:goldens` | Independently regenerate canonical/skeleton fixtures in memory and compare them byte-for-byte without writing files |
 | `npm run check:schemas` | Parse and compile schemas, resolve references, and verify export coverage |
 | `npm run check:docs` | Check local Markdown links and code fences |
 | `npm run check:source` | Parse every JSON file and syntax-check JavaScript |
@@ -54,6 +57,11 @@ positive byte vectors independently, frames their SHA-256 domains, and obtains
 all connected simple graphs through six nodes by full permutation orbits. The
 kernel tests compare canonical bytes, hashes, canonical skeletons, and labelled
 multiplicities against the frozen JSON output.
+
+For a non-mutating reviewer check, run `npm run check:goldens`. It constructs
+the same independent values in memory and fails if either committed fixture
+differs byte-for-byte; the ordinary generator command remains the explicit
+update path.
 
 ## Working on the kernel
 
@@ -96,9 +104,190 @@ invariants resolve from an explicit source-population context under
 attribute balance is available under
 [ADR-0027](adr/0027-local-balance-evaluation.md). A profile-class Quantity
 invariant may resolve only from identical normalized values across every member
-under [ADR-0028](adr/0028-profile-invariant-consensus.md). Scalar invariants,
-non-identical profile aggregation, functional/coefficient execution, general
-Quantity products, cycle-set selection, and substructures remain rejected.
+under [ADR-0028](adr/0028-profile-invariant-consensus.md). Direct local scalar
+invariants and candidate-local invariant uncertainty are executable under
+[ADR-0046](adr/0046-scalar-and-indeterminate-invariants.md). Package-authored
+scalar storage, primitive identity, filtering, numeric-functional, and cohort-
+key execution follow
+[ADR-0047](adr/0047-package-authored-scalar-invariants.md). Exact
+element-constituent `novel` evaluation follows
+[ADR-0048](adr/0048-exact-constituent-novelty.md).
+Exhaustive typed single-edit `stableUnder` evaluation follows
+[ADR-0049](adr/0049-exhaustive-typed-stability.md).
+Seeded sampled stability follows
+[ADR-0050](adr/0050-seeded-sampled-stability.md).
+Explicit numeric profile means across complete classes follow
+[ADR-0051](adr/0051-explicit-profile-invariant-aggregation.md); other
+aggregation names remain invalid future extensions because ADR-0090 closes the
+schema-v1 registry.
+Explicit-semantic local Quantity products follow
+[ADR-0052](adr/0052-local-general-quantity-products.md).
+Deterministic monotonicity falsification audits and the separate pruning
+controller follow
+[ADR-0053](adr/0053-monotonicity-audit-and-pruning-controller.md). Prepared
+controller sessions, pre-admission generator integration, a reconciled pruning
+census, and pruning-disabled post-filter differential conformance follow
+[ADR-0054](adr/0054-audited-pre-admission-pruning.md). Recursive
+depth-one raw edge-group branch closure, its independently hashed frontier
+audit/controller, exact subtree census, and three-mode differential gate follow
+[ADR-0055](adr/0055-audited-recursive-frontier-pruning.md). Directed-strong
+closure is allowed only after its frontier is already strongly connected.
+[ADR-0056](adr/0056-generalized-depth-audited-pruning.md) extends the same
+audited pre-admission and recursive model to an arbitrary target depth bound to
+a verified contiguous prior-level chain. ADR-0081 supplies exact node-frontier
+accounting and replay-resumable traversal; ADR-0082 adds independent node-
+prefix audits, authorization, and differential-conformance generation at depth
+one and arbitrary verified target depths. ADR-0083 then binds exact profile-
+slot decisions before canonical-prefix pre-admission pruning and requires the
+same composition transcript plus pruning-disabled result at depth one and
+arbitrary target depths. ADR-0084 separately binds every raw frontier to exact
+profile-compatible/excluded complete-extension counts and closes recursive
+edge-group and node-growth composition at both scopes.
+[ADR-0057](adr/0057-verified-level-explanation-index.md) builds a complete
+candidate explanation index only after exact level replay and binds filter,
+admission, formation, profile, and derived-element lineage without relying on
+ambient run state.
+[ADR-0058](adr/0058-integrated-level-result-census.md) derives the portable
+final level census only after the same exact replay, reconciles every
+candidate/profile/element count and selectivity source, and preserves existing
+interpretation states without adding report semantics.
+[ADR-0059](adr/0059-verified-run-artifact-bundles.md) freezes a complete
+verified level chain with semantic manifest, normalized inputs, final censuses,
+explanation indexes, exact canonical artifact bytes, and a unique external
+`runHash` store used by bound `kernel.explain` lookup.
+[ADR-0060](adr/0060-verified-run-directory-persistence.md) keeps filesystem
+access outside the kernel while atomically publishing and fully reconstructing
+verified bundles with canonical envelopes, strict inventories, and exact byte
+checks.
+[ADR-0061](adr/0061-reviewed-source-resolution-and-condensation.md) extends the
+catalogue adapter with exact upstream replay, complete isolated-node
+reconciliation, reviewed SCC dispositions, lossless typed relation layers, and
+a verified generative DAG without applying unfrozen decisions to `scr/`.
+[ADR-0062](adr/0062-append-only-operational-execution-records.md) keeps
+timestamps, engine/platform labels, resource usage, and terminal status outside
+semantic identity while binding every append-only local record to a fully
+reconstructed run directory.
+[ADR-0063](adr/0063-source-migration-reconciliation-diagnostics.md) derives a
+content-addressed raw-SCC/classification/resolution conservation report only
+after replaying the complete reviewed source chain.
+[ADR-0064](adr/0064-post-unblinding-classification-amendments.md) freezes
+non-overwriting, approval-bound post-unblinding change chains and prevents a
+non-empty log from being paired with stale condensation.
+[ADR-0065](adr/0065-effective-source-classification-reprojection.md) applies
+those changes to a separate classified artifact, recomputes both SCC
+projections, and requires amendment-aware downstream replay.
+[ADR-0066](adr/0066-complete-source-migration-metrics.md) requires one reviewed
+disposition per raw SCC and one level per source node, then derives the complete
+migration metric artifact including cross-level clusters.
+[ADR-0067](adr/0067-source-migration-explanation-index.md) freezes complete
+per-node, per-relation, and per-raw-SCC lineage and exposes only queries bound
+to an exactly replayed migration index.
+[ADR-0068](adr/0068-source-cluster-concentration.md) evaluates constitutive
+cluster location only against a pre-frozen, unexposed bottleneck definition and
+a total source-vertex depth partition.
+Exhaustive policy-bound `minimal` evaluation is
+available under [ADR-0045](adr/0045-exhaustive-minimal-subgraphs.md).
+Package-bound finite
+functionals now execute coefficients, exact/profile-consensus or explicitly
+aggregated numeric Quantity/scalar invariants, canonical counts,
+scalar/Quantity structural-attribute sums, addition, and general Quantity products only
+after exact reproduction of an eligible filter artifact under
+[ADR-0032](adr/0032-package-functional-evaluation.md) and
+[ADR-0087](adr/0087-package-functional-structural-attribute-sums.md). They propagate declared
+uncertainty/evidence, round once under the bound run precision, and produce an
+indeterminate artifact instead of a ranking score when the result tolerance
+target is unmet. Complete cohort construction is now executable under
+[ADR-0033](adr/0033-complete-cohort-partitioning.md): it replays the complete
+census, implements every schema-v1 rule form, and emits no partial partition
+when a source threshold or required key is indeterminate. Ranking and
+sensitivity remain separate artifacts. Complete dense ranking is executable
+under [ADR-0034](adr/0034-complete-cohort-functional-ranking.md): it evaluates
+every reproduced cohort member, preserves uncertainty and epsilon ties, and
+withholds cohort metrics when any required score is indeterminate. Sensitivity
+is now executable under
+[ADR-0035](adr/0035-coefficient-sensitivity-execution.md): it preflights the
+complete OAT/Cartesian sweep, reevaluates every cohort member, retains failed
+variants in the denominator, and requires exact report replay. Final
+multi-selector admission is now executable under
+[ADR-0036](adr/0036-multi-selector-admission.md): it requires every declared
+selector execution, intersects complete semantic-extremum sets, reconciles the
+candidate domain, and preserves identity admission when no selector exists.
+Selected formation materialization is now executable under
+[ADR-0037](adr/0037-selected-formation-materialization.md): it replays census
+and admission, preserves exact/profile constituent resolution, carries the
+complete selection/claim basis, and does not fabricate a derived profile or
+`Element` identity. The later profile/depth boundary is now executable under
+[ADR-0038](adr/0038-residual-slot-profiles-and-derived-depth.md): an opt-in
+residual-slot policy consumes directed capacities, fails closed on unsupported
+legacy guards, missing capacity, typed-guard missing/member-dependent data, or
+indeterminate formation-functional profile invariants, and materializes an
+all-or-nothing derived depth-1
+`Element` population with a separate derivation index. The integrated first
+level is executable under [ADR-0039](adr/0039-package-level-closure.md): it
+hashes and exactly replays the complete primitive-to-depth-1 chain and
+preflights work across all selectors. The generalized source bridge is
+executable under
+[ADR-0040](adr/0040-depth-source-population-selection.md): it verifies every
+contiguous prior closure, executes `all-below`/`previous-only` selection, and
+binds the complete target-depth candidate universe. Generalized selection,
+materialization, level closure, and explicit bounded ladder execution are
+frozen under
+[ADR-0041](adr/0041-generalized-level-and-ladder-closure.md). Bounded exact-
+versus-profile conformance and frozen-interval boundary detection are
+executable under
+[ADR-0042](adr/0042-profile-collapse-and-level-boundaries.md). Explicit,
+evidence-bound carrier promotion and target-package primitive inputs are
+executable under
+[ADR-0043](adr/0043-explicit-carrier-promotion.md). Explicit bounded current-
+level rounds and their ladder dispatcher are executable under
+[ADR-0044](adr/0044-bounded-current-level-fixpoint.md). Complete census-carrier,
+ontology-gate, recomputation-policy, and independent-stream null-model plans
+are executable under
+[ADR-0071](adr/0071-null-model-execution-planning.md). Deterministic carrier-
+size proposals for all three models are executable under
+[ADR-0072](adr/0072-null-model-proposal-generation.md).
+Occurrence-multiplicity-preserving local predicate reruns are executable under
+[ADR-0073](adr/0073-occurrence-aware-null-trial-censuses.md), and complete
+trial-local cohort/functional/selector/sensitivity/admission replay is
+executable under
+[ADR-0074](adr/0074-occurrence-aware-null-trial-selection.md). Per-model metric
+distributions, standardized effects, zero-variance handling, and complete
+primitive/generalized-depth closure integration are executable under
+[ADR-0075](adr/0075-per-model-null-distributions-and-integrated-baselines.md).
+ADR-0080 executes that same chain independently for every current-level
+fixpoint round carrier and projects only the terminal baseline. Opt-in complete-candidate role/polarity capacity and typed partner-guard
+gating is executable at primitive, arbitrary-depth, and bounded current-level
+boundaries under
+[ADR-0076](adr/0076-profile-slot-composition-generation-gate.md). Audited
+partial-pruning paths compose with that policy through ADR-0083 and ADR-0084;
+raw subtree authority requires the separate complete profile-extension census.
+Declared run-target ontology coordinates flow
+to every derived element and level under
+[ADR-0077](adr/0077-run-target-ontology-coordinate-materialization.md), without
+being inferred from derivation depth. Package-authored constant scalar/Quantity
+node/edge attributes and element-invariant scalar/Quantity node attributes enter every
+ordinary, arbitrary-depth, and bounded current-level candidate alphabet under
+[ADR-0078](adr/0078-package-driven-scalar-candidate-attributes.md) and
+[ADR-0085](adr/0085-package-driven-quantity-candidate-attributes.md).
+Role-dependent scalar/Quantity edge maps require complete run-role coverage
+under [ADR-0086](adr/0086-role-dependent-edge-candidate-attributes.md).
+Those generated attributes are executable in package functionals, cohort keys,
+and formation-derived profile functionals under
+[ADR-0087](adr/0087-package-functional-structural-attribute-sums.md).
+Formation-functional Quantity results carry through derived `Element`
+invariants into later-depth node attributes under
+[ADR-0088](adr/0088-formation-functional-candidate-attribute-carry-forward.md),
+while direct same-candidate feedback remains forbidden. Profile quotients
+require complete member consensus. Formation-derived type tags execute from
+verified derived-invariant Quantity thresholds under
+[ADR-0079](adr/0079-formation-derived-type-classification.md). Exhaustive
+proper-subgraph
+minimality is executable under
+[ADR-0045](adr/0045-exhaustive-minimal-subgraphs.md).
+The directed cycle-edge union is executable in `count`, `sum`, and `balance`
+under [ADR-0031](adr/0031-directed-cycle-edge-selection.md). Canonical single-node or single-edge
+`irreducibleRemoval` is executable under the explicit run substructure policy
+and [ADR-0030](adr/0030-irreducible-removal-evaluation.md).
 Complete package candidate populations can be aggregated into a
 content-addressed local-filter census under
 [ADR-0029](adr/0029-complete-local-filter-census.md). The constructor refuses
@@ -123,8 +312,8 @@ adapter operation is not authorization to classify the current catalogue.
 Canonical candidate work must preserve node/edge
 permutation invariance, the structural-attribute projection, reversible index
 mappings, and the hard search budget in
-[ADR-0004](adr/0004-refinement-graph-canonicalization.md). The exact boundary
-and pending capabilities are listed in
+[ADR-0004](adr/0004-refinement-graph-canonicalization.md). The exact executable
+boundary and external input gates are listed in
 [Kernel Implementation Status](KERNEL_IMPLEMENTATION_STATUS.md).
 
 The bounded reference skeleton enumerator and CandidateStore follow

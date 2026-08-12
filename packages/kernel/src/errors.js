@@ -39,19 +39,6 @@ export class KernelValidationError extends KernelError {
   }
 }
 
-export class KernelNotImplementedError extends KernelError {
-  constructor(capability) {
-    super({
-      code: "KERNEL_NOT_IMPLEMENTED",
-      stage: "API",
-      message: `Onto2D kernel capability is not implemented yet: ${capability}`,
-      details: { capability }
-    });
-    this.name = "KernelNotImplementedError";
-    this.capability = capability;
-  }
-}
-
 export function validationIssue(code, path, message, details = {}) {
   return Object.freeze({
     code,

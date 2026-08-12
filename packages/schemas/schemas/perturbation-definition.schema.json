@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/perturbation-definition.schema.json",
+  "title": "Onto2D Perturbation Definition",
+  "properties": {
+    "id": {},
+    "kind": {},
+    "enumeration": {},
+    "emptyPolicy": {},
+    "roles": {},
+    "replacements": {},
+    "target": {},
+    "attribute": {},
+    "epsilon": {},
+    "directions": {}
+  },
+  "oneOf": [
+    { "$ref": "#/$defs/registryOnly" },
+    { "$ref": "#/$defs/edgeDeletion" },
+    { "$ref": "#/$defs/nodeDeletion" },
+    { "$ref": "#/$defs/edgeRoleReplacement" },
+    { "$ref": "#/$defs/numericAttributeDisplacement" }
+  ],
+  "$defs": {
+    "normalizedString": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1024,
+      "pattern": "^(?:\\S|\\S(?:.*\\S)?)$"
+    },
+    "registryOnly": { "$ref": "#/$defs/normalizedString" },
+    "enumeration": {
+      "enum": [
+        "exhaustive-valid-single-edits-v1",
+        "sampled-valid-single-edits-v1"
+      ]
+    },
+    "emptyPolicy": { "enum": ["indeterminate", "vacuous-pass"] },
+    "roleList": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 256,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/normalizedString" }
+    },
+    "edgeDeletion": {
+      "type": "object",
+      "required": ["id", "kind"],
+      "properties": {
+        "id": { "$ref": "#/$defs/normalizedString" },
+        "kind": { "const": "edge-deletion" },
+        "enumeration": { "$ref": "#/$defs/enumeration" },
+        "emptyPolicy": { "$ref": "#/$defs/emptyPolicy" },
+        "roles": { "$ref": "#/$defs/roleList" }
+      },
+      "additionalProperties": false
+    },
+    "nodeDeletion": {
+      "type": "object",
+      "required": ["id", "kind"],
+      "properties": {
+        "id": { "$ref": "#/$defs/normalizedString" },
+        "kind": { "const": "node-deletion" },
+        "enumeration": { "$ref": "#/$defs/enumeration" },
+        "emptyPolicy": { "$ref": "#/$defs/emptyPolicy" }
+      },
+      "additionalProperties": false
+    },
+    "roleReplacement": {
+      "type": "object",
+      "required": ["from", "to"],
+      "properties": {
+        "from": { "$ref": "#/$defs/normalizedString" },
+        "to": { "$ref": "#/$defs/normalizedString" }
+      },
+      "additionalProperties": false
+    },
+    "edgeRoleReplacement": {
+      "type": "object",
+      "required": ["id", "kind", "replacements"],
+      "properties": {
+        "id": { "$ref": "#/$defs/normalizedString" },
+        "kind": { "const": "edge-role-replacement" },
+        "enumeration": { "$ref": "#/$defs/enumeration" },
+        "emptyPolicy": { "$ref": "#/$defs/emptyPolicy" },
+        "replacements": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 256,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/roleReplacement" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "numericAttributeDisplacement": {
+      "type": "object",
+      "required": ["id", "kind", "target", "attribute", "epsilon"],
+      "properties": {
+        "id": { "$ref": "#/$defs/normalizedString" },
+        "kind": { "const": "numeric-attribute-displacement" },
+        "enumeration": { "$ref": "#/$defs/enumeration" },
+        "emptyPolicy": { "$ref": "#/$defs/emptyPolicy" },
+        "target": { "enum": ["nodes", "edges"] },
+        "attribute": { "$ref": "#/$defs/normalizedString" },
+        "epsilon": { "type": "number", "exclusiveMinimum": 0 },
+        "directions": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 2,
+          "uniqueItems": true,
+          "items": { "enum": ["decrease", "increase"] }
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

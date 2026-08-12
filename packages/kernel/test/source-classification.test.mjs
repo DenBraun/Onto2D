@@ -1,18 +1,54 @@
 import assert from "node:assert/strict";
+import { readdir, readFile } from "node:fs/promises";
+import path from "node:path";
 import test from "node:test";
+import { fileURLToPath } from "node:url";
+import Ajv2020 from "ajv/dist/2020.js";
 import {
   HASH_DOMAINS,
   KernelError,
   SOURCE_CLASSIFICATION_ADJUDICATION_VERSION,
+  SOURCE_CLASSIFICATION_AMENDMENTS_VERSION,
+  SOURCE_CLASSIFICATION_AMENDMENT_LIMITS,
   SOURCE_CLASSIFICATION_ANNOTATIONS_VERSION,
   SOURCE_CLASSIFICATION_LIMITS,
   SOURCE_RELATION_KINDS,
   createKernel,
+  canonicalBytes,
   freezeSourceClassificationAdjudication,
+  freezeSourceClassificationAmendments,
   freezeSourceClassificationAnnotations,
   freezeSourceClassificationPolicy,
-  hashCanonical
+  hashArtifactBytes,
+  hashCanonical,
+  verifySourceClassificationAmendments
 } from "../src/index.js";
+
+const REPOSITORY_ROOT = path.resolve(
+  path.dirname(fileURLToPath(import.meta.url)),
+  "../../.."
+);
+const SCHEMA_ROOT = path.join(REPOSITORY_ROOT, "packages", "schemas", "schemas");
+const schemaFiles = (await readdir(SCHEMA_ROOT))
+  .filter((name) => name.endsWith(".schema.json"))
+  .sort();
+const schemas = await Promise.all(schemaFiles.map(async (name) =>
+  JSON.parse(await readFile(path.join(SCHEMA_ROOT, name), "utf8"))
+));
+const ajv = new Ajv2020({ allErrors: true, strict: false, validateFormats: false });
+schemas.forEach((schema) => ajv.addSchema(schema));
+
+function assertSchema(name, value) {
+  const validate = ajv.getSchema(
+    `https://onto2d.dev/schemas/v1/${name}.schema.json`
+  );
+  assert.ok(validate, `missing compiled schema ${name}`);
+  assert.equal(
+    validate(value),
+    true,
+    ajv.errorsText(validate.errors, { dataVar: name, separator: "\n" })
+  );
+}
 
 function relationRule(kind) {
   return {
@@ -140,6 +176,27 @@ function adjudicationInput(policy, annotations, overrides = {}) {
       }
     ],
     ...overrides
+  };
+}
+
+function approvalArtifact(name) {
+  const bytes = canonicalBytes({ approval: name });
+  return {
+    path: `review/${name}.json`,
+    mediaType: "application/json",
+    schemaVersion: "1",
+    bytes: bytes.byteLength,
+    hash: hashArtifactBytes(bytes)
+  };
+}
+
+function amendmentInput(policy, adjudication, changes) {
+  return {
+    schemaVersion: "1",
+    policyHash: policy.policyHash,
+    adjudicationHash: adjudication.adjudicationHash,
+    frozenAt: "2026-08-07T15:00:00.000Z",
+    changes
   };
 }
 
@@ -288,6 +345,160 @@ test("adjudication rejects altered raw artifacts, unanimous overwrites, and earl
   );
 });
 
+test("post-unblinding amendments retain frozen decisions and derive a complete change chain", () => {
+  const policy = freezeSourceClassificationPolicy(policyDraft());
+  const annotations = freezeSourceClassificationAnnotations(
+    policy,
+    annotationInput(policy)
+  );
+  const adjudication = freezeSourceClassificationAdjudication(
+    policy,
+    annotations,
+    adjudicationInput(policy, annotations)
+  );
+  const changes = [
+    {
+      relationId: "relation-b",
+      newKind: "evidential",
+      changedAt: "2026-08-07T14:00:00.000Z",
+      reason: "A second approved review found that the relation only supports evidence.",
+      approver: { id: "review-board", role: "post-unblinding approval board" },
+      approvalArtifact: approvalArtifact("relation-b-second")
+    },
+    {
+      relationId: "relation-b",
+      newKind: "descriptive",
+      changedAt: "2026-08-07T13:00:00.000Z",
+      reason: "The first unblinded review reclassified the constitutive claim.",
+      approver: { id: "review-board", role: "post-unblinding approval board" },
+      approvalArtifact: approvalArtifact("relation-b-first")
+    }
+  ];
+  const frozen = freezeSourceClassificationAmendments(
+    policy,
+    annotations,
+    adjudication,
+    amendmentInput(policy, adjudication, changes)
+  );
+  const equivalent = freezeSourceClassificationAmendments(
+    policy,
+    annotations,
+    adjudication,
+    amendmentInput(policy, adjudication, [...changes].reverse())
+  );
+  const { amendmentsHash, ...basis } = frozen;
+
+  assert.equal(
+    SOURCE_CLASSIFICATION_AMENDMENTS_VERSION,
+    "source-classification-amendments-v1"
+  );
+  assert.deepEqual(SOURCE_CLASSIFICATION_AMENDMENT_LIMITS, {
+    maxChanges: 10_000,
+    maxIdentifierLength: 1_024,
+    maxTextLength: 16_384
+  });
+  assert.equal(frozen.amendmentsHash, equivalent.amendmentsHash);
+  assert.deepEqual(frozen.changes.map((entry) => entry.originalKind), [
+    "constitutive",
+    "descriptive"
+  ]);
+  assert.equal(frozen.changes[1].priorStateHash, frozen.changes[0].changeId);
+  assert.equal(
+    frozen.effectiveDecisions.find((entry) => entry.relationId === "relation-b")
+      .effectiveKind,
+    "evidential"
+  );
+  assert.deepEqual(frozen.statistics, {
+    relationCount: 2,
+    changeCount: 2,
+    changedRelationCount: 1,
+    changedRelationShare: 0.5,
+    maximumPostUnblindingReclassificationShare: 0.05,
+    thresholdExceeded: true
+  });
+  assert.equal(frozen.fittingRisk, "elevated");
+  assert.deepEqual(frozen.fittingRiskReasons, [
+    "classification-disagreement-threshold-exceeded",
+    "post-unblinding-reclassification-threshold-exceeded"
+  ]);
+  assert.equal(
+    amendmentsHash,
+    hashCanonical(HASH_DOMAINS.SOURCE_CLASSIFICATION_AMENDMENTS, basis)
+  );
+  assertSchema("source-classification-amendments", frozen);
+  assert.equal(
+    verifySourceClassificationAmendments(
+      policy,
+      annotations,
+      adjudication,
+      structuredClone(frozen)
+    ).amendmentsHash,
+    frozen.amendmentsHash
+  );
+  assert.ok(Object.isFrozen(frozen));
+});
+
+test("post-unblinding amendment logs fail closed on chronology, no-ops, ambiguity, and tampering", () => {
+  const policy = freezeSourceClassificationPolicy(policyDraft());
+  const annotations = freezeSourceClassificationAnnotations(
+    policy,
+    annotationInput(policy)
+  );
+  const adjudication = freezeSourceClassificationAdjudication(
+    policy,
+    annotations,
+    adjudicationInput(policy, annotations)
+  );
+  const change = {
+    relationId: "relation-b",
+    newKind: "descriptive",
+    changedAt: "2026-08-07T13:00:00.000Z",
+    reason: "Approved post-unblinding correction.",
+    approver: { id: "review-board", role: "approval board" },
+    approvalArtifact: approvalArtifact("relation-b")
+  };
+  const freeze = (changes) => freezeSourceClassificationAmendments(
+    policy,
+    annotations,
+    adjudication,
+    amendmentInput(policy, adjudication, changes)
+  );
+
+  assert.throws(
+    () => freeze([{ ...change, changedAt: adjudication.unblindedAt }]),
+    (error) => error instanceof KernelError &&
+      error.code === "SOURCE_CLASSIFICATION_AMENDMENT_INVALID"
+  );
+  assert.throws(
+    () => freeze([{ ...change, newKind: "constitutive" }]),
+    (error) => error instanceof KernelError &&
+      error.code === "SOURCE_CLASSIFICATION_AMENDMENT_NO_CHANGE"
+  );
+  assert.throws(
+    () => freeze([change, { ...change, newKind: "evidential" }]),
+    (error) => error instanceof KernelError &&
+      error.code === "SOURCE_CLASSIFICATION_AMENDMENT_ORDER_AMBIGUOUS"
+  );
+  assert.throws(
+    () => freeze([{ ...change, relationId: "unknown-relation" }]),
+    (error) => error instanceof KernelError &&
+      error.code === "SOURCE_CLASSIFICATION_AMENDMENT_INVALID"
+  );
+  const frozen = freeze([change]);
+  const tampered = structuredClone(frozen);
+  tampered.changes[0].newKind = "regulatory-feedback";
+  assert.throws(
+    () => verifySourceClassificationAmendments(
+      policy,
+      annotations,
+      adjudication,
+      tampered
+    ),
+    (error) => error instanceof KernelError &&
+      error.code === "SOURCE_CLASSIFICATION_AMENDMENTS_MISMATCH"
+  );
+});
+
 test("deterministic precommitted annotation uses exactly the frozen classifier identity", () => {
   const policy = freezeSourceClassificationPolicy(policyDraft({
     authorship: {
@@ -392,7 +603,7 @@ test("historical policy preserves mixed individual exposure declarations and alw
   assert.deepEqual(adjudication.fittingRiskReasons, ["historically-exposed"]);
 });
 
-test("kernel exposes artifact freezing while classification execution remains pending", () => {
+test("kernel exposes artifact freezing without claiming current-catalogue application", () => {
   const kernel = createKernel();
   const policy = kernel.freezeSourceClassificationPolicy(policyDraft());
   const annotations = kernel.freezeSourceClassificationAnnotations(policy, annotationInput(policy));
@@ -401,9 +612,17 @@ test("kernel exposes artifact freezing while classification execution remains pe
     annotations,
     adjudicationInput(policy, annotations)
   );
+  const amendments = kernel.freezeSourceClassificationAmendments(
+    policy,
+    annotations,
+    adjudication,
+    amendmentInput(policy, adjudication, [])
+  );
 
   assert.ok(kernel.capabilities.implemented.includes("source-classification-annotation-freeze"));
   assert.ok(kernel.capabilities.implemented.includes("source-classification-adjudication-freeze"));
-  assert.ok(kernel.capabilities.pending.includes("source-classification"));
+  assert.ok(kernel.capabilities.implemented.includes("source-classification-amendment-freeze"));
+  assert.ok(!kernel.capabilities.pending.includes("source-classification"));
   assert.match(adjudication.adjudicationHash, /^sha256:[a-f0-9]{64}$/);
+  assert.equal(amendments.statistics.changeCount, 0);
 });

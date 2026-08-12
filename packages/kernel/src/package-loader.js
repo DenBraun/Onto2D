@@ -2,12 +2,22 @@ import { canonicalClone, canonicalize, deepFreeze } from "./canonical.js";
 import { KernelError, KernelValidationError, validationIssue } from "./errors.js";
 import { analyzeValueExpression } from "./expression-analyzer.js";
 import { HASH_DOMAINS, hashCanonical, isContentHash } from "./hash.js";
+import {
+  INVARIANT_STRING_MAX_LENGTH,
+  candidateAttributeSymbolEnvironment,
+  invariantExpressionSymbol,
+  invariantIdentityValue,
+  invariantValueKind,
+  normalizeInvariantValue
+} from "./invariant.js";
 import { compilePredicate } from "./predicate-analyzer.js";
 import {
   areUnitsCompatible,
   normalizeQuantity as normalizeRuntimeQuantity,
   parseUnitExpression
 } from "./quantity.js";
+import { normalizeProfileRecord } from "./profile.js";
+import { normalizeProfileSlotGuard } from "./profile-guard.js";
 
 const ROOT_FIELDS = new Set([
   "schemaVersion",
@@ -25,10 +35,50 @@ const ROOT_FIELDS = new Set([
   "partialOraclePolicy",
   "ontologyAxes",
   "perturbations",
+  "candidateAttributes",
   "profileDefinition",
   "identityPolicy"
 ]);
 const ARTIFACT_FIELDS = new Set(["path", "mediaType", "schemaVersion", "bytes", "hash"]);
+const SOURCE_MIGRATION_FIELDS = new Set([
+  "policyHash",
+  "blindnessStatus",
+  "classificationPolicy",
+  "riskPolicy",
+  "classificationView",
+  "classificationAnnotations",
+  "classificationAdjudication",
+  "classificationAmendments",
+  "classifiedRelations",
+  "nodeResolutions",
+  "condensation",
+  "memberProjections",
+  "typedRelationLayers",
+  "reconciliation",
+  "metrics",
+  "explanationIndex",
+  "concentration"
+]);
+const SOURCE_MIGRATION_ARTIFACT_FIELDS = Object.freeze([
+  "classificationPolicy",
+  "riskPolicy",
+  "classificationView",
+  "classificationAnnotations",
+  "classificationAdjudication",
+  "classificationAmendments",
+  "classifiedRelations",
+  "nodeResolutions",
+  "condensation",
+  "memberProjections",
+  "reconciliation",
+  "metrics",
+  "explanationIndex"
+]);
+const MIGRATION_BLINDNESS_STATUSES = new Set([
+  "prospective-blind",
+  "deterministic-precommitted",
+  "historically-exposed"
+]);
 const EVIDENCE_FIELDS = new Set(["id", "state", "source", "locator", "method"]);
 const CLAIM_FIELDS = new Set(["id", "statement", "state", "evidence"]);
 const PRIMITIVE_FIELDS = new Set([
@@ -57,7 +107,50 @@ const SLOT_FIELDS = new Set(["role", "polarity", "capacity", "guard"]);
 const PROFILE_INVARIANT_FIELDS = new Set(["semantic", "normalized", "quantization"]);
 const QUANTITY_FIELDS = new Set(["value", "unit", "tolerance", "semantic", "provenance"]);
 const TOLERANCE_FIELDS = new Set(["absolute", "relative"]);
-const PROFILE_DEFINITION_FIELDS = new Set(["kind"]);
+const EXPLICIT_PROFILE_DEFINITION_FIELDS = new Set(["kind"]);
+const RESIDUAL_PROFILE_DEFINITION_FIELDS = new Set([
+  "kind",
+  "baseProfile",
+  "derivedTypeTags",
+  "claimRefs"
+]);
+const FORMATION_DERIVED_PROFILE_DEFINITION_FIELDS = new Set([
+  ...RESIDUAL_PROFILE_DEFINITION_FIELDS,
+  "derivedInvariants"
+]);
+const FORMATION_DERIVED_TYPED_PROFILE_DEFINITION_FIELDS = new Set([
+  ...FORMATION_DERIVED_PROFILE_DEFINITION_FIELDS,
+  "derivedTypeRules"
+]);
+const FORMATION_DERIVED_INVARIANT_FIELDS = new Set([
+  "semantic",
+  "functional",
+  "quantization"
+]);
+const FORMATION_DERIVED_TYPE_RULE_FIELDS = new Set([
+  "typeTag",
+  "invariant",
+  "comparator",
+  "threshold"
+]);
+const QUANTITY_COMPARATORS = new Set(["eq", "ne", "lt", "lte", "gt", "gte"]);
+const CANDIDATE_ATTRIBUTE_FIELDS = new Set(["name", "target", "source"]);
+const CANDIDATE_ATTRIBUTE_SOURCE_FIELDS = Object.freeze({
+  "constant-scalar-v1": new Set(["kind", "value"]),
+  "element-invariant-scalar-v1": new Set(["kind", "invariant"]),
+  "constant-quantity-v1": new Set(["kind", "value"]),
+  "element-invariant-quantity-v1": new Set(["kind", "invariant"]),
+  "edge-role-scalar-v1": new Set(["kind", "values"]),
+  "edge-role-quantity-v1": new Set(["kind", "values"])
+});
+const CONSTANT_CANDIDATE_ATTRIBUTE_SOURCES = new Set([
+  "constant-scalar-v1",
+  "constant-quantity-v1"
+]);
+const ROLE_CANDIDATE_ATTRIBUTE_SOURCES = new Set([
+  "edge-role-scalar-v1",
+  "edge-role-quantity-v1"
+]);
 const PREDICATE_FIELDS = new Set([
   "id",
   "phase",
@@ -71,11 +164,16 @@ const FUNCTIONAL_FIELDS = new Set([
   "id",
   "expr",
   "coefficients",
+  "coefficientRoles",
   "sensitivityCoefficients",
   "result",
   "explain",
   "claimRefs"
 ]);
+const FUNCTIONAL_REQUIRED_FIELDS = [...FUNCTIONAL_FIELDS].filter(
+  (field) => field !== "coefficientRoles"
+);
+const FUNCTIONAL_COEFFICIENT_ROLES = new Set(["fixed", "free", "fitted"]);
 const SELECTOR_FIELDS = new Set([
   "id",
   "objective",
@@ -118,6 +216,39 @@ const DEFAULT_ONTOLOGY_AXES = Object.freeze({
 });
 const DEFAULT_PARTIAL_ORACLE_POLICY = Object.freeze({ mode: "indeterminate" });
 const DEFAULT_PROFILE_DEFINITION = Object.freeze({ kind: "explicit-only" });
+const DEFAULT_CANDIDATE_ATTRIBUTES = Object.freeze([]);
+const PERTURBATION_COMMON_FIELDS = new Set([
+  "id",
+  "kind",
+  "enumeration",
+  "emptyPolicy"
+]);
+const PERTURBATION_FIELDS = Object.freeze({
+  "edge-deletion": new Set([...PERTURBATION_COMMON_FIELDS, "roles"]),
+  "node-deletion": new Set(PERTURBATION_COMMON_FIELDS),
+  "edge-role-replacement": new Set([
+    ...PERTURBATION_COMMON_FIELDS,
+    "replacements"
+  ]),
+  "numeric-attribute-displacement": new Set([
+    ...PERTURBATION_COMMON_FIELDS,
+    "target",
+    "attribute",
+    "epsilon",
+    "directions"
+  ])
+});
+const DEFAULT_PERTURBATION_ENUMERATION =
+  "exhaustive-valid-single-edits-v1";
+const PERTURBATION_ENUMERATIONS = new Set([
+  DEFAULT_PERTURBATION_ENUMERATION,
+  "sampled-valid-single-edits-v1"
+]);
+const PERTURBATION_EMPTY_POLICIES = new Set([
+  "indeterminate",
+  "vacuous-pass"
+]);
+const PERTURBATION_DIRECTIONS = new Set(["decrease", "increase"]);
 
 export const DEFAULT_KERNEL_VERSION = "0.1.0";
 
@@ -207,6 +338,210 @@ function validateStringArray(value, path, issues, { nonempty = false } = {}) {
       seen.add(item);
     }
   });
+}
+
+function requirePerturbationIdentifier(value, path, issues) {
+  if (!requireIdentifier(value, path, issues)) return false;
+  if (value.length > 1_024 || /[\r\n]/.test(value)) {
+    addIssue(
+      issues,
+      "PACKAGE_PERTURBATION_IDENTIFIER_INVALID",
+      path,
+      "Perturbation identifiers must not contain line breaks or exceed 1,024 characters.",
+      { length: value.length, maximum: 1_024 }
+    );
+    return false;
+  }
+  return true;
+}
+
+function validatePerturbation(entry, path, issues) {
+  if (typeof entry === "string") {
+    requirePerturbationIdentifier(entry, path, issues);
+    return;
+  }
+  if (!requireObject(entry, path, issues)) return;
+  requireFields(entry, ["id", "kind"], path, issues);
+  requirePerturbationIdentifier(entry.id, `${path}.id`, issues);
+  if (
+    typeof entry.kind !== "string" ||
+    !Object.prototype.hasOwnProperty.call(PERTURBATION_FIELDS, entry.kind)
+  ) {
+    addIssue(
+      issues,
+      "PACKAGE_PERTURBATION_KIND_INVALID",
+      `${path}.kind`,
+      "Perturbation kind is not one of the executable finite single-edit classes.",
+      { kind: entry.kind }
+    );
+    return;
+  }
+  rejectUnknownFields(entry, PERTURBATION_FIELDS[entry.kind], path, issues);
+  if (
+    entry.enumeration !== undefined &&
+    !PERTURBATION_ENUMERATIONS.has(entry.enumeration)
+  ) {
+    addIssue(
+      issues,
+      "PACKAGE_PERTURBATION_ENUMERATION_INVALID",
+      `${path}.enumeration`,
+      "Perturbation enumeration must use a supported finite single-edit contract.",
+      { enumeration: entry.enumeration }
+    );
+  }
+  if (
+    entry.emptyPolicy !== undefined &&
+    !PERTURBATION_EMPTY_POLICIES.has(entry.emptyPolicy)
+  ) {
+    addIssue(
+      issues,
+      "PACKAGE_PERTURBATION_EMPTY_POLICY_INVALID",
+      `${path}.emptyPolicy`,
+      "Perturbation emptyPolicy must be indeterminate or vacuous-pass.",
+      { emptyPolicy: entry.emptyPolicy }
+    );
+  }
+  if (entry.kind === "edge-deletion") {
+    if (entry.roles !== undefined) {
+      validateStringArray(entry.roles, `${path}.roles`, issues, { nonempty: true });
+      if (Array.isArray(entry.roles)) {
+        entry.roles.forEach((role, index) => {
+          if (typeof role === "string") {
+            requirePerturbationIdentifier(
+              role,
+              `${path}.roles[${index}]`,
+              issues
+            );
+          }
+        });
+      }
+      if (Array.isArray(entry.roles) && entry.roles.length > 256) {
+        addIssue(
+          issues,
+          "PACKAGE_PERTURBATION_LIMIT_EXCEEDED",
+          `${path}.roles`,
+          "Perturbation role filters cannot exceed 256 entries.",
+          { maximum: 256, actual: entry.roles.length }
+        );
+      }
+    }
+    return;
+  }
+  if (entry.kind === "node-deletion") return;
+  if (entry.kind === "edge-role-replacement") {
+    if (!requireArray(entry.replacements, `${path}.replacements`, issues)) return;
+    if (entry.replacements.length === 0) {
+      addIssue(
+        issues,
+        "PACKAGE_ARRAY_EMPTY",
+        `${path}.replacements`,
+        "Role-replacement perturbations require at least one replacement."
+      );
+    }
+    if (entry.replacements.length > 256) {
+      addIssue(
+        issues,
+        "PACKAGE_PERTURBATION_LIMIT_EXCEEDED",
+        `${path}.replacements`,
+        "Role-replacement perturbations cannot exceed 256 replacements.",
+        { maximum: 256, actual: entry.replacements.length }
+      );
+    }
+    const seen = new Set();
+    entry.replacements.forEach((replacement, index) => {
+      const replacementPath = `${path}.replacements[${index}]`;
+      if (!requireObject(replacement, replacementPath, issues)) return;
+      rejectUnknownFields(replacement, new Set(["from", "to"]), replacementPath, issues);
+      requireFields(replacement, ["from", "to"], replacementPath, issues);
+      const validFrom = requirePerturbationIdentifier(
+        replacement.from,
+        `${replacementPath}.from`,
+        issues
+      );
+      const validTo = requirePerturbationIdentifier(
+        replacement.to,
+        `${replacementPath}.to`,
+        issues
+      );
+      if (!validFrom || !validTo) return;
+      if (replacement.from === replacement.to) {
+        addIssue(
+          issues,
+          "PACKAGE_PERTURBATION_ROLE_REPLACEMENT_NOOP",
+          replacementPath,
+          "Role replacement must change the edge role.",
+          { role: replacement.from }
+        );
+      }
+      const key = canonicalize(replacement);
+      if (seen.has(key)) {
+        addIssue(
+          issues,
+          "PACKAGE_DUPLICATE_VALUE",
+          replacementPath,
+          "Duplicate role replacement.",
+          { replacement }
+        );
+      }
+      seen.add(key);
+    });
+    return;
+  }
+  if (!new Set(["nodes", "edges"]).has(entry.target)) {
+    addIssue(
+      issues,
+      "PACKAGE_PERTURBATION_TARGET_INVALID",
+      `${path}.target`,
+      "Numeric displacement target must be nodes or edges.",
+      { target: entry.target }
+    );
+  }
+  requirePerturbationIdentifier(entry.attribute, `${path}.attribute`, issues);
+  if (
+    typeof entry.epsilon !== "number" ||
+    !Number.isFinite(entry.epsilon) ||
+    entry.epsilon <= 0
+  ) {
+    addIssue(
+      issues,
+      "PACKAGE_PERTURBATION_EPSILON_INVALID",
+      `${path}.epsilon`,
+      "Numeric displacement epsilon must be finite and strictly positive.",
+      { epsilon: entry.epsilon }
+    );
+  }
+  if (entry.directions !== undefined) {
+    if (!requireArray(entry.directions, `${path}.directions`, issues)) return;
+    if (entry.directions.length === 0) {
+      addIssue(
+        issues,
+        "PACKAGE_ARRAY_EMPTY",
+        `${path}.directions`,
+        "Numeric displacement directions cannot be empty."
+      );
+    }
+    const seen = new Set();
+    entry.directions.forEach((direction, index) => {
+      if (!PERTURBATION_DIRECTIONS.has(direction)) {
+        addIssue(
+          issues,
+          "PACKAGE_PERTURBATION_DIRECTION_INVALID",
+          `${path}.directions[${index}]`,
+          "Numeric displacement direction must be decrease or increase.",
+          { direction }
+        );
+      } else if (seen.has(direction)) {
+        addIssue(
+          issues,
+          "PACKAGE_DUPLICATE_VALUE",
+          `${path}.directions[${index}]`,
+          "Duplicate numeric displacement direction.",
+          { direction }
+        );
+      }
+      seen.add(direction);
+    });
+  }
 }
 
 function validateArtifact(artifact, path, issues) {
@@ -399,6 +734,22 @@ function validateProfile(profile, path, issues) {
           addIssue(issues, "PACKAGE_PROFILE_CAPACITY_INVALID", `${slotPath}.capacity.max`, "Maximum capacity must be null or an integer not below min.");
         }
       }
+      if (slot.guard !== undefined) {
+        try {
+          normalizeProfileSlotGuard(slot.guard);
+        } catch (error) {
+          if (!(error instanceof KernelError) || error.stage !== "PROFILE_GUARD") {
+            throw error;
+          }
+          addIssue(
+            issues,
+            error.code,
+            `${slotPath}.guard`,
+            error.message,
+            error.details
+          );
+        }
+      }
     });
   }
   if (requireArray(profile.invariantVector, `${path}.invariantVector`, issues)) {
@@ -492,6 +843,149 @@ function validateCluster(cluster, path, issues) {
   validateArtifact(cluster.condensationArtifact, `${path}.condensationArtifact`, issues);
 }
 
+function validateSourceMigration(sourceMigration, sourceArtifacts, primitives, issues) {
+  const path = "$.sourceMigration";
+  if (!requireObject(sourceMigration, path, issues)) return;
+  rejectUnknownFields(sourceMigration, SOURCE_MIGRATION_FIELDS, path, issues);
+  requireFields(
+    sourceMigration,
+    [...SOURCE_MIGRATION_FIELDS].filter((field) => field !== "concentration"),
+    path,
+    issues
+  );
+  if (!isContentHash(sourceMigration.policyHash)) {
+    addIssue(
+      issues,
+      "SOURCE_MIGRATION_POLICY_HASH_INVALID",
+      `${path}.policyHash`,
+      "Source migration policyHash must be a content hash."
+    );
+  }
+  if (!MIGRATION_BLINDNESS_STATUSES.has(sourceMigration.blindnessStatus)) {
+    addIssue(
+      issues,
+      "SOURCE_MIGRATION_BLINDNESS_STATUS_INVALID",
+      `${path}.blindnessStatus`,
+      "Source migration blindnessStatus is invalid."
+    );
+  }
+
+  const artifactEntries = [];
+  for (const field of SOURCE_MIGRATION_ARTIFACT_FIELDS) {
+    validateArtifact(sourceMigration[field], `${path}.${field}`, issues);
+    if (isObject(sourceMigration[field])) {
+      artifactEntries.push({ field, artifact: sourceMigration[field] });
+    }
+  }
+  if (sourceMigration.concentration !== undefined) {
+    validateArtifact(sourceMigration.concentration, `${path}.concentration`, issues);
+    if (isObject(sourceMigration.concentration)) {
+      artifactEntries.push({ field: "concentration", artifact: sourceMigration.concentration });
+    }
+  }
+  if (requireArray(sourceMigration.typedRelationLayers, `${path}.typedRelationLayers`, issues)) {
+    if (sourceMigration.typedRelationLayers.length !== 6) {
+      addIssue(
+        issues,
+        "SOURCE_MIGRATION_TYPED_LAYERS_INCOMPLETE",
+        `${path}.typedRelationLayers`,
+        "Source migration must bind exactly six typed relation-layer artifacts.",
+        { expected: 6, actual: sourceMigration.typedRelationLayers.length }
+      );
+    }
+    sourceMigration.typedRelationLayers.forEach((artifact, index) => {
+      validateArtifact(artifact, `${path}.typedRelationLayers[${index}]`, issues);
+      if (isObject(artifact)) {
+        artifactEntries.push({ field: `typedRelationLayers[${index}]`, artifact });
+      }
+    });
+  }
+
+  const migrationHashes = new Set();
+  artifactEntries.forEach(({ field, artifact }) => {
+    if (!isContentHash(artifact.hash)) return;
+    if (migrationHashes.has(artifact.hash)) {
+      addIssue(
+        issues,
+        "SOURCE_MIGRATION_ARTIFACT_DUPLICATE",
+        `${path}.${field}.hash`,
+        "Each source-migration role must bind a distinct artifact hash.",
+        { hash: artifact.hash }
+      );
+    }
+    migrationHashes.add(artifact.hash);
+    const bound = Array.isArray(sourceArtifacts)
+      ? sourceArtifacts.find((entry) => isObject(entry) && entry.hash === artifact.hash)
+      : undefined;
+    if (bound === undefined) {
+      addIssue(
+        issues,
+        "SOURCE_MIGRATION_ARTIFACT_UNBOUND",
+        `${path}.${field}`,
+        "Every source-migration artifact must occur in sourceArtifacts.",
+        { hash: artifact.hash }
+      );
+    } else if (canonicalize(bound) !== canonicalize(artifact)) {
+      addIssue(
+        issues,
+        "SOURCE_MIGRATION_ARTIFACT_REFERENCE_MISMATCH",
+        `${path}.${field}`,
+        "The source-migration artifact reference must exactly match sourceArtifacts.",
+        { hash: artifact.hash }
+      );
+    }
+  });
+
+  const clusterMembers = new Map();
+  if (Array.isArray(primitives)) {
+    primitives.forEach((primitive, index) => {
+      if (!isObject(primitive) || primitive.kind !== "condensed-cluster" || !isObject(primitive.cluster)) {
+        return;
+      }
+      const clusterPath = `$.primitives[${index}].cluster`;
+      const expected = [
+        ["classificationPolicyHash", sourceMigration.policyHash],
+        ["classificationArtifact", sourceMigration.classifiedRelations?.hash],
+        ["nodeResolutionArtifact", sourceMigration.nodeResolutions?.hash],
+        ["condensationArtifact", sourceMigration.condensation?.hash]
+      ];
+      expected.forEach(([field, expectedValue]) => {
+        const actual = field === "classificationPolicyHash"
+          ? primitive.cluster[field]
+          : primitive.cluster[field]?.hash;
+        if (actual !== expectedValue) {
+          addIssue(
+            issues,
+            "SOURCE_MIGRATION_CLUSTER_PROVENANCE_MISMATCH",
+            `${clusterPath}.${field}`,
+            "Condensed-cluster provenance must match the bound source migration.",
+            { field, expected: expectedValue ?? null, actual: actual ?? null }
+          );
+        }
+      });
+      if (Array.isArray(primitive.cluster.members)) {
+        primitive.cluster.members.forEach((member) => {
+          if (clusterMembers.has(member)) {
+            addIssue(
+              issues,
+              "SOURCE_MIGRATION_CLUSTER_MEMBER_DUPLICATE",
+              `${clusterPath}.members`,
+              "A source member cannot belong to more than one condensed-cluster primitive.",
+              {
+                member,
+                firstPrimitive: clusterMembers.get(member),
+                secondPrimitive: primitive.sourceId ?? null
+              }
+            );
+          } else {
+            clusterMembers.set(member, primitive.sourceId ?? null);
+          }
+        });
+      }
+    });
+  }
+}
+
 function validatePrimitive(primitive, path, issues) {
   if (!requireObject(primitive, path, issues)) return;
   rejectUnknownFields(primitive, PRIMITIVE_FIELDS, path, issues);
@@ -502,7 +996,6 @@ function validatePrimitive(primitive, path, issues) {
   }
   if (primitive.kind === "condensed-cluster") {
     validateCluster(primitive.cluster, `${path}.cluster`, issues);
-    addIssue(issues, "SOURCE_RESOLUTION_FOUNDATION_UNAVAILABLE", path, "Condensed clusters require source-migration reconciliation, which is not implemented in the foundation loader.");
   }
   if (primitive.kind === "primitive" && primitive.cluster !== undefined) {
     addIssue(issues, "SOURCE_RESOLUTION_CLUSTER_FORBIDDEN", `${path}.cluster`, "Ordinary primitives cannot carry cluster provenance.");
@@ -524,9 +1017,9 @@ function validatePrimitive(primitive, path, issues) {
   validateStringArray(primitive.typeTags, `${path}.typeTags`, issues);
   validateStringArray(primitive.claimRefs, `${path}.claimRefs`, issues);
   if (requireObject(primitive.invariants, `${path}.invariants`, issues)) {
-    for (const [name, quantity] of Object.entries(primitive.invariants)) {
+    for (const [name, value] of Object.entries(primitive.invariants)) {
       requireIdentifier(name, `${path}.invariants.${name}`, issues);
-      validateQuantity(quantity, `${path}.invariants.${name}`, issues);
+      validateInvariantValue(value, `${path}.invariants.${name}`, issues);
     }
   }
   if (primitive.profile === undefined) {
@@ -536,7 +1029,281 @@ function validatePrimitive(primitive, path, issues) {
   }
 }
 
-function validatePredicate(predicate, path, issues) {
+function validateInvariantValue(value, path, issues) {
+  if (isObject(value)) {
+    validateQuantity(value, path, issues);
+    return;
+  }
+  if (typeof value === "number") {
+    if (!Number.isFinite(value)) {
+      addIssue(
+        issues,
+        "PACKAGE_INVARIANT_NUMBER_INVALID",
+        path,
+        "A numeric invariant value must be finite.",
+        { value }
+      );
+    }
+    return;
+  }
+  if (typeof value === "string") {
+    if (value.length > INVARIANT_STRING_MAX_LENGTH) {
+      addIssue(
+        issues,
+        "PACKAGE_INVARIANT_STRING_LIMIT",
+        path,
+        "A string invariant value exceeds the kernel length limit.",
+        { actualLength: value.length, maximumLength: INVARIANT_STRING_MAX_LENGTH }
+      );
+    }
+    return;
+  }
+  if (typeof value === "boolean" || value === null) return;
+  addIssue(
+    issues,
+    "PACKAGE_INVARIANT_VALUE_INVALID",
+    path,
+    "An invariant value must be a Quantity or JSON scalar.",
+    { actualKind: Array.isArray(value) ? "array" : typeof value }
+  );
+}
+
+function validateCandidateAttributes(attributes, primitives, path, issues) {
+  if (!requireArray(attributes, path, issues)) return;
+  if (attributes.length > 256) {
+    addIssue(
+      issues,
+      "PACKAGE_CANDIDATE_ATTRIBUTE_LIMIT",
+      path,
+      "Candidate-attribute definitions exceed the supported limit.",
+      { actual: attributes.length, maximum: 256 }
+    );
+  }
+  const names = new Set();
+  attributes.forEach((definition, index) => {
+    const definitionPath = `${path}[${index}]`;
+    if (!requireObject(definition, definitionPath, issues)) return;
+    rejectUnknownFields(
+      definition,
+      CANDIDATE_ATTRIBUTE_FIELDS,
+      definitionPath,
+      issues
+    );
+    requireFields(
+      definition,
+      CANDIDATE_ATTRIBUTE_FIELDS,
+      definitionPath,
+      issues
+    );
+    if (requireIdentifier(definition.name, `${definitionPath}.name`, issues)) {
+      if (names.has(definition.name)) {
+        addIssue(
+          issues,
+          "PACKAGE_CANDIDATE_ATTRIBUTE_DUPLICATE",
+          `${definitionPath}.name`,
+          "Candidate-attribute names must be globally unique.",
+          { name: definition.name }
+        );
+      }
+      names.add(definition.name);
+    }
+    if (!new Set(["nodes", "edges"]).has(definition.target)) {
+      addIssue(
+        issues,
+        "PACKAGE_CANDIDATE_ATTRIBUTE_TARGET_INVALID",
+        `${definitionPath}.target`,
+        "Candidate attribute target must be nodes or edges."
+      );
+    }
+    const sourcePath = `${definitionPath}.source`;
+    if (!requireObject(definition.source, sourcePath, issues)) return;
+    const sourceFields = CANDIDATE_ATTRIBUTE_SOURCE_FIELDS[
+      definition.source.kind
+    ];
+    if (sourceFields === undefined) {
+      addIssue(
+        issues,
+        "PACKAGE_CANDIDATE_ATTRIBUTE_SOURCE_INVALID",
+        `${sourcePath}.kind`,
+        "Candidate attribute uses an unsupported derivation source."
+      );
+      return;
+    }
+    rejectUnknownFields(definition.source, sourceFields, sourcePath, issues);
+    requireFields(definition.source, sourceFields, sourcePath, issues);
+    if (ROLE_CANDIDATE_ATTRIBUTE_SOURCES.has(definition.source.kind)) {
+      if (definition.target !== "edges") {
+        addIssue(
+          issues,
+          "PACKAGE_CANDIDATE_ATTRIBUTE_SOURCE_TARGET_INVALID",
+          sourcePath,
+          "Role-dependent candidate attributes can target edges only."
+        );
+      }
+      if (!requireObject(definition.source.values, `${sourcePath}.values`, issues)) {
+        return;
+      }
+      const entries = Object.entries(definition.source.values);
+      if (entries.length === 0) {
+        addIssue(
+          issues,
+          "PACKAGE_CANDIDATE_ATTRIBUTE_ROLE_MAP_EMPTY",
+          `${sourcePath}.values`,
+          "A role-dependent candidate attribute must define at least one role."
+        );
+      }
+      if (entries.length > 256) {
+        addIssue(
+          issues,
+          "PACKAGE_CANDIDATE_ATTRIBUTE_ROLE_MAP_LIMIT",
+          `${sourcePath}.values`,
+          "A role-dependent candidate attribute exceeds the supported role limit.",
+          { actual: entries.length, maximum: 256 }
+        );
+      }
+      let firstKind;
+      let firstQuantity;
+      for (const [role, value] of entries) {
+        const valuePath = `${sourcePath}.values.${role}`;
+        requireIdentifier(role, valuePath, issues);
+        validateInvariantValue(value, valuePath, issues);
+        const valueKind = invariantValueKind(value);
+        const quantitySource = definition.source.kind ===
+          "edge-role-quantity-v1";
+        if ((quantitySource && valueKind !== "quantity") ||
+            (!quantitySource && valueKind === "quantity")) {
+          addIssue(
+            issues,
+            "PACKAGE_CANDIDATE_ATTRIBUTE_SOURCE_TYPE_MISMATCH",
+            valuePath,
+            quantitySource
+              ? "A role-dependent Quantity attribute requires Quantity values."
+              : "A role-dependent scalar attribute requires JSON scalar values.",
+            { attribute: definition.name, role }
+          );
+          continue;
+        }
+        if (!quantitySource) {
+          if (firstKind !== undefined && valueKind !== firstKind) {
+            addIssue(
+              issues,
+              "PACKAGE_CANDIDATE_ATTRIBUTE_ROLE_VALUE_CONFLICT",
+              valuePath,
+              "Every role-dependent scalar value must have the same JSON scalar type.",
+              { attribute: definition.name, role, expectedKind: firstKind, actualKind: valueKind }
+            );
+          }
+          firstKind ??= valueKind;
+          continue;
+        }
+        let normalizedQuantity;
+        try {
+          normalizedQuantity = normalizeRuntimeQuantity(value);
+        } catch {
+          continue;
+        }
+        if (firstQuantity !== undefined && (
+          normalizedQuantity.unit !== firstQuantity.unit ||
+          normalizedQuantity.semantic !== firstQuantity.semantic
+        )) {
+          addIssue(
+            issues,
+            "PACKAGE_CANDIDATE_ATTRIBUTE_ROLE_VALUE_CONFLICT",
+            valuePath,
+            "Every role-dependent Quantity value must have compatible units and one semantic.",
+            {
+              attribute: definition.name,
+              role,
+              expectedUnit: firstQuantity.unit,
+              actualUnit: normalizedQuantity.unit,
+              expectedSemantic: firstQuantity.semantic,
+              actualSemantic: normalizedQuantity.semantic
+            }
+          );
+        }
+        firstQuantity ??= normalizedQuantity;
+      }
+      return;
+    }
+    if (CONSTANT_CANDIDATE_ATTRIBUTE_SOURCES.has(definition.source.kind)) {
+      validateInvariantValue(definition.source.value, `${sourcePath}.value`, issues);
+      const quantity = isObject(definition.source.value);
+      if (definition.source.kind === "constant-scalar-v1" && quantity) {
+        addIssue(
+          issues,
+          "PACKAGE_CANDIDATE_ATTRIBUTE_SOURCE_TYPE_MISMATCH",
+          `${sourcePath}.value`,
+          "A constant scalar candidate attribute requires a JSON scalar value."
+        );
+      }
+      if (definition.source.kind === "constant-quantity-v1" && !quantity) {
+        addIssue(
+          issues,
+          "PACKAGE_CANDIDATE_ATTRIBUTE_SOURCE_TYPE_MISMATCH",
+          `${sourcePath}.value`,
+          "A constant Quantity candidate attribute requires a Quantity value."
+        );
+      }
+      return;
+    }
+    requireIdentifier(
+      definition.source.invariant,
+      `${sourcePath}.invariant`,
+      issues
+    );
+    if (definition.target !== "nodes") {
+      addIssue(
+        issues,
+        "PACKAGE_CANDIDATE_ATTRIBUTE_SOURCE_TARGET_INVALID",
+        sourcePath,
+        "Element-invariant attributes can target nodes only."
+      );
+    }
+    primitives.forEach((primitive, primitiveIndex) => {
+      const value = isObject(primitive) && isObject(primitive.invariants)
+        ? primitive.invariants[definition.source.invariant]
+        : undefined;
+      if (value === undefined) {
+        addIssue(
+          issues,
+          "PACKAGE_CANDIDATE_ATTRIBUTE_INVARIANT_MISSING",
+          `$.primitives[${primitiveIndex}].invariants.${definition.source.invariant}`,
+          "Every primitive must define an invariant used as a candidate attribute.",
+          { attribute: definition.name }
+        );
+      } else if (
+        definition.source.kind === "element-invariant-scalar-v1" &&
+        isObject(value)
+      ) {
+        addIssue(
+          issues,
+          "PACKAGE_CANDIDATE_ATTRIBUTE_SOURCE_TYPE_MISMATCH",
+          `$.primitives[${primitiveIndex}].invariants.${definition.source.invariant}`,
+          "A scalar candidate attribute requires a JSON scalar invariant value.",
+          { attribute: definition.name }
+        );
+      } else if (
+        definition.source.kind === "element-invariant-quantity-v1" &&
+        !isObject(value)
+      ) {
+        addIssue(
+          issues,
+          "PACKAGE_CANDIDATE_ATTRIBUTE_SOURCE_TYPE_MISMATCH",
+          `$.primitives[${primitiveIndex}].invariants.${definition.source.invariant}`,
+          "A Quantity candidate attribute requires a Quantity invariant value.",
+          { attribute: definition.name }
+        );
+      }
+    });
+  });
+}
+
+function validatePredicate(
+  predicate,
+  path,
+  issues,
+  { allowCurrentDepthReferences = false } = {}
+) {
   if (!requireObject(predicate, path, issues)) return;
   rejectUnknownFields(predicate, PREDICATE_FIELDS, path, issues);
   requireFields(predicate, PREDICATE_FIELDS, path, issues);
@@ -547,7 +1314,18 @@ function validatePredicate(predicate, path, issues) {
   if (typeof predicate.monotoneViolation !== "boolean") {
     addIssue(issues, "PREDICATE_TYPE_MONOTONICITY_INVALID", `${path}.monotoneViolation`, "monotoneViolation must be boolean.");
   }
-  if (predicate.referencesDepth !== "below") {
+  if (!new Set(["below", "self"]).has(predicate.referencesDepth)) {
+    addIssue(
+      issues,
+      "PREDICATE_TYPE_DEPTH_REFERENCE_INVALID",
+      `${path}.referencesDepth`,
+      "Predicate depth reference must be below or self.",
+      { value: predicate.referencesDepth }
+    );
+  } else if (
+    predicate.referencesDepth === "self" &&
+    !allowCurrentDepthReferences
+  ) {
     addIssue(issues, "STRATIFICATION_SELF_REFERENCE", `${path}.referencesDepth`, "Initial kernel packages may reference only lower derivation depths.", {
       value: predicate.referencesDepth
     });
@@ -595,7 +1373,7 @@ function validateQuantitySpec(specification, path, issues) {
 function validateFunctional(functional, path, issues) {
   if (!requireObject(functional, path, issues)) return;
   rejectUnknownFields(functional, FUNCTIONAL_FIELDS, path, issues);
-  requireFields(functional, FUNCTIONAL_FIELDS, path, issues);
+  requireFields(functional, FUNCTIONAL_REQUIRED_FIELDS, path, issues);
   requireIdentifier(functional.id, `${path}.id`, issues);
   validateValueExpression(functional.expr, `${path}.expr`, issues);
   if (requireObject(functional.coefficients, `${path}.coefficients`, issues)) {
@@ -613,6 +1391,69 @@ function validateFunctional(functional, path, issues) {
         });
       }
     });
+  }
+  if (functional.coefficientRoles !== undefined) {
+    const rolesPath = `${path}.coefficientRoles`;
+    if (requireObject(functional.coefficientRoles, rolesPath, issues)) {
+      for (const [name, role] of Object.entries(functional.coefficientRoles)) {
+        requireIdentifier(name, `${rolesPath}.${name}`, issues);
+        if (!isObject(functional.coefficients) || !Object.hasOwn(functional.coefficients, name)) {
+          addIssue(
+            issues,
+            "FUNCTIONAL_COEFFICIENT_ROLE_UNKNOWN",
+            `${rolesPath}.${name}`,
+            "A coefficient role may reference only a declared coefficient.",
+            { coefficient: name }
+          );
+        }
+        if (!FUNCTIONAL_COEFFICIENT_ROLES.has(role)) {
+          addIssue(
+            issues,
+            "FUNCTIONAL_COEFFICIENT_ROLE_INVALID",
+            `${rolesPath}.${name}`,
+            "Coefficient role must be fixed, free, or fitted.",
+            { coefficient: name, role }
+          );
+        }
+      }
+      if (isObject(functional.coefficients)) {
+        for (const name of Object.keys(functional.coefficients)) {
+          if (!Object.hasOwn(functional.coefficientRoles, name)) {
+            addIssue(
+              issues,
+              "FUNCTIONAL_COEFFICIENT_ROLE_MISSING",
+              `${rolesPath}.${name}`,
+              "Explicit coefficient roles must cover every declared coefficient.",
+              { coefficient: name }
+            );
+          }
+        }
+      }
+      if (
+        Array.isArray(functional.sensitivityCoefficients) &&
+        functional.sensitivityCoefficients.every((name) => typeof name === "string")
+      ) {
+        const expected = Object.entries(functional.coefficientRoles)
+          .filter(([, role]) => role === "free" || role === "fitted")
+          .map(([name]) => name)
+          .sort();
+        const actual = [...new Set(functional.sensitivityCoefficients)].sort();
+        if (canonicalize(expected) !== canonicalize(actual)) {
+          addIssue(
+            issues,
+            "FUNCTIONAL_SENSITIVITY_COVERAGE_MISMATCH",
+            `${path}.sensitivityCoefficients`,
+            "Sensitivity coefficients must exactly cover every free or fitted coefficient.",
+            {
+              expected,
+              actual,
+              missing: expected.filter((name) => !actual.includes(name)),
+              unexpected: actual.filter((name) => !expected.includes(name))
+            }
+          );
+        }
+      }
+    }
   }
   validateQuantitySpec(functional.result, `${path}.result`, issues);
   requireString(functional.explain, `${path}.explain`, issues);
@@ -829,13 +1670,241 @@ function validateIdentityPolicy(policy, path, issues) {
 
 function validateProfileDefinition(definition, path, issues) {
   if (!requireObject(definition, path, issues)) return;
-  rejectUnknownFields(definition, PROFILE_DEFINITION_FIELDS, path, issues);
-  requireFields(definition, PROFILE_DEFINITION_FIELDS, path, issues);
-  if (definition.kind !== "explicit-only") {
-    addIssue(issues, "PACKAGE_PROFILE_DEFINITION_UNAVAILABLE", `${path}.kind`, "Only explicit primitive profiles are available in the current foundation.", {
-      value: definition.kind
-    });
+  if (definition.kind === "explicit-only") {
+    rejectUnknownFields(
+      definition,
+      EXPLICIT_PROFILE_DEFINITION_FIELDS,
+      path,
+      issues
+    );
+    requireFields(definition, EXPLICIT_PROFILE_DEFINITION_FIELDS, path, issues);
+    return;
   }
+  if (
+    definition.kind === "residual-slots-v1" ||
+    definition.kind === "residual-slots-v2" ||
+    definition.kind === "residual-slots-v3"
+  ) {
+    const fields = definition.kind === "residual-slots-v3"
+      ? FORMATION_DERIVED_TYPED_PROFILE_DEFINITION_FIELDS
+      : definition.kind === "residual-slots-v2"
+        ? FORMATION_DERIVED_PROFILE_DEFINITION_FIELDS
+        : RESIDUAL_PROFILE_DEFINITION_FIELDS;
+    rejectUnknownFields(
+      definition,
+      fields,
+      path,
+      issues
+    );
+    requireFields(
+      definition,
+      fields,
+      path,
+      issues
+    );
+    validateProfile(definition.baseProfile, `${path}.baseProfile`, issues);
+    validateStringArray(
+      definition.derivedTypeTags,
+      `${path}.derivedTypeTags`,
+      issues
+    );
+    validateStringArray(definition.claimRefs, `${path}.claimRefs`, issues);
+    if (
+      new Set(["residual-slots-v2", "residual-slots-v3"]).has(
+        definition.kind
+      ) &&
+      requireArray(
+        definition.derivedInvariants,
+        `${path}.derivedInvariants`,
+        issues
+      )
+    ) {
+      const semantics = new Set(
+        isObject(definition.baseProfile) &&
+        Array.isArray(definition.baseProfile.invariantVector)
+          ? definition.baseProfile.invariantVector
+            .filter((entry) => isObject(entry) && typeof entry.semantic === "string")
+            .map((entry) => entry.semantic)
+          : []
+      );
+      definition.derivedInvariants.forEach((entry, index) => {
+        const entryPath = `${path}.derivedInvariants[${index}]`;
+        if (!requireObject(entry, entryPath, issues)) return;
+        rejectUnknownFields(
+          entry,
+          FORMATION_DERIVED_INVARIANT_FIELDS,
+          entryPath,
+          issues
+        );
+        requireFields(
+          entry,
+          FORMATION_DERIVED_INVARIANT_FIELDS,
+          entryPath,
+          issues
+        );
+        const semanticValid = requireIdentifier(
+          entry.semantic,
+          `${entryPath}.semantic`,
+          issues
+        );
+        requireIdentifier(
+          entry.functional,
+          `${entryPath}.functional`,
+          issues
+        );
+        validateQuantity(
+          entry.quantization,
+          `${entryPath}.quantization`,
+          issues
+        );
+        if (
+          isObject(entry.quantization) &&
+          Number.isFinite(entry.quantization.value) &&
+          entry.quantization.value <= 0
+        ) {
+          addIssue(
+            issues,
+            "PACKAGE_PROFILE_QUANTIZATION_INVALID",
+            `${entryPath}.quantization.value`,
+            "Formation-derived profile quantization must be positive."
+          );
+        }
+        if (semanticValid && semantics.has(entry.semantic)) {
+          addIssue(
+            issues,
+            "PACKAGE_PROFILE_INVARIANT_DUPLICATE",
+            `${entryPath}.semantic`,
+            "Formation-derived profile invariant semantics must be unique and must not replace a base invariant.",
+            { semantic: entry.semantic }
+          );
+        }
+        if (semanticValid) semantics.add(entry.semantic);
+      });
+    }
+    if (
+      definition.kind === "residual-slots-v3" &&
+      requireArray(
+        definition.derivedTypeRules,
+        `${path}.derivedTypeRules`,
+        issues
+      )
+    ) {
+      const derivedInvariants = new Map(
+        Array.isArray(definition.derivedInvariants)
+          ? definition.derivedInvariants
+            .filter((entry) => isObject(entry) && typeof entry.semantic === "string")
+            .map((entry) => [entry.semantic, entry])
+          : []
+      );
+      const typeTags = new Set(
+        Array.isArray(definition.derivedTypeTags)
+          ? definition.derivedTypeTags.filter((entry) => typeof entry === "string")
+          : []
+      );
+      definition.derivedTypeRules.forEach((rule, index) => {
+        const rulePath = `${path}.derivedTypeRules[${index}]`;
+        if (!requireObject(rule, rulePath, issues)) return;
+        rejectUnknownFields(
+          rule,
+          FORMATION_DERIVED_TYPE_RULE_FIELDS,
+          rulePath,
+          issues
+        );
+        requireFields(
+          rule,
+          FORMATION_DERIVED_TYPE_RULE_FIELDS,
+          rulePath,
+          issues
+        );
+        const typeTagValid = requireIdentifier(
+          rule.typeTag,
+          `${rulePath}.typeTag`,
+          issues
+        );
+        const invariantValid = requireIdentifier(
+          rule.invariant,
+          `${rulePath}.invariant`,
+          issues
+        );
+        if (!QUANTITY_COMPARATORS.has(rule.comparator)) {
+          addIssue(
+            issues,
+            "PACKAGE_PROFILE_TYPE_COMPARATOR_INVALID",
+            `${rulePath}.comparator`,
+            "Formation-derived type comparator is unavailable.",
+            { comparator: rule.comparator }
+          );
+        }
+        validateQuantity(rule.threshold, `${rulePath}.threshold`, issues);
+        if (typeTagValid && typeTags.has(rule.typeTag)) {
+          addIssue(
+            issues,
+            "PACKAGE_PROFILE_TYPE_TAG_DUPLICATE",
+            `${rulePath}.typeTag`,
+            "Formation-derived type rules and base derived type tags must be unique.",
+            { typeTag: rule.typeTag }
+          );
+        }
+        if (typeTagValid) typeTags.add(rule.typeTag);
+        const invariant = invariantValid
+          ? derivedInvariants.get(rule.invariant)
+          : undefined;
+        if (invariantValid && invariant === undefined) {
+          addIssue(
+            issues,
+            "PACKAGE_PROFILE_TYPE_INVARIANT_REFERENCE_MISSING",
+            `${rulePath}.invariant`,
+            "Formation-derived type rule must reference a declared formation-derived invariant.",
+            { invariant: rule.invariant }
+          );
+        }
+        if (
+          invariant !== undefined &&
+          isObject(rule.threshold) &&
+          rule.threshold.semantic !== rule.invariant
+        ) {
+          addIssue(
+            issues,
+            "PACKAGE_PROFILE_TYPE_THRESHOLD_SEMANTIC_MISMATCH",
+            `${rulePath}.threshold.semantic`,
+            "Formation-derived type threshold semantic must equal the referenced invariant.",
+            {
+              invariant: rule.invariant,
+              thresholdSemantic: rule.threshold.semantic
+            }
+          );
+        }
+        if (
+          invariant !== undefined &&
+          isObject(invariant.quantization) &&
+          isObject(rule.threshold) &&
+          unitsCompatible(invariant.quantization.unit, rule.threshold.unit) === false
+        ) {
+          addIssue(
+            issues,
+            "QUANTITY_UNIT_INCOMPATIBLE",
+            `${rulePath}.threshold.unit`,
+            "Formation-derived type threshold and invariant must use compatible units.",
+            {
+              invariantUnit: invariant.quantization.unit,
+              thresholdUnit: rule.threshold.unit,
+              invariant: rule.invariant
+            }
+          );
+        }
+      });
+    }
+    return;
+  }
+  rejectUnknownFields(definition, new Set(["kind"]), path, issues);
+  requireFields(definition, new Set(["kind"]), path, issues);
+  addIssue(
+    issues,
+    "PACKAGE_PROFILE_DEFINITION_UNAVAILABLE",
+    `${path}.kind`,
+    "The declared derived-profile policy is unavailable.",
+    { value: definition.kind }
+  );
 }
 
 function validateReferences(raw, issues) {
@@ -867,6 +1936,26 @@ function validateReferences(raw, issues) {
         );
       }
     });
+  });
+  raw.candidateAttributes.forEach((definition, index) => {
+    if (definition.source?.kind === "constant-quantity-v1") {
+      check(
+        definition.source.value?.provenance?.evidence,
+        evidence,
+        `$.candidateAttributes[${index}].source.value.provenance.evidence`,
+        "EVIDENCE_REFERENCE_MISSING"
+      );
+    }
+    if (definition.source?.kind === "edge-role-quantity-v1") {
+      for (const [role, value] of Object.entries(definition.source.values)) {
+        check(
+          value?.provenance?.evidence,
+          evidence,
+          `$.candidateAttributes[${index}].source.values.${role}.provenance.evidence`,
+          "EVIDENCE_REFERENCE_MISSING"
+        );
+      }
+    }
   });
   raw.predicates.forEach((predicate, index) => check(predicate.claimRefs, claims, `$.predicates[${index}].claimRefs`, "PACKAGE_CLAIM_REFERENCE_MISSING"));
   raw.functionals.forEach((functional, index) => {
@@ -903,6 +1992,168 @@ function validateReferences(raw, issues) {
       });
     }
   });
+  if (new Set(["residual-slots-v1", "residual-slots-v2", "residual-slots-v3"]).has(
+    raw.profileDefinition.kind
+  )) {
+    check(
+      raw.profileDefinition.claimRefs,
+      claims,
+      "$.profileDefinition.claimRefs",
+      "PACKAGE_CLAIM_REFERENCE_MISSING"
+    );
+    raw.profileDefinition.baseProfile.invariantVector.forEach(
+      (entry, invariantIndex) => {
+        for (const field of ["normalized", "quantization"]) {
+          check(
+            entry[field].provenance.evidence,
+            evidence,
+            `$.profileDefinition.baseProfile.invariantVector[${invariantIndex}].${field}.provenance.evidence`,
+            "EVIDENCE_REFERENCE_MISSING"
+          );
+        }
+      }
+    );
+    if (new Set(["residual-slots-v2", "residual-slots-v3"]).has(
+      raw.profileDefinition.kind
+    )) {
+      raw.profileDefinition.derivedInvariants.forEach((entry, index) => {
+        const entryPath = `$.profileDefinition.derivedInvariants[${index}]`;
+        const functional = functionals.get(entry.functional);
+        if (functional === undefined) {
+          addIssue(
+            issues,
+            "PACKAGE_PROFILE_FUNCTIONAL_REFERENCE_MISSING",
+            `${entryPath}.functional`,
+            "Formation-derived profile invariant functional does not exist.",
+            { id: entry.functional }
+          );
+          return;
+        }
+        if (functional.result.semantic !== entry.semantic) {
+          addIssue(
+            issues,
+            "PACKAGE_PROFILE_INVARIANT_SEMANTIC_MISMATCH",
+            `${entryPath}.semantic`,
+            "Formation-derived profile semantic must equal the functional result semantic.",
+            {
+              semantic: entry.semantic,
+              functionalSemantic: functional.result.semantic,
+              functional: entry.functional
+            }
+          );
+        }
+        if (entry.quantization.semantic !== entry.semantic) {
+          addIssue(
+            issues,
+            "PACKAGE_PROFILE_INVARIANT_SEMANTIC_MISMATCH",
+            `${entryPath}.quantization.semantic`,
+            "Formation-derived profile quantization semantic must equal the declared profile semantic.",
+            {
+              semantic: entry.semantic,
+              quantizationSemantic: entry.quantization.semantic
+            }
+          );
+        }
+        if (unitsCompatible(functional.result.unit, entry.quantization.unit) === false) {
+          addIssue(
+            issues,
+            "QUANTITY_UNIT_INCOMPATIBLE",
+            `${entryPath}.quantization.unit`,
+            "Formation-derived profile quantization and functional result must use compatible units.",
+            {
+              quantizationUnit: entry.quantization.unit,
+              functionalUnit: functional.result.unit,
+              functional: entry.functional
+            }
+          );
+        }
+      });
+    }
+    if (raw.profileDefinition.kind === "residual-slots-v3") {
+      raw.profileDefinition.derivedTypeRules.forEach((rule, index) => {
+        check(
+          rule.threshold?.provenance?.evidence,
+          evidence,
+          `$.profileDefinition.derivedTypeRules[${index}].threshold.provenance.evidence`,
+          "EVIDENCE_REFERENCE_MISSING"
+        );
+      });
+    }
+
+    const carriedInvariants = new Map(
+      raw.profileDefinition.baseProfile.invariantVector.map((entry) => [
+        entry.semantic,
+        {
+          source: "base-profile",
+          unit: entry.normalized.unit,
+          semantic: entry.normalized.semantic
+        }
+      ])
+    );
+    if (new Set(["residual-slots-v2", "residual-slots-v3"]).has(
+      raw.profileDefinition.kind
+    )) {
+      for (const entry of raw.profileDefinition.derivedInvariants) {
+        const functional = functionals.get(entry.functional);
+        if (functional === undefined) continue;
+        carriedInvariants.set(entry.semantic, {
+          source: "formation-functional",
+          unit: functional.result.unit,
+          semantic: functional.result.semantic,
+          functional: entry.functional
+        });
+      }
+    }
+    raw.candidateAttributes.forEach((definition, index) => {
+      if (!definition.source.kind.startsWith("element-invariant-")) return;
+      const carried = carriedInvariants.get(definition.source.invariant);
+      if (carried === undefined) return;
+      const primitiveValue = raw.primitives[0].invariants[
+        definition.source.invariant
+      ];
+      const path = `$.candidateAttributes[${index}].source.invariant`;
+      if (
+        definition.source.kind !== "element-invariant-quantity-v1" ||
+        invariantValueKind(primitiveValue) !== "quantity"
+      ) {
+        addIssue(
+          issues,
+          "PACKAGE_CANDIDATE_ATTRIBUTE_CARRY_FORWARD_TYPE_MISMATCH",
+          path,
+          "A profile Quantity carried into a future candidate must use a Quantity candidate-attribute source.",
+          {
+            attribute: definition.name,
+            invariant: definition.source.invariant,
+            carriedSource: carried.source
+          }
+        );
+        return;
+      }
+      if (
+        areUnitsCompatible(primitiveValue.unit, carried.unit) === false ||
+        primitiveValue.semantic !== carried.semantic
+      ) {
+        addIssue(
+          issues,
+          "PACKAGE_CANDIDATE_ATTRIBUTE_CARRY_FORWARD_TYPE_MISMATCH",
+          path,
+          "A carried profile invariant must preserve the candidate attribute's primitive unit dimensions and semantic.",
+          {
+            attribute: definition.name,
+            invariant: definition.source.invariant,
+            primitiveUnit: primitiveValue.unit,
+            carriedUnit: carried.unit,
+            primitiveSemantic: primitiveValue.semantic,
+            carriedSemantic: carried.semantic,
+            carriedSource: carried.source,
+            ...(carried.functional === undefined
+              ? {}
+              : { functional: carried.functional })
+          }
+        );
+      }
+    });
+  }
   if (raw.partialOraclePolicy.maximumResidual) {
     check(
       raw.partialOraclePolicy.maximumResidual.provenance.evidence,
@@ -959,46 +2210,76 @@ function buildInvariantEnvironment(raw, issues) {
   const invariants = {};
   const declarations = new Map();
   raw.primitives.forEach((primitive, primitiveIndex) => {
-    for (const [name, quantity] of Object.entries(primitive.invariants)) {
-      const parsed = parseUnitExpression(quantity.unit);
+    for (const [name, value] of Object.entries(primitive.invariants)) {
+      const kind = invariantValueKind(value);
+      const parsed = kind === "quantity" ? parseUnitExpression(value.unit) : null;
       const declaration = {
-        dimensionSignature: parsed.dimensionSignature,
-        semantic: quantity.semantic.trim(),
+        kind,
+        ...(parsed === null
+          ? {}
+          : {
+              dimensionSignature: parsed.dimensionSignature,
+              semantic: value.semantic.trim()
+            }),
         path: `$.primitives[${primitiveIndex}].invariants.${name}`
       };
       const previous = declarations.get(name);
       if (
         previous !== undefined &&
         (
-          previous.dimensionSignature !== declaration.dimensionSignature ||
-          previous.semantic !== declaration.semantic
+          previous.kind !== declaration.kind ||
+          (
+            declaration.kind === "quantity" &&
+            (
+              previous.dimensionSignature !== declaration.dimensionSignature ||
+              previous.semantic !== declaration.semantic
+            )
+          )
         )
       ) {
         addIssue(
           issues,
           "EXPRESSION_INVARIANT_TYPE_CONFLICT",
           declaration.path,
-          "Invariant declarations with the same name must have identical dimensions and semantics.",
+          "Invariant declarations with the same name must have identical runtime types; Quantity declarations must also have identical dimensions and semantics.",
           {
             name,
             previousPath: previous.path,
-            previousDimensionSignature: previous.dimensionSignature,
-            dimensionSignature: declaration.dimensionSignature,
-            previousSemantic: previous.semantic,
-            semantic: declaration.semantic
+            previousKind: previous.kind,
+            kind: declaration.kind,
+            ...(previous.kind === "quantity"
+              ? {
+                  previousDimensionSignature: previous.dimensionSignature,
+                  previousSemantic: previous.semantic
+                }
+              : {}),
+            ...(declaration.kind === "quantity"
+              ? {
+                  dimensionSignature: declaration.dimensionSignature,
+                  semantic: declaration.semantic
+                }
+              : {})
           }
         );
       } else if (previous === undefined) {
         declarations.set(name, declaration);
-        invariants[name] = quantity;
+        invariants[name] = invariantExpressionSymbol(value);
       }
     }
   });
   return invariants;
 }
 
+function buildCandidateAttributeEnvironment(raw, invariants) {
+  return candidateAttributeSymbolEnvironment(
+    raw.candidateAttributes,
+    invariants
+  );
+}
+
 function compilePackageExpressions(raw, issues) {
   const invariants = buildInvariantEnvironment(raw, issues);
+  const attributes = buildCandidateAttributeEnvironment(raw, invariants);
   const perturbations = collectPerturbationIds(raw, issues);
   const compiled = {
     predicates: new Map(),
@@ -1009,7 +2290,7 @@ function compilePackageExpressions(raw, issues) {
   raw.predicates.forEach((predicate, index) => {
     try {
       const plan = compilePredicate(predicate, {
-        environment: { invariants, perturbations }
+        environment: { invariants, attributes, perturbations }
       });
       compiled.predicates.set(predicate.id, plan);
     } catch (error) {
@@ -1020,7 +2301,11 @@ function compilePackageExpressions(raw, issues) {
   raw.functionals.forEach((functional, index) => {
     try {
       const analysis = analyzeValueExpression(functional.expr, {
-        environment: { invariants, coefficients: functional.coefficients }
+        environment: {
+          invariants,
+          attributes,
+          coefficients: functional.coefficients
+        }
       });
       const resultUnit = parseUnitExpression(functional.result.unit);
       if (analysis.result.kind !== "number" && analysis.result.kind !== "quantity") {
@@ -1056,7 +2341,7 @@ function compilePackageExpressions(raw, issues) {
   });
 
   raw.cohortRules.forEach((rule, index) => {
-    const environment = { invariants };
+    const environment = { invariants, attributes };
     if (rule.kind === "shared-support" || rule.kind === "profile-role") {
       const field = rule.kind === "shared-support" ? "resourceKey" : "roleKey";
       const analyses = [];
@@ -1107,7 +2392,7 @@ function compilePackageExpressions(raw, issues) {
   return compiled;
 }
 
-function validatePackage(raw) {
+function validatePackage(raw, options = {}) {
   const issues = [];
   if (!requireObject(raw, "$", issues)) return { issues, compiledExpressions: null };
   rejectUnknownFields(raw, ROOT_FIELDS, "$", issues);
@@ -1158,18 +2443,52 @@ function validatePackage(raw) {
       sourceIds.add(primitive.sourceId);
     });
   }
-  validateRegistry(raw.predicates, "$.predicates", issues, validatePredicate);
+  validateRegistry(
+    raw.predicates,
+    "$.predicates",
+    issues,
+    (predicate, path, predicateIssues) => validatePredicate(
+      predicate,
+      path,
+      predicateIssues,
+      options
+    )
+  );
   validateRegistry(raw.functionals, "$.functionals", issues, validateFunctional);
   validateRegistry(raw.cohortRules, "$.cohortRules", issues, validateCohortRule);
   validateRegistry(raw.selectors, "$.selectors", issues, validateSelector);
+  validateCandidateAttributes(
+    raw.candidateAttributes,
+    Array.isArray(raw.primitives) ? raw.primitives : [],
+    "$.candidateAttributes",
+    issues
+  );
   validatePartialOraclePolicy(raw.partialOraclePolicy, "$.partialOraclePolicy", issues);
   validateOntologyAxes(raw.ontologyAxes, "$.ontologyAxes", issues);
-  requireArray(raw.perturbations, "$.perturbations", issues);
+  if (requireArray(raw.perturbations, "$.perturbations", issues)) {
+    raw.perturbations.forEach((entry, index) =>
+      validatePerturbation(entry, `$.perturbations[${index}]`, issues)
+    );
+  }
   validateProfileDefinition(raw.profileDefinition, "$.profileDefinition", issues);
   validateIdentityPolicy(raw.identityPolicy, "$.identityPolicy", issues);
   if (raw.sourceMigration !== undefined) {
-    requireObject(raw.sourceMigration, "$.sourceMigration", issues);
-    addIssue(issues, "SOURCE_CLASSIFICATION_FOUNDATION_UNAVAILABLE", "$.sourceMigration", "Source migration requires edge reconciliation and condensation validation, which are not implemented in the foundation loader.");
+    validateSourceMigration(
+      raw.sourceMigration,
+      raw.sourceArtifacts,
+      raw.primitives,
+      issues
+    );
+  } else if (
+    Array.isArray(raw.primitives) &&
+    raw.primitives.some((primitive) => isObject(primitive) && primitive.kind === "condensed-cluster")
+  ) {
+    addIssue(
+      issues,
+      "SOURCE_MIGRATION_REQUIRED",
+      "$.sourceMigration",
+      "Condensed-cluster primitives require a complete bound source migration."
+    );
   }
 
   let compiledExpressions = null;
@@ -1200,15 +2519,6 @@ function normalizeQuantity(quantity) {
   };
 }
 
-function quantityIdentity(quantity) {
-  return {
-    value: quantity.value,
-    unit: quantity.unit,
-    tolerance: quantity.tolerance,
-    semantic: quantity.semantic
-  };
-}
-
 function normalizeArtifact(artifact) {
   return {
     path: artifact.path,
@@ -1236,11 +2546,21 @@ function normalizeQuantitySpec(specification) {
 }
 
 function normalizeFunctional(functional, analysis) {
+  const sensitivityCoefficients = sortedStrings(functional.sensitivityCoefficients);
+  const sensitivitySet = new Set(sensitivityCoefficients);
+  const coefficientRoles = sortedRecord(Object.fromEntries(
+    Object.keys(functional.coefficients).map((name) => [
+      name,
+      functional.coefficientRoles?.[name] ??
+        (sensitivitySet.has(name) ? "free" : "fixed")
+    ])
+  ));
   return {
     id: functional.id.trim(),
     expr: analysis.expression,
     coefficients: sortedRecord(functional.coefficients, normalizeQuantity),
-    sensitivityCoefficients: sortedStrings(functional.sensitivityCoefficients),
+    coefficientRoles,
+    sensitivityCoefficients,
     result: normalizeQuantitySpec(functional.result),
     explain: functional.explain.trim(),
     claimRefs: sortedStrings(functional.claimRefs)
@@ -1300,6 +2620,41 @@ function normalizeSelector(selector) {
   };
 }
 
+function normalizePerturbation(entry) {
+  if (typeof entry === "string") return entry;
+  const common = {
+    id: entry.id.trim(),
+    kind: entry.kind,
+    enumeration: entry.enumeration ?? DEFAULT_PERTURBATION_ENUMERATION,
+    emptyPolicy: entry.emptyPolicy ?? "indeterminate"
+  };
+  if (entry.kind === "edge-deletion") {
+    return {
+      ...common,
+      ...(entry.roles === undefined ? {} : { roles: sortedStrings(entry.roles) })
+    };
+  }
+  if (entry.kind === "node-deletion") return common;
+  if (entry.kind === "edge-role-replacement") {
+    return {
+      ...common,
+      replacements: [...entry.replacements]
+        .map((replacement) => ({
+          from: replacement.from.trim(),
+          to: replacement.to.trim()
+        }))
+        .sort(compareCanonical)
+    };
+  }
+  return {
+    ...common,
+    target: entry.target,
+    attribute: entry.attribute.trim(),
+    epsilon: Object.is(entry.epsilon, -0) ? 0 : entry.epsilon,
+    directions: sortedStrings(entry.directions ?? ["decrease", "increase"])
+  };
+}
+
 function normalizePartialOraclePolicy(policy) {
   if (policy.mode === "indeterminate") return { mode: "indeterminate" };
   return {
@@ -1311,40 +2666,56 @@ function normalizePartialOraclePolicy(policy) {
   };
 }
 
-function normalizeProfile(profile, path, issues) {
-  const slots = profile.slots.map((slot) => ({
-    role: slot.role.trim(),
-    polarity: slot.polarity,
-    capacity: { min: slot.capacity.min, max: slot.capacity.max },
-    ...(slot.guard === undefined ? {} : { guard: slot.guard })
-  })).sort(compareCanonical);
-  const invariantVector = profile.invariantVector.map((entry) => ({
-    semantic: entry.semantic.trim(),
-    normalized: normalizeQuantity(entry.normalized),
-    quantization: normalizeQuantity(entry.quantization)
-  })).sort((left, right) => compareStrings(left.semantic, right.semantic) || compareCanonical(left, right));
+function normalizeProfileDefinition(definition, issues) {
+  if (definition.kind === "explicit-only") return { kind: "explicit-only" };
   const normalized = {
-    slots,
-    invariantVector,
-    precisionPolicy: profile.precisionPolicy.trim()
+    kind: definition.kind,
+    baseProfile: normalizeProfile(
+      definition.baseProfile,
+      "$.profileDefinition.baseProfile",
+      issues
+    ),
+    derivedTypeTags: sortedStrings(definition.derivedTypeTags),
+    claimRefs: sortedStrings(definition.claimRefs)
   };
-  const identity = {
-    slots,
-    invariantVector: invariantVector.map((entry) => ({
-      semantic: entry.semantic,
-      normalized: quantityIdentity(entry.normalized),
-      quantization: quantityIdentity(entry.quantization)
-    })),
-    precisionPolicy: normalized.precisionPolicy
+  if (definition.kind === "residual-slots-v1") return normalized;
+  const withInvariants = {
+    ...normalized,
+    derivedInvariants: definition.derivedInvariants.map((entry) => ({
+      semantic: entry.semantic.trim(),
+      functional: entry.functional.trim(),
+      quantization: normalizeQuantity(entry.quantization)
+    })).sort((left, right) =>
+      compareStrings(left.semantic, right.semantic) ||
+      compareStrings(left.functional, right.functional)
+    )
   };
-  const hash = hashCanonical(HASH_DOMAINS.PROFILE, identity);
+  if (definition.kind === "residual-slots-v2") return withInvariants;
+  return {
+    ...withInvariants,
+    derivedTypeRules: definition.derivedTypeRules.map((rule) => ({
+      typeTag: rule.typeTag.trim(),
+      invariant: rule.invariant.trim(),
+      comparator: rule.comparator,
+      threshold: normalizeQuantity(rule.threshold)
+    })).sort((left, right) =>
+      compareStrings(left.typeTag, right.typeTag) ||
+      compareStrings(left.invariant, right.invariant) ||
+      compareStrings(left.comparator, right.comparator)
+    )
+  };
+}
+
+function normalizeProfile(profile, path, issues) {
+  const normalized = normalizeProfileRecord(profile);
+  const hash = normalized.hash;
   if (profile.hash !== undefined && profile.hash !== hash) {
     addIssue(issues, "PACKAGE_PROFILE_HASH_MISMATCH", `${path}.hash`, "Declared profile hash does not match normalized profile.", {
       declared: profile.hash,
       computed: hash
     });
   }
-  return { ...normalized, hash };
+  return normalized;
 }
 
 function normalizeCluster(cluster) {
@@ -1360,13 +2731,30 @@ function normalizeCluster(cluster) {
   };
 }
 
+function normalizeSourceMigration(sourceMigration) {
+  return {
+    policyHash: sourceMigration.policyHash,
+    blindnessStatus: sourceMigration.blindnessStatus,
+    ...Object.fromEntries(SOURCE_MIGRATION_ARTIFACT_FIELDS.map((field) => [
+      field,
+      normalizeArtifact(sourceMigration[field])
+    ])),
+    typedRelationLayers: sourceMigration.typedRelationLayers
+      .map(normalizeArtifact)
+      .sort((left, right) => compareStrings(left.hash, right.hash)),
+    ...(sourceMigration.concentration === undefined
+      ? {}
+      : { concentration: normalizeArtifact(sourceMigration.concentration) })
+  };
+}
+
 export function createPrimitiveIdentityBasis(primitive, identityPolicy) {
   const identity = { kind: primitive.kind };
   if (identityPolicy.sourceIdStructural) identity.sourceId = primitive.sourceId;
   if (identityPolicy.ontologyCoordinateStructural) identity.ontologyCoordinate = primitive.ontologyCoordinate || null;
   if (identityPolicy.typeTagsStructural) identity.typeTags = primitive.typeTags;
   if (identityPolicy.invariantsStructural) {
-    identity.invariants = sortedRecord(primitive.invariants, quantityIdentity);
+    identity.invariants = sortedRecord(primitive.invariants, invariantIdentityValue);
   }
   if (identityPolicy.profileStructural) identity.profileHash = primitive.profile.hash;
   if (identityPolicy.clusterPolicyStructural) {
@@ -1390,7 +2778,7 @@ function normalizePackage(raw, issues, compiledExpressions) {
       ...(primitive.ontologyCoordinate === undefined ? {} : { ontologyCoordinate: primitive.ontologyCoordinate }),
       ...(primitive.axisProvenance === undefined ? {} : { axisProvenance: primitive.axisProvenance }),
       typeTags: sortedStrings(primitive.typeTags),
-      invariants: sortedRecord(primitive.invariants, normalizeQuantity),
+      invariants: sortedRecord(primitive.invariants, normalizeInvariantValue),
       profile: normalizeProfile(primitive.profile, `$.primitives[${index}].profile`, issues),
       claimRefs: sortedStrings(primitive.claimRefs)
     };
@@ -1405,7 +2793,9 @@ function normalizePackage(raw, issues, compiledExpressions) {
     id: raw.id.trim(),
     version: raw.version.trim(),
     sourceArtifacts: raw.sourceArtifacts.map(normalizeArtifact).sort((left, right) => compareStrings(left.hash, right.hash)),
-    ...(raw.sourceMigration === undefined ? {} : { sourceMigration: raw.sourceMigration }),
+    ...(raw.sourceMigration === undefined
+      ? {}
+      : { sourceMigration: normalizeSourceMigration(raw.sourceMigration) }),
     evidence: [...raw.evidence].sort((left, right) => compareStrings(left.id, right.id)).map((entry) => ({
       ...entry,
       source: normalizeArtifact(entry.source)
@@ -1430,8 +2820,35 @@ function normalizePackage(raw, issues, compiledExpressions) {
       ...raw.ontologyAxes,
       phasePrecedence: [...raw.ontologyAxes.phasePrecedence].sort(compareCanonical)
     },
-    perturbations: [...raw.perturbations].sort(compareCanonical),
-    profileDefinition: raw.profileDefinition,
+    perturbations: raw.perturbations
+      .map(normalizePerturbation)
+      .sort((left, right) => {
+        const leftId = typeof left === "string" ? left : left.id;
+        const rightId = typeof right === "string" ? right : right.id;
+        return compareStrings(leftId, rightId) || compareCanonical(left, right);
+      }),
+    candidateAttributes: raw.candidateAttributes.map((definition) => ({
+      name: definition.name.trim(),
+      target: definition.target,
+      source: CONSTANT_CANDIDATE_ATTRIBUTE_SOURCES.has(definition.source.kind)
+        ? {
+            kind: definition.source.kind,
+            value: normalizeInvariantValue(definition.source.value)
+          }
+        : ROLE_CANDIDATE_ATTRIBUTE_SOURCES.has(definition.source.kind)
+          ? {
+              kind: definition.source.kind,
+              values: sortedRecord(
+                definition.source.values,
+                normalizeInvariantValue
+              )
+            }
+          : {
+              kind: definition.source.kind,
+              invariant: definition.source.invariant.trim()
+            }
+    })).sort((left, right) => compareStrings(left.name, right.name)),
+    profileDefinition: normalizeProfileDefinition(raw.profileDefinition, issues),
     identityPolicy
   };
   return normalized;
@@ -1451,6 +2868,9 @@ function materializeDefaults(input) {
     partialOraclePolicy: input.partialOraclePolicy === undefined ? DEFAULT_PARTIAL_ORACLE_POLICY : input.partialOraclePolicy,
     ontologyAxes: input.ontologyAxes === undefined ? DEFAULT_ONTOLOGY_AXES : input.ontologyAxes,
     perturbations: input.perturbations === undefined ? [] : input.perturbations,
+    candidateAttributes: input.candidateAttributes === undefined
+      ? []
+      : input.candidateAttributes,
     profileDefinition: input.profileDefinition === undefined ? DEFAULT_PROFILE_DEFINITION : input.profileDefinition,
     identityPolicy: input.identityPolicy === undefined
       ? { ...DEFAULT_IDENTITY_POLICY }
@@ -1465,7 +2885,9 @@ export function loadKernelPackage(input, options = {}) {
     throw new TypeError("Kernel package loader options must be an object.");
   }
   const safeOptions = canonicalClone(options);
-  if (Object.keys(safeOptions).some((field) => field !== "kernelVersion")) {
+  if (Object.keys(safeOptions).some((field) =>
+    !new Set(["kernelVersion", "allowCurrentDepthReferences"]).has(field)
+  )) {
     throw new TypeError("Unknown kernel package loader option.");
   }
   const kernelVersion = safeOptions.kernelVersion === undefined
@@ -1474,9 +2896,18 @@ export function loadKernelPackage(input, options = {}) {
   if (typeof kernelVersion !== "string" || kernelVersion.trim().length === 0) {
     throw new TypeError("Kernel version must be a non-empty string.");
   }
+  if (
+    safeOptions.allowCurrentDepthReferences !== undefined &&
+    typeof safeOptions.allowCurrentDepthReferences !== "boolean"
+  ) {
+    throw new TypeError("allowCurrentDepthReferences must be Boolean.");
+  }
   const cloned = canonicalClone(input);
   const withDefaults = materializeDefaults(cloned);
-  const validation = validatePackage(withDefaults);
+  const validation = validatePackage(withDefaults, {
+    allowCurrentDepthReferences:
+      safeOptions.allowCurrentDepthReferences === true
+  });
   const { issues, compiledExpressions } = validation;
   if (issues.length > 0) throw new KernelValidationError(issues);
 
@@ -1502,12 +2933,16 @@ export function loadKernelPackage(input, options = {}) {
     partialOraclePolicy: normalized.partialOraclePolicy,
     ontologyAxes: normalized.ontologyAxes,
     perturbations: normalized.perturbations,
+    candidateAttributes: normalized.candidateAttributes,
     profileDefinition: normalized.profileDefinition
   });
+  const sourceMigrationHash = normalized.sourceMigration === undefined
+    ? null
+    : hashCanonical(HASH_DOMAINS.SOURCE_MIGRATION_BINDING, normalized.sourceMigration);
   const depthBasis = hashCanonical(HASH_DOMAINS.DEPTH_BASIS, {
     primitiveElementIds: normalized.primitives.map((primitive) => primitive.elementId).sort(),
     identityPolicyHash,
-    condensationHash: null
+    condensationHash: normalized.sourceMigration?.condensation.hash ?? null
   });
   const packageId = hashCanonical(HASH_DOMAINS.PACKAGE, normalized);
   return deepFreeze({
@@ -1523,7 +2958,8 @@ export function loadKernelPackage(input, options = {}) {
       packageId,
       rulesHash,
       depthBasis,
-      identityPolicyHash
+      identityPolicyHash,
+      ...(sourceMigrationHash === null ? {} : { sourceMigrationHash })
     }
   });
 }
@@ -1532,5 +2968,6 @@ export const PACKAGE_DEFAULTS = deepFreeze({
   partialOraclePolicy: DEFAULT_PARTIAL_ORACLE_POLICY,
   ontologyAxes: DEFAULT_ONTOLOGY_AXES,
   profileDefinition: DEFAULT_PROFILE_DEFINITION,
+  candidateAttributes: DEFAULT_CANDIDATE_ATTRIBUTES,
   identityPolicy: DEFAULT_IDENTITY_POLICY
 });

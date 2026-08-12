@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/package-depth-node-frontier-decision.schema.json",
+  "title": "Onto2D Depth-Aware Node-Frontier Authorization Decision",
+  "type": "object",
+  "required": [
+    "schemaVersion", "controller", "packageId", "rulesHash", "bindingHash",
+    "runConfigHash", "canonicalAuditHash", "nodeFrontierAuditHash",
+    "predicateId", "predicatePlanHash", "targetDepth", "sourcePopulationHash",
+    "extensionModel", "frontier", "connectivityUniverseFixed", "diagnostic",
+    "pruningAuthorized", "reason", "decisionHash"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "controller": { "const": "package-depth-node-frontier-controller-v1" },
+    "packageId": { "$ref": "#/$defs/hash" },
+    "rulesHash": { "$ref": "#/$defs/hash" },
+    "bindingHash": { "$ref": "#/$defs/hash" },
+    "runConfigHash": { "$ref": "#/$defs/hash" },
+    "canonicalAuditHash": { "$ref": "#/$defs/hash" },
+    "nodeFrontierAuditHash": { "$ref": "#/$defs/hash" },
+    "predicateId": { "$ref": "#/$defs/id" },
+    "predicatePlanHash": { "$ref": "#/$defs/hash" },
+    "targetDepth": { "type": "integer", "minimum": 1, "maximum": 1000 },
+    "sourcePopulationHash": { "$ref": "#/$defs/hash" },
+    "extensionModel": { "const": "incomplete-node-prefix-complete-raw-extension-v1" },
+    "frontier": { "$ref": "package-node-frontier-decision.schema.json#/$defs/frontier" },
+    "connectivityUniverseFixed": { "type": "boolean" },
+    "diagnostic": { "$ref": "partial-predicate-graph-evaluation.schema.json" },
+    "pruningAuthorized": { "type": "boolean" },
+    "reason": {
+      "enum": [
+        "authorized-persistent-node-frontier-failure",
+        "connectivity-universe-not-fixed", "node-frontier-audit-not-passed",
+        "plan-not-authorized", "persistent-failure-not-detected"
+      ]
+    },
+    "decisionHash": { "$ref": "#/$defs/hash" }
+  },
+  "oneOf": [
+    {
+      "properties": {
+        "pruningAuthorized": { "const": true },
+        "connectivityUniverseFixed": { "const": true },
+        "reason": { "const": "authorized-persistent-node-frontier-failure" }
+      }
+    },
+    {
+      "properties": {
+        "pruningAuthorized": { "const": false },
+        "reason": {
+          "enum": [
+            "connectivity-universe-not-fixed", "node-frontier-audit-not-passed",
+            "plan-not-authorized", "persistent-failure-not-detected"
+          ]
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "hash": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "id": {
+      "type": "string", "minLength": 1, "maxLength": 1024,
+      "pattern": "^(?:\\S|\\S(?:.*\\S)?)$"
+    }
+  },
+  "additionalProperties": false
+}

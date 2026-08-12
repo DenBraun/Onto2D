@@ -5,6 +5,8 @@ import { HASH_DOMAINS, hashCanonical } from "./hash.js";
 import { verifyLoadedPackage } from "./loaded-package-verifier.js";
 import {
   assertLocalPredicatePlanSupported,
+  assertLocalPredicatePerturbationContext,
+  assertLocalPredicateSubstructurePolicy,
   evaluateLocalPredicatePlan,
   localPredicateAttributeRequirements,
   localPredicateUnsupportedFeatures
@@ -13,7 +15,7 @@ import { bindPredicateNumericPolicy } from "./numeric-binding.js";
 import { createPackageCandidateBinding } from "./package-candidate-generator.js";
 
 export const PACKAGE_CANDIDATE_FILTER_EVALUATOR_VERSION =
-  "package-candidate-filter-evaluator-v10";
+  "package-candidate-filter-evaluator-v20";
 const FILTER_OPTION_FIELDS = new Set(["kernelVersion"]);
 
 function isObject(value) {
@@ -154,9 +156,40 @@ function edgeVariant(edge) {
   };
 }
 
+function usesSelectedSourcePopulation(binding) {
+  return new Set([
+    "package-depth-candidate-binding-v2",
+    "package-current-level-candidate-binding-v2"
+  ]).has(binding.binder);
+}
+
+function sourceElements(binding) {
+  return usesSelectedSourcePopulation(binding)
+    ? binding.sourcePopulation.elements
+    : binding.sourcePopulation.population.elements;
+}
+
+function sourcePopulationHash(binding) {
+  return usesSelectedSourcePopulation(binding)
+    ? binding.sourcePopulation.selectionHash
+    : binding.sourcePopulation.population.populationHash;
+}
+
+function targetDepth(binding) {
+  return usesSelectedSourcePopulation(binding)
+    ? binding.targetDepth
+    : binding.sourcePopulation.selection.targetDepth;
+}
+
+function profileRepresentativePolicy(binding) {
+  return usesSelectedSourcePopulation(binding)
+    ? binding.sourcePopulation.policy.profileRepresentative
+    : binding.sourcePopulation.profileRepresentativePolicy;
+}
+
 function createFilterSessionIndexes(binding) {
   const elements = new Map(
-    binding.sourcePopulation.population.elements.map((element) => [element.id, element])
+    sourceElements(binding).map((element) => [element.id, element])
   );
   const profileClasses = new Map(
     binding.sourcePopulation.profileClasses.map((entry) => [entry.profileHash, entry])
@@ -279,14 +312,51 @@ function resolveConstituents(candidate, binding, indexes) {
         ? "profile-representative"
         : "element-exact",
       representativePolicy: candidate.domain === "profile-quotient"
-        ? binding.sourcePopulation.profileRepresentativePolicy
+        ? profileRepresentativePolicy(binding)
         : "direct-element-reference-v1",
       profileClassMembers: [...profileClass.members]
     };
   });
 }
 
-function assertLocalPredicateSupport(plans, binding) {
+function perturbationContextForPlan(plan, perturbations, binding) {
+  if (plan.requirements.perturbations.length === 0) return undefined;
+  const byId = new Map(perturbations.map((entry) => [
+    typeof entry === "string" ? entry : entry.id,
+    entry
+  ]));
+  const definitions = plan.requirements.perturbations.map((id) => byId.get(id));
+  const unavailable = plan.requirements.perturbations.filter((_, index) =>
+    typeof definitions[index] === "string" || definitions[index] === undefined
+  );
+  if (unavailable.length > 0) {
+    fail(
+      "PACKAGE_CANDIDATE_FILTER_PERTURBATION_DEFINITION_UNAVAILABLE",
+      "stableUnder requires executable typed perturbation definitions, not registry-only identifiers.",
+      { predicateId: plan.predicateId, unavailable }
+    );
+  }
+  const sampled = definitions.some((definition) =>
+    definition.enumeration === "sampled-valid-single-edits-v1"
+  );
+  return {
+    definitions,
+    ...(sampled
+      ? {
+          sampling: {
+            algorithm: "sha256-rejection-counter-v1",
+            frame: "applicable-single-edit-attempts-v1",
+            replacement: "with-replacement",
+            uncertainty: "chebyshev-union-95-v1",
+            sampleSize: binding.runConfig.budget.perturbationSamples,
+            streamKey: binding.runConfigHash
+          }
+        }
+      : {})
+  };
+}
+
+function assertLocalPredicateSupport(plans, binding, perturbations) {
   const unsupported = plans.flatMap((plan) => {
     const features = localPredicateUnsupportedFeatures(plan);
     return features.length === 0 ? [] : [{ predicateId: plan.predicateId, features }];
@@ -322,7 +392,53 @@ function assertLocalPredicateSupport(plans, binding) {
       { unavailableAttributes }
     );
   }
-  plans.forEach((plan) => assertLocalPredicatePlanSupported(plan));
+  plans.forEach((plan) => {
+    assertLocalPredicatePlanSupported(plan);
+    if (
+      plan.requirements.operators.includes("minimal") ||
+      plan.requirements.operators.includes("irreducibleRemoval")
+    ) {
+      assertLocalPredicateSubstructurePolicy(
+        plan,
+        binding.runConfig.substructurePolicy
+      );
+    }
+    if (plan.requirements.perturbations.length > 0) {
+      const perturbationContext = perturbationContextForPlan(
+        plan,
+        perturbations,
+        binding
+      );
+      assertLocalPredicatePerturbationContext(
+        plan,
+        perturbationContext
+      );
+      const unavailablePerturbationAttributes =
+        perturbationContext.definitions.flatMap((definition) => {
+          if (definition.kind !== "numeric-attribute-displacement") return [];
+          const available = definition.target === "nodes"
+            ? availableNodeAttributes
+            : availableEdgeAttributes;
+          return available.has(definition.attribute)
+            ? []
+            : [{
+                perturbationId: definition.id,
+                target: definition.target,
+                attribute: definition.attribute
+              }];
+        });
+      if (unavailablePerturbationAttributes.length > 0) {
+        fail(
+          "PACKAGE_CANDIDATE_FILTER_PERTURBATION_ATTRIBUTES_UNAVAILABLE",
+          "Numeric perturbation attributes must be structural in the bound candidate universe.",
+          {
+            predicateId: plan.predicateId,
+            unavailablePerturbationAttributes
+          }
+        );
+      }
+    }
+  });
 }
 
 function invariantContextForPlan(plan, candidate, binding, indexes) {
@@ -336,7 +452,7 @@ function invariantContextForPlan(plan, candidate, binding, indexes) {
     ? [...new Set(selectedProfileClasses.flatMap((entry) => entry.members))].sort()
     : [...new Set(candidate.nodes.map((node) => node.ref))].sort();
   return {
-    sourcePopulationHash: binding.sourcePopulation.population.populationHash,
+    sourcePopulationHash: sourcePopulationHash(binding),
     elements: elementIds.map((elementId) => {
       const source = indexes.elements.get(elementId);
       const invariants = {};
@@ -400,7 +516,26 @@ export function createPackageCandidateFilterSession(
     bindingInput,
     normalizedOptions.kernelVersion
   );
-  assertLocalPredicateSupport(loadedPackage.predicatePlans, binding);
+  return createPreparedPackageCandidateFilterSession(loadedPackage, binding);
+}
+
+/**
+ * Internal shared evaluator for an already reproduced primitive or depth-aware
+ * binding. Public callers must use a wrapper that verifies that binding first.
+ */
+export function createPreparedPackageCandidateFilterSession(
+  loadedPackage,
+  binding,
+  {
+    evaluator = PACKAGE_CANDIDATE_FILTER_EVALUATOR_VERSION,
+    hashDomain = HASH_DOMAINS.PACKAGE_CANDIDATE_FILTER
+  } = {}
+) {
+  assertLocalPredicateSupport(
+    loadedPackage.predicatePlans,
+    binding,
+    loadedPackage.normalized.perturbations
+  );
   const indexes = createFilterSessionIndexes(binding);
   const predicates = new Map(
     loadedPackage.normalized.predicates.map((entry) => [entry.id, entry])
@@ -411,9 +546,15 @@ export function createPackageCandidateFilterSession(
     numericBinding: bindPredicateNumericPolicy(
       plan,
       binding.runConfig.invariantPrecision
+    ),
+    perturbationContext: perturbationContextForPlan(
+      plan,
+      loadedPackage.normalized.perturbations,
+      binding
     )
   }));
   return Object.freeze({
+    binding,
     evaluate(candidateInput) {
       const canonicalization = canonicalizeCandidate(candidateInput, {
         policy: binding.runConfig.graphPolicy,
@@ -421,7 +562,12 @@ export function createPackageCandidateFilterSession(
       });
       const candidate = canonicalization.candidate;
       validateUniverseMembership(candidate, binding, indexes);
-      const evaluations = preparedPlans.map(({ plan, predicate, numericBinding }) => {
+      const evaluations = preparedPlans.map(({
+        plan,
+        predicate,
+        numericBinding,
+        perturbationContext
+      }) => {
         return {
           predicateId: plan.predicateId,
           phase: plan.phase,
@@ -429,6 +575,10 @@ export function createPackageCandidateFilterSession(
           evaluation: evaluateLocalPredicatePlan(plan, numericBinding, candidate, {
             policy: binding.runConfig.graphPolicy,
             limits: binding.enumerationOptions.canonicalizationLimits,
+            ...(plan.requirements.operators.includes("minimal") ||
+              plan.requirements.operators.includes("irreducibleRemoval")
+              ? { substructurePolicy: binding.runConfig.substructurePolicy }
+              : {}),
             ...(plan.requirements.invariants.length === 0
               ? {}
               : {
@@ -438,21 +588,24 @@ export function createPackageCandidateFilterSession(
                     binding,
                     indexes
                   )
-                })
+                }),
+            ...(perturbationContext === undefined
+              ? {}
+              : { perturbationContext })
           })
         };
       });
       const classification = classify(evaluations);
       const basis = {
         schemaVersion: "1",
-        evaluator: PACKAGE_CANDIDATE_FILTER_EVALUATOR_VERSION,
+        evaluator,
         packageId: loadedPackage.packageId,
         rulesHash: loadedPackage.semanticManifest.rulesHash,
         bindingHash: binding.bindingHash,
         formation: {
-          targetDepth: binding.sourcePopulation.selection.targetDepth,
+          targetDepth: targetDepth(binding),
           depthBasis: binding.depthBasis,
-          sourcePopulationHash: binding.sourcePopulation.population.populationHash,
+          sourcePopulationHash: sourcePopulationHash(binding),
           candidate,
           constituents: resolveConstituents(candidate, binding, indexes)
         },
@@ -461,7 +614,7 @@ export function createPackageCandidateFilterSession(
       };
       return deepFreeze({
         ...basis,
-        filterHash: hashCanonical(HASH_DOMAINS.PACKAGE_CANDIDATE_FILTER, basis)
+        filterHash: hashCanonical(hashDomain, basis)
       });
     }
   });

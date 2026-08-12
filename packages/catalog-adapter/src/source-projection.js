@@ -11,11 +11,14 @@ import {
   freezeSourceClassificationAnnotations,
   freezeSourceClassificationPolicy,
   hashCanonical,
-  isContentHash
+  isContentHash,
+  verifySourceClassificationAmendments
 } from "@onto2d/kernel";
 
 export const SOURCE_CLASSIFICATION_VIEW_VERSION = "source-classification-view-v1";
 export const SOURCE_CLASSIFIED_RELATIONS_VERSION = "source-classified-relations-v1";
+export const SOURCE_EFFECTIVE_CLASSIFIED_RELATIONS_VERSION =
+  "source-effective-classified-relations-v1";
 
 export const SOURCE_PROJECTION_LIMITS = deepFreeze({
   maxRelations: 10_000,
@@ -35,6 +38,13 @@ const FORMATION_SUPPORT_KINDS = Object.freeze([
   "constitutive",
   "intra-closure-support"
 ]);
+const CANONICAL_OPTIONS = Object.freeze({
+  limits: Object.freeze({
+    maxDepth: 64,
+    maxEntries: 2_000_000,
+    maxStringBytes: 1_048_576
+  })
+});
 const VIEW_INPUT_RELATION_FIELDS = new Set(["id", "source", "target", "fields"]);
 const VIEW_OUTPUT_FIELDS = new Set([
   "schemaVersion",
@@ -60,7 +70,7 @@ function fail(code, message, details = {}) {
 
 function cloneInput(value, label) {
   try {
-    return canonicalClone(value);
+    return canonicalClone(value, CANONICAL_OPTIONS);
   } catch (error) {
     if (!(error instanceof KernelError)) throw error;
     fail("SOURCE_PROJECTION_INPUT_INVALID", `${label} is not canonicalizable.`, {
@@ -128,7 +138,10 @@ function verifyPolicy(policy) {
     if (!(error instanceof KernelError)) throw error;
     fail(code, "Source projection policy cannot be reproduced.", { causeCode: error.code });
   }
-  if (canonicalize(reproduced) !== canonicalize(cloned)) {
+  if (
+    canonicalize(reproduced, CANONICAL_OPTIONS) !==
+    canonicalize(cloned, CANONICAL_OPTIONS)
+  ) {
     fail(code, "Source projection policy content does not match its declared identity.", {
       expected: reproduced.policyHash,
       actual: cloned.policyHash
@@ -214,7 +227,11 @@ export function createSourceClassificationView(policy, relations) {
   };
   return deepFreeze({
     ...basis,
-    viewHash: hashCanonical(HASH_DOMAINS.SOURCE_CLASSIFICATION_VIEW, basis)
+    viewHash: hashCanonical(
+      HASH_DOMAINS.SOURCE_CLASSIFICATION_VIEW,
+      basis,
+      CANONICAL_OPTIONS
+    )
   });
 }
 
@@ -244,7 +261,10 @@ function verifyView(policy, view) {
     if (!(error instanceof KernelError)) throw error;
     fail(code, "Source classification view cannot be reproduced.", { causeCode: error.code });
   }
-  if (canonicalize(reproduced) !== canonicalize(cloned)) {
+  if (
+    canonicalize(reproduced, CANONICAL_OPTIONS) !==
+    canonicalize(cloned, CANONICAL_OPTIONS)
+  ) {
     fail(code, "Source classification view content does not match its declared identity.", {
       expected: reproduced.viewHash,
       actual: cloned.viewHash
@@ -268,8 +288,10 @@ function verifyAnnotations(policy, view, artifact) {
   }
   const relationIds = view.relations.map((relation) => relation.id);
   if (
-    canonicalize(cloned.view?.visibleFields) !== canonicalize(policy.visibleFields) ||
-    canonicalize(cloned.view?.relationIds) !== canonicalize(relationIds)
+    canonicalize(cloned.view?.visibleFields, CANONICAL_OPTIONS) !==
+      canonicalize(policy.visibleFields, CANONICAL_OPTIONS) ||
+    canonicalize(cloned.view?.relationIds, CANONICAL_OPTIONS) !==
+      canonicalize(relationIds, CANONICAL_OPTIONS)
   ) {
     fail(code, "Source annotation view inventory differs from the verified classification view.");
   }
@@ -288,7 +310,10 @@ function verifyAnnotations(policy, view, artifact) {
     if (!(error instanceof KernelError)) throw error;
     fail(code, "Source annotations cannot be reproduced.", { causeCode: error.code });
   }
-  if (canonicalize(reproduced) !== canonicalize(cloned)) {
+  if (
+    canonicalize(reproduced, CANONICAL_OPTIONS) !==
+    canonicalize(cloned, CANONICAL_OPTIONS)
+  ) {
     fail(code, "Source annotation content does not match its declared identity.", {
       expected: reproduced.annotationHash,
       actual: cloned.annotationHash
@@ -330,7 +355,10 @@ function verifyAdjudication(policy, annotations, artifact) {
     if (!(error instanceof KernelError)) throw error;
     fail(code, "Source adjudication cannot be reproduced.", { causeCode: error.code });
   }
-  if (canonicalize(reproduced) !== canonicalize(cloned)) {
+  if (
+    canonicalize(reproduced, CANONICAL_OPTIONS) !==
+    canonicalize(cloned, CANONICAL_OPTIONS)
+  ) {
     fail(code, "Source adjudication content does not match its declared identity.", {
       expected: reproduced.adjudicationHash,
       actual: cloned.adjudicationHash
@@ -416,12 +444,19 @@ function stronglyConnectedComponents(nodes, relations, projection) {
       internalRelations
     };
     return {
-      componentId: hashCanonical(HASH_DOMAINS.SOURCE_SCC_COMPONENT, componentBasis),
+      componentId: hashCanonical(
+        HASH_DOMAINS.SOURCE_SCC_COMPONENT,
+        componentBasis,
+        CANONICAL_OPTIONS
+      ),
       members,
       internalRelationIds,
       cyclic
     };
-  }).sort((left, right) => compareText(canonicalize(left.members), canonicalize(right.members)));
+  }).sort((left, right) => compareText(
+    canonicalize(left.members, CANONICAL_OPTIONS),
+    canonicalize(right.members, CANONICAL_OPTIONS)
+  ));
 
   return components;
 }
@@ -498,6 +533,145 @@ export function buildSourceClassifiedRelations(
   };
   return deepFreeze({
     ...basis,
-    projectionHash: hashCanonical(HASH_DOMAINS.SOURCE_CLASSIFIED_RELATIONS, basis)
+    projectionHash: hashCanonical(
+      HASH_DOMAINS.SOURCE_CLASSIFIED_RELATIONS,
+      basis,
+      CANONICAL_OPTIONS
+    )
   });
+}
+
+/** Reprojects frozen classifications through a verified immutable amendment log. */
+export function buildSourceEffectiveClassifiedRelations(
+  policy,
+  viewArtifact,
+  annotationArtifact,
+  adjudicationArtifact,
+  amendmentsArtifact
+) {
+  const frozen = buildSourceClassifiedRelations(
+    policy,
+    viewArtifact,
+    annotationArtifact,
+    adjudicationArtifact
+  );
+  let amendments;
+  try {
+    amendments = verifySourceClassificationAmendments(
+      policy,
+      annotationArtifact,
+      adjudicationArtifact,
+      amendmentsArtifact
+    );
+  } catch (error) {
+    if (!(error instanceof KernelError)) throw error;
+    fail(
+      "SOURCE_EFFECTIVE_CLASSIFICATION_AMENDMENTS_INVALID",
+      "Effective source projection requires a reproducible amendment log.",
+      { causeCode: error.code }
+    );
+  }
+  const effectiveByRelation = new Map(
+    amendments.effectiveDecisions.map((decision) => [decision.relationId, decision])
+  );
+  const relations = frozen.relations.map((relation) => {
+    const effective = effectiveByRelation.get(relation.id);
+    if (effective === undefined || effective.frozenKind !== relation.kind) {
+      fail(
+        "SOURCE_EFFECTIVE_CLASSIFICATION_DECISION_MISMATCH",
+        "Effective source decisions do not match the frozen classified inventory.",
+        { relationId: relation.id }
+      );
+    }
+    return {
+      id: relation.id,
+      source: relation.source,
+      target: relation.target,
+      kind: effective.effectiveKind,
+      frozenKind: effective.frozenKind,
+      decisionStatus: relation.decisionStatus,
+      rawKinds: relation.rawKinds,
+      finalStateHash: effective.finalStateHash,
+      changeIds: effective.changeIds
+    };
+  });
+  if (effectiveByRelation.size !== relations.length) {
+    fail(
+      "SOURCE_EFFECTIVE_CLASSIFICATION_DECISION_MISMATCH",
+      "Effective source decisions do not reconcile exactly with the classified inventory.",
+      { expected: relations.length, actual: effectiveByRelation.size }
+    );
+  }
+  const nodes = new Set(relations.flatMap((relation) => [relation.source, relation.target]));
+  const generative = projectionFor("generative", ["generative"], nodes, relations);
+  const formationSupport = projectionFor(
+    "formation-support",
+    FORMATION_SUPPORT_KINDS,
+    nodes,
+    relations
+  );
+  const classifiedByKind = Object.fromEntries(RELATION_KINDS.map((kind) => [kind, 0]));
+  for (const relation of relations) classifiedByKind[relation.kind] += 1;
+  const basis = {
+    schemaVersion: "1",
+    builder: SOURCE_EFFECTIVE_CLASSIFIED_RELATIONS_VERSION,
+    policyHash: frozen.policyHash,
+    viewHash: frozen.viewHash,
+    annotationHash: frozen.annotationHash,
+    adjudicationHash: frozen.adjudicationHash,
+    amendmentsHash: amendments.amendmentsHash,
+    frozenProjectionHash: frozen.projectionHash,
+    relations,
+    projections: { generative, formationSupport },
+    statistics: {
+      nodeCount: nodes.size,
+      relationCount: relations.length,
+      classifiedByKind,
+      changeCount: amendments.statistics.changeCount,
+      amendedRelationCount: amendments.statistics.changedRelationCount,
+      generativeCyclicComponentCount: generative.cyclicComponentIds.length,
+      formationSupportCyclicComponentCount: formationSupport.cyclicComponentIds.length
+    }
+  };
+  return deepFreeze({
+    ...basis,
+    projectionHash: hashCanonical(
+      HASH_DOMAINS.SOURCE_EFFECTIVE_CLASSIFIED_RELATIONS,
+      basis,
+      CANONICAL_OPTIONS
+    )
+  });
+}
+
+/** Exactly replays a serialized effective classified-relation projection. */
+export function verifySourceEffectiveClassifiedRelations(
+  policy,
+  view,
+  annotations,
+  adjudication,
+  amendments,
+  artifactInput
+) {
+  const supplied = cloneInput(artifactInput, "Effective classified source relations");
+  const reproduced = buildSourceEffectiveClassifiedRelations(
+    policy,
+    view,
+    annotations,
+    adjudication,
+    amendments
+  );
+  if (
+    canonicalize(supplied, CANONICAL_OPTIONS) !==
+    canonicalize(reproduced, CANONICAL_OPTIONS)
+  ) {
+    fail(
+      "SOURCE_EFFECTIVE_CLASSIFIED_RELATIONS_MISMATCH",
+      "Effective classified relations differ from deterministic replay.",
+      {
+        expected: reproduced.projectionHash,
+        actual: isObject(supplied) ? supplied.projectionHash ?? null : null
+      }
+    );
+  }
+  return reproduced;
 }

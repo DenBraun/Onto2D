@@ -72,7 +72,10 @@ evaluations, so their evaluator and domain become
 
 Quantity-valued `add` and `multiply`, runtime invariants and coefficients,
 balance, cycle-set selection, and substructure operators remain unsupported.
-Package-driven structural-attribute derivation also remains pending.
+Package-driven Quantity structural-attribute derivation remained pending at
+this boundary; ADR-0078 later closes finite scalar constant and
+element-invariant candidate attributes, and ADR-0085 subsequently closes the
+corresponding normalized Quantity sources.
 
 ADR-0024 subsequently enables compatible Quantity-valued `add` while retaining
 this evaluator/domain version as the historical structural-sum boundary.

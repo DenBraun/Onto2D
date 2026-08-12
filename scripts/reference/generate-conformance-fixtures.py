@@ -9,6 +9,7 @@ nodes.  The generated fixtures are consumed by the Node.js kernel tests.
 
 from __future__ import annotations
 
+import argparse
 import base64
 import hashlib
 import itertools
@@ -293,19 +294,47 @@ def skeleton_fixture() -> dict:
     }
 
 
+def fixture_bytes(value: dict) -> bytes:
+    return (
+        json.dumps(value, ensure_ascii=False, indent=2, separators=(",", ": ")) + "\n"
+    ).encode("utf-8")
+
+
 def write_fixture(name: str, value: dict) -> None:
     path = FIXTURE_DIRECTORY / name
-    path.write_text(
-        json.dumps(value, ensure_ascii=False, indent=2, separators=(",", ": ")) + "\n",
-        encoding="utf-8",
-    )
+    path.write_bytes(fixture_bytes(value))
     print(path.relative_to(REPOSITORY_ROOT))
 
 
+def verify_fixture(name: str, value: dict) -> None:
+    path = FIXTURE_DIRECTORY / name
+    expected = fixture_bytes(value)
+    if not path.exists():
+        raise SystemExit(f"missing frozen fixture: {path.relative_to(REPOSITORY_ROOT)}")
+    if path.read_bytes() != expected:
+        raise SystemExit(f"frozen fixture differs from independent replay: {path.relative_to(REPOSITORY_ROOT)}")
+    print(f"{path.relative_to(REPOSITORY_ROOT)} verified")
+
+
 def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--verify",
+        action="store_true",
+        help="compare an independent replay with the frozen fixtures without writing files",
+    )
+    args = parser.parse_args()
+    fixtures = [
+        ("canonical-conformance-v1.json", canonical_fixture()),
+        ("skeleton-conformance-v1.json", skeleton_fixture()),
+    ]
+    if args.verify:
+        for name, value in fixtures:
+            verify_fixture(name, value)
+        return
     FIXTURE_DIRECTORY.mkdir(parents=True, exist_ok=True)
-    write_fixture("canonical-conformance-v1.json", canonical_fixture())
-    write_fixture("skeleton-conformance-v1.json", skeleton_fixture())
+    for name, value in fixtures:
+        write_fixture(name, value)
 
 
 if __name__ == "__main__":

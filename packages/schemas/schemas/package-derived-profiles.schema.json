@@ -1,0 +1,661 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/package-derived-profiles.schema.json",
+  "title": "Onto2D Package Derived Profiles",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "extractor",
+    "scope",
+    "packageId",
+    "rulesHash",
+    "bindingHash",
+    "censusHash",
+    "admissionHash",
+    "formationSetHash",
+    "countingDomain",
+    "sourcePopulationHash",
+    "targetDepth",
+    "depthBasis",
+    "extractionPolicy",
+    "profileDefinition",
+    "results",
+    "counts",
+    "status",
+    "interpretation",
+    "profileSetHash"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "extractor": { "const": "package-derived-profile-extractor-v3" },
+    "scope": {
+      "const": "all-selected-formations-residual-slot-functional-invariants-and-types-v3"
+    },
+    "packageId": { "$ref": "#/$defs/hash" },
+    "rulesHash": { "$ref": "#/$defs/hash" },
+    "bindingHash": { "$ref": "#/$defs/hash" },
+    "censusHash": { "$ref": "#/$defs/hash" },
+    "admissionHash": { "$ref": "#/$defs/hash" },
+    "formationSetHash": { "$ref": "#/$defs/hash" },
+    "countingDomain": { "enum": ["element-exact", "profile-quotient"] },
+    "sourcePopulationHash": { "$ref": "#/$defs/hash" },
+    "targetDepth": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    },
+    "depthBasis": { "$ref": "#/$defs/hash" },
+    "extractionPolicy": { "$ref": "#/$defs/extractionPolicy" },
+    "profileDefinition": { "$ref": "#/$defs/profileDefinition" },
+    "results": {
+      "type": "array",
+      "maxItems": 1000000,
+      "items": { "$ref": "#/$defs/result" }
+    },
+    "counts": { "$ref": "#/$defs/counts" },
+    "status": { "enum": ["complete", "empty", "indeterminate"] },
+    "interpretation": { "$ref": "#/$defs/interpretation" },
+    "profileSetHash": { "$ref": "#/$defs/hash" }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "status": { "const": "complete" } },
+        "required": ["status"]
+      },
+      "then": {
+        "properties": {
+          "interpretation": {
+            "properties": {
+              "status": { "const": "complete" },
+              "reasons": { "maxItems": 0 }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "status": { "const": "empty" } },
+        "required": ["status"]
+      },
+      "then": {
+        "properties": {
+          "results": { "maxItems": 0 },
+          "interpretation": {
+            "properties": {
+              "status": { "const": "empty" },
+              "reasons": {
+                "prefixItems": [{ "const": "no-selected-formations" }],
+                "minItems": 1,
+                "maxItems": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "status": { "const": "indeterminate" } },
+        "required": ["status"]
+      },
+      "then": {
+        "properties": {
+          "interpretation": {
+            "properties": {
+              "status": { "const": "indeterminate" },
+              "reasons": {
+                "prefixItems": [{ "const": "derived-profile-indeterminate" }],
+                "minItems": 1,
+                "maxItems": 1
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "hash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "index": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "normalizedString": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1024,
+      "pattern": "^(?:\\S|\\S(?:.*\\S)?)$"
+    },
+    "stringSet": {
+      "type": "array",
+      "maxItems": 10000,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/normalizedString" }
+    },
+    "extractionPolicy": {
+      "type": "object",
+      "required": [
+        "edgeOrder",
+        "endpointOrder",
+        "slotPreference",
+        "capacityConsumption",
+        "guardDisposition",
+        "baseComposition",
+        "invariantDerivation",
+        "invariantComposition",
+        "invariantFailure",
+        "typeDerivation",
+        "typeComposition",
+        "typeFailure"
+      ],
+      "properties": {
+        "edgeOrder": { "const": "canonical-edge-index-v1" },
+        "endpointOrder": { "const": "source-then-target-v1" },
+        "slotPreference": {
+          "const": "exact-polarity-before-symmetric-then-slot-index-v1"
+        },
+        "capacityConsumption": {
+          "const": "one-unit-per-directed-edge-endpoint-v1"
+        },
+        "guardDisposition": {
+          "const": "typed-partner-guards-with-legacy-fail-closed-v1"
+        },
+        "baseComposition": {
+          "const": "base-profile-plus-residual-constituent-slots-v1"
+        },
+        "invariantDerivation": {
+          "const": "complete-declared-functional-evaluation-v1"
+        },
+        "invariantComposition": {
+          "const": "base-plus-formation-derived-invariants-v1"
+        },
+        "invariantFailure": {
+          "const": "all-or-nothing-profile-indeterminate-v1"
+        },
+        "typeDerivation": {
+          "const": "tolerance-aware-derived-invariant-thresholds-v1"
+        },
+        "typeComposition": {
+          "const": "static-plus-matched-rule-tags-v1"
+        },
+        "typeFailure": {
+          "const": "source-invariant-all-or-nothing-v1"
+        }
+      },
+      "additionalProperties": false
+    },
+    "profileDefinition": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["kind"],
+          "properties": { "kind": { "const": "explicit-only" } },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "kind",
+            "baseProfile",
+            "derivedTypeTags",
+            "claimRefs"
+          ],
+          "properties": {
+            "kind": { "const": "residual-slots-v1" },
+            "baseProfile": {
+              "allOf": [
+                { "$ref": "profile.schema.json" },
+                { "required": ["hash"] }
+              ]
+            },
+            "derivedTypeTags": { "$ref": "#/$defs/stringSet" },
+            "claimRefs": { "$ref": "#/$defs/stringSet" }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "kind",
+            "baseProfile",
+            "derivedTypeTags",
+            "claimRefs",
+            "derivedInvariants"
+          ],
+          "properties": {
+            "kind": { "const": "residual-slots-v2" },
+            "baseProfile": {
+              "allOf": [
+                { "$ref": "profile.schema.json" },
+                { "required": ["hash"] }
+              ]
+            },
+            "derivedTypeTags": { "$ref": "#/$defs/stringSet" },
+            "claimRefs": { "$ref": "#/$defs/stringSet" },
+            "derivedInvariants": {
+              "type": "array",
+              "maxItems": 10000,
+              "uniqueItems": true,
+              "items": { "$ref": "#/$defs/derivedInvariantDefinition" }
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "kind",
+            "baseProfile",
+            "derivedTypeTags",
+            "claimRefs",
+            "derivedInvariants",
+            "derivedTypeRules"
+          ],
+          "properties": {
+            "kind": { "const": "residual-slots-v3" },
+            "baseProfile": {
+              "allOf": [
+                { "$ref": "profile.schema.json" },
+                { "required": ["hash"] }
+              ]
+            },
+            "derivedTypeTags": { "$ref": "#/$defs/stringSet" },
+            "claimRefs": { "$ref": "#/$defs/stringSet" },
+            "derivedInvariants": {
+              "type": "array",
+              "maxItems": 10000,
+              "uniqueItems": true,
+              "items": { "$ref": "#/$defs/derivedInvariantDefinition" }
+            },
+            "derivedTypeRules": {
+              "type": "array",
+              "maxItems": 10000,
+              "uniqueItems": true,
+              "items": { "$ref": "#/$defs/derivedTypeRule" }
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "derivedInvariantDefinition": {
+      "type": "object",
+      "required": ["semantic", "functional", "quantization"],
+      "properties": {
+        "semantic": { "$ref": "#/$defs/normalizedString" },
+        "functional": { "$ref": "#/$defs/normalizedString" },
+        "quantization": { "$ref": "quantity.schema.json" }
+      },
+      "additionalProperties": false
+    },
+    "derivedTypeRule": {
+      "type": "object",
+      "required": ["typeTag", "invariant", "comparator", "threshold"],
+      "properties": {
+        "typeTag": { "$ref": "#/$defs/normalizedString" },
+        "invariant": { "$ref": "#/$defs/normalizedString" },
+        "comparator": { "enum": ["eq", "ne", "lt", "lte", "gt", "gte"] },
+        "threshold": { "$ref": "quantity.schema.json" }
+      },
+      "additionalProperties": false
+    },
+    "derivedTypeEvaluation": {
+      "type": "object",
+      "required": [
+        "schemaVersion",
+        "evaluator",
+        "rule",
+        "sourceFunctionalEvaluationHash",
+        "comparison",
+        "outcome"
+      ],
+      "properties": {
+        "schemaVersion": { "const": "1" },
+        "evaluator": { "const": "formation-derived-type-rule-v1" },
+        "rule": { "$ref": "#/$defs/derivedTypeRule" },
+        "sourceFunctionalEvaluationHash": { "$ref": "#/$defs/hash" },
+        "comparison": {
+          "type": "object",
+          "required": [
+            "comparator",
+            "pass",
+            "equivalent",
+            "relation",
+            "unit",
+            "leftValue",
+            "rightValue",
+            "difference",
+            "effectiveTolerance",
+            "semanticPolicy"
+          ],
+          "properties": {
+            "comparator": { "enum": ["eq", "ne", "lt", "lte", "gt", "gte"] },
+            "pass": { "type": "boolean" },
+            "equivalent": { "type": "boolean" },
+            "relation": { "enum": [-1, 0, 1] },
+            "unit": { "$ref": "#/$defs/normalizedString" },
+            "leftValue": { "type": "number" },
+            "rightValue": { "type": "number" },
+            "difference": { "type": "number" },
+            "effectiveTolerance": { "type": "number", "minimum": 0 },
+            "semanticPolicy": { "const": "require-equal" }
+          },
+          "additionalProperties": false
+        },
+        "outcome": { "enum": ["assigned", "not-assigned"] }
+      },
+      "additionalProperties": false
+    },
+    "endpoint": {
+      "type": "object",
+      "required": [
+        "canonicalNode",
+        "elementId",
+        "profileHash",
+        "slotIndex",
+        "polarity",
+        "guardEvaluationHash"
+      ],
+      "properties": {
+        "canonicalNode": { "$ref": "#/$defs/index" },
+        "elementId": { "$ref": "#/$defs/hash" },
+        "profileHash": { "$ref": "#/$defs/hash" },
+        "slotIndex": { "$ref": "#/$defs/index" },
+        "polarity": { "enum": ["in", "out", "sym"] },
+        "guardEvaluationHash": {
+          "oneOf": [{ "$ref": "#/$defs/hash" }, { "type": "null" }]
+        }
+      },
+      "additionalProperties": false
+    },
+    "consumption": {
+      "type": "object",
+      "required": ["canonicalEdge", "role", "source", "target"],
+      "properties": {
+        "canonicalEdge": { "$ref": "#/$defs/index" },
+        "role": { "$ref": "#/$defs/normalizedString" },
+        "source": { "$ref": "#/$defs/endpoint" },
+        "target": { "$ref": "#/$defs/endpoint" }
+      },
+      "additionalProperties": false
+    },
+    "guardCheck": {
+      "type": "object",
+      "required": ["path", "op", "outcome", "details"],
+      "properties": {
+        "path": { "$ref": "#/$defs/normalizedString" },
+        "op": { "$ref": "#/$defs/normalizedString" },
+        "outcome": { "enum": ["pass", "fail", "indeterminate"] },
+        "details": { "type": "object" }
+      },
+      "additionalProperties": false
+    },
+    "guardMemberOutcome": {
+      "type": "object",
+      "required": ["elementId", "outcome", "reason", "checks"],
+      "properties": {
+        "elementId": { "$ref": "#/$defs/hash" },
+        "outcome": { "enum": ["pass", "fail", "indeterminate"] },
+        "reason": {
+          "oneOf": [
+            { "$ref": "#/$defs/normalizedString" },
+            { "type": "null" }
+          ]
+        },
+        "checks": {
+          "type": "array",
+          "maxItems": 256,
+          "items": { "$ref": "#/$defs/guardCheck" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "guardEvaluation": {
+      "type": "object",
+      "required": [
+        "schemaVersion",
+        "evaluator",
+        "guardHash",
+        "guard",
+        "candidateId",
+        "canonicalEdge",
+        "endpoint",
+        "canonicalNode",
+        "role",
+        "requiredPolarity",
+        "profileHash",
+        "slotIndex",
+        "partnerCanonicalNode",
+        "partnerProfileHash",
+        "partnerElementIds",
+        "memberOutcomes",
+        "outcome",
+        "reason",
+        "evaluationHash"
+      ],
+      "properties": {
+        "schemaVersion": { "const": "1" },
+        "evaluator": { "const": "profile-slot-partner-guard-v1" },
+        "guardHash": { "$ref": "#/$defs/hash" },
+        "guard": { "$ref": "profile-slot-guard.schema.json" },
+        "candidateId": { "$ref": "#/$defs/hash" },
+        "canonicalEdge": { "$ref": "#/$defs/index" },
+        "endpoint": { "enum": ["source", "target"] },
+        "canonicalNode": { "$ref": "#/$defs/index" },
+        "role": { "$ref": "#/$defs/normalizedString" },
+        "requiredPolarity": { "enum": ["in", "out"] },
+        "profileHash": { "$ref": "#/$defs/hash" },
+        "slotIndex": { "$ref": "#/$defs/index" },
+        "partnerCanonicalNode": { "$ref": "#/$defs/index" },
+        "partnerProfileHash": { "$ref": "#/$defs/hash" },
+        "partnerElementIds": { "$ref": "#/$defs/stringSet" },
+        "memberOutcomes": {
+          "type": "array",
+          "maxItems": 1000000,
+          "items": { "$ref": "#/$defs/guardMemberOutcome" }
+        },
+        "outcome": { "enum": ["pass", "fail", "indeterminate"] },
+        "reason": {
+          "oneOf": [
+            { "$ref": "#/$defs/normalizedString" },
+            { "type": "null" }
+          ]
+        },
+        "evaluationHash": { "$ref": "#/$defs/hash" }
+      },
+      "additionalProperties": false
+    },
+    "indeterminateDetails": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["profileDefinitionKind"],
+          "properties": {
+            "profileDefinitionKind": { "const": "explicit-only" }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "canonicalEdge",
+            "endpoint",
+            "canonicalNode",
+            "role",
+            "requiredPolarity",
+            "profileHash"
+          ],
+          "properties": {
+            "canonicalEdge": { "$ref": "#/$defs/index" },
+            "endpoint": { "enum": ["source", "target"] },
+            "canonicalNode": { "$ref": "#/$defs/index" },
+            "role": { "$ref": "#/$defs/normalizedString" },
+            "requiredPolarity": { "enum": ["in", "out"] },
+            "profileHash": { "$ref": "#/$defs/hash" },
+            "guardEvaluationHash": { "$ref": "#/$defs/hash" }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["indeterminateDerivedInvariants"],
+          "properties": {
+            "indeterminateDerivedInvariants": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 10000,
+              "uniqueItems": true,
+              "items": {
+                "type": "object",
+                "required": [
+                  "semantic",
+                  "functionalId",
+                  "evaluationHash",
+                  "reason"
+                ],
+                "properties": {
+                  "semantic": { "$ref": "#/$defs/normalizedString" },
+                  "functionalId": { "$ref": "#/$defs/normalizedString" },
+                  "evaluationHash": { "$ref": "#/$defs/hash" },
+                  "reason": { "$ref": "#/$defs/normalizedString" }
+                },
+                "additionalProperties": false
+              }
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "resultBase": {
+      "type": "object",
+      "required": [
+        "candidateId",
+        "formationHash",
+        "status",
+        "consumptions",
+        "guardEvaluations",
+        "derivedInvariantEvaluations",
+        "derivedTypeEvaluations",
+        "derivedTypeTags",
+        "profile",
+        "claimRefs",
+        "evidence",
+        "profileResultHash"
+      ],
+      "properties": {
+        "candidateId": { "$ref": "#/$defs/hash" },
+        "formationHash": { "$ref": "#/$defs/hash" },
+        "status": { "enum": ["materialized", "indeterminate"] },
+        "consumptions": {
+          "type": "array",
+          "maxItems": 128,
+          "items": { "$ref": "#/$defs/consumption" }
+        },
+        "guardEvaluations": {
+          "type": "array",
+          "maxItems": 256,
+          "items": { "$ref": "#/$defs/guardEvaluation" }
+        },
+        "derivedInvariantEvaluations": {
+          "type": "array",
+          "maxItems": 10000,
+          "items": { "$ref": "package-functional-evaluation.schema.json" }
+        },
+        "derivedTypeEvaluations": {
+          "type": "array",
+          "maxItems": 10000,
+          "items": { "$ref": "#/$defs/derivedTypeEvaluation" }
+        },
+        "derivedTypeTags": { "$ref": "#/$defs/stringSet" },
+        "profile": {
+          "oneOf": [
+            { "type": "null" },
+            {
+              "allOf": [
+                { "$ref": "profile.schema.json" },
+                { "required": ["hash"] }
+              ]
+            }
+          ]
+        },
+        "reason": {
+          "enum": [
+            "derived-profile-policy-unavailable",
+            "profile-slot-guard-unsupported",
+            "profile-slot-guard-indeterminate",
+            "profile-slot-guard-unsatisfied",
+            "profile-slot-capacity-unavailable",
+            "profile-derived-invariant-indeterminate"
+          ]
+        },
+        "details": { "$ref": "#/$defs/indeterminateDetails" },
+        "claimRefs": { "$ref": "#/$defs/stringSet" },
+        "evidence": { "$ref": "#/$defs/stringSet" },
+        "profileResultHash": { "$ref": "#/$defs/hash" }
+      },
+      "additionalProperties": false
+    },
+    "result": {
+      "allOf": [
+        { "$ref": "#/$defs/resultBase" },
+        {
+          "if": {
+            "properties": { "status": { "const": "materialized" } },
+            "required": ["status"]
+          },
+          "then": {
+            "required": ["profile"],
+            "properties": {
+              "profile": { "type": "object" }
+            },
+            "not": { "anyOf": [{ "required": ["reason"] }, { "required": ["details"] }] }
+          },
+          "else": {
+            "required": ["reason", "details"],
+            "properties": {
+              "consumptions": { "maxItems": 0 },
+              "profile": { "type": "null" }
+            }
+          }
+        }
+      ]
+    },
+    "counts": {
+      "type": "object",
+      "required": [
+        "selectedFormations",
+        "materializedProfiles",
+        "indeterminateProfiles"
+      ],
+      "properties": {
+        "selectedFormations": { "$ref": "#/$defs/index" },
+        "materializedProfiles": { "$ref": "#/$defs/index" },
+        "indeterminateProfiles": { "$ref": "#/$defs/index" }
+      },
+      "additionalProperties": false
+    },
+    "interpretation": {
+      "type": "object",
+      "required": ["status", "reasons"],
+      "properties": {
+        "status": { "enum": ["complete", "empty", "indeterminate"] },
+        "reasons": {
+          "type": "array",
+          "maxItems": 1,
+          "items": {
+            "enum": ["no-selected-formations", "derived-profile-indeterminate"]
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

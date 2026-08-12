@@ -1,0 +1,204 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/resumable-candidate-enumeration-step.schema.json",
+  "title": "Onto2D Replay-Resumable Candidate Enumeration Step",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "coordinator",
+    "policy",
+    "inputHash",
+    "optionsHash",
+    "previousCheckpointHash",
+    "step",
+    "transcriptHash",
+    "checkpoint",
+    "enumeration",
+    "status",
+    "interpretation",
+    "stepHash"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "coordinator": {
+      "const": "resumable-decorated-candidate-enumerator-v1"
+    },
+    "policy": { "$ref": "#/$defs/policy" },
+    "inputHash": { "$ref": "#/$defs/hash" },
+    "optionsHash": { "$ref": "#/$defs/hash" },
+    "previousCheckpointHash": { "$ref": "#/$defs/hashOrNull" },
+    "step": { "$ref": "#/$defs/step" },
+    "transcriptHash": { "$ref": "#/$defs/hash" },
+    "checkpoint": {
+      "oneOf": [
+        { "$ref": "#/$defs/checkpoint" },
+        { "type": "null" }
+      ]
+    },
+    "enumeration": {
+      "oneOf": [
+        { "$ref": "candidate-enumeration-result.schema.json" },
+        { "type": "null" }
+      ]
+    },
+    "status": { "enum": ["paused", "complete", "budget-exhausted"] },
+    "interpretation": { "$ref": "#/$defs/interpretation" },
+    "stepHash": { "$ref": "#/$defs/hash" }
+  },
+  "oneOf": [
+    {
+      "properties": {
+        "status": { "const": "paused" },
+        "checkpoint": { "$ref": "#/$defs/checkpoint" },
+        "enumeration": { "type": "null" },
+        "interpretation": {
+          "properties": {
+            "status": { "const": "paused" },
+            "reasons": { "const": ["raw-candidate-step-limit-reached"] }
+          }
+        }
+      }
+    },
+    {
+      "properties": {
+        "status": { "const": "complete" },
+        "checkpoint": { "type": "null" },
+        "enumeration": {
+          "type": "object",
+          "required": ["status"],
+          "properties": { "status": { "const": "complete" } }
+        },
+        "interpretation": {
+          "properties": {
+            "status": { "const": "complete" },
+            "reasons": { "maxItems": 0 }
+          }
+        }
+      }
+    },
+    {
+      "properties": {
+        "status": { "const": "budget-exhausted" },
+        "checkpoint": { "type": "null" },
+        "enumeration": {
+          "type": "object",
+          "required": ["status"],
+          "properties": { "status": { "const": "budget-exhausted" } }
+        },
+        "interpretation": {
+          "properties": {
+            "status": { "const": "budget-exhausted" },
+            "reasons": { "const": ["semantic-enumeration-budget-exhausted"] }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "hash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "hashOrNull": {
+      "oneOf": [
+        { "$ref": "#/$defs/hash" },
+        { "type": "null" }
+      ]
+    },
+    "count": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "positiveCount": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 1000000
+    },
+    "positiveOrdinal": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    },
+    "policy": {
+      "type": "object",
+      "required": [
+        "state",
+        "continuation",
+        "terminalResult",
+        "semanticBudgets"
+      ],
+      "properties": {
+        "state": { "const": "raw-candidate-prefix-transcript-v1" },
+        "continuation": { "const": "deterministic-prefix-replay-v1" },
+        "terminalResult": {
+          "const": "ordinary-decorated-candidate-enumerator-v5-v1"
+        },
+        "semanticBudgets": { "const": "never-bypassed-v1" }
+      },
+      "additionalProperties": false
+    },
+    "step": {
+      "type": "object",
+      "required": [
+        "startRawCandidateOrdinal",
+        "endRawCandidateOrdinal",
+        "maximumRawCandidates",
+        "processedRawCandidates",
+        "replayedRawCandidates"
+      ],
+      "properties": {
+        "startRawCandidateOrdinal": { "$ref": "#/$defs/count" },
+        "endRawCandidateOrdinal": { "$ref": "#/$defs/count" },
+        "maximumRawCandidates": { "$ref": "#/$defs/positiveCount" },
+        "processedRawCandidates": { "$ref": "#/$defs/count" },
+        "replayedRawCandidates": { "$ref": "#/$defs/count" }
+      },
+      "additionalProperties": false
+    },
+    "checkpoint": {
+      "type": "object",
+      "required": [
+        "schemaVersion",
+        "cursor",
+        "inputHash",
+        "optionsHash",
+        "nextRawCandidateOrdinal",
+        "transcriptHash",
+        "previousCheckpointHash",
+        "checkpointHash"
+      ],
+      "properties": {
+        "schemaVersion": { "const": "1" },
+        "cursor": { "const": "raw-candidate-prefix-v1" },
+        "inputHash": { "$ref": "#/$defs/hash" },
+        "optionsHash": { "$ref": "#/$defs/hash" },
+        "nextRawCandidateOrdinal": { "$ref": "#/$defs/positiveOrdinal" },
+        "transcriptHash": { "$ref": "#/$defs/hash" },
+        "previousCheckpointHash": { "$ref": "#/$defs/hashOrNull" },
+        "checkpointHash": { "$ref": "#/$defs/hash" }
+      },
+      "additionalProperties": false
+    },
+    "interpretation": {
+      "type": "object",
+      "required": ["status", "reasons"],
+      "properties": {
+        "status": { "enum": ["paused", "complete", "budget-exhausted"] },
+        "reasons": {
+          "type": "array",
+          "maxItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "raw-candidate-step-limit-reached",
+              "semantic-enumeration-budget-exhausted"
+            ]
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

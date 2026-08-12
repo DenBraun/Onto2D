@@ -8,6 +8,7 @@ const checks = [
   "check-source.mjs",
   "check-workspace.mjs",
   "check-schemas.mjs",
+  "check-kernel-closure.mjs",
   "check-docs.mjs",
   "audit-catalogue.mjs"
 ];

@@ -51,7 +51,7 @@ records in the new `onto2d:depth-population:v1` domain. Package provenance can
 therefore change the population hash while a non-structural source rename
 leaves the policy-controlled element ID unchanged.
 
-`package-candidate-binding-v1` now consumes this materialized population rather
+`package-candidate-binding-v2` now consumes this materialized population rather
 than reading primitive IDs directly. Its `sourcePopulation` records the full
 population artifact and a closed selection descriptor containing the run's
 `sourceDepths`, `targetDepth: 1`, `availableDepths: [0]`, and
@@ -63,9 +63,9 @@ are derived from the materialized records.
 The public materializer does not accept an arbitrary population and does not
 construct depth greater than zero. ADR-0019 later supplies a versioned
 package-bound formation basis and graph-only local-filter artifact. Derived-
-population support remains blocked until selector admission and deterministic
-profile/materialization artifacts can reproduce each derived element's
-structural identity and provenance.
+population support remains blocked until deterministic profile/element
+materialization can extend the now executable admission and selected-formation
+artifacts into reproducible structural identity and provenance.
 
 ## Consequences
 
@@ -79,8 +79,8 @@ structural identity and provenance.
   package and population hashes;
 - fabricated derived IDs, unverifiable depth claims, and incomplete formation
   records still cannot enter package-driven enumeration;
-- derived element construction, selector admission, alternate derivation
-  indexes, profile extraction, depth greater than zero, and multi-depth
+- derived element construction, alternate derivation indexes, profile
+  extraction, depth greater than zero, and multi-depth
   selection remain separate work.
 
 ## Verification

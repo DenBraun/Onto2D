@@ -1,0 +1,332 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/package-carrier-promotions.schema.json",
+  "title": "Onto2D Package Carrier-Promotion Set",
+  "type": "object",
+  "required": [
+    "schemaVersion", "materializer", "scope", "packageId", "rulesHash",
+    "depthBasis", "runConfigHash", "ladderHash", "sourceLevelHash",
+    "sourcePopulationHash", "collapseBasis", "materializationPolicy",
+    "promotionPolicyHash", "promotionPolicy", "decisions", "promotions",
+    "counts", "status", "interpretation", "promotionSetHash"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "materializer": { "const": "package-carrier-promotion-materializer-v1" },
+    "scope": { "const": "verified-ladder-level-to-target-package-input-v1" },
+    "packageId": { "$ref": "#/$defs/hash" },
+    "rulesHash": { "$ref": "#/$defs/hash" },
+    "depthBasis": { "$ref": "#/$defs/hash" },
+    "runConfigHash": { "$ref": "#/$defs/hash" },
+    "ladderHash": { "$ref": "#/$defs/hash" },
+    "sourceLevelHash": { "$ref": "#/$defs/nullableHash" },
+    "sourcePopulationHash": { "$ref": "#/$defs/nullableHash" },
+    "collapseBasis": { "$ref": "#/$defs/collapseBasis" },
+    "materializationPolicy": { "$ref": "#/$defs/materializationPolicy" },
+    "promotionPolicyHash": { "$ref": "#/$defs/hash" },
+    "promotionPolicy": { "$ref": "#/$defs/promotionPolicy" },
+    "decisions": {
+      "type": "array",
+      "maxItems": 1000000,
+      "items": { "$ref": "#/$defs/decision" }
+    },
+    "promotions": {
+      "type": "array",
+      "maxItems": 1000000,
+      "items": { "$ref": "#/$defs/promotion" }
+    },
+    "counts": { "$ref": "#/$defs/counts" },
+    "status": { "enum": ["complete", "empty", "counterexample", "indeterminate"] },
+    "interpretation": { "$ref": "#/$defs/interpretation" },
+    "promotionSetHash": { "$ref": "#/$defs/hash" }
+  },
+  "oneOf": [
+    {
+      "properties": {
+        "status": { "const": "complete" },
+        "decisions": {
+          "items": { "properties": { "outcome": { "const": "promoted" } } }
+        },
+        "promotions": { "minItems": 1 },
+        "interpretation": {
+          "properties": {
+            "status": { "const": "complete" },
+            "reasons": { "maxItems": 0 }
+          }
+        }
+      }
+    },
+    {
+      "properties": {
+        "status": { "const": "empty" },
+        "decisions": { "maxItems": 0 },
+        "promotions": { "maxItems": 0 },
+        "interpretation": {
+          "properties": {
+            "status": { "const": "empty" },
+            "reasons": {
+              "prefixItems": [{ "const": "no-selected-source-elements" }],
+              "minItems": 1,
+              "maxItems": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "properties": {
+        "status": { "const": "counterexample" },
+        "interpretation": {
+          "properties": {
+            "status": { "const": "counterexample" },
+            "reasons": {
+              "prefixItems": [{
+                "enum": [
+                  "collapse-counterexample-blocked",
+                  "collapse-counterexample-recorded-and-accepted"
+                ]
+              }],
+              "minItems": 1,
+              "maxItems": 1
+            }
+          }
+        }
+      },
+      "oneOf": [
+        {
+          "properties": {
+            "promotionPolicy": {
+              "properties": { "counterexampleDisposition": { "const": "block" } }
+            },
+            "decisions": {
+              "items": { "properties": { "outcome": { "const": "blocked" } } }
+            },
+            "promotions": { "maxItems": 0 },
+            "interpretation": {
+              "properties": {
+                "reasons": {
+                  "prefixItems": [{ "const": "collapse-counterexample-blocked" }]
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "promotionPolicy": {
+              "properties": {
+                "counterexampleDisposition": { "const": "record-and-promote" }
+              }
+            },
+            "decisions": {
+              "items": { "properties": { "outcome": { "const": "promoted" } } }
+            },
+            "promotions": { "minItems": 1 },
+            "interpretation": {
+              "properties": {
+                "reasons": {
+                  "prefixItems": [{
+                    "const": "collapse-counterexample-recorded-and-accepted"
+                  }]
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "properties": {
+        "status": { "const": "indeterminate" },
+        "decisions": {
+          "items": { "properties": { "outcome": { "const": "indeterminate" } } }
+        },
+        "promotions": { "maxItems": 0 },
+        "interpretation": {
+          "properties": {
+            "status": { "const": "indeterminate" },
+            "reasons": {
+              "prefixItems": [{
+                "enum": [
+                  "target-depth-not-executed",
+                  "source-level-indeterminate",
+                  "collapse-indeterminate",
+                  "non-empty-profile-required"
+                ]
+              }],
+              "minItems": 1,
+              "maxItems": 1
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "hash": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "nullableHash": {
+      "oneOf": [{ "$ref": "#/$defs/hash" }, { "type": "null" }]
+    },
+    "count": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "depth": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 64
+    },
+    "stringSet": {
+      "type": "array",
+      "maxItems": 10000,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "^(?:\\S|\\S(?:.*\\S)?)$"
+      }
+    },
+    "nonEmptyStringSet": {
+      "allOf": [{ "$ref": "#/$defs/stringSet" }, { "minItems": 1 }]
+    },
+    "collapseBasis": {
+      "type": "object",
+      "required": ["collapseHash", "status", "verdict", "counterexample"],
+      "properties": {
+        "collapseHash": { "$ref": "#/$defs/hash" },
+        "status": { "enum": ["complete", "truncated", "indeterminate"] },
+        "verdict": { "enum": ["equivalent", "counterexample", "indeterminate"] },
+        "counterexample": {
+          "oneOf": [
+            { "$ref": "package-profile-collapse.schema.json#/$defs/counterexample" },
+            { "type": "null" }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "materializationPolicy": {
+      "type": "object",
+      "required": [
+        "sourceSelection", "profileRequirement", "coordinateSemantics",
+        "collapseBasis", "counterexampleHandling", "targetMaterialization"
+      ],
+      "properties": {
+        "sourceSelection": { "const": "verified-selected-derived-level-elements-v1" },
+        "profileRequirement": { "const": "non-empty-deterministic-profile-v1" },
+        "coordinateSemantics": { "const": "declared-cross-level-no-source-mutation-v1" },
+        "collapseBasis": { "const": "verified-bounded-profile-collapse-v1" },
+        "counterexampleHandling": { "const": "explicit-block-or-record-and-promote-v1" },
+        "targetMaterialization": { "const": "new-primitive-package-input-v1" }
+      },
+      "additionalProperties": false
+    },
+    "promotionPolicy": {
+      "type": "object",
+      "required": [
+        "schemaVersion", "targetDepth", "sourceCoordinate", "targetCoordinate",
+        "targetTypeTags", "claimRefs", "evidence", "counterexampleDisposition"
+      ],
+      "properties": {
+        "schemaVersion": { "const": "1" },
+        "targetDepth": { "$ref": "#/$defs/depth" },
+        "sourceCoordinate": { "$ref": "ontology-coordinate.schema.json" },
+        "targetCoordinate": { "$ref": "ontology-coordinate.schema.json" },
+        "targetTypeTags": { "$ref": "#/$defs/nonEmptyStringSet" },
+        "claimRefs": { "$ref": "#/$defs/nonEmptyStringSet" },
+        "evidence": { "$ref": "#/$defs/nonEmptyStringSet" },
+        "counterexampleDisposition": {
+          "enum": ["block", "record-and-promote"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "decision": {
+      "type": "object",
+      "required": ["sourceElement", "profileHash", "profileNonEmpty", "outcome"],
+      "properties": {
+        "sourceElement": { "$ref": "#/$defs/hash" },
+        "profileHash": { "$ref": "#/$defs/hash" },
+        "profileNonEmpty": { "type": "boolean" },
+        "outcome": { "enum": ["promoted", "blocked", "indeterminate"] }
+      },
+      "additionalProperties": false
+    },
+    "targetPrimitive": {
+      "allOf": [
+        { "$ref": "primitive.schema.json" },
+        {
+          "properties": {
+            "kind": { "const": "primitive" },
+            "ontologyCoordinate": { "$ref": "ontology-coordinate.schema.json" },
+            "profile": {
+              "allOf": [
+                { "$ref": "profile.schema.json" },
+                { "required": ["hash"] }
+              ]
+            }
+          },
+          "required": ["ontologyCoordinate", "axisProvenance"]
+        }
+      ]
+    },
+    "promotion": {
+      "type": "object",
+      "required": [
+        "schemaVersion", "sourceElement", "sourceDepth", "sourceCoordinate",
+        "sourceCoordinateStatus", "targetCoordinate", "promotedProfile",
+        "rulesHash", "claimRefs", "evidence", "collapseHash",
+        "collapseVerdict", "targetPrimitive", "promotionHash"
+      ],
+      "properties": {
+        "schemaVersion": { "const": "1" },
+        "sourceElement": { "$ref": "#/$defs/hash" },
+        "sourceDepth": { "$ref": "#/$defs/depth" },
+        "sourceCoordinate": { "$ref": "ontology-coordinate.schema.json" },
+        "sourceCoordinateStatus": {
+          "enum": ["declared-by-policy", "verified-on-element"]
+        },
+        "targetCoordinate": { "$ref": "ontology-coordinate.schema.json" },
+        "promotedProfile": { "$ref": "#/$defs/hash" },
+        "rulesHash": { "$ref": "#/$defs/hash" },
+        "claimRefs": { "$ref": "#/$defs/nonEmptyStringSet" },
+        "evidence": { "$ref": "#/$defs/nonEmptyStringSet" },
+        "collapseHash": { "$ref": "#/$defs/hash" },
+        "collapseVerdict": { "enum": ["equivalent", "counterexample"] },
+        "targetPrimitive": { "$ref": "#/$defs/targetPrimitive" },
+        "promotionHash": { "$ref": "#/$defs/hash" }
+      },
+      "additionalProperties": false
+    },
+    "counts": {
+      "type": "object",
+      "required": [
+        "sourceElements", "nonEmptyProfiles", "promotedCarriers",
+        "blockedCarriers", "indeterminateCarriers"
+      ],
+      "properties": {
+        "sourceElements": { "$ref": "#/$defs/count" },
+        "nonEmptyProfiles": { "$ref": "#/$defs/count" },
+        "promotedCarriers": { "$ref": "#/$defs/count" },
+        "blockedCarriers": { "$ref": "#/$defs/count" },
+        "indeterminateCarriers": { "$ref": "#/$defs/count" }
+      },
+      "additionalProperties": false
+    },
+    "interpretation": {
+      "type": "object",
+      "required": ["status", "reasons"],
+      "properties": {
+        "status": { "enum": ["complete", "empty", "counterexample", "indeterminate"] },
+        "reasons": {
+          "type": "array",
+          "maxItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

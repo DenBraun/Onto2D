@@ -16,23 +16,26 @@
   ],
   "properties": {
     "schemaVersion": { "const": "1" },
-    "evaluator": { "const": "local-predicate-evaluator-v9" },
+    "evaluator": { "const": "local-predicate-evaluator-v19" },
     "predicatePlanHash": { "$ref": "#/$defs/hash" },
     "numericBindingHash": { "$ref": "#/$defs/hash" },
     "candidateId": { "$ref": "#/$defs/hash" },
     "invariantSourcePopulationHash": { "$ref": "#/$defs/hash" },
+    "invariantNames": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1024,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/normalizedString" }
+    },
+    "substructurePolicy": { "$ref": "#/$defs/substructurePolicy" },
+    "perturbationContextHash": { "$ref": "#/$defs/hash" },
     "graphPolicy": { "$ref": "graph-policy.schema.json" },
     "outcome": { "$ref": "#/$defs/outcome" },
     "witnesses": {
       "type": "array",
       "maxItems": 60000,
-      "items": {
-        "oneOf": [
-          { "$ref": "predicate-graph-evaluation.schema.json#/$defs/witness" },
-          { "$ref": "#/$defs/compareWitness" },
-          { "$ref": "#/$defs/balanceWitness" }
-        ]
-      }
+      "items": { "$ref": "#/$defs/localWitness" }
     },
     "evaluationHash": { "$ref": "#/$defs/hash" }
   },
@@ -40,17 +43,59 @@
     {
       "if": { "required": ["invariantSourcePopulationHash"] },
       "then": {
-        "properties": {
-          "witnesses": { "contains": { "$ref": "#/$defs/invariantCompareWitness" } }
-        }
+        "required": ["invariantNames"]
       },
       "else": {
+        "not": { "required": ["invariantNames"] }
+      }
+    },
+    {
+      "if": {
         "properties": {
           "witnesses": {
-            "not": { "contains": { "$ref": "#/$defs/invariantCompareWitness" } }
+            "contains": { "$ref": "#/$defs/invariantEvidenceTreeWitness" }
           }
         }
+      },
+      "then": {
+        "required": ["invariantSourcePopulationHash", "invariantNames"]
       }
+    },
+    {
+      "if": {
+        "properties": {
+          "witnesses": {
+            "contains": {
+              "anyOf": [
+                { "$ref": "#/$defs/minimalWitness" },
+                { "$ref": "#/$defs/irreducibleRemovalWitness" },
+                {
+                  "type": "object",
+                  "required": ["operator", "boundSubstructurePolicyId"],
+                  "properties": { "operator": { "const": "novel" } }
+                },
+                {
+                  "type": "object",
+                  "required": ["operator", "boundSubstructurePolicyId"],
+                  "properties": { "operator": { "const": "stableUnder" } }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "then": { "required": ["substructurePolicy"] },
+      "else": { "not": { "required": ["substructurePolicy"] } }
+    },
+    {
+      "if": {
+        "properties": {
+          "witnesses": {
+            "contains": { "$ref": "#/$defs/stableUnderWitness" }
+          }
+        }
+      },
+      "then": { "required": ["perturbationContextHash"] }
     }
   ],
   "$defs": {
@@ -68,16 +113,38 @@
       "maxLength": 1024,
       "pattern": "^(?:\\S|\\S(?:.*\\S)?)$"
     },
+    "predicatePath": {
+      "type": "string",
+      "pattern": "^\\$(?:\\.(?:arg|args\\[[0-9]+\\]|predicate))*$"
+    },
     "valuePath": {
       "type": "string",
-      "pattern": "^\\$(?:\\.(?:arg|args\\[[0-9]+\\]|left|right|terms\\[[0-9]+\\]|factors\\[[0-9]+\\]))*$"
+      "pattern": "^\\$(?:\\.(?:arg|args\\[[0-9]+\\]|predicate|left|right|terms\\[[0-9]+\\]|factors\\[[0-9]+\\]))*$"
+    },
+    "substructurePolicy": {
+      "type": "object",
+      "required": [
+        "id",
+        "remove",
+        "includeDisconnected",
+        "includeEmpty",
+        "retainIsolatedNodes"
+      ],
+      "properties": {
+        "id": { "$ref": "#/$defs/normalizedString" },
+        "remove": { "enum": ["nodes", "edges", "nodes-and-edges"] },
+        "includeDisconnected": { "type": "boolean" },
+        "includeEmpty": { "type": "boolean" },
+        "retainIsolatedNodes": { "type": "boolean" }
+      },
+      "additionalProperties": false
     },
     "selection": {
       "type": "object",
       "required": ["expressionPath", "setKind", "count"],
       "properties": {
         "expressionPath": { "$ref": "#/$defs/valuePath" },
-        "setKind": { "enum": ["nodes", "edges"] },
+        "setKind": { "enum": ["nodes", "edges", "cycle"] },
         "count": { "$ref": "#/$defs/index" },
         "nodeIndexes": { "$ref": "#/$defs/indexList" },
         "edgeIndexes": { "$ref": "#/$defs/indexList" },
@@ -88,6 +155,7 @@
         "quantityUnit": { "$ref": "#/$defs/normalizedString" },
         "quantitySemantic": { "$ref": "#/$defs/normalizedString" },
         "toleranceAggregation": { "const": "sum-effective-absolute-bounds-v1" },
+        "cycleSelection": { "const": "directed-cycle-edge-union-v1" },
         "roles": {
           "type": "array",
           "maxItems": 256,
@@ -99,11 +167,27 @@
         {
           "properties": { "setKind": { "const": "nodes" } },
           "required": ["nodeIndexes"],
-          "not": { "anyOf": [{ "required": ["edgeIndexes"] }, { "required": ["roles"] }] }
+          "not": {
+            "anyOf": [
+              { "required": ["edgeIndexes"] },
+              { "required": ["roles"] },
+              { "required": ["cycleSelection"] }
+            ]
+          }
         },
         {
           "properties": { "setKind": { "const": "edges" } },
           "required": ["edgeIndexes"],
+          "not": {
+            "anyOf": [
+              { "required": ["nodeIndexes"] },
+              { "required": ["cycleSelection"] }
+            ]
+          }
+        },
+        {
+          "properties": { "setKind": { "const": "cycle" } },
+          "required": ["edgeIndexes", "cycleSelection"],
           "not": { "required": ["nodeIndexes"] }
         }
       ],
@@ -167,7 +251,7 @@
     },
     "invariantResolution": {
       "type": "object",
-      "required": ["expressionPath", "name", "canonicalNode", "quantity"],
+      "required": ["expressionPath", "name", "canonicalNode"],
       "properties": {
         "expressionPath": { "$ref": "#/$defs/valuePath" },
         "name": { "$ref": "#/$defs/normalizedString" },
@@ -180,25 +264,195 @@
           "uniqueItems": true,
           "items": { "$ref": "#/$defs/hash" }
         },
-        "consensusPolicy": { "const": "identical-normalized-quantity-v1" },
-        "quantity": { "$ref": "quantity.schema.json" }
+        "consensusPolicy": {
+          "enum": [
+            "identical-normalized-quantity-v1",
+            "identical-normalized-scalar-v1"
+          ]
+        },
+        "aggregation": {
+          "oneOf": [
+            { "$ref": "#/$defs/profileInvariantNumberAggregation" },
+            { "$ref": "#/$defs/profileInvariantQuantityAggregation" }
+          ]
+        },
+        "quantity": { "$ref": "quantity.schema.json" },
+        "valueKind": { "enum": ["number", "string", "boolean", "null"] },
+        "value": {}
       },
-      "oneOf": [
+      "allOf": [
         {
-          "required": ["elementId"],
-          "not": {
-            "anyOf": [
-              { "required": ["profileHash"] },
-              { "required": ["memberElementIds"] },
-              { "required": ["consensusPolicy"] }
-            ]
+          "oneOf": [
+            {
+              "required": ["elementId"],
+              "not": {
+                "anyOf": [
+                  { "required": ["profileHash"] },
+                  { "required": ["memberElementIds"] },
+                  { "required": ["consensusPolicy"] },
+                  { "required": ["aggregation"] }
+                ]
+              }
+            },
+            {
+              "required": ["profileHash", "memberElementIds", "consensusPolicy"],
+              "not": {
+                "anyOf": [
+                  { "required": ["elementId"] },
+                  { "required": ["aggregation"] }
+                ]
+              }
+            },
+            {
+              "required": ["profileHash", "memberElementIds", "aggregation"],
+              "not": {
+                "anyOf": [
+                  { "required": ["elementId"] },
+                  { "required": ["consensusPolicy"] }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "oneOf": [
+            {
+              "required": ["quantity"],
+              "not": {
+                "anyOf": [
+                  { "required": ["valueKind"] },
+                  { "required": ["value"] }
+                ]
+              }
+            },
+            {
+              "properties": {
+                "valueKind": { "const": "number" },
+                "value": { "type": "number" }
+              },
+              "required": ["valueKind", "value"],
+              "not": { "required": ["quantity"] }
+            },
+            {
+              "properties": {
+                "valueKind": { "const": "string" },
+                "value": { "type": "string", "maxLength": 1024 }
+              },
+              "required": ["valueKind", "value"],
+              "not": { "required": ["quantity"] }
+            },
+            {
+              "properties": {
+                "valueKind": { "const": "boolean" },
+                "value": { "type": "boolean" }
+              },
+              "required": ["valueKind", "value"],
+              "not": { "required": ["quantity"] }
+            },
+            {
+              "properties": {
+                "valueKind": { "const": "null" },
+                "value": { "type": "null" }
+              },
+              "required": ["valueKind", "value"],
+              "not": { "required": ["quantity"] }
+            }
+          ]
+        },
+        {
+          "if": {
+            "required": ["profileHash", "quantity", "consensusPolicy"]
+          },
+          "then": {
+            "properties": {
+              "consensusPolicy": { "const": "identical-normalized-quantity-v1" }
+            }
           }
         },
         {
-          "required": ["profileHash", "memberElementIds", "consensusPolicy"],
-          "not": { "required": ["elementId"] }
+          "if": {
+            "required": ["profileHash", "valueKind", "value", "consensusPolicy"]
+          },
+          "then": {
+            "properties": {
+              "consensusPolicy": { "const": "identical-normalized-scalar-v1" }
+            }
+          }
+        },
+        {
+          "if": {
+            "required": ["aggregation", "quantity"]
+          },
+          "then": {
+            "properties": {
+              "aggregation": { "$ref": "#/$defs/profileInvariantQuantityAggregation" }
+            }
+          }
+        },
+        {
+          "if": {
+            "required": ["aggregation", "valueKind", "value"]
+          },
+          "then": {
+            "properties": {
+              "valueKind": { "const": "number" },
+              "aggregation": { "$ref": "#/$defs/profileInvariantNumberAggregation" }
+            }
+          }
         }
       ],
+      "additionalProperties": false
+    },
+    "profileInvariantNumberAggregation": {
+      "type": "object",
+      "required": [
+        "policy",
+        "memberCount",
+        "precisionPolicy",
+        "summation",
+        "divisionExact",
+        "unrounded"
+      ],
+      "properties": {
+        "policy": { "const": "arithmetic-mean-conservative-v1" },
+        "memberCount": { "type": "integer", "minimum": 1 },
+        "precisionPolicy": { "$ref": "precision-policy.schema.json" },
+        "summation": { "const": "exact-decimal" },
+        "divisionExact": { "type": "boolean" },
+        "unrounded": { "$ref": "decimal-value.schema.json" }
+      },
+      "additionalProperties": false
+    },
+    "profileInvariantQuantityAggregation": {
+      "type": "object",
+      "required": [
+        "policy",
+        "memberCount",
+        "precisionPolicy",
+        "summation",
+        "divisionExact",
+        "unrounded",
+        "uncertaintyPolicy",
+        "effectiveAbsoluteTolerance",
+        "evidence"
+      ],
+      "properties": {
+        "policy": { "const": "arithmetic-mean-conservative-v1" },
+        "memberCount": { "type": "integer", "minimum": 1 },
+        "precisionPolicy": { "$ref": "precision-policy.schema.json" },
+        "summation": { "const": "exact-decimal" },
+        "divisionExact": { "type": "boolean" },
+        "unrounded": { "$ref": "decimal-value.schema.json" },
+        "uncertaintyPolicy": {
+          "const": "mean-effective-bounds-plus-rounding-v1"
+        },
+        "effectiveAbsoluteTolerance": { "$ref": "decimal-value.schema.json" },
+        "evidence": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/normalizedString" }
+        }
+      },
       "additionalProperties": false
     },
     "attributeSelection": {
@@ -216,6 +470,44 @@
       "properties": {
         "invariants": { "type": "array", "minItems": 1 }
       }
+    },
+    "invariantEvidenceWitness": {
+      "anyOf": [
+        { "$ref": "#/$defs/invariantCompareWitness" },
+        { "$ref": "#/$defs/indeterminateCompareWitness" }
+      ]
+    },
+    "invariantEvidenceContainer": {
+      "type": "object",
+      "required": ["witnesses"],
+      "properties": {
+        "witnesses": {
+          "type": "array",
+          "contains": { "$ref": "#/$defs/invariantEvidenceTreeWitness" }
+        }
+      }
+    },
+    "invariantEvidenceTreeWitness": {
+      "anyOf": [
+        { "$ref": "#/$defs/invariantEvidenceWitness" },
+        {
+          "type": "object",
+          "required": ["whole"],
+          "properties": {
+            "whole": { "$ref": "#/$defs/invariantEvidenceContainer" }
+          }
+        },
+        {
+          "type": "object",
+          "required": ["perturbations"],
+          "properties": {
+            "perturbations": {
+              "type": "array",
+              "contains": { "$ref": "#/$defs/invariantEvidenceContainer" }
+            }
+          }
+        }
+      ]
     },
     "evaluatedValue": {
       "oneOf": [
@@ -247,7 +539,7 @@
           "required": ["kind", "value"],
           "properties": {
             "kind": { "const": "string" },
-            "value": { "type": "string" }
+            "value": { "type": "string", "maxLength": 1024 }
           },
           "additionalProperties": false
         },
@@ -337,12 +629,9 @@
         "invariants"
       ],
       "properties": {
-        "expressionPath": {
-          "type": "string",
-          "pattern": "^\\$(?:\\.(?:arg|args\\[[0-9]+\\]))*$"
-        },
+        "expressionPath": { "$ref": "#/$defs/predicatePath" },
         "operator": { "const": "compare" },
-        "outcome": { "$ref": "#/$defs/outcome" },
+        "outcome": { "enum": ["pass", "fail"] },
         "comparator": { "enum": ["eq", "ne", "lt", "lte", "gt", "gte"] },
         "left": { "$ref": "#/$defs/evaluatedValue" },
         "right": { "$ref": "#/$defs/evaluatedValue" },
@@ -360,6 +649,176 @@
       },
       "additionalProperties": false
     },
+    "invariantNodeAmbiguousDetails": {
+      "type": "object",
+      "required": ["path", "name", "selector", "nodeIndexes"],
+      "properties": {
+        "path": { "$ref": "#/$defs/valuePath" },
+        "name": { "$ref": "#/$defs/normalizedString" },
+        "selector": {
+          "oneOf": [
+            { "type": "null" },
+            { "$ref": "value-expression.schema.json#/$defs/nodeSelector" }
+          ]
+        },
+        "nodeIndexes": { "$ref": "#/$defs/indexList" }
+      },
+      "additionalProperties": false
+    },
+    "invariantValueUnavailableDetails": {
+      "type": "object",
+      "required": ["path", "name", "canonicalNode", "elementId"],
+      "properties": {
+        "path": { "$ref": "#/$defs/valuePath" },
+        "name": { "$ref": "#/$defs/normalizedString" },
+        "canonicalNode": { "$ref": "#/$defs/index" },
+        "elementId": { "$ref": "#/$defs/hash" }
+      },
+      "additionalProperties": false
+    },
+    "profileInvariantMemberValuesMissingDetails": {
+      "type": "object",
+      "required": [
+        "path",
+        "name",
+        "canonicalNode",
+        "profileHash",
+        "reason",
+        "missingElementIds"
+      ],
+      "properties": {
+        "path": { "$ref": "#/$defs/valuePath" },
+        "name": { "$ref": "#/$defs/normalizedString" },
+        "canonicalNode": { "$ref": "#/$defs/index" },
+        "profileHash": { "$ref": "#/$defs/hash" },
+        "reason": { "const": "member-values-missing" },
+        "missingElementIds": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/hash" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "profileInvariantMemberValuesDisagreeDetails": {
+      "type": "object",
+      "required": [
+        "path",
+        "name",
+        "canonicalNode",
+        "profileHash",
+        "reason",
+        "memberElementIds",
+        "disagreeingElementIds"
+      ],
+      "properties": {
+        "path": { "$ref": "#/$defs/valuePath" },
+        "name": { "$ref": "#/$defs/normalizedString" },
+        "canonicalNode": { "$ref": "#/$defs/index" },
+        "profileHash": { "$ref": "#/$defs/hash" },
+        "reason": { "const": "member-values-disagree" },
+        "memberElementIds": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/hash" }
+        },
+        "disagreeingElementIds": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/hash" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "invariantFailure": {
+      "type": "object",
+      "required": ["operand", "reason", "details"],
+      "properties": {
+        "operand": { "enum": ["left", "right"] },
+        "reason": {
+          "enum": [
+            "invariant-node-ambiguous",
+            "invariant-value-unavailable",
+            "profile-invariant-member-values-missing",
+            "profile-invariant-member-values-disagree"
+          ]
+        },
+        "details": { "type": "object", "maxProperties": 32 }
+      },
+      "oneOf": [
+        {
+          "properties": {
+            "reason": { "const": "invariant-node-ambiguous" },
+            "details": { "$ref": "#/$defs/invariantNodeAmbiguousDetails" }
+          }
+        },
+        {
+          "properties": {
+            "reason": { "const": "invariant-value-unavailable" },
+            "details": { "$ref": "#/$defs/invariantValueUnavailableDetails" }
+          }
+        },
+        {
+          "properties": {
+            "reason": { "const": "profile-invariant-member-values-missing" },
+            "details": {
+              "$ref": "#/$defs/profileInvariantMemberValuesMissingDetails"
+            }
+          }
+        },
+        {
+          "properties": {
+            "reason": { "const": "profile-invariant-member-values-disagree" },
+            "details": {
+              "$ref": "#/$defs/profileInvariantMemberValuesDisagreeDetails"
+            }
+          }
+        }
+      ],
+      "additionalProperties": false
+    },
+    "indeterminateCompareWitness": {
+      "type": "object",
+      "required": [
+        "expressionPath",
+        "operator",
+        "outcome",
+        "comparator",
+        "invariantFailures"
+      ],
+      "properties": {
+        "expressionPath": { "$ref": "#/$defs/predicatePath" },
+        "operator": { "const": "compare" },
+        "outcome": { "const": "indeterminate" },
+        "comparator": { "enum": ["eq", "ne", "lt", "lte", "gt", "gte"] },
+        "invariantFailures": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 2,
+          "items": { "$ref": "#/$defs/invariantFailure" },
+          "oneOf": [
+            { "maxItems": 1 },
+            {
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "properties": { "operand": { "const": "left" } },
+                  "required": ["operand"]
+                },
+                {
+                  "properties": { "operand": { "const": "right" } },
+                  "required": ["operand"]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
     "balanceWitness": {
       "type": "object",
       "required": [
@@ -373,10 +832,7 @@
         "selections"
       ],
       "properties": {
-        "expressionPath": {
-          "type": "string",
-          "pattern": "^\\$(?:\\.(?:arg|args\\[[0-9]+\\]))*$"
-        },
+        "expressionPath": { "$ref": "#/$defs/predicatePath" },
         "operator": { "const": "balance" },
         "outcome": { "$ref": "#/$defs/outcome" },
         "attribute": { "$ref": "#/$defs/normalizedString" },
@@ -410,6 +866,663 @@
         }
       },
       "additionalProperties": false
+    },
+    "nestedEvaluation": {
+      "type": "object",
+      "required": ["outcome", "witnesses"],
+      "properties": {
+        "outcome": { "$ref": "#/$defs/outcome" },
+        "witnesses": {
+          "type": "array",
+          "maxItems": 60000,
+          "items": { "$ref": "#/$defs/localWitness" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "substructureRemoval": {
+      "type": "object",
+      "required": [
+        "parentNodeIndexes",
+        "parentEdgeIndexes",
+        "status"
+      ],
+      "properties": {
+        "removedNodeIndex": { "$ref": "#/$defs/index" },
+        "removedEdgeIndex": { "$ref": "#/$defs/index" },
+        "parentNodeIndexes": { "$ref": "#/$defs/indexList" },
+        "parentEdgeIndexes": { "$ref": "#/$defs/indexList" },
+        "status": { "enum": ["evaluated", "skipped"] },
+        "reason": { "enum": ["empty-excluded", "disconnected-excluded"] },
+        "substructureId": { "$ref": "#/$defs/hash" },
+        "canonicalNodeToParent": { "$ref": "#/$defs/indexList" },
+        "canonicalEdgeToParent": { "$ref": "#/$defs/indexList" },
+        "outcome": { "$ref": "#/$defs/outcome" },
+        "witnesses": {
+          "type": "array",
+          "maxItems": 60000,
+          "items": { "$ref": "#/$defs/localWitness" }
+        }
+      },
+      "allOf": [
+        {
+          "oneOf": [
+            {
+              "required": ["removedNodeIndex"],
+              "not": { "required": ["removedEdgeIndex"] }
+            },
+            {
+              "required": ["removedEdgeIndex"],
+              "not": { "required": ["removedNodeIndex"] }
+            }
+          ]
+        },
+        {
+          "if": {
+            "properties": { "status": { "const": "evaluated" } },
+            "required": ["status"]
+          },
+          "then": {
+            "required": [
+              "substructureId",
+              "canonicalNodeToParent",
+              "canonicalEdgeToParent",
+              "outcome",
+              "witnesses"
+            ],
+            "not": { "required": ["reason"] }
+          },
+          "else": {
+            "required": ["reason"],
+            "not": {
+              "anyOf": [
+                { "required": ["substructureId"] },
+                { "required": ["canonicalNodeToParent"] },
+                { "required": ["canonicalEdgeToParent"] },
+                { "required": ["outcome"] },
+                { "required": ["witnesses"] }
+              ]
+            }
+          }
+        }
+      ],
+      "additionalProperties": false
+    },
+    "irreducibleRemovalWitness": {
+      "type": "object",
+      "required": [
+        "expressionPath",
+        "operator",
+        "outcome",
+        "removal",
+        "policyId",
+        "whole",
+        "attemptedRemovals",
+        "evaluatedSubstructures",
+        "skippedSubstructures",
+        "removals"
+      ],
+      "properties": {
+        "expressionPath": { "$ref": "#/$defs/predicatePath" },
+        "operator": { "const": "irreducibleRemoval" },
+        "outcome": { "$ref": "#/$defs/outcome" },
+        "removal": { "enum": ["node", "edge"] },
+        "policyId": { "$ref": "#/$defs/normalizedString" },
+        "whole": { "$ref": "#/$defs/nestedEvaluation" },
+        "attemptedRemovals": { "$ref": "#/$defs/index" },
+        "evaluatedSubstructures": { "$ref": "#/$defs/index" },
+        "skippedSubstructures": { "$ref": "#/$defs/index" },
+        "removals": {
+          "type": "array",
+          "maxItems": 10000,
+          "items": { "$ref": "#/$defs/substructureRemoval" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "minimalSubstructure": {
+      "type": "object",
+      "required": [
+        "selectedNodeIndexes",
+        "selectedEdgeIndexes",
+        "parentNodeIndexes",
+        "parentEdgeIndexes",
+        "status"
+      ],
+      "properties": {
+        "selectedNodeIndexes": { "$ref": "#/$defs/indexList" },
+        "selectedEdgeIndexes": { "$ref": "#/$defs/indexList" },
+        "parentNodeIndexes": { "$ref": "#/$defs/indexList" },
+        "parentEdgeIndexes": { "$ref": "#/$defs/indexList" },
+        "status": { "enum": ["evaluated", "skipped"] },
+        "reason": { "enum": ["empty-excluded", "disconnected-excluded"] },
+        "substructureId": { "$ref": "#/$defs/hash" },
+        "canonicalNodeToParent": { "$ref": "#/$defs/indexList" },
+        "canonicalEdgeToParent": { "$ref": "#/$defs/indexList" },
+        "outcome": { "$ref": "#/$defs/outcome" },
+        "witnesses": {
+          "type": "array",
+          "maxItems": 60000,
+          "items": { "$ref": "#/$defs/localWitness" }
+        }
+      },
+      "if": {
+        "properties": { "status": { "const": "evaluated" } },
+        "required": ["status"]
+      },
+      "then": {
+        "required": [
+          "substructureId",
+          "canonicalNodeToParent",
+          "canonicalEdgeToParent",
+          "outcome",
+          "witnesses"
+        ],
+        "not": { "required": ["reason"] }
+      },
+      "else": {
+        "required": ["reason"],
+        "not": {
+          "anyOf": [
+            { "required": ["substructureId"] },
+            { "required": ["canonicalNodeToParent"] },
+            { "required": ["canonicalEdgeToParent"] },
+            { "required": ["outcome"] },
+            { "required": ["witnesses"] }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "minimalWitness": {
+      "type": "object",
+      "required": [
+        "expressionPath",
+        "operator",
+        "outcome",
+        "policyId",
+        "enumeration",
+        "whole",
+        "attemptedSubstructures",
+        "evaluatedSubstructures",
+        "skippedSubstructures",
+        "substructures"
+      ],
+      "properties": {
+        "expressionPath": { "$ref": "#/$defs/predicatePath" },
+        "operator": { "const": "minimal" },
+        "outcome": { "$ref": "#/$defs/outcome" },
+        "policyId": { "$ref": "#/$defs/normalizedString" },
+        "enumeration": { "const": "exhaustive-proper-subgraphs-v1" },
+        "whole": { "$ref": "#/$defs/nestedEvaluation" },
+        "attemptedSubstructures": { "$ref": "#/$defs/index" },
+        "evaluatedSubstructures": { "$ref": "#/$defs/index" },
+        "skippedSubstructures": { "$ref": "#/$defs/index" },
+        "substructures": {
+          "type": "array",
+          "maxItems": 10000,
+          "items": { "$ref": "#/$defs/minimalSubstructure" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "novelConstituent": {
+      "type": "object",
+      "required": [
+        "parentNodeIndex",
+        "sourceElementId",
+        "projectionId",
+        "canonicalNodeToParent",
+        "outcome",
+        "witnesses"
+      ],
+      "properties": {
+        "parentNodeIndex": { "$ref": "#/$defs/index" },
+        "sourceElementId": { "$ref": "#/$defs/hash" },
+        "projectionId": { "$ref": "#/$defs/hash" },
+        "canonicalNodeToParent": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "items": { "$ref": "#/$defs/index" }
+        },
+        "outcome": { "$ref": "#/$defs/outcome" },
+        "witnesses": {
+          "type": "array",
+          "maxItems": 60000,
+          "items": { "$ref": "#/$defs/localWitness" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "novelWitness": {
+      "if": {
+        "type": "object",
+        "required": ["operator"],
+        "properties": { "operator": { "const": "novel" } }
+      },
+      "then": {
+        "type": "object",
+        "required": [
+          "expressionPath",
+          "operator",
+          "outcome",
+          "domain",
+          "projection",
+          "whole",
+          "attemptedConstituents",
+          "evaluatedConstituents",
+          "constituents"
+        ],
+        "properties": {
+          "expressionPath": { "$ref": "#/$defs/predicatePath" },
+          "operator": { "const": "novel" },
+          "outcome": { "$ref": "#/$defs/outcome" },
+          "domain": { "const": "element-exact" },
+          "projection": { "const": "canonical-single-node-no-edge-v1" },
+          "boundSubstructurePolicyId": { "$ref": "#/$defs/normalizedString" },
+          "whole": { "$ref": "#/$defs/nestedEvaluation" },
+          "attemptedConstituents": { "$ref": "#/$defs/index" },
+          "evaluatedConstituents": { "$ref": "#/$defs/index" },
+          "constituents": {
+            "type": "array",
+            "maxItems": 10000,
+            "items": { "$ref": "#/$defs/novelConstituent" }
+          }
+        },
+        "additionalProperties": false
+      },
+      "else": false
+    },
+    "perturbationAttemptBase": {
+      "type": "object",
+      "required": [
+        "attemptIndex",
+        "parentNodeIndexes",
+        "parentEdgeIndexes",
+        "status"
+      ],
+      "properties": {
+        "attemptIndex": { "$ref": "#/$defs/index" },
+        "frameIndex": { "$ref": "#/$defs/index" },
+        "streamDraws": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1024
+        },
+        "parentNodeIndexes": { "$ref": "#/$defs/indexList" },
+        "parentEdgeIndexes": { "$ref": "#/$defs/indexList" },
+        "status": { "enum": ["evaluated", "skipped"] },
+        "reason": {
+          "enum": [
+            "graph-policy-invalid",
+            "numeric-attribute-unavailable",
+            "numeric-result-non-finite",
+            "numeric-displacement-noop"
+          ]
+        },
+        "validationIssueCodes": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/normalizedString" }
+        },
+        "perturbedCandidateId": { "$ref": "#/$defs/hash" },
+        "canonicalNodeToParent": { "$ref": "#/$defs/indexList" },
+        "canonicalEdgeToParent": { "$ref": "#/$defs/indexList" },
+        "outcome": { "$ref": "#/$defs/outcome" },
+        "witnesses": {
+          "type": "array",
+          "maxItems": 60000,
+          "items": { "$ref": "#/$defs/localWitness" }
+        }
+      },
+      "if": {
+        "properties": { "status": { "const": "evaluated" } },
+        "required": ["status"]
+      },
+      "then": {
+        "required": [
+          "perturbedCandidateId",
+          "canonicalNodeToParent",
+          "canonicalEdgeToParent",
+          "outcome",
+          "witnesses"
+        ],
+        "not": {
+          "anyOf": [
+            { "required": ["reason"] },
+            { "required": ["validationIssueCodes"] }
+          ]
+        }
+      },
+      "else": {
+        "required": ["reason"],
+        "not": {
+          "anyOf": [
+            { "required": ["perturbedCandidateId"] },
+            { "required": ["canonicalNodeToParent"] },
+            { "required": ["canonicalEdgeToParent"] },
+            { "required": ["outcome"] },
+            { "required": ["witnesses"] }
+          ]
+        }
+      }
+    },
+    "edgeDeletionAttempt": {
+      "type": "object",
+      "required": ["parentEdgeIndex", "deletedRole"],
+      "properties": {
+        "parentEdgeIndex": { "$ref": "#/$defs/index" },
+        "deletedRole": { "$ref": "#/$defs/normalizedString" }
+      }
+    },
+    "nodeDeletionAttempt": {
+      "type": "object",
+      "required": ["parentNodeIndex", "deletedRef"],
+      "properties": {
+        "parentNodeIndex": { "$ref": "#/$defs/index" },
+        "deletedRef": { "$ref": "#/$defs/hash" }
+      }
+    },
+    "roleReplacementAttempt": {
+      "type": "object",
+      "required": [
+        "parentEdgeIndex",
+        "replacementIndex",
+        "fromRole",
+        "toRole"
+      ],
+      "properties": {
+        "parentEdgeIndex": { "$ref": "#/$defs/index" },
+        "replacementIndex": { "$ref": "#/$defs/index" },
+        "fromRole": { "$ref": "#/$defs/normalizedString" },
+        "toRole": { "$ref": "#/$defs/normalizedString" }
+      }
+    },
+    "numericNodeAttempt": {
+      "type": "object",
+      "required": [
+        "target",
+        "parentNodeIndex",
+        "attribute",
+        "direction",
+        "epsilon"
+      ],
+      "properties": {
+        "target": { "const": "nodes" },
+        "parentNodeIndex": { "$ref": "#/$defs/index" },
+        "attribute": { "$ref": "#/$defs/normalizedString" },
+        "direction": { "enum": ["decrease", "increase"] },
+        "epsilon": { "type": "number", "exclusiveMinimum": 0 },
+        "originalValue": { "type": "number" },
+        "displacedValue": { "type": "number" }
+      }
+    },
+    "numericEdgeAttempt": {
+      "type": "object",
+      "required": [
+        "target",
+        "parentEdgeIndex",
+        "attribute",
+        "direction",
+        "epsilon"
+      ],
+      "properties": {
+        "target": { "const": "edges" },
+        "parentEdgeIndex": { "$ref": "#/$defs/index" },
+        "attribute": { "$ref": "#/$defs/normalizedString" },
+        "direction": { "enum": ["decrease", "increase"] },
+        "epsilon": { "type": "number", "exclusiveMinimum": 0 },
+        "originalValue": { "type": "number" },
+        "displacedValue": { "type": "number" }
+      }
+    },
+    "perturbationAttempt": {
+      "allOf": [
+        { "$ref": "#/$defs/perturbationAttemptBase" },
+        {
+          "oneOf": [
+            { "$ref": "#/$defs/edgeDeletionAttempt" },
+            { "$ref": "#/$defs/nodeDeletionAttempt" },
+            { "$ref": "#/$defs/roleReplacementAttempt" },
+            { "$ref": "#/$defs/numericNodeAttempt" },
+            { "$ref": "#/$defs/numericEdgeAttempt" }
+          ]
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "stabilityBound": {
+      "type": "object",
+      "required": ["numerator", "denominator", "rounded"],
+      "properties": {
+        "numerator": { "$ref": "#/$defs/index" },
+        "denominator": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "rounded": { "$ref": "decimal-value.schema.json" }
+      },
+      "additionalProperties": false
+    },
+    "sampledProbabilityInterval": {
+      "type": "object",
+      "required": ["lower", "upper"],
+      "properties": {
+        "lower": { "$ref": "decimal-value.schema.json" },
+        "upper": { "$ref": "decimal-value.schema.json" }
+      },
+      "additionalProperties": false
+    },
+    "sampledConfidenceBounds": {
+      "type": "object",
+      "required": [
+        "confidenceNumerator",
+        "confidenceDenominator",
+        "boundDecimalPlaces",
+        "radius",
+        "passing",
+        "nonFailure"
+      ],
+      "properties": {
+        "confidenceNumerator": { "const": 95 },
+        "confidenceDenominator": { "const": 100 },
+        "boundDecimalPlaces": { "const": 6 },
+        "radius": { "$ref": "decimal-value.schema.json" },
+        "passing": { "$ref": "#/$defs/sampledProbabilityInterval" },
+        "nonFailure": { "$ref": "#/$defs/sampledProbabilityInterval" }
+      },
+      "additionalProperties": false
+    },
+    "perturbationSampling": {
+      "type": "object",
+      "required": [
+        "algorithm",
+        "frame",
+        "replacement",
+        "uncertainty",
+        "sampleSize",
+        "streamKey",
+        "frameSize",
+        "status"
+      ],
+      "properties": {
+        "algorithm": { "const": "sha256-rejection-counter-v1" },
+        "frame": { "const": "applicable-single-edit-attempts-v1" },
+        "replacement": { "const": "with-replacement" },
+        "uncertainty": { "const": "chebyshev-union-95-v1" },
+        "sampleSize": { "$ref": "#/$defs/index" },
+        "streamKey": { "$ref": "#/$defs/hash" },
+        "frameSize": { "$ref": "#/$defs/index" },
+        "status": {
+          "enum": [
+            "frame-empty",
+            "budget-empty",
+            "no-valid-samples",
+            "evaluated"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "stableUnderWitness": {
+      "if": {
+        "type": "object",
+        "required": ["operator"],
+        "properties": { "operator": { "const": "stableUnder" } }
+      },
+      "then": {
+        "type": "object",
+        "required": [
+          "expressionPath",
+          "operator",
+          "outcome",
+          "perturbationId",
+          "perturbationKind",
+          "enumeration",
+          "emptyPolicy",
+          "boundPerturbationContextHash",
+          "threshold",
+          "decisionRule",
+          "attemptedPerturbations",
+          "validPerturbations",
+          "skippedPerturbations",
+          "passedPerturbations",
+          "failedPerturbations",
+          "indeterminatePerturbations",
+          "stability",
+          "perturbations"
+        ],
+        "properties": {
+          "expressionPath": { "$ref": "#/$defs/predicatePath" },
+          "operator": { "const": "stableUnder" },
+          "outcome": { "$ref": "#/$defs/outcome" },
+          "perturbationId": { "$ref": "#/$defs/normalizedString" },
+          "perturbationKind": {
+            "enum": [
+              "edge-deletion",
+              "node-deletion",
+              "edge-role-replacement",
+              "numeric-attribute-displacement"
+            ]
+          },
+          "enumeration": {
+            "enum": [
+              "exhaustive-valid-single-edits-v1",
+              "sampled-valid-single-edits-v1"
+            ]
+          },
+          "emptyPolicy": { "enum": ["indeterminate", "vacuous-pass"] },
+          "boundPerturbationContextHash": { "$ref": "#/$defs/hash" },
+          "boundSubstructurePolicyId": { "$ref": "#/$defs/normalizedString" },
+          "threshold": { "$ref": "decimal-value.schema.json" },
+          "decisionRule": {
+            "enum": [
+              "exact-three-valued-bounds-v1",
+              "chebyshev-union-95-three-valued-bounds-v1"
+            ]
+          },
+          "sampling": { "$ref": "#/$defs/perturbationSampling" },
+          "confidenceBounds": {
+            "oneOf": [
+              { "type": "null" },
+              { "$ref": "#/$defs/sampledConfidenceBounds" }
+            ]
+          },
+          "attemptedPerturbations": { "$ref": "#/$defs/index" },
+          "validPerturbations": { "$ref": "#/$defs/index" },
+          "skippedPerturbations": { "$ref": "#/$defs/index" },
+          "passedPerturbations": { "$ref": "#/$defs/index" },
+          "failedPerturbations": { "$ref": "#/$defs/index" },
+          "indeterminatePerturbations": { "$ref": "#/$defs/index" },
+          "stability": {
+            "oneOf": [
+              { "type": "null" },
+              {
+                "type": "object",
+                "required": ["lower", "upper"],
+                "properties": {
+                  "lower": { "$ref": "#/$defs/stabilityBound" },
+                  "upper": { "$ref": "#/$defs/stabilityBound" }
+                },
+                "additionalProperties": false
+              }
+            ]
+          },
+          "perturbations": {
+            "type": "array",
+            "maxItems": 10000,
+            "items": { "$ref": "#/$defs/perturbationAttempt" }
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "enumeration": { "const": "sampled-valid-single-edits-v1" }
+              }
+            },
+            "then": {
+              "required": ["sampling", "confidenceBounds"],
+              "properties": {
+                "decisionRule": {
+                  "const": "chebyshev-union-95-three-valued-bounds-v1"
+                },
+                "perturbations": {
+                  "items": {
+                    "allOf": [
+                      { "$ref": "#/$defs/perturbationAttempt" },
+                      { "required": ["frameIndex", "streamDraws"] }
+                    ]
+                  }
+                }
+              }
+            },
+            "else": {
+              "properties": {
+                "decisionRule": { "const": "exact-three-valued-bounds-v1" },
+                "perturbations": {
+                  "items": {
+                    "allOf": [
+                      { "$ref": "#/$defs/perturbationAttempt" },
+                      {
+                        "not": {
+                          "anyOf": [
+                            { "required": ["frameIndex"] },
+                            { "required": ["streamDraws"] }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              "not": {
+                "anyOf": [
+                  { "required": ["sampling"] },
+                  { "required": ["confidenceBounds"] }
+                ]
+              }
+            }
+          }
+        ],
+        "additionalProperties": false
+      },
+      "else": false
+    },
+    "localWitness": {
+      "oneOf": [
+        { "$ref": "predicate-graph-evaluation.schema.json#/$defs/nestedWitness" },
+        { "$ref": "#/$defs/compareWitness" },
+        { "$ref": "#/$defs/indeterminateCompareWitness" },
+        { "$ref": "#/$defs/balanceWitness" },
+        { "$ref": "#/$defs/minimalWitness" },
+        { "$ref": "#/$defs/irreducibleRemovalWitness" },
+        { "$ref": "#/$defs/novelWitness" },
+        { "$ref": "#/$defs/stableUnderWitness" }
+      ]
     }
   },
   "additionalProperties": false

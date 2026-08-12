@@ -1,0 +1,556 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/package-selector-sensitivity.schema.json",
+  "title": "Onto2D Complete Package Selector Sensitivity Report",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "evaluator",
+    "scope",
+    "packageId",
+    "rulesHash",
+    "bindingHash",
+    "censusHash",
+    "partitionHash",
+    "baseRankingHash",
+    "countingDomain",
+    "sourcePopulationHash",
+    "selectorId",
+    "functionalId",
+    "policy",
+    "sensitivityPolicy",
+    "sensitivityCoefficients",
+    "status",
+    "reasons",
+    "details",
+    "points",
+    "variants",
+    "verdict",
+    "execution",
+    "sensitivityHash"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "evaluator": { "const": "package-selector-sensitivity-evaluator-v1" },
+    "scope": { "const": "complete-required-perturbation-sweep-v1" },
+    "packageId": { "$ref": "#/$defs/hash" },
+    "rulesHash": { "$ref": "#/$defs/hash" },
+    "bindingHash": { "$ref": "#/$defs/hash" },
+    "censusHash": { "$ref": "#/$defs/hash" },
+    "partitionHash": { "$ref": "#/$defs/hash" },
+    "baseRankingHash": { "$ref": "#/$defs/hash" },
+    "countingDomain": { "enum": ["profile-quotient", "element-exact"] },
+    "sourcePopulationHash": { "$ref": "#/$defs/hash" },
+    "selectorId": { "$ref": "#/$defs/normalizedString" },
+    "functionalId": { "$ref": "#/$defs/normalizedString" },
+    "policy": { "$ref": "selector.schema.json#/properties/sensitivity" },
+    "sensitivityPolicy": { "$ref": "#/$defs/sensitivityPolicy" },
+    "sensitivityCoefficients": {
+      "type": "array",
+      "maxItems": 10000,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/normalizedString" }
+    },
+    "status": { "enum": ["complete", "not-applicable", "indeterminate"] },
+    "reasons": {
+      "type": "array",
+      "maxItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "base-ranking-indeterminate",
+          "no-ranked-cohorts",
+          "no-sensitivity-coefficients",
+          "variant-limit-exceeded",
+          "perturbation-budget-insufficient",
+          "functional-evaluation-limit-exceeded",
+          "variant-ranking-indeterminate"
+        ]
+      }
+    },
+    "details": { "type": "object", "maxProperties": 32 },
+    "points": {
+      "type": "array",
+      "maxItems": 1000000,
+      "items": { "$ref": "#/$defs/point" }
+    },
+    "variants": {
+      "type": "array",
+      "maxItems": 1000000,
+      "items": { "$ref": "#/$defs/variant" }
+    },
+    "verdict": {
+      "oneOf": [
+        { "enum": ["robust", "fragile"] },
+        { "type": "null" }
+      ]
+    },
+    "execution": { "$ref": "#/$defs/execution" },
+    "sensitivityHash": { "$ref": "#/$defs/hash" }
+  },
+  "oneOf": [
+    {
+      "properties": {
+        "status": { "const": "complete" },
+        "reasons": { "maxItems": 0 },
+        "details": { "maxProperties": 0 },
+        "points": {
+          "minItems": 1,
+          "items": {
+            "allOf": [
+              { "$ref": "#/$defs/point" },
+              {
+                "properties": {
+                  "leaderSetStability": { "type": "number" },
+                  "presentationLeaderStability": { "type": "number" },
+                  "topKStability": { "type": "number" }
+                }
+              }
+            ]
+          }
+        },
+        "variants": {
+          "minItems": 1,
+          "items": {
+            "allOf": [
+              { "$ref": "#/$defs/variant" },
+              { "properties": { "status": { "const": "ranked" } } }
+            ]
+          }
+        },
+        "verdict": { "enum": ["robust", "fragile"] }
+      }
+    },
+    {
+      "properties": {
+        "status": { "const": "not-applicable" },
+        "reasons": {
+          "prefixItems": [{ "const": "no-ranked-cohorts" }],
+          "minItems": 1,
+          "maxItems": 1
+        },
+        "details": { "maxProperties": 0 },
+        "points": { "maxItems": 0 },
+        "variants": { "maxItems": 0 },
+        "verdict": { "type": "null" },
+        "execution": {
+          "properties": {
+            "evaluatedVariants": { "const": 0 },
+            "usedFunctionalEvaluations": { "const": 0 },
+            "evaluatedComparisons": { "const": 0 }
+          }
+        }
+      }
+    },
+    {
+      "properties": {
+        "status": { "const": "not-applicable" },
+        "reasons": {
+          "prefixItems": [{ "const": "no-sensitivity-coefficients" }],
+          "minItems": 1,
+          "maxItems": 1
+        },
+        "details": { "maxProperties": 0 },
+        "sensitivityCoefficients": { "maxItems": 0 },
+        "points": { "maxItems": 0 },
+        "variants": { "maxItems": 0 },
+        "verdict": { "type": "null" },
+        "execution": {
+          "properties": {
+            "requiredVariants": { "const": 0 },
+            "evaluatedVariants": { "const": 0 },
+            "requiredFunctionalEvaluations": { "const": 0 },
+            "usedFunctionalEvaluations": { "const": 0 },
+            "requiredComparisons": { "const": 0 },
+            "evaluatedComparisons": { "const": 0 }
+          }
+        }
+      }
+    },
+    {
+      "properties": {
+        "status": { "const": "indeterminate" },
+        "reasons": {
+          "prefixItems": [{ "const": "variant-ranking-indeterminate" }],
+          "minItems": 1,
+          "maxItems": 1
+        },
+        "points": {
+          "minItems": 1,
+          "items": {
+            "allOf": [
+              { "$ref": "#/$defs/point" },
+              {
+                "properties": {
+                  "leaderSetStability": { "type": "null" },
+                  "presentationLeaderStability": { "type": "null" },
+                  "topKStability": { "type": "null" }
+                }
+              }
+            ]
+          }
+        },
+        "variants": {
+          "minItems": 1,
+          "contains": {
+            "properties": { "status": { "const": "indeterminate" } },
+            "required": ["status"]
+          }
+        },
+        "verdict": { "type": "null" }
+      }
+    },
+    {
+      "properties": {
+        "status": { "const": "indeterminate" },
+        "reasons": {
+          "prefixItems": [{ "enum": [
+            "base-ranking-indeterminate",
+            "variant-limit-exceeded",
+            "perturbation-budget-insufficient",
+            "functional-evaluation-limit-exceeded"
+          ] }],
+          "minItems": 1,
+          "maxItems": 1
+        },
+        "points": { "maxItems": 0 },
+        "variants": { "maxItems": 0 },
+        "verdict": { "type": "null" },
+        "execution": {
+          "properties": {
+            "evaluatedVariants": { "const": 0 },
+            "usedFunctionalEvaluations": { "const": 0 },
+            "evaluatedComparisons": { "const": 0 }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "hash": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "normalizedString": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1024,
+      "pattern": "^(?:\\S|\\S(?:.*\\S)?)$"
+    },
+    "index": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "exactCount": {
+      "oneOf": [
+        { "$ref": "#/$defs/index" },
+        {
+          "type": "string",
+          "pattern": "^[1-9][0-9]{15,}$",
+          "maxLength": 4096
+        }
+      ]
+    },
+    "ratioOrNull": {
+      "oneOf": [
+        { "type": "number", "minimum": 0, "maximum": 1 },
+        { "type": "null" }
+      ]
+    },
+    "sensitivityPolicy": {
+      "type": "object",
+      "required": [
+        "coefficientPerturbation",
+        "oneAtATimeOrder",
+        "cartesianOrder",
+        "comparison",
+        "missingComparison"
+      ],
+      "properties": {
+        "coefficientPerturbation": {
+          "const": "exact-multiplicative-one-plus-or-minus-amplitude-v1"
+        },
+        "oneAtATimeOrder": {
+          "const": "amplitude-coefficient-negative-positive-v1"
+        },
+        "cartesianOrder": {
+          "const": "amplitude-lexicographic-sign-vector-v1"
+        },
+        "comparison": {
+          "const": "exact-leader-presentation-and-canonical-top-k-sets-v1"
+        },
+        "missingComparison": {
+          "const": "indeterminate-without-denominator-reduction-v1"
+        }
+      },
+      "additionalProperties": false
+    },
+    "direction": {
+      "type": "object",
+      "required": ["coefficient", "direction", "factor"],
+      "properties": {
+        "coefficient": { "$ref": "#/$defs/normalizedString" },
+        "direction": { "enum": ["negative", "positive"] },
+        "factor": { "$ref": "decimal-value.schema.json" }
+      },
+      "additionalProperties": false
+    },
+    "coefficientWitness": {
+      "type": "object",
+      "required": ["name", "factor", "base", "perturbed"],
+      "properties": {
+        "name": { "$ref": "#/$defs/normalizedString" },
+        "factor": { "$ref": "decimal-value.schema.json" },
+        "base": { "$ref": "quantity.schema.json" },
+        "perturbed": { "$ref": "quantity.schema.json" }
+      },
+      "additionalProperties": false
+    },
+    "comparisonView": {
+      "type": "object",
+      "required": ["semanticExtrema", "presentationLeader", "topK"],
+      "properties": {
+        "semanticExtrema": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1000000,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/hash" }
+        },
+        "presentationLeader": { "$ref": "#/$defs/hash" },
+        "topK": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1000000,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/hash" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "comparison": {
+      "type": "object",
+      "required": [
+        "cohortId",
+        "status",
+        "base",
+        "perturbed",
+        "leaderSetStable",
+        "presentationLeaderStable",
+        "topKStable"
+      ],
+      "properties": {
+        "cohortId": { "$ref": "#/$defs/hash" },
+        "status": { "enum": ["comparable", "indeterminate"] },
+        "reason": { "const": "perturbed-cohort-indeterminate" },
+        "base": { "$ref": "#/$defs/comparisonView" },
+        "perturbed": {
+          "oneOf": [
+            { "$ref": "#/$defs/comparisonView" },
+            { "type": "null" }
+          ]
+        },
+        "leaderSetStable": {
+          "oneOf": [{ "type": "boolean" }, { "type": "null" }]
+        },
+        "presentationLeaderStable": {
+          "oneOf": [{ "type": "boolean" }, { "type": "null" }]
+        },
+        "topKStable": {
+          "oneOf": [{ "type": "boolean" }, { "type": "null" }]
+        }
+      },
+      "oneOf": [
+        {
+          "properties": {
+            "status": { "const": "comparable" },
+            "perturbed": { "$ref": "#/$defs/comparisonView" },
+            "leaderSetStable": { "type": "boolean" },
+            "presentationLeaderStable": { "type": "boolean" },
+            "topKStable": { "type": "boolean" }
+          },
+          "not": { "required": ["reason"] }
+        },
+        {
+          "properties": {
+            "status": { "const": "indeterminate" },
+            "reason": { "const": "perturbed-cohort-indeterminate" },
+            "perturbed": { "type": "null" },
+            "leaderSetStable": { "type": "null" },
+            "presentationLeaderStable": { "type": "null" },
+            "topKStable": { "type": "null" }
+          },
+          "required": ["reason"]
+        }
+      ],
+      "additionalProperties": false
+    },
+    "variant": {
+      "type": "object",
+      "required": [
+        "amplitude",
+        "sweep",
+        "directions",
+        "variantId",
+        "coefficients",
+        "status",
+        "cohortRankings",
+        "comparisons"
+      ],
+      "properties": {
+        "amplitude": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "exclusiveMaximum": 1
+        },
+        "sweep": { "enum": ["one-at-a-time", "cartesian"] },
+        "directions": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 10000,
+          "items": { "$ref": "#/$defs/direction" }
+        },
+        "variantId": { "$ref": "#/$defs/hash" },
+        "coefficients": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 10000,
+          "items": { "$ref": "#/$defs/coefficientWitness" }
+        },
+        "status": { "enum": ["ranked", "indeterminate"] },
+        "cohortRankings": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1000000,
+          "items": {
+            "$ref": "package-selector-ranking.schema.json#/$defs/cohortRanking"
+          }
+        },
+        "comparisons": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1000000,
+          "items": { "$ref": "#/$defs/comparison" }
+        }
+      },
+      "oneOf": [
+        {
+          "properties": {
+            "status": { "const": "ranked" },
+            "cohortRankings": {
+              "items": {
+                "allOf": [
+                  {
+                    "$ref": "package-selector-ranking.schema.json#/$defs/cohortRanking"
+                  },
+                  { "properties": { "status": { "const": "ranked" } } }
+                ]
+              }
+            },
+            "comparisons": {
+              "items": {
+                "allOf": [
+                  { "$ref": "#/$defs/comparison" },
+                  { "properties": { "status": { "const": "comparable" } } }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "status": { "const": "indeterminate" },
+            "cohortRankings": {
+              "contains": {
+                "properties": { "status": { "const": "indeterminate" } },
+                "required": ["status"]
+              }
+            },
+            "comparisons": {
+              "contains": {
+                "properties": { "status": { "const": "indeterminate" } },
+                "required": ["status"]
+              }
+            }
+          }
+        }
+      ],
+      "additionalProperties": false
+    },
+    "point": {
+      "type": "object",
+      "required": [
+        "amplitude",
+        "requiredVariants",
+        "evaluatedVariants",
+        "requiredComparisons",
+        "evaluatedComparisons",
+        "comparableComparisons",
+        "leaderSetMatches",
+        "presentationLeaderMatches",
+        "topKMatches",
+        "leaderSetStability",
+        "presentationLeaderStability",
+        "topKStability"
+      ],
+      "properties": {
+        "amplitude": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "exclusiveMaximum": 1
+        },
+        "requiredVariants": { "$ref": "#/$defs/index" },
+        "evaluatedVariants": { "$ref": "#/$defs/index" },
+        "requiredComparisons": { "$ref": "#/$defs/index" },
+        "evaluatedComparisons": { "$ref": "#/$defs/index" },
+        "comparableComparisons": { "$ref": "#/$defs/index" },
+        "leaderSetMatches": { "$ref": "#/$defs/index" },
+        "presentationLeaderMatches": { "$ref": "#/$defs/index" },
+        "topKMatches": { "$ref": "#/$defs/index" },
+        "leaderSetStability": { "$ref": "#/$defs/ratioOrNull" },
+        "presentationLeaderStability": { "$ref": "#/$defs/ratioOrNull" },
+        "topKStability": { "$ref": "#/$defs/ratioOrNull" }
+      },
+      "additionalProperties": false
+    },
+    "execution": {
+      "type": "object",
+      "required": [
+        "perturbationSamples",
+        "maxSensitivityFunctionalEvaluations",
+        "requiredVariants",
+        "evaluatedVariants",
+        "requiredFunctionalEvaluations",
+        "usedFunctionalEvaluations",
+        "requiredComparisons",
+        "evaluatedComparisons"
+      ],
+      "properties": {
+        "perturbationSamples": { "$ref": "#/$defs/index" },
+        "maxSensitivityFunctionalEvaluations": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+        },
+        "requiredVariants": { "$ref": "#/$defs/exactCount" },
+        "evaluatedVariants": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000
+        },
+        "requiredFunctionalEvaluations": { "$ref": "#/$defs/exactCount" },
+        "usedFunctionalEvaluations": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000
+        },
+        "requiredComparisons": { "$ref": "#/$defs/exactCount" },
+        "evaluatedComparisons": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

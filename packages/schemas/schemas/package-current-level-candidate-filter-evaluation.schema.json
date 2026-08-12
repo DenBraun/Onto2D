@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/package-current-level-candidate-filter-evaluation.schema.json",
+  "title": "Onto2D Current-Level Candidate Filter Evaluation",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "evaluator",
+    "packageId",
+    "rulesHash",
+    "bindingHash",
+    "formation",
+    "predicateEvaluations",
+    "verdict",
+    "counts",
+    "passedPredicates",
+    "failedPredicates",
+    "indeterminatePredicates",
+    "filterHash"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "evaluator": {
+      "const": "package-current-level-candidate-filter-evaluator-v1"
+    },
+    "packageId": {
+      "$ref": "package-depth-candidate-filter-evaluation.schema.json#/$defs/hash"
+    },
+    "rulesHash": {
+      "$ref": "package-depth-candidate-filter-evaluation.schema.json#/$defs/hash"
+    },
+    "bindingHash": {
+      "$ref": "package-depth-candidate-filter-evaluation.schema.json#/$defs/hash"
+    },
+    "formation": {
+      "$ref": "package-depth-candidate-filter-evaluation.schema.json#/$defs/formation"
+    },
+    "predicateEvaluations": {
+      "type": "array",
+      "maxItems": 10000,
+      "items": {
+        "$ref": "package-candidate-filter-evaluation.schema.json#/$defs/predicateEvaluation"
+      }
+    },
+    "verdict": {
+      "enum": ["eligible", "predicate-rejected", "filter-indeterminate"]
+    },
+    "counts": {
+      "$ref": "package-depth-candidate-filter-evaluation.schema.json#/$defs/counts"
+    },
+    "passedPredicates": {
+      "$ref": "package-depth-candidate-filter-evaluation.schema.json#/$defs/stringSet"
+    },
+    "failedPredicates": {
+      "$ref": "package-depth-candidate-filter-evaluation.schema.json#/$defs/stringSet"
+    },
+    "indeterminatePredicates": {
+      "$ref": "package-depth-candidate-filter-evaluation.schema.json#/$defs/stringSet"
+    },
+    "filterHash": {
+      "$ref": "package-depth-candidate-filter-evaluation.schema.json#/$defs/hash"
+    }
+  },
+  "additionalProperties": false
+}

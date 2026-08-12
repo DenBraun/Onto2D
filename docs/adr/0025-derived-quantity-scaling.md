@@ -3,6 +3,9 @@
 Status: proposed implementation baseline; local conformance passed; extended
 by ADR-0026; independent and cross-platform review pending
 
+ADR-0046 later implements direct local scalar invariant resolution; the other
+future boundaries listed below remain separate.
+
 ## Context
 
 ADR-0024 enables compatible Quantity addition but leaves every Quantity-valued

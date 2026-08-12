@@ -1,0 +1,240 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/package-predicate-monotonicity-audit.schema.json",
+  "title": "Onto2D Package Predicate Monotonicity Audit",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "auditor",
+    "scope",
+    "packageId",
+    "rulesHash",
+    "bindingHash",
+    "binding",
+    "runConfigHash",
+    "seed",
+    "policy",
+    "samplesPerPredicate",
+    "universe",
+    "results",
+    "counts",
+    "status",
+    "auditHash"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "auditor": { "const": "package-predicate-monotonicity-auditor-v1" },
+    "scope": { "const": "complete-depth-one-canonical-universe-v1" },
+    "packageId": { "$ref": "#/$defs/hash" },
+    "rulesHash": { "$ref": "#/$defs/hash" },
+    "bindingHash": { "$ref": "#/$defs/hash" },
+    "binding": { "$ref": "package-candidate-binding.schema.json" },
+    "runConfigHash": { "$ref": "#/$defs/hash" },
+    "seed": { "$ref": "#/$defs/id" },
+    "policy": { "$ref": "#/$defs/policy" },
+    "samplesPerPredicate": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 10000
+    },
+    "universe": { "$ref": "#/$defs/universe" },
+    "results": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/result" }
+    },
+    "counts": { "$ref": "#/$defs/counts" },
+    "status": {
+      "enum": ["not-applicable", "passed", "failed", "indeterminate"]
+    },
+    "auditHash": { "$ref": "#/$defs/hash" }
+  },
+  "$defs": {
+    "hash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1024,
+      "pattern": "^(?:\\S|\\S(?:.*\\S)?)$"
+    },
+    "count": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "policy": {
+      "type": "object",
+      "required": [
+        "extensionModel",
+        "samplingAlgorithm",
+        "replacement",
+        "counterexampleRule",
+        "proofInterpretation"
+      ],
+      "properties": {
+        "extensionModel": { "const": "complete-node-canonical-edge-prefix-v1" },
+        "samplingAlgorithm": { "const": "sha256-rejection-counter-v1" },
+        "replacement": { "const": "with-replacement" },
+        "counterexampleRule": { "const": "partial-fail-extension-pass-v1" },
+        "proofInterpretation": {
+          "const": "falsification-only-static-proof-required-v1"
+        }
+      },
+      "additionalProperties": false
+    },
+    "universe": {
+      "type": "object",
+      "required": [
+        "generator",
+        "candidateCount",
+        "extensionFrameSize",
+        "universeHash"
+      ],
+      "properties": {
+        "generator": { "const": "package-candidate-generator-v5" },
+        "candidateCount": { "$ref": "#/$defs/count" },
+        "extensionFrameSize": { "$ref": "#/$defs/count" },
+        "universeHash": { "$ref": "#/$defs/hash" }
+      },
+      "additionalProperties": false
+    },
+    "resultCounts": {
+      "type": "object",
+      "required": [
+        "attempted",
+        "partialFailures",
+        "extensionPasses",
+        "persistentFailuresDetected",
+        "counterexamples"
+      ],
+      "properties": {
+        "attempted": { "$ref": "#/$defs/count" },
+        "partialFailures": { "$ref": "#/$defs/count" },
+        "extensionPasses": { "$ref": "#/$defs/count" },
+        "persistentFailuresDetected": { "$ref": "#/$defs/count" },
+        "counterexamples": { "$ref": "#/$defs/count" }
+      },
+      "additionalProperties": false
+    },
+    "sample": {
+      "type": "object",
+      "required": [
+        "sampleOrdinal",
+        "frameIndex",
+        "streamDraws",
+        "extensionCandidateId",
+        "partialGraphHash",
+        "partialEvaluationHash",
+        "extensionEvaluationHash",
+        "diagnosticEvaluationHash",
+        "partialEdgeCount",
+        "extensionEdgeCount",
+        "partialOutcome",
+        "extensionOutcome",
+        "persistentFailureDetected",
+        "counterexample"
+      ],
+      "properties": {
+        "sampleOrdinal": { "$ref": "#/$defs/count" },
+        "frameIndex": { "$ref": "#/$defs/count" },
+        "streamDraws": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1024
+        },
+        "extensionCandidateId": { "$ref": "#/$defs/hash" },
+        "partialGraphHash": { "$ref": "#/$defs/hash" },
+        "partialEvaluationHash": { "$ref": "#/$defs/hash" },
+        "extensionEvaluationHash": { "$ref": "#/$defs/hash" },
+        "diagnosticEvaluationHash": { "$ref": "#/$defs/hash" },
+        "partialEdgeCount": { "$ref": "#/$defs/count" },
+        "extensionEdgeCount": { "$ref": "#/$defs/count" },
+        "partialOutcome": {
+          "enum": ["pass", "fail", "indeterminate"]
+        },
+        "extensionOutcome": {
+          "enum": ["pass", "fail", "indeterminate"]
+        },
+        "persistentFailureDetected": { "type": "boolean" },
+        "counterexample": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    },
+    "result": {
+      "type": "object",
+      "required": [
+        "predicateId",
+        "predicatePlanHash",
+        "pruningEligibility",
+        "runtimeSupport",
+        "frameSize",
+        "requestedSamples",
+        "samples",
+        "counts",
+        "status",
+        "pruningEligible"
+      ],
+      "properties": {
+        "predicateId": { "$ref": "#/$defs/id" },
+        "predicatePlanHash": { "$ref": "#/$defs/hash" },
+        "pruningEligibility": {
+          "enum": [
+            "disabled",
+            "static-proven",
+            "blocked-unproven",
+            "blocked-partial-data"
+          ]
+        },
+        "runtimeSupport": {
+          "enum": ["graph-complete-and-partial-v1", "unsupported"]
+        },
+        "frameSize": { "$ref": "#/$defs/count" },
+        "requestedSamples": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10000
+        },
+        "samples": {
+          "type": "array",
+          "maxItems": 10000,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/sample" }
+        },
+        "counts": { "$ref": "#/$defs/resultCounts" },
+        "status": {
+          "enum": ["passed", "failed", "unsupported", "no-extensions", "no-samples"]
+        },
+        "pruningEligible": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    },
+    "counts": {
+      "type": "object",
+      "required": [
+        "declaredPredicates",
+        "runtimeSupportedPredicates",
+        "passedPredicates",
+        "failedPredicates",
+        "indeterminatePredicates",
+        "authorizedPlans",
+        "attemptedSamples",
+        "counterexamples"
+      ],
+      "properties": {
+        "declaredPredicates": { "$ref": "#/$defs/count" },
+        "runtimeSupportedPredicates": { "$ref": "#/$defs/count" },
+        "passedPredicates": { "$ref": "#/$defs/count" },
+        "failedPredicates": { "$ref": "#/$defs/count" },
+        "indeterminatePredicates": { "$ref": "#/$defs/count" },
+        "authorizedPlans": { "$ref": "#/$defs/count" },
+        "attemptedSamples": { "$ref": "#/$defs/count" },
+        "counterexamples": { "$ref": "#/$defs/count" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

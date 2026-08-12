@@ -1,0 +1,291 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/package-depth-source-selection.schema.json",
+  "title": "Onto2D Verified Depth Source Population Selection",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "selector",
+    "scope",
+    "packageId",
+    "rulesHash",
+    "depthBasis",
+    "runConfigHash",
+    "sourceDepths",
+    "targetDepth",
+    "availableDepths",
+    "selectedDepths",
+    "policy",
+    "populations",
+    "occurrences",
+    "elements",
+    "elementIds",
+    "profileClasses",
+    "counts",
+    "selectionHash"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "selector": { "const": "package-depth-source-selector-v2" },
+    "scope": {
+      "const": "verified-contiguous-closed-depth-source-selection-v1"
+    },
+    "packageId": { "$ref": "#/$defs/hash" },
+    "rulesHash": { "$ref": "#/$defs/hash" },
+    "depthBasis": { "$ref": "#/$defs/hash" },
+    "runConfigHash": { "$ref": "#/$defs/hash" },
+    "sourceDepths": { "enum": ["all-below", "previous-only"] },
+    "targetDepth": { "type": "integer", "minimum": 1, "maximum": 64 },
+    "availableDepths": { "$ref": "#/$defs/depthSet" },
+    "selectedDepths": { "$ref": "#/$defs/depthSet" },
+    "policy": { "$ref": "#/$defs/policy" },
+    "populations": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 64,
+      "prefixItems": [
+        { "$ref": "#/$defs/primitivePopulationEntry" }
+      ],
+      "items": { "$ref": "#/$defs/derivedPopulationEntry" }
+    },
+    "occurrences": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1000000,
+      "items": { "$ref": "#/$defs/occurrence" }
+    },
+    "elements": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1000000,
+      "items": { "$ref": "element.schema.json" }
+    },
+    "elementIds": { "$ref": "#/$defs/hashSet" },
+    "profileClasses": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1000000,
+      "items": { "$ref": "#/$defs/profileClass" }
+    },
+    "counts": { "$ref": "#/$defs/counts" },
+    "selectionHash": { "$ref": "#/$defs/hash" }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "targetDepth": { "const": 1 } },
+        "required": ["targetDepth"]
+      },
+      "then": {
+        "properties": {
+          "availableDepths": { "const": [0] },
+          "selectedDepths": { "const": [0] },
+          "populations": { "minItems": 1, "maxItems": 1 },
+          "counts": {
+            "properties": {
+              "availablePopulations": { "const": 1 },
+              "selectedPopulations": { "const": 1 }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "targetDepth": { "const": 2 } },
+        "required": ["targetDepth"]
+      },
+      "then": {
+        "properties": {
+          "availableDepths": { "const": [0, 1] },
+          "populations": { "minItems": 2, "maxItems": 2 },
+          "counts": {
+            "properties": { "availablePopulations": { "const": 2 } }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "targetDepth": { "const": 2 },
+          "sourceDepths": { "const": "all-below" }
+        },
+        "required": ["targetDepth", "sourceDepths"]
+      },
+      "then": {
+        "properties": {
+          "selectedDepths": { "const": [0, 1] },
+          "counts": {
+            "properties": { "selectedPopulations": { "const": 2 } }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "targetDepth": { "const": 2 },
+          "sourceDepths": { "const": "previous-only" }
+        },
+        "required": ["targetDepth", "sourceDepths"]
+      },
+      "then": {
+        "properties": {
+          "selectedDepths": { "const": [1] },
+          "counts": {
+            "properties": { "selectedPopulations": { "const": 1 } }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "hash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "count": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "depth": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 63
+    },
+    "depthSet": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 64,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/depth" }
+    },
+    "hashSet": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1000000,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/hash" }
+    },
+    "policy": {
+      "type": "object",
+      "required": [
+        "availableDepths",
+        "allBelow",
+        "previousOnly",
+        "repeatedElement",
+        "profileRepresentative"
+      ],
+      "properties": {
+        "availableDepths": {
+          "const": "contiguous-zero-through-target-minus-one-v1"
+        },
+        "allBelow": { "const": "select-every-available-depth-v1" },
+        "previousOnly": { "const": "select-target-minus-one-v1" },
+        "repeatedElement": {
+          "const": "minimum-selected-depth-primary-v1"
+        },
+        "profileRepresentative": {
+          "const": "lexicographically-smallest-element-id-v1"
+        }
+      },
+      "additionalProperties": false
+    },
+    "primitivePopulationEntry": {
+      "type": "object",
+      "required": ["depth", "kind", "populationHash", "population"],
+      "properties": {
+        "depth": { "const": 0 },
+        "kind": { "const": "primitive-depth" },
+        "populationHash": { "$ref": "#/$defs/hash" },
+        "population": { "$ref": "primitive-depth-population.schema.json" }
+      },
+      "additionalProperties": false
+    },
+    "derivedPopulationEntry": {
+      "type": "object",
+      "required": [
+        "depth",
+        "kind",
+        "populationHash",
+        "levelHash",
+        "runHash",
+        "population"
+      ],
+      "properties": {
+        "depth": { "type": "integer", "minimum": 1, "maximum": 63 },
+        "kind": { "const": "closed-derived-depth" },
+        "populationHash": { "$ref": "#/$defs/hash" },
+        "levelHash": { "$ref": "#/$defs/hash" },
+        "runHash": { "$ref": "#/$defs/hash" },
+        "population": {
+          "allOf": [
+            { "$ref": "package-derived-depth-population.schema.json" },
+            {
+              "properties": {
+                "status": { "const": "complete" },
+                "elements": { "minItems": 1 }
+              }
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "appearance": {
+      "type": "object",
+      "required": ["depth", "populationHash"],
+      "properties": {
+        "depth": { "$ref": "#/$defs/depth" },
+        "populationHash": { "$ref": "#/$defs/hash" }
+      },
+      "additionalProperties": false
+    },
+    "occurrence": {
+      "type": "object",
+      "required": ["elementId", "minimumDepth", "appearances"],
+      "properties": {
+        "elementId": { "$ref": "#/$defs/hash" },
+        "minimumDepth": { "$ref": "#/$defs/depth" },
+        "appearances": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 64,
+          "items": { "$ref": "#/$defs/appearance" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "profileClass": {
+      "type": "object",
+      "required": ["profileHash", "members", "representativeElementId"],
+      "properties": {
+        "profileHash": { "$ref": "#/$defs/hash" },
+        "members": { "$ref": "#/$defs/hashSet" },
+        "representativeElementId": { "$ref": "#/$defs/hash" }
+      },
+      "additionalProperties": false
+    },
+    "counts": {
+      "type": "object",
+      "required": [
+        "availablePopulations",
+        "selectedPopulations",
+        "availableElements",
+        "selectedElements",
+        "profileClasses"
+      ],
+      "properties": {
+        "availablePopulations": { "$ref": "#/$defs/count" },
+        "selectedPopulations": { "$ref": "#/$defs/count" },
+        "availableElements": { "$ref": "#/$defs/count" },
+        "selectedElements": { "$ref": "#/$defs/count" },
+        "profileClasses": { "$ref": "#/$defs/count" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

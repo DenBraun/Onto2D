@@ -92,6 +92,57 @@
         }
       },
       "additionalProperties": false
+    },
+    "nestedWitness": {
+      "type": "object",
+      "required": ["expressionPath", "operator", "outcome"],
+      "properties": {
+        "expressionPath": {
+          "type": "string",
+          "pattern": "^\\$(?:\\.(?:arg|args\\[[0-9]+\\]|predicate))*$"
+        },
+        "operator": {
+          "enum": [
+            "degree",
+            "cycleExists",
+            "connected",
+            "componentCount",
+            "pathExists",
+            "countRole"
+          ]
+        },
+        "outcome": { "$ref": "#/$defs/outcome" },
+        "nodeIndexes": { "$ref": "#/$defs/indexList" },
+        "edgeIndexes": { "$ref": "#/$defs/indexList" },
+        "components": {
+          "type": "array",
+          "maxItems": 6,
+          "items": { "$ref": "#/$defs/indexList" }
+        },
+        "count": { "$ref": "#/$defs/index" },
+        "expectedCount": { "$ref": "#/$defs/index" },
+        "min": { "$ref": "#/$defs/index" },
+        "max": { "$ref": "#/$defs/index" },
+        "role": { "$ref": "#/$defs/normalizedString" },
+        "roles": {
+          "type": "array",
+          "maxItems": 256,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/normalizedString" }
+        },
+        "projection": {
+          "enum": ["directed", "undirected-simple", "undirected-multigraph"]
+        },
+        "reason": {
+          "enum": [
+            "selector-empty",
+            "no-matching-cycle",
+            "no-matching-path",
+            "partial-connectivity-repairable"
+          ]
+        }
+      },
+      "additionalProperties": false
     }
   },
   "additionalProperties": false

@@ -137,8 +137,12 @@ export function verifyLoadedPackage(input, options = {}) {
 
   let reproduced;
   try {
+    const allowCurrentDepthReferences = value.normalized.predicates.some(
+      (predicate) => predicate.referencesDepth === "self"
+    );
     reproduced = loadKernelPackage(rawPackageFromNormalized(value.normalized), {
-      kernelVersion: expectedVersion
+      kernelVersion: expectedVersion,
+      allowCurrentDepthReferences
     });
   } catch (error) {
     if (error instanceof KernelValidationError) {

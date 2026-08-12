@@ -70,9 +70,15 @@ output is emitted.
 
 The projection covers nodes occurring as relation endpoints. Full catalogue
 node reconciliation, including isolated cards, remains a later migration gate.
-This implementation does not author labels, run the current catalogue through
-a policy, choose SCC dispositions, build clusters, construct a condensation
-quotient, or load `sourceMigration`.
+This implementation does not author labels or run the current catalogue through
+a policy. Generic reviewed SCC disposition execution, isolated-node
+reconciliation, cluster construction, and a verified condensation quotient are
+added later by
+[ADR-0061](0061-reviewed-source-resolution-and-condensation.md); producing a
+reviewed current-catalogue `sourceMigration` package remains pending. Approved
+post-unblinding changes are applied without rewriting this artifact by the
+separate effective projection in
+[ADR-0065](0065-effective-source-classification-reprojection.md).
 
 ## Verification
 

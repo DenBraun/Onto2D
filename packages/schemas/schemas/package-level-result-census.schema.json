@@ -1,0 +1,244 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/package-level-result-census.schema.json",
+  "title": "Onto2D Integrated Package Level Result Census",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "integrator",
+    "scope",
+    "packageId",
+    "rulesHash",
+    "depthBasis",
+    "runHash",
+    "levelHash",
+    "targetDepth",
+    "countingDomain",
+    "sourcePopulationHash",
+    "artifactHashes",
+    "counts",
+    "selectivity",
+    "predicateCensus",
+    "selectorCensus",
+    "admittedElementIds",
+    "baseline",
+    "interpretation",
+    "resultCensusHash"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "integrator": { "const": "package-level-result-census-v1" },
+    "scope": { "const": "complete-verified-level-result-census-v1" },
+    "packageId": { "$ref": "#/$defs/hash" },
+    "rulesHash": { "$ref": "#/$defs/hash" },
+    "depthBasis": { "$ref": "#/$defs/hash" },
+    "runHash": { "$ref": "#/$defs/hash" },
+    "levelHash": { "$ref": "#/$defs/hash" },
+    "targetDepth": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 64
+    },
+    "countingDomain": { "enum": ["element-exact", "profile-quotient"] },
+    "sourcePopulationHash": { "$ref": "#/$defs/hash" },
+    "artifactHashes": {
+      "type": "object",
+      "required": [
+        "censusHash",
+        "admissionHash",
+        "formationSetHash",
+        "profileSetHash",
+        "populationHash"
+      ],
+      "properties": {
+        "censusHash": { "$ref": "#/$defs/hash" },
+        "admissionHash": { "$ref": "#/$defs/hash" },
+        "formationSetHash": { "$ref": "#/$defs/hash" },
+        "profileSetHash": { "$ref": "#/$defs/hash" },
+        "populationHash": { "$ref": "#/$defs/hash" }
+      },
+      "additionalProperties": false
+    },
+    "counts": {
+      "type": "object",
+      "required": [
+        "generatedBeforeCanonicalization",
+        "canonicalCandidates",
+        "evaluatedCandidates",
+        "predicateRejected",
+        "filterIndeterminate",
+        "eligibleCandidates",
+        "selectorExcluded",
+        "selectionIndeterminate",
+        "selectedCandidates",
+        "finalIndeterminate",
+        "selectedFormations",
+        "materializedProfiles",
+        "indeterminateProfiles",
+        "admittedElements",
+        "alternateDerivations"
+      ],
+      "properties": {
+        "generatedBeforeCanonicalization": { "$ref": "#/$defs/count" },
+        "canonicalCandidates": { "$ref": "#/$defs/count" },
+        "evaluatedCandidates": { "$ref": "#/$defs/count" },
+        "predicateRejected": { "$ref": "#/$defs/count" },
+        "filterIndeterminate": { "$ref": "#/$defs/count" },
+        "eligibleCandidates": { "$ref": "#/$defs/count" },
+        "selectorExcluded": { "$ref": "#/$defs/count" },
+        "selectionIndeterminate": { "$ref": "#/$defs/count" },
+        "selectedCandidates": { "$ref": "#/$defs/count" },
+        "finalIndeterminate": { "$ref": "#/$defs/count" },
+        "selectedFormations": { "$ref": "#/$defs/count" },
+        "materializedProfiles": { "$ref": "#/$defs/count" },
+        "indeterminateProfiles": { "$ref": "#/$defs/count" },
+        "admittedElements": { "$ref": "#/$defs/count" },
+        "alternateDerivations": { "$ref": "#/$defs/count" }
+      },
+      "additionalProperties": false
+    },
+    "selectivity": {
+      "type": "object",
+      "required": [
+        "boolean",
+        "variational",
+        "selectionRetention",
+        "overallRetention",
+        "indeterminateRatio"
+      ],
+      "properties": {
+        "boolean": { "$ref": "#/$defs/ratioOrNull" },
+        "variational": {
+          "type": "array",
+          "maxItems": 10000,
+          "items": {
+            "type": "object",
+            "required": ["selectorId", "value"],
+            "properties": {
+              "selectorId": { "$ref": "#/$defs/normalizedString" },
+              "value": { "$ref": "#/$defs/ratioOrNull" }
+            },
+            "additionalProperties": false
+          }
+        },
+        "selectionRetention": { "$ref": "#/$defs/ratioOrNull" },
+        "overallRetention": { "$ref": "#/$defs/ratioOrNull" },
+        "indeterminateRatio": { "$ref": "#/$defs/ratioOrNull" }
+      },
+      "additionalProperties": false
+    },
+    "predicateCensus": {
+      "type": "array",
+      "maxItems": 10000,
+      "items": {
+        "$ref": "package-candidate-census.schema.json#/$defs/predicateCensus"
+      }
+    },
+    "selectorCensus": {
+      "type": "array",
+      "maxItems": 10000,
+      "items": {
+        "$ref": "package-selector-admission.schema.json#/$defs/selectorCensus"
+      }
+    },
+    "admittedElementIds": {
+      "type": "array",
+      "uniqueItems": true,
+      "maxItems": 1000000,
+      "items": { "$ref": "#/$defs/hash" }
+    },
+    "baseline": {
+      "type": "object",
+      "required": ["status", "reasons"],
+      "properties": {
+        "status": { "const": "not-run" },
+        "reasons": { "const": ["null-models-disabled"] }
+      },
+      "additionalProperties": false
+    },
+    "interpretation": {
+      "type": "object",
+      "required": ["level", "local", "admission", "selectors"],
+      "properties": {
+        "level": { "$ref": "#/$defs/levelInterpretation" },
+        "local": { "$ref": "#/$defs/localInterpretation" },
+        "admission": { "$ref": "#/$defs/admissionInterpretation" },
+        "selectors": {
+          "type": "array",
+          "maxItems": 10000,
+          "items": {
+            "type": "object",
+            "required": ["selectorId", "status", "reasons"],
+            "properties": {
+              "selectorId": { "$ref": "#/$defs/normalizedString" },
+              "status": {
+                "enum": ["valid", "fragile", "not-applicable", "indeterminate"]
+              },
+              "reasons": { "$ref": "#/$defs/reasons" }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "resultCensusHash": { "$ref": "#/$defs/hash" }
+  },
+  "$defs": {
+    "hash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "normalizedString": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1024,
+      "pattern": "^(?:\\S|\\S(?:.*\\S)?)$"
+    },
+    "count": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "ratioOrNull": {
+      "oneOf": [
+        { "type": "number", "minimum": 0, "maximum": 1 },
+        { "type": "null" }
+      ]
+    },
+    "reasons": {
+      "type": "array",
+      "uniqueItems": true,
+      "maxItems": 100,
+      "items": { "$ref": "#/$defs/normalizedString" }
+    },
+    "levelInterpretation": {
+      "type": "object",
+      "required": ["status", "reasons"],
+      "properties": {
+        "status": { "enum": ["complete", "empty", "indeterminate"] },
+        "reasons": { "$ref": "#/$defs/reasons" }
+      },
+      "additionalProperties": false
+    },
+    "localInterpretation": {
+      "type": "object",
+      "required": ["status", "reasons"],
+      "properties": {
+        "status": { "enum": ["valid", "empty", "indeterminate"] },
+        "reasons": { "$ref": "#/$defs/reasons" }
+      },
+      "additionalProperties": false
+    },
+    "admissionInterpretation": {
+      "type": "object",
+      "required": ["status", "reasons"],
+      "properties": {
+        "status": { "enum": ["complete", "empty", "indeterminate"] },
+        "reasons": { "$ref": "#/$defs/reasons" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

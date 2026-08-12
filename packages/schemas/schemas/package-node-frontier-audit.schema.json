@@ -1,0 +1,177 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/package-node-frontier-audit.schema.json",
+  "title": "Onto2D Package Node-Frontier Audit",
+  "type": "object",
+  "required": [
+    "schemaVersion", "auditor", "scope", "packageId", "rulesHash",
+    "bindingHash", "binding", "runConfigHash", "canonicalAuditHash", "seed",
+    "policy", "samplesPerPredicate", "universe", "profileExtensionUniverse",
+    "results", "counts",
+    "status", "nodeFrontierAuditHash"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "auditor": { "const": "package-node-frontier-auditor-v1" },
+    "scope": { "const": "complete-depth-one-raw-node-prefix-extension-pairs-v1" },
+    "packageId": { "$ref": "#/$defs/hash" },
+    "rulesHash": { "$ref": "#/$defs/hash" },
+    "bindingHash": { "$ref": "#/$defs/hash" },
+    "binding": { "$ref": "package-candidate-binding.schema.json" },
+    "runConfigHash": { "$ref": "#/$defs/hash" },
+    "canonicalAuditHash": { "$ref": "#/$defs/hash" },
+    "seed": { "$ref": "#/$defs/id" },
+    "policy": { "$ref": "#/$defs/policy" },
+    "samplesPerPredicate": { "type": "integer", "minimum": 0, "maximum": 10000 },
+    "universe": { "$ref": "#/$defs/universe" },
+    "profileExtensionUniverse": {
+      "allOf": [
+        { "$ref": "package-generator-frontier-audit.schema.json#/$defs/profileExtensionUniverse" },
+        { "properties": { "kind": { "const": "node-assignment" } } }
+      ]
+    },
+    "results": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/result" }
+    },
+    "counts": { "$ref": "#/$defs/counts" },
+    "status": { "enum": ["not-applicable", "passed", "failed", "indeterminate"] },
+    "nodeFrontierAuditHash": { "$ref": "#/$defs/hash" }
+  },
+  "$defs": {
+    "hash": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "id": {
+      "type": "string", "minLength": 1, "maxLength": 1024,
+      "pattern": "^(?:\\S|\\S(?:.*\\S)?)$"
+    },
+    "count": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
+    "policy": {
+      "type": "object",
+      "required": [
+        "extensionModel", "samplingAlgorithm", "replacement",
+        "counterexampleRule", "proofInterpretation", "connectivityPolicy"
+      ],
+      "properties": {
+        "extensionModel": { "const": "incomplete-node-prefix-complete-raw-extension-v1" },
+        "samplingAlgorithm": { "const": "sha256-rejection-counter-v1" },
+        "replacement": { "const": "with-replacement" },
+        "counterexampleRule": { "const": "persistent-node-failure-extension-pass-v1" },
+        "proofInterpretation": { "const": "falsification-only-static-proof-required-v1" },
+        "connectivityPolicy": { "const": "directed-strong-node-pruning-disabled-v1" }
+      },
+      "additionalProperties": false
+    },
+    "universe": {
+      "type": "object",
+      "required": [
+        "enumerator", "canonicalCandidateCount", "rawExtensionCandidates",
+        "extensionFrameSize", "canonicalUniverseHash", "nodeFrontierFrameHash"
+      ],
+      "properties": {
+        "enumerator": { "const": "decorated-candidate-enumerator-v5" },
+        "canonicalCandidateCount": { "$ref": "#/$defs/count" },
+        "rawExtensionCandidates": { "$ref": "#/$defs/count" },
+        "extensionFrameSize": { "$ref": "#/$defs/count" },
+        "canonicalUniverseHash": { "$ref": "#/$defs/hash" },
+        "nodeFrontierFrameHash": { "$ref": "#/$defs/hash" }
+      },
+      "additionalProperties": false
+    },
+    "sample": {
+      "type": "object",
+      "required": [
+        "sampleOrdinal", "frameIndex", "streamDraws", "observedExtensionOrdinal",
+        "rawCandidateOrdinal", "extensionHash", "skeletonId", "assignedNodes",
+        "totalNodes", "remainingNodeAssignments", "partialGraphHash",
+        "extensionEvaluationHash", "diagnosticEvaluationHash", "partialOutcome",
+        "extensionOutcome", "persistentFailureDetected", "counterexample"
+      ],
+      "properties": {
+        "sampleOrdinal": { "$ref": "#/$defs/count" },
+        "frameIndex": { "$ref": "#/$defs/count" },
+        "streamDraws": { "type": "integer", "minimum": 1, "maximum": 1024 },
+        "observedExtensionOrdinal": { "$ref": "#/$defs/count" },
+        "rawCandidateOrdinal": { "$ref": "#/$defs/count" },
+        "extensionHash": { "$ref": "#/$defs/hash" },
+        "skeletonId": { "$ref": "#/$defs/hash" },
+        "assignedNodes": { "type": "integer", "minimum": 1, "maximum": 9007199254740991 },
+        "totalNodes": { "type": "integer", "minimum": 2, "maximum": 9007199254740991 },
+        "remainingNodeAssignments": { "type": "integer", "minimum": 1, "maximum": 9007199254740991 },
+        "partialGraphHash": { "$ref": "#/$defs/hash" },
+        "extensionEvaluationHash": { "$ref": "#/$defs/hash" },
+        "diagnosticEvaluationHash": { "$ref": "#/$defs/hash" },
+        "partialOutcome": { "enum": ["pass", "fail", "indeterminate"] },
+        "extensionOutcome": { "enum": ["pass", "fail", "indeterminate"] },
+        "persistentFailureDetected": { "type": "boolean" },
+        "counterexample": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    },
+    "resultCounts": {
+      "type": "object",
+      "required": ["attempted", "persistentFailuresDetected", "extensionPasses", "counterexamples"],
+      "properties": {
+        "attempted": { "$ref": "#/$defs/count" },
+        "persistentFailuresDetected": { "$ref": "#/$defs/count" },
+        "extensionPasses": { "$ref": "#/$defs/count" },
+        "counterexamples": { "$ref": "#/$defs/count" }
+      },
+      "additionalProperties": false
+    },
+    "result": {
+      "type": "object",
+      "required": [
+        "predicateId", "predicatePlanHash", "pruningEligibility",
+        "canonicalAuditStatus", "runtimeSupport", "connectivitySupport",
+        "requestedSamples", "frameSize", "samples", "counts", "status",
+        "pruningEligible"
+      ],
+      "properties": {
+        "predicateId": { "$ref": "#/$defs/id" },
+        "predicatePlanHash": { "$ref": "#/$defs/hash" },
+        "pruningEligibility": {
+          "enum": ["disabled", "static-proven", "blocked-unproven", "blocked-partial-data"]
+        },
+        "canonicalAuditStatus": {
+          "enum": ["passed", "failed", "unsupported", "no-extensions", "no-samples", "not-declared"]
+        },
+        "runtimeSupport": { "enum": ["graph-complete-and-partial-v1", "unsupported"] },
+        "connectivitySupport": { "enum": ["supported", "blocked-directed-strong"] },
+        "requestedSamples": { "type": "integer", "minimum": 0, "maximum": 10000 },
+        "frameSize": { "$ref": "#/$defs/count" },
+        "samples": {
+          "type": "array", "maxItems": 10000, "uniqueItems": true,
+          "items": { "$ref": "#/$defs/sample" }
+        },
+        "counts": { "$ref": "#/$defs/resultCounts" },
+        "status": {
+          "enum": ["passed", "failed", "unsupported-runtime", "blocked-connectivity", "no-frontiers", "no-samples"]
+        },
+        "pruningEligible": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    },
+    "counts": {
+      "type": "object",
+      "required": [
+        "declaredPredicates", "runtimeSupportedPredicates",
+        "connectivitySupportedPredicates", "passedPredicates", "failedPredicates",
+        "indeterminatePredicates", "authorizedPlans", "attemptedSamples", "counterexamples"
+      ],
+      "properties": {
+        "declaredPredicates": { "$ref": "#/$defs/count" },
+        "runtimeSupportedPredicates": { "$ref": "#/$defs/count" },
+        "connectivitySupportedPredicates": { "$ref": "#/$defs/count" },
+        "passedPredicates": { "$ref": "#/$defs/count" },
+        "failedPredicates": { "$ref": "#/$defs/count" },
+        "indeterminatePredicates": { "$ref": "#/$defs/count" },
+        "authorizedPlans": { "$ref": "#/$defs/count" },
+        "attemptedSamples": { "$ref": "#/$defs/count" },
+        "counterexamples": { "$ref": "#/$defs/count" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,246 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/package-fixpoint-ladder-closure.schema.json",
+  "title": "Onto2D Bounded Current-Level Fixpoint Ladder",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "closer",
+    "scope",
+    "packageId",
+    "rulesHash",
+    "depthBasis",
+    "runConfigHash",
+    "runConfig",
+    "requestedDepths",
+    "policy",
+    "primitivePopulation",
+    "levels",
+    "introducedByDepth",
+    "depthIndex",
+    "selectivityLadder",
+    "counts",
+    "execution",
+    "status",
+    "interpretation",
+    "ladderHash"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "closer": { "const": "package-fixpoint-ladder-closure-v1" },
+    "scope": {
+      "const": "bounded-current-level-fixpoint-depth-transitions-v1"
+    },
+    "packageId": { "$ref": "#/$defs/hash" },
+    "rulesHash": { "$ref": "#/$defs/hash" },
+    "depthBasis": { "$ref": "#/$defs/hash" },
+    "runConfigHash": { "$ref": "#/$defs/hash" },
+    "runConfig": {
+      "allOf": [
+        { "$ref": "run-config.schema.json" },
+        {
+          "properties": {
+            "countingDomain": { "enum": ["element-exact", "profile-quotient"] },
+            "boundedFixpoint": {
+              "properties": { "enabled": { "const": true } },
+              "required": ["enabled"]
+            }
+          },
+          "required": ["countingDomain", "boundedFixpoint"]
+        }
+      ]
+    },
+    "requestedDepths": { "$ref": "#/$defs/positiveDepth" },
+    "policy": { "$ref": "#/$defs/policy" },
+    "primitivePopulation": { "$ref": "primitive-depth-population.schema.json" },
+    "levels": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 64,
+      "items": { "$ref": "package-current-level-fixpoint-closure.schema.json" }
+    },
+    "introducedByDepth": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 64,
+      "items": { "$ref": "package-ladder-closure.schema.json#/$defs/introduction" }
+    },
+    "depthIndex": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1000000,
+      "items": { "$ref": "package-ladder-closure.schema.json#/$defs/depthIndexEntry" }
+    },
+    "selectivityLadder": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 64,
+      "items": { "$ref": "#/$defs/selectivityLevel" }
+    },
+    "counts": { "$ref": "#/$defs/counts" },
+    "execution": { "$ref": "#/$defs/execution" },
+    "status": { "enum": ["complete", "fixpoint", "indeterminate"] },
+    "interpretation": {
+      "$ref": "package-ladder-closure.schema.json#/$defs/interpretation"
+    },
+    "ladderHash": { "$ref": "#/$defs/hash" }
+  },
+  "oneOf": [
+    {
+      "properties": {
+        "status": { "const": "complete" },
+        "interpretation": {
+          "properties": {
+            "status": { "const": "complete" },
+            "reasons": { "maxItems": 0 }
+          }
+        }
+      }
+    },
+    {
+      "properties": {
+        "status": { "const": "fixpoint" },
+        "interpretation": {
+          "properties": {
+            "status": { "const": "fixpoint" },
+            "reasons": { "const": ["no-new-elements"] }
+          }
+        }
+      }
+    },
+    {
+      "properties": {
+        "status": { "const": "indeterminate" },
+        "interpretation": {
+          "properties": {
+            "status": { "const": "indeterminate" },
+            "reasons": { "const": ["level-indeterminate"] }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "hash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "count": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "positiveDepth": { "type": "integer", "minimum": 1, "maximum": 64 },
+    "ratioOrNull": {
+      "oneOf": [
+        { "type": "number", "minimum": 0, "maximum": 1 },
+        { "type": "null" }
+      ]
+    },
+    "policy": {
+      "type": "object",
+      "required": [
+        "levelOrder",
+        "sourceSemantics",
+        "elementIdentity",
+        "termination",
+        "executionCeilings"
+      ],
+      "properties": {
+        "levelOrder": { "const": "ascending-contiguous-depth-v1" },
+        "sourceSemantics": {
+          "const": "run-config-all-below-or-previous-only-plus-current-v1"
+        },
+        "elementIdentity": {
+          "const": "minimum-derivation-depth-with-all-appearances-v1"
+        },
+        "termination": {
+          "const": "requested-depth-or-no-new-elements-or-indeterminate-v1"
+        },
+        "executionCeilings": {
+          "const": "independently-preflighted-per-fixpoint-round-v1"
+        }
+      },
+      "additionalProperties": false
+    },
+    "selectivityLevel": {
+      "type": "object",
+      "required": [
+        "depth",
+        "levelHash",
+        "fixpointStatus",
+        "iterations",
+        "booleanSelectivity",
+        "selectorCensus"
+      ],
+      "properties": {
+        "depth": { "$ref": "#/$defs/positiveDepth" },
+        "levelHash": { "$ref": "#/$defs/hash" },
+        "fixpointStatus": {
+          "enum": ["converged", "exhausted", "round-indeterminate"]
+        },
+        "iterations": { "type": "integer", "minimum": 1, "maximum": 10000 },
+        "booleanSelectivity": { "$ref": "#/$defs/ratioOrNull" },
+        "selectorCensus": {
+          "type": "array",
+          "maxItems": 10000,
+          "items": {
+            "$ref": "package-selector-admission.schema.json#/$defs/selectorCensus"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "counts": {
+      "type": "object",
+      "required": [
+        "requestedLevels",
+        "executedLevels",
+        "executedRounds",
+        "primitiveElements",
+        "derivedAppearances",
+        "uniqueDerivedElements",
+        "rederivedAppearances",
+        "totalUniqueElements"
+      ],
+      "properties": {
+        "requestedLevels": { "$ref": "#/$defs/count" },
+        "executedLevels": { "$ref": "#/$defs/count" },
+        "executedRounds": { "$ref": "#/$defs/count" },
+        "primitiveElements": { "$ref": "#/$defs/count" },
+        "derivedAppearances": { "$ref": "#/$defs/count" },
+        "uniqueDerivedElements": { "$ref": "#/$defs/count" },
+        "rederivedAppearances": { "$ref": "#/$defs/count" },
+        "totalUniqueElements": { "$ref": "#/$defs/count" }
+      },
+      "additionalProperties": false
+    },
+    "execution": {
+      "type": "object",
+      "required": [
+        "policy",
+        "executedLevels",
+        "executedRounds",
+        "requiredFunctionalEvaluations",
+        "usedFunctionalEvaluations",
+        "requiredPerturbationSamples",
+        "usedPerturbationSamples",
+        "requiredSensitivityFunctionalEvaluations",
+        "usedSensitivityFunctionalEvaluations"
+      ],
+      "properties": {
+        "policy": { "const": "independently-preflighted-per-fixpoint-round-v1" },
+        "executedLevels": { "$ref": "#/$defs/count" },
+        "executedRounds": { "$ref": "#/$defs/count" },
+        "requiredFunctionalEvaluations": { "$ref": "#/$defs/count" },
+        "usedFunctionalEvaluations": { "$ref": "#/$defs/count" },
+        "requiredPerturbationSamples": { "$ref": "#/$defs/count" },
+        "usedPerturbationSamples": { "$ref": "#/$defs/count" },
+        "requiredSensitivityFunctionalEvaluations": { "$ref": "#/$defs/count" },
+        "usedSensitivityFunctionalEvaluations": { "$ref": "#/$defs/count" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

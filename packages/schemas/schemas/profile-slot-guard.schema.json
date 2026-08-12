@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/profile-slot-guard.schema.json",
+  "title": "Onto2D Profile Slot Partner Guard",
+  "properties": {
+    "op": {},
+    "args": {},
+    "arg": {},
+    "typeTag": {},
+    "name": {},
+    "comparator": {},
+    "value": {}
+  },
+  "oneOf": [
+    { "$ref": "#/$defs/hash" },
+    { "$ref": "#/$defs/expression" }
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "hash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "normalizedString": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1024,
+      "pattern": "^(?:\\S|\\S(?:.*\\S)?)$"
+    },
+    "expression": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["op", "args"],
+          "properties": {
+            "op": { "enum": ["all", "any"] },
+            "args": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 64,
+              "uniqueItems": true,
+              "items": { "$ref": "#/$defs/expression" }
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["op", "arg"],
+          "properties": {
+            "op": { "const": "not" },
+            "arg": { "$ref": "#/$defs/expression" }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["op", "typeTag"],
+          "properties": {
+            "op": { "const": "partnerTypeTag" },
+            "typeTag": { "$ref": "#/$defs/normalizedString" }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["op", "name", "comparator", "value"],
+          "properties": {
+            "op": { "const": "partnerInvariant" },
+            "name": { "$ref": "#/$defs/normalizedString" },
+            "comparator": { "enum": ["eq", "ne", "lt", "lte", "gt", "gte"] },
+            "value": { "$ref": "invariant-value.schema.json" }
+          },
+          "additionalProperties": false
+        }
+      ]
+    }
+  }
+}

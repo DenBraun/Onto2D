@@ -72,11 +72,37 @@ function options() {
   };
 }
 
+function substructurePolicy(overrides = {}) {
+  return {
+    id: "local-substructure-v1",
+    remove: "nodes-and-edges",
+    includeDisconnected: false,
+    includeEmpty: false,
+    retainIsolatedNodes: true,
+    ...overrides
+  };
+}
+
+function triangleCandidate() {
+  return {
+    domain: "element-exact",
+    nodes: ["a", "b", "c"].map((value) => ({
+      ref: `sha256:${value.repeat(64)}`
+    })),
+    edges: [
+      { from: 0, to: 1, role: "support" },
+      { from: 1, to: 2, role: "support" },
+      { from: 2, to: 0, role: "support" }
+    ]
+  };
+}
+
 test("local evaluation combines graph predicates with exact count arithmetic", () => {
   assert.deepEqual(LOCAL_PREDICATE_EVALUATION_LIMITS, {
     maxValueNodes: 10_000,
     maxSelectionWitnesses: 10_000,
-    maxSelectedValues: 5_000
+    maxSelectedValues: 5_000,
+    maxSubstructureRemovals: 10_000
   });
   assert.ok(Object.isFrozen(LOCAL_PREDICATE_EVALUATION_LIMITS));
   const compiled = plan({
@@ -109,7 +135,7 @@ test("local evaluation combines graph predicates with exact count arithmetic", (
   const binding = bindPredicateNumericPolicy(compiled, precision());
   const evaluation = evaluateLocalPredicatePlan(compiled, binding, candidate(), options());
 
-  assert.equal(evaluation.evaluator, "local-predicate-evaluator-v9");
+  assert.equal(evaluation.evaluator, "local-predicate-evaluator-v19");
   assert.equal(evaluation.numericBindingHash, binding.bindingHash);
   assert.equal(evaluation.outcome, "pass");
   const comparison = evaluation.witnesses.find((entry) => entry.operator === "compare");
@@ -756,19 +782,211 @@ test("scalar balance uses the bound result boundary and threshold uncertainty", 
     quantity(0, "1", "flux", { absolute: 0 }),
     { kind: "cycle", roles: ["support"] }
   );
-  assert.throws(
-    () => evaluateLocalPredicatePlan(
-      cyclePlan,
-      bindPredicateNumericPolicy(cyclePlan, precision()),
-      attributed,
-      attributedOptions
-    ),
-    (error) => error instanceof KernelError &&
-      error.code === "PREDICATE_LOCAL_FEATURE_UNSUPPORTED" &&
-      error.details.unsupported.some((entry) =>
-        entry.reason === "cycle-set-selection-not-frozen"
-      )
+  const emptyCycle = evaluateLocalPredicatePlan(
+    cyclePlan,
+    bindPredicateNumericPolicy(cyclePlan, precision()),
+    attributed,
+    {
+      policy: {
+        ...attributedOptions.policy,
+        structuralEdgeAttributes: ["flux"]
+      }
+    }
   );
+  assert.equal(emptyCycle.outcome, "pass");
+  assert.deepEqual(emptyCycle.witnesses[0].selections[0], {
+    expressionPath: "$",
+    setKind: "cycle",
+    count: 0,
+    edgeIndexes: [],
+    roles: ["support"],
+    cycleSelection: "directed-cycle-edge-union-v1",
+    attribute: "flux",
+    valueKind: "number",
+    summation: "exact-decimal",
+    accumulationExact: true
+  });
+});
+
+test("cycle sets select the role-filtered union of directed cycle edges", () => {
+  const cycleGraph = {
+    domain: "element-exact",
+    nodes: ["a", "b", "c", "d"].map((value) => ({
+      ref: `sha256:${value.repeat(64)}`
+    })),
+    edges: [
+      { from: 0, to: 1, role: "support", attrs: { flux: 1 } },
+      { from: 1, to: 2, role: "support", attrs: { flux: 2 } },
+      { from: 2, to: 0, role: "support", attrs: { flux: -3 } },
+      { from: 2, to: 3, role: "support", attrs: { flux: 10 } },
+      { from: 3, to: 2, role: "feedback", attrs: { flux: -10 } }
+    ]
+  };
+  const cycleOptions = {
+    policy: {
+      ...options().policy,
+      structuralNodeAttributes: [],
+      structuralEdgeAttributes: ["flux"]
+    }
+  };
+  const compiled = plan({
+    op: "all",
+    args: [
+      {
+        op: "compare",
+        left: { kind: "count", set: { kind: "cycle", roles: ["support"] } },
+        comparator: "eq",
+        right: { kind: "constant", value: 3 }
+      },
+      {
+        op: "compare",
+        left: {
+          kind: "sum",
+          attribute: "flux",
+          set: { kind: "cycle", roles: ["support"] }
+        },
+        comparator: "eq",
+        right: { kind: "constant", value: 0 }
+      },
+      {
+        op: "balance",
+        attribute: "flux",
+        over: { kind: "cycle", roles: ["support"] },
+        tolerance: quantity(0, "1", "flux")
+      }
+    ]
+  }, { attributes: { flux: { kind: "number" } } });
+  const binding = bindPredicateNumericPolicy(compiled, precision());
+  const evaluation = evaluateLocalPredicatePlan(
+    compiled,
+    binding,
+    cycleGraph,
+    cycleOptions
+  );
+
+  assert.equal(evaluation.outcome, "pass");
+  const selections = evaluation.witnesses.flatMap((entry) => entry.selections);
+  assert.equal(selections.length, 3);
+  assert.ok(selections.every((entry) =>
+    entry.setKind === "cycle" &&
+    entry.count === 3 &&
+    entry.edgeIndexes.length === 3 &&
+    entry.cycleSelection === "directed-cycle-edge-union-v1"
+  ));
+
+  const allRolesPlan = plan({
+    op: "compare",
+    left: { kind: "count", set: { kind: "cycle" } },
+    comparator: "eq",
+    right: { kind: "constant", value: 5 }
+  });
+  const allRoles = evaluateLocalPredicatePlan(
+    allRolesPlan,
+    bindPredicateNumericPolicy(allRolesPlan, precision()),
+    cycleGraph,
+    cycleOptions
+  );
+  assert.equal(allRoles.outcome, "pass");
+  assert.equal(allRoles.witnesses[0].selections[0].count, 5);
+
+  const quantityGraph = canonicalClone(cycleGraph);
+  [1, 2, -3, 10, -10].forEach((value, index) => {
+    quantityGraph.edges[index].attrs = {
+      circulation: quantity(value, "m", "cycle-circulation")
+    };
+  });
+  const quantityPlan = plan({
+    op: "compare",
+    left: {
+      kind: "sum",
+      attribute: "circulation",
+      set: { kind: "cycle", roles: ["support"] }
+    },
+    comparator: "eq",
+    right: {
+      kind: "constant",
+      value: quantity(0, "m", "cycle-circulation")
+    }
+  }, {
+    attributes: {
+      circulation: { kind: "quantity", unit: "m", semantic: "cycle-circulation" }
+    }
+  });
+  const quantityEvaluation = evaluateLocalPredicatePlan(
+    quantityPlan,
+    bindPredicateNumericPolicy(quantityPlan, precision()),
+    quantityGraph,
+    {
+      policy: {
+        ...cycleOptions.policy,
+        structuralEdgeAttributes: ["circulation"]
+      }
+    }
+  );
+  assert.equal(quantityEvaluation.outcome, "pass");
+  assert.equal(quantityEvaluation.witnesses[0].selections[0].valueKind, "quantity");
+
+  const relabelled = canonicalClone(cycleGraph);
+  relabelled.nodes = [cycleGraph.nodes[3], cycleGraph.nodes[1], cycleGraph.nodes[0], cycleGraph.nodes[2]];
+  const oldToNew = [2, 1, 3, 0];
+  relabelled.edges = cycleGraph.edges.slice().reverse().map((edge) => ({
+    ...edge,
+    from: oldToNew[edge.from],
+    to: oldToNew[edge.to]
+  }));
+  const replay = evaluateLocalPredicatePlan(compiled, binding, relabelled, cycleOptions);
+  assert.equal(replay.evaluationHash, evaluation.evaluationHash);
+});
+
+test("cycle-edge selection reconciles every directed three-node edge subset", () => {
+  const edges = Array.from({ length: 3 }, (_, from) =>
+    Array.from({ length: 3 }, (__, to) => ({ from, to, role: "support" }))
+  ).flat();
+  const compiled = plan({
+    op: "compare",
+    left: { kind: "count", set: { kind: "cycle", roles: ["support"] } },
+    comparator: "gte",
+    right: { kind: "constant", value: 0 }
+  });
+  const binding = bindPredicateNumericPolicy(compiled, precision());
+  const cycleOptions = {
+    policy: {
+      ...options().policy,
+      connected: false,
+      allowSelfLoops: true,
+      structuralNodeAttributes: []
+    }
+  };
+
+  for (let mask = 0; mask < 2 ** edges.length; mask += 1) {
+    const selected = edges.filter((_, index) => (mask & (1 << index)) !== 0);
+    const reachable = Array.from({ length: 3 }, () => Array(3).fill(false));
+    selected.forEach((edge) => { reachable[edge.from][edge.to] = true; });
+    for (let via = 0; via < 3; via += 1) {
+      for (let from = 0; from < 3; from += 1) {
+        for (let to = 0; to < 3; to += 1) {
+          reachable[from][to] ||= reachable[from][via] && reachable[via][to];
+        }
+      }
+    }
+    const expected = selected.filter((edge) =>
+      edge.from === edge.to || reachable[edge.to][edge.from]
+    ).length;
+    const evaluation = evaluateLocalPredicatePlan(
+      compiled,
+      binding,
+      {
+        domain: "element-exact",
+        nodes: ["a", "b", "c"].map((value) => ({
+          ref: `sha256:${value.repeat(64)}`
+        })),
+        edges: selected
+      },
+      cycleOptions
+    );
+    assert.equal(evaluation.outcome, "pass", `mask ${mask}`);
+    assert.equal(evaluation.witnesses[0].selections[0].count, expected, `mask ${mask}`);
+  }
 });
 
 test("Quantity balance aggregates source uncertainty and enforces semantic policy", () => {
@@ -1242,6 +1460,1369 @@ test("derived quantity scaling preserves semantics and scales absolute tolerance
   );
 });
 
+test("irreducible removal proves node and edge minimality with complete witnesses", () => {
+  const expression = (removal) => ({
+    op: "irreducibleRemoval",
+    removal,
+    predicate: {
+      op: "cycleExists",
+      roles: ["support"],
+      projection: "undirected-simple",
+      minLength: 3,
+      maxLength: 3
+    }
+  });
+  const triangle = triangleCandidate();
+  for (const removal of ["node", "edge"]) {
+    const compiled = plan(expression(removal));
+    const binding = bindPredicateNumericPolicy(compiled, precision());
+    const evaluation = evaluateLocalPredicatePlan(compiled, binding, triangle, {
+      ...options(),
+      substructurePolicy: substructurePolicy()
+    });
+    const witness = evaluation.witnesses[0];
+
+    assert.equal(evaluation.outcome, "pass");
+    assert.deepEqual(evaluation.substructurePolicy, substructurePolicy());
+    assert.equal(witness.operator, "irreducibleRemoval");
+    assert.equal(witness.removal, removal);
+    assert.equal(witness.whole.outcome, "pass");
+    assert.equal(witness.attemptedRemovals, 3);
+    assert.equal(witness.evaluatedSubstructures, 3);
+    assert.equal(witness.skippedSubstructures, 0);
+    assert.deepEqual(
+      witness.removals.map((entry) => entry.outcome),
+      ["fail", "fail", "fail"]
+    );
+    assert.ok(witness.removals.every((entry) =>
+      entry.status === "evaluated" &&
+      entry.substructureId.startsWith("sha256:") &&
+      entry.witnesses[0].operator === "cycleExists"
+    ));
+  }
+
+  const relabelled = triangleCandidate();
+  relabelled.nodes = [triangle.nodes[2], triangle.nodes[0], triangle.nodes[1]];
+  relabelled.edges = [
+    { from: 1, to: 2, role: "support" },
+    { from: 2, to: 0, role: "support" },
+    { from: 0, to: 1, role: "support" }
+  ];
+  const compiled = plan(expression("node"));
+  const binding = bindPredicateNumericPolicy(compiled, precision());
+  const original = evaluateLocalPredicatePlan(compiled, binding, triangle, {
+    ...options(),
+    substructurePolicy: substructurePolicy()
+  });
+  const replay = evaluateLocalPredicatePlan(compiled, binding, relabelled, {
+    ...options(),
+    substructurePolicy: substructurePolicy()
+  });
+  assert.equal(replay.evaluationHash, original.evaluationHash);
+});
+
+test("minimal exhaustively evaluates every proper subgraph selected by policy", () => {
+  const expression = {
+    op: "minimal",
+    predicate: {
+      op: "cycleExists",
+      roles: ["support"],
+      projection: "undirected-simple",
+      minLength: 3,
+      maxLength: 3
+    }
+  };
+  const compiled = plan(expression);
+  const binding = bindPredicateNumericPolicy(compiled, precision());
+  const expectedAttempts = {
+    nodes: 7,
+    edges: 7,
+    "nodes-and-edges": 17
+  };
+
+  for (const remove of ["nodes", "edges", "nodes-and-edges"]) {
+    const evaluation = evaluateLocalPredicatePlan(
+      compiled,
+      binding,
+      triangleCandidate(),
+      {
+        ...options(),
+        substructurePolicy: substructurePolicy({
+          remove,
+          includeDisconnected: true,
+          includeEmpty: true
+        })
+      }
+    );
+    const witness = evaluation.witnesses[0];
+    assert.equal(evaluation.outcome, "pass");
+    assert.equal(witness.operator, "minimal");
+    assert.equal(witness.enumeration, "exhaustive-proper-subgraphs-v1");
+    assert.equal(witness.whole.outcome, "pass");
+    assert.equal(witness.attemptedSubstructures, expectedAttempts[remove]);
+    assert.equal(witness.evaluatedSubstructures, expectedAttempts[remove]);
+    assert.equal(witness.skippedSubstructures, 0);
+    assert.ok(witness.substructures.every((entry) =>
+      entry.status === "evaluated" && entry.outcome === "fail"
+    ));
+    assert.ok(witness.substructures.some((entry) =>
+      entry.selectedNodeIndexes.length === (remove === "edges" ? 3 : 0) &&
+      entry.selectedEdgeIndexes.length === 0
+    ));
+  }
+
+  const relabelled = triangleCandidate();
+  relabelled.nodes = [
+    triangleCandidate().nodes[2],
+    triangleCandidate().nodes[0],
+    triangleCandidate().nodes[1]
+  ];
+  relabelled.edges = [
+    { from: 1, to: 2, role: "support" },
+    { from: 2, to: 0, role: "support" },
+    { from: 0, to: 1, role: "support" }
+  ];
+  const policy = substructurePolicy({
+    includeDisconnected: true,
+    includeEmpty: true
+  });
+  const original = evaluateLocalPredicatePlan(compiled, binding, triangleCandidate(), {
+    ...options(),
+    substructurePolicy: policy
+  });
+  const replay = evaluateLocalPredicatePlan(compiled, binding, relabelled, {
+    ...options(),
+    substructurePolicy: policy
+  });
+  assert.equal(replay.evaluationHash, original.evaluationHash);
+});
+
+test("minimal is stronger than single removal and binds an explicit policy reference", () => {
+  const nodeCountIsOneOrThree = {
+    op: "any",
+    args: [1, 3].map((value) => ({
+      op: "compare",
+      left: {
+        kind: "count",
+        set: { kind: "nodes", selector: { kind: "all" } }
+      },
+      comparator: "eq",
+      right: { kind: "constant", value }
+    }))
+  };
+  const policy = substructurePolicy({
+    remove: "nodes",
+    includeDisconnected: true
+  });
+  const irreduciblePlan = plan({
+    op: "irreducibleRemoval",
+    removal: "node",
+    predicate: nodeCountIsOneOrThree
+  });
+  const minimalPlan = plan({
+    op: "minimal",
+    policy: policy.id,
+    predicate: nodeCountIsOneOrThree
+  }, { substructurePolicies: [policy.id] });
+  const irreducible = evaluateLocalPredicatePlan(
+    irreduciblePlan,
+    bindPredicateNumericPolicy(irreduciblePlan, precision()),
+    triangleCandidate(),
+    { ...options(), substructurePolicy: policy }
+  );
+  const minimal = evaluateLocalPredicatePlan(
+    minimalPlan,
+    bindPredicateNumericPolicy(minimalPlan, precision()),
+    triangleCandidate(),
+    { ...options(), substructurePolicy: policy }
+  );
+
+  assert.equal(irreducible.outcome, "pass");
+  assert.equal(minimal.outcome, "fail");
+  assert.equal(minimal.witnesses[0].attemptedSubstructures, 7);
+  assert.equal(minimal.witnesses[0].evaluatedSubstructures, 6);
+  assert.equal(minimal.witnesses[0].skippedSubstructures, 1);
+  assert.equal(minimal.witnesses[0].substructures[0].reason, "empty-excluded");
+  assert.equal(
+    minimal.witnesses[0].substructures.filter((entry) => entry.outcome === "pass").length,
+    3
+  );
+
+  assert.throws(
+    () => evaluateLocalPredicatePlan(
+      minimalPlan,
+      bindPredicateNumericPolicy(minimalPlan, precision()),
+      triangleCandidate(),
+      {
+        ...options(),
+        substructurePolicy: { ...policy, id: "other-policy-v1" }
+      }
+    ),
+    (error) => error instanceof KernelError &&
+      error.code === "PREDICATE_LOCAL_SUBSTRUCTURE_POLICY_MISMATCH" &&
+      error.details.mismatchedPolicies[0] === policy.id
+  );
+});
+
+test("minimal fails closed at the shared exhaustive-substructure limit", () => {
+  const denseLoopSet = {
+    domain: "element-exact",
+    nodes: [{ ref: `sha256:${"a".repeat(64)}` }],
+    edges: Array.from({ length: 14 }, (_, index) => ({
+      from: 0,
+      to: 0,
+      role: `loop-${index.toString().padStart(2, "0")}`
+    }))
+  };
+  const compiled = plan({
+    op: "minimal",
+    predicate: { op: "componentCount", count: 1 }
+  });
+  const binding = bindPredicateNumericPolicy(compiled, precision());
+
+  assert.throws(
+    () => evaluateLocalPredicatePlan(compiled, binding, denseLoopSet, {
+      policy: {
+        ...options().policy,
+        allowParallelEdges: true,
+        allowSelfLoops: true
+      },
+      substructurePolicy: substructurePolicy({ remove: "edges" })
+    }),
+    (error) => error instanceof KernelError &&
+      error.code === "PREDICATE_LOCAL_SUBSTRUCTURE_LIMIT" &&
+      error.details.attemptedSubstructures === 10_001 &&
+      error.details.maximum === LOCAL_PREDICATE_EVALUATION_LIMITS.maxSubstructureRemovals
+  );
+});
+
+test("novel proves a whole property absent from every exact constituent", () => {
+  const exactCandidate = {
+    domain: "element-exact",
+    nodes: ["a", "b"].map((value) => ({
+      ref: `sha256:${value.repeat(64)}`
+    })),
+    edges: [{ from: 0, to: 1, role: "support" }]
+  };
+  const compiled = plan({
+    op: "novel",
+    predicate: { op: "countRole", role: "support", min: 1 }
+  });
+  const binding = bindPredicateNumericPolicy(compiled, precision());
+  const evaluation = evaluateLocalPredicatePlan(
+    compiled,
+    binding,
+    exactCandidate,
+    options()
+  );
+
+  assert.equal(evaluation.outcome, "pass");
+  assert.equal(evaluation.substructurePolicy, undefined);
+  assert.deepEqual(evaluation.witnesses[0], {
+    expressionPath: "$",
+    operator: "novel",
+    outcome: "pass",
+    domain: "element-exact",
+    projection: "canonical-single-node-no-edge-v1",
+    whole: {
+      outcome: "pass",
+      witnesses: [{
+        expressionPath: "$.predicate",
+        operator: "countRole",
+        outcome: "pass",
+        edgeIndexes: [0],
+        count: 1,
+        role: "support",
+        min: 1
+      }]
+    },
+    attemptedConstituents: 2,
+    evaluatedConstituents: 2,
+    constituents: evaluation.witnesses[0].constituents
+  });
+  assert.deepEqual(
+    evaluation.witnesses[0].constituents.map((entry) => ({
+      parentNodeIndex: entry.parentNodeIndex,
+      sourceElementId: entry.sourceElementId,
+      canonicalNodeToParent: entry.canonicalNodeToParent,
+      outcome: entry.outcome,
+      nestedOutcome: entry.witnesses[0].outcome
+    })),
+    [
+      {
+        parentNodeIndex: 0,
+        sourceElementId: evaluation.witnesses[0].constituents[0].sourceElementId,
+        canonicalNodeToParent: [0],
+        outcome: "fail",
+        nestedOutcome: "fail"
+      },
+      {
+        parentNodeIndex: 1,
+        sourceElementId: evaluation.witnesses[0].constituents[1].sourceElementId,
+        canonicalNodeToParent: [1],
+        outcome: "fail",
+        nestedOutcome: "fail"
+      }
+    ]
+  );
+  assert.ok(evaluation.witnesses[0].constituents.every((entry) =>
+    entry.projectionId.startsWith("sha256:") && entry.projectionId.length === 71
+  ));
+
+  const relabelled = {
+    domain: "element-exact",
+    nodes: [...exactCandidate.nodes].reverse(),
+    edges: [{ from: 1, to: 0, role: "support" }]
+  };
+  const replay = evaluateLocalPredicatePlan(compiled, binding, relabelled, options());
+  assert.equal(replay.evaluationHash, evaluation.evaluationHash);
+});
+
+test("novel propagates whole, constituent, and singleton verdicts", () => {
+  const exactCandidate = {
+    domain: "element-exact",
+    nodes: [
+      { ref: `sha256:${"a".repeat(64)}`, attrs: { active: true } },
+      { ref: `sha256:${"b".repeat(64)}`, attrs: { active: false } }
+    ],
+    edges: [{ from: 0, to: 1, role: "support" }]
+  };
+  const evaluate = (predicate, input = exactCandidate) => {
+    const compiled = plan({ op: "novel", predicate });
+    return evaluateLocalPredicatePlan(
+      compiled,
+      bindPredicateNumericPolicy(compiled, precision()),
+      input,
+      options()
+    );
+  };
+
+  const constituentPass = evaluate({ op: "connected" });
+  assert.equal(constituentPass.outcome, "fail");
+  assert.ok(constituentPass.witnesses[0].constituents.every(
+    (entry) => entry.outcome === "pass"
+  ));
+
+  const wholeFail = evaluate({ op: "countRole", role: "support", min: 2 });
+  assert.equal(wholeFail.outcome, "fail");
+  assert.equal(wholeFail.witnesses[0].attemptedConstituents, 0);
+  assert.deepEqual(wholeFail.witnesses[0].constituents, []);
+
+  const constituentIndeterminate = evaluate({
+    op: "pathExists",
+    from: { kind: "where", attribute: "active", equals: true },
+    to: { kind: "where", attribute: "active", equals: false },
+    roles: ["support"]
+  });
+  assert.equal(constituentIndeterminate.outcome, "indeterminate");
+  assert.ok(constituentIndeterminate.witnesses[0].constituents.every(
+    (entry) => entry.outcome === "indeterminate"
+  ));
+
+  const singleton = evaluate(
+    { op: "componentCount", count: 1 },
+    { domain: "element-exact", nodes: [exactCandidate.nodes[0]], edges: [] }
+  );
+  assert.equal(singleton.outcome, "fail");
+  assert.equal(singleton.witnesses[0].constituents.length, 1);
+  assert.equal(singleton.witnesses[0].constituents[0].outcome, "pass");
+});
+
+test("novel is exact-domain only and discovers nested substructure requirements", () => {
+  const profileHash = `sha256:${"9".repeat(64)}`;
+  const exactPlan = plan({ op: "novel", predicate: { op: "connected" } });
+  assert.throws(
+    () => evaluateLocalPredicatePlan(
+      exactPlan,
+      bindPredicateNumericPolicy(exactPlan, precision()),
+      { domain: "profile-quotient", nodes: [{ ref: profileHash }], edges: [] },
+      options()
+    ),
+    (error) => error instanceof KernelError &&
+      error.code === "PREDICATE_LOCAL_NOVEL_DOMAIN_UNSUPPORTED" &&
+      error.details.domain === "profile-quotient"
+  );
+
+  const nested = plan({
+    op: "novel",
+    predicate: {
+      op: "minimal",
+      predicate: { op: "countRole", role: "support", min: 1 }
+    }
+  });
+  const nestedCandidate = {
+    domain: "element-exact",
+    nodes: ["a", "b"].map((value) => ({ ref: `sha256:${value.repeat(64)}` })),
+    edges: [{ from: 0, to: 1, role: "support" }]
+  };
+  assert.throws(
+    () => evaluateLocalPredicatePlan(
+      nested,
+      bindPredicateNumericPolicy(nested, precision()),
+      nestedCandidate,
+      options()
+    ),
+    (error) => error instanceof KernelError &&
+      error.code === "PREDICATE_LOCAL_SUBSTRUCTURE_POLICY_REQUIRED"
+  );
+  const evaluation = evaluateLocalPredicatePlan(
+    nested,
+    bindPredicateNumericPolicy(nested, precision()),
+    nestedCandidate,
+    { ...options(), substructurePolicy: substructurePolicy() }
+  );
+  assert.equal(evaluation.outcome, "pass");
+  assert.equal(evaluation.substructurePolicy.id, "local-substructure-v1");
+  assert.equal(
+    evaluation.witnesses[0].boundSubstructurePolicyId,
+    "local-substructure-v1"
+  );
+
+  const invariantPlan = plan({
+    op: "novel",
+    predicate: {
+      op: "compare",
+      left: {
+        kind: "invariant",
+        name: "score",
+        node: { kind: "canonical-index", index: 0 }
+      },
+      comparator: "eq",
+      right: { kind: "constant", value: 1 }
+    }
+  }, { invariants: { score: { kind: "number" } } });
+  const invariantEvaluation = evaluateLocalPredicatePlan(
+    invariantPlan,
+    bindPredicateNumericPolicy(invariantPlan, precision()),
+    nestedCandidate,
+    {
+      ...options(),
+      invariantContext: {
+        sourcePopulationHash: `sha256:${"d".repeat(64)}`,
+        elements: nestedCandidate.nodes.map((node) => ({
+          elementId: node.ref,
+          invariants: { score: 1 }
+        }))
+      }
+    }
+  );
+  const invariantWitness = invariantEvaluation.witnesses[0];
+  assert.equal(invariantEvaluation.outcome, "fail");
+  assert.equal(invariantWitness.whole.outcome, "pass");
+  assert.ok(invariantWitness.constituents.every((entry) =>
+    entry.outcome === "pass" &&
+    entry.witnesses[0].invariants[0].elementId === entry.sourceElementId &&
+    entry.canonicalNodeToParent.length === 1
+  ));
+});
+
+test("novel keeps an empty exact-constituent denominator indeterminate", () => {
+  const compiled = plan({
+    op: "irreducibleRemoval",
+    removal: "node",
+    predicate: {
+      op: "not",
+      arg: {
+        op: "novel",
+        predicate: {
+          op: "compare",
+          left: { kind: "constant", value: 1 },
+          comparator: "eq",
+          right: { kind: "constant", value: 1 }
+        }
+      }
+    }
+  });
+  const evaluation = evaluateLocalPredicatePlan(
+    compiled,
+    bindPredicateNumericPolicy(compiled, precision()),
+    {
+      domain: "element-exact",
+      nodes: [{ ref: `sha256:${"a".repeat(64)}` }],
+      edges: []
+    },
+    {
+      ...options(),
+      substructurePolicy: substructurePolicy({ includeEmpty: true })
+    }
+  );
+  const removal = evaluation.witnesses[0].removals[0];
+  const emptyNovel = removal.witnesses[0];
+
+  assert.equal(evaluation.outcome, "indeterminate");
+  assert.equal(removal.status, "evaluated");
+  assert.equal(removal.outcome, "indeterminate");
+  assert.equal(emptyNovel.operator, "novel");
+  assert.equal(emptyNovel.whole.outcome, "pass");
+  assert.equal(emptyNovel.outcome, "indeterminate");
+  assert.equal(emptyNovel.attemptedConstituents, 0);
+  assert.deepEqual(emptyNovel.constituents, []);
+});
+
+test("stable-under exhaustively proves preservation across valid edge deletions", () => {
+  const compiled = plan({
+    op: "stableUnder",
+    perturbation: "local-perturbation-v1",
+    threshold: 1,
+    predicate: { op: "connected" }
+  }, { perturbations: ["local-perturbation-v1"] });
+  const binding = bindPredicateNumericPolicy(compiled, precision());
+  const perturbationContext = {
+    definitions: [{
+      id: "local-perturbation-v1",
+      kind: "edge-deletion",
+      enumeration: "exhaustive-valid-single-edits-v1",
+      emptyPolicy: "indeterminate"
+    }]
+  };
+  const evaluation = evaluateLocalPredicatePlan(
+    compiled,
+    binding,
+    triangleCandidate(),
+    { ...options(), perturbationContext }
+  );
+
+  assert.equal(evaluation.outcome, "pass");
+  assert.ok(evaluation.perturbationContextHash.startsWith("sha256:"));
+  const witness = evaluation.witnesses[0];
+  assert.equal(witness.operator, "stableUnder");
+  assert.equal(witness.attemptedPerturbations, 3);
+  assert.equal(witness.validPerturbations, 3);
+  assert.equal(witness.skippedPerturbations, 0);
+  assert.equal(witness.passedPerturbations, 3);
+  assert.equal(witness.stability.lower.numerator, 3);
+  assert.equal(witness.stability.lower.denominator, 3);
+  assert.equal(witness.stability.lower.rounded.canonical, "1");
+  assert.ok(witness.perturbations.every((entry) =>
+    entry.status === "evaluated" &&
+    entry.outcome === "pass" &&
+    entry.perturbedCandidateId.startsWith("sha256:")
+  ));
+
+  const relabelled = triangleCandidate();
+  relabelled.nodes.reverse();
+  relabelled.edges = [
+    { from: 2, to: 1, role: "support" },
+    { from: 1, to: 0, role: "support" },
+    { from: 0, to: 2, role: "support" }
+  ];
+  const replay = evaluateLocalPredicatePlan(
+    compiled,
+    binding,
+    relabelled,
+    { ...options(), perturbationContext }
+  );
+  assert.equal(replay.evaluationHash, evaluation.evaluationHash);
+
+  const nodePlan = plan({
+    op: "stableUnder",
+    perturbation: "local-node-drop-v1",
+    threshold: 1,
+    predicate: { op: "connected" }
+  }, { perturbations: ["local-node-drop-v1"] });
+  const nodeEvaluation = evaluateLocalPredicatePlan(
+    nodePlan,
+    bindPredicateNumericPolicy(nodePlan, precision()),
+    triangleCandidate(),
+    {
+      ...options(),
+      perturbationContext: {
+        definitions: [{
+          id: "local-node-drop-v1",
+          kind: "node-deletion",
+          enumeration: "exhaustive-valid-single-edits-v1",
+          emptyPolicy: "indeterminate"
+        }]
+      }
+    }
+  );
+  assert.equal(nodeEvaluation.outcome, "pass");
+  assert.equal(nodeEvaluation.witnesses[0].validPerturbations, 3);
+  assert.ok(nodeEvaluation.witnesses[0].perturbations.every((entry) =>
+    entry.parentNodeIndexes.length === 2 &&
+    entry.canonicalNodeToParent.length === 2 &&
+    entry.canonicalEdgeToParent.length === 1
+  ));
+});
+
+test("stable-under omits graph-invalid attempts and binds empty-denominator policy", () => {
+  const compiled = plan({
+    op: "stableUnder",
+    perturbation: "edge-drop",
+    threshold: 1,
+    predicate: { op: "connected" }
+  }, { perturbations: ["edge-drop"] });
+  const binding = bindPredicateNumericPolicy(compiled, precision());
+  const definition = {
+    id: "edge-drop",
+    kind: "edge-deletion",
+    enumeration: "exhaustive-valid-single-edits-v1",
+    emptyPolicy: "indeterminate"
+  };
+  const indeterminate = evaluateLocalPredicatePlan(
+    compiled,
+    binding,
+    candidate(),
+    { ...options(), perturbationContext: { definitions: [definition] } }
+  );
+  const witness = indeterminate.witnesses[0];
+  assert.equal(indeterminate.outcome, "indeterminate");
+  assert.equal(witness.attemptedPerturbations, 2);
+  assert.equal(witness.validPerturbations, 0);
+  assert.equal(witness.skippedPerturbations, 2);
+  assert.equal(witness.stability, null);
+  assert.ok(witness.perturbations.every((entry) =>
+    entry.status === "skipped" &&
+    entry.reason === "graph-policy-invalid" &&
+    entry.validationIssueCodes.includes("CANDIDATE_DISCONNECTED")
+  ));
+
+  const vacuous = evaluateLocalPredicatePlan(
+    compiled,
+    binding,
+    candidate(),
+    {
+      ...options(),
+      perturbationContext: {
+        definitions: [{ ...definition, emptyPolicy: "vacuous-pass" }]
+      }
+    }
+  );
+  assert.equal(vacuous.outcome, "pass");
+  assert.notEqual(vacuous.evaluationHash, indeterminate.evaluationHash);
+});
+
+test("stable-under uses exact three-valued bounds for role and numeric edits", () => {
+  const rolePlan = plan({
+    op: "stableUnder",
+    perturbation: "replace-support",
+    threshold: 1,
+    predicate: { op: "countRole", role: "support", min: 2 }
+  }, { perturbations: ["replace-support"] });
+  const roleEvaluation = evaluateLocalPredicatePlan(
+    rolePlan,
+    bindPredicateNumericPolicy(rolePlan, precision()),
+    candidate(),
+    {
+      ...options(),
+      perturbationContext: {
+        definitions: [{
+          id: "replace-support",
+          kind: "edge-role-replacement",
+          enumeration: "exhaustive-valid-single-edits-v1",
+          emptyPolicy: "indeterminate",
+          replacements: [{ from: "support", to: "alternate" }]
+        }]
+      }
+    }
+  );
+  assert.equal(roleEvaluation.outcome, "fail");
+  assert.equal(roleEvaluation.witnesses[0].failedPerturbations, 2);
+  assert.equal(roleEvaluation.witnesses[0].stability.upper.rounded.canonical, "0");
+  const profileEvaluation = evaluateLocalPredicatePlan(
+    rolePlan,
+    bindPredicateNumericPolicy(rolePlan, precision()),
+    { ...candidate(), domain: "profile-quotient" },
+    {
+      ...options(),
+      perturbationContext: {
+        definitions: [{
+          id: "replace-support",
+          kind: "edge-role-replacement",
+          enumeration: "exhaustive-valid-single-edits-v1",
+          emptyPolicy: "indeterminate",
+          replacements: [{ from: "support", to: "alternate" }]
+        }]
+      }
+    }
+  );
+  assert.equal(profileEvaluation.outcome, "fail");
+
+  const numericPlan = plan({
+    op: "stableUnder",
+    perturbation: "move-x",
+    threshold: 1,
+    predicate: {
+      op: "pathExists",
+      from: { kind: "where", attribute: "x", equals: 0 },
+      to: { kind: "where", attribute: "x", equals: 2 },
+      roles: ["support"]
+    }
+  }, {
+    attributes: { x: { kind: "number" } },
+    perturbations: ["move-x"]
+  });
+  const numericCandidate = candidate();
+  numericCandidate.nodes = numericCandidate.nodes.map((node, index) => ({
+    ...node,
+    attrs: { x: index }
+  }));
+  const numericOptions = options();
+  numericOptions.policy.structuralNodeAttributes = ["x"];
+  const numericEvaluation = evaluateLocalPredicatePlan(
+    numericPlan,
+    bindPredicateNumericPolicy(numericPlan, precision()),
+    numericCandidate,
+    {
+      ...numericOptions,
+      perturbationContext: {
+        definitions: [{
+          id: "move-x",
+          kind: "numeric-attribute-displacement",
+          enumeration: "exhaustive-valid-single-edits-v1",
+          emptyPolicy: "indeterminate",
+          target: "nodes",
+          attribute: "x",
+          epsilon: 1,
+          directions: ["increase"]
+        }]
+      }
+    }
+  );
+  const numericWitness = numericEvaluation.witnesses[0];
+  assert.equal(numericEvaluation.outcome, "indeterminate");
+  assert.equal(numericWitness.validPerturbations, 3);
+  assert.equal(numericWitness.passedPerturbations, 1);
+  assert.equal(numericWitness.indeterminatePerturbations, 2);
+  assert.equal(numericWitness.stability.lower.rounded.canonical, "0.333333");
+  assert.equal(numericWitness.stability.upper.rounded.canonical, "1");
+
+  const exactBoundaryPlan = plan({
+    ...numericPlan.expression,
+    threshold: 1 / 3
+  }, {
+    attributes: { x: { kind: "number" } },
+    perturbations: ["move-x"]
+  });
+  const exactBoundary = evaluateLocalPredicatePlan(
+    exactBoundaryPlan,
+    bindPredicateNumericPolicy(exactBoundaryPlan, precision()),
+    numericCandidate,
+    {
+      ...numericOptions,
+      perturbationContext: {
+        definitions: [{
+          id: "move-x",
+          kind: "numeric-attribute-displacement",
+          enumeration: "exhaustive-valid-single-edits-v1",
+          emptyPolicy: "indeterminate",
+          target: "nodes",
+          attribute: "x",
+          epsilon: 1,
+          directions: ["increase"]
+        }]
+      }
+    }
+  );
+  assert.equal(exactBoundary.outcome, "pass");
+  assert.equal(
+    exactBoundary.witnesses[0].threshold.canonical,
+    "0.3333333333333333"
+  );
+});
+
+test("sampled stable-under binds a deterministic stream and conservative confidence bounds", () => {
+  const compiled = plan({
+    op: "stableUnder",
+    perturbation: "sample-edge-drop",
+    threshold: 0.5,
+    predicate: { op: "countRole", role: "support", min: 1 }
+  }, { perturbations: ["sample-edge-drop"] });
+  const binding = bindPredicateNumericPolicy(compiled, precision());
+  const sampledCandidate = triangleCandidate();
+  sampledCandidate.edges[1].role = "alternate";
+  sampledCandidate.edges[2].role = "alternate";
+  const definition = {
+    id: "sample-edge-drop",
+    kind: "edge-deletion",
+    enumeration: "sampled-valid-single-edits-v1",
+    emptyPolicy: "indeterminate"
+  };
+  const sampling = {
+    algorithm: "sha256-rejection-counter-v1",
+    frame: "applicable-single-edit-attempts-v1",
+    replacement: "with-replacement",
+    uncertainty: "chebyshev-union-95-v1",
+    sampleSize: 1_000,
+    streamKey: `sha256:${"1".repeat(64)}`
+  };
+  const perturbationContext = { definitions: [definition], sampling };
+  const evaluation = evaluateLocalPredicatePlan(
+    compiled,
+    binding,
+    sampledCandidate,
+    { ...options(), perturbationContext }
+  );
+  const witness = evaluation.witnesses[0];
+
+  assert.equal(evaluation.outcome, "pass");
+  assert.equal(witness.enumeration, "sampled-valid-single-edits-v1");
+  assert.equal(
+    witness.decisionRule,
+    "chebyshev-union-95-three-valued-bounds-v1"
+  );
+  assert.equal(witness.sampling.frameSize, 3);
+  assert.equal(witness.sampling.sampleSize, 1_000);
+  assert.equal(witness.sampling.status, "evaluated");
+  assert.equal(witness.attemptedPerturbations, 1_000);
+  assert.equal(witness.validPerturbations, 1_000);
+  assert.equal(witness.confidenceBounds.confidenceNumerator, 95);
+  assert.equal(witness.confidenceBounds.confidenceDenominator, 100);
+  assert.equal(witness.confidenceBounds.radius.canonical, "0.1");
+  assert.ok(
+    Number(witness.confidenceBounds.passing.lower.canonical) >= 0.5
+  );
+  assert.ok(witness.perturbations.every((entry) =>
+    Number.isSafeInteger(entry.frameIndex) &&
+    entry.frameIndex >= 0 &&
+    entry.frameIndex < 3 &&
+    entry.streamDraws === 1
+  ));
+
+  const replay = evaluateLocalPredicatePlan(
+    compiled,
+    binding,
+    sampledCandidate,
+    { ...options(), perturbationContext }
+  );
+  assert.equal(replay.evaluationHash, evaluation.evaluationHash);
+
+  const relabelled = triangleCandidate();
+  relabelled.nodes = [
+    sampledCandidate.nodes[2],
+    sampledCandidate.nodes[0],
+    sampledCandidate.nodes[1]
+  ];
+  relabelled.edges = [
+    { from: 1, to: 2, role: "support" },
+    { from: 2, to: 0, role: "alternate" },
+    { from: 0, to: 1, role: "alternate" }
+  ];
+  const relabelledReplay = evaluateLocalPredicatePlan(
+    compiled,
+    binding,
+    relabelled,
+    { ...options(), perturbationContext }
+  );
+  assert.equal(relabelledReplay.evaluationHash, evaluation.evaluationHash);
+
+  const changedStream = evaluateLocalPredicatePlan(
+    compiled,
+    binding,
+    sampledCandidate,
+    {
+      ...options(),
+      perturbationContext: {
+        definitions: [definition],
+        sampling: {
+          ...sampling,
+          streamKey: `sha256:${"2".repeat(64)}`
+        }
+      }
+    }
+  );
+  assert.notEqual(changedStream.evaluationHash, evaluation.evaluationHash);
+  assert.notDeepEqual(
+    changedStream.witnesses[0].perturbations.map((entry) => entry.frameIndex),
+    witness.perturbations.map((entry) => entry.frameIndex)
+  );
+
+  const failingPlan = plan({
+    op: "stableUnder",
+    perturbation: "sample-edge-drop",
+    threshold: 0.2,
+    predicate: { op: "countRole", role: "absent", min: 1 }
+  }, { perturbations: ["sample-edge-drop"] });
+  const failing = evaluateLocalPredicatePlan(
+    failingPlan,
+    bindPredicateNumericPolicy(failingPlan, precision()),
+    sampledCandidate,
+    { ...options(), perturbationContext }
+  );
+  assert.equal(failing.outcome, "fail");
+  assert.equal(
+    failing.witnesses[0].confidenceBounds.nonFailure.upper.canonical,
+    "0.1"
+  );
+
+  const noBudget = evaluateLocalPredicatePlan(
+    compiled,
+    binding,
+    sampledCandidate,
+    {
+      ...options(),
+      perturbationContext: {
+        definitions: [definition],
+        sampling: { ...sampling, sampleSize: 0 }
+      }
+    }
+  );
+  assert.equal(noBudget.outcome, "indeterminate");
+  assert.equal(noBudget.witnesses[0].sampling.status, "budget-empty");
+  assert.equal(noBudget.witnesses[0].confidenceBounds, null);
+
+  assert.throws(
+    () => evaluateLocalPredicatePlan(compiled, binding, sampledCandidate, {
+      ...options(),
+      perturbationContext: { definitions: [definition] }
+    }),
+    (error) => error instanceof KernelError &&
+      error.code === "PREDICATE_LOCAL_PERTURBATION_SAMPLING_INVALID"
+  );
+  assert.throws(
+    () => evaluateLocalPredicatePlan(compiled, binding, sampledCandidate, {
+      ...options(),
+      perturbationContext: {
+        definitions: [definition],
+        sampling: { ...sampling, sampleSize: 10_001 }
+      }
+    }),
+    (error) => error instanceof KernelError &&
+      error.code === "PREDICATE_LOCAL_PERTURBATION_LIMIT"
+  );
+});
+
+test("stable-under rejects missing, registry-only, and non-structural contexts", () => {
+  const compiled = plan({
+    op: "stableUnder",
+    perturbation: "move-x",
+    threshold: 0.5,
+    predicate: { op: "connected" }
+  }, { perturbations: ["move-x"] });
+  const binding = bindPredicateNumericPolicy(compiled, precision());
+  assert.throws(
+    () => evaluateLocalPredicatePlan(compiled, binding, candidate(), options()),
+    (error) => error instanceof KernelError &&
+      error.code === "PREDICATE_LOCAL_PERTURBATION_CONTEXT_REQUIRED"
+  );
+  assert.throws(
+    () => evaluateLocalPredicatePlan(compiled, binding, candidate(), {
+      ...options(),
+      perturbationContext: { definitions: ["move-x"] }
+    }),
+    (error) => error instanceof KernelError &&
+      error.code === "PREDICATE_LOCAL_PERTURBATION_CONTEXT_INVALID"
+  );
+  assert.throws(
+    () => evaluateLocalPredicatePlan(compiled, binding, candidate(), {
+      ...options(),
+      perturbationContext: {
+        definitions: [{
+          id: "move-x",
+          kind: "numeric-attribute-displacement",
+          enumeration: "exhaustive-valid-single-edits-v1",
+          emptyPolicy: "indeterminate",
+          target: "nodes",
+          attribute: "x",
+          epsilon: 1,
+          directions: ["increase"]
+        }]
+      }
+    }),
+    (error) => error instanceof KernelError &&
+      error.code === "PREDICATE_LOCAL_PERTURBATION_ATTRIBUTE_UNBOUND"
+  );
+
+});
+
+test("stable-under preserves retained-node invariant bindings across perturbations", () => {
+  const nestedInvariantPlan = plan({
+    op: "stableUnder",
+    perturbation: "replace-support",
+    threshold: 1,
+    predicate: {
+      op: "compare",
+      left: {
+        kind: "invariant",
+        name: "score",
+        node: { kind: "canonical-index", index: 0 }
+      },
+      comparator: "eq",
+      right: { kind: "constant", value: 1 }
+    }
+  }, {
+    invariants: { score: { kind: "number" } },
+    perturbations: ["replace-support"]
+  });
+  const graph = candidate();
+  const evaluation = evaluateLocalPredicatePlan(
+    nestedInvariantPlan,
+    bindPredicateNumericPolicy(nestedInvariantPlan, precision()),
+    graph,
+    {
+      ...options(),
+      invariantContext: {
+        sourcePopulationHash: `sha256:${"e".repeat(64)}`,
+        elements: graph.nodes.map((node) => ({
+          elementId: node.ref,
+          invariants: { score: 1 }
+        }))
+      },
+      perturbationContext: {
+        definitions: [{
+          id: "replace-support",
+          kind: "edge-role-replacement",
+          enumeration: "exhaustive-valid-single-edits-v1",
+          emptyPolicy: "indeterminate",
+          replacements: [{ from: "support", to: "alternate" }]
+        }]
+      }
+    }
+  );
+  const witness = evaluation.witnesses[0];
+  assert.equal(evaluation.outcome, "pass");
+  assert.equal(witness.validPerturbations, 2);
+  assert.ok(witness.perturbations.every((entry) =>
+    entry.outcome === "pass" &&
+    entry.canonicalNodeToParent.length === graph.nodes.length &&
+    entry.witnesses[0].invariants[0].name === "score"
+  ));
+});
+
+test("stable-under discovers and binds nested substructure policies", () => {
+  const compiled = plan({
+    op: "stableUnder",
+    perturbation: "replace-support",
+    threshold: 1,
+    predicate: {
+      op: "minimal",
+      predicate: { op: "connected" }
+    }
+  }, { perturbations: ["replace-support"] });
+  const binding = bindPredicateNumericPolicy(compiled, precision());
+  const perturbationContext = {
+    definitions: [{
+      id: "replace-support",
+      kind: "edge-role-replacement",
+      enumeration: "exhaustive-valid-single-edits-v1",
+      emptyPolicy: "indeterminate",
+      replacements: [{ from: "support", to: "alternate" }]
+    }]
+  };
+  assert.throws(
+    () => evaluateLocalPredicatePlan(compiled, binding, candidate(), {
+      ...options(),
+      perturbationContext
+    }),
+    (error) => error instanceof KernelError &&
+      error.code === "PREDICATE_LOCAL_SUBSTRUCTURE_POLICY_REQUIRED"
+  );
+  const evaluation = evaluateLocalPredicatePlan(
+    compiled,
+    binding,
+    candidate(),
+    {
+      ...options(),
+      perturbationContext,
+      substructurePolicy: substructurePolicy({ remove: "nodes" })
+    }
+  );
+  assert.equal(evaluation.outcome, "fail");
+  assert.equal(
+    evaluation.witnesses[0].boundSubstructurePolicyId,
+    "local-substructure-v1"
+  );
+  assert.ok(evaluation.witnesses[0].perturbations.every((entry) =>
+    entry.witnesses[0].operator === "minimal"
+  ));
+});
+
+test("stable-under preflights the shared structural-attempt ceiling", () => {
+  const compiled = plan({
+    op: "stableUnder",
+    perturbation: "replacement-family",
+    threshold: 1,
+    predicate: { op: "connected" }
+  }, { perturbations: ["replacement-family"] });
+  const manyEdges = {
+    domain: "element-exact",
+    nodes: [
+      { ref: `sha256:${"a".repeat(64)}` },
+      { ref: `sha256:${"b".repeat(64)}` }
+    ],
+    edges: Array.from({ length: 41 }, () => ({
+      from: 0,
+      to: 1,
+      role: "support"
+    }))
+  };
+  const replacementFamily = Array.from({ length: 256 }, (_, index) => ({
+    from: "support",
+    to: `alternate-${index.toString().padStart(3, "0")}`
+  }));
+  const localOptions = options();
+  localOptions.policy.allowParallelEdges = true;
+  assert.throws(
+    () => evaluateLocalPredicatePlan(
+      compiled,
+      bindPredicateNumericPolicy(compiled, precision()),
+      manyEdges,
+      {
+        ...localOptions,
+        perturbationContext: {
+          definitions: [{
+            id: "replacement-family",
+            kind: "edge-role-replacement",
+            enumeration: "exhaustive-valid-single-edits-v1",
+            emptyPolicy: "indeterminate",
+            replacements: replacementFamily
+          }]
+        }
+      }
+    ),
+    (error) => error instanceof KernelError &&
+      error.code === "PREDICATE_LOCAL_PERTURBATION_LIMIT" &&
+      error.details.maximum ===
+        LOCAL_PREDICATE_EVALUATION_LIMITS.maxSubstructureRemovals
+  );
+  assert.throws(
+    () => evaluateLocalPredicatePlan(
+      compiled,
+      bindPredicateNumericPolicy(compiled, precision()),
+      manyEdges,
+      {
+        ...localOptions,
+        perturbationContext: {
+          definitions: [{
+            id: "replacement-family",
+            kind: "edge-role-replacement",
+            enumeration: "sampled-valid-single-edits-v1",
+            emptyPolicy: "indeterminate",
+            replacements: replacementFamily
+          }],
+          sampling: {
+            algorithm: "sha256-rejection-counter-v1",
+            frame: "applicable-single-edit-attempts-v1",
+            replacement: "with-replacement",
+            uncertainty: "chebyshev-union-95-v1",
+            sampleSize: 1,
+            streamKey: `sha256:${"3".repeat(64)}`
+          }
+        }
+      }
+    ),
+    (error) => error instanceof KernelError &&
+      error.code === "PREDICATE_LOCAL_PERTURBATION_FRAME_LIMIT" &&
+      error.details.frameSize === 10_496
+  );
+});
+
+test("irreducible removal distinguishes reducibility, whole failure, and empty denominators", () => {
+  const cycle = {
+    op: "cycleExists",
+    roles: ["support"],
+    projection: "undirected-simple",
+    minLength: 3
+  };
+  const compiled = plan({
+    op: "irreducibleRemoval",
+    removal: "node",
+    predicate: cycle
+  });
+  const binding = bindPredicateNumericPolicy(compiled, precision());
+  const completeFour = {
+    domain: "element-exact",
+    nodes: ["a", "b", "c", "d"].map((value) => ({
+      ref: `sha256:${value.repeat(64)}`
+    })),
+    edges: Array.from({ length: 4 }, (_, from) =>
+      Array.from({ length: 4 - from - 1 }, (__, offset) => ({
+        from,
+        to: from + offset + 1,
+        role: "support"
+      }))
+    ).flat()
+  };
+  const reducible = evaluateLocalPredicatePlan(compiled, binding, completeFour, {
+    ...options(),
+    substructurePolicy: substructurePolicy()
+  });
+  assert.equal(reducible.outcome, "fail");
+  assert.ok(reducible.witnesses[0].removals.every((entry) => entry.outcome === "pass"));
+
+  const wholeFailure = evaluateLocalPredicatePlan(compiled, binding, candidate(), {
+    ...options(),
+    substructurePolicy: substructurePolicy()
+  });
+  assert.equal(wholeFailure.outcome, "fail");
+  assert.equal(wholeFailure.witnesses[0].whole.outcome, "fail");
+  assert.deepEqual(wholeFailure.witnesses[0].removals, []);
+
+  const countPlan = plan({
+    op: "irreducibleRemoval",
+    removal: "node",
+    predicate: {
+      op: "compare",
+      left: { kind: "count", set: { kind: "nodes", selector: { kind: "all" } } },
+      comparator: "eq",
+      right: { kind: "constant", value: 1 }
+    }
+  });
+  const countBinding = bindPredicateNumericPolicy(countPlan, precision());
+  const singleton = {
+    domain: "element-exact",
+    nodes: [{ ref: `sha256:${"a".repeat(64)}` }],
+    edges: []
+  };
+  const excludedEmpty = evaluateLocalPredicatePlan(countPlan, countBinding, singleton, {
+    substructurePolicy: substructurePolicy({ remove: "nodes" })
+  });
+  assert.equal(excludedEmpty.outcome, "indeterminate");
+  assert.equal(excludedEmpty.witnesses[0].evaluatedSubstructures, 0);
+  assert.equal(excludedEmpty.witnesses[0].removals[0].reason, "empty-excluded");
+
+  const includedEmpty = evaluateLocalPredicatePlan(countPlan, countBinding, singleton, {
+    substructurePolicy: substructurePolicy({ remove: "nodes", includeEmpty: true })
+  });
+  assert.equal(includedEmpty.outcome, "pass");
+  assert.equal(includedEmpty.witnesses[0].removals[0].outcome, "fail");
+  assert.deepEqual(includedEmpty.witnesses[0].removals[0].canonicalNodeToParent, []);
+});
+
+test("substructure policy controls disconnected and isolated removal semantics", () => {
+  const compiled = plan({
+    op: "irreducibleRemoval",
+    removal: "edge",
+    predicate: { op: "connected" }
+  });
+  const binding = bindPredicateNumericPolicy(compiled, precision());
+  const disconnectedExcluded = evaluateLocalPredicatePlan(
+    compiled,
+    binding,
+    candidate(),
+    {
+      ...options(),
+      substructurePolicy: substructurePolicy({ remove: "edges" })
+    }
+  );
+  assert.equal(disconnectedExcluded.outcome, "indeterminate");
+  assert.equal(disconnectedExcluded.witnesses[0].evaluatedSubstructures, 0);
+  assert.ok(disconnectedExcluded.witnesses[0].removals.every((entry) =>
+    entry.reason === "disconnected-excluded"
+  ));
+
+  const disconnectedIncluded = evaluateLocalPredicatePlan(
+    compiled,
+    binding,
+    candidate(),
+    {
+      ...options(),
+      substructurePolicy: substructurePolicy({
+        remove: "edges",
+        includeDisconnected: true
+      })
+    }
+  );
+  assert.equal(disconnectedIncluded.outcome, "pass");
+  assert.ok(disconnectedIncluded.witnesses[0].removals.every((entry) =>
+    entry.status === "evaluated" && entry.outcome === "fail"
+  ));
+
+  const dyad = {
+    domain: "element-exact",
+    nodes: ["a", "b"].map((value) => ({ ref: `sha256:${value.repeat(64)}` })),
+    edges: [{ from: 0, to: 1, role: "support" }]
+  };
+  const pruneIsolates = evaluateLocalPredicatePlan(compiled, binding, dyad, {
+    ...options(),
+    substructurePolicy: substructurePolicy({
+      remove: "edges",
+      includeEmpty: true,
+      retainIsolatedNodes: false
+    })
+  });
+  assert.equal(pruneIsolates.outcome, "pass");
+  assert.deepEqual(pruneIsolates.witnesses[0].removals[0].parentNodeIndexes, []);
+});
+
+test("irreducible removal fails closed on policy drift and resolves retained invariants", () => {
+  const compiled = plan({
+    op: "irreducibleRemoval",
+    removal: "node",
+    predicate: { op: "connected" }
+  });
+  const binding = bindPredicateNumericPolicy(compiled, precision());
+  assert.throws(
+    () => evaluateLocalPredicatePlan(compiled, binding, triangleCandidate(), {
+      ...options(),
+      substructurePolicy: substructurePolicy({ remove: "edges" })
+    }),
+    (error) => error instanceof KernelError &&
+      error.code === "PREDICATE_LOCAL_SUBSTRUCTURE_POLICY_MISMATCH"
+  );
+  assert.throws(
+    () => evaluateLocalPredicatePlan(compiled, binding, triangleCandidate(), options()),
+    (error) => error instanceof KernelError &&
+      error.code === "PREDICATE_LOCAL_SUBSTRUCTURE_POLICY_REQUIRED"
+  );
+  assert.throws(
+    () => evaluateLocalPredicatePlan(compiled, binding, triangleCandidate(), {
+      ...options(),
+      substructurePolicy: {
+        ...substructurePolicy(),
+        undeclared: true
+      }
+    }),
+    (error) => error instanceof KernelError &&
+      error.code === "PREDICATE_LOCAL_SUBSTRUCTURE_POLICY_INVALID"
+  );
+
+  const graphOnlyPlan = plan({ op: "connected" });
+  const graphOnlyBinding = bindPredicateNumericPolicy(graphOnlyPlan, precision());
+  assert.throws(
+    () => evaluateLocalPredicatePlan(
+      graphOnlyPlan,
+      graphOnlyBinding,
+      triangleCandidate(),
+      { ...options(), substructurePolicy: substructurePolicy() }
+    ),
+    (error) => error instanceof KernelError &&
+      error.code === "PREDICATE_LOCAL_SUBSTRUCTURE_POLICY_UNEXPECTED"
+  );
+
+  const invariantPlan = plan({
+    op: "irreducibleRemoval",
+    removal: "node",
+    predicate: {
+      op: "compare",
+      left: {
+        kind: "invariant",
+        name: "length",
+        node: { kind: "canonical-index", index: 0 }
+      },
+      comparator: "eq",
+      right: { kind: "constant", value: quantity(1, "m", "length") }
+    }
+  }, { invariants: { length: quantity(1, "m", "length") } });
+  const invariantBinding = bindPredicateNumericPolicy(invariantPlan, precision());
+  const graph = triangleCandidate();
+  const invariantEvaluation = evaluateLocalPredicatePlan(
+    invariantPlan,
+    invariantBinding,
+    graph,
+    {
+      ...options(),
+      substructurePolicy: substructurePolicy(),
+      invariantContext: {
+        sourcePopulationHash: `sha256:${"f".repeat(64)}`,
+        elements: graph.nodes.map((node) => ({
+          elementId: node.ref,
+          invariants: { length: quantity(1, "m", "length") }
+        }))
+      }
+    }
+  );
+  const invariantWitness = invariantEvaluation.witnesses[0];
+  assert.equal(invariantEvaluation.outcome, "fail");
+  assert.equal(invariantWitness.whole.outcome, "pass");
+  assert.ok(invariantWitness.removals.every((entry) =>
+    entry.status === "evaluated" &&
+    entry.outcome === "pass" &&
+    entry.canonicalNodeToParent.length === 2 &&
+    entry.witnesses[0].invariants[0].canonicalNode === 0
+  ));
+});
+
 test("element-exact runtime invariants bind unique nodes and source quantities", () => {
   const sourcePopulationHash = `sha256:${"d".repeat(64)}`;
   const sourceQuantity = quantity(
@@ -1278,6 +2859,7 @@ test("element-exact runtime invariants bind unique nodes and source quantities",
 
   assert.equal(direct.outcome, "pass");
   assert.equal(direct.invariantSourcePopulationHash, sourcePopulationHash);
+  assert.deepEqual(direct.invariantNames, ["length"]);
   assert.deepEqual(direct.witnesses[0].left.quantity.provenance, {
     kind: "declared",
     evidence: ["invariant-evidence"]
@@ -1368,30 +2950,96 @@ test("element-exact runtime invariants bind unique nodes and source quantities",
     (error) => error instanceof KernelError &&
       error.code === "PREDICATE_LOCAL_INVARIANT_CONTEXT_REQUIRED"
   );
-  assert.throws(
-    () => evaluateLocalPredicatePlan(
-      directPlan,
-      bindPredicateNumericPolicy(directPlan, precision()),
-      graph,
-      { ...options(), invariantContext: context }
-    ),
-    (error) => error instanceof KernelError &&
-      error.code === "PREDICATE_LOCAL_INVARIANT_NODE_AMBIGUOUS"
+  const ambiguous = evaluateLocalPredicatePlan(
+    directPlan,
+    bindPredicateNumericPolicy(directPlan, precision()),
+    graph,
+    { ...options(), invariantContext: context }
   );
+  assert.equal(ambiguous.outcome, "indeterminate");
+  assert.deepEqual(ambiguous.witnesses[0].invariantFailures, [{
+    operand: "left",
+    reason: "invariant-node-ambiguous",
+    details: {
+      path: "$.left",
+      name: "length",
+      selector: null,
+      nodeIndexes: []
+    }
+  }]);
 
   const missingContext = {
     ...singletonContext,
     elements: [{ elementId: singleton.nodes[0].ref, invariants: {} }]
   };
-  assert.throws(
-    () => evaluateLocalPredicatePlan(
-      directPlan,
-      bindPredicateNumericPolicy(directPlan, precision()),
+  const missing = evaluateLocalPredicatePlan(
+    directPlan,
+    bindPredicateNumericPolicy(directPlan, precision()),
+    singleton,
+    { ...options(), invariantContext: missingContext }
+  );
+  assert.equal(missing.outcome, "indeterminate");
+  assert.deepEqual(missing.witnesses[0].invariantFailures, [{
+    operand: "left",
+    reason: "invariant-value-unavailable",
+    details: {
+      path: "$.left",
+      name: "length",
+      canonicalNode: 0,
+      elementId: singleton.nodes[0].ref
+    }
+  }]);
+
+  const twoMissingPlan = plan({
+    op: "compare",
+    left: { kind: "invariant", name: "leftLength" },
+    comparator: "eq",
+    right: { kind: "invariant", name: "rightLength" }
+  }, {
+    invariants: {
+      leftLength: sourceQuantity,
+      rightLength: sourceQuantity
+    }
+  });
+  const twoMissingBinding = bindPredicateNumericPolicy(twoMissingPlan, precision());
+  const twoMissing = evaluateLocalPredicatePlan(
+    twoMissingPlan,
+    twoMissingBinding,
+    singleton,
+    {
+      ...options(),
+      invariantContext: {
+        sourcePopulationHash,
+        elements: [{ elementId: singleton.nodes[0].ref, invariants: {} }]
+      }
+    }
+  );
+  assert.equal(twoMissing.outcome, "indeterminate");
+  assert.deepEqual(
+    twoMissing.witnesses[0].invariantFailures.map((entry) => [
+      entry.operand,
+      entry.reason,
+      entry.details.name
+    ]),
+    [
+      ["left", "invariant-value-unavailable", "leftLength"],
+      ["right", "invariant-value-unavailable", "rightLength"]
+    ]
+  );
+  assert.equal(
+    evaluateLocalPredicatePlan(
+      twoMissingPlan,
+      twoMissingBinding,
       singleton,
-      { ...options(), invariantContext: missingContext }
-    ),
-    (error) => error instanceof KernelError &&
-      error.code === "PREDICATE_LOCAL_INVARIANT_VALUE_UNAVAILABLE"
+      {
+        ...options(),
+        invariantContext: {
+          sourcePopulationHash,
+          elements: [{ elementId: singleton.nodes[0].ref, invariants: {} }]
+        }
+      }
+    ).evaluationHash,
+    twoMissing.evaluationHash
   );
 
   const mismatchedContext = {
@@ -1490,7 +3138,7 @@ test("element-exact runtime invariants bind unique nodes and source quantities",
 
 });
 
-test("profile invariants require identical normalized quantities from every class member", () => {
+test("profile invariants require identical normalized values from every class member", () => {
   const sourcePopulationHash = `sha256:${"d".repeat(64)}`;
   const profileHash = `sha256:${"9".repeat(64)}`;
   const memberElementIds = [
@@ -1572,48 +3220,96 @@ test("profile invariants require identical normalized quantities from every clas
     { absolute: 0.001 },
     ["consensus-evidence"]
   );
-  assert.throws(
-    () => evaluateLocalPredicatePlan(
-      compiled,
-      binding,
-      candidateInput,
-      { ...options(), invariantContext: disagreement }
-    ),
-    (error) => error instanceof KernelError &&
-      error.code === "PREDICATE_LOCAL_INVARIANT_CONSENSUS_UNAVAILABLE" &&
-      error.details.reason === "member-values-disagree" &&
-      error.details.disagreeingElementIds[0] === memberElementIds[1]
+  const disagreementEvaluation = evaluateLocalPredicatePlan(
+    compiled,
+    binding,
+    candidateInput,
+    { ...options(), invariantContext: disagreement }
+  );
+  assert.equal(disagreementEvaluation.outcome, "indeterminate");
+  assert.equal(
+    disagreementEvaluation.witnesses[0].invariantFailures[0].reason,
+    "profile-invariant-member-values-disagree"
+  );
+  assert.equal(
+    disagreementEvaluation.witnesses[0]
+      .invariantFailures[0].details.disagreeingElementIds[0],
+    memberElementIds[1]
   );
 
   const evidenceDisagreement = canonicalClone(context);
   evidenceDisagreement.elements[1].invariants.length.provenance.evidence = [
     "different-evidence"
   ];
-  assert.throws(
-    () => evaluateLocalPredicatePlan(
-      compiled,
-      binding,
-      candidateInput,
-      { ...options(), invariantContext: evidenceDisagreement }
-    ),
-    (error) => error instanceof KernelError &&
-      error.code === "PREDICATE_LOCAL_INVARIANT_CONSENSUS_UNAVAILABLE" &&
-      error.details.reason === "member-values-disagree"
+  const evidenceDisagreementEvaluation = evaluateLocalPredicatePlan(
+    compiled,
+    binding,
+    candidateInput,
+    { ...options(), invariantContext: evidenceDisagreement }
+  );
+  assert.equal(evidenceDisagreementEvaluation.outcome, "indeterminate");
+  assert.equal(
+    evidenceDisagreementEvaluation.witnesses[0].invariantFailures[0].reason,
+    "profile-invariant-member-values-disagree"
   );
 
   const missing = canonicalClone(context);
   missing.elements[1].invariants = {};
+  const missingEvaluation = evaluateLocalPredicatePlan(
+    compiled,
+    binding,
+    candidateInput,
+    { ...options(), invariantContext: missing }
+  );
+  assert.equal(missingEvaluation.outcome, "indeterminate");
+  assert.equal(
+    missingEvaluation.witnesses[0].invariantFailures[0].reason,
+    "profile-invariant-member-values-missing"
+  );
+  assert.equal(
+    missingEvaluation.witnesses[0].invariantFailures[0]
+      .details.missingElementIds[0],
+    memberElementIds[1]
+  );
+
+  const invalidMemberUnit = canonicalClone(context);
+  invalidMemberUnit.elements[1].invariants.length = quantity(
+    1,
+    "s",
+    "length",
+    { absolute: 0.001 },
+    ["consensus-evidence"]
+  );
   assert.throws(
     () => evaluateLocalPredicatePlan(
       compiled,
       binding,
       candidateInput,
-      { ...options(), invariantContext: missing }
+      { ...options(), invariantContext: invalidMemberUnit }
     ),
     (error) => error instanceof KernelError &&
-      error.code === "PREDICATE_LOCAL_INVARIANT_CONSENSUS_UNAVAILABLE" &&
-      error.details.reason === "member-values-missing" &&
-      error.details.missingElementIds[0] === memberElementIds[1]
+      error.code === "PREDICATE_LOCAL_INVARIANT_UNIT_MISMATCH" &&
+      error.details.elementId === memberElementIds[1]
+  );
+
+  const invalidMemberSemantic = canonicalClone(context);
+  invalidMemberSemantic.elements[1].invariants.length = quantity(
+    1,
+    "m",
+    "width",
+    { absolute: 0.001 },
+    ["consensus-evidence"]
+  );
+  assert.throws(
+    () => evaluateLocalPredicatePlan(
+      compiled,
+      binding,
+      candidateInput,
+      { ...options(), invariantContext: invalidMemberSemantic }
+    ),
+    (error) => error instanceof KernelError &&
+      error.code === "PREDICATE_LOCAL_INVARIANT_SEMANTIC_MISMATCH" &&
+      error.details.elementId === memberElementIds[1]
   );
 
   assert.throws(
@@ -1632,6 +3328,146 @@ test("profile invariants require identical normalized quantities from every clas
     (error) => error instanceof KernelError &&
       error.code === "PREDICATE_LOCAL_INVARIANT_CONTEXT_INVALID"
   );
+});
+
+test("profile invariant arithmetic means bind precision and conservative Quantity uncertainty", () => {
+  const sourcePopulationHash = `sha256:${"d".repeat(64)}`;
+  const profileHash = `sha256:${"8".repeat(64)}`;
+  const memberElementIds = [
+    `sha256:${"1".repeat(64)}`,
+    `sha256:${"2".repeat(64)}`,
+    `sha256:${"3".repeat(64)}`
+  ];
+  const candidateInput = {
+    domain: "profile-quotient",
+    nodes: [{ ref: profileHash }],
+    edges: []
+  };
+  const numericPlan = plan({
+    op: "compare",
+    left: {
+      kind: "invariant",
+      name: "score",
+      profileAggregation: "arithmetic-mean-conservative-v1"
+    },
+    comparator: "eq",
+    right: { kind: "constant", value: 1.666667 }
+  }, { invariants: { score: { kind: "number" } } });
+  const numericBinding = bindPredicateNumericPolicy(numericPlan, precision());
+  const numeric = evaluateLocalPredicatePlan(
+    numericPlan,
+    numericBinding,
+    candidateInput,
+    {
+      ...options(),
+      invariantContext: {
+        sourcePopulationHash,
+        elements: memberElementIds.map((elementId, index) => ({
+          elementId,
+          invariants: { score: [1, 2, 2][index] }
+        })),
+        profileClasses: [{ profileHash, members: [...memberElementIds].reverse() }]
+      }
+    }
+  );
+  const numericResolution = numeric.witnesses[0].invariants[0];
+
+  assert.equal(numeric.outcome, "pass");
+  assert.equal(numeric.witnesses[0].left.unrounded.canonical, "1.666667");
+  assert.equal(numeric.witnesses[0].left.exact, false);
+  assert.equal(numericResolution.value, 1.666667);
+  assert.equal(numericResolution.consensusPolicy, undefined);
+  assert.equal(
+    numericResolution.aggregation.policy,
+    "arithmetic-mean-conservative-v1"
+  );
+  assert.equal(numericResolution.aggregation.memberCount, 3);
+  assert.equal(numericResolution.aggregation.divisionExact, false);
+  assert.deepEqual(numericResolution.memberElementIds, memberElementIds);
+  assert.ok(numericBinding.operations.some((entry) =>
+    entry.operation === "profile-invariant-arithmetic-mean" &&
+    entry.policyRefs.join(",") === "arithmetic,precision"
+  ));
+
+  const quantityDescriptor = quantity(0, "m", "length");
+  const quantityPlan = plan({
+    op: "compare",
+    left: {
+      kind: "invariant",
+      name: "length",
+      profileAggregation: "arithmetic-mean-conservative-v1"
+    },
+    comparator: "eq",
+    right: { kind: "constant", value: quantity(2, "m", "length") }
+  }, { invariants: { length: quantityDescriptor } });
+  const quantityEvaluation = evaluateLocalPredicatePlan(
+    quantityPlan,
+    bindPredicateNumericPolicy(quantityPlan, precision()),
+    candidateInput,
+    {
+      ...options(),
+      invariantContext: {
+        sourcePopulationHash,
+        elements: memberElementIds.map((elementId, index) => ({
+          elementId,
+          invariants: {
+            length: quantity(
+              [1, 2, 3][index],
+              "m",
+              "length",
+              { absolute: [0.1, 0.2, 0.3][index] },
+              [`evidence-${index}`]
+            )
+          }
+        })),
+        profileClasses: [{ profileHash, members: [...memberElementIds] }]
+      }
+    }
+  );
+  const quantityResolution = quantityEvaluation.witnesses[0].invariants[0];
+
+  assert.equal(quantityEvaluation.outcome, "pass");
+  assert.equal(quantityResolution.quantity.value, 2);
+  assert.equal(quantityResolution.quantity.tolerance.absolute, 0.2);
+  assert.deepEqual(quantityResolution.quantity.provenance, {
+    kind: "computed",
+    method: "profile-invariant-arithmetic-mean-v1",
+    evidence: ["evidence-0", "evidence-1", "evidence-2"]
+  });
+  assert.equal(
+    quantityResolution.aggregation.uncertaintyPolicy,
+    "mean-effective-bounds-plus-rounding-v1"
+  );
+  assert.equal(
+    quantityResolution.aggregation.effectiveAbsoluteTolerance.canonical,
+    "0.2"
+  );
+
+  const replay = evaluateLocalPredicatePlan(
+    quantityPlan,
+    bindPredicateNumericPolicy(quantityPlan, precision()),
+    candidateInput,
+    {
+      ...options(),
+      invariantContext: {
+        sourcePopulationHash,
+        elements: [...memberElementIds].reverse().map((elementId) => ({
+          elementId,
+          invariants: {
+            length: quantity(
+              memberElementIds.indexOf(elementId) + 1,
+              "m",
+              "length",
+              { absolute: (memberElementIds.indexOf(elementId) + 1) / 10 },
+              [`evidence-${memberElementIds.indexOf(elementId)}`]
+            )
+          }
+        })),
+        profileClasses: [{ profileHash, members: [...memberElementIds].reverse() }]
+      }
+    }
+  );
+  assert.equal(replay.evaluationHash, quantityEvaluation.evaluationHash);
 });
 
 test("constant quantities use canonical units, bound rounding, semantics, and declared tolerances", () => {
@@ -1690,23 +3526,213 @@ test("scalar constant equality is executable without inventing numeric operation
   assert.deepEqual(evaluation.witnesses[0].comparison, { kind: "scalar", equal: true });
 });
 
-test("scalar invariants, general quantity products, and stale bindings are rejected", () => {
+test("scalar invariants resolve exactly in element and profile domains", () => {
   const invariantPlan = plan({
     op: "compare",
-    left: { kind: "invariant", name: "score" },
+    left: {
+      kind: "add",
+      terms: [
+        { kind: "invariant", name: "score" },
+        { kind: "constant", value: 0.5 }
+      ]
+    },
     comparator: "eq",
-    right: { kind: "constant", value: 1 }
+    right: { kind: "constant", value: 1.5 }
   }, { invariants: { score: { kind: "number" } } });
   const invariantBinding = bindPredicateNumericPolicy(invariantPlan, precision());
-  assert.throws(
-    () => evaluateLocalPredicatePlan(invariantPlan, invariantBinding, candidate(), options()),
-    (error) => error instanceof KernelError &&
-      error.code === "PREDICATE_LOCAL_FEATURE_UNSUPPORTED" &&
-      error.details.unsupported.some((entry) =>
-        entry.reason === "scalar-invariant-runtime-not-supported"
-      )
+  const singleton = {
+    domain: "element-exact",
+    nodes: [{ ref: `sha256:${"a".repeat(64)}` }],
+    edges: []
+  };
+  const sourcePopulationHash = `sha256:${"d".repeat(64)}`;
+  const invariantContext = {
+    sourcePopulationHash,
+    elements: [{ elementId: singleton.nodes[0].ref, invariants: { score: 1 } }]
+  };
+  const numericEvaluation = evaluateLocalPredicatePlan(
+    invariantPlan,
+    invariantBinding,
+    singleton,
+    { ...options(), invariantContext }
+  );
+  assert.equal(numericEvaluation.outcome, "pass");
+  assert.equal(numericEvaluation.witnesses[0].left.unrounded.canonical, "1.5");
+  assert.deepEqual(numericEvaluation.witnesses[0].invariants, [{
+    expressionPath: "$.left.terms[1]",
+    name: "score",
+    canonicalNode: 0,
+    elementId: singleton.nodes[0].ref,
+    valueKind: "number",
+    value: 1
+  }]);
+
+  for (const [kind, value] of [
+    ["string", "stable"],
+    ["boolean", true],
+    ["null", null]
+  ]) {
+    const scalarPlan = plan({
+      op: "compare",
+      left: { kind: "invariant", name: "label" },
+      comparator: "eq",
+      right: { kind: "constant", value }
+    }, { invariants: { label: { kind } } });
+    const scalarEvaluation = evaluateLocalPredicatePlan(
+      scalarPlan,
+      bindPredicateNumericPolicy(scalarPlan, precision()),
+      singleton,
+      {
+        ...options(),
+        invariantContext: {
+          sourcePopulationHash,
+          elements: [{
+            elementId: singleton.nodes[0].ref,
+            invariants: { label: value }
+          }]
+        }
+      }
+    );
+    assert.equal(scalarEvaluation.outcome, "pass");
+    assert.equal(scalarEvaluation.witnesses[0].left.kind, kind);
+    assert.deepEqual(scalarEvaluation.witnesses[0].invariants[0], {
+      expressionPath: "$.left",
+      name: "label",
+      canonicalNode: 0,
+      elementId: singleton.nodes[0].ref,
+      valueKind: kind,
+      value
+    });
+  }
+
+  const profileHash = `sha256:${"9".repeat(64)}`;
+  const secondElementId = `sha256:${"b".repeat(64)}`;
+  const profileCandidate = {
+    domain: "profile-quotient",
+    nodes: [{ ref: profileHash }],
+    edges: []
+  };
+  const profileEvaluation = evaluateLocalPredicatePlan(
+    invariantPlan,
+    invariantBinding,
+    profileCandidate,
+    {
+      ...options(),
+      invariantContext: {
+        sourcePopulationHash,
+        elements: [singleton.nodes[0].ref, secondElementId].map((elementId) => ({
+          elementId,
+          invariants: { score: 1 }
+        })),
+        profileClasses: [{
+          profileHash,
+          members: [secondElementId, singleton.nodes[0].ref]
+        }]
+      }
+    }
+  );
+  assert.equal(profileEvaluation.outcome, "pass");
+  assert.equal(profileEvaluation.witnesses[0].invariants[0].valueKind, "number");
+  assert.equal(
+    profileEvaluation.witnesses[0].invariants[0].consensusPolicy,
+    "identical-normalized-scalar-v1"
+  );
+  assert.deepEqual(
+    profileEvaluation.witnesses[0].invariants[0].memberElementIds,
+    [singleton.nodes[0].ref, secondElementId]
   );
 
+  assert.throws(
+    () => evaluateLocalPredicatePlan(
+      invariantPlan,
+      invariantBinding,
+      singleton,
+      {
+        ...options(),
+        invariantContext: {
+          sourcePopulationHash,
+          elements: [{
+            elementId: singleton.nodes[0].ref,
+            invariants: { score: "1" }
+          }]
+        }
+      }
+    ),
+    (error) => error instanceof KernelError &&
+      error.code === "PREDICATE_LOCAL_INVARIANT_CONTEXT_INVALID" &&
+      error.details.expectedKind === "number"
+  );
+
+  const stringPlan = plan({
+    op: "compare",
+    left: { kind: "invariant", name: "label" },
+    comparator: "eq",
+    right: { kind: "constant", value: "stable" }
+  }, { invariants: { label: { kind: "string" } } });
+  assert.throws(
+    () => evaluateLocalPredicatePlan(
+      stringPlan,
+      bindPredicateNumericPolicy(stringPlan, precision()),
+      singleton,
+      {
+        ...options(),
+        invariantContext: {
+          sourcePopulationHash,
+          elements: [{
+            elementId: singleton.nodes[0].ref,
+            invariants: { label: "x".repeat(1_025) }
+          }]
+        }
+      }
+    ),
+    (error) => error instanceof KernelError &&
+      error.code === "PREDICATE_LOCAL_INVARIANT_CONTEXT_INVALID" &&
+      error.details.maximumLength === 1_024 &&
+      error.details.actualLength === 1_025
+  );
+});
+
+test("explicit-semantic Quantity products propagate conservative intervals", () => {
+  const productPlan = plan({
+    op: "compare",
+    left: {
+      kind: "multiply",
+      resultSemantic: "work energy",
+      factors: [
+        {
+          kind: "constant",
+          value: quantity(2, "N", "force", { absolute: 0.1 }, ["force-evidence"])
+        },
+        {
+          kind: "constant",
+          value: quantity(3, "m", "length", { absolute: 0.2 }, ["length-evidence"])
+        }
+      ]
+    },
+    comparator: "eq",
+    right: { kind: "constant", value: quantity(6, "J", "work energy") }
+  });
+  const evaluation = evaluateLocalPredicatePlan(
+    productPlan,
+    bindPredicateNumericPolicy(productPlan, precision()),
+    candidate(),
+    options()
+  );
+  const left = evaluation.witnesses[0].left;
+
+  assert.equal(evaluation.outcome, "pass");
+  assert.equal(left.unrounded.canonical, "6");
+  assert.equal(left.quantity.unit, "kg*m^2*s^-2");
+  assert.equal(left.quantity.semantic, "work energy");
+  assert.equal(left.quantity.tolerance.absolute, 0.72);
+  assert.deepEqual(left.quantity.provenance, {
+    kind: "computed",
+    method: "local-quantity-product-v1",
+    evidence: ["force-evidence", "length-evidence"]
+  });
+});
+
+test("implicit quantity products and stale bindings remain rejected", () => {
   const quantityArithmeticPlan = plan({
     op: "compare",
     left: {
@@ -1756,27 +3782,6 @@ test("scalar invariants, general quantity products, and stale bindings are rejec
       error.code === "PREDICATE_LOCAL_FEATURE_UNSUPPORTED" &&
       error.details.unsupported.some((entry) =>
         entry.reason === "quantity-attribute-semantic-not-declared"
-      )
-  );
-
-  const cycleCountPlan = plan({
-    op: "compare",
-    left: { kind: "count", set: { kind: "cycle", roles: ["support"] } },
-    comparator: "eq",
-    right: { kind: "constant", value: 0 }
-  });
-  const cycleCountBinding = bindPredicateNumericPolicy(cycleCountPlan, precision());
-  assert.throws(
-    () => evaluateLocalPredicatePlan(
-      cycleCountPlan,
-      cycleCountBinding,
-      candidate(),
-      options()
-    ),
-    (error) => error instanceof KernelError &&
-      error.code === "PREDICATE_LOCAL_FEATURE_UNSUPPORTED" &&
-      error.details.unsupported.some((entry) =>
-        entry.reason === "cycle-set-selection-not-frozen"
       )
   );
 

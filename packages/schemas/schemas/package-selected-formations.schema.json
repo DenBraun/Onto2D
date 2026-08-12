@@ -1,0 +1,294 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/package-selected-formations.schema.json",
+  "title": "Onto2D Selected Candidate Formations",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "materializer",
+    "scope",
+    "packageId",
+    "rulesHash",
+    "bindingHash",
+    "censusHash",
+    "admissionHash",
+    "countingDomain",
+    "sourcePopulationHash",
+    "targetDepth",
+    "depthBasis",
+    "formationPolicy",
+    "selectedCandidateIds",
+    "formations",
+    "counts",
+    "status",
+    "interpretation",
+    "formationSetHash"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "materializer": { "const": "package-selected-formations-v1" },
+    "scope": { "const": "definitely-selected-candidate-formations-v1" },
+    "packageId": { "$ref": "#/$defs/hash" },
+    "rulesHash": { "$ref": "#/$defs/hash" },
+    "bindingHash": { "$ref": "#/$defs/hash" },
+    "censusHash": { "$ref": "#/$defs/hash" },
+    "admissionHash": { "$ref": "#/$defs/hash" },
+    "countingDomain": { "enum": ["element-exact", "profile-quotient"] },
+    "sourcePopulationHash": { "$ref": "#/$defs/hash" },
+    "targetDepth": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    },
+    "depthBasis": { "$ref": "#/$defs/hash" },
+    "formationPolicy": { "$ref": "#/$defs/policy" },
+    "selectedCandidateIds": { "$ref": "#/$defs/hashSet" },
+    "formations": {
+      "type": "array",
+      "maxItems": 1000000,
+      "items": { "$ref": "#/$defs/formation" }
+    },
+    "counts": { "$ref": "#/$defs/counts" },
+    "status": { "enum": ["complete", "empty", "indeterminate"] },
+    "interpretation": { "$ref": "#/$defs/interpretation" },
+    "formationSetHash": { "$ref": "#/$defs/hash" }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "status": { "const": "complete" } },
+        "required": ["status"]
+      },
+      "then": {
+        "properties": {
+          "interpretation": {
+            "properties": {
+              "status": { "const": "complete" },
+              "reasons": { "maxItems": 0 }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "status": { "const": "empty" } },
+        "required": ["status"]
+      },
+      "then": {
+        "properties": {
+          "interpretation": {
+            "properties": {
+              "status": { "const": "empty" },
+              "reasons": {
+                "prefixItems": [{ "const": "no-evaluated-candidates" }],
+                "minItems": 1,
+                "maxItems": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "status": { "const": "indeterminate" } },
+        "required": ["status"]
+      },
+      "then": {
+        "properties": {
+          "interpretation": {
+            "properties": {
+              "status": { "const": "indeterminate" },
+              "reasons": {
+                "prefixItems": [
+                  { "const": "indeterminate-ratio-exceeds-threshold" }
+                ],
+                "minItems": 1,
+                "maxItems": 1
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "hash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "index": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "normalizedString": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1024,
+      "pattern": "^(?:\\S|\\S(?:.*\\S)?)$"
+    },
+    "stringSet": {
+      "type": "array",
+      "maxItems": 10000,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/normalizedString" }
+    },
+    "hashSet": {
+      "type": "array",
+      "maxItems": 1000000,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/hash" }
+    },
+    "policy": {
+      "type": "object",
+      "required": [
+        "candidateOrder",
+        "admissionSource",
+        "constituentResolution",
+        "claimLineage",
+        "materializationDisposition"
+      ],
+      "properties": {
+        "candidateOrder": { "const": "canonical-candidate-id-v1" },
+        "admissionSource": { "const": "exact-admission-selected-outcome-v1" },
+        "constituentResolution": {
+          "const": "preserve-filter-formation-resolution-v1"
+        },
+        "claimLineage": {
+          "const": "passed-predicate-selected-selector-and-functional-claims-v1"
+        },
+        "materializationDisposition": {
+          "const": "formation-only-profile-and-element-identity-deferred-v1"
+        }
+      },
+      "additionalProperties": false
+    },
+    "selectionWitness": {
+      "type": "object",
+      "required": [
+        "selectorId",
+        "cohortId",
+        "functionalEvaluationHash",
+        "rankingHash",
+        "sensitivityHash"
+      ],
+      "properties": {
+        "selectorId": { "$ref": "#/$defs/normalizedString" },
+        "cohortId": { "$ref": "#/$defs/hash" },
+        "functionalEvaluationHash": { "$ref": "#/$defs/hash" },
+        "rankingHash": { "$ref": "#/$defs/hash" },
+        "sensitivityHash": { "$ref": "#/$defs/hash" }
+      },
+      "additionalProperties": false
+    },
+    "formation": {
+      "type": "object",
+      "required": [
+        "schemaVersion",
+        "candidateId",
+        "filterHash",
+        "admissionHash",
+        "targetDepth",
+        "depthBasis",
+        "sourcePopulationHash",
+        "candidate",
+        "constituents",
+        "admittedBy",
+        "selectedBy",
+        "selectionWitnesses",
+        "claimRefs",
+        "evidence",
+        "formationHash"
+      ],
+      "properties": {
+        "schemaVersion": { "const": "1" },
+        "candidateId": { "$ref": "#/$defs/hash" },
+        "filterHash": { "$ref": "#/$defs/hash" },
+        "admissionHash": { "$ref": "#/$defs/hash" },
+        "targetDepth": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "depthBasis": { "$ref": "#/$defs/hash" },
+        "sourcePopulationHash": { "$ref": "#/$defs/hash" },
+        "candidate": {
+          "allOf": [
+            { "$ref": "candidate.schema.json" },
+            {
+              "properties": {
+                "domain": { "enum": ["element-exact", "profile-quotient"] }
+              }
+            }
+          ]
+        },
+        "constituents": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 6,
+          "items": {
+            "$ref": "package-candidate-filter-evaluation.schema.json#/$defs/constituent"
+          }
+        },
+        "admittedBy": { "$ref": "#/$defs/stringSet" },
+        "selectedBy": { "$ref": "#/$defs/stringSet" },
+        "selectionWitnesses": {
+          "type": "array",
+          "maxItems": 10000,
+          "items": { "$ref": "#/$defs/selectionWitness" }
+        },
+        "claimRefs": { "$ref": "#/$defs/stringSet" },
+        "evidence": { "$ref": "#/$defs/stringSet" },
+        "formationHash": { "$ref": "#/$defs/hash" }
+      },
+      "additionalProperties": false
+    },
+    "counts": {
+      "type": "object",
+      "required": [
+        "evaluatedCandidates",
+        "predicateRejected",
+        "filterIndeterminate",
+        "eligibleCandidates",
+        "selectorExcluded",
+        "selectionIndeterminate",
+        "selectedCandidates",
+        "finalIndeterminate",
+        "selectedFormations"
+      ],
+      "properties": {
+        "evaluatedCandidates": { "$ref": "#/$defs/index" },
+        "predicateRejected": { "$ref": "#/$defs/index" },
+        "filterIndeterminate": { "$ref": "#/$defs/index" },
+        "eligibleCandidates": { "$ref": "#/$defs/index" },
+        "selectorExcluded": { "$ref": "#/$defs/index" },
+        "selectionIndeterminate": { "$ref": "#/$defs/index" },
+        "selectedCandidates": { "$ref": "#/$defs/index" },
+        "finalIndeterminate": { "$ref": "#/$defs/index" },
+        "selectedFormations": { "$ref": "#/$defs/index" }
+      },
+      "additionalProperties": false
+    },
+    "interpretation": {
+      "type": "object",
+      "required": ["status", "reasons"],
+      "properties": {
+        "status": { "enum": ["complete", "empty", "indeterminate"] },
+        "reasons": {
+          "type": "array",
+          "maxItems": 1,
+          "items": {
+            "enum": [
+              "no-evaluated-candidates",
+              "indeterminate-ratio-exceeds-threshold"
+            ]
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

@@ -2,6 +2,7 @@ import { canonicalClone, canonicalize, deepFreeze } from "./canonical.js";
 import { KernelError, KernelValidationError, validationIssue } from "./errors.js";
 import { HASH_DOMAINS, hashCanonical } from "./hash.js";
 import { normalizeQuantity, parseUnitExpression } from "./quantity.js";
+import { PROFILE_INVARIANT_AGGREGATION_POLICY } from "./profile-invariant-aggregation.js";
 
 export const VALUE_EXPRESSION_ANALYZER_VERSION = "typed-value-expression-v1";
 
@@ -26,11 +27,11 @@ const EXPRESSION_KINDS = new Set([
 ]);
 const EXPRESSION_FIELDS = Object.freeze({
   constant: new Set(["kind", "value"]),
-  invariant: new Set(["kind", "name", "node"]),
+  invariant: new Set(["kind", "name", "node", "profileAggregation"]),
   count: new Set(["kind", "set"]),
   sum: new Set(["kind", "attribute", "set"]),
   add: new Set(["kind", "terms"]),
-  multiply: new Set(["kind", "factors"]),
+  multiply: new Set(["kind", "factors", "resultSemantic"]),
   coefficient: new Set(["kind", "name"])
 });
 const REQUIRED_EXPRESSION_FIELDS = Object.freeze({
@@ -489,7 +490,7 @@ function inferAdd(children, path, context) {
   return numericType(kind, first.dimensions, semantics.length === 1 ? semantics[0] : undefined);
 }
 
-function inferMultiply(children, path, context) {
+function inferMultiply(children, path, context, resultSemanticInput) {
   if (children.some((child, index) => !ensureNumeric(child?.type || null, `${path}[${index}]`, context))) return null;
   const dimensions = {};
   for (const child of children) {
@@ -508,7 +509,31 @@ function inferMultiply(children, path, context) {
     }
   }
   const kind = children.some((child) => child.type.kind === "quantity") ? "quantity" : "number";
-  return numericType(kind, dimensions);
+  const quantityChildren = children.filter((child) => child.type.kind === "quantity");
+  let semantic = quantityChildren.length === 1
+    ? quantityChildren[0].type.semantic
+    : undefined;
+  if (resultSemanticInput !== undefined) {
+    const resultSemantic = normalizedIdentifier(
+      context,
+      resultSemanticInput,
+      path.replace(/\.factors$/, ".resultSemantic"),
+      "Quantity product result semantic"
+    );
+    if (quantityChildren.length < 2) {
+      issue(
+        context,
+        "EXPRESSION_PRODUCT_SEMANTIC_UNEXPECTED",
+        path.replace(/\.factors$/, ".resultSemantic"),
+        "A result semantic is permitted only when multiplying multiple Quantity operands.",
+        { quantityOperands: quantityChildren.length }
+      );
+      return null;
+    }
+    if (resultSemantic === null) return null;
+    semantic = resultSemantic;
+  }
+  return numericType(kind, dimensions, semantic);
 }
 
 function analyzeExpression(expression, path, depth, context) {
@@ -551,9 +576,44 @@ function analyzeExpression(expression, path, depth, context) {
   if (expression.kind === "invariant") {
     const resolved = resolveSymbol("invariants", expression.name, `${path}.name`, context);
     const node = expression.node === undefined ? undefined : analyzeNodeSelector(expression.node, `${path}.node`, context);
-    if (resolved === null || node === null) return null;
+    let profileAggregation;
+    let profileAggregationValid = true;
+    if (expression.profileAggregation !== undefined) {
+      if (expression.profileAggregation !== PROFILE_INVARIANT_AGGREGATION_POLICY) {
+        profileAggregationValid = false;
+        issue(
+          context,
+          "EXPRESSION_PROFILE_AGGREGATION_POLICY_INVALID",
+          `${path}.profileAggregation`,
+          "Unknown profile-invariant aggregation policy.",
+          { profileAggregation: expression.profileAggregation }
+        );
+      } else {
+        profileAggregation = expression.profileAggregation;
+      }
+    }
+    if (
+      resolved !== null &&
+      profileAggregation !== undefined &&
+      !new Set(["number", "quantity"]).has(resolved.type.kind)
+    ) {
+      profileAggregationValid = false;
+      issue(
+        context,
+        "EXPRESSION_PROFILE_AGGREGATION_TYPE_INVALID",
+        `${path}.profileAggregation`,
+        "Arithmetic profile aggregation requires a number or Quantity invariant.",
+        { invariant: resolved.name, kind: resolved.type.kind }
+      );
+    }
+    if (resolved === null || node === null || !profileAggregationValid) return null;
     return {
-      normalized: { kind: "invariant", name: resolved.name, ...(node === undefined ? {} : { node }) },
+      normalized: {
+        kind: "invariant",
+        name: resolved.name,
+        ...(node === undefined ? {} : { node }),
+        ...(profileAggregation === undefined ? {} : { profileAggregation })
+      },
       type: resolved.type
     };
   }
@@ -612,7 +672,7 @@ function analyzeExpression(expression, path, depth, context) {
   if (children.some((child) => child === null)) return null;
   const type = expression.kind === "add"
     ? inferAdd(children, `${path}.${field}`, context)
-    : inferMultiply(children, `${path}.${field}`, context);
+    : inferMultiply(children, `${path}.${field}`, context, expression.resultSemantic);
   if (type === null) return null;
   const normalizedChildren = children.map((child) => child.normalized).sort((left, right) => {
     const a = canonicalize(left);
@@ -620,7 +680,13 @@ function analyzeExpression(expression, path, depth, context) {
     return a < b ? -1 : a > b ? 1 : 0;
   });
   return {
-    normalized: { kind: expression.kind, [field]: normalizedChildren },
+    normalized: {
+      kind: expression.kind,
+      [field]: normalizedChildren,
+      ...(expression.kind === "multiply" && expression.resultSemantic !== undefined
+        ? { resultSemantic: expression.resultSemantic }
+        : {})
+    },
     type
   };
 }

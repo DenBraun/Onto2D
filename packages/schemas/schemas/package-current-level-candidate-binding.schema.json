@@ -1,0 +1,316 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/package-current-level-candidate-binding.schema.json",
+  "title": "Onto2D Current-Level Fixpoint Candidate Binding",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "binder",
+    "packageId",
+    "rulesHash",
+    "depthBasis",
+    "runConfigHash",
+    "runConfig",
+    "targetDepth",
+    "round",
+    "bindingPolicy",
+    "sourcePopulation",
+    "enumerationInput",
+    "enumerationOptions",
+    "bindingHash"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "binder": { "const": "package-current-level-candidate-binding-v2" },
+    "packageId": { "$ref": "#/$defs/hash" },
+    "rulesHash": { "$ref": "#/$defs/hash" },
+    "depthBasis": { "$ref": "#/$defs/hash" },
+    "runConfigHash": { "$ref": "#/$defs/hash" },
+    "runConfig": {
+      "allOf": [
+        { "$ref": "run-config.schema.json" },
+        {
+          "properties": {
+            "countingDomain": { "enum": ["element-exact", "profile-quotient"] },
+            "boundedFixpoint": {
+              "properties": { "enabled": { "const": true } },
+              "required": ["enabled"]
+            }
+          },
+          "required": ["countingDomain", "boundedFixpoint"]
+        }
+      ]
+    },
+    "targetDepth": { "$ref": "#/$defs/positiveDepth" },
+    "round": { "$ref": "#/$defs/iteration" },
+    "bindingPolicy": { "$ref": "#/$defs/bindingPolicy" },
+    "sourcePopulation": { "$ref": "#/$defs/sourcePopulation" },
+    "enumerationInput": { "$ref": "candidate-enumeration-input.schema.json" },
+    "enumerationOptions": {
+      "$ref": "package-candidate-binding.schema.json#/$defs/enumerationOptions"
+    },
+    "bindingHash": { "$ref": "#/$defs/hash" }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "runConfig": {
+            "properties": { "countingDomain": { "const": "element-exact" } },
+            "required": ["countingDomain"]
+          }
+        },
+        "required": ["runConfig"]
+      },
+      "then": {
+        "properties": {
+          "enumerationInput": {
+            "properties": { "domain": { "const": "element-exact" } }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "runConfig": {
+            "properties": { "countingDomain": { "const": "profile-quotient" } },
+            "required": ["countingDomain"]
+          }
+        },
+        "required": ["runConfig"]
+      },
+      "then": {
+        "properties": {
+          "enumerationInput": {
+            "properties": { "domain": { "const": "profile-quotient" } }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "hash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "count": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "positiveCount": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    },
+    "iteration": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 10000
+    },
+    "positiveDepth": { "type": "integer", "minimum": 1, "maximum": 64 },
+    "depth": { "type": "integer", "minimum": 0, "maximum": 63 },
+    "depthSet": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 64,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/depth" }
+    },
+    "hashSet": {
+      "type": "array",
+      "maxItems": 1000000,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/hash" }
+    },
+    "bindingPolicy": {
+      "type": "object",
+      "required": [
+        "sourceSelection",
+        "elementAlphabet",
+        "profileAlphabet",
+        "skeletonAndDecorationBudgets"
+      ],
+      "properties": {
+        "sourceSelection": {
+          "const": "exact-current-level-source-selection-v1"
+        },
+        "elementAlphabet": { "const": "all-selected-element-ids-v1" },
+        "profileAlphabet": {
+          "const": "one-hash-per-selected-profile-class-v1"
+        },
+        "skeletonAndDecorationBudgets": {
+          "const": "explicit-round-execution-v1"
+        }
+      },
+      "additionalProperties": false
+    },
+    "populationReference": {
+      "type": "object",
+      "required": ["depth", "kind", "populationHash"],
+      "properties": {
+        "depth": { "$ref": "#/$defs/depth" },
+        "kind": {
+          "enum": ["primitive-depth", "closed-current-level-fixpoint"]
+        },
+        "populationHash": { "$ref": "#/$defs/hash" },
+        "levelHash": { "$ref": "#/$defs/hash" },
+        "runHash": { "$ref": "#/$defs/hash" }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "kind": { "const": "primitive-depth" } },
+            "required": ["kind"]
+          },
+          "then": {
+            "properties": { "depth": { "const": 0 } },
+            "not": { "anyOf": [{ "required": ["levelHash"] }, { "required": ["runHash"] }] }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": { "const": "closed-current-level-fixpoint" }
+            },
+            "required": ["kind"]
+          },
+          "then": {
+            "required": ["levelHash", "runHash"],
+            "properties": { "depth": { "minimum": 1 } }
+          }
+        }
+      ],
+      "additionalProperties": false
+    },
+    "profileClass": {
+      "$ref": "package-depth-source-selection.schema.json#/$defs/profileClass"
+    },
+    "sourcePolicy": {
+      "type": "object",
+      "required": [
+        "belowSelection",
+        "currentSelection",
+        "duplicateResolution",
+        "profileRepresentative"
+      ],
+      "properties": {
+        "belowSelection": {
+          "const": "run-config-all-below-or-previous-only-v1"
+        },
+        "currentSelection": {
+          "const": "previous-round-monotone-current-set-v1"
+        },
+        "duplicateResolution": {
+          "const": "canonical-element-id-first-selected-depth-v1"
+        },
+        "profileRepresentative": {
+          "const": "lexicographically-smallest-element-id-v1"
+        }
+      },
+      "additionalProperties": false
+    },
+    "sourceCounts": {
+      "type": "object",
+      "required": [
+        "availableBelowPopulations",
+        "selectedBelowPopulations",
+        "belowElements",
+        "currentElements",
+        "selectedElements",
+        "profileClasses"
+      ],
+      "properties": {
+        "availableBelowPopulations": { "$ref": "#/$defs/positiveCount" },
+        "selectedBelowPopulations": { "$ref": "#/$defs/positiveCount" },
+        "belowElements": { "$ref": "#/$defs/positiveCount" },
+        "currentElements": { "$ref": "#/$defs/count" },
+        "selectedElements": { "$ref": "#/$defs/positiveCount" },
+        "profileClasses": { "$ref": "#/$defs/positiveCount" }
+      },
+      "additionalProperties": false
+    },
+    "sourcePopulation": {
+      "type": "object",
+      "required": [
+        "schemaVersion",
+        "selector",
+        "scope",
+        "packageId",
+        "rulesHash",
+        "depthBasis",
+        "runConfigHash",
+        "sourceDepths",
+        "targetDepth",
+        "round",
+        "availableDepths",
+        "selectedDepths",
+        "belowPopulations",
+        "selectedBelowPopulationHashes",
+        "belowElementIds",
+        "currentElementIds",
+        "currentPopulationHash",
+        "elements",
+        "elementIds",
+        "profileClasses",
+        "policy",
+        "counts",
+        "selectionHash"
+      ],
+      "properties": {
+        "schemaVersion": { "const": "1" },
+        "selector": { "const": "package-current-level-source-selector-v1" },
+        "scope": {
+          "const": "selected-below-depths-plus-previous-current-set-v1"
+        },
+        "packageId": { "$ref": "#/$defs/hash" },
+        "rulesHash": { "$ref": "#/$defs/hash" },
+        "depthBasis": { "$ref": "#/$defs/hash" },
+        "runConfigHash": { "$ref": "#/$defs/hash" },
+        "sourceDepths": { "enum": ["all-below", "previous-only"] },
+        "targetDepth": { "$ref": "#/$defs/positiveDepth" },
+        "round": { "$ref": "#/$defs/iteration" },
+        "availableDepths": { "$ref": "#/$defs/depthSet" },
+        "selectedDepths": { "$ref": "#/$defs/depthSet" },
+        "belowPopulations": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 64,
+          "items": { "$ref": "#/$defs/populationReference" }
+        },
+        "selectedBelowPopulationHashes": {
+          "allOf": [
+            { "$ref": "#/$defs/hashSet" },
+            { "minItems": 1, "maxItems": 64 }
+          ]
+        },
+        "belowElementIds": {
+          "allOf": [{ "$ref": "#/$defs/hashSet" }, { "minItems": 1 }]
+        },
+        "currentElementIds": { "$ref": "#/$defs/hashSet" },
+        "currentPopulationHash": { "$ref": "#/$defs/hash" },
+        "elements": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1000000,
+          "items": { "$ref": "element.schema.json" }
+        },
+        "elementIds": {
+          "allOf": [{ "$ref": "#/$defs/hashSet" }, { "minItems": 1 }]
+        },
+        "profileClasses": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1000000,
+          "items": { "$ref": "#/$defs/profileClass" }
+        },
+        "policy": { "$ref": "#/$defs/sourcePolicy" },
+        "counts": { "$ref": "#/$defs/sourceCounts" },
+        "selectionHash": { "$ref": "#/$defs/hash" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

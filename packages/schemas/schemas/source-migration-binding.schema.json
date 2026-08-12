@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/source-migration-binding.schema.json",
+  "title": "Onto2D Source Migration Binding",
+  "type": "object",
+  "required": [
+    "policyHash",
+    "blindnessStatus",
+    "classificationPolicy",
+    "riskPolicy",
+    "classificationView",
+    "classificationAnnotations",
+    "classificationAdjudication",
+    "classificationAmendments",
+    "classifiedRelations",
+    "nodeResolutions",
+    "condensation",
+    "memberProjections",
+    "typedRelationLayers",
+    "reconciliation",
+    "metrics",
+    "explanationIndex"
+  ],
+  "properties": {
+    "policyHash": { "$ref": "#/$defs/hash" },
+    "blindnessStatus": {
+      "enum": [
+        "prospective-blind",
+        "deterministic-precommitted",
+        "historically-exposed"
+      ]
+    },
+    "classificationPolicy": { "$ref": "artifact-ref.schema.json" },
+    "riskPolicy": { "$ref": "artifact-ref.schema.json" },
+    "classificationView": { "$ref": "artifact-ref.schema.json" },
+    "classificationAnnotations": { "$ref": "artifact-ref.schema.json" },
+    "classificationAdjudication": { "$ref": "artifact-ref.schema.json" },
+    "classificationAmendments": { "$ref": "artifact-ref.schema.json" },
+    "classifiedRelations": { "$ref": "artifact-ref.schema.json" },
+    "nodeResolutions": { "$ref": "artifact-ref.schema.json" },
+    "condensation": { "$ref": "artifact-ref.schema.json" },
+    "memberProjections": { "$ref": "artifact-ref.schema.json" },
+    "typedRelationLayers": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "uniqueItems": true,
+      "items": { "$ref": "artifact-ref.schema.json" }
+    },
+    "reconciliation": { "$ref": "artifact-ref.schema.json" },
+    "metrics": { "$ref": "artifact-ref.schema.json" },
+    "explanationIndex": { "$ref": "artifact-ref.schema.json" },
+    "concentration": { "$ref": "artifact-ref.schema.json" }
+  },
+  "$defs": {
+    "hash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    }
+  },
+  "additionalProperties": false
+}

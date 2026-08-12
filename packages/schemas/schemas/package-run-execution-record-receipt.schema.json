@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/package-run-execution-record-receipt.schema.json",
+  "title": "Onto2D Package Run Execution Record Receipt",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "writer",
+    "status",
+    "directory",
+    "runHash",
+    "executionId",
+    "recordRef"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "writer": { "const": "package-run-execution-record-v1" },
+    "status": { "enum": ["written", "already-present"] },
+    "directory": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 32768,
+      "pattern": "^(?:\\S|\\S(?:.*\\S)?)$"
+    },
+    "runHash": { "$ref": "#/$defs/hash" },
+    "executionId": { "$ref": "#/$defs/hash" },
+    "recordRef": {
+      "allOf": [
+        { "$ref": "artifact-ref.schema.json" },
+        {
+          "type": "object",
+          "properties": {
+            "path": {
+              "pattern": "^execution/sha256-[a-f0-9]{64}\\.json$"
+            },
+            "mediaType": { "const": "application/json" },
+            "schemaVersion": { "const": "1" }
+          }
+        }
+      ]
+    }
+  },
+  "$defs": {
+    "hash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    }
+  },
+  "additionalProperties": false
+}

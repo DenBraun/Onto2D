@@ -1,0 +1,179 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/source-classification-amendments.schema.json",
+  "title": "Onto2D Frozen Post-Unblinding Source Classification Amendments",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "freezer",
+    "policyHash",
+    "annotationHash",
+    "adjudicationHash",
+    "unblindedAt",
+    "frozenAt",
+    "changes",
+    "effectiveDecisions",
+    "statistics",
+    "fittingRisk",
+    "fittingRiskReasons",
+    "amendmentsHash"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "freezer": { "const": "source-classification-amendments-v1" },
+    "policyHash": { "$ref": "#/$defs/hash" },
+    "annotationHash": { "$ref": "#/$defs/hash" },
+    "adjudicationHash": { "$ref": "#/$defs/hash" },
+    "unblindedAt": { "$ref": "#/$defs/timestamp" },
+    "frozenAt": { "$ref": "#/$defs/timestamp" },
+    "changes": {
+      "type": "array",
+      "maxItems": 10000,
+      "items": { "$ref": "#/$defs/change" }
+    },
+    "effectiveDecisions": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 10000,
+      "items": { "$ref": "#/$defs/effectiveDecision" }
+    },
+    "statistics": {
+      "type": "object",
+      "required": [
+        "relationCount",
+        "changeCount",
+        "changedRelationCount",
+        "changedRelationShare",
+        "maximumPostUnblindingReclassificationShare",
+        "thresholdExceeded"
+      ],
+      "properties": {
+        "relationCount": { "$ref": "#/$defs/count" },
+        "changeCount": { "$ref": "#/$defs/count" },
+        "changedRelationCount": { "$ref": "#/$defs/count" },
+        "changedRelationShare": { "$ref": "#/$defs/ratio" },
+        "maximumPostUnblindingReclassificationShare": { "$ref": "#/$defs/ratio" },
+        "thresholdExceeded": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    },
+    "fittingRisk": { "enum": ["not-flagged", "elevated"] },
+    "fittingRiskReasons": {
+      "type": "array",
+      "maxItems": 3,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "historically-exposed",
+          "classification-disagreement-threshold-exceeded",
+          "post-unblinding-reclassification-threshold-exceeded"
+        ]
+      }
+    },
+    "amendmentsHash": { "$ref": "#/$defs/hash" }
+  },
+  "$defs": {
+    "hash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "identifier": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1024,
+      "pattern": "^\\S(?:[\\s\\S]*\\S)?$"
+    },
+    "text": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 16384,
+      "pattern": "^\\S(?:[\\s\\S]*\\S)?$"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\\.[0-9]{3}Z$"
+    },
+    "kind": {
+      "enum": [
+        "generative",
+        "constitutive",
+        "intra-closure-support",
+        "evidential",
+        "descriptive",
+        "regulatory-feedback"
+      ]
+    },
+    "count": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 10000
+    },
+    "ratio": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "approver": {
+      "type": "object",
+      "required": ["id", "role"],
+      "properties": {
+        "id": { "$ref": "#/$defs/identifier" },
+        "role": { "$ref": "#/$defs/text" }
+      },
+      "additionalProperties": false
+    },
+    "change": {
+      "type": "object",
+      "required": [
+        "schemaVersion",
+        "relationId",
+        "originalKind",
+        "newKind",
+        "changedAt",
+        "reason",
+        "approver",
+        "approvalArtifact",
+        "priorStateHash",
+        "changeId"
+      ],
+      "properties": {
+        "schemaVersion": { "const": "1" },
+        "relationId": { "$ref": "#/$defs/identifier" },
+        "originalKind": { "$ref": "#/$defs/kind" },
+        "newKind": { "$ref": "#/$defs/kind" },
+        "changedAt": { "$ref": "#/$defs/timestamp" },
+        "reason": { "$ref": "#/$defs/text" },
+        "approver": { "$ref": "#/$defs/approver" },
+        "approvalArtifact": { "$ref": "artifact-ref.schema.json" },
+        "priorStateHash": { "$ref": "#/$defs/hash" },
+        "changeId": { "$ref": "#/$defs/hash" }
+      },
+      "additionalProperties": false
+    },
+    "effectiveDecision": {
+      "type": "object",
+      "required": [
+        "relationId",
+        "frozenKind",
+        "effectiveKind",
+        "finalStateHash",
+        "changeIds"
+      ],
+      "properties": {
+        "relationId": { "$ref": "#/$defs/identifier" },
+        "frozenKind": { "$ref": "#/$defs/kind" },
+        "effectiveKind": { "$ref": "#/$defs/kind" },
+        "finalStateHash": { "$ref": "#/$defs/hash" },
+        "changeIds": {
+          "type": "array",
+          "maxItems": 10000,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/hash" }
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

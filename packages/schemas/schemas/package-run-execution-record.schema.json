@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/package-run-execution-record.schema.json",
+  "title": "Onto2D Package Run Execution Record",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "recorder",
+    "executionId",
+    "runHash",
+    "startedAt",
+    "completedAt",
+    "engineBuild",
+    "resourceUsage",
+    "terminalStatus"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "recorder": { "const": "package-run-execution-record-v1" },
+    "executionId": { "$ref": "#/$defs/hash" },
+    "runHash": { "$ref": "#/$defs/hash" },
+    "startedAt": { "$ref": "#/$defs/timestamp" },
+    "completedAt": {
+      "oneOf": [
+        { "$ref": "#/$defs/timestamp" },
+        { "type": "null" }
+      ]
+    },
+    "engineBuild": { "$ref": "#/$defs/label" },
+    "platform": { "$ref": "#/$defs/label" },
+    "resourceUsage": {
+      "type": "object",
+      "required": [
+        "generatedCandidates",
+        "perturbations",
+        "nullTrials",
+        "wallTimeMs",
+        "exhausted"
+      ],
+      "properties": {
+        "generatedCandidates": { "$ref": "#/$defs/count" },
+        "perturbations": { "$ref": "#/$defs/count" },
+        "nullTrials": { "$ref": "#/$defs/count" },
+        "wallTimeMs": { "type": "number", "minimum": 0 },
+        "peakResidentBytes": { "$ref": "#/$defs/count" },
+        "exhausted": {
+          "oneOf": [
+            {
+              "enum": [
+                "maxNodes",
+                "maxEdges",
+                "maxCandidates",
+                "perturbationSamples",
+                "nullModelRuns",
+                "maxWallTimeMs",
+                "maxResidentBytes"
+              ]
+            },
+            { "type": "null" }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "terminalStatus": { "enum": ["complete", "failed", "cancelled"] }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "terminalStatus": { "const": "complete" } },
+        "required": ["terminalStatus"]
+      },
+      "then": { "properties": { "completedAt": { "$ref": "#/$defs/timestamp" } } }
+    }
+  ],
+  "$defs": {
+    "hash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\\.[0-9]{3}Z$"
+    },
+    "label": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1024,
+      "pattern": "^(?:\\S|\\S(?:.*\\S)?)$"
+    },
+    "count": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    }
+  },
+  "additionalProperties": false
+}

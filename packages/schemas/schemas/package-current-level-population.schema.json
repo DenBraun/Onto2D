@@ -1,0 +1,214 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/package-current-level-population.schema.json",
+  "title": "Onto2D Current-Level Fixpoint Population",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "materializer",
+    "packageId",
+    "rulesHash",
+    "runConfigHash",
+    "depth",
+    "depthBasis",
+    "maxIterations",
+    "fixpointStatus",
+    "roundHashes",
+    "tentativeElements",
+    "tentativeDerivationIndex",
+    "elements",
+    "derivationIndex",
+    "counts",
+    "status",
+    "interpretation",
+    "populationHash"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "materializer": { "const": "package-current-level-fixpoint-population-v1" },
+    "packageId": { "$ref": "#/$defs/hash" },
+    "rulesHash": { "$ref": "#/$defs/hash" },
+    "runConfigHash": { "$ref": "#/$defs/hash" },
+    "depth": { "type": "integer", "minimum": 1, "maximum": 64 },
+    "depthBasis": { "$ref": "#/$defs/hash" },
+    "maxIterations": { "$ref": "#/$defs/positiveCount" },
+    "fixpointStatus": {
+      "enum": ["converged", "exhausted", "round-indeterminate"]
+    },
+    "roundHashes": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 10000,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/hash" }
+    },
+    "tentativeElements": { "$ref": "#/$defs/elements" },
+    "tentativeDerivationIndex": { "$ref": "#/$defs/derivationIndex" },
+    "elements": { "$ref": "#/$defs/elements" },
+    "derivationIndex": { "$ref": "#/$defs/derivationIndex" },
+    "counts": { "$ref": "#/$defs/counts" },
+    "status": { "enum": ["complete", "empty", "indeterminate"] },
+    "interpretation": { "$ref": "#/$defs/interpretation" },
+    "populationHash": { "$ref": "#/$defs/hash" }
+  },
+  "oneOf": [
+    {
+      "properties": {
+        "fixpointStatus": { "const": "converged" },
+        "status": { "const": "complete" },
+        "elements": { "minItems": 1 },
+        "interpretation": {
+          "properties": {
+            "status": { "const": "complete" },
+            "reasons": { "maxItems": 0 }
+          }
+        }
+      }
+    },
+    {
+      "properties": {
+        "fixpointStatus": { "const": "converged" },
+        "status": { "const": "empty" },
+        "elements": { "maxItems": 0 },
+        "derivationIndex": { "maxItems": 0 },
+        "interpretation": {
+          "properties": {
+            "status": { "const": "empty" },
+            "reasons": { "const": ["no-materialized-elements"] }
+          }
+        }
+      }
+    },
+    {
+      "properties": {
+        "fixpointStatus": { "enum": ["exhausted", "round-indeterminate"] },
+        "status": { "const": "indeterminate" },
+        "elements": { "maxItems": 0 },
+        "derivationIndex": { "maxItems": 0 },
+        "interpretation": {
+          "properties": { "status": { "const": "indeterminate" } }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "hash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "count": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "positiveCount": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 10000
+    },
+    "normalizedString": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1024,
+      "pattern": "^(?:\\S|\\S(?:.*\\S)?)$"
+    },
+    "stringSet": {
+      "type": "array",
+      "maxItems": 10000,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/normalizedString" }
+    },
+    "elements": {
+      "type": "array",
+      "maxItems": 1000000,
+      "items": {
+        "allOf": [
+          { "$ref": "element.schema.json" },
+          { "properties": { "kind": { "const": "derived" } } }
+        ]
+      }
+    },
+    "derivation": {
+      "type": "object",
+      "required": [
+        "candidateId",
+        "formationHash",
+        "profileResultHash",
+        "admittedBy",
+        "selectedBy",
+        "claimRefs",
+        "provenance",
+        "fixpointRound"
+      ],
+      "properties": {
+        "candidateId": { "$ref": "#/$defs/hash" },
+        "formationHash": { "$ref": "#/$defs/hash" },
+        "profileResultHash": { "$ref": "#/$defs/hash" },
+        "admittedBy": { "$ref": "#/$defs/stringSet" },
+        "selectedBy": { "$ref": "#/$defs/stringSet" },
+        "claimRefs": { "$ref": "#/$defs/stringSet" },
+        "provenance": { "$ref": "element.schema.json#/$defs/provenance" },
+        "fixpointRound": { "$ref": "#/$defs/positiveCount" }
+      },
+      "additionalProperties": false
+    },
+    "derivationIndexEntry": {
+      "type": "object",
+      "required": ["elementId", "primaryFormationHash", "derivations"],
+      "properties": {
+        "elementId": { "$ref": "#/$defs/hash" },
+        "primaryFormationHash": { "$ref": "#/$defs/hash" },
+        "derivations": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1000000,
+          "items": { "$ref": "#/$defs/derivation" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "derivationIndex": {
+      "type": "array",
+      "maxItems": 1000000,
+      "items": { "$ref": "#/$defs/derivationIndexEntry" }
+    },
+    "counts": {
+      "type": "object",
+      "required": [
+        "rounds",
+        "tentativeUniqueElements",
+        "tentativeAlternateDerivations",
+        "uniqueElements",
+        "alternateDerivations"
+      ],
+      "properties": {
+        "rounds": { "$ref": "#/$defs/positiveCount" },
+        "tentativeUniqueElements": { "$ref": "#/$defs/count" },
+        "tentativeAlternateDerivations": { "$ref": "#/$defs/count" },
+        "uniqueElements": { "$ref": "#/$defs/count" },
+        "alternateDerivations": { "$ref": "#/$defs/count" }
+      },
+      "additionalProperties": false
+    },
+    "interpretation": {
+      "type": "object",
+      "required": ["status", "reasons"],
+      "properties": {
+        "status": { "enum": ["complete", "empty", "indeterminate"] },
+        "reasons": {
+          "type": "array",
+          "maxItems": 1,
+          "items": {
+            "enum": [
+              "no-materialized-elements",
+              "fixpoint-iteration-limit-exhausted",
+              "fixpoint-round-indeterminate"
+            ]
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

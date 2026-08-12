@@ -4,26 +4,80 @@ import path from "node:path";
 export {
   SOURCE_CLASSIFICATION_VIEW_VERSION,
   SOURCE_CLASSIFIED_RELATIONS_VERSION,
+  SOURCE_EFFECTIVE_CLASSIFIED_RELATIONS_VERSION,
   SOURCE_PROJECTION_LIMITS,
   buildSourceClassifiedRelations,
-  createSourceClassificationView
+  buildSourceEffectiveClassifiedRelations,
+  createSourceClassificationView,
+  verifySourceEffectiveClassifiedRelations
 } from "./source-projection.js";
 
-export const CATALOG_ADAPTER_STATUS = "audit-active/classified-projection-active/migration-pending";
+export {
+  SOURCE_CONDENSATION_LIMITS,
+  SOURCE_CONDENSATION_VERSION,
+  SOURCE_NODE_RESOLUTION_VERSION,
+  condenseSourceRelations,
+  resolveSourceNodes,
+  verifySourceCondensation,
+  verifySourceNodeResolution
+} from "./source-condensation.js";
+
+export {
+  SOURCE_MIGRATION_RECONCILIATION_VERSION,
+  createSourceMigrationReconciliationReport,
+  verifySourceMigrationReconciliationReport
+} from "./source-migration-diagnostics.js";
+
+export {
+  SOURCE_MIGRATION_METRICS_LIMITS,
+  SOURCE_MIGRATION_METRICS_VERSION,
+  createSourceMigrationMetrics,
+  verifySourceMigrationMetrics
+} from "./source-migration-metrics.js";
+
+export {
+  SOURCE_MIGRATION_EXPLANATION_INDEX_VERSION,
+  SOURCE_MIGRATION_EXPLANATION_VERSION,
+  createSourceMigrationExplanationIndex,
+  createSourceMigrationExplanationSession,
+  verifySourceMigrationExplanationIndex
+} from "./source-migration-explanations.js";
+
+export {
+  SOURCE_CLUSTER_CONCENTRATION_LIMITS,
+  SOURCE_CLUSTER_CONCENTRATION_VERSION,
+  createSourceClusterConcentration,
+  verifySourceClusterConcentration
+} from "./source-cluster-concentration.js";
+
+export const CATALOG_ADAPTER_STATUS = "audit-active/classified-projection-active/effective-reprojection-active/node-resolution-active/condensation-active/reconciliation-diagnostics-active/migration-metrics-active/source-explanations-active/cluster-concentration-active/migration-inputs-pending";
 
 export const CATALOG_ADAPTER_CAPABILITIES = Object.freeze({
   implemented: Object.freeze([
     "source-catalogue-audit",
     "source-classification-view",
     "source-classified-relations",
-    "source-scc-projections"
+    "source-effective-classified-relations",
+    "source-effective-classified-relations-verification",
+    "source-scc-projections",
+    "source-node-resolution",
+    "source-node-resolution-verification",
+    "source-condensation",
+    "source-condensation-verification",
+    "source-migration-reconciliation-diagnostics",
+    "source-migration-reconciliation-verification",
+    "source-migration-metrics",
+    "source-migration-metrics-verification",
+    "source-migration-explanation-index",
+    "source-migration-explanation-index-verification",
+    "source-migration-explanation-query",
+    "source-cluster-concentration",
+    "source-cluster-concentration-verification"
   ]),
   pending: Object.freeze([
     "source-policy-authorship",
     "source-annotation-collection",
-    "source-node-resolution",
-    "source-condensation",
-    "source-migration-package"
+    "current-catalogue-migration-artifacts"
   ])
 });
 

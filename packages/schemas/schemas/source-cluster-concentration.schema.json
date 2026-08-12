@@ -1,0 +1,202 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/source-cluster-concentration.schema.json",
+  "title": "Onto2D Source Cluster Concentration",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "builder",
+    "metricsHash",
+    "resolutionHash",
+    "definition",
+    "definitionHash",
+    "points",
+    "pooled",
+    "enrichmentRatio",
+    "nullModel",
+    "interpretation",
+    "notes",
+    "concentrationHash"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "builder": { "const": "source-cluster-concentration-v1" },
+    "metricsHash": { "$ref": "#/$defs/hash" },
+    "resolutionHash": { "$ref": "#/$defs/hash" },
+    "definition": { "$ref": "#/$defs/definition" },
+    "definitionHash": { "$ref": "#/$defs/hash" },
+    "points": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 20000,
+      "items": { "$ref": "#/$defs/resultPoint" }
+    },
+    "pooled": {
+      "type": "object",
+      "required": ["bottleneck", "other"],
+      "properties": {
+        "bottleneck": { "$ref": "#/$defs/pooledGroup" },
+        "other": { "$ref": "#/$defs/pooledGroup" }
+      },
+      "additionalProperties": false
+    },
+    "enrichmentRatio": {
+      "type": ["number", "null"],
+      "minimum": 0
+    },
+    "nullModel": {
+      "type": "object",
+      "required": ["status"],
+      "properties": { "status": { "const": "not-run" } },
+      "additionalProperties": false
+    },
+    "interpretation": {
+      "enum": ["concentrated", "uniform", "depleted", "indeterminate"]
+    },
+    "notes": {
+      "type": "array",
+      "maxItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "const": "enrichment-ratio-denominator-zero-or-population-missing"
+      }
+    },
+    "concentrationHash": { "$ref": "#/$defs/hash" }
+  },
+  "$defs": {
+    "hash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "identifier": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1024,
+      "pattern": "^\\S(?:[\\s\\S]*\\S)?$"
+    },
+    "text": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 16384,
+      "pattern": "^\\S(?:[\\s\\S]*\\S)?$"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\\.[0-9]{3}Z$"
+    },
+    "count": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 20000
+    },
+    "share": {
+      "type": ["number", "null"],
+      "minimum": 0,
+      "maximum": 1
+    },
+    "definition": {
+      "type": "object",
+      "required": [
+        "version",
+        "frozenAt",
+        "statement",
+        "clusterLocationsSeenBeforeFreeze",
+        "exposureDeclaration",
+        "bottleneckArtifact",
+        "concentratedAtOrAbove",
+        "depletedAtOrBelow"
+      ],
+      "properties": {
+        "version": { "$ref": "#/$defs/identifier" },
+        "frozenAt": { "$ref": "#/$defs/timestamp" },
+        "statement": { "$ref": "#/$defs/text" },
+        "clusterLocationsSeenBeforeFreeze": { "const": false },
+        "exposureDeclaration": { "$ref": "#/$defs/text" },
+        "bottleneckArtifact": { "$ref": "artifact-ref.schema.json" },
+        "concentratedAtOrAbove": {
+          "type": "number",
+          "exclusiveMinimum": 1
+        },
+        "depletedAtOrBelow": {
+          "type": "number",
+          "minimum": 0,
+          "exclusiveMaximum": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "inputPoint": {
+      "type": "object",
+      "required": [
+        "depth",
+        "depthBasis",
+        "stratificationVertices",
+        "sourceVertexIds",
+        "bottleneck"
+      ],
+      "properties": {
+        "depth": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000
+        },
+        "depthBasis": { "$ref": "#/$defs/hash" },
+        "stratificationVertices": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 20000
+        },
+        "sourceVertexIds": {
+          "type": "array",
+          "maxItems": 20000,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/hash" }
+        },
+        "bottleneck": { "type": "boolean" }
+      }
+    },
+    "resultPoint": {
+      "allOf": [
+        { "$ref": "#/$defs/inputPoint" },
+        {
+          "type": "object",
+          "required": [
+            "sourceRecords",
+            "constitutiveClusters",
+            "constitutiveMembers",
+            "constitutiveClusterDensity",
+            "constitutiveMemberShare"
+          ],
+          "properties": {
+            "sourceRecords": { "$ref": "#/$defs/count" },
+            "constitutiveClusters": { "$ref": "#/$defs/count" },
+            "constitutiveMembers": { "$ref": "#/$defs/count" },
+            "constitutiveClusterDensity": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "constitutiveMemberShare": { "$ref": "#/$defs/share" }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "pooledGroup": {
+      "type": "object",
+      "required": [
+        "sourceRecords",
+        "constitutiveMembers",
+        "constitutiveMemberShare"
+      ],
+      "properties": {
+        "sourceRecords": { "$ref": "#/$defs/count" },
+        "constitutiveMembers": { "$ref": "#/$defs/count" },
+        "constitutiveMemberShare": { "$ref": "#/$defs/share" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/package-depth-partial-pruning-decision.schema.json",
+  "title": "Onto2D Depth-Aware Partial-Pruning Authorization Decision",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "controller",
+    "packageId",
+    "rulesHash",
+    "bindingHash",
+    "runConfigHash",
+    "targetDepth",
+    "sourcePopulationHash",
+    "auditHash",
+    "predicateId",
+    "predicatePlanHash",
+    "extensionModel",
+    "auditStatus",
+    "planAuditStatus",
+    "diagnostic",
+    "pruningAuthorized",
+    "reason",
+    "decisionHash"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "controller": { "const": "package-depth-partial-pruning-controller-v1" },
+    "packageId": { "$ref": "#/$defs/hash" },
+    "rulesHash": { "$ref": "#/$defs/hash" },
+    "bindingHash": { "$ref": "#/$defs/hash" },
+    "runConfigHash": { "$ref": "#/$defs/hash" },
+    "targetDepth": { "$ref": "#/$defs/depth" },
+    "sourcePopulationHash": { "$ref": "#/$defs/hash" },
+    "auditHash": { "$ref": "#/$defs/hash" },
+    "predicateId": { "$ref": "#/$defs/id" },
+    "predicatePlanHash": { "$ref": "#/$defs/hash" },
+    "extensionModel": { "const": "complete-node-canonical-edge-prefix-v1" },
+    "auditStatus": {
+      "enum": ["not-applicable", "passed", "failed", "indeterminate"]
+    },
+    "planAuditStatus": {
+      "enum": [
+        "passed",
+        "failed",
+        "unsupported",
+        "no-extensions",
+        "no-samples",
+        "not-declared"
+      ]
+    },
+    "diagnostic": { "$ref": "partial-predicate-graph-evaluation.schema.json" },
+    "pruningAuthorized": { "type": "boolean" },
+    "reason": {
+      "enum": [
+        "authorized-persistent-failure",
+        "audit-not-passed",
+        "plan-not-authorized",
+        "persistent-failure-not-detected"
+      ]
+    },
+    "decisionHash": { "$ref": "#/$defs/hash" }
+  },
+  "oneOf": [
+    {
+      "properties": {
+        "pruningAuthorized": { "const": true },
+        "reason": { "const": "authorized-persistent-failure" }
+      }
+    },
+    {
+      "properties": {
+        "pruningAuthorized": { "const": false },
+        "reason": {
+          "enum": [
+            "audit-not-passed",
+            "plan-not-authorized",
+            "persistent-failure-not-detected"
+          ]
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "hash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1024,
+      "pattern": "^(?:\\S|\\S(?:.*\\S)?)$"
+    },
+    "depth": { "type": "integer", "minimum": 1, "maximum": 64 }
+  },
+  "additionalProperties": false
+}

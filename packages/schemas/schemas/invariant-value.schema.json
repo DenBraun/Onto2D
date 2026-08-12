@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/invariant-value.schema.json",
+  "title": "Onto2D Invariant Value",
+  "properties": {
+    "value": {},
+    "unit": {},
+    "tolerance": {},
+    "semantic": {},
+    "provenance": {}
+  },
+  "oneOf": [
+    { "$ref": "quantity.schema.json" },
+    { "type": "number" },
+    { "type": "string", "maxLength": 1024 },
+    { "type": "boolean" },
+    { "type": "null" }
+  ],
+  "additionalProperties": false
+}

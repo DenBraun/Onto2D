@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import {
+  DEFAULT_PROFILE_COMPOSITION_POLICY,
   DEFAULT_RUN_BUDGET,
   KernelValidationError,
   RUN_CONFIG_NORMALIZER_VERSION,
@@ -72,7 +73,12 @@ test("run configuration normalization materializes documented budgets and canoni
   });
   const second = normalizeRunConfig(reordered);
 
-  assert.equal(RUN_CONFIG_NORMALIZER_VERSION, "run-config-normalizer-v1");
+  assert.equal(RUN_CONFIG_NORMALIZER_VERSION, "run-config-normalizer-v2");
+  assert.equal(first.profileCompositionPolicy, "post-admission-v1");
+  assert.equal(
+    first.profileCompositionPolicy,
+    DEFAULT_PROFILE_COMPOSITION_POLICY
+  );
   assert.deepEqual(first.budget, DEFAULT_RUN_BUDGET);
   assert.deepEqual(first.reportAxes, ["derivation-depth", "ontology-phase"]);
   assert.deepEqual(first.roleAlphabet, ["supports", "transforms"]);
@@ -146,6 +152,39 @@ test("run configuration rejects invalid precision policy through the common issu
     (error) => error instanceof KernelValidationError &&
       error.issues.some((entry) =>
         entry.code === "DECIMAL_POLICY_INVALID" && entry.path === "$input.invariantPrecision"
+      )
+  );
+});
+
+test("run configuration bounds current-level fixpoint rounds to the published artifact capacity", () => {
+  assert.equal(normalizeRunConfig(validConfig({
+    boundedFixpoint: { enabled: true, maxIterations: 10_000 }
+  })).boundedFixpoint.maxIterations, 10_000);
+
+  assert.throws(
+    () => normalizeRunConfig(validConfig({
+      boundedFixpoint: { enabled: true, maxIterations: 10_001 }
+    })),
+    (error) => error instanceof KernelValidationError &&
+      error.issues.some((entry) =>
+        entry.code === "RUN_CONFIG_MAX_ITERATIONS_INVALID" &&
+        entry.details.maximum === 10_000
+      )
+  );
+});
+
+test("run configuration freezes the opt-in profile composition gate", () => {
+  assert.equal(normalizeRunConfig(validConfig({
+    profileCompositionPolicy: "profile-slot-gate-v1"
+  })).profileCompositionPolicy, "profile-slot-gate-v1");
+
+  assert.throws(
+    () => normalizeRunConfig(validConfig({
+      profileCompositionPolicy: "ambient-profile-callback"
+    })),
+    (error) => error instanceof KernelValidationError &&
+      error.issues.some((entry) =>
+        entry.code === "RUN_CONFIG_PROFILE_COMPOSITION_POLICY_INVALID"
       )
   );
 });

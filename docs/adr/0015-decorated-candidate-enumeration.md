@@ -13,14 +13,17 @@ must be deterministic, bounded before the next candidate is materialized, and
 diagnostically separate from canonical deduplication and graph-policy
 exclusion.
 
-Profile-derived role guards and safe partial pruning do not yet have executable
-semantics. The later ADR-0017 graph-only evaluator is deliberately separate
-from this enumerator and does not authorize it to prune. The generator must not
-infer unsupported semantics or report them as applied.
+Profile-derived role guards do not yet have executable semantics. The later
+ADR-0017 graph-only evaluator is
+deliberately separate from this enumerator and does not authorize pruning by
+itself. ADR-0054 adds an internal-only audited pre-admission hook, and ADR-0055
+adds internal-only observation and recursive edge-group frontier hooks. The
+public enumerator must not accept arbitrary decision code or infer unsupported
+semantics.
 
 ## Decision
 
-`enumerateDecoratedCandidates` accepts a finite set of simple skeletons, one
+`enumerateDecoratedCandidates` v3 accepts a finite set of simple skeletons, one
 fixed counting domain, finite node and edge variant alphabets, and a graph
 policy. A node variant is a reference plus its selected structural attributes.
 An edge variant is a role plus its selected structural attributes. Scientific
@@ -66,6 +69,7 @@ result reconciles:
 ```text
 generatedCandidates = policyExcludedCandidates
                     + canonicalizationIndeterminateCandidates
+                    + preAdmissionPrunedCandidates
                     + attemptedCandidates
 ```
 
@@ -85,7 +89,7 @@ exhaustion retains an open CandidateStore snapshot; unique-candidate exhaustion 
 `budget-exhausted` snapshot. Only successful traversal finalizes the store and
 sets `interpretable: true`.
 
-No resumable cursor is claimed. The recorded cursor identifies the first
+No resumable cursor is claimed at this historical boundary. The recorded cursor identifies the first
 unvisited logical boundary for diagnostics only.
 
 ## Consequences
@@ -100,8 +104,11 @@ unvisited logical boundary for diagnostics only.
   and duplicate counts remain distinct;
 - reaching a numeric budget is harmless if traversal is actually finished;
   attempting the next logical state makes truncation explicit;
-- profile-slot derivation, run-configuration binding, predicate execution,
-  monotone partial pruning, and resumable state remain separate work.
+- profile-slot derivation, node-growth frontiers, and resumable state remain
+  separate work at this boundary; ADR-0081 subsequently adds exact node-
+  frontier counts and portable replay-resumable state without reinterpreting
+  this diagnostic cursor. Audited package-bound pre-admission, raw-frontier,
+  and generalized depth-aware pruning are specified by ADR-0054 through ADR-0056.
 
 ## Acceptance artifacts
 

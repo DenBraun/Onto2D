@@ -3,6 +3,9 @@
 Status: proposed implementation baseline; local conformance passed,
 independent and cross-platform review pending
 
+ADR-0046 later implements direct local scalar and profile-consensus invariant
+resolution without changing this balance contract.
+
 ## Context
 
 The predicate language and numeric-policy binder already define `balance` as
@@ -68,7 +71,9 @@ the evaluator with missing data.
 
 Profile-domain/scalar invariant resolution, functional/coefficient execution,
 general Quantity products, cycle-set selection, substructure operators, and
-derived-attribute package generation remain unsupported.
+derived-attribute package generation remain unsupported at this local balance
+boundary. ADR-0032 later enables coefficients and general Quantity products in
+the separate package-functional runtime.
 
 ## Consequences
 

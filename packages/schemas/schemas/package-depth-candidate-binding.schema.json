@@ -1,0 +1,135 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/package-depth-candidate-binding.schema.json",
+  "title": "Onto2D Depth-Aware Package Candidate Binding",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "binder",
+    "packageId",
+    "rulesHash",
+    "depthBasis",
+    "runConfigHash",
+    "runConfig",
+    "targetDepth",
+    "bindingPolicy",
+    "sourcePopulation",
+    "enumerationInput",
+    "enumerationOptions",
+    "bindingHash"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "binder": { "const": "package-depth-candidate-binding-v2" },
+    "packageId": { "$ref": "#/$defs/hash" },
+    "rulesHash": { "$ref": "#/$defs/hash" },
+    "depthBasis": { "$ref": "#/$defs/hash" },
+    "runConfigHash": { "$ref": "#/$defs/hash" },
+    "runConfig": { "$ref": "run-config.schema.json" },
+    "targetDepth": { "type": "integer", "minimum": 1, "maximum": 64 },
+    "bindingPolicy": { "$ref": "#/$defs/policy" },
+    "sourcePopulation": {
+      "$ref": "package-depth-source-selection.schema.json"
+    },
+    "enumerationInput": {
+      "$ref": "candidate-enumeration-input.schema.json"
+    },
+    "enumerationOptions": {
+      "$ref": "package-candidate-binding.schema.json#/$defs/enumerationOptions"
+    },
+    "bindingHash": { "$ref": "#/$defs/hash" }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "targetDepth": { "const": 1 } },
+        "required": ["targetDepth"]
+      },
+      "then": {
+        "properties": {
+          "sourcePopulation": {
+            "properties": { "targetDepth": { "const": 1 } }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "targetDepth": { "const": 2 } },
+        "required": ["targetDepth"]
+      },
+      "then": {
+        "properties": {
+          "sourcePopulation": {
+            "properties": { "targetDepth": { "const": 2 } }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "runConfig": {
+            "properties": { "countingDomain": { "const": "element-exact" } },
+            "required": ["countingDomain"]
+          }
+        },
+        "required": ["runConfig"]
+      },
+      "then": {
+        "properties": {
+          "enumerationInput": {
+            "properties": { "domain": { "const": "element-exact" } }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "runConfig": {
+            "properties": { "countingDomain": { "const": "profile-quotient" } },
+            "required": ["countingDomain"]
+          }
+        },
+        "required": ["runConfig"]
+      },
+      "then": {
+        "properties": {
+          "enumerationInput": {
+            "properties": { "domain": { "const": "profile-quotient" } }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "hash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "policy": {
+      "type": "object",
+      "required": [
+        "sourceSelection",
+        "elementAlphabet",
+        "profileAlphabet",
+        "skeletonAndDecorationBudgets"
+      ],
+      "properties": {
+        "sourceSelection": {
+          "const": "exact-package-depth-source-selection-v1"
+        },
+        "elementAlphabet": { "const": "all-selected-element-ids-v1" },
+        "profileAlphabet": {
+          "const": "one-hash-per-selected-profile-class-v1"
+        },
+        "skeletonAndDecorationBudgets": {
+          "const": "reproduced-package-candidate-binding-execution-v1"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

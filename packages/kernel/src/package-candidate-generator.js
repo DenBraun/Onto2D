@@ -1,14 +1,16 @@
-import { canonicalClone, deepFreeze } from "./canonical.js";
-import {
-  DEFAULT_CANDIDATE_ENUMERATION_LIMITS,
-  enumerateDecoratedCandidates
-} from "./candidate-enumerator.js";
+import { canonicalClone, canonicalize, deepFreeze } from "./canonical.js";
+import { DEFAULT_CANDIDATE_ENUMERATION_LIMITS } from "./candidate-enumerator.js";
 import { KernelError, KernelValidationError, validationIssue } from "./errors.js";
 import { DEFAULT_GRAPH_CANONICALIZATION_LIMITS } from "./graph-canonicalizer.js";
 import { HASH_DOMAINS, hashCanonical } from "./hash.js";
+import { invariantValueKind } from "./invariant.js";
 import { materializePrimitiveDepthPopulation } from "./primitive-depth-population.js";
 import { normalizeRunConfig } from "./run-config.js";
 import { enumerateConnectedSkeletons } from "./skeleton-enumerator.js";
+import { assertPackageRunStratification } from "./stratification.js";
+import {
+  enumerateBoundCandidatesWithProfileComposition
+} from "./package-profile-composition.js";
 
 const EXECUTION_BUDGET_FIELDS = new Set([
   "maxRawCandidates",
@@ -17,8 +19,8 @@ const EXECUTION_BUDGET_FIELDS = new Set([
 ]);
 const OPTION_FIELDS = new Set([...EXECUTION_BUDGET_FIELDS, "kernelVersion"]);
 
-export const PACKAGE_CANDIDATE_BINDER_VERSION = "package-candidate-binding-v1";
-export const PACKAGE_CANDIDATE_GENERATOR_VERSION = "package-candidate-generator-v1";
+export const PACKAGE_CANDIDATE_BINDER_VERSION = "package-candidate-binding-v2";
+export const PACKAGE_CANDIDATE_GENERATOR_VERSION = "package-candidate-generator-v5";
 
 export const DEFAULT_PACKAGE_CANDIDATE_EXECUTION_LIMITS = deepFreeze({
   maxRawCandidates: DEFAULT_CANDIDATE_ENUMERATION_LIMITS.maxRawCandidates,
@@ -45,7 +47,7 @@ function throwValidation(issues, message = "Package candidate binding failed val
   });
 }
 
-function normalizeExecutionOptions(options) {
+export function normalizePackageCandidateExecutionOptions(options) {
   if (!isObject(options)) {
     throwValidation([
       validationIssue(
@@ -132,7 +134,62 @@ function materializeSourcePopulation(input, kernelVersion) {
   }
 }
 
-function validateSupportedGenerationConfig(depthPopulation, config) {
+function sourceElements(sourcePopulation) {
+  return sourcePopulation.elements ?? sourcePopulation.population?.elements ?? [];
+}
+
+const CONSTANT_CANDIDATE_ATTRIBUTE_SOURCES = new Set([
+  "constant-scalar-v1",
+  "constant-quantity-v1"
+]);
+const ELEMENT_INVARIANT_CANDIDATE_ATTRIBUTE_SOURCES = new Set([
+  "element-invariant-scalar-v1",
+  "element-invariant-quantity-v1"
+]);
+const ROLE_CANDIDATE_ATTRIBUTE_SOURCES = new Set([
+  "edge-role-scalar-v1",
+  "edge-role-quantity-v1"
+]);
+
+function selectedAttributeDefinitions(candidateAttributes, config, issues) {
+  const definitions = new Map(candidateAttributes.map((entry) => [
+    entry.name,
+    entry
+  ]));
+  const selected = [];
+  for (const [target, names] of [
+    ["nodes", config.graphPolicy.structuralNodeAttributes],
+    ["edges", config.graphPolicy.structuralEdgeAttributes]
+  ]) {
+    for (const name of names) {
+      const definition = definitions.get(name);
+      if (definition === undefined || definition.target !== target) {
+        addIssue(
+          issues,
+          "PACKAGE_CANDIDATE_ATTRIBUTE_DEFINITION_MISSING",
+          `$config.graphPolicy.structural${target === "nodes" ? "Node" : "Edge"}Attributes`,
+          "Every structural candidate attribute requires a matching package derivation definition.",
+          { name, target }
+        );
+      } else {
+        selected.push(definition);
+      }
+    }
+  }
+  return selected;
+}
+
+function candidateAttributeValue(definition, element) {
+  return CONSTANT_CANDIDATE_ATTRIBUTE_SOURCES.has(definition.source.kind)
+    ? definition.source.value
+    : element.invariants[definition.source.invariant];
+}
+
+export function validateSupportedPackageGenerationConfig(
+  depthPopulation,
+  config,
+  candidateAttributes = []
+) {
   const issues = [];
   if (config.countingDomain === "single-candidate") {
     addIssue(
@@ -150,24 +207,11 @@ function validateSupportedGenerationConfig(depthPopulation, config) {
       "Package-driven enumeration currently defines only the connected-skeleton universe."
     );
   }
-  if (config.graphPolicy.structuralNodeAttributes.length > 0) {
-    addIssue(
-      issues,
-      "PACKAGE_CANDIDATE_NODE_ATTRIBUTES_UNAVAILABLE",
-      "$config.graphPolicy.structuralNodeAttributes",
-      "No package-to-candidate structural node-attribute derivation policy is implemented.",
-      { attributes: config.graphPolicy.structuralNodeAttributes }
-    );
-  }
-  if (config.graphPolicy.structuralEdgeAttributes.length > 0) {
-    addIssue(
-      issues,
-      "PACKAGE_CANDIDATE_EDGE_ATTRIBUTES_UNAVAILABLE",
-      "$config.graphPolicy.structuralEdgeAttributes",
-      "No package-to-candidate structural edge-attribute derivation policy is implemented.",
-      { attributes: config.graphPolicy.structuralEdgeAttributes }
-    );
-  }
+  const selectedAttributes = selectedAttributeDefinitions(
+    candidateAttributes,
+    config,
+    issues
+  );
   for (const field of ["maxWallTimeMs", "maxResidentBytes"]) {
     if (config.budget[field] !== undefined) {
       addIssue(
@@ -179,7 +223,8 @@ function validateSupportedGenerationConfig(depthPopulation, config) {
       );
     }
   }
-  if (depthPopulation.elements.length === 0) {
+  const elements = sourceElements(depthPopulation);
+  if (elements.length === 0) {
     addIssue(
       issues,
       "PACKAGE_CANDIDATE_PRIMITIVES_REQUIRED",
@@ -187,7 +232,140 @@ function validateSupportedGenerationConfig(depthPopulation, config) {
       "Package-driven enumeration requires at least one normalized primitive."
     );
   }
+  for (const definition of selectedAttributes) {
+    if (ROLE_CANDIDATE_ATTRIBUTE_SOURCES.has(definition.source.kind)) {
+      for (const role of config.roleAlphabet) {
+        if (definition.source.values[role] === undefined) {
+          addIssue(
+            issues,
+            "PACKAGE_CANDIDATE_ATTRIBUTE_ROLE_UNAVAILABLE",
+            "$config.roleAlphabet",
+            "A selected role-dependent candidate attribute does not cover every run role.",
+            { attribute: definition.name, role }
+          );
+        }
+      }
+      continue;
+    }
+    if (!ELEMENT_INVARIANT_CANDIDATE_ATTRIBUTE_SOURCES.has(
+      definition.source.kind
+    )) continue;
+    let expectedRuntimeType = null;
+    for (const element of elements) {
+      const value = element.invariants[definition.source.invariant];
+      const kind = value === undefined ? "undefined" : invariantValueKind(value);
+      const quantity = kind === "quantity";
+      const typeMatches = definition.source.kind ===
+        "element-invariant-quantity-v1"
+        ? quantity
+        : !quantity;
+      if (value === undefined || !typeMatches) {
+        addIssue(
+          issues,
+          "PACKAGE_CANDIDATE_ATTRIBUTE_SOURCE_UNAVAILABLE",
+          "$sourcePopulation.elements",
+          "A selected source element lacks the required typed candidate attribute value.",
+          {
+            attribute: definition.name,
+            invariant: definition.source.invariant,
+            elementId: element.id
+          }
+        );
+        continue;
+      }
+      const runtimeType = quantity
+        ? { kind, unit: value.unit, semantic: value.semantic }
+        : { kind };
+      if (expectedRuntimeType === null) {
+        expectedRuntimeType = runtimeType;
+        continue;
+      }
+      if (canonicalize(runtimeType) !== canonicalize(expectedRuntimeType)) {
+        addIssue(
+          issues,
+          "PACKAGE_CANDIDATE_ATTRIBUTE_SOURCE_TYPE_DRIFT",
+          "$sourcePopulation.elements",
+          "Selected source elements disagree on a candidate attribute's runtime type.",
+          {
+            attribute: definition.name,
+            invariant: definition.source.invariant,
+            elementId: element.id,
+            expectedRuntimeType,
+            actualRuntimeType: runtimeType
+          }
+        );
+      }
+    }
+  }
   if (issues.length > 0) throwValidation(issues);
+}
+
+/** Derives the exact finite node/edge decoration alphabets from package rules. */
+export function derivePackageCandidateVariants(
+  sourcePopulation,
+  config,
+  candidateAttributes
+) {
+  validateSupportedPackageGenerationConfig(
+    sourcePopulation,
+    config,
+    candidateAttributes
+  );
+  const elements = sourceElements(sourcePopulation);
+  const elementsById = new Map(elements.map((element) => [element.id, element]));
+  const definitions = new Map(candidateAttributes.map((entry) => [
+    entry.name,
+    entry
+  ]));
+  const nodeDefinitions = config.graphPolicy.structuralNodeAttributes.map(
+    (name) => definitions.get(name)
+  );
+  const edgeDefinitions = config.graphPolicy.structuralEdgeAttributes.map(
+    (name) => definitions.get(name)
+  );
+  function nodeAttrs(elementIds) {
+    const values = {};
+    for (const definition of nodeDefinitions) {
+      const members = elementIds.map((elementId) =>
+        candidateAttributeValue(definition, elementsById.get(elementId))
+      );
+      const first = canonicalize(members[0]);
+      if (!members.every((value) => canonicalize(value) === first)) {
+        throwValidation([
+          validationIssue(
+            "PACKAGE_CANDIDATE_PROFILE_ATTRIBUTE_INDETERMINATE",
+            "$sourcePopulation.profileClasses",
+            "A profile-quotient class has member-dependent structural attribute values.",
+            { attribute: definition.name, elementIds }
+          )
+        ]);
+      }
+      values[definition.name] = members[0];
+    }
+    return Object.keys(values).length === 0 ? {} : { attrs: values };
+  }
+  const nodeVariants = config.countingDomain === "profile-quotient"
+    ? sourcePopulation.profileClasses.map((entry) => ({
+        ref: entry.profileHash,
+        ...nodeAttrs(entry.members)
+      }))
+    : elements.map((element) => ({
+        ref: element.id,
+        ...nodeAttrs([element.id])
+      })).sort((left, right) => compareStrings(left.ref, right.ref));
+  const edgeVariants = config.roleAlphabet.map((role) => {
+    const edgeAttrs = Object.fromEntries(edgeDefinitions.map((definition) => [
+      definition.name,
+      ROLE_CANDIDATE_ATTRIBUTE_SOURCES.has(definition.source.kind)
+        ? definition.source.values[role]
+        : definition.source.value
+    ]));
+    return {
+      role,
+      ...(Object.keys(edgeAttrs).length === 0 ? {} : { attrs: edgeAttrs })
+    };
+  });
+  return { nodeVariants, edgeVariants };
 }
 
 function factorial(value) {
@@ -196,7 +374,7 @@ function factorial(value) {
   return result;
 }
 
-function validateCanonicalizationPreflight(config, execution) {
+export function validatePackageCanonicalizationPreflight(config, execution) {
   const minimum = Math.max(2, factorial(config.budget.maxNodes));
   if (execution.maxSearchStates < minimum) {
     throwValidation([
@@ -210,7 +388,7 @@ function validateCanonicalizationPreflight(config, execution) {
   }
 }
 
-function deriveProfileClasses(elements) {
+export function derivePackageProfileClasses(elements) {
   const classes = new Map();
   for (const element of elements) {
     const profileHash = element.profile.hash;
@@ -229,7 +407,7 @@ function deriveProfileClasses(elements) {
     });
 }
 
-function enumeratePackageSkeletons(maxNodes) {
+export function enumeratePackageSkeletons(maxNodes) {
   const skeletons = [];
   for (let nodeCount = 1; nodeCount <= maxNodes; nodeCount += 1) {
     const result = enumerateConnectedSkeletons(nodeCount);
@@ -246,7 +424,7 @@ function enumeratePackageSkeletons(maxNodes) {
   return skeletons.sort((left, right) => compareStrings(left.id, right.id));
 }
 
-function maximumGeneratedEdges(config) {
+export function maximumPackageGeneratedEdges(config) {
   const requested = config.budget.maxEdges === "n+2"
     ? config.budget.maxNodes + 2
     : config.budget.maxEdges;
@@ -262,26 +440,34 @@ function maximumGeneratedEdges(config) {
  * budget consumed by the current connected candidate generator.
  */
 export function createPackageCandidateBinding(loadedPackage, runConfig, options = {}) {
-  const execution = normalizeExecutionOptions(options);
+  const execution = normalizePackageCandidateExecutionOptions(options);
   const depthPopulation = materializeSourcePopulation(loadedPackage, execution.kernelVersion);
   const config = normalizeRunConfig(runConfig);
-  validateSupportedGenerationConfig(depthPopulation, config);
-  validateCanonicalizationPreflight(config, execution);
+  assertPackageRunStratification(loadedPackage, config);
+  validateSupportedPackageGenerationConfig(
+    depthPopulation,
+    config,
+    loadedPackage.normalized.candidateAttributes
+  );
+  validatePackageCanonicalizationPreflight(config, execution);
 
   const elements = depthPopulation.elements;
-  const profileClasses = deriveProfileClasses(elements);
-  const nodeVariants = config.countingDomain === "profile-quotient"
-    ? profileClasses.map((entry) => ({ ref: entry.profileHash }))
-    : elements.map((entry) => ({ ref: entry.id }))
-      .sort((left, right) => compareStrings(left.ref, right.ref));
-  const edgeVariants = config.roleAlphabet.map((role) => ({ role }));
+  const profileClasses = derivePackageProfileClasses(elements);
+  const { nodeVariants, edgeVariants } = derivePackageCandidateVariants(
+    {
+      elements,
+      profileClasses
+    },
+    config,
+    loadedPackage.normalized.candidateAttributes
+  );
   const skeletons = enumeratePackageSkeletons(config.budget.maxNodes);
   const runConfigHash = hashCanonical(HASH_DOMAINS.RUN_CONFIG, config);
   const canonicalizationLimits = {
     maxNodes: DEFAULT_GRAPH_CANONICALIZATION_LIMITS.maxNodes,
     maxEdges: Math.max(
       DEFAULT_GRAPH_CANONICALIZATION_LIMITS.maxEdges,
-      maximumGeneratedEdges(config),
+      maximumPackageGeneratedEdges(config),
       1
     ),
     maxSearchStates: execution.maxSearchStates
@@ -329,14 +515,13 @@ export function createPackageCandidateBinding(loadedPackage, runConfig, options 
 
 export function enumeratePackageCandidates(loadedPackage, runConfig, options = {}) {
   const binding = createPackageCandidateBinding(loadedPackage, runConfig, options);
-  const enumeration = enumerateDecoratedCandidates(
-    binding.enumerationInput,
-    binding.enumerationOptions
-  );
+  const { enumeration, profileComposition } =
+    enumerateBoundCandidatesWithProfileComposition(binding);
   return deepFreeze({
     schemaVersion: "1",
     generator: PACKAGE_CANDIDATE_GENERATOR_VERSION,
     binding,
-    enumeration
+    enumeration,
+    profileComposition
   });
 }

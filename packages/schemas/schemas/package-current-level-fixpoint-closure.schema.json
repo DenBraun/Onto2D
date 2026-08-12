@@ -1,0 +1,528 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/package-current-level-fixpoint-closure.schema.json",
+  "title": "Onto2D Bounded Current-Level Fixpoint Closure",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "closer",
+    "scope",
+    "packageId",
+    "rulesHash",
+    "depthBasis",
+    "run",
+    "depth",
+    "axisProvenance",
+    "priorLevels",
+    "countingDomain",
+    "policy",
+    "fixpoint",
+    "rounds",
+    "artifacts",
+    "metrics",
+    "baseline",
+    "execution",
+    "status",
+    "interpretation",
+    "levelHash"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "closer": { "const": "package-current-level-fixpoint-closure-v2" },
+    "scope": { "const": "bounded-current-level-monotone-closure-v2" },
+    "packageId": { "$ref": "#/$defs/hash" },
+    "rulesHash": { "$ref": "#/$defs/hash" },
+    "depthBasis": { "$ref": "#/$defs/hash" },
+    "run": { "$ref": "#/$defs/run" },
+    "depth": { "$ref": "#/$defs/positiveDepth" },
+    "axisProvenance": { "$ref": "element.schema.json#/$defs/axisProvenance" },
+    "ontologyCoordinate": { "$ref": "ontology-coordinate.schema.json" },
+    "priorLevels": {
+      "type": "array",
+      "maxItems": 63,
+      "items": {
+        "allOf": [
+          {
+            "$ref": "package-current-level-candidate-binding.schema.json#/$defs/populationReference"
+          },
+          {
+            "properties": {
+              "depth": { "minimum": 1 },
+              "kind": { "const": "closed-current-level-fixpoint" }
+            }
+          }
+        ]
+      }
+    },
+    "countingDomain": { "enum": ["element-exact", "profile-quotient"] },
+    "policy": { "$ref": "#/$defs/policy" },
+    "fixpoint": { "$ref": "#/$defs/fixpoint" },
+    "rounds": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 10000,
+      "items": { "$ref": "#/$defs/round" }
+    },
+    "artifacts": { "$ref": "#/$defs/artifacts" },
+    "metrics": { "$ref": "#/$defs/metrics" },
+    "baseline": { "$ref": "package-level-closure.schema.json#/$defs/baseline" },
+    "execution": { "$ref": "#/$defs/execution" },
+    "status": { "enum": ["complete", "empty", "indeterminate"] },
+    "interpretation": { "$ref": "#/$defs/interpretation" },
+    "levelHash": { "$ref": "#/$defs/hash" }
+  },
+  "oneOf": [
+    {
+      "properties": {
+        "status": { "const": "complete" },
+        "fixpoint": {
+          "properties": {
+            "status": { "const": "converged" },
+            "converged": { "const": true }
+          }
+        },
+        "interpretation": {
+          "properties": {
+            "status": { "const": "complete" },
+            "reasons": { "maxItems": 0 }
+          }
+        }
+      }
+    },
+    {
+      "properties": {
+        "status": { "const": "empty" },
+        "fixpoint": {
+          "properties": {
+            "status": { "const": "converged" },
+            "converged": { "const": true }
+          }
+        },
+        "interpretation": {
+          "properties": {
+            "status": { "const": "empty" },
+            "reasons": { "const": ["no-materialized-elements"] }
+          }
+        }
+      }
+    },
+    {
+      "properties": {
+        "status": { "const": "indeterminate" },
+        "fixpoint": {
+          "properties": {
+            "status": { "enum": ["exhausted", "round-indeterminate"] },
+            "converged": { "const": false }
+          }
+        },
+        "interpretation": {
+          "properties": { "status": { "const": "indeterminate" } }
+        }
+      }
+    }
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "baseline": {
+            "properties": {
+              "status": { "enum": ["complete", "indeterminate"] }
+            },
+            "required": ["status"]
+          }
+        },
+        "required": ["baseline"]
+      },
+      "then": {
+        "properties": {
+          "artifacts": { "required": ["nullModels"] }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "hash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "count": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "positiveCount": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 10000
+    },
+    "positiveDepth": { "type": "integer", "minimum": 1, "maximum": 64 },
+    "ratioOrNull": {
+      "oneOf": [
+        { "type": "number", "minimum": 0, "maximum": 1 },
+        { "type": "null" }
+      ]
+    },
+    "hashSet": {
+      "type": "array",
+      "maxItems": 1000000,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/hash" }
+    },
+    "policy": {
+      "type": "object",
+      "required": [
+        "initialCurrentPopulation",
+        "roundSource",
+        "accumulation",
+        "convergence",
+        "exhaustion",
+        "nullModels",
+        "roundOrder"
+      ],
+      "properties": {
+        "initialCurrentPopulation": { "const": "empty-v1" },
+        "roundSource": {
+          "const": "selected-below-depths-plus-previous-current-set-v1"
+        },
+        "accumulation": { "const": "canonical-element-id-monotone-union-v1" },
+        "convergence": { "const": "first-round-with-no-new-elements-v1" },
+        "exhaustion": {
+          "const": "indeterminate-without-final-population-v1"
+        },
+        "nullModels": { "const": "independent-current-round-carrier-v1" },
+        "roundOrder": { "const": "ascending-one-based-v1" }
+      },
+      "additionalProperties": false
+    },
+    "run": {
+      "type": "object",
+      "required": [
+        "schemaVersion",
+        "kernelVersion",
+        "packageId",
+        "rulesHash",
+        "depthBasis",
+        "runConfigHash",
+        "targetDepth",
+        "belowPopulations",
+        "roundPolicy",
+        "runHash"
+      ],
+      "properties": {
+        "schemaVersion": { "const": "1" },
+        "kernelVersion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024,
+          "pattern": "^(?:\\S|\\S(?:.*\\S)?)$"
+        },
+        "packageId": { "$ref": "#/$defs/hash" },
+        "rulesHash": { "$ref": "#/$defs/hash" },
+        "depthBasis": { "$ref": "#/$defs/hash" },
+        "runConfigHash": { "$ref": "#/$defs/hash" },
+        "targetDepth": { "$ref": "#/$defs/positiveDepth" },
+        "belowPopulations": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 64,
+          "items": {
+            "$ref": "package-current-level-candidate-binding.schema.json#/$defs/populationReference"
+          }
+        },
+        "roundPolicy": { "$ref": "#/$defs/policy" },
+        "runHash": { "$ref": "#/$defs/hash" }
+      },
+      "additionalProperties": false
+    },
+    "fixpoint": {
+      "type": "object",
+      "required": [
+        "status",
+        "enabled",
+        "maxIterations",
+        "iterations",
+        "converged",
+        "terminalRound",
+        "terminalRoundHash"
+      ],
+      "properties": {
+        "status": {
+          "enum": ["converged", "exhausted", "round-indeterminate"]
+        },
+        "enabled": { "const": true },
+        "maxIterations": { "$ref": "#/$defs/positiveCount" },
+        "iterations": { "$ref": "#/$defs/positiveCount" },
+        "converged": { "type": "boolean" },
+        "terminalRound": { "$ref": "#/$defs/positiveCount" },
+        "terminalRoundHash": { "$ref": "#/$defs/hash" }
+      },
+      "additionalProperties": false
+    },
+    "roundArtifacts": {
+      "type": "object",
+      "required": ["census", "admission", "formations", "profiles", "population"],
+      "properties": {
+        "census": { "$ref": "package-current-level-candidate-census.schema.json" },
+        "admission": { "$ref": "package-selector-admission.schema.json" },
+        "formations": { "$ref": "package-selected-formations.schema.json" },
+        "profiles": { "$ref": "package-derived-profiles.schema.json" },
+        "population": { "$ref": "package-derived-depth-population.schema.json" },
+        "nullModels": {
+          "$ref": "package-level-closure.schema.json#/$defs/nullModels"
+        }
+      },
+      "additionalProperties": false
+    },
+    "roundInterpretation": {
+      "type": "object",
+      "required": ["status", "reasons"],
+      "properties": {
+        "status": { "enum": ["advanced", "converged", "indeterminate"] },
+        "reasons": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 4,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "new-elements-added",
+              "no-new-elements",
+              "admission-indeterminate",
+              "derived-profile-indeterminate",
+              "population-indeterminate",
+              "baseline-indeterminate"
+            ]
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "round": {
+      "type": "object",
+      "required": [
+        "schemaVersion",
+        "evaluator",
+        "packageId",
+        "rulesHash",
+        "depthBasis",
+        "runConfigHash",
+        "targetDepth",
+        "round",
+        "sourceSelectionHash",
+        "currentBeforeHash",
+        "currentBeforeElementIds",
+        "artifacts",
+        "baseline",
+        "addedElementIds",
+        "currentAfterHash",
+        "currentAfterElementIds",
+        "execution",
+        "converged",
+        "status",
+        "interpretation",
+        "roundHash"
+      ],
+      "properties": {
+        "schemaVersion": { "const": "1" },
+        "evaluator": { "const": "package-current-level-fixpoint-round-v2" },
+        "packageId": { "$ref": "#/$defs/hash" },
+        "rulesHash": { "$ref": "#/$defs/hash" },
+        "depthBasis": { "$ref": "#/$defs/hash" },
+        "runConfigHash": { "$ref": "#/$defs/hash" },
+        "targetDepth": { "$ref": "#/$defs/positiveDepth" },
+        "round": { "$ref": "#/$defs/positiveCount" },
+        "sourceSelectionHash": { "$ref": "#/$defs/hash" },
+        "currentBeforeHash": { "$ref": "#/$defs/hash" },
+        "currentBeforeElementIds": { "$ref": "#/$defs/hashSet" },
+        "artifacts": { "$ref": "#/$defs/roundArtifacts" },
+        "baseline": {
+          "$ref": "package-level-closure.schema.json#/$defs/baseline"
+        },
+        "addedElementIds": { "$ref": "#/$defs/hashSet" },
+        "currentAfterHash": { "$ref": "#/$defs/hash" },
+        "currentAfterElementIds": { "$ref": "#/$defs/hashSet" },
+        "execution": { "$ref": "package-level-closure.schema.json#/$defs/execution" },
+        "converged": { "type": "boolean" },
+        "status": { "enum": ["complete", "indeterminate"] },
+        "interpretation": { "$ref": "#/$defs/roundInterpretation" },
+        "roundHash": { "$ref": "#/$defs/hash" }
+      },
+      "oneOf": [
+        {
+          "properties": {
+            "status": { "const": "complete" },
+            "converged": { "const": false },
+            "interpretation": {
+              "properties": {
+                "status": { "const": "advanced" },
+                "reasons": { "const": ["new-elements-added"] }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "status": { "const": "complete" },
+            "converged": { "const": true },
+            "addedElementIds": { "maxItems": 0 },
+            "interpretation": {
+              "properties": {
+                "status": { "const": "converged" },
+                "reasons": { "const": ["no-new-elements"] }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "status": { "const": "indeterminate" },
+            "converged": { "const": false },
+            "addedElementIds": { "maxItems": 0 },
+            "interpretation": {
+              "properties": { "status": { "const": "indeterminate" } }
+            }
+          }
+        }
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "baseline": {
+                "properties": {
+                  "status": { "enum": ["complete", "indeterminate"] }
+                },
+                "required": ["status"]
+              }
+            },
+            "required": ["baseline"]
+          },
+          "then": {
+            "properties": {
+              "artifacts": { "required": ["nullModels"] }
+            }
+          }
+        }
+      ],
+      "additionalProperties": false
+    },
+    "artifacts": {
+      "type": "object",
+      "required": ["census", "admission", "formations", "profiles", "population"],
+      "properties": {
+        "census": { "$ref": "package-current-level-candidate-census.schema.json" },
+        "admission": { "$ref": "package-selector-admission.schema.json" },
+        "formations": { "$ref": "package-selected-formations.schema.json" },
+        "profiles": { "$ref": "package-derived-profiles.schema.json" },
+        "population": { "$ref": "package-current-level-population.schema.json" },
+        "nullModels": {
+          "$ref": "package-level-closure.schema.json#/$defs/nullModels"
+        }
+      },
+      "additionalProperties": false
+    },
+    "metrics": {
+      "type": "object",
+      "required": [
+        "booleanSelectivity",
+        "selectorCensus",
+        "selectionRetention",
+        "overallRetention",
+        "counts"
+      ],
+      "properties": {
+        "booleanSelectivity": { "$ref": "#/$defs/ratioOrNull" },
+        "selectorCensus": {
+          "type": "array",
+          "maxItems": 10000,
+          "items": {
+            "$ref": "package-selector-admission.schema.json#/$defs/selectorCensus"
+          }
+        },
+        "selectionRetention": { "$ref": "#/$defs/ratioOrNull" },
+        "overallRetention": { "$ref": "#/$defs/ratioOrNull" },
+        "counts": { "$ref": "#/$defs/metricCounts" }
+      },
+      "additionalProperties": false
+    },
+    "metricCounts": {
+      "type": "object",
+      "required": [
+        "evaluatedCandidates",
+        "predicateRejected",
+        "filterIndeterminate",
+        "eligibleCandidates",
+        "selectorExcluded",
+        "selectionIndeterminate",
+        "selectedCandidates",
+        "finalIndeterminate",
+        "selectedFormations",
+        "materializedProfiles",
+        "uniqueElements",
+        "alternateDerivations",
+        "tentativeUniqueElements"
+      ],
+      "properties": {
+        "evaluatedCandidates": { "$ref": "#/$defs/count" },
+        "predicateRejected": { "$ref": "#/$defs/count" },
+        "filterIndeterminate": { "$ref": "#/$defs/count" },
+        "eligibleCandidates": { "$ref": "#/$defs/count" },
+        "selectorExcluded": { "$ref": "#/$defs/count" },
+        "selectionIndeterminate": { "$ref": "#/$defs/count" },
+        "selectedCandidates": { "$ref": "#/$defs/count" },
+        "finalIndeterminate": { "$ref": "#/$defs/count" },
+        "selectedFormations": { "$ref": "#/$defs/count" },
+        "materializedProfiles": { "$ref": "#/$defs/count" },
+        "uniqueElements": { "$ref": "#/$defs/count" },
+        "alternateDerivations": { "$ref": "#/$defs/count" },
+        "tentativeUniqueElements": { "$ref": "#/$defs/count" }
+      },
+      "additionalProperties": false
+    },
+    "execution": {
+      "type": "object",
+      "required": [
+        "policy",
+        "executedRounds",
+        "requiredFunctionalEvaluations",
+        "usedFunctionalEvaluations",
+        "requiredPerturbationSamples",
+        "usedPerturbationSamples",
+        "requiredSensitivityFunctionalEvaluations",
+        "usedSensitivityFunctionalEvaluations"
+      ],
+      "properties": {
+        "policy": { "const": "independently-preflighted-per-fixpoint-round-v1" },
+        "executedRounds": { "$ref": "#/$defs/positiveCount" },
+        "requiredFunctionalEvaluations": { "$ref": "#/$defs/count" },
+        "usedFunctionalEvaluations": { "$ref": "#/$defs/count" },
+        "requiredPerturbationSamples": { "$ref": "#/$defs/count" },
+        "usedPerturbationSamples": { "$ref": "#/$defs/count" },
+        "requiredSensitivityFunctionalEvaluations": { "$ref": "#/$defs/count" },
+        "usedSensitivityFunctionalEvaluations": { "$ref": "#/$defs/count" }
+      },
+      "additionalProperties": false
+    },
+    "interpretation": {
+      "type": "object",
+      "required": ["status", "reasons"],
+      "properties": {
+        "status": { "enum": ["complete", "empty", "indeterminate"] },
+        "reasons": {
+          "type": "array",
+          "maxItems": 1,
+          "items": {
+            "enum": [
+              "no-materialized-elements",
+              "fixpoint-iteration-limit-exhausted",
+              "fixpoint-round-indeterminate"
+            ]
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

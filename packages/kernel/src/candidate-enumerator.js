@@ -37,7 +37,7 @@ const MAX_SIMPLE_SKELETON_EDGES =
   DEFAULT_GRAPH_CANONICALIZATION_LIMITS.maxNodes *
   (DEFAULT_GRAPH_CANONICALIZATION_LIMITS.maxNodes - 1) / 2;
 
-export const DECORATED_CANDIDATE_ENUMERATOR_VERSION = "decorated-candidate-enumerator-v1";
+export const DECORATED_CANDIDATE_ENUMERATOR_VERSION = "decorated-candidate-enumerator-v5";
 
 export const DEFAULT_CANDIDATE_ENUMERATION_LIMITS = deepFreeze({
   maxEdges: "n+2",
@@ -438,12 +438,46 @@ function cursor(skeletonId, nodeIndex, edgeGroupIndex) {
   return { skeletonId, nodeIndex, edgeGroupIndex };
 }
 
+function multisetCount(variantCount, selectionSize) {
+  if (selectionSize === 0) return 1n;
+  if (variantCount === 0) return 0n;
+  let result = 1n;
+  for (let factor = 1; factor < variantCount; factor += 1) {
+    result = result * (BigInt(selectionSize) + BigInt(factor)) / BigInt(factor);
+  }
+  return result;
+}
+
+function safeCount(value, code, message, details) {
+  if (value > BigInt(Number.MAX_SAFE_INTEGER)) {
+    throw new KernelError({
+      code,
+      stage: "ENUMERATE_CANDIDATES",
+      message,
+      details: { ...details, value: value.toString() }
+    });
+  }
+  return Number(value);
+}
+
 /**
  * Exhaustively decorates a finite canonical skeleton set. The caller supplies
  * complete finite node and edge variant alphabets; this function does not
  * derive scientific roles or attributes and does not evaluate predicates.
  */
-export function enumerateDecoratedCandidates(input, options = {}) {
+function enumerateDecoratedCandidatesCore(
+  input,
+  options,
+  {
+    preAdmissionPruner = null,
+    completeCandidateObserver = null,
+    rawCandidateObserver = null,
+    edgeGroupFrontierPruner = null,
+    nodeFrontierObserver = null,
+    nodeFrontierPruner = null,
+    completeCandidateGate = null
+  } = {}
+) {
   const safeInput = canonicalClone(input);
   const safeOptions = canonicalClone(options);
   const issues = [];
@@ -560,6 +594,12 @@ export function enumerateDecoratedCandidates(input, options = {}) {
   let exhausted = null;
   let decorationStates = 0;
   let generatedCandidates = 0;
+  let preAdmissionPrunedCandidates = 0;
+  let branchPrunedRawCandidates = 0;
+  let branchPrunedFrontiers = 0;
+  let nodeBranchPrunedRawCandidates = 0;
+  let nodeBranchPrunedFrontiers = 0;
+  let compositionExcludedCandidates = 0;
   let policyExcludedCandidates = 0;
   let canonicalizationIndeterminateCandidates = 0;
   let edgeBoundExcludedSkeletons = 0;
@@ -580,7 +620,13 @@ export function enumerateDecoratedCandidates(input, options = {}) {
     return true;
   }
 
-  function emitCandidate(skeleton, nodes, edges, edgeGroupIndex) {
+  function emitCandidate(
+    skeleton,
+    nodes,
+    edges,
+    edgeGroupIndex,
+    edgeGroupCounts
+  ) {
     currentCursor = cursor(skeleton.id, nodes.length, edgeGroupIndex);
     if (generatedCandidates >= normalizedOptions.maxRawCandidates) {
       exhausted = deepFreeze({
@@ -592,11 +638,62 @@ export function enumerateDecoratedCandidates(input, options = {}) {
       return false;
     }
     generatedCandidates += 1;
+    if (rawCandidateObserver !== null) {
+      rawCandidateObserver({
+        rawCandidateOrdinal: generatedCandidates - 1,
+        candidateInput: { domain, nodes, edges, skeleton: skeleton.id },
+        edgeGroupCounts: [...edgeGroupCounts]
+      });
+    }
     try {
-      const result = store.add({ domain, nodes, edges, skeleton: skeleton.id });
+      const candidateInput = { domain, nodes, edges, skeleton: skeleton.id };
+      if (completeCandidateGate !== null) {
+        const canonicalizationResult = canonicalizeCandidate(
+          candidateInput,
+          canonicalization
+        );
+        const decision = completeCandidateGate(canonicalizationResult);
+        if (
+          !isObject(decision) ||
+          !new Set(["pass", "exclude"]).has(decision.outcome)
+        ) {
+          throw new KernelError({
+            code: "CANDIDATE_ENUMERATION_COMPOSITION_GATE_RESULT_INVALID",
+            stage: "ENUMERATE_CANDIDATES",
+            message: "The internal complete-candidate composition gate returned an invalid decision."
+          });
+        }
+        if (decision.outcome === "exclude") {
+          compositionExcludedCandidates += 1;
+          return true;
+        }
+      }
+      if (preAdmissionPruner !== null) {
+        const decision = preAdmissionPruner(candidateInput);
+        if (!isObject(decision) || typeof decision.pruningAuthorized !== "boolean") {
+          throw new KernelError({
+            code: "CANDIDATE_ENUMERATION_PRUNER_RESULT_INVALID",
+            stage: "ENUMERATE_CANDIDATES",
+            message: "The internal pre-admission pruner returned an invalid decision."
+          });
+        }
+        if (decision.pruningAuthorized) {
+          preAdmissionPrunedCandidates += 1;
+          return true;
+        }
+      }
+      const result = store.add(candidateInput);
       if (result.status === "budget-exhausted") {
         exhausted = result.exhaustion;
         return false;
+      }
+      if (completeCandidateObserver !== null) {
+        completeCandidateObserver({
+          rawCandidateOrdinal: generatedCandidates - 1,
+          candidateInput,
+          canonicalization: result.canonicalization,
+          edgeGroupCounts: [...edgeGroupCounts]
+        });
       }
     } catch (error) {
       if (isConnectivityExclusion(error)) {
@@ -641,11 +738,86 @@ export function enumerateDecoratedCandidates(input, options = {}) {
       suffixMinimum[index] = suffixMinimum[index + 1] + groups[index].minimum;
     }
 
-    function visitEdgeGroups(groupIndex, edges) {
+    const completionMemo = new Map();
+    function countRawCompletions(groupIndex, edgeCount) {
+      if (groupIndex === groups.length) return 1n;
+      const key = `${groupIndex}:${edgeCount}`;
+      const cached = completionMemo.get(key);
+      if (cached !== undefined) return cached;
+      const group = groups[groupIndex];
+      const maximum = canonicalization.policy.allowParallelEdges
+        ? edgeLimit - edgeCount - suffixMinimum[groupIndex + 1]
+        : Math.min(1, edgeLimit - edgeCount - suffixMinimum[groupIndex + 1]);
+      let total = 0n;
+      if (maximum >= group.minimum && !(group.variants.length === 0 && group.minimum > 0)) {
+        for (let size = group.minimum; size <= maximum; size += 1) {
+          total += multisetCount(group.variants.length, size) *
+            countRawCompletions(groupIndex + 1, edgeCount + size);
+        }
+      }
+      completionMemo.set(key, total);
+      return total;
+    }
+
+    function visitEdgeGroups(groupIndex, edges, edgeGroupCounts) {
       if (exhausted !== null) return false;
       if (!enterState(cursor(skeleton.id, skeleton.nodeCount, groupIndex))) return false;
+      if (
+        edgeGroupFrontierPruner !== null &&
+        groupIndex < groups.length
+      ) {
+        const remainingRawCandidates = safeCount(
+          countRawCompletions(groupIndex, edges.length),
+          "CANDIDATE_ENUMERATION_PRUNED_RAW_COUNT_LIMIT",
+          "A recursively pruned subtree exceeds the safe-integer counting contract.",
+          { skeletonId: skeleton.id, groupIndex, edgeCount: edges.length }
+        );
+        const decision = edgeGroupFrontierPruner({
+          candidateInput: {
+            domain,
+            nodes: assignedNodes,
+            edges,
+            skeleton: skeleton.id
+          },
+          frontier: {
+            skeletonId: skeleton.id,
+            completedEdgeGroups: groupIndex,
+            totalEdgeGroups: groups.length,
+            edgeGroupCounts: [...edgeGroupCounts],
+            remainingRawCandidates
+          }
+        });
+        if (!isObject(decision) || typeof decision.pruningAuthorized !== "boolean") {
+          throw new KernelError({
+            code: "CANDIDATE_ENUMERATION_FRONTIER_PRUNER_RESULT_INVALID",
+            stage: "ENUMERATE_CANDIDATES",
+            message: "The internal edge-group frontier pruner returned an invalid decision."
+          });
+        }
+        if (decision.pruningAuthorized) {
+          if (!Number.isSafeInteger(
+            branchPrunedRawCandidates + remainingRawCandidates
+          )) {
+            throw new KernelError({
+              code: "CANDIDATE_ENUMERATION_PRUNED_RAW_COUNT_LIMIT",
+              stage: "ENUMERATE_CANDIDATES",
+              message: "Recursive pruning counts exceeded the safe-integer contract.",
+              details: { branchPrunedRawCandidates, remainingRawCandidates }
+            });
+          }
+          branchPrunedRawCandidates += remainingRawCandidates;
+          branchPrunedFrontiers += 1;
+          return true;
+        }
+      }
       if (groupIndex === groups.length) {
-        return emitCandidate(skeleton, assignedNodes, edges, groupIndex);
+        return emitCandidate(
+          skeleton,
+          assignedNodes,
+          edges,
+          groupIndex,
+          edgeGroupCounts
+        );
       }
       const group = groups[groupIndex];
       const maximum = canonicalization.policy.allowParallelEdges
@@ -657,7 +829,11 @@ export function enumerateDecoratedCandidates(input, options = {}) {
         if (exhausted !== null) return false;
         if (!enterState(cursor(skeleton.id, skeleton.nodeCount, groupIndex))) return false;
         if (selected.length === targetSize) {
-          return visitEdgeGroups(groupIndex + 1, edges.concat(selected));
+          return visitEdgeGroups(
+            groupIndex + 1,
+            edges.concat(selected),
+            edgeGroupCounts.concat(selected.length)
+          );
         }
         for (let index = start; index < group.variants.length; index += 1) {
           selected.push(group.variants[index]);
@@ -677,7 +853,74 @@ export function enumerateDecoratedCandidates(input, options = {}) {
     function visitNodes(nodeIndex) {
       if (exhausted !== null) return false;
       if (!enterState(cursor(skeleton.id, nodeIndex, null))) return false;
-      if (nodeIndex === skeleton.nodeCount) return visitEdgeGroups(0, []);
+      if (nodeIndex === skeleton.nodeCount) return visitEdgeGroups(0, [], []);
+      if (
+        nodeIndex > 0 &&
+        (nodeFrontierObserver !== null || nodeFrontierPruner !== null)
+      ) {
+        const remainingNodeAssignments = skeleton.nodeCount - nodeIndex;
+        const edgeRawCandidatesPerAssignment = safeCount(
+          countRawCompletions(0, 0),
+          "CANDIDATE_ENUMERATION_NODE_FRONTIER_COUNT_LIMIT",
+          "A node frontier's edge descendants exceed the safe-integer counting contract.",
+          { skeletonId: skeleton.id, nodeIndex }
+        );
+        const remainingRawCandidates = safeCount(
+          BigInt(edgeRawCandidatesPerAssignment) *
+            BigInt(nodeVariants.length) ** BigInt(remainingNodeAssignments),
+          "CANDIDATE_ENUMERATION_NODE_FRONTIER_COUNT_LIMIT",
+          "A node frontier's raw descendants exceed the safe-integer counting contract.",
+          { skeletonId: skeleton.id, nodeIndex, remainingNodeAssignments }
+        );
+        const frontierInput = {
+          candidateInput: {
+            domain,
+            nodes: [...assignedNodes],
+            edges: [],
+            skeleton: skeleton.id
+          },
+          frontier: {
+            skeletonId: skeleton.id,
+            assignedNodes: nodeIndex,
+            totalNodes: skeleton.nodeCount,
+            remainingNodeAssignments,
+            edgeRawCandidatesPerAssignment,
+            remainingRawCandidates
+          }
+        };
+        if (nodeFrontierObserver !== null) nodeFrontierObserver(frontierInput);
+        if (nodeFrontierPruner !== null) {
+          const decision = nodeFrontierPruner(frontierInput);
+          if (
+            !isObject(decision) ||
+            typeof decision.pruningAuthorized !== "boolean"
+          ) {
+            throw new KernelError({
+              code: "CANDIDATE_ENUMERATION_NODE_FRONTIER_PRUNER_RESULT_INVALID",
+              stage: "ENUMERATE_CANDIDATES",
+              message: "The internal node-frontier pruner returned an invalid decision."
+            });
+          }
+          if (decision.pruningAuthorized) {
+            if (!Number.isSafeInteger(
+              nodeBranchPrunedRawCandidates + remainingRawCandidates
+            )) {
+              throw new KernelError({
+                code: "CANDIDATE_ENUMERATION_NODE_FRONTIER_COUNT_LIMIT",
+                stage: "ENUMERATE_CANDIDATES",
+                message: "Node-frontier pruning counts exceeded the safe-integer contract.",
+                details: {
+                  nodeBranchPrunedRawCandidates,
+                  remainingRawCandidates
+                }
+              });
+            }
+            nodeBranchPrunedRawCandidates += remainingRawCandidates;
+            nodeBranchPrunedFrontiers += 1;
+            return true;
+          }
+        }
+      }
       for (const variant of nodeVariants) {
         assignedNodes.push(variant);
         if (!visitNodes(nodeIndex + 1)) return false;
@@ -694,9 +937,25 @@ export function enumerateDecoratedCandidates(input, options = {}) {
 
   const status = exhausted === null ? "complete" : "budget-exhausted";
   const candidateStore = status === "complete" ? store.finalize() : store.snapshot();
+  const logicalRawCandidates = generatedCandidates +
+    branchPrunedRawCandidates + nodeBranchPrunedRawCandidates;
+  if (!Number.isSafeInteger(logicalRawCandidates)) {
+    throw new KernelError({
+      code: "CANDIDATE_ENUMERATION_LOGICAL_RAW_COUNT_LIMIT",
+      stage: "ENUMERATE_CANDIDATES",
+      message: "The logical raw-candidate census exceeded the safe-integer contract.",
+      details: {
+        generatedCandidates,
+        branchPrunedRawCandidates,
+        nodeBranchPrunedRawCandidates
+      }
+    });
+  }
   if (generatedCandidates !==
       policyExcludedCandidates +
       canonicalizationIndeterminateCandidates +
+      compositionExcludedCandidates +
+      preAdmissionPrunedCandidates +
       candidateStore.counts.attemptedCandidates) {
     throw new KernelError({
       code: "CANDIDATE_ENUMERATION_COUNT_MISMATCH",
@@ -706,12 +965,14 @@ export function enumerateDecoratedCandidates(input, options = {}) {
         generatedCandidates,
         policyExcludedCandidates,
         canonicalizationIndeterminateCandidates,
+        compositionExcludedCandidates,
+        preAdmissionPrunedCandidates,
         attemptedCandidates: candidateStore.counts.attemptedCandidates
       }
     });
   }
 
-  return deepFreeze({
+  const enumeration = deepFreeze({
     schemaVersion: "1",
     enumerator: DECORATED_CANDIDATE_ENUMERATOR_VERSION,
     status,
@@ -727,8 +988,15 @@ export function enumerateDecoratedCandidates(input, options = {}) {
       edgeBoundExcludedSkeletons,
       decorationStates,
       generatedCandidates,
+      logicalRawCandidates,
       policyExcludedCandidates,
       canonicalizationIndeterminateCandidates,
+      compositionExcludedCandidates,
+      preAdmissionPrunedCandidates,
+      branchPrunedRawCandidates,
+      branchPrunedFrontiers,
+      nodeBranchPrunedRawCandidates,
+      nodeBranchPrunedFrontiers,
       attemptedCandidates: candidateStore.counts.attemptedCandidates,
       canonicalCandidates: candidateStore.counts.uniqueCandidates,
       duplicateCandidates: candidateStore.counts.duplicateCandidates
@@ -741,5 +1009,214 @@ export function enumerateDecoratedCandidates(input, options = {}) {
       canonicalizationLimits: canonicalization.limits,
       exhausted
     }
+  });
+  return Object.freeze({
+    enumeration,
+    pruning: deepFreeze({
+      enabled: preAdmissionPruner !== null ||
+        edgeGroupFrontierPruner !== null || nodeFrontierPruner !== null,
+      preAdmissionPrunedCandidates,
+      branchPrunedRawCandidates,
+      branchPrunedFrontiers,
+      nodeBranchPrunedRawCandidates,
+      nodeBranchPrunedFrontiers
+    })
+  });
+}
+
+/** Internal exact profile-slot gate over complete canonical candidates. */
+export function enumerateDecoratedCandidatesWithCompositionGate(
+  input,
+  options,
+  completeCandidateGate
+) {
+  if (typeof completeCandidateGate !== "function") {
+    throw new KernelError({
+      code: "CANDIDATE_ENUMERATION_COMPOSITION_GATE_INVALID",
+      stage: "ENUMERATE_CANDIDATES",
+      message: "Internal profile composition gating requires a decision function."
+    });
+  }
+  return enumerateDecoratedCandidatesCore(input, options, {
+    completeCandidateGate
+  }).enumeration;
+}
+
+export function enumerateDecoratedCandidates(input, options = {}) {
+  return enumerateDecoratedCandidatesCore(input, options).enumeration;
+}
+
+/**
+ * Internal package-integration boundary. Public callers use the ordinary
+ * two-argument enumerator; only a previously verified package controller may
+ * supply this synchronous pre-admission decision function.
+ */
+export function enumerateDecoratedCandidatesWithPreAdmissionPruning(
+  input,
+  options,
+  preAdmissionPruner
+) {
+  if (typeof preAdmissionPruner !== "function") {
+    throw new KernelError({
+      code: "CANDIDATE_ENUMERATION_PRUNER_INVALID",
+      stage: "ENUMERATE_CANDIDATES",
+      message: "Internal pre-admission pruning requires a decision function."
+    });
+  }
+  return enumerateDecoratedCandidatesCore(input, options, {
+    preAdmissionPruner
+  });
+}
+
+/**
+ * Internal package boundary for an exact complete-candidate composition gate
+ * followed by audited pre-admission pruning. The gate deliberately runs first
+ * so the pruning controller observes exactly the profile-compatible universe.
+ */
+export function enumerateDecoratedCandidatesWithCompositionGateAndPreAdmissionPruning(
+  input,
+  options,
+  completeCandidateGate,
+  preAdmissionPruner
+) {
+  if (
+    typeof completeCandidateGate !== "function" ||
+    typeof preAdmissionPruner !== "function"
+  ) {
+    throw new KernelError({
+      code: "CANDIDATE_ENUMERATION_COMBINED_GATE_PRUNER_INVALID",
+      stage: "ENUMERATE_CANDIDATES",
+      message: "Internal combined composition gating and pre-admission pruning require two decision functions."
+    });
+  }
+  return enumerateDecoratedCandidatesCore(input, options, {
+    completeCandidateGate,
+    preAdmissionPruner
+  });
+}
+
+/** Internal read-only traversal hook used to audit reachable edge frontiers. */
+export function enumerateDecoratedCandidatesWithFrontierObserver(
+  input,
+  options,
+  completeCandidateObserver
+) {
+  if (typeof completeCandidateObserver !== "function") {
+    throw new KernelError({
+      code: "CANDIDATE_ENUMERATION_FRONTIER_OBSERVER_INVALID",
+      stage: "ENUMERATE_CANDIDATES",
+      message: "Internal frontier observation requires a callback function."
+    });
+  }
+  return enumerateDecoratedCandidatesCore(input, options, {
+    completeCandidateObserver
+  });
+}
+
+/** Internal raw-leaf hook used by the replay-resumable coordinator. */
+export function enumerateDecoratedCandidatesWithRawCandidateObserver(
+  input,
+  options,
+  rawCandidateObserver
+) {
+  if (typeof rawCandidateObserver !== "function") {
+    throw new KernelError({
+      code: "CANDIDATE_ENUMERATION_RAW_OBSERVER_INVALID",
+      stage: "ENUMERATE_CANDIDATES",
+      message: "Internal raw-candidate observation requires a callback function."
+    });
+  }
+  return enumerateDecoratedCandidatesCore(input, options, {
+    rawCandidateObserver
+  });
+}
+
+/** Internal read-only traversal hook for strict incomplete-node frontiers. */
+export function enumerateDecoratedCandidatesWithNodeFrontierObserver(
+  input,
+  options,
+  nodeFrontierObserver
+) {
+  if (typeof nodeFrontierObserver !== "function") {
+    throw new KernelError({
+      code: "CANDIDATE_ENUMERATION_NODE_FRONTIER_OBSERVER_INVALID",
+      stage: "ENUMERATE_CANDIDATES",
+      message: "Internal node-frontier observation requires a callback function."
+    });
+  }
+  return enumerateDecoratedCandidatesCore(input, options, {
+    nodeFrontierObserver
+  });
+}
+
+/** Internal exact node-assignment subtree-pruning boundary. */
+export function enumerateDecoratedCandidatesWithNodeFrontierPruning(
+  input,
+  options,
+  nodeFrontierPruner
+) {
+  if (typeof nodeFrontierPruner !== "function") {
+    throw new KernelError({
+      code: "CANDIDATE_ENUMERATION_NODE_FRONTIER_PRUNER_INVALID",
+      stage: "ENUMERATE_CANDIDATES",
+      message: "Internal node-frontier pruning requires a decision function."
+    });
+  }
+  return enumerateDecoratedCandidatesCore(input, options, {
+    nodeFrontierPruner
+  });
+}
+
+/** Internal audited node-growth boundary with complete-candidate fallback. */
+export function enumerateDecoratedCandidatesWithNodeGrowthPruning(
+  input,
+  options,
+  nodeFrontierPruner,
+  preAdmissionPruner,
+  completeCandidateGate = null
+) {
+  if (
+    typeof nodeFrontierPruner !== "function" ||
+    typeof preAdmissionPruner !== "function" ||
+    (completeCandidateGate !== null &&
+      typeof completeCandidateGate !== "function")
+  ) {
+    throw new KernelError({
+      code: "CANDIDATE_ENUMERATION_NODE_GROWTH_PRUNER_INVALID",
+      stage: "ENUMERATE_CANDIDATES",
+      message: "Internal node-growth pruning requires frontier and pre-admission decision functions."
+    });
+  }
+  return enumerateDecoratedCandidatesCore(input, options, {
+    nodeFrontierPruner,
+    preAdmissionPruner,
+    completeCandidateGate
+  });
+}
+
+/** Internal audited recursive edge-group pruning boundary. */
+export function enumerateDecoratedCandidatesWithRecursivePruning(
+  input,
+  options,
+  edgeGroupFrontierPruner,
+  preAdmissionPruner,
+  completeCandidateGate = null
+) {
+  if (
+    typeof edgeGroupFrontierPruner !== "function" ||
+    typeof preAdmissionPruner !== "function" ||
+    (completeCandidateGate !== null &&
+      typeof completeCandidateGate !== "function")
+  ) {
+    throw new KernelError({
+      code: "CANDIDATE_ENUMERATION_RECURSIVE_PRUNER_INVALID",
+      stage: "ENUMERATE_CANDIDATES",
+      message: "Internal recursive pruning requires frontier and pre-admission decision functions."
+    });
+  }
+  return enumerateDecoratedCandidatesCore(input, options, {
+    edgeGroupFrontierPruner,
+    preAdmissionPruner,
+    completeCandidateGate
   });
 }

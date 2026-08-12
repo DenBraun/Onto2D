@@ -1,12 +1,20 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import {
+  KernelError,
   KernelValidationError,
+  advanceDecoratedCandidateEnumeration,
   canonicalize,
   createCandidateStore,
   enumerateConnectedSkeletons,
-  enumerateDecoratedCandidates
+  enumerateDecoratedCandidates,
+  verifyDecoratedCandidateEnumerationStep
 } from "../src/index.js";
+import {
+  enumerateDecoratedCandidatesWithFrontierObserver,
+  enumerateDecoratedCandidatesWithNodeFrontierObserver,
+  enumerateDecoratedCandidatesWithNodeFrontierPruning
+} from "../src/candidate-enumerator.js";
 
 const REF_A = `sha256:${"a".repeat(64)}`;
 const REF_B = `sha256:${"b".repeat(64)}`;
@@ -56,12 +64,15 @@ test("decorated enumeration reconciles with a direct bounded brute-force referen
   assert.equal(result.interpretable, true);
   assert.equal(result.counts.generatedCandidates, 8);
   assert.equal(result.counts.policyExcludedCandidates, 0);
+  assert.equal(result.counts.preAdmissionPrunedCandidates, 0);
   assert.equal(result.counts.attemptedCandidates, 8);
   assert.equal(result.counts.canonicalCandidates, 4);
   assert.equal(result.counts.duplicateCandidates, 4);
   assert.equal(
     result.counts.generatedCandidates,
-    result.counts.policyExcludedCandidates + result.counts.attemptedCandidates
+    result.counts.policyExcludedCandidates +
+      result.counts.preAdmissionPrunedCandidates +
+      result.counts.attemptedCandidates
   );
   assert.deepEqual(
     result.candidateStore.candidates.map((entry) => entry.candidateId),
@@ -86,6 +97,165 @@ test("enumeration artifacts do not depend on variant or skeleton endpoint order"
 
   assert.equal(canonicalize(first), canonicalize(second));
   assert.deepEqual(first.edgeVariants.map((entry) => entry.role), ["supports", "transforms"]);
+});
+
+test("internal frontier observation reproduces complete raw traversal without changing output", () => {
+  const observed = [];
+  const execution = enumerateDecoratedCandidatesWithFrontierObserver(
+    pairInput(),
+    { maxEdges: 1 },
+    (entry) => observed.push({
+      rawCandidateOrdinal: entry.rawCandidateOrdinal,
+      candidateId: entry.canonicalization.candidateId,
+      edgeGroupCounts: entry.edgeGroupCounts
+    })
+  );
+  const ordinary = enumerateDecoratedCandidates(pairInput(), { maxEdges: 1 });
+
+  assert.equal(canonicalize(execution.enumeration), canonicalize(ordinary));
+  assert.deepEqual(
+    observed.map((entry) => entry.rawCandidateOrdinal),
+    [0, 1, 2, 3, 4, 5, 6, 7]
+  );
+  assert.ok(observed.every((entry) => entry.edgeGroupCounts.length === 1));
+  assert.ok(observed.every((entry) => entry.edgeGroupCounts[0] === 1));
+  assert.deepEqual(
+    [...new Set(observed.map((entry) => entry.candidateId))].sort(),
+    ordinary.candidateStore.candidates.map((entry) => entry.candidateId)
+  );
+});
+
+test("incomplete-node frontiers expose exact descendants without changing traversal", () => {
+  const observed = [];
+  const execution = enumerateDecoratedCandidatesWithNodeFrontierObserver(
+    pairInput(),
+    { maxEdges: 1 },
+    (entry) => observed.push(entry.frontier)
+  );
+  const ordinary = enumerateDecoratedCandidates(pairInput(), { maxEdges: 1 });
+
+  assert.equal(canonicalize(execution.enumeration), canonicalize(ordinary));
+  assert.equal(observed.length, 2);
+  assert.ok(observed.every((frontier) => frontier.assignedNodes === 1));
+  assert.ok(observed.every((frontier) => frontier.totalNodes === 2));
+  assert.ok(observed.every(
+    (frontier) => frontier.remainingNodeAssignments === 1
+  ));
+  assert.ok(observed.every(
+    (frontier) => frontier.edgeRawCandidatesPerAssignment === 2
+  ));
+  assert.ok(observed.every(
+    (frontier) => frontier.remainingRawCandidates === 4
+  ));
+});
+
+test("node-frontier pruning reconciles exact skipped raw descendants", () => {
+  const execution = enumerateDecoratedCandidatesWithNodeFrontierPruning(
+    pairInput(),
+    { maxEdges: 1 },
+    (entry) => ({
+      pruningAuthorized: entry.candidateInput.nodes[0].ref === REF_A
+    })
+  );
+
+  assert.equal(execution.enumeration.status, "complete");
+  assert.equal(execution.enumeration.counts.generatedCandidates, 4);
+  assert.equal(execution.enumeration.counts.nodeBranchPrunedRawCandidates, 4);
+  assert.equal(execution.enumeration.counts.nodeBranchPrunedFrontiers, 1);
+  assert.equal(execution.enumeration.counts.logicalRawCandidates, 8);
+  assert.equal(execution.pruning.nodeBranchPrunedRawCandidates, 4);
+  assert.equal(execution.pruning.nodeBranchPrunedFrontiers, 1);
+  assert.ok(execution.enumeration.candidateStore.candidates.every((entry) =>
+    entry.candidate.nodes.some((node) => node.ref === REF_B)
+  ));
+});
+
+test("resumable enumeration replays verified prefixes and returns the ordinary terminal result", () => {
+  const options = { maxEdges: 1 };
+  const first = advanceDecoratedCandidateEnumeration(
+    pairInput(),
+    options,
+    { maxRawCandidatesPerStep: 3 }
+  );
+  assert.equal(first.status, "paused");
+  assert.deepEqual(first.step, {
+    startRawCandidateOrdinal: 0,
+    endRawCandidateOrdinal: 3,
+    maximumRawCandidates: 3,
+    processedRawCandidates: 3,
+    replayedRawCandidates: 0
+  });
+  assert.equal(first.checkpoint.nextRawCandidateOrdinal, 3);
+  assert.deepEqual(
+    verifyDecoratedCandidateEnumerationStep(
+      first,
+      pairInput(),
+      options,
+      { maxRawCandidatesPerStep: 3 }
+    ),
+    first
+  );
+
+  const second = advanceDecoratedCandidateEnumeration(
+    pairInput(),
+    options,
+    {
+      checkpoint: first.checkpoint,
+      maxRawCandidatesPerStep: 3
+    }
+  );
+  assert.equal(second.status, "paused");
+  assert.equal(second.step.startRawCandidateOrdinal, 3);
+  assert.equal(second.step.endRawCandidateOrdinal, 6);
+  assert.equal(second.step.replayedRawCandidates, 3);
+  assert.equal(second.previousCheckpointHash, first.checkpoint.checkpointHash);
+
+  const final = advanceDecoratedCandidateEnumeration(
+    pairInput(),
+    options,
+    {
+      checkpoint: second.checkpoint,
+      maxRawCandidatesPerStep: 3
+    }
+  );
+  assert.equal(final.status, "complete");
+  assert.equal(final.checkpoint, null);
+  assert.equal(final.step.startRawCandidateOrdinal, 6);
+  assert.equal(final.step.endRawCandidateOrdinal, 8);
+  assert.equal(final.step.processedRawCandidates, 2);
+  assert.equal(
+    canonicalize(final.enumeration),
+    canonicalize(enumerateDecoratedCandidates(pairInput(), options))
+  );
+
+  const tampered = structuredClone(first.checkpoint);
+  tampered.nextRawCandidateOrdinal = 4;
+  assert.throws(
+    () => advanceDecoratedCandidateEnumeration(
+      pairInput(),
+      options,
+      { checkpoint: tampered, maxRawCandidatesPerStep: 3 }
+    ),
+    (error) => error instanceof KernelError &&
+      error.code === "CANDIDATE_RESUME_CHECKPOINT_HASH_MISMATCH"
+  );
+});
+
+test("resumable enumeration never bypasses an exhausted semantic budget", () => {
+  const result = advanceDecoratedCandidateEnumeration(
+    pairInput(),
+    { maxEdges: 1, maxRawCandidates: 2 },
+    { maxRawCandidatesPerStep: 3 }
+  );
+
+  assert.equal(result.status, "budget-exhausted");
+  assert.equal(result.checkpoint, null);
+  assert.equal(result.enumeration.status, "budget-exhausted");
+  assert.equal(result.enumeration.budget.exhausted.budget, "maxRawCandidates");
+  assert.deepEqual(result.interpretation, {
+    status: "budget-exhausted",
+    reasons: ["semantic-enumeration-budget-exhausted"]
+  });
 });
 
 test("parallel decoration enumerates edge-label multisets without edge-order duplicates", () => {

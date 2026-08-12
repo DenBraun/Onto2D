@@ -1,0 +1,295 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/package-profile-collapse.schema.json",
+  "title": "Onto2D Bounded Profile-Collapse Report",
+  "type": "object",
+  "required": [
+    "schemaVersion", "evaluator", "scope", "packageId", "rulesHash",
+    "depthBasis", "requestedDepths", "targetDepth", "policy", "runs",
+    "projectedCandidates", "comparison", "counterexample", "verdict",
+    "status", "interpretation", "collapseHash"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "evaluator": { "const": "package-profile-collapse-evaluator-v1" },
+    "scope": { "const": "bounded-exact-vs-profile-projection-v1" },
+    "packageId": { "$ref": "#/$defs/hash" },
+    "rulesHash": { "$ref": "#/$defs/hash" },
+    "depthBasis": { "$ref": "#/$defs/hash" },
+    "requestedDepths": { "$ref": "#/$defs/depth" },
+    "targetDepth": { "$ref": "#/$defs/depth" },
+    "policy": { "$ref": "#/$defs/policy" },
+    "runs": { "$ref": "#/$defs/runs" },
+    "projectedCandidates": {
+      "type": "array",
+      "maxItems": 1000000,
+      "items": { "$ref": "#/$defs/projectedRow" }
+    },
+    "comparison": { "$ref": "#/$defs/comparison" },
+    "counterexample": {
+      "oneOf": [{ "$ref": "#/$defs/counterexample" }, { "type": "null" }]
+    },
+    "verdict": { "enum": ["equivalent", "counterexample", "indeterminate"] },
+    "status": { "enum": ["complete", "truncated", "indeterminate"] },
+    "interpretation": { "$ref": "#/$defs/interpretation" },
+    "collapseHash": { "$ref": "#/$defs/hash" }
+  },
+  "oneOf": [
+    {
+      "properties": {
+        "status": { "const": "complete" },
+        "verdict": { "enum": ["equivalent", "counterexample"] },
+        "interpretation": {
+          "properties": {
+            "status": { "const": "complete" },
+            "reasons": { "maxItems": 0 }
+          }
+        }
+      }
+    },
+    {
+      "properties": {
+        "status": { "const": "truncated" },
+        "verdict": { "const": "indeterminate" },
+        "interpretation": {
+          "properties": {
+            "status": { "const": "truncated" },
+            "reasons": {
+              "prefixItems": [{ "const": "target-depth-not-executed" }],
+              "minItems": 1,
+              "maxItems": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "properties": {
+        "status": { "const": "indeterminate" },
+        "verdict": { "const": "indeterminate" },
+        "interpretation": {
+          "properties": {
+            "status": { "const": "indeterminate" },
+            "reasons": {
+              "prefixItems": [{
+                "enum": [
+                  "element-exact-indeterminate",
+                  "profile-quotient-indeterminate"
+                ]
+              }],
+              "minItems": 1,
+              "maxItems": 1
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "hash": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "depth": { "type": "integer", "minimum": 1, "maximum": 64 },
+    "count": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
+    "hashSet": {
+      "type": "array",
+      "maxItems": 1000000,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/hash" }
+    },
+    "policy": {
+      "type": "object",
+      "required": ["commonDomain", "projection", "admittedSet", "observables", "error", "counterexample"],
+      "properties": {
+        "commonDomain": { "const": "profile-quotient" },
+        "projection": { "const": "constituent-profile-hash-canonicalization-v1" },
+        "admittedSet": { "const": "final-selected-candidates-v1" },
+        "observables": { "const": "local-predicate-final-selection-and-selector-score-rank-v1" },
+        "error": { "const": "projected-symmetric-difference-over-exact-projected-set-v1" },
+        "counterexample": { "const": "lexicographically-smallest-projected-candidate-v1" }
+      },
+      "additionalProperties": false
+    },
+    "run": {
+      "type": "object",
+      "required": ["runConfigHash", "ladderHash", "levelHash", "ladderStatus", "levelStatus"],
+      "properties": {
+        "runConfigHash": { "$ref": "#/$defs/hash" },
+        "ladderHash": { "$ref": "#/$defs/hash" },
+        "levelHash": { "oneOf": [{ "$ref": "#/$defs/hash" }, { "type": "null" }] },
+        "ladderStatus": { "enum": ["complete", "fixpoint", "indeterminate"] },
+        "levelStatus": {
+          "oneOf": [
+            { "enum": ["complete", "empty", "indeterminate"] },
+            { "type": "null" }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "runs": {
+      "type": "object",
+      "required": ["elementExact", "profileQuotient"],
+      "properties": {
+        "elementExact": { "$ref": "#/$defs/run" },
+        "profileQuotient": { "$ref": "#/$defs/run" }
+      },
+      "additionalProperties": false
+    },
+    "predicateOutcome": {
+      "type": "object",
+      "required": ["predicateId", "outcome"],
+      "properties": {
+        "predicateId": { "type": "string", "minLength": 1 },
+        "outcome": { "enum": ["pass", "fail", "indeterminate"] }
+      },
+      "additionalProperties": false
+    },
+    "selectorObservation": {
+      "type": "object",
+      "required": ["selectorId", "outcome", "score", "rank", "sensitivityStatus", "sensitivityVerdict"],
+      "properties": {
+        "selectorId": { "type": "string", "minLength": 1 },
+        "outcome": { "enum": ["selected", "excluded", "indeterminate"] },
+        "score": { "oneOf": [{ "$ref": "quantity.schema.json" }, { "type": "null" }] },
+        "rank": {
+          "oneOf": [
+            { "type": "integer", "minimum": 1, "maximum": 1000000 },
+            { "type": "null" }
+          ]
+        },
+        "sensitivityStatus": { "enum": ["complete", "not-applicable", "indeterminate"] },
+        "sensitivityVerdict": {
+          "oneOf": [{ "enum": ["robust", "fragile"] }, { "type": "null" }]
+        }
+      },
+      "additionalProperties": false
+    },
+    "observation": {
+      "type": "object",
+      "required": ["localVerdict", "predicateOutcomes", "finalOutcome", "selectorEvaluations"],
+      "properties": {
+        "localVerdict": { "enum": ["eligible", "predicate-rejected", "filter-indeterminate"] },
+        "predicateOutcomes": {
+          "type": "array",
+          "maxItems": 10000,
+          "items": { "$ref": "#/$defs/predicateOutcome" }
+        },
+        "finalOutcome": {
+          "enum": ["predicate-rejected", "filter-indeterminate", "selector-excluded", "selection-indeterminate", "selected"]
+        },
+        "selectorEvaluations": {
+          "type": "array",
+          "maxItems": 10000,
+          "items": { "$ref": "#/$defs/selectorObservation" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "sourceObservation": {
+      "type": "object",
+      "required": ["sourceCandidateId", "observation"],
+      "properties": {
+        "sourceCandidateId": { "$ref": "#/$defs/hash" },
+        "observation": { "$ref": "#/$defs/observation" }
+      },
+      "additionalProperties": false
+    },
+    "domainEntry": {
+      "type": "object",
+      "required": ["projectedCandidateId", "projectedCandidate", "observations", "admitted", "internallyConsistent"],
+      "properties": {
+        "projectedCandidateId": { "$ref": "#/$defs/hash" },
+        "projectedCandidate": { "$ref": "candidate.schema.json" },
+        "observations": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1000000,
+          "items": { "$ref": "#/$defs/sourceObservation" }
+        },
+        "admitted": { "type": "boolean" },
+        "internallyConsistent": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    },
+    "nullableDomainEntry": {
+      "oneOf": [{ "$ref": "#/$defs/domainEntry" }, { "type": "null" }]
+    },
+    "projectedRow": {
+      "type": "object",
+      "required": ["projectedCandidateId", "projectedCandidate", "elementExact", "profileQuotient", "crossDomainConsistent"],
+      "properties": {
+        "projectedCandidateId": { "$ref": "#/$defs/hash" },
+        "projectedCandidate": { "$ref": "candidate.schema.json" },
+        "elementExact": { "$ref": "#/$defs/nullableDomainEntry" },
+        "profileQuotient": { "$ref": "#/$defs/nullableDomainEntry" },
+        "crossDomainConsistent": {
+          "oneOf": [{ "type": "boolean" }, { "type": "null" }]
+        }
+      },
+      "additionalProperties": false
+    },
+    "counts": {
+      "type": "object",
+      "required": ["elementExact", "profileQuotient", "intersection", "elementExactOnly", "profileQuotientOnly", "symmetricDifference"],
+      "properties": {
+        "elementExact": { "$ref": "#/$defs/count" },
+        "profileQuotient": { "$ref": "#/$defs/count" },
+        "intersection": { "$ref": "#/$defs/count" },
+        "elementExactOnly": { "$ref": "#/$defs/count" },
+        "profileQuotientOnly": { "$ref": "#/$defs/count" },
+        "symmetricDifference": { "$ref": "#/$defs/count" }
+      },
+      "additionalProperties": false
+    },
+    "comparison": {
+      "type": "object",
+      "required": ["elementExact", "profileQuotient", "intersection", "elementExactOnly", "profileQuotientOnly", "symmetricDifference", "counts", "collapseError"],
+      "properties": {
+        "elementExact": { "$ref": "#/$defs/hashSet" },
+        "profileQuotient": { "$ref": "#/$defs/hashSet" },
+        "intersection": { "$ref": "#/$defs/hashSet" },
+        "elementExactOnly": { "$ref": "#/$defs/hashSet" },
+        "profileQuotientOnly": { "$ref": "#/$defs/hashSet" },
+        "symmetricDifference": { "$ref": "#/$defs/hashSet" },
+        "counts": { "$ref": "#/$defs/counts" },
+        "collapseError": {
+          "oneOf": [{ "type": "number", "minimum": 0 }, { "type": "null" }]
+        }
+      },
+      "additionalProperties": false
+    },
+    "counterexample": {
+      "type": "object",
+      "required": ["projectedCandidateId", "kind", "projectedCandidate", "elementExactObservations", "profileQuotientObservations"],
+      "properties": {
+        "projectedCandidateId": { "$ref": "#/$defs/hash" },
+        "kind": { "enum": ["element-exact-only", "profile-quotient-only", "observable-mismatch"] },
+        "projectedCandidate": { "$ref": "candidate.schema.json" },
+        "elementExactObservations": {
+          "type": "array",
+          "maxItems": 1000000,
+          "items": { "$ref": "#/$defs/sourceObservation" }
+        },
+        "profileQuotientObservations": {
+          "type": "array",
+          "maxItems": 1000000,
+          "items": { "$ref": "#/$defs/sourceObservation" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "interpretation": {
+      "type": "object",
+      "required": ["status", "reasons"],
+      "properties": {
+        "status": { "enum": ["complete", "truncated", "indeterminate"] },
+        "reasons": {
+          "type": "array",
+          "maxItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

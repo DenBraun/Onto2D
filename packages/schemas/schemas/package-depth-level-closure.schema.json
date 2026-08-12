@@ -1,0 +1,146 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/package-depth-level-closure.schema.json",
+  "title": "Onto2D Generalized Package Depth Level Closure",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "closer",
+    "scope",
+    "packageId",
+    "rulesHash",
+    "depthBasis",
+    "run",
+    "depth",
+    "axisProvenance",
+    "priorLevels",
+    "sourceSelectionHash",
+    "countingDomain",
+    "artifacts",
+    "metrics",
+    "baseline",
+    "execution",
+    "status",
+    "interpretation",
+    "levelHash"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "closer": { "const": "package-depth-level-closure-v1" },
+    "scope": { "const": "verified-prior-levels-to-target-depth-v1" },
+    "packageId": { "$ref": "#/$defs/hash" },
+    "rulesHash": { "$ref": "#/$defs/hash" },
+    "depthBasis": { "$ref": "#/$defs/hash" },
+    "run": { "$ref": "package-level-closure.schema.json#/$defs/run" },
+    "depth": { "type": "integer", "minimum": 2, "maximum": 64 },
+    "axisProvenance": { "$ref": "element.schema.json#/$defs/axisProvenance" },
+    "ontologyCoordinate": { "$ref": "ontology-coordinate.schema.json" },
+    "priorLevels": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 63,
+      "items": { "$ref": "#/$defs/priorLevel" }
+    },
+    "sourceSelectionHash": { "$ref": "#/$defs/hash" },
+    "countingDomain": { "enum": ["element-exact", "profile-quotient"] },
+    "artifacts": { "$ref": "#/$defs/artifacts" },
+    "metrics": { "$ref": "package-level-closure.schema.json#/$defs/metrics" },
+    "baseline": { "$ref": "package-level-closure.schema.json#/$defs/baseline" },
+    "execution": { "$ref": "package-level-closure.schema.json#/$defs/execution" },
+    "status": { "enum": ["complete", "empty", "indeterminate"] },
+    "interpretation": {
+      "$ref": "package-level-closure.schema.json#/$defs/interpretation"
+    },
+    "levelHash": { "$ref": "#/$defs/hash" }
+  },
+  "oneOf": [
+    {
+      "properties": {
+        "status": { "const": "complete" },
+        "interpretation": {
+          "properties": {
+            "status": { "const": "complete" },
+            "reasons": { "maxItems": 0 }
+          }
+        }
+      }
+    },
+    {
+      "properties": {
+        "status": { "const": "empty" },
+        "interpretation": {
+          "properties": {
+            "status": { "const": "empty" },
+            "reasons": { "const": ["no-materialized-elements"] }
+          }
+        }
+      }
+    },
+    {
+      "properties": {
+        "status": { "const": "indeterminate" },
+        "interpretation": {
+          "properties": {
+            "status": { "const": "indeterminate" },
+            "reasons": { "minItems": 1 }
+          }
+        }
+      }
+    }
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "baseline": {
+            "properties": {
+              "status": { "enum": ["complete", "indeterminate"] }
+            },
+            "required": ["status"]
+          }
+        },
+        "required": ["baseline"]
+      },
+      "then": {
+        "properties": {
+          "artifacts": { "required": ["nullModels"] }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "hash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "priorLevel": {
+      "type": "object",
+      "required": ["depth", "levelHash", "populationHash", "runHash"],
+      "properties": {
+        "depth": { "type": "integer", "minimum": 1, "maximum": 63 },
+        "levelHash": { "$ref": "#/$defs/hash" },
+        "populationHash": { "$ref": "#/$defs/hash" },
+        "runHash": { "$ref": "#/$defs/hash" }
+      },
+      "additionalProperties": false
+    },
+    "artifacts": {
+      "type": "object",
+      "required": ["census", "admission", "formations", "profiles", "population"],
+      "properties": {
+        "census": { "$ref": "package-depth-candidate-census.schema.json" },
+        "admission": { "$ref": "package-selector-admission.schema.json" },
+        "formations": { "$ref": "package-selected-formations.schema.json" },
+        "profiles": { "$ref": "package-derived-profiles.schema.json" },
+        "population": {
+          "$ref": "package-derived-depth-population.schema.json"
+        },
+        "nullModels": {
+          "$ref": "package-level-closure.schema.json#/$defs/nullModels"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

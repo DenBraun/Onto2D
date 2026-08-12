@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "1",
+  "gate": "schema-v1-kernel-release-closure",
+  "implementation": {
+    "statusTokenSuffix": "schema-v1-implementation-closure-active",
+    "expectedImplementedCapabilityCount": 195,
+    "expectedPendingCapabilities": [],
+    "localStatus": "closed"
+  },
+  "capabilityEvidenceManifest": "test/fixtures/kernel-capability-evidence-v1.json",
+  "independentConformanceFixtures": [
+    {
+      "path": "test/fixtures/canonical-conformance-v1.json",
+      "sha256": "8f0073cbc67a168200030e9ab621a3db1c74ff150f5624722981a5141b8df620"
+    },
+    {
+      "path": "test/fixtures/skeleton-conformance-v1.json",
+      "sha256": "0dea27031344afe7786a10b5d8e413fbc0235cb2785178c16733049adf8ad89a"
+    }
+  ],
+  "requiredCiMatrix": {
+    "operatingSystems": [
+      "ubuntu-latest",
+      "macos-latest",
+      "windows-latest"
+    ],
+    "nodeVersions": [
+      20,
+      22
+    ],
+    "commands": [
+      "npm test",
+      "npm run check",
+      "npm run build"
+    ],
+    "evidenceStatus": "required"
+  },
+  "independentReview": {
+    "canonicalFixtures": "required",
+    "verificationCommand": "npm run check:goldens"
+  },
+  "postClosureVisualization": {
+    "gate": "POST-CLOSURE-VIS-01",
+    "required": true,
+    "phase": "after-release-acceptance"
+  }
+}

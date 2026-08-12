@@ -268,7 +268,7 @@ test("node-resolution freeze rejects topology-driven criteria and weakened clust
   );
 });
 
-test("kernel exposes policy freezing without claiming source migration execution", () => {
+test("kernel exposes policy freezing without claiming source-policy authorship", () => {
   const kernel = createKernel();
   const classification = kernel.freezeSourceClassificationPolicy(classificationPolicy());
   const resolution = kernel.freezeSourceNodeResolutionPolicy(
@@ -278,8 +278,9 @@ test("kernel exposes policy freezing without claiming source migration execution
   assert.ok(kernel.capabilities.implemented.includes("source-classification-policy-freeze"));
   assert.ok(kernel.capabilities.implemented.includes("source-node-resolution-policy-freeze"));
   assert.ok(!kernel.capabilities.implemented.includes("source-classification"));
-  assert.ok(kernel.capabilities.pending.includes("source-classification"));
-  assert.ok(kernel.capabilities.pending.includes("source-node-resolution"));
-  assert.ok(kernel.capabilities.pending.includes("source-condensation"));
+  assert.ok(!kernel.capabilities.pending.includes("source-classification"));
+  assert.ok(!kernel.capabilities.pending.includes("source-node-resolution"));
+  assert.ok(!kernel.capabilities.pending.includes("source-condensation"));
+  assert.ok(kernel.capabilities.implemented.includes("source-migration-package-binding"));
   assert.match(resolution.policyHash, /^sha256:[a-f0-9]{64}$/);
 });

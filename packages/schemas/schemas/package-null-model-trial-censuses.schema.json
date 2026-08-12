@@ -1,0 +1,321 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/package-null-model-trial-censuses.schema.json",
+  "title": "Onto2D Null-Model Occurrence Local-Filter Censuses",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "evaluator",
+    "scope",
+    "proposalsHash",
+    "packageId",
+    "rulesHash",
+    "runConfigHash",
+    "bindingHash",
+    "censusHash",
+    "carrierHash",
+    "indeterminateThreshold",
+    "trials",
+    "counts",
+    "status",
+    "interpretation",
+    "trialCensusesHash"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "evaluator": { "const": "package-null-model-trial-censuses-v1" },
+    "scope": { "const": "complete-occurrence-local-filter-replay-v1" },
+    "proposalsHash": { "$ref": "#/$defs/hash" },
+    "packageId": { "$ref": "#/$defs/hash" },
+    "rulesHash": { "$ref": "#/$defs/hash" },
+    "runConfigHash": { "$ref": "#/$defs/hash" },
+    "bindingHash": { "$ref": "#/$defs/hash" },
+    "censusHash": { "$ref": "#/$defs/hash" },
+    "carrierHash": { "$ref": "#/$defs/hash" },
+    "indeterminateThreshold": { "$ref": "#/$defs/ratio" },
+    "trials": {
+      "type": "array",
+      "maxItems": 10000,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/trialCensus" }
+    },
+    "counts": { "$ref": "#/$defs/aggregateCounts" },
+    "status": { "enum": ["complete", "not-run"] },
+    "interpretation": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["status", "reasons"],
+          "properties": {
+            "status": { "const": "local-census-complete" },
+            "reasons": { "const": ["cohorts-functionals-selectors-and-distributions-pending"] }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["status", "reasons"],
+          "properties": {
+            "status": { "const": "not-run" },
+            "reasons": { "const": ["null-models-disabled"] }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "trialCensusesHash": { "$ref": "#/$defs/hash" }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "status": { "const": "complete" } },
+        "required": ["status"]
+      },
+      "then": {
+        "properties": {
+          "trials": { "minItems": 1 },
+          "counts": {
+            "properties": { "trials": { "minimum": 1 } }
+          },
+          "interpretation": {
+            "properties": { "status": { "const": "local-census-complete" } },
+            "required": ["status"]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "status": { "const": "not-run" } },
+        "required": ["status"]
+      },
+      "then": {
+        "properties": {
+          "trials": { "maxItems": 0 },
+          "counts": { "$ref": "#/$defs/zeroAggregateCounts" },
+          "interpretation": {
+            "properties": { "status": { "const": "not-run" } },
+            "required": ["status"]
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "hash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "count": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "ratio": { "type": "number", "minimum": 0, "maximum": 1 },
+    "ratioOrNull": {
+      "oneOf": [{ "$ref": "#/$defs/ratio" }, { "type": "null" }]
+    },
+    "occurrenceEvaluation": {
+      "type": "object",
+      "required": [
+        "trialId",
+        "occurrenceIndex",
+        "sourceCandidateId",
+        "candidateId",
+        "occurrenceId",
+        "filter"
+      ],
+      "properties": {
+        "trialId": { "$ref": "#/$defs/hash" },
+        "occurrenceIndex": { "type": "integer", "minimum": 0, "maximum": 999999 },
+        "sourceCandidateId": { "$ref": "#/$defs/hash" },
+        "candidateId": { "$ref": "#/$defs/hash" },
+        "occurrenceId": { "$ref": "#/$defs/hash" },
+        "filter": {
+          "oneOf": [
+            { "$ref": "package-candidate-filter-evaluation.schema.json" },
+            { "$ref": "package-depth-candidate-filter-evaluation.schema.json" },
+            {
+              "$ref": "package-current-level-candidate-filter-evaluation.schema.json"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "trialCounts": {
+      "type": "object",
+      "required": [
+        "evaluatedOccurrences",
+        "predicateRejected",
+        "filterIndeterminate",
+        "eligible"
+      ],
+      "properties": {
+        "evaluatedOccurrences": { "$ref": "#/$defs/count" },
+        "predicateRejected": { "$ref": "#/$defs/count" },
+        "filterIndeterminate": { "$ref": "#/$defs/count" },
+        "eligible": { "$ref": "#/$defs/count" }
+      },
+      "additionalProperties": false
+    },
+    "trialInterpretation": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["status", "reasons"],
+          "properties": {
+            "status": { "const": "valid" },
+            "reasons": { "const": [] }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["status", "reasons"],
+          "properties": {
+            "status": { "const": "empty" },
+            "reasons": { "const": ["no-evaluated-occurrences"] }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["status", "reasons"],
+          "properties": {
+            "status": { "const": "indeterminate" },
+            "reasons": { "const": ["indeterminate-ratio-exceeds-threshold"] }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "trialCensus": {
+      "type": "object",
+      "required": [
+        "trialId",
+        "model",
+        "trialProposalHash",
+        "occurrenceEvaluations",
+        "counts",
+        "booleanSelectivity",
+        "indeterminateRatio",
+        "interpretation",
+        "predicateCensus",
+        "trialCensusHash"
+      ],
+      "properties": {
+        "trialId": { "$ref": "#/$defs/hash" },
+        "model": { "enum": ["role-shuffle", "degree-rewire", "uniform"] },
+        "trialProposalHash": { "$ref": "#/$defs/hash" },
+        "occurrenceEvaluations": {
+          "type": "array",
+          "maxItems": 1000000,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/occurrenceEvaluation" }
+        },
+        "counts": { "$ref": "#/$defs/trialCounts" },
+        "booleanSelectivity": { "$ref": "#/$defs/ratioOrNull" },
+        "indeterminateRatio": { "$ref": "#/$defs/ratioOrNull" },
+        "interpretation": { "$ref": "#/$defs/trialInterpretation" },
+        "predicateCensus": {
+          "type": "array",
+          "maxItems": 10000,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "package-candidate-census.schema.json#/$defs/predicateCensus"
+          }
+        },
+        "trialCensusHash": { "$ref": "#/$defs/hash" }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "interpretation": {
+                "properties": { "status": { "const": "empty" } },
+                "required": ["status"]
+              }
+            },
+            "required": ["interpretation"]
+          },
+          "then": {
+            "properties": {
+              "occurrenceEvaluations": { "maxItems": 0 },
+              "booleanSelectivity": { "type": "null" },
+              "indeterminateRatio": { "type": "null" },
+              "counts": {
+                "properties": {
+                  "evaluatedOccurrences": { "const": 0 },
+                  "predicateRejected": { "const": 0 },
+                  "filterIndeterminate": { "const": 0 },
+                  "eligible": { "const": 0 }
+                }
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "occurrenceEvaluations": { "minItems": 1 },
+              "booleanSelectivity": { "$ref": "#/$defs/ratio" },
+              "indeterminateRatio": { "$ref": "#/$defs/ratio" },
+              "counts": {
+                "properties": { "evaluatedOccurrences": { "minimum": 1 } }
+              }
+            }
+          }
+        }
+      ],
+      "additionalProperties": false
+    },
+    "aggregateCounts": {
+      "type": "object",
+      "required": [
+        "trials",
+        "evaluatedOccurrences",
+        "predicateRejected",
+        "filterIndeterminate",
+        "eligible",
+        "validTrials",
+        "emptyTrials",
+        "indeterminateTrials"
+      ],
+      "properties": {
+        "trials": { "$ref": "#/$defs/count" },
+        "evaluatedOccurrences": { "$ref": "#/$defs/count" },
+        "predicateRejected": { "$ref": "#/$defs/count" },
+        "filterIndeterminate": { "$ref": "#/$defs/count" },
+        "eligible": { "$ref": "#/$defs/count" },
+        "validTrials": { "$ref": "#/$defs/count" },
+        "emptyTrials": { "$ref": "#/$defs/count" },
+        "indeterminateTrials": { "$ref": "#/$defs/count" }
+      },
+      "additionalProperties": false
+    },
+    "zeroAggregateCounts": {
+      "type": "object",
+      "required": [
+        "trials",
+        "evaluatedOccurrences",
+        "predicateRejected",
+        "filterIndeterminate",
+        "eligible",
+        "validTrials",
+        "emptyTrials",
+        "indeterminateTrials"
+      ],
+      "properties": {
+        "trials": { "const": 0 },
+        "evaluatedOccurrences": { "const": 0 },
+        "predicateRejected": { "const": 0 },
+        "filterIndeterminate": { "const": 0 },
+        "eligible": { "const": 0 },
+        "validTrials": { "const": 0 },
+        "emptyTrials": { "const": 0 },
+        "indeterminateTrials": { "const": 0 }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

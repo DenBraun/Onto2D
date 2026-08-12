@@ -1,0 +1,211 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/source-migration-metrics.schema.json",
+  "title": "Onto2D Complete Source Migration Metrics",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "builder",
+    "classificationPolicyHash",
+    "amendmentsHash",
+    "reconciliationHash",
+    "rawNodes",
+    "rawEdges",
+    "rawNontrivialSccs",
+    "rawSccSizeHistogram",
+    "largestRawScc",
+    "twoNodeSccs",
+    "classifiedEdges",
+    "blindnessStatus",
+    "classificationDisagreementRatio",
+    "postUnblindingChanges",
+    "dispositions",
+    "nonformationLayerResolutionShare",
+    "descriptiveResolutionShare",
+    "postUnblindingReclassificationShare",
+    "condensedClusters",
+    "constitutiveClusters",
+    "constitutiveClusterSizeHistogram",
+    "crossCatalogueLevelClusters",
+    "clusteredSourceRecordRatio",
+    "catalogueLevels",
+    "riskPolicyHash",
+    "fittingRisk",
+    "fittingRiskReasons",
+    "metricsHash"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "builder": { "const": "source-migration-metrics-v1" },
+    "classificationPolicyHash": { "$ref": "#/$defs/hash" },
+    "amendmentsHash": { "$ref": "#/$defs/hash" },
+    "reconciliationHash": { "$ref": "#/$defs/hash" },
+    "rawNodes": { "$ref": "#/$defs/nodeCount" },
+    "rawEdges": { "$ref": "#/$defs/relationCount" },
+    "rawNontrivialSccs": { "$ref": "#/$defs/nodeCount" },
+    "rawSccSizeHistogram": { "$ref": "#/$defs/histogram" },
+    "largestRawScc": { "$ref": "#/$defs/nodeCount" },
+    "twoNodeSccs": { "$ref": "#/$defs/nodeCount" },
+    "classifiedEdges": { "$ref": "#/$defs/classifiedEdges" },
+    "blindnessStatus": {
+      "enum": [
+        "prospective-blind",
+        "deterministic-precommitted",
+        "historically-exposed"
+      ]
+    },
+    "classificationDisagreementRatio": { "$ref": "#/$defs/ratio" },
+    "postUnblindingChanges": { "$ref": "#/$defs/relationCount" },
+    "dispositions": {
+      "type": "array",
+      "maxItems": 20000,
+      "items": { "$ref": "#/$defs/disposition" }
+    },
+    "nonformationLayerResolutionShare": { "$ref": "#/$defs/ratio" },
+    "descriptiveResolutionShare": { "$ref": "#/$defs/ratio" },
+    "postUnblindingReclassificationShare": { "$ref": "#/$defs/ratio" },
+    "condensedClusters": { "$ref": "#/$defs/nodeCount" },
+    "constitutiveClusters": { "$ref": "#/$defs/nodeCount" },
+    "constitutiveClusterSizeHistogram": { "$ref": "#/$defs/histogram" },
+    "crossCatalogueLevelClusters": { "$ref": "#/$defs/nodeCount" },
+    "clusteredSourceRecordRatio": { "$ref": "#/$defs/ratio" },
+    "catalogueLevels": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 20000,
+      "items": { "$ref": "#/$defs/catalogueLevel" }
+    },
+    "riskPolicyHash": { "$ref": "#/$defs/hash" },
+    "fittingRisk": { "enum": ["not-flagged", "elevated"] },
+    "fittingRiskReasons": {
+      "type": "array",
+      "maxItems": 4,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "historically-exposed",
+          "classification-disagreement-threshold-exceeded",
+          "descriptive-resolution-threshold-exceeded",
+          "post-unblinding-reclassification-threshold-exceeded"
+        ]
+      }
+    },
+    "metricsHash": { "$ref": "#/$defs/hash" }
+  },
+  "$defs": {
+    "hash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "identifier": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1024,
+      "pattern": "^\\S(?:[\\s\\S]*\\S)?$"
+    },
+    "nodeCount": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 20000
+    },
+    "relationCount": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 10000
+    },
+    "ratio": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "histogram": {
+      "type": "object",
+      "propertyNames": { "pattern": "^[1-9][0-9]*$" },
+      "additionalProperties": { "$ref": "#/$defs/nodeCount" }
+    },
+    "relationKind": {
+      "enum": [
+        "generative",
+        "constitutive",
+        "intra-closure-support",
+        "evidential",
+        "descriptive",
+        "regulatory-feedback"
+      ]
+    },
+    "classifiedEdges": {
+      "type": "object",
+      "required": [
+        "generative",
+        "constitutive",
+        "intra-closure-support",
+        "evidential",
+        "descriptive",
+        "regulatory-feedback"
+      ],
+      "properties": {
+        "generative": { "$ref": "#/$defs/relationCount" },
+        "constitutive": { "$ref": "#/$defs/relationCount" },
+        "intra-closure-support": { "$ref": "#/$defs/relationCount" },
+        "evidential": { "$ref": "#/$defs/relationCount" },
+        "descriptive": { "$ref": "#/$defs/relationCount" },
+        "regulatory-feedback": { "$ref": "#/$defs/relationCount" }
+      },
+      "additionalProperties": false
+    },
+    "disposition": {
+      "type": "object",
+      "required": [
+        "rawComponentId",
+        "members",
+        "edgeIds",
+        "primaryResolution",
+        "rationaleArtifact"
+      ],
+      "properties": {
+        "rawComponentId": { "$ref": "#/$defs/hash" },
+        "members": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 20000,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/identifier" }
+        },
+        "edgeIds": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 10000,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/identifier" }
+        },
+        "primaryResolution": {
+          "enum": [
+            "distributed-structure-merge",
+            "constitutive-condensation",
+            "generative-condensation",
+            "mixed-condensation",
+            "nonformation-layer-separation",
+            "post-unblinding-reclassification"
+          ]
+        },
+        "resultingCluster": { "$ref": "#/$defs/hash" },
+        "rationaleArtifact": { "$ref": "artifact-ref.schema.json" }
+      },
+      "additionalProperties": false
+    },
+    "catalogueLevel": {
+      "type": "object",
+      "required": ["sourceId", "catalogueLevel"],
+      "properties": {
+        "sourceId": { "$ref": "#/$defs/identifier" },
+        "catalogueLevel": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,270 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/package-derived-depth-population.schema.json",
+  "title": "Onto2D Package Derived Depth Population",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "materializer",
+    "packageId",
+    "rulesHash",
+    "bindingHash",
+    "censusHash",
+    "admissionHash",
+    "formationSetHash",
+    "profileSetHash",
+    "countingDomain",
+    "sourcePopulationHash",
+    "depth",
+    "depthBasis",
+    "elementIdentityPolicy",
+    "elements",
+    "derivationIndex",
+    "counts",
+    "status",
+    "interpretation",
+    "populationHash"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "materializer": { "const": "package-derived-depth-population-v3" },
+    "packageId": { "$ref": "#/$defs/hash" },
+    "rulesHash": { "$ref": "#/$defs/hash" },
+    "bindingHash": { "$ref": "#/$defs/hash" },
+    "censusHash": { "$ref": "#/$defs/hash" },
+    "admissionHash": { "$ref": "#/$defs/hash" },
+    "formationSetHash": { "$ref": "#/$defs/hash" },
+    "profileSetHash": { "$ref": "#/$defs/hash" },
+    "countingDomain": { "enum": ["element-exact", "profile-quotient"] },
+    "sourcePopulationHash": { "$ref": "#/$defs/hash" },
+    "depth": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    },
+    "depthBasis": { "$ref": "#/$defs/hash" },
+    "elementIdentityPolicy": { "$ref": "#/$defs/identityPolicy" },
+    "elements": {
+      "type": "array",
+      "maxItems": 1000000,
+      "items": {
+        "allOf": [
+          { "$ref": "element.schema.json" },
+          {
+            "properties": {
+              "kind": { "const": "derived" },
+              "depth": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 9007199254740991
+              },
+              "provenance": { "type": "object" }
+            }
+          }
+        ]
+      }
+    },
+    "derivationIndex": {
+      "type": "array",
+      "maxItems": 1000000,
+      "items": { "$ref": "#/$defs/derivationIndexEntry" }
+    },
+    "counts": { "$ref": "#/$defs/counts" },
+    "status": { "enum": ["complete", "empty", "indeterminate"] },
+    "interpretation": { "$ref": "#/$defs/interpretation" },
+    "populationHash": { "$ref": "#/$defs/hash" }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "status": { "const": "complete" } },
+        "required": ["status"]
+      },
+      "then": {
+        "properties": {
+          "interpretation": {
+            "properties": {
+              "status": { "const": "complete" },
+              "reasons": { "maxItems": 0 }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "status": { "const": "empty" } },
+        "required": ["status"]
+      },
+      "then": {
+        "properties": {
+          "elements": { "maxItems": 0 },
+          "derivationIndex": { "maxItems": 0 },
+          "interpretation": {
+            "properties": {
+              "status": { "const": "empty" },
+              "reasons": {
+                "prefixItems": [{ "const": "no-materialized-elements" }],
+                "minItems": 1,
+                "maxItems": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "status": { "const": "indeterminate" } },
+        "required": ["status"]
+      },
+      "then": {
+        "properties": {
+          "elements": { "maxItems": 0 },
+          "derivationIndex": { "maxItems": 0 },
+          "interpretation": {
+            "properties": {
+              "status": { "const": "indeterminate" },
+              "reasons": {
+                "prefixItems": [
+                  { "const": "source-derived-profiles-indeterminate" }
+                ],
+                "minItems": 1,
+                "maxItems": 1
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "hash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "index": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "normalizedString": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1024,
+      "pattern": "^(?:\\S|\\S(?:.*\\S)?)$"
+    },
+    "stringSet": {
+      "type": "array",
+      "maxItems": 10000,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/normalizedString" }
+    },
+    "identityPolicy": {
+      "type": "object",
+      "required": [
+        "graphContent",
+        "quantityAttributes",
+        "ontologyCoordinate",
+        "typeTags",
+        "packageIdentityFields",
+        "primaryDerivation",
+        "alternateDerivations"
+      ],
+      "properties": {
+        "graphContent": {
+          "const": "canonical-candidate-content-without-execution-provenance-v1"
+        },
+        "quantityAttributes": {
+          "const": "normalized-value-unit-tolerance-semantic-v1"
+        },
+        "ontologyCoordinate": {
+          "const": "normalized-run-target-or-absent-v1"
+        },
+        "typeTags": { "const": "verified-profile-result-type-tags-v1" },
+        "packageIdentityFields": { "const": "loaded-identity-policy-v1" },
+        "primaryDerivation": {
+          "const": "lexicographically-smallest-formation-hash-v1"
+        },
+        "alternateDerivations": {
+          "const": "separate-canonical-derivation-index-v1"
+        }
+      },
+      "additionalProperties": false
+    },
+    "derivation": {
+      "type": "object",
+      "required": [
+        "candidateId",
+        "formationHash",
+        "profileResultHash",
+        "admittedBy",
+        "selectedBy",
+        "claimRefs",
+        "provenance"
+      ],
+      "properties": {
+        "candidateId": { "$ref": "#/$defs/hash" },
+        "formationHash": { "$ref": "#/$defs/hash" },
+        "profileResultHash": { "$ref": "#/$defs/hash" },
+        "admittedBy": { "$ref": "#/$defs/stringSet" },
+        "selectedBy": { "$ref": "#/$defs/stringSet" },
+        "claimRefs": { "$ref": "#/$defs/stringSet" },
+        "provenance": { "$ref": "element.schema.json#/$defs/provenance" }
+      },
+      "additionalProperties": false
+    },
+    "derivationIndexEntry": {
+      "type": "object",
+      "required": ["elementId", "primaryFormationHash", "derivations"],
+      "properties": {
+        "elementId": { "$ref": "#/$defs/hash" },
+        "primaryFormationHash": { "$ref": "#/$defs/hash" },
+        "derivations": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1000000,
+          "items": { "$ref": "#/$defs/derivation" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "counts": {
+      "type": "object",
+      "required": [
+        "selectedFormations",
+        "materializedProfiles",
+        "uniqueElements",
+        "alternateDerivations",
+        "indeterminateProfiles"
+      ],
+      "properties": {
+        "selectedFormations": { "$ref": "#/$defs/index" },
+        "materializedProfiles": { "$ref": "#/$defs/index" },
+        "uniqueElements": { "$ref": "#/$defs/index" },
+        "alternateDerivations": { "$ref": "#/$defs/index" },
+        "indeterminateProfiles": { "$ref": "#/$defs/index" }
+      },
+      "additionalProperties": false
+    },
+    "interpretation": {
+      "type": "object",
+      "required": ["status", "reasons"],
+      "properties": {
+        "status": { "enum": ["complete", "empty", "indeterminate"] },
+        "reasons": {
+          "type": "array",
+          "maxItems": 1,
+          "items": {
+            "enum": [
+              "no-materialized-elements",
+              "source-derived-profiles-indeterminate"
+            ]
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

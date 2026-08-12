@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/source-migration-explanation.schema.json",
+  "title": "Onto2D Source Migration Explanation Query Result",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "reporter",
+    "indexHash",
+    "query",
+    "result",
+    "explanationHash"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "reporter": { "const": "source-migration-explanation-v1" },
+    "indexHash": { "$ref": "#/$defs/hash" },
+    "query": {
+      "type": "object",
+      "required": ["kind", "id"],
+      "properties": {
+        "kind": {
+          "enum": ["source-node", "source-relation", "raw-component"]
+        },
+        "id": { "$ref": "#/$defs/identifier" }
+      },
+      "additionalProperties": false
+    },
+    "result": {
+      "oneOf": [
+        {
+          "$ref": "source-migration-explanation-index.schema.json#/$defs/node"
+        },
+        {
+          "$ref": "source-migration-explanation-index.schema.json#/$defs/relation"
+        },
+        {
+          "$ref": "source-migration-explanation-index.schema.json#/$defs/rawComponent"
+        }
+      ]
+    },
+    "explanationHash": { "$ref": "#/$defs/hash" }
+  },
+  "$defs": {
+    "hash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "identifier": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1024,
+      "pattern": "^\\S(?:[\\s\\S]*\\S)?$"
+    }
+  },
+  "additionalProperties": false
+}

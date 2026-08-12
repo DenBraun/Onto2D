@@ -1,0 +1,151 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/source-condensation.schema.json",
+  "title": "Onto2D Lossless Source Condensation",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "condenser",
+    "classificationPolicyHash",
+    "nodeResolutionPolicyHash",
+    "projectionHash",
+    "resolutionHash",
+    "vertices",
+    "memberIndex",
+    "quotient",
+    "relationLayers",
+    "counts",
+    "condensationHash"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "condenser": { "const": "source-condensation-v1" },
+    "classificationPolicyHash": { "$ref": "#/$defs/hash" },
+    "nodeResolutionPolicyHash": { "$ref": "#/$defs/hash" },
+    "projectionHash": { "$ref": "#/$defs/hash" },
+    "resolutionHash": { "$ref": "#/$defs/hash" },
+    "vertices": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 20000,
+      "items": { "$ref": "source-node-resolution.schema.json#/$defs/vertex" }
+    },
+    "memberIndex": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 20000,
+      "items": {
+        "$ref": "source-node-resolution.schema.json#/$defs/memberIndexEntry"
+      }
+    },
+    "quotient": {
+      "type": "object",
+      "required": ["vertexIds", "generativeEdges", "topologicalOrder"],
+      "properties": {
+        "vertexIds": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 20000,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/hash" }
+        },
+        "generativeEdges": {
+          "type": "array",
+          "maxItems": 10000,
+          "items": { "$ref": "#/$defs/quotientEdge" }
+        },
+        "topologicalOrder": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 20000,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/hash" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "relationLayers": {
+      "type": "object",
+      "required": [
+        "generative",
+        "constitutive",
+        "intra-closure-support",
+        "evidential",
+        "descriptive",
+        "regulatory-feedback"
+      ],
+      "properties": {
+        "generative": { "$ref": "#/$defs/relationLayer" },
+        "constitutive": { "$ref": "#/$defs/relationLayer" },
+        "intra-closure-support": { "$ref": "#/$defs/relationLayer" },
+        "evidential": { "$ref": "#/$defs/relationLayer" },
+        "descriptive": { "$ref": "#/$defs/relationLayer" },
+        "regulatory-feedback": { "$ref": "#/$defs/relationLayer" }
+      },
+      "additionalProperties": false
+    },
+    "counts": {
+      "type": "object",
+      "required": [
+        "sourceNodes",
+        "sourceRelations",
+        "vertices",
+        "condensedClusters",
+        "quotientGenerativeRelations",
+        "internalRelations",
+        "typedExplanationRelations"
+      ],
+      "properties": {
+        "sourceNodes": { "$ref": "#/$defs/nodeCount" },
+        "sourceRelations": { "$ref": "#/$defs/relationCount" },
+        "vertices": { "$ref": "#/$defs/nodeCount" },
+        "condensedClusters": { "$ref": "#/$defs/nodeCount" },
+        "quotientGenerativeRelations": { "$ref": "#/$defs/relationCount" },
+        "internalRelations": { "$ref": "#/$defs/relationCount" },
+        "typedExplanationRelations": { "$ref": "#/$defs/relationCount" }
+      },
+      "additionalProperties": false
+    },
+    "condensationHash": { "$ref": "#/$defs/hash" }
+  },
+  "$defs": {
+    "hash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "identifier": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1024,
+      "pattern": "^\\S(?:[\\s\\S]*\\S)?$"
+    },
+    "nodeCount": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 20000
+    },
+    "relationCount": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 10000
+    },
+    "quotientEdge": {
+      "type": "object",
+      "required": ["relationId", "sourceVertex", "targetVertex"],
+      "properties": {
+        "relationId": { "$ref": "#/$defs/identifier" },
+        "sourceVertex": { "$ref": "#/$defs/hash" },
+        "targetVertex": { "$ref": "#/$defs/hash" }
+      },
+      "additionalProperties": false
+    },
+    "relationLayer": {
+      "type": "array",
+      "maxItems": 10000,
+      "items": {
+        "$ref": "source-node-resolution.schema.json#/$defs/resolvedRelation"
+      }
+    }
+  },
+  "additionalProperties": false
+}

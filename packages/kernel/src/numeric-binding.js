@@ -56,6 +56,17 @@ function collectValueOperations(expression, path, operations) {
     );
   } else if (expression.kind === "sum") {
     addOperation(operations, path, "value-sum", "arithmetic", "summation");
+  } else if (
+    expression.kind === "invariant" &&
+    expression.profileAggregation !== undefined
+  ) {
+    addOperation(
+      operations,
+      path,
+      "profile-invariant-arithmetic-mean",
+      "arithmetic",
+      "precision"
+    );
   }
 }
 

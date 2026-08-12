@@ -13,6 +13,7 @@ const ROOT_FIELDS = new Set([
   "seed",
   "invariantPrecision",
   "graphPolicy",
+  "profileCompositionPolicy",
   "substructurePolicy",
   "nullModels",
   "ontologyTarget",
@@ -68,6 +69,7 @@ const LEVEL_BOUNDARY_FIELDS = new Set([
 ]);
 const SEARCH_INTERVAL_FIELDS = new Set(["fromDepth", "toDepth"]);
 const BOUNDED_FIXPOINT_FIELDS = new Set(["enabled", "maxIterations"]);
+const MAX_BOUNDED_FIXPOINT_ITERATIONS = 10_000;
 const COUNTING_DOMAINS = new Set(["profile-quotient", "element-exact", "single-candidate"]);
 const SOURCE_DEPTH_POLICIES = new Set(["all-below", "previous-only"]);
 const REPORT_AXES = new Set([
@@ -79,11 +81,17 @@ const REPORT_AXES = new Set([
   "predicate-phase"
 ]);
 const NULL_MODELS = new Set(["role-shuffle", "degree-rewire", "uniform"]);
+const PROFILE_COMPOSITION_POLICIES = new Set([
+  "post-admission-v1",
+  "profile-slot-gate-v1"
+]);
 const EVIDENCE_POLICIES = new Set(["require-all", "allow-declared"]);
 const REMOVAL_POLICIES = new Set(["nodes", "edges", "nodes-and-edges"]);
 const ONTOLOGY_PHASE = /^(?:A|B|C|D|custom:[A-Za-z0-9][A-Za-z0-9._-]*)$/;
 
-export const RUN_CONFIG_NORMALIZER_VERSION = "run-config-normalizer-v1";
+export const RUN_CONFIG_NORMALIZER_VERSION = "run-config-normalizer-v2";
+
+export const DEFAULT_PROFILE_COMPOSITION_POLICY = "post-admission-v1";
 
 export const DEFAULT_RUN_BUDGET = deepFreeze({
   maxNodes: 4,
@@ -432,6 +440,7 @@ function normalizeBoundedFixpoint(value, issues) {
   }
   validateSafeInteger(value.maxIterations, "$input.boundedFixpoint.maxIterations", issues, {
     minimum: 1,
+    maximum: MAX_BOUNDED_FIXPOINT_ITERATIONS,
     code: "RUN_CONFIG_MAX_ITERATIONS_INVALID"
   });
   return { enabled: value.enabled, maxIterations: value.maxIterations };
@@ -471,6 +480,13 @@ export function normalizeRunConfig(input) {
     ? null
     : normalizePrecision(value.invariantPrecision, issues);
   const graphPolicy = normalizeGraphPolicy(value.graphPolicy, issues);
+  const profileCompositionPolicy = normalizeEnum(
+    value.profileCompositionPolicy ?? DEFAULT_PROFILE_COMPOSITION_POLICY,
+    PROFILE_COMPOSITION_POLICIES,
+    "$input.profileCompositionPolicy",
+    issues,
+    "RUN_CONFIG_PROFILE_COMPOSITION_POLICY_INVALID"
+  );
   const substructurePolicy = normalizeSubstructurePolicy(value.substructurePolicy, issues);
   const nullModels = normalizeStringSet(value.nullModels, "$input.nullModels", issues, { allowed: NULL_MODELS });
   const ontologyTarget = normalizeOntologyTarget(value.ontologyTarget, issues);
@@ -495,6 +511,7 @@ export function normalizeRunConfig(input) {
     seed: value.seed,
     invariantPrecision,
     graphPolicy,
+    profileCompositionPolicy,
     substructurePolicy,
     nullModels,
     ...(ontologyTarget === undefined ? {} : { ontologyTarget }),

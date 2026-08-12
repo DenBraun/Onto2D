@@ -3,6 +3,11 @@
 Status: proposed implementation baseline; local conformance passed,
 independent and cross-platform review pending
 
+ADR-0046 later extends this Quantity-only v9 baseline with exact scalar
+consensus and replaces candidate-local missing/disagreement exceptions with
+structured indeterminate comparison witnesses. Hard contract errors remain
+unchanged.
+
 ## Context
 
 ADR-0026 resolves a Quantity invariant only when a candidate node names one
@@ -63,7 +68,9 @@ these fields; the v9 schema and TypeScript type no longer accept their absence.
 
 Scalar invariants, non-identical profile aggregation, functional coefficients,
 general Quantity products, cycle-set selection, and substructure operators
-remain unsupported.
+remain unsupported at this local predicate boundary. ADR-0032 later enables
+functional coefficients and general Quantity products after an eligible
+package filter without weakening this predicate contract.
 
 ## Consequences
 

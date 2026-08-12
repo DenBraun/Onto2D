@@ -1,0 +1,297 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/package-level-closure.schema.json",
+  "title": "Onto2D Complete Package Level Closure",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "closer",
+    "scope",
+    "packageId",
+    "rulesHash",
+    "depthBasis",
+    "run",
+    "depth",
+    "axisProvenance",
+    "countingDomain",
+    "artifacts",
+    "metrics",
+    "baseline",
+    "execution",
+    "status",
+    "interpretation",
+    "levelHash"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "closer": { "const": "package-level-closure-v1" },
+    "scope": { "const": "primitive-to-derived-depth-1-v1" },
+    "packageId": { "$ref": "#/$defs/hash" },
+    "rulesHash": { "$ref": "#/$defs/hash" },
+    "depthBasis": { "$ref": "#/$defs/hash" },
+    "run": { "$ref": "#/$defs/run" },
+    "depth": { "const": 1 },
+    "axisProvenance": { "$ref": "element.schema.json#/$defs/axisProvenance" },
+    "ontologyCoordinate": { "$ref": "ontology-coordinate.schema.json" },
+    "countingDomain": { "enum": ["element-exact", "profile-quotient"] },
+    "artifacts": { "$ref": "#/$defs/artifacts" },
+    "metrics": { "$ref": "#/$defs/metrics" },
+    "baseline": { "$ref": "#/$defs/baseline" },
+    "execution": { "$ref": "#/$defs/execution" },
+    "status": { "enum": ["complete", "empty", "indeterminate"] },
+    "interpretation": { "$ref": "#/$defs/interpretation" },
+    "levelHash": { "$ref": "#/$defs/hash" }
+  },
+  "oneOf": [
+    {
+      "properties": {
+        "status": { "const": "complete" },
+        "interpretation": {
+          "properties": {
+            "status": { "const": "complete" },
+            "reasons": { "maxItems": 0 }
+          }
+        }
+      }
+    },
+    {
+      "properties": {
+        "status": { "const": "empty" },
+        "interpretation": {
+          "properties": {
+            "status": { "const": "empty" },
+            "reasons": { "const": ["no-materialized-elements"] }
+          }
+        }
+      }
+    },
+    {
+      "properties": {
+        "status": { "const": "indeterminate" },
+        "interpretation": {
+          "properties": {
+            "status": { "const": "indeterminate" },
+            "reasons": { "minItems": 1 }
+          }
+        }
+      }
+    }
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "baseline": {
+            "properties": {
+              "status": { "enum": ["complete", "indeterminate"] }
+            },
+            "required": ["status"]
+          }
+        },
+        "required": ["baseline"]
+      },
+      "then": {
+        "properties": {
+          "artifacts": { "required": ["nullModels"] }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "hash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "count": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "ratioOrNull": {
+      "oneOf": [
+        { "type": "number", "minimum": 0, "maximum": 1 },
+        { "type": "null" }
+      ]
+    },
+    "run": {
+      "type": "object",
+      "required": [
+        "schemaVersion",
+        "kernelVersion",
+        "packageId",
+        "rulesHash",
+        "depthBasis",
+        "runConfigHash",
+        "bindingHash",
+        "runHash"
+      ],
+      "properties": {
+        "schemaVersion": { "const": "1" },
+        "kernelVersion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024,
+          "pattern": "^(?:\\S|\\S(?:.*\\S)?)$"
+        },
+        "packageId": { "$ref": "#/$defs/hash" },
+        "rulesHash": { "$ref": "#/$defs/hash" },
+        "depthBasis": { "$ref": "#/$defs/hash" },
+        "runConfigHash": { "$ref": "#/$defs/hash" },
+        "bindingHash": { "$ref": "#/$defs/hash" },
+        "runHash": { "$ref": "#/$defs/hash" }
+      },
+      "additionalProperties": false
+    },
+    "artifacts": {
+      "type": "object",
+      "required": ["census", "admission", "formations", "profiles", "population"],
+      "properties": {
+        "census": { "$ref": "package-candidate-census.schema.json" },
+        "admission": { "$ref": "package-selector-admission.schema.json" },
+        "formations": { "$ref": "package-selected-formations.schema.json" },
+        "profiles": { "$ref": "package-derived-profiles.schema.json" },
+        "population": { "$ref": "package-derived-depth-population.schema.json" },
+        "nullModels": { "$ref": "#/$defs/nullModels" }
+      },
+      "additionalProperties": false
+    },
+    "metrics": {
+      "type": "object",
+      "required": [
+        "booleanSelectivity",
+        "selectorCensus",
+        "selectionRetention",
+        "overallRetention",
+        "counts"
+      ],
+      "properties": {
+        "booleanSelectivity": { "$ref": "#/$defs/ratioOrNull" },
+        "selectorCensus": {
+          "type": "array",
+          "maxItems": 10000,
+          "items": {
+            "$ref": "package-selector-admission.schema.json#/$defs/selectorCensus"
+          }
+        },
+        "selectionRetention": { "$ref": "#/$defs/ratioOrNull" },
+        "overallRetention": { "$ref": "#/$defs/ratioOrNull" },
+        "counts": { "$ref": "#/$defs/counts" }
+      },
+      "additionalProperties": false
+    },
+    "counts": {
+      "type": "object",
+      "required": [
+        "evaluatedCandidates",
+        "predicateRejected",
+        "filterIndeterminate",
+        "eligibleCandidates",
+        "selectorExcluded",
+        "selectionIndeterminate",
+        "selectedCandidates",
+        "finalIndeterminate",
+        "selectedFormations",
+        "materializedProfiles",
+        "uniqueElements",
+        "alternateDerivations"
+      ],
+      "properties": {
+        "evaluatedCandidates": { "$ref": "#/$defs/count" },
+        "predicateRejected": { "$ref": "#/$defs/count" },
+        "filterIndeterminate": { "$ref": "#/$defs/count" },
+        "eligibleCandidates": { "$ref": "#/$defs/count" },
+        "selectorExcluded": { "$ref": "#/$defs/count" },
+        "selectionIndeterminate": { "$ref": "#/$defs/count" },
+        "selectedCandidates": { "$ref": "#/$defs/count" },
+        "finalIndeterminate": { "$ref": "#/$defs/count" },
+        "selectedFormations": { "$ref": "#/$defs/count" },
+        "materializedProfiles": { "$ref": "#/$defs/count" },
+        "uniqueElements": { "$ref": "#/$defs/count" },
+        "alternateDerivations": { "$ref": "#/$defs/count" }
+      },
+      "additionalProperties": false
+    },
+    "baseline": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["status", "reasons"],
+          "properties": {
+            "status": { "const": "not-run" },
+            "reasons": { "const": ["null-models-disabled"] }
+          },
+          "additionalProperties": false
+        },
+        { "$ref": "package-null-model-baseline.schema.json" }
+      ]
+    },
+    "nullModels": {
+      "type": "object",
+      "required": ["plan", "proposals", "trialCensuses", "trialSelections"],
+      "properties": {
+        "plan": { "$ref": "package-null-model-plan.schema.json" },
+        "proposals": { "$ref": "package-null-model-proposals.schema.json" },
+        "trialCensuses": {
+          "$ref": "package-null-model-trial-censuses.schema.json"
+        },
+        "trialSelections": {
+          "$ref": "package-null-model-trial-selections.schema.json"
+        }
+      },
+      "additionalProperties": false
+    },
+    "execution": {
+      "type": "object",
+      "required": [
+        "selectorCount",
+        "eligibleCandidates",
+        "maxFunctionalEvaluations",
+        "requiredFunctionalEvaluations",
+        "usedFunctionalEvaluations",
+        "perturbationSamples",
+        "requiredPerturbationSamples",
+        "usedPerturbationSamples",
+        "maxSensitivityFunctionalEvaluations",
+        "requiredSensitivityFunctionalEvaluations",
+        "usedSensitivityFunctionalEvaluations"
+      ],
+      "properties": {
+        "selectorCount": { "$ref": "#/$defs/count" },
+        "eligibleCandidates": { "$ref": "#/$defs/count" },
+        "maxFunctionalEvaluations": { "$ref": "#/$defs/count" },
+        "requiredFunctionalEvaluations": { "$ref": "#/$defs/count" },
+        "usedFunctionalEvaluations": { "$ref": "#/$defs/count" },
+        "perturbationSamples": { "$ref": "#/$defs/count" },
+        "requiredPerturbationSamples": { "$ref": "#/$defs/count" },
+        "usedPerturbationSamples": { "$ref": "#/$defs/count" },
+        "maxSensitivityFunctionalEvaluations": { "$ref": "#/$defs/count" },
+        "requiredSensitivityFunctionalEvaluations": { "$ref": "#/$defs/count" },
+        "usedSensitivityFunctionalEvaluations": { "$ref": "#/$defs/count" }
+      },
+      "additionalProperties": false
+    },
+    "interpretation": {
+      "type": "object",
+      "required": ["status", "reasons"],
+      "properties": {
+        "status": { "enum": ["complete", "empty", "indeterminate"] },
+        "reasons": {
+          "type": "array",
+          "uniqueItems": true,
+          "maxItems": 4,
+          "items": {
+            "enum": [
+              "admission-indeterminate",
+              "derived-profile-indeterminate",
+              "population-indeterminate",
+              "baseline-indeterminate",
+              "no-materialized-elements"
+            ]
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

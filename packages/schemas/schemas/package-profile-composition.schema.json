@@ -1,0 +1,332 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/package-profile-composition.schema.json",
+  "title": "Onto2D Package Profile Composition Gate",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "evaluator",
+    "policy",
+    "status",
+    "reasons",
+    "decisions",
+    "counts",
+    "compositionHash"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "evaluator": { "const": "package-profile-composition-gate-v1" },
+    "policy": { "enum": ["post-admission-v1", "profile-slot-gate-v1"] },
+    "status": { "enum": ["not-run", "complete", "truncated"] },
+    "reasons": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/normalizedString" }
+    },
+    "decisions": {
+      "type": "array",
+      "maxItems": 1000000,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/decision" }
+    },
+    "counts": { "$ref": "#/$defs/counts" },
+    "compositionHash": { "$ref": "#/$defs/hash" }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "status": { "const": "not-run" } },
+        "required": ["status"]
+      },
+      "then": {
+        "properties": {
+          "policy": { "const": "post-admission-v1" },
+          "reasons": {
+            "prefixItems": [{ "const": "profile-composition-gate-disabled" }],
+            "minItems": 1,
+            "maxItems": 1
+          },
+          "decisions": { "maxItems": 0 },
+          "counts": {
+            "properties": {
+              "evaluatedCanonicalCandidates": { "const": 0 },
+              "compatibleCandidates": { "const": 0 },
+              "incompatibleCandidates": { "const": 0 },
+              "indeterminateCandidates": { "const": 0 },
+              "excludedRawCandidates": { "const": 0 }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "status": { "const": "complete" } },
+        "required": ["status"]
+      },
+      "then": {
+        "properties": {
+          "policy": { "const": "profile-slot-gate-v1" },
+          "reasons": { "maxItems": 0 },
+          "counts": {
+            "properties": { "indeterminateCandidates": { "const": 0 } }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "hash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "normalizedString": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?:\\S|\\S(?:.*\\S)?)$"
+    },
+    "index": { "type": "integer", "minimum": 0 },
+    "counts": {
+      "type": "object",
+      "required": [
+        "evaluatedCanonicalCandidates",
+        "compatibleCandidates",
+        "incompatibleCandidates",
+        "indeterminateCandidates",
+        "excludedRawCandidates"
+      ],
+      "properties": {
+        "evaluatedCanonicalCandidates": { "type": "integer", "minimum": 0 },
+        "compatibleCandidates": { "type": "integer", "minimum": 0 },
+        "incompatibleCandidates": { "type": "integer", "minimum": 0 },
+        "indeterminateCandidates": { "type": "integer", "minimum": 0 },
+        "excludedRawCandidates": { "type": "integer", "minimum": 0 }
+      },
+      "additionalProperties": false
+    },
+    "endpoint": {
+      "type": "object",
+      "required": [
+        "canonicalNode",
+        "sourceRef",
+        "profileHash",
+        "slotIndex",
+        "polarity",
+        "guardEvaluationHash"
+      ],
+      "properties": {
+        "canonicalNode": { "$ref": "#/$defs/index" },
+        "sourceRef": { "$ref": "#/$defs/hash" },
+        "profileHash": { "$ref": "#/$defs/hash" },
+        "slotIndex": { "$ref": "#/$defs/index" },
+        "polarity": { "enum": ["in", "out", "sym"] },
+        "guardEvaluationHash": {
+          "oneOf": [{ "$ref": "#/$defs/hash" }, { "type": "null" }]
+        }
+      },
+      "additionalProperties": false
+    },
+    "consumption": {
+      "type": "object",
+      "required": ["canonicalEdge", "role", "source", "target"],
+      "properties": {
+        "canonicalEdge": { "$ref": "#/$defs/index" },
+        "role": { "$ref": "#/$defs/normalizedString" },
+        "source": { "$ref": "#/$defs/endpoint" },
+        "target": { "$ref": "#/$defs/endpoint" }
+      },
+      "additionalProperties": false
+    },
+    "guardCheck": {
+      "type": "object",
+      "required": ["path", "op", "outcome", "details"],
+      "properties": {
+        "path": { "$ref": "#/$defs/normalizedString" },
+        "op": { "$ref": "#/$defs/normalizedString" },
+        "outcome": { "enum": ["pass", "fail", "indeterminate"] },
+        "details": { "type": "object" }
+      },
+      "additionalProperties": false
+    },
+    "guardMemberOutcome": {
+      "type": "object",
+      "required": ["elementId", "outcome", "reason", "checks"],
+      "properties": {
+        "elementId": { "$ref": "#/$defs/hash" },
+        "outcome": { "enum": ["pass", "fail", "indeterminate"] },
+        "reason": {
+          "oneOf": [{ "$ref": "#/$defs/normalizedString" }, { "type": "null" }]
+        },
+        "checks": {
+          "type": "array",
+          "maxItems": 256,
+          "items": { "$ref": "#/$defs/guardCheck" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "guardEvaluation": {
+      "type": "object",
+      "required": [
+        "schemaVersion",
+        "evaluator",
+        "guardHash",
+        "guard",
+        "bindingHash",
+        "candidateId",
+        "canonicalEdge",
+        "endpoint",
+        "canonicalNode",
+        "partnerCanonicalNode",
+        "role",
+        "requiredPolarity",
+        "profileHash",
+        "partnerProfileHash",
+        "slotIndex",
+        "phase",
+        "partnerElementIds",
+        "memberOutcomes",
+        "outcome",
+        "reason",
+        "evaluationHash"
+      ],
+      "properties": {
+        "schemaVersion": { "const": "1" },
+        "evaluator": { "const": "profile-slot-partner-guard-v1" },
+        "guardHash": { "$ref": "#/$defs/hash" },
+        "guard": { "$ref": "profile-slot-guard.schema.json" },
+        "bindingHash": { "$ref": "#/$defs/hash" },
+        "candidateId": { "$ref": "#/$defs/hash" },
+        "canonicalEdge": { "$ref": "#/$defs/index" },
+        "endpoint": { "enum": ["source", "target"] },
+        "canonicalNode": { "$ref": "#/$defs/index" },
+        "partnerCanonicalNode": { "$ref": "#/$defs/index" },
+        "role": { "$ref": "#/$defs/normalizedString" },
+        "requiredPolarity": { "enum": ["in", "out"] },
+        "profileHash": { "$ref": "#/$defs/hash" },
+        "partnerProfileHash": { "$ref": "#/$defs/hash" },
+        "slotIndex": { "$ref": "#/$defs/index" },
+        "phase": { "const": "candidate-generation" },
+        "partnerElementIds": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/hash" }
+        },
+        "memberOutcomes": {
+          "type": "array",
+          "maxItems": 1000000,
+          "items": { "$ref": "#/$defs/guardMemberOutcome" }
+        },
+        "outcome": { "enum": ["pass", "fail", "indeterminate"] },
+        "reason": {
+          "oneOf": [{ "$ref": "#/$defs/normalizedString" }, { "type": "null" }]
+        },
+        "evaluationHash": { "$ref": "#/$defs/hash" }
+      },
+      "additionalProperties": false
+    },
+    "details": {
+      "type": "object",
+      "required": [
+        "canonicalEdge",
+        "endpoint",
+        "canonicalNode",
+        "partnerCanonicalNode",
+        "role",
+        "requiredPolarity",
+        "profileHash"
+      ],
+      "properties": {
+        "canonicalEdge": { "$ref": "#/$defs/index" },
+        "endpoint": { "enum": ["source", "target"] },
+        "canonicalNode": { "$ref": "#/$defs/index" },
+        "partnerCanonicalNode": { "$ref": "#/$defs/index" },
+        "role": { "$ref": "#/$defs/normalizedString" },
+        "requiredPolarity": { "enum": ["in", "out"] },
+        "profileHash": { "$ref": "#/$defs/hash" },
+        "guardEvaluationHash": { "$ref": "#/$defs/hash" }
+      },
+      "additionalProperties": false
+    },
+    "decision": {
+      "type": "object",
+      "required": [
+        "schemaVersion",
+        "evaluator",
+        "bindingHash",
+        "runConfigHash",
+        "sourcePopulationHash",
+        "candidateId",
+        "candidateCanonicalHash",
+        "policy",
+        "outcome",
+        "reason",
+        "details",
+        "consumptions",
+        "guardEvaluations",
+        "decisionHash"
+      ],
+      "properties": {
+        "schemaVersion": { "const": "1" },
+        "evaluator": { "const": "package-profile-composition-gate-v1" },
+        "bindingHash": { "$ref": "#/$defs/hash" },
+        "runConfigHash": { "$ref": "#/$defs/hash" },
+        "sourcePopulationHash": { "$ref": "#/$defs/hash" },
+        "candidateId": { "$ref": "#/$defs/hash" },
+        "candidateCanonicalHash": { "$ref": "#/$defs/hash" },
+        "policy": { "$ref": "#/$defs/policy" },
+        "outcome": { "enum": ["pass", "exclude", "indeterminate"] },
+        "reason": {
+          "oneOf": [{ "$ref": "#/$defs/normalizedString" }, { "type": "null" }]
+        },
+        "details": {
+          "oneOf": [{ "$ref": "#/$defs/details" }, { "type": "null" }]
+        },
+        "consumptions": {
+          "type": "array",
+          "maxItems": 9007199254740991,
+          "items": { "$ref": "#/$defs/consumption" }
+        },
+        "guardEvaluations": {
+          "type": "array",
+          "maxItems": 9007199254740991,
+          "items": { "$ref": "#/$defs/guardEvaluation" }
+        },
+        "decisionHash": { "$ref": "#/$defs/hash" }
+      },
+      "additionalProperties": false
+    },
+    "policy": {
+      "type": "object",
+      "required": [
+        "edgeOrder",
+        "endpointOrder",
+        "slotPreference",
+        "capacityConsumption",
+        "partnerDomain",
+        "incompatibleDisposition",
+        "indeterminateDisposition"
+      ],
+      "properties": {
+        "edgeOrder": { "const": "canonical-edge-index-v1" },
+        "endpointOrder": { "const": "source-then-target-v1" },
+        "slotPreference": {
+          "const": "exact-polarity-before-symmetric-then-slot-index-v1"
+        },
+        "capacityConsumption": {
+          "const": "one-unit-per-directed-edge-endpoint-v1"
+        },
+        "partnerDomain": { "const": "complete-profile-class-v1" },
+        "incompatibleDisposition": {
+          "const": "exclude-before-candidate-store-v1"
+        },
+        "indeterminateDisposition": {
+          "const": "fail-closed-whole-generation-v1"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,170 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/package-depth-pruned-candidate-generation.schema.json",
+  "title": "Onto2D Depth-Aware Audited Pre-Admission Candidate Generation",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "generator",
+    "packageId",
+    "rulesHash",
+    "bindingHash",
+    "runConfigHash",
+    "targetDepth",
+    "sourcePopulationHash",
+    "auditHash",
+    "binding",
+    "enumeration",
+    "profileComposition",
+    "pruning",
+    "conformance",
+    "generationHash"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "generator": { "const": "package-depth-pruned-candidate-generator-v1" },
+    "packageId": { "$ref": "#/$defs/hash" },
+    "rulesHash": { "$ref": "#/$defs/hash" },
+    "bindingHash": { "$ref": "#/$defs/hash" },
+    "runConfigHash": { "$ref": "#/$defs/hash" },
+    "targetDepth": { "$ref": "#/$defs/depth" },
+    "sourcePopulationHash": { "$ref": "#/$defs/hash" },
+    "auditHash": { "$ref": "#/$defs/hash" },
+    "binding": { "$ref": "package-depth-candidate-binding.schema.json" },
+    "enumeration": {
+      "allOf": [
+        { "$ref": "candidate-enumeration-result.schema.json" },
+        {
+          "properties": {
+            "status": { "const": "complete" },
+            "interpretable": { "const": true }
+          }
+        }
+      ]
+    },
+    "profileComposition": {
+      "$ref": "package-profile-composition.schema.json"
+    },
+    "pruning": { "$ref": "#/$defs/pruning" },
+    "conformance": { "$ref": "#/$defs/conformance" },
+    "generationHash": { "$ref": "#/$defs/hash" }
+  },
+  "$defs": {
+    "hash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1024,
+      "pattern": "^(?:\\S|\\S(?:.*\\S)?)$"
+    },
+    "depth": { "type": "integer", "minimum": 1, "maximum": 64 },
+    "count": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "pruning": {
+      "type": "object",
+      "required": [
+        "strategy",
+        "transcriptHash",
+        "authorizedPredicateIds",
+        "prunedCandidates",
+        "counts"
+      ],
+      "properties": {
+        "strategy": { "const": "canonical-candidate-prefix-pre-admission-v1" },
+        "transcriptHash": { "$ref": "#/$defs/hash" },
+        "authorizedPredicateIds": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/id" }
+        },
+        "prunedCandidates": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/prunedCandidate" }
+        },
+        "counts": { "$ref": "#/$defs/pruningCounts" }
+      },
+      "additionalProperties": false
+    },
+    "prunedCandidate": {
+      "type": "object",
+      "required": [
+        "candidateId",
+        "skeletonId",
+        "predicateId",
+        "partialEdgeCount",
+        "completeEdgeCount",
+        "decision",
+        "rawOccurrences"
+      ],
+      "properties": {
+        "candidateId": { "$ref": "#/$defs/hash" },
+        "skeletonId": { "$ref": "#/$defs/hash" },
+        "predicateId": { "$ref": "#/$defs/id" },
+        "partialEdgeCount": { "$ref": "#/$defs/count" },
+        "completeEdgeCount": { "$ref": "#/$defs/count" },
+        "decision": { "$ref": "package-depth-partial-pruning-decision.schema.json" },
+        "rawOccurrences": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        }
+      },
+      "additionalProperties": false
+    },
+    "pruningCounts": {
+      "type": "object",
+      "required": [
+        "evaluatedRawCandidates",
+        "evaluatedPrefixStates",
+        "controllerDecisions",
+        "authorizedDecisions",
+        "uniquePrunedCandidates",
+        "duplicatePrunedCandidates",
+        "retainedCanonicalCandidates"
+      ],
+      "properties": {
+        "evaluatedRawCandidates": { "$ref": "#/$defs/count" },
+        "evaluatedPrefixStates": { "$ref": "#/$defs/count" },
+        "controllerDecisions": { "$ref": "#/$defs/count" },
+        "authorizedDecisions": { "$ref": "#/$defs/count" },
+        "uniquePrunedCandidates": { "$ref": "#/$defs/count" },
+        "duplicatePrunedCandidates": { "$ref": "#/$defs/count" },
+        "retainedCanonicalCandidates": { "$ref": "#/$defs/count" }
+      },
+      "additionalProperties": false
+    },
+    "conformance": {
+      "type": "object",
+      "required": [
+        "status",
+        "pruningDisabledCanonicalCandidates",
+        "pruningEnabledCanonicalCandidates",
+        "pruningDisabledRejectedCandidates",
+        "pruningEnabledRejectedCandidates",
+        "eligible",
+        "indeterminate"
+      ],
+      "properties": {
+        "status": { "const": "passed" },
+        "pruningDisabledCanonicalCandidates": { "$ref": "#/$defs/count" },
+        "pruningEnabledCanonicalCandidates": { "$ref": "#/$defs/count" },
+        "pruningDisabledRejectedCandidates": { "$ref": "#/$defs/count" },
+        "pruningEnabledRejectedCandidates": { "$ref": "#/$defs/count" },
+        "eligible": {
+          "$ref": "package-pruned-candidate-generation.schema.json#/$defs/resultSet"
+        },
+        "indeterminate": {
+          "$ref": "package-pruned-candidate-generation.schema.json#/$defs/resultSet"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
