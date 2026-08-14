@@ -25,6 +25,11 @@ case-artifact or deployment gate.
 The Explorer contributes five additional model tests. The resulting 415-test
 workspace suite also passes locally on macOS arm64 with Node.js 24.
 
+For GitHub Pages, publish the selected branch from `/(root)`. The root
+[`index.html`](index.html) preserves the repository project path and opens the
+Explorer at `apps/historical-load-explorer/`; no separate Pages source folder
+is required.
+
 The existing `cases/level-0-oscillator/` directory currently freezes theory
 source identities only. It does not claim that the paper's resonant triad has
 been numerically implemented, empirically validated, or published as a demo.
