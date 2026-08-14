@@ -7,14 +7,23 @@ admissibility-closure kernel for finite complex-system models.
 
 The schema-v1 kernel implementation is locally closed: the public registry
 contains 195 implemented capabilities and no pending kernel operations. The
-current 410-test suite, repository checks, and validation build pass locally on
-macOS arm64 with Node.js 20 and 22.
+pre-Explorer 410-test kernel/workspace baseline, repository checks, and
+validation build pass locally on macOS arm64 with Node.js 20 and 22.
 
 Release acceptance still requires the configured
 Ubuntu/macOS/Windows × Node.js 20/22 CI matrix and independent review of the
 canonical identity fixtures. After that gate, `POST-CLOSURE-VIS-01` requires a
 complete reproducible case and a generated visual presentation, preferably on
 GitHub Pages.
+
+An explicitly illustrative, dependency-free
+[Historical Load Explorer](apps/historical-load-explorer/README.md) interface
+prototype now exercises the proposed presentation and interaction model. It
+uses disclosed toy path candidates and does not claim to satisfy the verified
+case-artifact or deployment gate.
+
+The Explorer contributes five additional model tests. The resulting 415-test
+workspace suite also passes locally on macOS arm64 with Node.js 24.
 
 The existing `cases/level-0-oscillator/` directory currently freezes theory
 source identities only. It does not claim that the paper's resonant triad has
@@ -49,9 +58,10 @@ The detailed capability boundary and its evidence are maintained in
 
 This repository does not currently publish:
 
-- a visual examples gallery or GitHub Pages application;
+- a production visual examples gallery or deployed GitHub Pages application;
 - healthcare, biological, cognitive, or organizational demo applications;
-- a browser development server or an `npm run dev` command;
+- a general browser development server or an `npm run dev` command (the static
+  explorer prototype has the focused `npm run dev:explorer` command);
 - a plugin marketplace, diagnostic UI, or named AI-assistant integration;
 - a scientific solver or a claim of empirical validation;
 - reviewed policy, annotation, and disposition data for migration of the
@@ -106,6 +116,7 @@ See the [Development Guide](docs/DEVELOPMENT.md) and
   implementations;
 - `packages/run-store/` — verified local run persistence and operational
   records;
+- `apps/historical-load-explorer/` — static illustrative interface prototype;
 - `cases/` — research-case source locks and future executable case artifacts;
 - `scr/` — preserved source catalogue and theory documents;
 - `scripts/` — repository checks and independent conformance tooling;

@@ -28,6 +28,8 @@ filesystem boundary; the kernel never imports them.
 ```text
 Onto2D/
 ├── .github/workflows/ci.yml
+├── apps/
+│   └── historical-load-explorer/  # illustrative static interface prototype
 ├── cases/
 │   └── level-0-oscillator/
 │       ├── README.md
@@ -71,6 +73,7 @@ Onto2D/
 | `cases` | source locks, frozen rules, fixtures, expected artifacts | hard-coded kernel branches |
 | `scripts` | repository automation and isolated conformance references | runtime domain semantics duplicated from packages |
 | `scr` | preserved source data and reference artifacts | generated run results |
+| `apps/historical-load-explorer` | illustrative browser interaction and a disclosed finite toy path model | verified-run claims, scientific solver results, kernel semantics |
 
 ## Growth sequence
 
