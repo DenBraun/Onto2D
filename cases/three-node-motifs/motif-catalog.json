@@ -1,0 +1,134 @@
+{
+  "schemaVersion": "1",
+  "caseId": "three-node-motifs",
+  "title": "The 13 connected directed three-node motif classes",
+  "nodeLabels": ["a", "b", "c"],
+  "identityBasis": {
+    "candidateDomain": "single-candidate",
+    "nodeRef": "sha256:c211b575685f9d84c0136736ccd8779bfb87f7f0dbb759322f72f03d0987f560",
+    "nodeRefHashDomain": "onto2d:element:v1",
+    "nodeRefHashValue": {"schemaVersion": "1", "caseId": "three-node-motifs", "kind": "anonymous-triad-node"},
+    "edgeRole": "directed-link",
+    "structuralNodeAttributes": [],
+    "structuralEdgeAttributes": []
+  },
+  "motifs": [
+    {
+      "triadCode": "021D",
+      "name": "Diverging dyad",
+      "description": "One source points to two targets.",
+      "edges": [[1, 0], [1, 2]],
+      "mfinderId": 6,
+      "canonicalId": "sha256:7955f77edae9ab72165f0f79c68a8132cb6428ddc449651ec0a2f3841e02d854",
+      "skeletonId": "sha256:0f9f553ac8b136d61f8297a909c949d11a1ee98e23718a0b6a8fb85b0994df0c"
+    },
+    {
+      "triadCode": "021U",
+      "name": "Converging dyad",
+      "description": "Two sources point to one target.",
+      "edges": [[0, 1], [2, 1]],
+      "mfinderId": 36,
+      "canonicalId": "sha256:8852743b2f6c41368903eb91583873f662edcb25d8dd44d74721ad0a04dcf6ad",
+      "skeletonId": "sha256:0f9f553ac8b136d61f8297a909c949d11a1ee98e23718a0b6a8fb85b0994df0c"
+    },
+    {
+      "triadCode": "021C",
+      "name": "Directed chain",
+      "description": "A two-step directed path.",
+      "edges": [[0, 1], [1, 2]],
+      "mfinderId": 12,
+      "canonicalId": "sha256:b6c1f7853a4981f9434efa51f9dca5d9b9856678ea7a77753fe91d7039c50115",
+      "skeletonId": "sha256:0f9f553ac8b136d61f8297a909c949d11a1ee98e23718a0b6a8fb85b0994df0c"
+    },
+    {
+      "triadCode": "111D",
+      "name": "Mutual dyad with incoming edge",
+      "description": "A mutual pair receives one additional edge.",
+      "edges": [[0, 2], [2, 0], [1, 2]],
+      "mfinderId": 74,
+      "canonicalId": "sha256:05b5d56a81732feee8a2bf3a3e3386f681c286df860dd3eab69ac932b07f4a17",
+      "skeletonId": "sha256:0f9f553ac8b136d61f8297a909c949d11a1ee98e23718a0b6a8fb85b0994df0c"
+    },
+    {
+      "triadCode": "111U",
+      "name": "Mutual dyad with outgoing edge",
+      "description": "A mutual pair emits one additional edge.",
+      "edges": [[0, 2], [2, 0], [2, 1]],
+      "mfinderId": 14,
+      "canonicalId": "sha256:efd052a7137cff9a89b440e7d5507a79e834cf37ce5b4a4d45b878612642f63f",
+      "skeletonId": "sha256:0f9f553ac8b136d61f8297a909c949d11a1ee98e23718a0b6a8fb85b0994df0c"
+    },
+    {
+      "triadCode": "030T",
+      "name": "Feed-forward loop",
+      "description": "A source regulates a target both directly and through an intermediate.",
+      "edges": [[0, 1], [2, 1], [0, 2]],
+      "mfinderId": 38,
+      "canonicalId": "sha256:0f578d7e0e573cc770fb189913486f1c0461a8aeebf83e6cdc7ac3d2208d0fea",
+      "skeletonId": "sha256:9be4ec8a7a5f4bca5008180fc8a6dff4b90b7f7a7f5939b3a45745e45675e517"
+    },
+    {
+      "triadCode": "030C",
+      "name": "Directed 3-cycle",
+      "description": "Three edges form a directed cycle.",
+      "edges": [[1, 0], [2, 1], [0, 2]],
+      "mfinderId": 98,
+      "canonicalId": "sha256:913c5005d5ac33efaae366360c36c6f2bdfae29f0e86807b7074cf18d5a18f63",
+      "skeletonId": "sha256:9be4ec8a7a5f4bca5008180fc8a6dff4b90b7f7a7f5939b3a45745e45675e517"
+    },
+    {
+      "triadCode": "201",
+      "name": "Two mutual dyads",
+      "description": "One node participates in two mutual pairs.",
+      "edges": [[0, 1], [1, 0], [0, 2], [2, 0]],
+      "mfinderId": 78,
+      "canonicalId": "sha256:2148cbb7d22e25d1cd150e6f6fd75a154e897faefeaec676a5bc122f6b9fd082",
+      "skeletonId": "sha256:0f9f553ac8b136d61f8297a909c949d11a1ee98e23718a0b6a8fb85b0994df0c"
+    },
+    {
+      "triadCode": "120D",
+      "name": "Mutual dyad with common source",
+      "description": "Both nodes of a mutual pair point to the third node.",
+      "edges": [[1, 2], [1, 0], [0, 2], [2, 0]],
+      "mfinderId": 108,
+      "canonicalId": "sha256:53bce327387dec281c5f71b47a8a2b46d43cad339fc9228fb637ce4877a7d189",
+      "skeletonId": "sha256:9be4ec8a7a5f4bca5008180fc8a6dff4b90b7f7a7f5939b3a45745e45675e517"
+    },
+    {
+      "triadCode": "120U",
+      "name": "Mutual dyad with common target",
+      "description": "The third node points to both nodes of a mutual pair.",
+      "edges": [[0, 1], [2, 1], [0, 2], [2, 0]],
+      "mfinderId": 46,
+      "canonicalId": "sha256:4a245f24065c1667653d51ed54050871023bb0622889cf8ec899bd838545dbc2",
+      "skeletonId": "sha256:9be4ec8a7a5f4bca5008180fc8a6dff4b90b7f7a7f5939b3a45745e45675e517"
+    },
+    {
+      "triadCode": "120C",
+      "name": "Mutual dyad in a directed cycle",
+      "description": "A mutual pair sits inside a directed three-cycle.",
+      "edges": [[0, 1], [1, 2], [0, 2], [2, 0]],
+      "mfinderId": 102,
+      "canonicalId": "sha256:f9dd4dd1d541a38bdb14f8a1e0a2fad47d1064f517e3f22df4bc4e7ed85487d3",
+      "skeletonId": "sha256:9be4ec8a7a5f4bca5008180fc8a6dff4b90b7f7a7f5939b3a45745e45675e517"
+    },
+    {
+      "triadCode": "210",
+      "name": "Two mutual dyads plus one edge",
+      "description": "Two mutual pairs are joined by one additional directed edge.",
+      "edges": [[0, 1], [1, 2], [2, 1], [0, 2], [2, 0]],
+      "mfinderId": 110,
+      "canonicalId": "sha256:b8164c3a118efd080ea4a8d353542b8e8af6745edc461df2f552903dddde680a",
+      "skeletonId": "sha256:9be4ec8a7a5f4bca5008180fc8a6dff4b90b7f7a7f5939b3a45745e45675e517"
+    },
+    {
+      "triadCode": "300",
+      "name": "Fully mutual triad",
+      "description": "Every pair is connected in both directions.",
+      "edges": [[0, 1], [1, 0], [1, 2], [2, 1], [0, 2], [2, 0]],
+      "mfinderId": 238,
+      "canonicalId": "sha256:3ba6bedd24344af7a9c134cf2b24ef145ce3531395d3904150803e678f8ca6b9",
+      "skeletonId": "sha256:9be4ec8a7a5f4bca5008180fc8a6dff4b90b7f7a7f5939b3a45745e45675e517"
+    }
+  ]
+}

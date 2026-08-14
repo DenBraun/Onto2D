@@ -29,10 +29,19 @@ filesystem boundary; the kernel never imports them.
 Onto2D/
 ├── .github/workflows/ci.yml
 ├── apps/
-│   └── historical-load-explorer/  # illustrative static interface prototype
+│   └── historical-load-explorer/  # ΔH prototype + motif case projection
 ├── cases/
-│   └── level-0-oscillator/
-│       ├── README.md
+│   ├── level-0-oscillator/
+│   │   ├── README.md
+│   │   └── source-lock.json
+│   └── three-node-motifs/        # frozen external motif reproduction
+│       ├── artifacts/analysis.json
+│       ├── src/
+│       ├── motif-catalog.json
+│       ├── graph-conventions.json
+│       ├── null-model.json
+│       ├── published-reference.json
+│       ├── run.mjs
 │       └── source-lock.json
 ├── docs/
 │   ├── adr/
@@ -73,7 +82,7 @@ Onto2D/
 | `cases` | source locks, frozen rules, fixtures, expected artifacts | hard-coded kernel branches |
 | `scripts` | repository automation and isolated conformance references | runtime domain semantics duplicated from packages |
 | `scr` | preserved source data and reference artifacts | generated run results |
-| `apps/historical-load-explorer` | illustrative browser interaction and a disclosed finite toy path model | verified-run claims, scientific solver results, kernel semantics |
+| `apps/historical-load-explorer` | illustrative browser interaction, a disclosed finite toy path model, and a read-only tested projection of the frozen motif case | altering case results, scientific solver semantics, kernel semantics |
 
 ## Growth sequence
 
@@ -138,7 +147,9 @@ Implementation grows through the following sequence:
    `packages/catalog-adapter/test/fixtures`;
 8. expand `cases/level-0-oscillator` only when quantities and evidence are
    operationally defined;
-9. add applications after kernel artifact contracts stabilize.
+9. maintain the frozen three-node-motif reproduction and its tested Explorer
+   projection without retuning the predeclared external comparison;
+10. add further applications after kernel artifact contracts stabilize.
 
 Catalogue files remain in `scr/` as immutable source inputs and reference
 artifacts.

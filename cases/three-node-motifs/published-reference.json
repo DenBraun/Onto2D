@@ -1,0 +1,38 @@
+{
+  "schemaVersion": "1",
+  "caseId": "three-node-motifs",
+  "datasetPaper": {
+    "citation": "Shen-Orr, Milo, Mangan & Alon (2002), Network motifs in the transcriptional regulation network of Escherichia coli, Nature Genetics 31, 64-68",
+    "doi": "10.1038/ng881",
+    "url": "https://doi.org/10.1038/ng881",
+    "reportedNetwork": {"nodes": 424, "edgesIncludingAutoregulation": 577, "autoregulationEdges": 58, "edgesAnalyzed": 519}
+  },
+  "comparisonPaper": {
+    "citation": "Milo et al. (2002), Network Motifs: Simple Building Blocks of Complex Networks, Science 298, 824-827",
+    "doi": "10.1126/science.298.5594.824",
+    "url": "https://doi.org/10.1126/science.298.5594.824",
+    "reportedMethod": {"randomNetworks": 1000, "preservedPerNode": ["incoming edges", "outgoing edges", "mutual edges"], "significanceThreshold": "P < 0.01"},
+    "reportedEColiResult": {
+      "onlySignificantConnectedTriad": "030T",
+      "motifName": "Feed-forward loop",
+      "observed": 40,
+      "randomMean": 7,
+      "randomStandardDeviation": 3,
+      "zScore": 10,
+      "valuesAreRoundedAsPrinted": true
+    }
+  },
+  "profilePaper": {
+    "citation": "Milo et al. (2004), Superfamilies of Evolved and Designed Networks, Science 303, 1538-1542",
+    "doi": "10.1126/science.1089167",
+    "url": "https://doi.org/10.1126/science.1089167",
+    "reportedInterpretation": "The E. coli transcription network is characterized by a strong feed-forward-loop motif and a directed-chain anti-motif.",
+    "triadSignificanceProfile": "SP_i = Z_i / sqrt(sum_j Z_j^2)"
+  },
+  "comparisonRulesFrozenBeforeRun": {
+    "primaryAgreement": "030T ranks first by Onto2D Z-score and is the only class with empirical upper-tail P < 0.01",
+    "secondaryAgreement": "030T observed count equals 40; null mean, standard deviation and Z-score are compatible with the rounded published 7 +/- 3 and Z = 10",
+    "profileAgreement": "021C has a negative Z-score and 030T has a positive Z-score",
+    "noRetuningAfterRun": true
+  }
+}

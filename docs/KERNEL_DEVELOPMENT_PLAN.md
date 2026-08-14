@@ -631,8 +631,9 @@ Scope:
   explanations, indexes, and operational logs;
 - bind predictions to run hashes before execution;
 - implement the Level-0 oscillator case from the foundational paper;
-- add independently sourced motif comparison only when dataset and graph
-  conventions are frozen.
+- maintain the independently sourced three-node-motif comparison with its
+  frozen dataset hashes, graph conventions, preprocessing, null model,
+  ranking rule, and predeclared publication comparison.
 
 Gate: repeated identical semantic inputs produce byte-identical semantic
 artifacts; operational metadata does not contaminate semantic hashes.

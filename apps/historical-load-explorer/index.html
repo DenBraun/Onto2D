@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="An interactive, falsifiable demonstration of historical load in constrained construction paths.">
     <title>Historical Load Explorer — Onto2D</title>
-    <link rel="stylesheet" href="./styles.css?v=20260814.4">
-    <script type="module" src="./app.js?v=20260814.2"></script>
+    <link rel="stylesheet" href="./styles.css?v=20260814.5">
+    <script type="module" src="./app.js?v=20260814.3"></script>
   </head>
   <body>
     <a class="skip-link" href="#experiment">Skip to experiment</a>
@@ -27,6 +27,7 @@
 
       <nav aria-label="Primary navigation">
         <a href="#examples">Examples</a>
+        <a href="#motifs">13 motifs</a>
         <button class="nav-button" id="methods-button" type="button">Methods</button>
         <a class="repo-link" href="https://github.com/DenBraun/Onto2D" target="_blank" rel="noopener noreferrer" aria-label="Onto2D repository on GitHub, opens in a new tab">GitHub <span aria-hidden="true">↗</span></a>
         <span class="live-badge"><i></i><b>Illustrative model</b></span>
@@ -350,6 +351,50 @@
         <div class="example-list" id="example-list"></div>
         <p class="example-note">All values use the Physical preset. Select a row to load its disclosed toy path space into the instrument.</p>
       </section>
+
+      <section class="motifs-section" id="motifs" aria-labelledby="motifs-title">
+        <div class="motifs-heading">
+          <div class="section-intro">
+            <span class="section-number">06</span>
+            <p class="overline">Frozen empirical case</p>
+            <h2 id="motifs-title">The 13 directed<br>three-node motifs.</h2>
+          </div>
+          <div class="motifs-introduction">
+            <p class="large-copy">Here the diagrams are structures, not construction histories. An arrow is a directed regulatory edge; each card is one isomorphism class.</p>
+            <p>Counts come from the 424-node, 519-edge ColiNet 1.0 <i>E. coli</i> transcription network. Every unordered set of three distinct nodes is classified by its complete induced subgraph; only weakly connected triples enter the census.</p>
+          </div>
+        </div>
+
+        <div class="motif-summary" aria-label="Motif case summary">
+          <p><span>Catalogue</span><strong>13</strong><small>connected classes</small></p>
+          <p><span>Observed</span><strong>5,188</strong><small>connected triads</small></p>
+          <p><span>Null ensemble</span><strong>1,000</strong><small>degree-preserving networks</small></p>
+          <p class="is-agreement"><span>Published comparison</span><strong>agrees</strong><small>FFL ranks first</small></p>
+        </div>
+
+        <div class="motif-reading-guide">
+          <strong>How to read a card</strong>
+          <p><b>Observed</b> is the induced count in the real network. <b>Null μ</b> is the average randomized count. <b>Z</b> measures the difference in null standard deviations. A dash means the class is structurally impossible here: this network has no mutual edges, and the null model preserves that fact.</p>
+        </div>
+
+        <div class="motif-grid" id="motif-grid" aria-live="polite"></div>
+
+        <div class="motif-result-note">
+          <div>
+            <p class="overline">Primary result</p>
+            <h3>Feed-forward loop: 40 observed</h3>
+            <p>Onto2D null: <b>7.531 ± 3.067</b>, <b>Z = 10.588</b>, empirical upper-tail <b>P = 0 / 1,000</b>. Milo et al. printed 40 against 7 ± 3 and Z = 10. The exact random draws differ, while the frozen ensemble, ranking, and conclusion agree.</p>
+          </div>
+          <div>
+            <p class="overline">Method boundary</p>
+            <p>Onto2D supplies canonical graph identity. This case adds a network-wide induced census and a deterministic reimplementation of mFinder 1.2 degree-preserving switching. It does not claim that motif enrichment is historical load.</p>
+            <div class="motif-links">
+              <a href="https://doi.org/10.1126/science.298.5594.824" target="_blank" rel="noopener noreferrer">Published comparison ↗</a>
+              <a href="https://github.com/DenBraun/Onto2D/tree/main/cases/three-node-motifs" target="_blank" rel="noopener noreferrer">Case, data lock & code ↗</a>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
 
     <footer class="site-footer">
@@ -359,7 +404,7 @@
         </svg>
         <span><strong>Historical Load Explorer</strong><small>An Onto2D interface study</small></span>
       </a>
-      <p>Illustrative model · No empirical claim</p>
+      <p>Illustrative ΔH instrument · Frozen motif case</p>
       <div class="footer-links">
         <a href="https://github.com/DenBraun/Onto2D" target="_blank" rel="noopener noreferrer" aria-label="Onto2D repository on GitHub, opens in a new tab">GitHub repository ↗</a>
         <a href="#experiment">Return to instrument ↑</a>
@@ -381,8 +426,8 @@
         </ol>
         <div class="dialog-disclosure">
           <strong>Prototype boundary</strong>
-          <p>This page is an interface demonstrator. It does not load a verified Onto2D run artifact, implement a scientific solver, or present an empirical result. The model and its tests live beside the interface so each displayed value is reproducible.</p>
-          <p>The four target cases are illustrative path spaces, not the 13 connected directed three-node triad classes and not an empirical network-motif census.</p>
+          <p>The ΔH instrument is an interface demonstrator. It does not load a verified Onto2D run artifact or implement a scientific solver. Its four target cases are illustrative finite path spaces.</p>
+          <p>The separate 13-motif section is a frozen empirical network census with source hashes, graph conventions, a concrete null model, and a 1,000-trial artifact. Those motif statistics do not enter the ΔH calculation.</p>
           <a href="https://github.com/DenBraun/Onto2D" target="_blank" rel="noopener noreferrer">Inspect the Onto2D repository ↗</a>
         </div>
       </div>

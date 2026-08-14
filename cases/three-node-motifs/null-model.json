@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "1",
+  "caseId": "three-node-motifs",
+  "name": "directed degree-preserving edge switching with mutual-degree preservation",
+  "ensemble": {
+    "preservePerNode": ["inDegree", "outDegree", "mutualDegree"],
+    "preserveGlobal": ["nodeCount", "edgeCount", "simpleDirectedGraph"],
+    "forbid": ["selfLoops", "parallelEdges", "creationOrDestructionOfMutualPairs"],
+    "initialStatePerTrial": "observed preprocessed graph",
+    "switchProposal": "choose two single directed edges uniformly and swap their targets",
+    "attemptsPerTrial": "100 * singleEdgeCount + U{1,...,100 * singleEdgeCount}",
+    "referencePolicy": "mfinder 1.2 switching policy, mutual-preserving mode"
+  },
+  "execution": {
+    "trials": 1000,
+    "seed": "onto2d:three-node-motifs:ecoli-colinet-1.0:null:v1",
+    "prng": "sfc32 seeded independently per trial from SHA-256(seed + ':' + trialIndex)",
+    "integerSampling": "32-bit rejection sampling; no modulo bias",
+    "ordering": "trial index ascending; catalog order frozen",
+    "implementationBoundary": "deterministic reimplementation of the published ensemble and switch policy; not a byte-for-byte replay of mfinder's wall-clock-seeded ran2 stream"
+  },
+  "statistics": {
+    "frequency": "induced connected occurrence count",
+    "nullMean": "arithmetic mean across all trials, including zero counts",
+    "nullStandardDeviation": "sample standard deviation with denominator trials - 1, matching mfinder 1.2 result code",
+    "zScore": "(observed - nullMean) / nullStandardDeviation; null when deviation is zero",
+    "foldEnrichment": "observed / nullMean; null when nullMean is zero",
+    "relativeEnrichment": "(observed - nullMean) / nullMean; null when nullMean is zero",
+    "empiricalUpperP": "count(nullCount >= observed) / trials, matching mfinder 1.2",
+    "ranking": "descending finite Z-score, then canonical ID; undefined Z-scores follow finite scores",
+    "significanceRule": "empiricalUpperP < 0.01, matching the cited 2002 publication"
+  }
+}

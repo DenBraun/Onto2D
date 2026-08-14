@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "1",
+  "caseId": "three-node-motifs",
+  "frozenAt": "2026-08-14",
+  "input": {
+    "dataset": "ColiNet-1.0/coliInterNoAutoRegVec.txt",
+    "nodeDictionary": "ColiNet-1.0/coliInterFullNames.txt",
+    "rawColumns": ["targetOperonId", "sourceTranscriptionFactorId", "binaryValue"],
+    "edgeDirection": "sourceTranscriptionFactorId -> targetOperonId",
+    "nodeUniverse": "all IDs in the 424-row node dictionary, including isolated nodes"
+  },
+  "preprocessing": {
+    "directed": true,
+    "typedEdges": false,
+    "ignoreRegulationSign": true,
+    "selfLoops": "excluded by the selected no-autoregulation file; reject if encountered",
+    "parallelEdges": "collapse exact duplicates; reject conflicting duplicates",
+    "mutualEdges": "allowed by the convention; none occur in the selected network"
+  },
+  "census": {
+    "nodeCount": 3,
+    "distinctNodes": true,
+    "inducedSubgraphs": true,
+    "connectedness": "weak connectivity after ignoring edge direction",
+    "occurrences": "each unordered three-node set counted at most once",
+    "classification": "13 loopless connected directed isomorphism classes",
+    "identifiers": ["Davis-Leinhardt triad code", "mfinder canonical adjacency ID", "Onto2D candidate canonical ID"]
+  },
+  "onto2dCanonicalization": {
+    "candidateDomain": "single-candidate",
+    "nodes": "three anonymous nodes with the same frozen element ref",
+    "edgeRole": "directed-link",
+    "connected": true,
+    "allowParallelEdges": false,
+    "allowSelfLoops": false,
+    "structuralNodeAttributes": [],
+    "structuralEdgeAttributes": []
+  }
+}

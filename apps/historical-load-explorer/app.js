@@ -5,7 +5,8 @@ import {
   analyzeCase,
   constraintsForStrictness,
   matchingPreset
-} from "./model.js?v=20260814.2";
+} from "./model.js?v=20260814.3";
+import { THREE_NODE_MOTIF_EXPLORER_DATA } from "./motif-data.js?v=20260814.3";
 
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
@@ -54,6 +55,7 @@ const elements = {
   degeneracyValue: $("#degeneracy-value"),
   cohortValue: $("#cohort-value"),
   exampleList: $("#example-list"),
+  motifGrid: $("#motif-grid"),
   methodsDialog: $("#methods-dialog")
 };
 
@@ -431,6 +433,84 @@ function renderExamples() {
   }).join("");
 }
 
+function motifNumber(value, digits = 1) {
+  if (value === null) return "—";
+  if (Number.isInteger(value)) return value.toLocaleString("en-US");
+  return value.toFixed(digits);
+}
+
+function motifZ(value) {
+  if (value === null) return "—";
+  return `${value > 0 ? "+" : ""}${value.toFixed(2)}`;
+}
+
+function motifSvg(motif) {
+  const positions = [
+    { x: 50, y: 16 },
+    { x: 18, y: 72 },
+    { x: 82, y: 72 }
+  ];
+  const edgeSet = new Set(motif.edges.map(([from, to]) => `${from}:${to}`));
+  const markerId = `motif-arrow-${motif.triadCode.toLowerCase()}`;
+  const paths = motif.edges.map(([from, to]) => {
+    const start = positions[from];
+    const end = positions[to];
+    const dx = end.x - start.x;
+    const dy = end.y - start.y;
+    const length = Math.hypot(dx, dy);
+    const unitX = dx / length;
+    const unitY = dy / length;
+    const x1 = start.x + unitX * 9;
+    const y1 = start.y + unitY * 9;
+    const x2 = end.x - unitX * 11;
+    const y2 = end.y - unitY * 11;
+    const mutual = edgeSet.has(`${to}:${from}`);
+    const path = mutual
+      ? `M${x1.toFixed(1)} ${y1.toFixed(1)} Q${((start.x + end.x) / 2 - unitY * 7).toFixed(1)} ${((start.y + end.y) / 2 + unitX * 7).toFixed(1)} ${x2.toFixed(1)} ${y2.toFixed(1)}`
+      : `M${x1.toFixed(1)} ${y1.toFixed(1)} L${x2.toFixed(1)} ${y2.toFixed(1)}`;
+    return `<path d="${path}" marker-end="url(#${markerId})"></path>`;
+  }).join("");
+  const nodes = positions.map((position, index) => (
+    `<g transform="translate(${position.x} ${position.y})"><circle r="8"></circle><text y="3.5">${"abc"[index]}</text></g>`
+  )).join("");
+
+  return `
+    <svg class="motif-diagram" viewBox="0 0 100 92" role="img" aria-label="${motif.name}: ${motif.edges.length} directed edges">
+      <defs><marker id="${markerId}" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0 7 3.5 0 7z"></path></marker></defs>
+      <g class="motif-edges">${paths}</g>
+      <g class="motif-nodes">${nodes}</g>
+    </svg>`;
+}
+
+function renderMotifs() {
+  elements.motifGrid.innerHTML = THREE_NODE_MOTIF_EXPLORER_DATA.motifs.map((motif) => {
+    const finiteZ = Number.isFinite(motif.zScore);
+    const status = motif.significant ? "motif" : finiteZ && motif.zScore < 0 ? "anti" : finiteZ ? "measured" : "unavailable";
+    const statusLabel = motif.significant ? "enriched motif" : finiteZ && motif.zScore < -2 ? "under-represented" : finiteZ ? "not enriched" : "null-fixed absence";
+    return `
+      <article class="motif-card is-${status}">
+        <header>
+          <div><span>${motif.triadCode}</span><small>mFinder ${motif.mfinderId}</small></div>
+          <b>${statusLabel}</b>
+        </header>
+        <div class="motif-card-body">
+          ${motifSvg(motif)}
+          <div>
+            <h3>${motif.name}</h3>
+            <p>${motif.description}</p>
+          </div>
+        </div>
+        <dl>
+          <div><dt>Observed</dt><dd>${motifNumber(motif.observed, 0)}</dd></div>
+          <div><dt>Null μ</dt><dd>${motifNumber(motif.nullMean, 3)}</dd></div>
+          <div><dt>Z-score</dt><dd>${motifZ(motif.zScore)}</dd></div>
+          <div><dt>Z rank</dt><dd>${finiteZ ? motif.rank : "—"}</dd></div>
+        </dl>
+        <footer title="${motif.canonicalId}"><span>Onto2D ID</span><code>${motif.canonicalId.slice(7, 19)}…</code></footer>
+      </article>`;
+  }).join("");
+}
+
 function render() {
   const result = analyzeCase(state.caseId, [...state.activeConstraintIds]);
   elements.caseSelect.value = state.caseId;
@@ -539,4 +619,5 @@ elements.methodsDialog.addEventListener("click", (event) => {
   if (event.target === elements.methodsDialog) elements.methodsDialog.close();
 });
 
+renderMotifs();
 render();
