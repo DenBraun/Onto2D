@@ -22,6 +22,8 @@ All notable user-visible changes are recorded in this file.
   second-variation witnesses, and an explicit no-qualified-node Phase-D stop.
 - Integrated Level-0 pipeline artifact that reproduces every dependency and
   records a complete negative result within the declared model.
+- Three-envelope Phase-C real-time persistence probe with symmetric-instability,
+  antisymmetric-control, energy-drift, and resolution checks.
 - Reproducible three-node motif case and three static project studies.
 
 ### Fixed

@@ -70,7 +70,7 @@ commands and fixture policy.
 Research inputs and reproductions live in [`cases/`](cases). The
 [Level-0 oscillator case](cases/level-0-oscillator/README.md) contains a bounded
 Phase-B numerical reference benchmark and a negative Phase-C boundedness
-preflight plus a bounded objecthood search; the
+preflight, a bounded objecthood search, and a real-time persistence probe; the
 [three-node-motif case](cases/three-node-motifs/README.md) is an executable,
 frozen empirical reproduction.
 

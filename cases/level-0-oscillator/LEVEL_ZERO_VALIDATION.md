@@ -91,7 +91,7 @@ The following remain open beyond this case:
 
 - asymmetric three-envelope solutions;
 - alternative bounded nonlinear completions and parameter ranges;
-- complex phase perturbations and real-time evolution;
+- complex phase perturbations and broader real-time evolution;
 - a positive Phase-C node population and consequent Phase-D collective model;
 - empirical comparison with physical observations.
 
@@ -101,3 +101,10 @@ silently invent.
 The unrun complex-phase and time-evolution tests cannot reverse this terminal
 result because every tested branch already fails a necessary gate. They remain
 required before any future positive objecthood claim.
+
+A subsequent bounded real-time probe now evolves the localized pulse in two
+profile-shaped real-amplitude directions. The symmetric deviation grows by
+`28.2471607644` at `t=4`, while the antisymmetric control remains bounded. See
+[`PHASE_C_DYNAMICS.md`](PHASE_C_DYNAMICS.md). This post-disposition evidence
+supports the existing rejection; it is not a new dependency of the frozen
+integrated result and does not cover complex or arbitrary perturbations.

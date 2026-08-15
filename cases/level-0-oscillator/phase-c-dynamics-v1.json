@@ -1,0 +1,139 @@
+{
+  "schemaVersion": "1",
+  "caseId": "level-0-oscillator",
+  "modelId": "level-0-phase-c-real-time-persistence-probe",
+  "modelVersion": "1.0.0",
+  "status": "bounded-dynamics-extension",
+  "source": {
+    "name": "topology-of-arising.pdf",
+    "repositoryPath": "scr/topology-of-arising.pdf",
+    "doi": "10.5281/zenodo.19397414",
+    "version": "v1.2",
+    "sha256": "3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+    "bytes": 340428,
+    "pageRange": { "start": 15, "end": 26 }
+  },
+  "dependency": {
+    "id": "phase-c-objecthood-search-v1",
+    "repositoryPath": "cases/level-0-oscillator/artifacts/phase-c-objecthood-v1.json",
+    "analysisHash": "sha256:c3c13e3682ed27a81653f38f6bb52befb84d1539bb873a5b9ef87ed3837e9bc5",
+    "requiredScenarioId": "localized-pulse",
+    "requiredCandidateId": "sha256:f9c56bc22bdc27a23a89674f0bea6f43c24deb59ce6aafab0235bb13d840d337",
+    "requiredSkeletonId": "sha256:9be4ec8a7a5f4bca5008180fc8a6dff4b90b7f7a7f5939b3a45745e45675e517",
+    "requiredLocalizationPassed": true,
+    "requiredAmplitudeStabilityPassed": false,
+    "requiredTrialObjecthoodPassed": false
+  },
+  "inputMapping": {
+    "status": "inherits-frozen-phase-c-symmetric-pulse",
+    "source": "the localized-pulse scenario from the frozen Phase-C objecthood search",
+    "retained": [
+      "three real envelope components",
+      "Dirichlet domain and normalized coefficients",
+      "stationary pulse branch",
+      "candidate and evidence lineage"
+    ],
+    "added": [
+      "canonical kinetic term 0.5*sum_i(dt(u_i)^2)",
+      "zero initial component velocities",
+      "two preregistered real-amplitude perturbation directions"
+    ],
+    "claim": "the dynamics probe is a case extension and not a time-evolution equation derived from the source paper"
+  },
+  "scope": {
+    "fieldRepresentation": "three real envelopes u_i(x,t) on a one-dimensional finite interval",
+    "domain": "[-L,L] with homogeneous Dirichlet boundaries",
+    "energy": "E=integral(0.5*sum_i(dt(u_i)^2+dx(u_i)^2+m2*u_i^2)-2*lambda*u1*u2*u3+0.25*g*(sum_i(u_i^2))^2)dx",
+    "equation": "d2_t(u_i)=d2_x(u_i)-m2*u_i+2*lambda*u_j*u_k-g*(sum_l(u_l^2))*u_i",
+    "gamma": "integral(abs(u_1+u_2+u_3)^2)dx",
+    "initialCondition": "the frozen symmetric stationary pulse plus a normalized profile-shaped component perturbation",
+    "integrator": "second-order velocity Verlet with paired unperturbed control",
+    "excluded": [
+      "complex phase perturbations",
+      "asymmetric stationary-profile search",
+      "alternative bounded potentials",
+      "Lorentz-covariant stability",
+      "stochastic or Markov dynamics",
+      "empirical physical validation"
+    ]
+  },
+  "parameters": {
+    "massSquared": 1,
+    "lambda": 2,
+    "quarticCoefficient": 0.5,
+    "halfWidth": 8,
+    "baseIntervals": 256,
+    "refinedIntervals": 512,
+    "duration": 4,
+    "cfl": 0.2,
+    "timeRefinementFactor": 2,
+    "perturbationFraction": 0.001,
+    "symmetricDirection": [1, 1, 1],
+    "antisymmetricDirection": [1, -1, 0],
+    "departureAmplificationThreshold": 10,
+    "snapshotCount": 25,
+    "spatialSampleStride": 4,
+    "newtonTolerance": 1e-11,
+    "newtonMaxIterations": 80,
+    "roundingSignificantDigits": 12,
+    "traceSignificantDigits": 8,
+    "reportedAbsoluteTolerance": 1e-10
+  },
+  "acceptance": {
+    "stationarityMaxResidual": 1e-9,
+    "controlProfileRelativeDepartureMaximum": 1e-6,
+    "energyRelativeDriftMaximum": 0.001,
+    "symmetricAmplificationMinimum": 10,
+    "antisymmetricAmplificationMaximum": 2,
+    "amplificationTimeRelativeChangeMaximum": 0.1,
+    "amplificationSpaceRelativeChangeMaximum": 0.1
+  },
+  "expectation": {
+    "symmetricInstabilityObserved": true,
+    "antisymmetricControlBounded": true,
+    "realTimePersistencePassed": false,
+    "priorObjecthoodDispositionChanged": false
+  },
+  "oracle": {
+    "solver": {
+      "id": "onto2d-level-0-phase-c-dynamics",
+      "version": "1.0.0",
+      "method": "three-envelope-dirichlet-velocity-verlet-v1"
+    },
+    "toleranceTarget": { "absolute": 1e-9 },
+    "quantities": [
+      { "id": "stationarity_max_residual_base", "unit": "1", "semantic": "initial-stationary-pulse-max-residual-base-v1", "toleranceTarget": { "absolute": 1e-9 } },
+      { "id": "stationarity_max_residual_refined", "unit": "1", "semantic": "initial-stationary-pulse-max-residual-refined-v1", "toleranceTarget": { "absolute": 1e-9 } },
+      { "id": "control_max_profile_relative_departure_base", "unit": "1", "semantic": "unperturbed-control-profile-relative-departure-base-v1", "toleranceTarget": { "absolute": 1e-9 } },
+      { "id": "control_max_profile_relative_departure_refined", "unit": "1", "semantic": "unperturbed-control-profile-relative-departure-refined-v1", "toleranceTarget": { "absolute": 1e-9 } },
+      { "id": "control_max_energy_relative_drift_base", "unit": "1", "semantic": "unperturbed-control-energy-relative-drift-base-v1", "toleranceTarget": { "absolute": 1e-9 } },
+      { "id": "control_max_energy_relative_drift_refined", "unit": "1", "semantic": "unperturbed-control-energy-relative-drift-refined-v1", "toleranceTarget": { "absolute": 1e-9 } },
+      { "id": "symmetric_initial_deviation_norm_base", "unit": "1", "semantic": "symmetric-probe-initial-l2-deviation-base-v1", "toleranceTarget": { "absolute": 1e-9 } },
+      { "id": "symmetric_initial_deviation_norm_refined", "unit": "1", "semantic": "symmetric-probe-initial-l2-deviation-refined-v1", "toleranceTarget": { "absolute": 1e-9 } },
+      { "id": "symmetric_max_deviation_amplification_base", "unit": "1", "semantic": "symmetric-probe-max-deviation-amplification-base-v1", "toleranceTarget": { "absolute": 1e-9 } },
+      { "id": "symmetric_max_deviation_amplification_time_refined", "unit": "1", "semantic": "symmetric-probe-max-deviation-amplification-time-refined-v1", "toleranceTarget": { "absolute": 1e-9 } },
+      { "id": "symmetric_max_deviation_amplification_refined", "unit": "1", "semantic": "symmetric-probe-max-deviation-amplification-refined-v1", "toleranceTarget": { "absolute": 1e-9 } },
+      { "id": "symmetric_final_deviation_amplification_base", "unit": "1", "semantic": "symmetric-probe-final-deviation-amplification-base-v1", "toleranceTarget": { "absolute": 1e-9 } },
+      { "id": "symmetric_final_deviation_amplification_refined", "unit": "1", "semantic": "symmetric-probe-final-deviation-amplification-refined-v1", "toleranceTarget": { "absolute": 1e-9 } },
+      { "id": "symmetric_departure_time_base", "unit": "1", "semantic": "symmetric-probe-threshold-departure-time-base-v1", "toleranceTarget": { "absolute": 1e-9 } },
+      { "id": "symmetric_departure_time_refined", "unit": "1", "semantic": "symmetric-probe-threshold-departure-time-refined-v1", "toleranceTarget": { "absolute": 1e-9 } },
+      { "id": "symmetric_max_energy_relative_drift_base", "unit": "1", "semantic": "symmetric-probe-energy-relative-drift-base-v1", "toleranceTarget": { "absolute": 1e-9 } },
+      { "id": "symmetric_max_energy_relative_drift_refined", "unit": "1", "semantic": "symmetric-probe-energy-relative-drift-refined-v1", "toleranceTarget": { "absolute": 1e-9 } },
+      { "id": "symmetric_gamma_final_relative_change_base", "unit": "1", "semantic": "symmetric-probe-gamma-final-relative-change-base-v1", "toleranceTarget": { "absolute": 1e-9 } },
+      { "id": "symmetric_gamma_final_relative_change_refined", "unit": "1", "semantic": "symmetric-probe-gamma-final-relative-change-refined-v1", "toleranceTarget": { "absolute": 1e-9 } },
+      { "id": "antisymmetric_initial_deviation_norm_base", "unit": "1", "semantic": "antisymmetric-control-initial-l2-deviation-base-v1", "toleranceTarget": { "absolute": 1e-9 } },
+      { "id": "antisymmetric_initial_deviation_norm_refined", "unit": "1", "semantic": "antisymmetric-control-initial-l2-deviation-refined-v1", "toleranceTarget": { "absolute": 1e-9 } },
+      { "id": "antisymmetric_max_deviation_amplification_base", "unit": "1", "semantic": "antisymmetric-control-max-deviation-amplification-base-v1", "toleranceTarget": { "absolute": 1e-9 } },
+      { "id": "antisymmetric_max_deviation_amplification_time_refined", "unit": "1", "semantic": "antisymmetric-control-max-deviation-amplification-time-refined-v1", "toleranceTarget": { "absolute": 1e-9 } },
+      { "id": "antisymmetric_max_deviation_amplification_refined", "unit": "1", "semantic": "antisymmetric-control-max-deviation-amplification-refined-v1", "toleranceTarget": { "absolute": 1e-9 } },
+      { "id": "antisymmetric_final_deviation_amplification_base", "unit": "1", "semantic": "antisymmetric-control-final-deviation-amplification-base-v1", "toleranceTarget": { "absolute": 1e-9 } },
+      { "id": "antisymmetric_final_deviation_amplification_refined", "unit": "1", "semantic": "antisymmetric-control-final-deviation-amplification-refined-v1", "toleranceTarget": { "absolute": 1e-9 } },
+      { "id": "antisymmetric_max_energy_relative_drift_base", "unit": "1", "semantic": "antisymmetric-control-energy-relative-drift-base-v1", "toleranceTarget": { "absolute": 1e-9 } },
+      { "id": "antisymmetric_max_energy_relative_drift_refined", "unit": "1", "semantic": "antisymmetric-control-energy-relative-drift-refined-v1", "toleranceTarget": { "absolute": 1e-9 } },
+      { "id": "symmetric_amplification_time_relative_change", "unit": "1", "semantic": "symmetric-probe-amplification-time-relative-change-v1", "toleranceTarget": { "absolute": 1e-9 } },
+      { "id": "symmetric_amplification_space_relative_change", "unit": "1", "semantic": "symmetric-probe-amplification-space-relative-change-v1", "toleranceTarget": { "absolute": 1e-9 } },
+      { "id": "antisymmetric_amplification_time_relative_change", "unit": "1", "semantic": "antisymmetric-control-amplification-time-relative-change-v1", "toleranceTarget": { "absolute": 1e-9 } },
+      { "id": "antisymmetric_amplification_space_relative_change", "unit": "1", "semantic": "antisymmetric-control-amplification-space-relative-change-v1", "toleranceTarget": { "absolute": 1e-9 } }
+    ]
+  }
+}

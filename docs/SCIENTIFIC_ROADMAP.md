@@ -34,8 +34,12 @@ three symmetric real-envelope branches. The localized pulse fails the
 real-amplitude stability gate, the stable plateau fails domain-independent
 localization, and the uncoupled vacuum fails nontrivial `Gamma`. This closes the
 declared trial family with a negative result, not the general Phase-C question.
-The next extension must preregister an asymmetric parameter search plus complex
-phase and time-evolution perturbations.
+An additional bounded dynamics probe now evolves the localized pulse under the
+same three-envelope energy. Its symmetric perturbation grows, its
+antisymmetric control remains bounded, and its coupled space-time refinements
+agree. This supports the existing static rejection but does not reopen the
+terminal result. The next extension must preregister an asymmetric parameter
+search plus complex-phase and broader time-evolution perturbations.
 
 The current integrated runner closes this declared pipeline with the explicit
 status `complete-negative-result-within-declared-model`: Phase B passes, Phase

@@ -83,6 +83,92 @@ export function buildVisualStudy(integratedArtifact, objecthoodArtifact) {
   };
 }
 
+export function buildDynamicsView(objecthoodArtifact, dynamicsArtifact) {
+  const objecthood = requireObject(objecthoodArtifact, "objecthoodArtifact");
+  const dynamics = requireObject(dynamicsArtifact, "dynamicsArtifact");
+  const pulse = objecthood.scenarios?.find((scenario) => scenario.id === "localized-pulse");
+  if (
+    !pulse ||
+    dynamics.dependency?.analysisHash !== objecthood.analysisHash ||
+    dynamics.dependency?.requiredCandidateId !== pulse.candidateId
+  ) {
+    throw new TypeError("The dynamics view is not bound to the frozen localized pulse.");
+  }
+  if (
+    dynamics.status !== "bounded-real-time-persistence-probe" ||
+    dynamics.scientificResult?.status !== "symmetric-dynamical-instability-confirmed" ||
+    dynamics.conclusion?.priorNegativeObjecthoodDispositionChanged !== false
+  ) {
+    throw new TypeError("The dynamics artifact has an unsupported scientific disposition.");
+  }
+  const frames = dynamics.visualization?.frames;
+  const antisymmetricFrames = dynamics.visualization?.antisymmetricAmplificationFrames;
+  if (
+    !Array.isArray(frames) ||
+    frames.length < 2 ||
+    !Array.isArray(antisymmetricFrames) ||
+    antisymmetricFrames.length !== frames.length
+  ) {
+    throw new TypeError("The dynamics artifact has an incomplete visual trace.");
+  }
+  for (const frame of frames) {
+    if (
+      !Array.isArray(frame.x) ||
+      frame.x.length < 2 ||
+      frame.controlComposite?.length !== frame.x.length ||
+      frame.perturbedComposite?.length !== frame.x.length
+    ) {
+      throw new TypeError("The dynamics artifact has a malformed profile frame.");
+    }
+  }
+  const initialPointwiseDifferenceMaximum = Math.max(...frames[0].x.map((_, index) => (
+    Math.abs(frames[0].perturbedComposite[index] - frames[0].controlComposite[index])
+  )));
+  if (!Number.isFinite(initialPointwiseDifferenceMaximum) || initialPointwiseDifferenceMaximum <= 0) {
+    throw new TypeError("The dynamics artifact has no finite initial profile difference.");
+  }
+  const values = dynamics.scientificResult.values;
+  return {
+    analysisHash: dynamics.analysisHash,
+    status: dynamics.scientificResult.status,
+    frames,
+    antisymmetricFrames,
+    maximumAmplification: values.symmetric_max_deviation_amplification_refined,
+    antisymmetricMaximum: values.antisymmetric_max_deviation_amplification_refined,
+    departureTime: values.symmetric_departure_time_refined,
+    energyDrift: values.symmetric_max_energy_relative_drift_refined,
+    timeResolutionChange: values.symmetric_amplification_time_relative_change,
+    spaceResolutionChange: values.symmetric_amplification_space_relative_change,
+    persistencePassed: dynamics.scientificResult.realTimePersistencePassed,
+    priorDispositionChanged: dynamics.scientificResult.priorObjecthoodDispositionChanged,
+    initialPointwiseDifferenceMaximum,
+    profileMaximum: Math.max(...frames.flatMap(
+      (frame) => [...frame.controlComposite, ...frame.perturbedComposite]
+    ))
+  };
+}
+
+export function normalizedDifferenceProfile(frame, initialMaximum) {
+  const value = requireObject(frame, "frame");
+  if (
+    !Array.isArray(value.x) ||
+    !Array.isArray(value.controlComposite) ||
+    !Array.isArray(value.perturbedComposite) ||
+    value.x.length < 2 ||
+    value.controlComposite.length !== value.x.length ||
+    value.perturbedComposite.length !== value.x.length ||
+    !value.controlComposite.every(Number.isFinite) ||
+    !value.perturbedComposite.every(Number.isFinite) ||
+    !Number.isFinite(initialMaximum) ||
+    initialMaximum <= 0
+  ) {
+    throw new TypeError("A complete profile frame and positive initial maximum are required.");
+  }
+  return value.perturbedComposite.map((sample, index) => (
+    Math.abs(sample - value.controlComposite[index]) / initialMaximum
+  ));
+}
+
 function pulseValue(x) {
   return 2 / (8 / 3 + Math.sqrt(37 / 9) * Math.cosh(x));
 }
@@ -136,6 +222,38 @@ export function profilePath(samples, width, height, maximumY) {
     open = true;
   }
   return drawing;
+}
+
+export function seriesPath(xValues, yValues, width, height, bounds) {
+  if (
+    !Array.isArray(xValues) ||
+    !Array.isArray(yValues) ||
+    xValues.length < 2 ||
+    xValues.length !== yValues.length ||
+    !xValues.every(Number.isFinite) ||
+    !yValues.every(Number.isFinite)
+  ) {
+    throw new TypeError("series values must be equal-length finite arrays.");
+  }
+  if (![width, height].every((value) => Number.isFinite(value) && value > 0)) {
+    throw new TypeError("series dimensions must be positive and finite.");
+  }
+  const { xMin, xMax, yMin, yMax } = requireObject(bounds, "bounds");
+  if (
+    ![xMin, xMax, yMin, yMax].every(Number.isFinite) ||
+    xMax <= xMin ||
+    yMax <= yMin
+  ) {
+    throw new TypeError("series bounds must be finite increasing intervals.");
+  }
+  const margin = { left: 48, right: 18, top: 22, bottom: 38 };
+  const plotWidth = width - margin.left - margin.right;
+  const plotHeight = height - margin.top - margin.bottom;
+  return xValues.map((x, index) => {
+    const px = margin.left + (x - xMin) / (xMax - xMin) * plotWidth;
+    const py = margin.top + plotHeight - (yValues[index] - yMin) / (yMax - yMin) * plotHeight;
+    return `${index === 0 ? "M" : "L"}${px.toFixed(2)} ${py.toFixed(2)}`;
+  }).join("");
 }
 
 export function formatMetric(value, digits = 4) {

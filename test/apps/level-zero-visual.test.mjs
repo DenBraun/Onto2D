@@ -3,10 +3,13 @@ import { readFile } from "node:fs/promises";
 import test from "node:test";
 
 import {
+  buildDynamicsView,
   buildVisualStudy,
   formatMetric,
+  normalizedDifferenceProfile,
   profilePath,
-  sampleProfile
+  sampleProfile,
+  seriesPath
 } from "../../apps/level-zero-validation/model.js";
 
 const readJson = async (relativePath) => JSON.parse(await readFile(
@@ -19,6 +22,9 @@ const integrated = await readJson(
 );
 const objecthood = await readJson(
   "cases/level-0-oscillator/artifacts/phase-c-objecthood-v1.json"
+);
+const dynamics = await readJson(
+  "cases/level-0-oscillator/artifacts/phase-c-dynamics-v1.json"
 );
 
 test("the visual study preserves the frozen phase disposition", () => {
@@ -112,6 +118,72 @@ test("the visual refuses evidence from a different objecthood analysis", () => {
     /do not share the frozen Phase-C identity/
   );
 });
+
+test("the dynamics view preserves the frozen instability result and controls", () => {
+  const view = buildDynamicsView(objecthood, dynamics);
+  assert.equal(view.frames.length, 25);
+  assert.equal(view.antisymmetricFrames.length, 25);
+  assert.equal(view.maximumAmplification, 28.2471607644);
+  assert.equal(view.antisymmetricMaximum, 1);
+  assert.equal(view.departureTime, 2.975);
+  assert.equal(view.persistencePassed, false);
+  assert.equal(view.priorDispositionChanged, false);
+  assert.ok(view.profileMaximum > 0.7);
+  assert.ok(view.initialPointwiseDifferenceMaximum > 0);
+
+  const initialDifference = normalizedDifferenceProfile(
+    view.frames[0],
+    view.initialPointwiseDifferenceMaximum
+  );
+  const finalDifference = normalizedDifferenceProfile(
+    view.frames.at(-1),
+    view.initialPointwiseDifferenceMaximum
+  );
+  assert.ok(Math.abs(Math.max(...initialDifference) - 1) < 1e-12);
+  assert.ok(Math.max(...finalDifference) > 30);
+
+  const times = view.frames.map((frame) => frame.time);
+  const amplitudes = view.frames.map((frame) => frame.amplification);
+  const path = seriesPath(times, amplitudes, 720, 300, {
+    xMin: times[0],
+    xMax: times.at(-1),
+    yMin: 0,
+    yMax: 30.507
+  });
+  assert.match(path, /^M/);
+  assert.doesNotMatch(path, /NaN|Infinity/);
+});
+
+test("the dynamics visual refuses a trace bound to different evidence", () => {
+  assert.throws(
+    () => buildDynamicsView(objecthood, {
+      ...dynamics,
+      dependency: { ...dynamics.dependency, analysisHash: "sha256:different" }
+    }),
+    /not bound to the frozen localized pulse/
+  );
+  assert.throws(
+    () => seriesPath([0, 1], [0], 720, 300, {
+      xMin: 0,
+      xMax: 1,
+      yMin: 0,
+      yMax: 1
+    }),
+    /equal-length finite arrays/
+  );
+  assert.throws(
+    () => normalizedDifferenceProfile(viewFrameFixture(), 0),
+    /positive initial maximum/
+  );
+});
+
+function viewFrameFixture() {
+  return {
+    x: [0, 1],
+    controlComposite: [0, 0],
+    perturbedComposite: [0, 1]
+  };
+}
 
 test("metric formatting remains compact without hiding zero", () => {
   assert.equal(formatMetric(0), "0");

@@ -24,6 +24,7 @@ npm ci
 npm run check
 npm run build
 npm run case:level-0:verify
+npm run case:level-0:dynamics:verify
 npm test
 ```
 
@@ -56,6 +57,10 @@ reproduced, or the source lock fails.
    existing failures.
 10. Confirm that Phase D receives no eligible node and is not silently run on
     a failed Phase-C candidate.
+11. Independently derive the three-envelope time-evolution equation from the
+    declared energy and confirm the sign of every nonlinear term.
+12. Reproduce the symmetric perturbation amplification, the bounded
+    antisymmetric control, and the temporal/spatial refinement comparisons.
 
 ## Claim audit
 
@@ -78,6 +83,7 @@ Independent Phase-B check:
 Independent cubic boundedness check:
 Independent pulse/Gamma/Rayleigh check:
 Independent plateau-root/domain check:
+Independent real-time dynamics check:
 Phase-B to Phase-C mapping accepted: yes/no
 Claim boundary accepted: yes/no
 Blocking findings:

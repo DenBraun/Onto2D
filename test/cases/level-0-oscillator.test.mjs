@@ -8,6 +8,7 @@ import {
 import { runLevelZeroValidation } from "../../cases/level-0-oscillator/run.mjs";
 import { runPhaseCBoundednessPreflight } from "../../cases/level-0-oscillator/run-phase-c-preflight.mjs";
 import { runPhaseCObjecthoodSearch } from "../../cases/level-0-oscillator/run-phase-c-objecthood.mjs";
+import { runPhaseCDynamicsProbe } from "../../cases/level-0-oscillator/run-phase-c-dynamics.mjs";
 import { runIntegratedLevelZeroValidation } from "../../cases/level-0-oscillator/run-level-zero-validation.mjs";
 import {
   LEVEL_ZERO_REFERENCE_SOLVER,
@@ -21,10 +22,15 @@ import {
   PHASE_C_OBJECTHOOD_SOLVER,
   phaseCObjecthoodSolver
 } from "../../cases/level-0-oscillator/solver/phase-c-objecthood-solver.mjs";
+import {
+  PHASE_C_DYNAMICS_SOLVER,
+  phaseCDynamicsSolver
+} from "../../cases/level-0-oscillator/solver/phase-c-dynamics-solver.mjs";
 
 const analysisResult = runLevelZeroValidation();
 const phaseCResult = runPhaseCBoundednessPreflight();
 const phaseCObjecthoodResult = runPhaseCObjecthoodSearch();
+const phaseCDynamicsResult = runPhaseCDynamicsProbe();
 const integratedLevelZeroResult = runIntegratedLevelZeroValidation();
 
 async function analysis() {
@@ -37,6 +43,10 @@ async function phaseCAnalysis() {
 
 async function phaseCObjecthoodAnalysis() {
   return phaseCObjecthoodResult;
+}
+
+async function phaseCDynamicsAnalysis() {
+  return phaseCDynamicsResult;
 }
 
 async function integratedLevelZeroAnalysis() {
@@ -516,6 +526,155 @@ test("the frozen Phase-C objecthood artifact and report are exact reproductions"
   for (const dependency of result.dependencies) {
     assert.match(report, new RegExp(dependency.analysisHash));
   }
+  assert.match(report, new RegExp(result.source.doi));
+});
+
+test("the Phase-C dynamics probe confirms the declared symmetric instability", async () => {
+  const result = await phaseCDynamicsAnalysis();
+  const scientific = result.scientificResult;
+  assert.equal(result.status, "bounded-real-time-persistence-probe");
+  assert.equal(scientific.status, "symmetric-dynamical-instability-confirmed");
+  assert.equal(scientific.stationarityPassed, true);
+  assert.equal(scientific.controlPersistencePassed, true);
+  assert.equal(scientific.energyConservationPassed, true);
+  assert.equal(scientific.timeConvergencePassed, true);
+  assert.equal(scientific.spaceConvergencePassed, true);
+  assert.equal(scientific.symmetricInstabilityObserved, true);
+  assert.equal(scientific.antisymmetricControlBounded, true);
+  assert.equal(scientific.realTimePersistencePassed, false);
+  assert.equal(scientific.priorObjecthoodDispositionChanged, false);
+  assert.equal(scientific.expectationMatched, true);
+  assert.equal(result.conclusion.empiricalValidationClaimed, false);
+});
+
+test("the dynamics refinement and conserved-energy controls separate growth from error", async () => {
+  const values = (await phaseCDynamicsAnalysis()).scientificResult.values;
+  assert.ok(values.symmetric_max_deviation_amplification_base > 28);
+  assert.ok(values.symmetric_max_deviation_amplification_refined > 28);
+  assert.ok(values.symmetric_max_deviation_amplification_time_refined > 28);
+  assert.equal(values.antisymmetric_max_deviation_amplification_base, 1);
+  assert.equal(values.antisymmetric_max_deviation_amplification_refined, 1);
+  assert.ok(values.symmetric_amplification_time_relative_change < 0.0001);
+  assert.ok(values.symmetric_amplification_space_relative_change < 0.0001);
+  assert.ok(values.symmetric_max_energy_relative_drift_refined < 1e-8);
+  assert.ok(values.antisymmetric_max_energy_relative_drift_refined < 1e-10);
+  assert.ok(values.control_max_profile_relative_departure_refined < 1e-12);
+  assert.equal(values.symmetric_departure_time_refined, 2.975);
+});
+
+test("the static negative Rayleigh direction predicts the dynamics growth scale", async () => {
+  const objecthood = await phaseCObjecthoodAnalysis();
+  const dynamics = await phaseCDynamicsAnalysis();
+  const rayleigh = objecthood.scenarios.find(
+    (scenario) => scenario.id === "localized-pulse"
+  ).scientificResult.values.symmetric_profile_rayleigh_quotient;
+  const model = JSON.parse(await readFile(
+    new URL("../../cases/level-0-oscillator/phase-c-dynamics-v1.json", import.meta.url),
+    "utf8"
+  ));
+  const linearPrediction = Math.cosh(Math.sqrt(-rayleigh) * model.parameters.duration);
+  const observed = dynamics.scientificResult.values
+    .symmetric_final_deviation_amplification_refined;
+  assert.ok(rayleigh < 0);
+  assert.ok(Math.abs(observed - linearPrediction) / linearPrediction < 0.05);
+});
+
+test("the frozen dynamics trace is finite, ordered, and bound to the refined probe", async () => {
+  const result = await phaseCDynamicsAnalysis();
+  const trace = result.visualization;
+  assert.equal(trace.branchId, "localized-pulse");
+  assert.equal(trace.intervals, 512);
+  assert.equal(trace.frames.length, 25);
+  assert.equal(trace.antisymmetricAmplificationFrames.length, 25);
+  assert.equal(trace.frames[0].time, 0);
+  assert.equal(trace.frames[0].amplification, 1);
+  assert.equal(trace.frames.at(-1).time, 4);
+  assert.ok(trace.frames.at(-1).amplification > 28);
+  assert.equal(trace.frames[0].x.length, 129);
+  for (const frame of trace.frames) {
+    assert.equal(frame.x.length, frame.controlComposite.length);
+    assert.equal(frame.x.length, frame.perturbedComposite.length);
+    assert.ok(frame.x.every(Number.isFinite));
+    assert.ok(frame.controlComposite.every(Number.isFinite));
+    assert.ok(frame.perturbedComposite.every(Number.isFinite));
+    assert.deepEqual(frame.x, [...frame.x].sort((left, right) => left - right));
+  }
+});
+
+test("the dynamics solver stays outside the kernel and binds exact evidence", async () => {
+  const source = await readFile(
+    new URL(
+      "../../cases/level-0-oscillator/solver/phase-c-dynamics-solver.mjs",
+      import.meta.url
+    ),
+    "utf8"
+  );
+  assert.doesNotMatch(source, /packages\/kernel|@onto2d\/kernel/);
+  assert.doesNotMatch(source, /Plotly|Markov|document\./);
+  assert.deepEqual(
+    {
+      id: phaseCDynamicsSolver.id,
+      version: phaseCDynamicsSolver.version,
+      method: phaseCDynamicsSolver.method
+    },
+    PHASE_C_DYNAMICS_SOLVER
+  );
+  const result = await phaseCDynamicsAnalysis();
+  const rebound = createOracleRequestBinding(result.requestBinding.request);
+  assert.equal(rebound.requestHash, result.requestBinding.requestHash);
+  assert.deepEqual(
+    validateOracleResponse(rebound, result.oracleResponse, {
+      evidenceIds: [result.sourceHash, result.dependency.analysisHash, result.modelHash]
+    }),
+    result.oracleValidation
+  );
+});
+
+test("Phase-C dynamics input and dependency drift fail closed", async () => {
+  const model = JSON.parse(await readFile(
+    new URL("../../cases/level-0-oscillator/phase-c-dynamics-v1.json", import.meta.url),
+    "utf8"
+  ));
+  const baseline = await phaseCDynamicsAnalysis();
+  const changed = structuredClone(model);
+  changed.parameters.duration = 3.9;
+  const altered = await runPhaseCDynamicsProbe({ model: changed });
+  assert.notEqual(altered.modelHash, baseline.modelHash);
+  assert.notEqual(altered.analysisHash, baseline.analysisHash);
+  assert.notEqual(altered.requestBinding.requestHash, baseline.requestBinding.requestHash);
+
+  const stale = structuredClone(model);
+  stale.dependency.analysisHash = `sha256:${"0".repeat(64)}`;
+  await assert.rejects(
+    runPhaseCDynamicsProbe({ model: stale }),
+    /dependency analysis hash differs/
+  );
+
+  const invalidDirection = structuredClone(model);
+  invalidDirection.parameters.symmetricDirection = [1, 0, 0];
+  await assert.rejects(
+    runPhaseCDynamicsProbe({ model: invalidDirection }),
+    /symmetricDirection must perturb all three components equally/
+  );
+});
+
+test("the frozen Phase-C dynamics artifact and report are exact reproductions", async () => {
+  const frozen = JSON.parse(await readFile(
+    new URL(
+      "../../cases/level-0-oscillator/artifacts/phase-c-dynamics-v1.json",
+      import.meta.url
+    ),
+    "utf8"
+  ));
+  const result = await phaseCDynamicsAnalysis();
+  assert.deepEqual(result, frozen);
+  const report = await readFile(
+    new URL("../../cases/level-0-oscillator/PHASE_C_DYNAMICS.md", import.meta.url),
+    "utf8"
+  );
+  assert.match(report, new RegExp(result.modelHash));
+  assert.match(report, new RegExp(result.analysisHash));
+  assert.match(report, new RegExp(result.dependency.analysisHash));
   assert.match(report, new RegExp(result.source.doi));
 });
 

@@ -63,9 +63,16 @@ test("the Level-0 view projects frozen evidence into interactive branches", () =
   assert.match(levelZeroMarkup, /data-branch="uncoupled-vacuum"/);
   assert.match(levelZeroMarkup, /id="base-profile"/);
   assert.match(levelZeroMarkup, /id="extended-profile"/);
+  assert.match(levelZeroMarkup, /id="dynamics"/);
+  assert.match(levelZeroMarkup, /id="dynamics-time-slider"/);
+  assert.match(levelZeroMarkup, /id="dynamics-profile-perturbed"/);
+  assert.match(levelZeroMarkup, /id="dynamics-profile-difference"/);
+  assert.match(levelZeroMarkup, /id="dynamics-amplification-symmetric"/);
+  assert.match(levelZeroMarkup, /id="dynamics-playhead"/);
   assert.match(levelZeroMarkup, /A visual explanation, not a new calculation/i);
   assert.match(levelZeroApp, /artifacts\/level-zero-validation-v1\.json/);
   assert.match(levelZeroApp, /artifacts\/phase-c-objecthood-v1\.json/);
+  assert.match(levelZeroApp, /artifacts\/phase-c-dynamics-v1\.json/);
   assertScriptIdsExist(levelZeroApp, levelZeroMarkup);
   const appRevision = levelZeroMarkup.match(/app\.js\?v=([^"']+)/)?.[1];
   const modelRevision = levelZeroApp.match(/model\.js\?v=([^"']+)/)?.[1];

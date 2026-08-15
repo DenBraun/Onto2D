@@ -13,6 +13,7 @@ npm run case:level-0:verify
 npm run case:level-0:phase-b:verify
 npm run case:level-0:phase-c:verify
 npm run case:level-0:objecthood:verify
+npm run case:level-0:dynamics:verify
 ```
 
 To regenerate the frozen artifact intentionally:
@@ -22,6 +23,7 @@ npm run case:level-0
 npm run case:level-0:phase-b
 npm run case:level-0:phase-c
 npm run case:level-0:objecthood
+npm run case:level-0:dynamics
 ```
 
 The non-mutating verification command is the normal review path.
@@ -98,6 +100,12 @@ The bounded follow-up in [`PHASE_C_OBJECTHOOD.md`](PHASE_C_OBJECTHOOD.md)
 searches a stabilized real-envelope trial family. Its localized branch is
 unstable, its stable branch is not intrinsically localized, and its uncoupled
 control has zero `Gamma`. No branch is promoted to a CRT-node.
+
+The post-disposition extension in
+[`PHASE_C_DYNAMICS.md`](PHASE_C_DYNAMICS.md) evolves the localized pulse under
+the exact three-envelope case energy. A symmetric perturbation grows while an
+antisymmetric control remains bounded. This independently supports the static
+stability rejection without changing the completed Level-0 disposition.
 
 ## Interpretation boundary
 

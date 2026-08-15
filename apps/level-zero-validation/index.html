@@ -6,8 +6,8 @@
     <meta name="description" content="Interactive evidence view for the frozen Onto2D Level-0 numerical validation result.">
     <title>Level-0 Numerical Validation - Onto2D</title>
     <link rel="stylesheet" href="../../assets/css/icons.css?v=20260815.1">
-    <link rel="stylesheet" href="../../assets/css/level-zero-validation.css?v=20260815.1">
-    <script type="module" src="./app.js?v=20260815.1"></script>
+    <link rel="stylesheet" href="../../assets/css/level-zero-validation.css?v=20260815.3">
+    <script type="module" src="./app.js?v=20260815.3"></script>
   </head>
   <body>
     <a class="skip-link" href="#story">Skip to the result</a>
@@ -20,6 +20,7 @@
       <nav aria-label="Page navigation">
         <a href="../../">Project home</a>
         <a href="#branches">Try the branches</a>
+        <a href="#dynamics">Dynamics</a>
         <a href="../../cases/level-0-oscillator/LEVEL_ZERO_VALIDATION.md">Full report</a>
         <a href="https://github.com/DenBraun/Onto2D" target="_blank" rel="noopener noreferrer">GitHub <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/icons.svg#external-link"></use></svg></a>
       </nav>
@@ -134,8 +135,68 @@
         </div>
       </section>
 
+      <section class="dynamics-study" id="dynamics" aria-labelledby="dynamics-title">
+        <div class="section-heading"><span>03</span><div><p class="overline">Post-disposition extension</p><h2 id="dynamics-title">The negative direction is now evolved.</h2></div></div>
+        <div class="dynamics-shell">
+          <header class="dynamics-header">
+            <div><p class="overline">Three-envelope real-time probe</p><h3>Localized pulse under a 0.001 perturbation</h3></div>
+            <strong id="dynamics-status">LOADING DYNAMICS</strong>
+          </header>
+
+          <div class="dynamics-metrics" aria-label="Dynamics result metrics">
+            <p><span>Symmetric maximum</span><b id="dynamics-maximum">...</b><small>declared instability probe</small></p>
+            <p><span>Antisymmetric maximum</span><b id="dynamics-antisymmetric-maximum">...</b><small>bounded control</small></p>
+            <p><span>10x departure</span><b id="dynamics-departure">...</b><small>preregistered threshold</small></p>
+            <p><span>Energy drift</span><b id="dynamics-energy-drift">...</b><small>refined symmetric run</small></p>
+            <p><span>Resolution change</span><b id="dynamics-resolution">...</b><small>largest time/space change</small></p>
+          </div>
+
+          <div class="dynamics-plots">
+            <article class="dynamics-panel">
+              <header><div><p class="overline">Profile evolution</p><h3>Control versus perturbed field</h3></div><div class="plot-legend"><span><i class="dynamics-control"></i>control</span><span><i class="dynamics-perturbed"></i>perturbed</span></div></header>
+              <svg class="dynamics-plot" viewBox="0 0 720 300" role="img" aria-labelledby="dynamics-profile-title dynamics-profile-description">
+                <title id="dynamics-profile-title">Composite pulse profile over time</title>
+                <desc id="dynamics-profile-description">The frozen stationary control and symmetrically perturbed composite envelope at the selected time.</desc>
+                <g class="grid-lines" aria-hidden="true"><path d="M48 22V262M211 22V262M375 22V262M538 22V262M702 22V262"></path><path d="M48 262H702M48 202H702M48 142H702M48 82H702M48 22H702"></path></g>
+                <g class="axes" aria-hidden="true"><path d="M48 22V262H702"></path><text x="39" y="267">0</text><text x="40" y="286">-8</text><text x="370" y="286">0</text><text x="694" y="286">8</text><text x="646" y="285">position x</text><text x="8" y="34">Psi</text></g>
+                <path id="dynamics-profile-control" class="dynamics-line control" d=""></path>
+                <path id="dynamics-profile-perturbed" class="dynamics-line perturbed" d=""></path>
+              </svg>
+              <div class="dynamics-difference-heading"><span>Pointwise difference / initial maximum difference</span><b id="dynamics-pointwise-difference">...</b></div>
+              <svg class="dynamics-difference-plot" viewBox="0 0 720 170" role="img" aria-labelledby="dynamics-difference-title dynamics-difference-description">
+                <title id="dynamics-difference-title">Visible difference between perturbed and control profiles</title>
+                <desc id="dynamics-difference-description">The absolute pointwise profile difference divided by its maximum at the initial frame.</desc>
+                <g class="grid-lines" aria-hidden="true"><path d="M48 22V132M211 22V132M375 22V132M538 22V132M702 22V132"></path><path d="M48 132H702M48 98H702M48 64H702M48 30H702"></path></g>
+                <g class="axes" aria-hidden="true"><path d="M48 22V132H702"></path><text x="39" y="137">0</text><text x="20" y="103">10x</text><text x="20" y="69">20x</text><text x="20" y="35">30x</text><text x="40" y="156">-8</text><text x="370" y="156">0</text><text x="694" y="156">8</text></g>
+                <path id="dynamics-profile-difference" class="dynamics-line difference" d=""></path>
+              </svg>
+              <div class="dynamics-scrubber">
+                <label for="dynamics-time-slider">Frame time <b>t = <output id="dynamics-time">...</output></b></label>
+                <input id="dynamics-time-slider" type="range" min="0" max="24" value="24" step="1">
+                <p><span>Deviation amplification <b id="dynamics-amplification">...</b></span><span>Gamma change <b id="dynamics-gamma-change">...</b></span></p>
+              </div>
+            </article>
+
+            <article class="dynamics-panel">
+              <header><div><p class="overline">Perturbation response</p><h3>Deviation from the paired control</h3></div><div class="plot-legend"><span><i class="dynamics-symmetric"></i>symmetric</span><span><i class="dynamics-antisymmetric"></i>antisymmetric</span></div></header>
+              <svg class="dynamics-plot" viewBox="0 0 720 300" role="img" aria-labelledby="dynamics-growth-title dynamics-growth-description">
+                <title id="dynamics-growth-title">Perturbation amplification over time</title>
+                <desc id="dynamics-growth-description">The symmetric deviation crosses ten times its initial norm while the antisymmetric control remains bounded.</desc>
+                <g class="grid-lines" aria-hidden="true"><path d="M48 22V262M211 22V262M375 22V262M538 22V262M702 22V262"></path><path d="M48 262H702M48 182H702M48 102H702M48 22H702"></path></g>
+                <g class="axes" aria-hidden="true"><path d="M48 22V262H702"></path><text x="39" y="267">0</text><text x="26" y="187">10</text><text x="26" y="107">20</text><text x="26" y="27">30</text><text x="45" y="286">0</text><text x="370" y="286">2</text><text x="696" y="286">4</text><text x="666" y="285">time</text><text x="8" y="34">x</text></g>
+                <g class="dynamics-threshold" aria-hidden="true"><path id="dynamics-threshold-line" d="M48 182H702"></path><text id="dynamics-threshold-label" x="610" y="176">10x threshold</text></g>
+                <path id="dynamics-amplification-symmetric" class="dynamics-line symmetric" d=""></path>
+                <path id="dynamics-amplification-antisymmetric" class="dynamics-line antisymmetric" d=""></path>
+                <g class="dynamics-current-frame" aria-hidden="true"><path id="dynamics-playhead" d=""></path><circle id="dynamics-symmetric-marker" class="symmetric-marker" r="5"></circle><circle id="dynamics-antisymmetric-marker" class="antisymmetric-marker" r="4"></circle></g>
+              </svg>
+              <div class="dynamics-interpretation"><strong>Static and dynamic evidence agree.</strong><p>The symmetric negative Hessian direction grows under time evolution. The antisymmetric positive control does not. This confirms the reason for rejection; it does not change the frozen gate sequence.</p></div>
+            </article>
+          </div>
+        </div>
+      </section>
+
       <section class="decision-contract" aria-labelledby="guide-title">
-        <div class="section-heading"><span>03</span><div><p class="overline">Decision contract</p><h2 id="guide-title">How the evidence is read.</h2></div></div>
+        <div class="section-heading"><span>04</span><div><p class="overline">Decision contract</p><h2 id="guide-title">How the evidence is read.</h2></div></div>
         <div class="glossary-grid">
           <article><span>01</span><strong>Closure</strong><p>Phase-B balance, stationarity and irreducibility admit the resonant triad.</p></article>
           <article><span>02</span><strong>Non-triviality</strong><p>The integrated field functional Gamma must remain strictly nonzero.</p></article>
@@ -147,8 +208,8 @@
 
       <section class="evidence" aria-labelledby="evidence-title">
         <div><p class="overline">Evidence boundary</p><h2 id="evidence-title">A visual explanation, not a new calculation.</h2><p>The page reads frozen repository artifacts. It does not change thresholds, rerun selection in the browser, or turn the result into an empirical claim.</p></div>
-        <dl><div><dt>Analysis hash</dt><dd id="analysis-hash">loading...</dd></div><div><dt>Source DOI</dt><dd id="source-doi">loading...</dd></div><div><dt>External review</dt><dd>pending</dd></div></dl>
-        <div class="evidence-links"><a href="../../cases/level-0-oscillator/LEVEL_ZERO_VALIDATION.md">Read the full report <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/icons.svg#arrow-right"></use></svg></a><a href="../../cases/level-0-oscillator/REVIEW.md">Open reviewer checklist <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/icons.svg#arrow-right"></use></svg></a></div>
+        <dl><div><dt>Integrated analysis hash</dt><dd id="analysis-hash">loading...</dd></div><div><dt>Dynamics analysis hash</dt><dd id="dynamics-hash">loading...</dd></div><div><dt>Source DOI</dt><dd id="source-doi">loading...</dd></div><div><dt>External review</dt><dd>pending</dd></div></dl>
+        <div class="evidence-links"><a href="../../cases/level-0-oscillator/LEVEL_ZERO_VALIDATION.md">Read the integrated report <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/icons.svg#arrow-right"></use></svg></a><a href="../../cases/level-0-oscillator/PHASE_C_DYNAMICS.md">Read the dynamics report <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/icons.svg#arrow-right"></use></svg></a><a href="../../cases/level-0-oscillator/REVIEW.md">Open reviewer checklist <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/icons.svg#arrow-right"></use></svg></a></div>
       </section>
     </main>
 
