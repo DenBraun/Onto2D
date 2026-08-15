@@ -9,6 +9,7 @@ const DOCUMENT_ROOTS = [
   "CHANGELOG.md",
   "CONTRIBUTING.md",
   "SECURITY.md",
+  "apps",
   "docs",
   "cases",
   "packages"
