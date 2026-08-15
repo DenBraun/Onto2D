@@ -6,8 +6,8 @@
     <meta name="description" content="Explore all 13 connected directed three-node motifs and a frozen E. coli null-model comparison.">
     <title>Three-Node Motif Explorer - Onto2D</title>
     <link rel="stylesheet" href="../../assets/css/icons.css?v=20260815.1">
-    <link rel="stylesheet" href="../../assets/css/three-node-motif-explorer.css?v=20260815.5">
-    <script type="module" src="./app.js?v=20260815.3"></script>
+    <link rel="stylesheet" href="../../assets/css/three-node-motif-explorer.css?v=20260815.7">
+    <script type="module" src="./app.js?v=20260815.4"></script>
   </head>
   <body>
     <a class="skip-link" href="#catalogue">Skip to motif catalogue</a>
@@ -18,6 +18,7 @@
       </a>
       <nav aria-label="Study navigation">
         <a href="../../">Project home</a>
+        <a href="#onto2d-reading">Onto2D reading</a>
         <a href="#catalogue">Catalogue</a>
         <a href="#method">Method</a>
         <a href="https://github.com/DenBraun/Onto2D/tree/main/cases/three-node-motifs" target="_blank" rel="noopener noreferrer">Case files <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/icons.svg#external-link"></use></svg></a>
@@ -60,6 +61,61 @@
           <span>Printed result</span><strong>40 vs 7 +/- 3</strong><p>Z = 10 | P &lt; 0.01</p>
           <a href="https://doi.org/10.1126/science.298.5594.824" target="_blank" rel="noopener noreferrer">Open paper <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/icons.svg#external-link"></use></svg></a>
         </aside>
+      </section>
+
+      <section class="onto2d-reading" id="onto2d-reading" aria-labelledby="reading-title">
+        <header class="reading-heading">
+          <div>
+            <p class="overline">Onto2D reading</p>
+            <h2 id="reading-title">The ranking hides a structural transition.</h2>
+          </div>
+          <p>The same frozen result can be read as identity, support and admissibility evidence. These views do not add a biological history that the dataset does not contain.</p>
+        </header>
+
+        <article class="closure-contrast" aria-labelledby="closure-title">
+          <div class="contrast-copy">
+            <p class="overline">Closure contrast</p>
+            <h3 id="closure-title">Three open classes converge on 030T.</h3>
+            <p>Each two-edge precursor is below its degree-preserving null mean, while the closed feed-forward loop is above it. The nearly matched differences are a structural signature in the induced census, not evidence that one observed triad literally changed into another.</p>
+            <dl>
+              <div><dt>Census share</dt><dd id="ffl-share">0.771%</dd></div>
+              <div><dt>Null enrichment</dt><dd id="ffl-fold">5.311x</dd></div>
+              <div><dt>Above null</dt><dd id="ffl-excess-share">81.2%</dd></div>
+            </dl>
+          </div>
+          <div class="closure-flow" aria-label="Open triad deficits converge on feed-forward-loop excess">
+            <div class="precursor-stack" id="closure-precursors"></div>
+            <div class="flow-arrow" aria-hidden="true"><svg class="ui-icon"><use href="../../assets/icons/icons.svg#arrow-right"></use></svg><span>add the missing edge</span></div>
+            <div class="closure-target" id="closure-target"></div>
+          </div>
+        </article>
+
+        <div class="reading-grid">
+          <article class="support-boundary" aria-labelledby="boundary-title">
+            <p class="overline">Finite support</p>
+            <h3 id="boundary-title">Zero is not one state.</h3>
+            <p>Onto2D keeps empirical absence separate from structural exclusion by the declared null-model invariants.</p>
+            <dl>
+              <div><dt>Observed</dt><dd id="observed-class-count">4</dd><small>of 13 classes</small></div>
+              <div><dt>Allowed, absent</dt><dd id="allowed-absent-count">1</dd><small id="allowed-absent-codes">030C</small></div>
+              <div><dt>Null-fixed</dt><dd id="null-fixed-count">8</dd><small>mutual-edge classes</small></div>
+              <div><dt>Identity</dt><dd>40 -> 1</dd><small>FFL occurrences to canonical ID</small></div>
+            </dl>
+            <p class="boundary-note"><strong>Why eight are fixed:</strong> the measured network has zero mutual directed edges, and the null ensemble preserves every node's mutual degree. Their undefined Z-scores are therefore correct, not missing data.</p>
+          </article>
+
+          <article class="load-probe" aria-labelledby="load-title">
+            <div class="probe-heading">
+              <div><p class="overline">Admissibility probe</p><h3 id="load-title">A declared path, not a recovered past.</h3></div>
+              <fieldset><legend>Intermediate filter</legend><div id="construction-controls"><button class="is-active" type="button" data-regime="observed" aria-pressed="true">Observed support</button><button type="button" data-regime="significant" aria-pressed="false">Significant only</button></div></fieldset>
+            </div>
+            <p class="probe-contract">Start with three declared nodes, add one final 030T edge per step, and apply the filter once the partial triad becomes weakly connected.</p>
+            <div class="probe-paths" id="construction-paths"></div>
+            <div class="probe-result" id="construction-result" aria-live="polite"></div>
+          </article>
+        </div>
+
+        <p class="scientific-boundary"><strong>Interpretation boundary</strong><span>Empirical counts select admissible structural intermediates inside a disclosed edge-addition model. The result is not an evolutionary reconstruction or a historical-load measurement of the organism.</span></p>
       </section>
 
       <section class="catalogue" id="catalogue" aria-labelledby="catalogue-title">

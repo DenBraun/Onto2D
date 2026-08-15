@@ -9,7 +9,7 @@ Use this checklist before tagging the first kernel release or publishing any
 - [ ] `npm ci --ignore-scripts` succeeds from the committed lockfile.
 - [ ] `npm test`, `npm run check`, and `npm run build` pass.
 - [ ] `npm run check:goldens` passes and the canonical fixtures receive an
-  independent review.
+  [independent review](REVIEW_GUIDE.md#independent-golden-review).
 - [ ] All Ubuntu, macOS, and Windows jobs pass on Node.js 22 and 24.
 - [ ] `npm audit --audit-level=high` reports no known vulnerability.
 - [ ] `npm pack --dry-run --json --workspaces` contains only intended runtime,

@@ -8,6 +8,7 @@ const landingStyles = read("assets/css/site.css");
 const iconStyles = read("assets/css/icons.css");
 const motifMarkup = read("apps/three-node-motif-explorer/index.html");
 const motifApp = read("apps/three-node-motif-explorer/app.js");
+const motifStyles = read("assets/css/three-node-motif-explorer.css");
 const identityMarkup = read("apps/canonical-identity-lab/index.html");
 const identityApp = read("apps/canonical-identity-lab/app.js");
 const siteServer = read("apps/historical-load-explorer/serve.mjs");
@@ -52,11 +53,15 @@ test("the root is a no-scroll project landing page with exactly three study entr
 test("the dedicated motif Explorer has complete interactive hooks", () => {
   assert.match(motifMarkup, /id="catalogue"/);
   assert.match(motifMarkup, /id="method"/);
+  assert.match(motifMarkup, /id="onto2d-reading"/);
+  assert.match(motifMarkup, /not an evolutionary reconstruction/i);
   assert.match(motifMarkup, /Frozen empirical case/i);
   assertScriptIdsExist(motifApp, motifMarkup);
   const appRevision = motifMarkup.match(/app\.js\?v=([^"']+)/)?.[1];
   const dataRevision = motifApp.match(/data\.js\?v=([^"']+)/)?.[1];
+  const readingModelRevision = motifApp.match(/reading-model\.js\?v=([^"']+)/)?.[1];
   assert.equal(dataRevision, appRevision);
+  assert.equal(readingModelRevision, appRevision);
 });
 
 test("the identity lab discloses its frozen-fixture boundary and all hooks exist", () => {
@@ -106,4 +111,8 @@ test("shared interface icons use a bounded pixel scale", () => {
   assert.match(iconStyles, /--icon-size-action:\s*16px/);
   assert.match(iconStyles, /--icon-size-brand:\s*28px/);
   assert.doesNotMatch(iconStyles, /(?:width|height):\s*[\d.]+em/);
+});
+
+test("motif Explorer text never drops below the readable interface minimum", () => {
+  assert.doesNotMatch(motifStyles, /font-size:\s*(?:[1-9]|1[01])px/);
 });

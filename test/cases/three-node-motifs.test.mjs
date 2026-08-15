@@ -21,6 +21,10 @@ import {
   randomizeByMfinderSwitches
 } from "../../cases/three-node-motifs/src/randomize.mjs";
 import { THREE_NODE_MOTIF_EXPLORER_DATA } from "../../apps/three-node-motif-explorer/data.js";
+import {
+  analyzeFflConstruction,
+  deriveEcoliReading
+} from "../../apps/three-node-motif-explorer/reading-model.js";
 
 const OFF_DIAGONAL = [[0, 1], [0, 2], [1, 0], [1, 2], [2, 0], [2, 1]];
 
@@ -117,4 +121,28 @@ test("the Explorer representation is an exact projection of the frozen case", as
     assert.equal(explorerMotif.zScore, artifactMotif.zScore);
     assert.equal(explorerMotif.rank, artifactMotif.rank);
   }
+});
+
+test("the Explorer derives the E. coli structural support boundary from frozen data", () => {
+  const reading = deriveEcoliReading(THREE_NODE_MOTIF_EXPLORER_DATA);
+  assert.equal(reading.observedClassCount, 4);
+  assert.deepEqual(reading.allowedButAbsentCodes, ["030C"]);
+  assert.equal(reading.nullFixedClassCount, 8);
+  assert.deepEqual(reading.precursors.map((motif) => motif.triadCode), ["021D", "021U", "021C"]);
+  assert.ok(Math.abs(reading.targetDeltaFromNull - 32.469) < 1e-12);
+  assert.ok(reading.precursors.every((motif) => motif.deltaFromNull < 0));
+});
+
+test("the disclosed FFL edge-addition probe separates support from significance", () => {
+  const observed = analyzeFflConstruction(THREE_NODE_MOTIF_EXPLORER_DATA, "observed");
+  assert.equal(observed.freePathLength, 3);
+  assert.equal(observed.admissiblePathLength, 3);
+  assert.equal(observed.historicalLoad, 0);
+  assert.equal(observed.survivingEdgeOrders, 6);
+
+  const significant = analyzeFflConstruction(THREE_NODE_MOTIF_EXPLORER_DATA, "significant");
+  assert.equal(significant.freePathLength, 3);
+  assert.equal(significant.admissiblePathLength, Number.POSITIVE_INFINITY);
+  assert.equal(significant.historicalLoad, Number.POSITIVE_INFINITY);
+  assert.equal(significant.survivingEdgeOrders, 0);
 });

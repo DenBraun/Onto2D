@@ -32,6 +32,67 @@ npm run build
 npm run check:goldens
 ```
 
+## Independent golden review
+
+This review confirms that the frozen canonical-identity and skeleton results
+were not derived from, or adjusted to, the JavaScript kernel that consumes
+them. The reviewer should not be the sole author of both the reference
+generator and the corresponding kernel implementation. A second implementation
+is not required: the repository already contains the independent Python
+implementation, but the reviewer must read and assess it rather than approve
+only from a green test result.
+
+Review the exact proposed release commit in a clean checkout. Do not regenerate
+the fixtures before the initial comparison because the generation command
+without `--verify` overwrites them.
+
+```sh
+git rev-parse HEAD
+git status --short
+node --version
+python3 --version
+npm ci --ignore-scripts
+npm run check:goldens
+npm run test:kernel
+git diff --exit-code -- test/fixtures/canonical-conformance-v1.json test/fixtures/skeleton-conformance-v1.json
+```
+
+Read these inputs and consumers:
+
+- [`scripts/reference/generate-conformance-fixtures.py`](../scripts/reference/generate-conformance-fixtures.py)
+- [`test/fixtures/canonical-conformance-v1.json`](../test/fixtures/canonical-conformance-v1.json)
+- [`test/fixtures/skeleton-conformance-v1.json`](../test/fixtures/skeleton-conformance-v1.json)
+- [`packages/kernel/test/canonical.test.mjs`](../packages/kernel/test/canonical.test.mjs)
+- [`packages/kernel/test/skeleton-enumerator.test.mjs`](../packages/kernel/test/skeleton-enumerator.test.mjs)
+- [ADR-0003](adr/0003-canonical-identity-foundation.md), [ADR-0004](adr/0004-refinement-graph-canonicalization.md), and [ADR-0005](adr/0005-skeleton-enumeration-and-candidate-store.md)
+
+Confirm the following points:
+
+- The Python generator uses only the standard library and neither imports nor
+  executes the JavaScript kernel.
+- Canonical object-key ordering, number serialization, Unicode handling, byte
+  encoding, domain framing, and SHA-256 inputs match the stated contracts.
+- Skeleton generation visits every labelled simple graph through six nodes,
+  rejects disconnected graphs, and evaluates the full vertex-permutation orbit
+  before choosing a canonical representation.
+- Skeleton multiplicities reconcile with the connected labelled input totals.
+  The connected-unlabelled counts for one through six nodes are
+  `1, 1, 2, 6, 21, 112`; the connected-labelled counts are
+  `1, 1, 4, 38, 728, 26704`.
+- The JavaScript tests consume the frozen values as expectations rather than
+  rewriting or deriving them.
+
+Record the reviewed commit SHA and the result in the release pull request. This
+template is sufficient:
+
+> Reviewed `scripts/reference/generate-conformance-fixtures.py` and the frozen
+> canonical and skeleton fixtures at commit `<SHA>`. Confirmed that the Python
+> reference does not use the JavaScript kernel, independently implements the
+> documented canonical serialization, domain framing, and exhaustive
+> permutation-orbit enumeration, and produces the expected graph counts.
+> `npm run check:goldens` and `npm run test:kernel` pass with no fixture diff.
+> Approved for `v0.1.0`.
+
 ## Critical questions
 
 ### Identity and determinism

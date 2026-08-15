@@ -5,6 +5,11 @@ This static application is a read-only interactive projection of the frozen
 and 1,000-trial analysis artifact. It does not recompute the census in the
 browser and does not alter the case result.
 
+The Onto2D reading derives a closure contrast, the finite support boundary and
+a disclosed edge-addition admissibility probe from the same frozen values. The
+probe is a structural counterfactual, not an evolutionary reconstruction or an
+empirical historical-load measurement of the organism.
+
 Serve the repository root and open `/apps/three-node-motif-explorer/`:
 
 ```sh

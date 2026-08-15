@@ -76,6 +76,8 @@ frozen.
   rules.
 - [Foundational Paper Analysis](docs/FOUNDATIONAL_PAPER_ANALYSIS.md) records
   theory traceability and scientific limitations.
+- [Review Guide](docs/REVIEW_GUIDE.md) defines the independent golden review
+  required for release.
 - [ADRs](docs/adr) preserve decisions that affect identity, evidence, or package
   boundaries.
 - [Release Checklist](docs/RELEASE_CHECKLIST.md) lists release evidence.

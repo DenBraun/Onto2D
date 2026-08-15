@@ -1,10 +1,12 @@
-import { THREE_NODE_MOTIF_EXPLORER_DATA as DATA } from "./data.js?v=20260815.3";
+import { THREE_NODE_MOTIF_EXPLORER_DATA as DATA } from "./data.js?v=20260815.4";
+import { analyzeFflConstruction, deriveEcoliReading } from "./reading-model.js?v=20260815.4";
 
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 const motifByCode = new Map(DATA.motifs.map((motif) => [motif.triadCode, motif]));
 const catalogueOrder = new Map(DATA.motifs.map((motif, index) => [motif.triadCode, index]));
-const state = { filter: "all", sort: "catalogue", selected: "030T" };
+const state = { filter: "all", sort: "catalogue", selected: "030T", constructionRegime: "observed" };
+const ecoliReading = deriveEcoliReading(DATA);
 
 function statusFor(motif) {
   if (motif.significant) return { key: "enriched", label: "enriched motif" };
@@ -76,6 +78,50 @@ function renderPrimary() {
   $("#primary-graph").innerHTML = motifSvg(motifByCode.get("030T"), "primary", true);
 }
 
+function renderClosureReading() {
+  $("#ffl-share").textContent = `${(ecoliReading.targetOccurrenceShare * 100).toFixed(3)}%`;
+  $("#ffl-fold").textContent = `${ecoliReading.target.foldEnrichment.toFixed(3)}x`;
+  $("#ffl-excess-share").textContent = `${(ecoliReading.targetExcessFraction * 100).toFixed(1)}%`;
+  $("#observed-class-count").textContent = String(ecoliReading.observedClassCount);
+  $("#allowed-absent-count").textContent = String(ecoliReading.allowedButAbsentCodes.length);
+  $("#allowed-absent-codes").textContent = ecoliReading.allowedButAbsentCodes.join(", ");
+  $("#null-fixed-count").textContent = String(ecoliReading.nullFixedClassCount);
+
+  $("#closure-precursors").innerHTML = ecoliReading.precursors.map((motif) => `
+    <div class="closure-state is-open">
+      ${motifSvg(motif, `closure-${motif.triadCode}`)}
+      <div><strong>${motif.triadCode}</strong><span>Observed ${number(motif.observed, 0)}</span><b>${signed(motif.deltaFromNull, 3)} vs null</b></div>
+    </div>`).join("");
+  const target = ecoliReading.target;
+  $("#closure-target").innerHTML = `
+    <div class="closure-state is-closed">
+      ${motifSvg(target, "closure-target", true)}
+      <div><strong>${target.triadCode}</strong><span>Observed ${number(target.observed, 0)}</span><b>${signed(ecoliReading.targetDeltaFromNull, 3)} vs null</b></div>
+    </div>`;
+}
+
+function renderConstructionProbe() {
+  const result = analyzeFflConstruction(DATA, state.constructionRegime);
+  const accepted = new Set(result.acceptedPrecursorCodes);
+  $("#construction-paths").innerHTML = ecoliReading.precursors.map((motif) => {
+    const survives = accepted.has(motif.triadCode);
+    return `<div class="probe-path${survives ? " is-accepted" : " is-rejected"}"><strong>${motif.triadCode}</strong><span>${survives ? "passes F" : "removed by F"}</span><small>${number(motif.observed, 0)} observed | Z ${signed(motif.zScore)}</small></div>`;
+  }).join("");
+  const finite = Number.isFinite(result.historicalLoad);
+  $("#construction-result").innerHTML = `
+    <div><span>Free minimum</span><strong>a0 = ${result.freePathLength}</strong></div>
+    <div><span>Admissible minimum</span><strong>aF = ${finite ? result.admissiblePathLength : "INF"}</strong></div>
+    <div class="load-value"><span>Historical load</span><strong>dH = ${finite ? result.historicalLoad : "INF"}</strong></div>
+    <p>${finite
+      ? `All three connected precursors survive; ${result.survivingEdgeOrders} of ${result.totalEdgeOrders} edge orders still reach 030T in three steps.`
+      : `030T is significant, but none of its connected two-edge precursors is. No declared edge-addition history survives this filter.`}</p>`;
+  $$("[data-regime]").forEach((button) => {
+    const active = button.dataset.regime === state.constructionRegime;
+    button.classList.toggle("is-active", active);
+    button.setAttribute("aria-pressed", String(active));
+  });
+}
+
 function renderSelected() {
   const motif = motifByCode.get(state.selected);
   const status = statusFor(motif);
@@ -118,6 +164,13 @@ $("#filter-controls").addEventListener("click", (event) => {
   render();
 });
 
+$("#construction-controls").addEventListener("click", (event) => {
+  const button = event.target.closest("[data-regime]");
+  if (!button) return;
+  state.constructionRegime = button.dataset.regime;
+  renderConstructionProbe();
+});
+
 $("#sort-select").addEventListener("change", (event) => { state.sort = event.target.value; render(); });
 $("#motif-grid").addEventListener("click", (event) => {
   const card = event.target.closest("[data-motif]");
@@ -128,4 +181,6 @@ $("#motif-grid").addEventListener("click", (event) => {
 });
 
 renderPrimary();
+renderClosureReading();
+renderConstructionProbe();
 render();
