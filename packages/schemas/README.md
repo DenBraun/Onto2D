@@ -1,5 +1,15 @@
 # `@onto2d/schemas`
 
+```sh
+npm install @onto2d/schemas
+```
+
+```js
+import { schemaUrls } from "@onto2d/schemas";
+
+console.log(schemaUrls.candidate.href);
+```
+
 Machine-readable JSON Schema Draft 2020-12 contracts for rule-package inputs,
 normalized quantities and typed invariant values, canonical decimals, rounded and unrounded accumulation
 results, and evidence, closed package candidate-attribute definitions for

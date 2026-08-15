@@ -5,11 +5,11 @@ import {
   analyzeCase,
   constraintsForStrictness,
   matchingPreset
-} from "./model.js?v=20260814.3";
-import { THREE_NODE_MOTIF_EXPLORER_DATA } from "./motif-data.js?v=20260814.3";
+} from "./model.js?v=20260815.4";
 
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
+const iconMarkup = (name) => `<svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/icons.svg#${name}"></use></svg>`;
 
 const elements = {
   caseSelect: $("#case-select"),
@@ -55,7 +55,6 @@ const elements = {
   degeneracyValue: $("#degeneracy-value"),
   cohortValue: $("#cohort-value"),
   exampleList: $("#example-list"),
-  motifGrid: $("#motif-grid"),
   methodsDialog: $("#methods-dialog")
 };
 
@@ -84,37 +83,37 @@ const state = {
 };
 
 function formatLoad(value, includePlus = true) {
-  if (!Number.isFinite(value)) return "∞";
+  if (!Number.isFinite(value)) return "INF";
   if (value === 0) return "0";
   return includePlus ? `+${value}` : String(value);
 }
 
 function formatContribution(value) {
-  if (value === null) return "—";
-  if (value === Number.POSITIVE_INFINITY) return "Δ ∞";
-  if (value === Number.NEGATIVE_INFINITY) return "Δ −∞";
-  if (value > 0) return `Δ +${value}`;
-  return `Δ ${value}`;
+  if (value === null) return "-";
+  if (value === Number.POSITIVE_INFINITY) return "d INF";
+  if (value === Number.NEGATIVE_INFINITY) return "d -INF";
+  if (value > 0) return `d +${value}`;
+  return `d ${value}`;
 }
 
 function constraintById(id) {
   return CONSTRAINTS.find((constraint) => constraint.id === id);
 }
 
-function toSubscript(value) {
-  return String(value).replace(/\d/g, (digit) => "₀₁₂₃₄₅₆₇₈₉"[Number(digit)]);
+function formatStateIndex(value) {
+  return String(value);
 }
 
 function failureCode(result) {
   if (!result.firstDivergence) return "all(F) = true";
   const constraint = constraintById(result.firstDivergence.constraintId);
-  const stateName = `S${toSubscript(result.firstDivergence.atStep)}`;
+  const stateName = `S${formatStateIndex(result.firstDivergence.atStep)}`;
   return `${constraint.notation.replace("(s)", `(${stateName})`)} = false`;
 }
 
 function renderCaseOptions() {
   elements.caseSelect.innerHTML = EXAMPLES.map((example) => (
-    `<option value="${example.id}">${example.number} — ${example.title}</option>`
+    `<option value="${example.id}">${example.number} - ${example.title}</option>`
   )).join("");
 }
 
@@ -193,11 +192,11 @@ function renderReadout(result) {
     elements.phaseCopy.textContent = "Current phase: no historical burden";
   } else {
     elements.resultMeaning.textContent = `Admissibility adds ${load} assembly ${load === 1 ? "step" : "steps"}.`;
-    elements.resultContext.textContent = "Added formation burden—not downstream generative capacity.";
+    elements.resultContext.textContent = "Added formation burden, not downstream generative capacity.";
     elements.phaseCopy.textContent = "Current phase: finite historical load";
   }
 
-  const admissibleLength = result.admissiblePath?.length ?? "∞";
+  const admissibleLength = result.admissiblePath?.length ?? "INF";
   elements.freeValue.textContent = String(result.freePath.length);
   elements.admissibleValue.textContent = String(admissibleLength);
   elements.freePathLength.textContent = String(result.freePath.length);
@@ -244,7 +243,7 @@ function renderSequenceGraph({ graph, drawing, length, mode, blockedStep = null,
     const isBlocked = point.step === blockedStep;
     const labelVisible = shouldLabelState(point.step, length, blockedStep);
     const labelY = point.y <= 102 ? point.y - 13 : point.y + 19;
-    const label = point.step === 0 ? "START" : `S${toSubscript(point.step)}`;
+    const label = point.step === 0 ? "START" : `S${formatStateIndex(point.step)}`;
     const nodeMarkup = isBlocked
       ? `<g class="sequence-node blocked-point" data-step="${point.step}" transform="translate(${point.x.toFixed(2)} ${point.y})"><circle r="9"></circle><path d="m-4 -4 8 8m0-8-8 8"></path></g>`
       : `<circle class="sequence-node" data-step="${point.step}" cx="${point.x.toFixed(2)}" cy="${point.y}" r="${radius}"></circle>`;
@@ -275,7 +274,8 @@ function renderSequenceGraph({ graph, drawing, length, mode, blockedStep = null,
     <path class="sequence-route ${isFree ? "free-route" : "allowed-route"}" d="${pathData}"></path>
     ${nodes}
     ${callout}
-    <text class="sequence-axis-label" x="195" y="193" text-anchor="middle">CONSTRUCTION STEP →</text>`;
+    <text class="sequence-axis-label" x="180" y="193" text-anchor="middle">CONSTRUCTION STEP</text>
+    <path class="sequence-axis-arrow" d="M280 189h25m-6-6 6 6-6 6"></path>`;
 
   const title = graph.querySelector("title");
   const description = graph.querySelector("desc");
@@ -294,7 +294,8 @@ function renderUnreachableGraph() {
     <g class="unreachable-stop" transform="translate(225 102)"><circle r="11"></circle><path d="m-5 -5 10 10m0-10-10 10"></path></g>
     <text class="unreachable-title" x="246" y="96">NO SURVIVING PATH</text>
     <text class="unreachable-copy" x="246" y="113">F removes every candidate</text>
-    <text class="sequence-axis-label" x="195" y="193" text-anchor="middle">CONSTRUCTION STEP →</text>`;
+    <text class="sequence-axis-label" x="180" y="193" text-anchor="middle">CONSTRUCTION STEP</text>
+    <path class="sequence-axis-arrow" d="M280 189h25m-6-6 6 6-6 6"></path>`;
   elements.admissiblePathGraph.querySelector("title").textContent = "Target unreachable under active filter";
   elements.admissiblePathGraph.querySelector("desc").textContent = "Every disclosed construction path is removed by the active admissibility filter.";
 }
@@ -331,14 +332,14 @@ function renderPaths(result) {
       length: result.admissiblePath.length,
       mode: "admissible"
     });
-    elements.admissiblePathName.textContent = `${result.admissiblePath.name} · ${result.admissiblePath.length} steps survive F`;
+    elements.admissiblePathName.textContent = `${result.admissiblePath.name} | ${result.admissiblePath.length} steps survive F`;
   } else {
     renderUnreachableGraph();
     elements.admissiblePathName.textContent = "Every disclosed history is filtered out";
   }
   elements.freePathName.textContent = freeBlockedStep === null
-    ? `${result.freePath.name} · survives F`
-    : `${result.freePath.name} · rejected at S${toSubscript(freeBlockedStep)}`;
+    ? `${result.freePath.name} | survives F`
+    : `${result.freePath.name} | rejected at S${formatStateIndex(freeBlockedStep)}`;
 
   elements.divergenceButton.disabled = !result.firstDivergence;
   elements.divergenceButton.setAttribute("aria-pressed", String(state.divergenceVisible && Boolean(result.firstDivergence)));
@@ -358,17 +359,17 @@ function renderFinding(result) {
   const title = $(".finding-card .overline");
 
   if (!Number.isFinite(load)) {
-    title.textContent = "Why ΔH = ∞";
+    title.textContent = "Why dH = INF";
     elements.rejectedCount.textContent = "No path survives";
     elements.findingCopy.textContent = "Every disclosed candidate violates at least one active predicate.";
   } else if (load === 0) {
-    title.textContent = "Why ΔH = 0";
+    title.textContent = "Why dH = 0";
     elements.rejectedCount.textContent = result.firstDivergence ? "An equal optimum survives" : "The optimum survives";
     elements.findingCopy.textContent = result.firstDivergence
       ? "Filtering removes a path, but not the minimum assembly length."
       : "No active predicate removes the shortest construction.";
   } else {
-    title.textContent = "Why ΔH > 0";
+    title.textContent = "Why dH > 0";
     elements.rejectedCount.textContent = `${rejectedBeforeOptimum} shorter ${rejectedBeforeOptimum === 1 ? "path" : "paths"}`;
     elements.findingCopy.textContent = "were eliminated by the active admissibility predicates.";
   }
@@ -387,7 +388,7 @@ function renderExplanation(result) {
   elements.resultExplanation.hidden = !state.explanationOpen;
   elements.explainButton.setAttribute("aria-expanded", String(state.explanationOpen));
   elements.explainButton.firstChild.textContent = state.explanationOpen ? "Hide explanation " : "Explain this result ";
-  $("#explain-button span").textContent = state.explanationOpen ? "↑" : "↓";
+  $("#explain-button span").innerHTML = iconMarkup(state.explanationOpen ? "chevron-up" : "chevron-down");
 
   const code = failureCode(result);
   if (!result.firstDivergence) {
@@ -427,89 +428,12 @@ function renderExamples() {
         <span>${example.number}</span>
         <strong>${example.title}</strong>
         <small>${example.summary}</small>
-        <span class="example-result"><span>ΔH</span><b>${formatLoad(result.historicalLoad)}</b></span>
-        <i>→</i>
+        <span class="example-result"><span>dH</span><b>${formatLoad(result.historicalLoad)}</b></span>
+        <i>${iconMarkup("arrow-right")}</i>
       </button>`;
   }).join("");
 }
 
-function motifNumber(value, digits = 1) {
-  if (value === null) return "—";
-  if (Number.isInteger(value)) return value.toLocaleString("en-US");
-  return value.toFixed(digits);
-}
-
-function motifZ(value) {
-  if (value === null) return "—";
-  return `${value > 0 ? "+" : ""}${value.toFixed(2)}`;
-}
-
-function motifSvg(motif) {
-  const positions = [
-    { x: 50, y: 16 },
-    { x: 18, y: 72 },
-    { x: 82, y: 72 }
-  ];
-  const edgeSet = new Set(motif.edges.map(([from, to]) => `${from}:${to}`));
-  const markerId = `motif-arrow-${motif.triadCode.toLowerCase()}`;
-  const paths = motif.edges.map(([from, to]) => {
-    const start = positions[from];
-    const end = positions[to];
-    const dx = end.x - start.x;
-    const dy = end.y - start.y;
-    const length = Math.hypot(dx, dy);
-    const unitX = dx / length;
-    const unitY = dy / length;
-    const x1 = start.x + unitX * 9;
-    const y1 = start.y + unitY * 9;
-    const x2 = end.x - unitX * 11;
-    const y2 = end.y - unitY * 11;
-    const mutual = edgeSet.has(`${to}:${from}`);
-    const path = mutual
-      ? `M${x1.toFixed(1)} ${y1.toFixed(1)} Q${((start.x + end.x) / 2 - unitY * 7).toFixed(1)} ${((start.y + end.y) / 2 + unitX * 7).toFixed(1)} ${x2.toFixed(1)} ${y2.toFixed(1)}`
-      : `M${x1.toFixed(1)} ${y1.toFixed(1)} L${x2.toFixed(1)} ${y2.toFixed(1)}`;
-    return `<path d="${path}" marker-end="url(#${markerId})"></path>`;
-  }).join("");
-  const nodes = positions.map((position, index) => (
-    `<g transform="translate(${position.x} ${position.y})"><circle r="8"></circle><text y="3.5">${"abc"[index]}</text></g>`
-  )).join("");
-
-  return `
-    <svg class="motif-diagram" viewBox="0 0 100 92" role="img" aria-label="${motif.name}: ${motif.edges.length} directed edges">
-      <defs><marker id="${markerId}" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0 7 3.5 0 7z"></path></marker></defs>
-      <g class="motif-edges">${paths}</g>
-      <g class="motif-nodes">${nodes}</g>
-    </svg>`;
-}
-
-function renderMotifs() {
-  elements.motifGrid.innerHTML = THREE_NODE_MOTIF_EXPLORER_DATA.motifs.map((motif) => {
-    const finiteZ = Number.isFinite(motif.zScore);
-    const status = motif.significant ? "motif" : finiteZ && motif.zScore < 0 ? "anti" : finiteZ ? "measured" : "unavailable";
-    const statusLabel = motif.significant ? "enriched motif" : finiteZ && motif.zScore < -2 ? "under-represented" : finiteZ ? "not enriched" : "null-fixed absence";
-    return `
-      <article class="motif-card is-${status}">
-        <header>
-          <div><span>${motif.triadCode}</span><small>mFinder ${motif.mfinderId}</small></div>
-          <b>${statusLabel}</b>
-        </header>
-        <div class="motif-card-body">
-          ${motifSvg(motif)}
-          <div>
-            <h3>${motif.name}</h3>
-            <p>${motif.description}</p>
-          </div>
-        </div>
-        <dl>
-          <div><dt>Observed</dt><dd>${motifNumber(motif.observed, 0)}</dd></div>
-          <div><dt>Null μ</dt><dd>${motifNumber(motif.nullMean, 3)}</dd></div>
-          <div><dt>Z-score</dt><dd>${motifZ(motif.zScore)}</dd></div>
-          <div><dt>Z rank</dt><dd>${finiteZ ? motif.rank : "—"}</dd></div>
-        </dl>
-        <footer title="${motif.canonicalId}"><span>Onto2D ID</span><code>${motif.canonicalId.slice(7, 19)}…</code></footer>
-      </article>`;
-  }).join("");
-}
 
 function render() {
   const result = analyzeCase(state.caseId, [...state.activeConstraintIds]);
@@ -619,5 +543,4 @@ elements.methodsDialog.addEventListener("click", (event) => {
   if (event.target === elements.methodsDialog) elements.methodsDialog.close();
 });
 
-renderMotifs();
 render();

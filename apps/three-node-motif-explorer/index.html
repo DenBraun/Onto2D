@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Explore all 13 connected directed three-node motifs and a frozen E. coli null-model comparison.">
+    <title>Three-Node Motif Explorer - Onto2D</title>
+    <link rel="stylesheet" href="../../assets/css/icons.css?v=20260815.1">
+    <link rel="stylesheet" href="../../assets/css/three-node-motif-explorer.css?v=20260815.5">
+    <script type="module" src="./app.js?v=20260815.3"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#catalogue">Skip to motif catalogue</a>
+    <header class="site-header">
+      <a class="brand" href="../../" aria-label="Back to Onto2D home">
+        <svg viewBox="0 0 34 34" aria-hidden="true"><circle cx="7" cy="17" r="3"></circle><circle cx="27" cy="8" r="3"></circle><circle cx="27" cy="26" r="3"></circle><path d="M10 17h7m2-3 5-4m-5 10 5 4"></path></svg>
+        <span><strong>Three-Node Motifs</strong><small>Onto2D empirical case</small></span>
+      </a>
+      <nav aria-label="Study navigation">
+        <a href="../../">Project home</a>
+        <a href="#catalogue">Catalogue</a>
+        <a href="#method">Method</a>
+        <a href="https://github.com/DenBraun/Onto2D/tree/main/cases/three-node-motifs" target="_blank" rel="noopener noreferrer">Case files <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/icons.svg#external-link"></use></svg></a>
+        <span class="evidence-badge"><i></i>Frozen result</span>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="page-title">
+        <div class="hero-index" aria-hidden="true">STUDY<br>02 / 03</div>
+        <div class="hero-copy">
+          <p class="overline">A complete directed triad census</p>
+          <h1 id="page-title">Thirteen structures.<br><em>One external test.</em></h1>
+          <p>Classify every connected three-node digraph, count induced occurrences in a published network, then ask which structures survive a degree-preserving null comparison.</p>
+        </div>
+        <div class="hero-fact">
+          <span>Primary result</span><strong>030T</strong><p>Feed-forward loop ranks first</p>
+        </div>
+      </section>
+
+      <section class="result-strip" aria-label="Frozen case summary">
+        <article><span>Dataset</span><strong>424</strong><small>nodes</small></article>
+        <article><span>Directed edges</span><strong>519</strong><small>autoregulation removed</small></article>
+        <article><span>Connected triads</span><strong>5,188</strong><small>induced occurrences</small></article>
+        <article><span>Null ensemble</span><strong>1,000</strong><small>degree-preserving trials</small></article>
+        <article class="agreement"><span>External comparison</span><strong>agrees</strong><small>FFL first and significant</small></article>
+      </section>
+
+      <section class="primary-result" aria-labelledby="primary-title">
+        <div class="primary-graph" id="primary-graph"></div>
+        <div class="primary-copy">
+          <p class="overline">Published comparison / Milo et al. 2002</p>
+          <h2 id="primary-title">Feed-forward loop</h2>
+          <p>A regulator reaches the same target directly and through an intermediate. In the frozen ColiNet 1.0 network it appears far more often than in the randomized ensemble.</p>
+          <div class="primary-numbers">
+            <p><span>Observed</span><strong>40</strong></p><i>vs</i><p><span>Null mean</span><strong>7.531</strong></p><i aria-hidden="true"><svg class="ui-icon"><use href="../../assets/icons/icons.svg#arrow-right"></use></svg></i><p><span>Z-score</span><strong>+10.588</strong></p>
+          </div>
+        </div>
+        <aside>
+          <span>Printed result</span><strong>40 vs 7 +/- 3</strong><p>Z = 10 | P &lt; 0.01</p>
+          <a href="https://doi.org/10.1126/science.298.5594.824" target="_blank" rel="noopener noreferrer">Open paper <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/icons.svg#external-link"></use></svg></a>
+        </aside>
+      </section>
+
+      <section class="catalogue" id="catalogue" aria-labelledby="catalogue-title">
+        <header class="catalogue-header">
+          <div><p class="overline">Complete catalogue</p><h2 id="catalogue-title">Inspect the 13 classes</h2></div>
+          <div class="catalogue-controls">
+            <fieldset><legend>Show</legend><div id="filter-controls"><button class="is-active" type="button" data-filter="all" aria-pressed="true">All 13</button><button type="button" data-filter="observed">Observed</button><button type="button" data-filter="mutual">Mutual-edge</button></div></fieldset>
+            <label>Order<select id="sort-select"><option value="catalogue">Triad catalogue</option><option value="z">Z ranking</option><option value="observed">Observed count</option></select></label>
+          </div>
+        </header>
+
+        <p class="reading-guide"><strong>Reading rule</strong><span>Arrows encode directed edges. <b>Observed</b> is the real induced count; <b>mu</b> and <b>Z</b> come from the null ensemble. A dash is meaningful: mutual-edge motifs cannot occur when mutual degree is fixed at zero.</span></p>
+
+        <div class="catalogue-layout">
+          <aside class="selected-panel" id="selected-panel" aria-live="polite"></aside>
+          <div class="motif-grid" id="motif-grid"></div>
+        </div>
+      </section>
+
+      <section class="method" id="method" aria-labelledby="method-title">
+        <div class="method-heading"><p class="overline">Reproduction contract</p><h2 id="method-title">What was frozen before the run?</h2><p>The case changes no rule after seeing the ranking. Raw source files are fetched and hash-verified rather than redistributed without a stated license.</p></div>
+        <ol>
+          <li><span>01</span><div><strong>Graph convention</strong><p>Simple directed graph; 424 dictionary nodes; `target, source` columns reversed on import; unsigned edges; no self-loops.</p></div></li>
+          <li><span>02</span><div><strong>Occurrence rule</strong><p>Complete induced subgraphs on unordered triples of distinct nodes; weak connectivity; each triple counted once.</p></div></li>
+          <li><span>03</span><div><strong>Null model</strong><p>Per-node in-, out- and mutual-degree-preserving target swaps; 1,000 deterministic trials; mFinder-compatible sample deviation.</p></div></li>
+          <li><span>04</span><div><strong>Ranking test</strong><p>Descending finite Z-score. Primary agreement required 030T first and alone at empirical upper-tail P &lt; 0.01.</p></div></li>
+        </ol>
+        <div class="method-links"><a href="https://github.com/DenBraun/Onto2D/tree/main/cases/three-node-motifs" target="_blank" rel="noopener noreferrer">Source lock, catalogue, code and artifact <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/icons.svg#external-link"></use></svg></a><a href="../canonical-identity-lab/">Next study: canonical identity <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/icons.svg#arrow-right"></use></svg></a></div>
+      </section>
+    </main>
+
+    <footer class="site-footer"><a href="../../"><svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/icons.svg#arrow-left"></use></svg> Onto2D project home</a><p>Frozen empirical case | deterministic replay</p><a href="#catalogue">Back to catalogue <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/icons.svg#chevron-up"></use></svg></a></footer>
+  </body>
+</html>

@@ -25,7 +25,7 @@ const REQUIRED_CI_OPERATING_SYSTEMS = Object.freeze([
   "macos-latest",
   "windows-latest"
 ]);
-const REQUIRED_CI_NODE_VERSIONS = Object.freeze([20, 22]);
+const REQUIRED_CI_NODE_VERSIONS = Object.freeze([22, 24]);
 const REQUIRED_CI_COMMANDS = Object.freeze([
   "npm test",
   "npm run check",
@@ -52,13 +52,17 @@ function yamlInlineList(values) {
   return `[${values.join(", ")}]`;
 }
 
+export function normalizeRepositoryPath(relativePath) {
+  return relativePath.replaceAll(path.win32.sep, path.posix.sep);
+}
+
 async function collectTestSuites(directory) {
   const suites = [];
   for (const entry of await readdir(directory, { withFileTypes: true })) {
     const absolutePath = path.join(directory, entry.name);
     if (entry.isDirectory()) suites.push(...await collectTestSuites(absolutePath));
     if (entry.isFile() && entry.name.endsWith(".test.mjs")) {
-      suites.push(path.relative(REPOSITORY_ROOT, absolutePath));
+      suites.push(normalizeRepositoryPath(path.relative(REPOSITORY_ROOT, absolutePath)));
     }
   }
   return suites;

@@ -5,7 +5,7 @@ import path from "node:path";
 import process from "node:process";
 import { fileURLToPath } from "node:url";
 
-const applicationRoot = path.dirname(fileURLToPath(import.meta.url));
+const applicationRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const requestedPort = Number(process.argv[2] ?? 8080);
 
 if (!Number.isInteger(requestedPort) || requestedPort < 1 || requestedPort > 65535) {
@@ -16,14 +16,17 @@ const contentTypes = Object.freeze({
   ".css": "text/css; charset=utf-8",
   ".html": "text/html; charset=utf-8",
   ".js": "text/javascript; charset=utf-8",
+  ".json": "application/json; charset=utf-8",
   ".mjs": "text/javascript; charset=utf-8",
-  ".svg": "image/svg+xml"
+  ".svg": "image/svg+xml",
+  ".txt": "text/plain; charset=utf-8"
 });
 
 const server = createServer(async (request, response) => {
   try {
     const requestUrl = new URL(request.url ?? "/", "http://localhost");
-    const relativePath = decodeURIComponent(requestUrl.pathname === "/" ? "/index.html" : requestUrl.pathname);
+    const pathname = decodeURIComponent(requestUrl.pathname);
+    const relativePath = pathname.endsWith("/") ? `${pathname}index.html` : pathname;
     const absolutePath = path.resolve(applicationRoot, `.${relativePath}`);
 
     if (absolutePath !== applicationRoot && !absolutePath.startsWith(`${applicationRoot}${path.sep}`)) {
@@ -46,5 +49,5 @@ const server = createServer(async (request, response) => {
 });
 
 server.listen(requestedPort, "127.0.0.1", () => {
-  console.log(`Historical Load Explorer: http://127.0.0.1:${requestedPort}`);
+  console.log(`Onto2D site: http://127.0.0.1:${requestedPort}`);
 });

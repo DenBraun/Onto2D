@@ -1,5 +1,9 @@
 # `@onto2d/scientific-adapter`
 
+```sh
+npm install @onto2d/scientific-adapter
+```
+
 This package defines the runtime boundary around external numerical and
 scientific implementations. It does not contain a solver and does not imply
 that claims in the foundational paper are already operationalized.

@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="See which graph changes preserve or alter Onto2D canonical candidate identity.">
+    <title>Canonical Identity Lab - Onto2D</title>
+    <link rel="stylesheet" href="../../assets/css/icons.css?v=20260815.1">
+    <link rel="stylesheet" href="../../assets/css/canonical-identity-lab.css?v=20260815.6">
+    <script type="module" src="./app.js?v=20260815.6"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#lab">Skip to identity lab</a>
+    <header class="site-header">
+      <a class="brand" href="../../" aria-label="Back to Onto2D home"><svg viewBox="0 0 34 34" aria-hidden="true"><circle cx="7" cy="17" r="3"></circle><circle cx="27" cy="8" r="3"></circle><circle cx="27" cy="26" r="3"></circle><path d="M10 17h7m2-3 5-4m-5 10 5 4"></path></svg><span><strong>Canonical Identity</strong><small>Onto2D kernel lab</small></span></a>
+      <nav><a href="../../">Project home</a><a href="#lab">Experiment</a><a href="#why">Why it matters</a><a href="https://github.com/DenBraun/Onto2D" target="_blank" rel="noopener noreferrer">GitHub <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/icons.svg#external-link"></use></svg></a><span class="kernel-badge"><i></i>Kernel invariant</span></nav>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="page-title">
+        <div class="hero-index" aria-hidden="true">STUDY<br>03 / 03</div>
+        <div class="hero-copy"><p class="overline">Identity before interpretation</p><h1 id="page-title">When is a graph<br><em>the same object?</em></h1><p>Names and input order are accidental. Direction, declared roles and structural attributes are not. Canonicalization turns that policy into a deterministic content identity.</p></div>
+        <div class="hero-equation"><span>Invariant</span><strong>G iso P(G)</strong><p>ID(G) = ID(P(G))</p></div>
+      </section>
+
+      <section class="lab" id="lab" aria-labelledby="lab-title">
+        <header class="lab-header"><div><span class="section-number">01</span><div><p class="overline">Interactive invariant check</p><h2 id="lab-title">Change the input, then read the identity</h2></div></div><p>IDs shown here are frozen outputs of the repository kernel and independently replayed by tests.</p></header>
+        <div class="lab-grid">
+          <aside class="controls">
+            <div><p class="overline">Input operations</p><h3>What will you change?</h3><p>One operation is representation-only. Two operations change declared structure.</p></div>
+            <button class="safe-action" type="button" data-action="permute"><span>01</span><div><strong>Shuffle labels + order</strong><small>Must preserve candidate ID</small></div><i aria-hidden="true"><svg class="ui-icon"><use href="../../assets/icons/icons.svg#refresh"></use></svg></i></button>
+            <button type="button" data-action="reverse"><span>02</span><div><strong>Reverse one arrow</strong><small>FFL becomes a 3-cycle</small></div><i aria-hidden="true"><svg class="ui-icon"><use href="../../assets/icons/icons.svg#reverse"></use></svg></i></button>
+            <button type="button" data-action="role"><span>03</span><div><strong>Change one edge role</strong><small>`directed-link` -&gt; `inhibits`</small></div><i aria-hidden="true"><svg class="ui-icon"><use href="../../assets/icons/icons.svg#role"></use></svg></i></button>
+            <button class="reset-action" type="button" data-action="reset">Reset baseline <i aria-hidden="true"><svg class="ui-icon"><use href="../../assets/icons/icons.svg#refresh"></use></svg></i></button>
+            <div class="permutation-counter"><span>Input permutation</span><strong id="permutation-counter">1 / 6</strong><small>edge list: forward</small></div>
+          </aside>
+
+          <section class="input-stage" aria-label="Current input graph">
+            <header><div><p class="overline">Supplied representation</p><h3 id="input-name">Feed-forward loop</h3></div><span id="input-change">baseline</span></header>
+            <div class="graph-frame" id="input-graph"></div>
+            <div class="input-record"><span>Input edge sequence</span><ol id="input-edges"></ol></div>
+          </section>
+
+          <section class="identity-stage" id="identity-stage" data-result="same" aria-live="polite">
+            <header><p class="overline">Kernel result</p><span id="result-badge"><i></i>Identity stable</span></header>
+            <div class="identity-result"><span>candidateId</span><code id="candidate-id"></code><p id="result-copy"></p></div>
+            <div class="baseline-comparison"><p><span>Baseline</span><code id="baseline-id"></code></p><i id="comparison-symbol">=</i><p><span>Current</span><code id="current-id"></code></p></div>
+            <div class="skeleton-result"><div><span>skeletonId</span><code id="skeleton-id"></code></div><b>unchanged</b><p>The undirected triangle skeleton stays fixed even when direction or edge role changes candidate identity.</p></div>
+          </section>
+        </div>
+        <footer class="lab-footer"><p><span>Disclosure</span>The browser does not reimplement the canonicalizer. It selects frozen kernel fixtures; repository tests recompute every shown ID.</p><a href="https://github.com/DenBraun/Onto2D/blob/main/packages/kernel/src/graph-canonicalizer.js" target="_blank" rel="noopener noreferrer">Inspect canonicalizer <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/icons.svg#external-link"></use></svg></a></footer>
+      </section>
+
+      <section class="policy" aria-labelledby="policy-title"><div class="section-intro"><span class="section-number">02</span><p class="overline">Identity policy</p><h2 id="policy-title">What counts as structure?</h2></div><div class="policy-grid"><article class="ignored"><span>Ignored representation</span><strong>Labels & input order</strong><p>Node order, edge order and display names do not enter the canonical candidate bytes.</p><code>6 node permutations x 6 edge orders -&gt; one ID</code></article><article><span>Structural relation</span><strong>Direction</strong><p>Reversing one arrow changes the directed isomorphism class from feed-forward loop to cycle.</p><code>0f578d7e... -&gt; 913c5005...</code></article><article><span>Structural vocabulary</span><strong>Edge role</strong><p>Roles are declared semantics. Changing one role produces a new candidate even on the same skeleton.</p><code>0f578d7e... -&gt; 2a7015ba...</code></article></div></section>
+
+      <section class="why" id="why" aria-labelledby="why-title"><div><p class="overline">Why this matters</p><h2 id="why-title">Closure needs stable objects.</h2><p>If the same structure acquired a new identity whenever a caller reordered JSON, censuses, cohorts, rankings and later-depth closure would depend on serialization accidents. Canonical identity removes that degree of freedom before scientific interpretation begins.</p></div><div class="audit"><p class="overline">Frozen permutation audit</p><strong>36 / 36</strong><span>representations reproduce one candidate ID</span><div><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><a href="../three-node-motif-explorer/"><svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/icons.svg#arrow-left"></use></svg> Previous study: network motifs</a></div></section>
+    </main>
+    <footer class="site-footer"><a href="../../"><svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/icons.svg#arrow-left"></use></svg> Onto2D project home</a><p>Executable kernel invariant | no scientific claim</p><a href="#lab">Return to experiment <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/icons.svg#chevron-up"></use></svg></a></footer>
+  </body>
+</html>

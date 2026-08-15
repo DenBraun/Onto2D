@@ -8,10 +8,10 @@ source-migration binding, and reproducible artifacts all have executable
 verification paths. The generic reviewed source-migration pipeline remains in
 the catalogue adapter and is loadable through the closed kernel manifest.
 
-The current 410-test regression, repository checks, schema/runtime conformance,
-and build pass locally on macOS arm64 under Node.js 20.20.2 and 22.23.2. Fresh
-Linux/macOS/Windows × Node.js 20/22 CI and independent review of the frozen
-canonical fixtures remain the release-
+The current 437-test regression, repository checks, schema/runtime conformance,
+independent golden verification, and build pass locally on macOS arm64 under
+Node.js 24.19.0. Fresh Linux/macOS/Windows x Node.js 22/24 CI and independent
+review of the frozen canonical fixtures remain the release-
 acceptance gate. Actual reviewed current-catalogue policy/annotation/decision
 artifacts and remote deployment adapters are external project inputs, not
 pending kernel algorithms.
@@ -1238,13 +1238,14 @@ for the canonical fixture and
 for the skeleton fixture. Its first JavaScript comparison exposed two
 non-minimal canonical representatives at five nodes. Skeleton labeling was
 therefore changed, before identity freeze, to evaluate the complete node
-permutation orbit and select the global canonical edge serialization. The full
-410-test suite, repository checks, schema-compilation/runtime-artifact
-conformance, and build validation now pass locally on macOS arm64 under
-Node.js 20.20.2 and 22.23.2 for the current change set. The machine-readable
+permutation orbit and select the global canonical edge serialization. The
+original 410-test closure suite passed locally on macOS arm64 under Node.js
+20.20.2 and 22.23.2 before Node.js 20 reached end of life. The current 437-test
+workspace, repository checks, schema-compilation/runtime-artifact conformance,
+independent golden verification, and build pass under Node.js 24.19.0. The machine-readable
 closure contract additionally freezes the empty pending registry, the
 complete 195-capability-to-372-test evidence map, the independent fixture
 hashes, the required CI matrix, and `POST-CLOSURE-VIS-01`.
-The repository's Linux/macOS/Windows × Node.js 20/22 CI matrix and independent
+The repository's Linux/macOS/Windows x Node.js 22/24 CI matrix and independent
 review still require external evidence. ADR-0003 through ADR-0005 therefore
 retain proposed status.

@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-- Node.js 20 or newer;
+- Node.js 22 or newer (Node.js 24 LTS recommended);
 - npm with lockfile v3 support;
 - Git.
 
@@ -39,6 +39,7 @@ Focused commands:
 | `npm run check:schemas` | Parse and compile schemas, resolve references, and verify export coverage |
 | `npm run check:docs` | Check local Markdown links and code fences |
 | `npm run check:source` | Parse every JSON file and syntax-check JavaScript |
+| `npm run check:types` | Compile a strict consumer against every published TypeScript entrypoint |
 | `npm run check:workspace` | Validate package names, exports, and kernel isolation |
 
 ## Independent conformance fixtures

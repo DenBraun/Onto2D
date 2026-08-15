@@ -38,7 +38,7 @@ export const CONSTRAINTS = Object.freeze([
     id: "custom",
     label: "Custom predicate",
     shortLabel: "Custom",
-    notation: "P₅(s)",
+    notation: "P5(s)",
     description: "Illustrative user rule: exclude the known intermediate motifs."
   }
 ]);

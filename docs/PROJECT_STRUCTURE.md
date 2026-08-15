@@ -28,8 +28,14 @@ filesystem boundary; the kernel never imports them.
 ```text
 Onto2D/
 ├── .github/workflows/ci.yml
+├── index.html                    # no-scroll public project landing page
+├── assets/                       # public visual assets only
+│   ├── css/                      # landing and study stylesheets
+│   └── icons/                    # shared SVG icon sprite
 ├── apps/
-│   └── historical-load-explorer/  # ΔH prototype + motif case projection
+│   ├── historical-load-explorer/  # illustrative finite-path dH prototype
+│   ├── three-node-motif-explorer/ # frozen empirical motif projection
+│   └── canonical-identity-lab/    # canonical-ID fixture replay
 ├── cases/
 │   ├── level-0-oscillator/
 │   │   ├── README.md
@@ -82,7 +88,10 @@ Onto2D/
 | `cases` | source locks, frozen rules, fixtures, expected artifacts | hard-coded kernel branches |
 | `scripts` | repository automation and isolated conformance references | runtime domain semantics duplicated from packages |
 | `scr` | preserved source data and reference artifacts | generated run results |
-| `apps/historical-load-explorer` | illustrative browser interaction, a disclosed finite toy path model, and a read-only tested projection of the frozen motif case | altering case results, scientific solver semantics, kernel semantics |
+| root `index.html` / `assets/` | static project orientation and shared visual assets for the three studies | scientific claims, duplicated case data, kernel semantics |
+| `apps/historical-load-explorer` | illustrative browser interaction and a disclosed finite toy path model | empirical claims, scientific solver semantics, kernel semantics |
+| `apps/three-node-motif-explorer` | read-only tested projection of the frozen motif case | altering case results, retuning the null model, kernel semantics |
+| `apps/canonical-identity-lab` | interactive replay of kernel-produced candidate/skeleton identity fixtures | a second browser canonicalizer, unverified identity claims, kernel semantics |
 
 ## Growth sequence
 
@@ -147,8 +156,9 @@ Implementation grows through the following sequence:
    `packages/catalog-adapter/test/fixtures`;
 8. expand `cases/level-0-oscillator` only when quantities and evidence are
    operationally defined;
-9. maintain the frozen three-node-motif reproduction and its tested Explorer
-   projection without retuning the predeclared external comparison;
+9. maintain the frozen three-node-motif reproduction, its dedicated tested
+   Explorer projection, and the separate illustrative/identity studies without
+   retuning the predeclared external comparison;
 10. add further applications after kernel artifact contracts stabilize.
 
 Catalogue files remain in `scr/` as immutable source inputs and reference

@@ -193,7 +193,7 @@ Scope:
   enumeration, CandidateStore, adapter, catalogue, and compatibility tests;
 - produce independent canonical-byte fixtures;
 - compare skeleton IDs/counts with an independent generator;
-- verify Node.js 20 and 22 behavior on supported platforms;
+- verify the supported Node.js LTS lines on every required platform;
 - review binary64 edge cases, Unicode ordering, and explicit resource limits;
 - freeze ADR-0003, ADR-0004, and ADR-0005 after conformance evidence exists.
 
@@ -204,8 +204,9 @@ Current D0 progress: the independent Python canonical-byte/hash and exhaustive
 skeleton fixtures reproduce deterministically. Their comparison initially
 found non-minimal skeleton representatives at five nodes; the provisional
 skeleton identity algorithm was corrected to exhaustive permutation-minimum
-labeling. The supported CI matrix now covers Ubuntu, macOS, and Windows on
-Node.js 20 and 22. The RFC 8785 binary64 vectors, non-finite rejection,
+labeling. The original closure CI matrix covered Ubuntu, macOS, and Windows on
+Node.js 20 and 22. After Node.js 20 reached end of life, the active release
+matrix moved to Node.js 22 and 24. The RFC 8785 binary64 vectors, non-finite rejection,
 UTF-16 key ordering, Unicode preservation, and invalid-surrogate cases are
 covered explicitly. Local tests, checks, and build pass on macOS arm64 with
 Node.js 20.20.2 and 22.23.2. A completed cross-platform CI run and independent

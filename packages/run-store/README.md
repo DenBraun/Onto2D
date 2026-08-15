@@ -1,5 +1,9 @@
 # `@onto2d/run-store`
 
+```sh
+npm install @onto2d/run-store
+```
+
 `@onto2d/run-store` is the filesystem boundary for verified semantic run
 bundles. The kernel remains independent of files and directories; this adapter
 only accepts a bundle that the kernel can reproduce exactly.

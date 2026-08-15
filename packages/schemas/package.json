@@ -3,18 +3,35 @@
   "version": "0.1.0",
   "description": "Versioned JSON Schema contracts for Onto2D kernel artifacts.",
   "type": "module",
+  "types": "./src/index.d.ts",
   "license": "MIT",
   "sideEffects": false,
   "exports": {
-    ".": "./src/index.js",
+    ".": {
+      "types": "./src/index.d.ts",
+      "import": "./src/index.js"
+    },
     "./schemas/*": "./schemas/*.schema.json"
   },
   "files": [
     "src",
     "schemas",
-    "README.md"
+    "README.md",
+    "LICENSE"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DenBraun/Onto2D.git",
+    "directory": "packages/schemas"
+  },
+  "bugs": {
+    "url": "https://github.com/DenBraun/Onto2D/issues"
+  },
+  "homepage": "https://github.com/DenBraun/Onto2D/tree/main/packages/schemas#readme",
+  "publishConfig": {
+    "access": "public"
+  },
   "engines": {
-    "node": ">=20"
+    "node": ">=22"
   }
 }

@@ -1,5 +1,9 @@
 # `@onto2d/catalog-adapter`
 
+```sh
+npm install @onto2d/catalog-adapter
+```
+
 This package loads and audits the existing `scr/level-*.json` catalogue without
 changing it. The audit freezes current graph facts needed for Stage R0.
 

@@ -4,15 +4,16 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="An interactive, falsifiable demonstration of historical load in constrained construction paths.">
-    <title>Historical Load Explorer — Onto2D</title>
-    <link rel="stylesheet" href="./styles.css?v=20260814.5">
-    <script type="module" src="./app.js?v=20260814.3"></script>
+    <title>Historical Load Explorer - Onto2D</title>
+    <link rel="stylesheet" href="../../assets/css/icons.css?v=20260815.1">
+    <link rel="stylesheet" href="../../assets/css/historical-load-explorer.css?v=20260815.5">
+    <script type="module" src="./app.js?v=20260815.4"></script>
   </head>
   <body>
     <a class="skip-link" href="#experiment">Skip to experiment</a>
 
     <header class="site-header">
-      <a class="brand" href="#top" aria-label="Historical Load Explorer home">
+      <a class="brand" href="../../" aria-label="Back to Onto2D home">
         <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
           <circle cx="7" cy="16" r="3"></circle>
           <circle cx="25" cy="8" r="3"></circle>
@@ -26,17 +27,17 @@
       </a>
 
       <nav aria-label="Primary navigation">
+        <a href="../../">Project home</a>
         <a href="#examples">Examples</a>
-        <a href="#motifs">13 motifs</a>
         <button class="nav-button" id="methods-button" type="button">Methods</button>
-        <a class="repo-link" href="https://github.com/DenBraun/Onto2D" target="_blank" rel="noopener noreferrer" aria-label="Onto2D repository on GitHub, opens in a new tab">GitHub <span aria-hidden="true">↗</span></a>
+        <a class="repo-link" href="https://github.com/DenBraun/Onto2D" target="_blank" rel="noopener noreferrer" aria-label="Onto2D repository on GitHub, opens in a new tab">GitHub <span aria-hidden="true"><svg class="ui-icon"><use href="../../assets/icons/icons.svg#external-link"></use></svg></span></a>
         <span class="live-badge"><i></i><b>Illustrative model</b></span>
       </nav>
     </header>
 
     <main id="top">
       <section class="hero" aria-labelledby="page-title">
-        <div class="hero-index" aria-hidden="true">EXPERIMENT<br>03 / 04</div>
+        <div class="hero-index" aria-hidden="true">STUDY<br>01 / 03</div>
         <div class="hero-copy">
           <p class="eyebrow">A question for the path space</p>
           <h1 id="page-title">Does admissibility make<br><em>history measurable?</em></h1>
@@ -44,8 +45,8 @@
         </div>
         <div class="hero-note">
           <span>Instrument</span>
-          <strong>ΔH(x | F)</strong>
-          <p>Target structure × admissibility regime</p>
+          <strong>dH(x | F)</strong>
+          <p>Target structure x admissibility regime</p>
         </div>
       </section>
 
@@ -72,10 +73,10 @@
 
         <div class="instrument-guide" aria-label="How to use the explorer">
           <p><span>01</span><strong>Choose x</strong><small>Select a fixed target case.</small></p>
-          <i aria-hidden="true">→</i>
+          <i aria-hidden="true"><svg class="ui-icon"><use href="../../assets/icons/icons.svg#arrow-right"></use></svg></i>
           <p><span>02</span><strong>Set F</strong><small>Choose which histories remain admissible.</small></p>
-          <i aria-hidden="true">→</i>
-          <p><span>03</span><strong>Read ΔH</strong><small>Compare the shortest free and surviving paths.</small></p>
+          <i aria-hidden="true"><svg class="ui-icon"><use href="../../assets/icons/icons.svg#arrow-right"></use></svg></i>
+          <p><span>03</span><strong>Read dH</strong><small>Compare the shortest free and surviving paths.</small></p>
         </div>
 
         <div class="instrument-grid">
@@ -114,11 +115,11 @@
             <div class="result-block" id="result-block" data-state="positive">
               <p class="overline">Historical load</p>
               <div class="formula-line" aria-label="Delta H of x given F">
-                <span>ΔH</span><small>(x | F)</small><b>=</b>
+                <span>dH</span><small>(x | F)</small><b>=</b>
                 <strong id="load-value" aria-live="polite">+3</strong>
               </div>
               <p class="result-meaning" id="result-meaning">Admissibility adds 3 assembly steps.</p>
-              <p class="result-context" id="result-context">Added formation burden—not downstream generative capacity.</p>
+              <p class="result-context" id="result-context">Added formation burden, not downstream generative capacity.</p>
               <div class="assembly-equation" aria-label="Assembly length comparison">
                 <span><small>free</small><b id="free-value">5</b></span>
                 <i aria-hidden="true"></i>
@@ -139,13 +140,13 @@
                 </div>
               </div>
 
-              <p class="path-reading-guide"><strong>How to read</strong><span>Each dot is a construction state; <i>Sₙ</i> marks an intermediate. Lines are transitions, not physical time. The red cross is the first state removed by <i>F</i>.</span></p>
+              <p class="path-reading-guide"><strong>How to read</strong><span>Each dot is a construction state; <i>Sn</i> marks an intermediate. Lines are transitions, not physical time. The red cross is the first state removed by <i>F</i>.</span></p>
               <span id="graph-rule" hidden aria-hidden="true"></span>
 
               <div class="path-pair" id="path-pair">
                 <figure class="path-card free-path-card">
                   <figcaption>
-                    <span>Free path <i>F = ∅</i></span>
+                    <span>Free path <i>F = {}</i></span>
                     <strong><b id="free-path-length">5</b> steps</strong>
                   </figcaption>
                   <svg class="sequence-graph free-sequence" id="free-path-graph" viewBox="0 0 390 200" role="img" aria-labelledby="free-path-title free-path-desc">
@@ -188,7 +189,7 @@
                     <g class="target-glyph" transform="translate(220 35)"><circle r="22"></circle><circle cx="-8" cy="3" r="4"></circle><circle cx="8" cy="-7" r="4"></circle><circle cx="10" cy="10" r="4"></circle><path d="m-5 1 10-6m-9 9 10 4m3-11 1 9"></path></g>
                     <text x="30" y="202">START</text><text x="246" y="41">X</text>
                   </svg>
-                  <b>a₀ = <span id="object-free-value">5</span></b>
+                  <b>a0 = <span id="object-free-value">5</span></b>
                 </article>
                 <div class="same-target-mark"><span>=</span><small>same x</small></div>
                 <article>
@@ -206,7 +207,7 @@
 
             <div class="stage-actions">
               <button class="primary-action" id="explain-button" type="button" aria-expanded="false">
-                Explain this result <span>↓</span>
+                Explain this result <span><svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/icons.svg#chevron-down"></use></svg></span>
               </button>
               <button class="secondary-action" id="divergence-button" type="button" aria-pressed="false">
                 <i></i> Show first divergence
@@ -220,30 +221,30 @@
               <dl>
                 <div><dt>x</dt><dd>fixed target structure</dd></div>
                 <div><dt>F</dt><dd>active admissibility predicates</dd></div>
-                <div><dt>a₀</dt><dd>shortest free path length</dd></div>
+                <div><dt>a0</dt><dd>shortest free path length</dd></div>
                 <div><dt>aF</dt><dd>shortest surviving path length</dd></div>
               </dl>
-              <p class="notation-formula">ΔH(x | F) = aF − a₀</p>
-              <p class="notation-note"><b>∞</b> means that no disclosed candidate path survives <i>F</i>.</p>
+              <p class="notation-formula">dH(x | F) = aF - a0</p>
+              <p class="notation-note"><b>INF</b> means that no disclosed candidate path survives <i>F</i>.</p>
             </section>
 
             <section class="finding-card" id="finding-card">
-              <div><span class="pulse-dot"></span><p class="overline">Why ΔH &gt; 0</p></div>
+              <div><span class="pulse-dot"></span><p class="overline">Why dH &gt; 0</p></div>
               <strong id="rejected-count">3 shorter paths</strong>
               <p id="finding-copy">were eliminated by the active admissibility predicates.</p>
               <div class="first-failure">
                 <span>First failed test</span>
-                <code id="first-failure-code">closed(S₄) = false</code>
+                <code id="first-failure-code">closed(S4) = false</code>
               </div>
             </section>
 
             <section class="contribution-card">
               <div class="card-heading-with-help">
                 <div><p class="overline">Counterfactual</p><h3>Constraint contribution</h3></div>
-                <span title="Current ΔH minus ΔH after removing only this constraint">?</span>
+                <span title="Current dH minus dH after removing only this constraint">?</span>
               </div>
               <div id="contribution-list" class="contribution-list"></div>
-              <p>Each Δ is the load removed when that rule alone is ablated. Click one to recompute.</p>
+              <p>Each d is the load removed when that rule alone is ablated. Click one to recompute.</p>
             </section>
 
             <section class="properties-card">
@@ -254,7 +255,7 @@
                 <div><dt>Degeneracy</dt><dd id="degeneracy-value">3</dd></div>
                 <div><dt>Cohort size</dt><dd id="cohort-value">4</dd></div>
               </dl>
-              <p class="properties-note">Case metadata for context; these values do not enter the ΔH calculation.</p>
+              <p class="properties-note">Case metadata for context; these values do not enter the dH calculation.</p>
             </section>
           </aside>
         </div>
@@ -267,21 +268,21 @@
           <div class="divergence-trace" aria-label="Free and admissible paths diverge">
             <div class="trace-state"><i></i><span>START</span></div>
             <div class="trace-link"></div>
-            <div class="trace-state"><i></i><span>S₂</span></div>
+            <div class="trace-state"><i></i><span>S2</span></div>
             <div class="trace-fork">
               <span></span>
-              <div class="trace-rejected"><i>×</i><b id="trace-rejected-name">Constitutive shortcut</b><small id="trace-reason">closed(S₄) = false</small></div>
-              <div class="trace-accepted"><i>✓</i><b id="trace-accepted-name">Stable bridge</b><small>shortest surviving continuation</small></div>
+              <div class="trace-rejected"><i><svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/icons.svg#reject"></use></svg></i><b id="trace-rejected-name">Constitutive shortcut</b><small id="trace-reason">closed(S4) = false</small></div>
+              <div class="trace-accepted"><i><svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/icons.svg#check"></use></svg></i><b id="trace-accepted-name">Stable bridge</b><small>shortest surviving continuation</small></div>
             </div>
             <div class="trace-link accent"></div>
             <div class="trace-state target"><i></i><span>X</span></div>
           </div>
-          <p id="explanation-copy">The free optimum is removed at S₄. The shortest surviving construction reaches the same target in 8 rather than 5 steps.</p>
+          <p id="explanation-copy">The free optimum is removed at S4. The shortest surviving construction reaches the same target in 8 rather than 5 steps.</p>
         </section>
 
         <footer class="instrument-footer">
           <p><span>Disclosure</span> Values are computed in the browser from a small, finite set of illustrative path candidates.</p>
-          <button type="button" id="disclosure-button">What this is not ↗</button>
+          <button type="button" id="disclosure-button">What this is not <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/icons.svg#arrow-right"></use></svg></button>
         </footer>
       </section>
 
@@ -297,11 +298,11 @@
           <div class="pipeline-comparison">
             <article>
               <span>Assembly index</span>
-              <div><b>object x</b><i>↓</i><b>shortest construction</b><i>↓</i><strong>a₀</strong></div>
+              <div><b>object x</b><i><svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/icons.svg#arrow-down"></use></svg></i><b>shortest construction</b><i><svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/icons.svg#arrow-down"></use></svg></i><strong>a0</strong></div>
             </article>
             <article class="accent-pipeline">
               <span>Historical load</span>
-              <div><b>object x + filter F</b><i>↓</i><b>filtered path space</b><i>↓</i><strong>ΔH</strong></div>
+              <div><b>object x + filter F</b><i><svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/icons.svg#arrow-down"></use></svg></i><b>filtered path space</b><i><svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/icons.svg#arrow-down"></use></svg></i><strong>dH</strong></div>
             </article>
           </div>
         </div>
@@ -313,17 +314,17 @@
           <p class="overline">The essential distinction</p>
           <h2 id="same-target-title">The microstructure is unchanged.<br><em>Reachability is not.</em></h2>
           <p>Historical load is not an intrinsic label attached to a structure. It is a result of pairing that structure with a declared admissibility regime.</p>
-          <div class="relation-formula"><span>structure x</span><i>+</i><span>filter F</span><b>→</b><strong>ΔH(x | F)</strong></div>
+          <div class="relation-formula"><span>structure x</span><i>+</i><span>filter F</span><b><svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/icons.svg#arrow-right"></use></svg></b><strong>dH(x | F)</strong></div>
         </div>
         <div class="phase-figure" aria-label="Historical load rises with constraint strictness">
-          <div class="chart-heading"><span>ΔH</span><small>phase response</small></div>
+          <div class="chart-heading"><span>dH</span><small>phase response</small></div>
           <svg viewBox="0 0 620 340" role="img" aria-labelledby="phase-title phase-desc">
             <title id="phase-title">Historical load by filter strictness</title>
             <desc id="phase-desc">A step chart rises from zero to one, then three, and finally becomes unreachable as the admissibility filter becomes stricter.</desc>
             <g class="chart-grid"><path d="M70 40V292H585M70 230H585M70 168H585M70 106H585M192 40V292M326 40V292M458 40V292"></path></g>
             <path class="phase-line" d="M70 250H192V210H326V148H458V78H548"></path>
             <g class="phase-points"><circle cx="120" cy="250" r="6"></circle><circle cx="255" cy="210" r="6"></circle><circle cx="390" cy="148" r="6"></circle><circle cx="505" cy="78" r="6"></circle></g>
-            <g class="chart-labels"><text x="48" y="254">0</text><text x="48" y="214">1</text><text x="48" y="152">3</text><text x="44" y="82">∞</text><text x="68" y="320">FREE</text><text x="532" y="320">STRICT</text></g>
+            <g class="chart-labels"><text x="48" y="254">0</text><text x="48" y="214">1</text><text x="48" y="152">3</text><text x="36" y="82">INF</text><text x="68" y="320">FREE</text><text x="532" y="320">STRICT</text></g>
           </svg>
           <p>Constraint thresholds can produce discrete transitions in the reachable path space.</p>
         </div>
@@ -332,13 +333,13 @@
       <section class="falsifiable-section" aria-labelledby="falsifiable-title">
         <div>
           <p class="overline">A valid answer</p>
-          <strong>ΔH = 0</strong>
+          <strong>dH = 0</strong>
         </div>
         <div>
           <span class="section-number">04</span>
           <h2 id="falsifiable-title">The claim can fail.</h2>
           <p>For some objects and admissibility regimes, constraints add no historical burden. In that case, the strongest historical-dependence claim is unsupported by the example.</p>
-          <button type="button" id="load-zero-example">Load a zero result <span>→</span></button>
+          <button type="button" id="load-zero-example">Load a zero result <span><svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/icons.svg#arrow-right"></use></svg></span></button>
         </div>
       </section>
 
@@ -352,49 +353,6 @@
         <p class="example-note">All values use the Physical preset. Select a row to load its disclosed toy path space into the instrument.</p>
       </section>
 
-      <section class="motifs-section" id="motifs" aria-labelledby="motifs-title">
-        <div class="motifs-heading">
-          <div class="section-intro">
-            <span class="section-number">06</span>
-            <p class="overline">Frozen empirical case</p>
-            <h2 id="motifs-title">The 13 directed<br>three-node motifs.</h2>
-          </div>
-          <div class="motifs-introduction">
-            <p class="large-copy">Here the diagrams are structures, not construction histories. An arrow is a directed regulatory edge; each card is one isomorphism class.</p>
-            <p>Counts come from the 424-node, 519-edge ColiNet 1.0 <i>E. coli</i> transcription network. Every unordered set of three distinct nodes is classified by its complete induced subgraph; only weakly connected triples enter the census.</p>
-          </div>
-        </div>
-
-        <div class="motif-summary" aria-label="Motif case summary">
-          <p><span>Catalogue</span><strong>13</strong><small>connected classes</small></p>
-          <p><span>Observed</span><strong>5,188</strong><small>connected triads</small></p>
-          <p><span>Null ensemble</span><strong>1,000</strong><small>degree-preserving networks</small></p>
-          <p class="is-agreement"><span>Published comparison</span><strong>agrees</strong><small>FFL ranks first</small></p>
-        </div>
-
-        <div class="motif-reading-guide">
-          <strong>How to read a card</strong>
-          <p><b>Observed</b> is the induced count in the real network. <b>Null μ</b> is the average randomized count. <b>Z</b> measures the difference in null standard deviations. A dash means the class is structurally impossible here: this network has no mutual edges, and the null model preserves that fact.</p>
-        </div>
-
-        <div class="motif-grid" id="motif-grid" aria-live="polite"></div>
-
-        <div class="motif-result-note">
-          <div>
-            <p class="overline">Primary result</p>
-            <h3>Feed-forward loop: 40 observed</h3>
-            <p>Onto2D null: <b>7.531 ± 3.067</b>, <b>Z = 10.588</b>, empirical upper-tail <b>P = 0 / 1,000</b>. Milo et al. printed 40 against 7 ± 3 and Z = 10. The exact random draws differ, while the frozen ensemble, ranking, and conclusion agree.</p>
-          </div>
-          <div>
-            <p class="overline">Method boundary</p>
-            <p>Onto2D supplies canonical graph identity. This case adds a network-wide induced census and a deterministic reimplementation of mFinder 1.2 degree-preserving switching. It does not claim that motif enrichment is historical load.</p>
-            <div class="motif-links">
-              <a href="https://doi.org/10.1126/science.298.5594.824" target="_blank" rel="noopener noreferrer">Published comparison ↗</a>
-              <a href="https://github.com/DenBraun/Onto2D/tree/main/cases/three-node-motifs" target="_blank" rel="noopener noreferrer">Case, data lock & code ↗</a>
-            </div>
-          </div>
-        </div>
-      </section>
     </main>
 
     <footer class="site-footer">
@@ -404,31 +362,31 @@
         </svg>
         <span><strong>Historical Load Explorer</strong><small>An Onto2D interface study</small></span>
       </a>
-      <p>Illustrative ΔH instrument · Frozen motif case</p>
+      <p>Illustrative finite path model | No empirical claim</p>
       <div class="footer-links">
-        <a href="https://github.com/DenBraun/Onto2D" target="_blank" rel="noopener noreferrer" aria-label="Onto2D repository on GitHub, opens in a new tab">GitHub repository ↗</a>
-        <a href="#experiment">Return to instrument ↑</a>
+        <a href="../../"><svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/icons.svg#arrow-left"></use></svg> Onto2D project home</a>
+        <a href="#experiment">Return to instrument <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/icons.svg#chevron-up"></use></svg></a>
       </div>
     </footer>
 
     <dialog id="methods-dialog" aria-labelledby="methods-title">
       <div class="dialog-header">
         <div><p class="overline">Methods / prototype</p><h2 id="methods-title">What is being computed?</h2></div>
-        <button type="button" class="dialog-close" aria-label="Close methods">×</button>
+        <button type="button" class="dialog-close" aria-label="Close methods"><svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/icons.svg#close"></use></svg></button>
       </div>
       <div class="dialog-body">
         <p>Each example declares a finite set of candidate construction paths. A path has an assembly length and a list of predicates it violates.</p>
         <ol>
-          <li><span>01</span><p><strong>Find a₀.</strong> Select the shortest path before filtering.</p></li>
+          <li><span>01</span><p><strong>Find a0.</strong> Select the shortest path before filtering.</p></li>
           <li><span>02</span><p><strong>Apply F.</strong> Remove every path that violates an active predicate.</p></li>
           <li><span>03</span><p><strong>Find aF.</strong> Select the shortest surviving path, if one exists.</p></li>
-          <li><span>04</span><p><strong>Subtract.</strong> Report ΔH(x | F) = aF − a₀.</p></li>
+          <li><span>04</span><p><strong>Subtract.</strong> Report dH(x | F) = aF - a0.</p></li>
         </ol>
         <div class="dialog-disclosure">
           <strong>Prototype boundary</strong>
-          <p>The ΔH instrument is an interface demonstrator. It does not load a verified Onto2D run artifact or implement a scientific solver. Its four target cases are illustrative finite path spaces.</p>
-          <p>The separate 13-motif section is a frozen empirical network census with source hashes, graph conventions, a concrete null model, and a 1,000-trial artifact. Those motif statistics do not enter the ΔH calculation.</p>
-          <a href="https://github.com/DenBraun/Onto2D" target="_blank" rel="noopener noreferrer">Inspect the Onto2D repository ↗</a>
+          <p>The dH instrument is an interface demonstrator. It does not load a verified Onto2D run artifact or implement a scientific solver. Its four target cases are illustrative finite path spaces.</p>
+          <p>The frozen empirical network-motif study is deliberately published as a separate Explorer and does not enter this calculation.</p>
+          <a href="../three-node-motif-explorer/">Open the separate motif study <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/icons.svg#arrow-right"></use></svg></a>
         </div>
       </div>
     </dialog>

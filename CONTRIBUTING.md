@@ -12,8 +12,9 @@ npm test
 npm run check
 ```
 
-Use Node.js 20 or newer. The repository intentionally has no third-party
-dependencies.
+Use Node.js 22 or newer. Runtime packages intentionally have no third-party
+runtime dependencies; repository schema checks use the pinned `ajv`
+development dependency.
 
 ## Change rules
 

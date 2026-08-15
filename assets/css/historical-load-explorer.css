@@ -97,8 +97,8 @@ a {
 }
 
 .brand-mark {
-  width: 32px;
-  height: 32px;
+  width: var(--icon-size-brand);
+  height: var(--icon-size-brand);
   overflow: visible;
 }
 
@@ -156,6 +156,7 @@ a {
 }
 
 .repo-link span {
+  display: inline-flex;
   color: var(--accent-deep);
 }
 
@@ -392,12 +393,17 @@ main {
 }
 
 .case-picker::after {
-  content: "⌄";
+  content: "";
   position: absolute;
   right: 11px;
-  top: 7px;
+  top: 50%;
+  width: 7px;
+  height: 7px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
   pointer-events: none;
   color: var(--ink-faint);
+  transform: translateY(-70%) rotate(45deg);
 }
 
 .view-switch {
@@ -457,50 +463,77 @@ main {
 
 .constraint-row {
   position: relative;
-  min-height: 51px;
+  min-height: 58px;
   display: grid;
-  grid-template-columns: 19px minmax(0, 1fr) auto;
+  grid-template-columns: 24px minmax(0, 1fr) auto;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   border-bottom: 1px solid var(--line);
 }
 
 .constraint-row input {
-  position: absolute;
+  position: relative;
+  z-index: 2;
+  grid-column: 1;
+  grid-row: 1;
+  width: 24px;
+  height: 24px;
+  margin: 0;
   opacity: 0;
-  pointer-events: none;
+  cursor: pointer;
 }
 
 .constraint-row .checkmark {
-  width: 16px;
-  height: 16px;
+  grid-column: 1;
+  grid-row: 1;
+  width: 22px;
+  height: 22px;
   display: grid;
   place-items: center;
-  border: 1px solid var(--line-dark);
+  border: 2px solid var(--line-dark);
+  border-radius: 3px;
   background: var(--paper-bright);
-  color: white;
-  font-size: 15px;
-  transition: background .18s ease, border-color .18s ease;
+  pointer-events: none;
+  transition: background .16s ease, border-color .16s ease, box-shadow .16s ease, transform .12s ease;
+}
+
+.constraint-row input:hover + .checkmark {
+  border-color: var(--ink-soft);
+  box-shadow: 0 0 0 4px rgb(39 107 90 / 10%);
 }
 
 .constraint-row input:checked + .checkmark {
-  border-color: var(--ink);
-  background: var(--ink);
+  border-color: var(--green);
+  background: var(--green);
+  box-shadow: inset 0 0 0 2px var(--paper-bright);
 }
 
 .constraint-row input:checked + .checkmark::after {
-  content: "✓";
+  content: "";
+  width: 5px;
+  height: 10px;
+  margin-top: -2px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
 }
 
 .constraint-row input:focus-visible + .checkmark {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.constraint-row input:active + .checkmark {
+  transform: scale(.92);
 }
 
 .constraint-copy {
+  grid-column: 2;
+  grid-row: 1;
   display: flex;
   flex-direction: column;
   min-width: 0;
+  cursor: pointer;
 }
 
 .constraint-copy strong {
@@ -519,6 +552,8 @@ main {
 }
 
 .constraint-impact {
+  grid-column: 3;
+  grid-row: 1;
   min-width: 29px;
   padding: 3px 4px;
   border: 0;
@@ -938,6 +973,14 @@ main {
   font-family: var(--mono);
   font-size: 12px;
   letter-spacing: .11em;
+}
+
+.sequence-axis-arrow {
+  fill: none;
+  stroke: var(--ink-faint);
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .sequence-route {
@@ -1679,6 +1722,12 @@ main {
   font-style: normal;
 }
 
+.trace-rejected i .ui-icon,
+.trace-accepted i .ui-icon {
+  width: var(--icon-size-default);
+  height: var(--icon-size-default);
+}
+
 .trace-rejected b,
 .trace-accepted b {
   color: white;
@@ -2030,6 +2079,7 @@ main {
 
 .falsifiable-section button {
   display: inline-flex;
+  align-items: center;
   gap: 35px;
   margin-top: 14px;
   padding: 11px 15px;
@@ -2130,360 +2180,21 @@ main {
 }
 
 .example-row > i {
+  display: grid;
+  place-items: center end;
   font-style: normal;
   text-align: right;
+}
+
+.example-row > i .ui-icon {
+  width: var(--icon-size-action);
+  height: var(--icon-size-action);
 }
 
 .example-note {
   margin: 13px 0 0 80px;
   color: var(--ink-faint);
   font-size: 14px;
-}
-
-.motifs-section {
-  width: min(1380px, calc(100% - 48px));
-  margin: 0 auto 130px;
-  padding: 64px 58px 58px;
-  border: 1px solid var(--line-dark);
-  background: var(--paper-deep);
-}
-
-.motifs-heading {
-  display: grid;
-  grid-template-columns: minmax(300px, .8fr) minmax(0, 1.2fr);
-  gap: 72px;
-}
-
-.motifs-heading .section-intro .section-number {
-  margin-bottom: 32px;
-}
-
-.motifs-heading h2 {
-  margin: 13px 0 0;
-  font-family: var(--serif);
-  font-size: clamp(42px, 5vw, 68px);
-  font-weight: 400;
-  line-height: 1;
-  letter-spacing: -.04em;
-}
-
-.motifs-introduction .large-copy {
-  font-size: clamp(25px, 2.7vw, 37px);
-}
-
-.motifs-introduction > p:last-child {
-  max-width: 760px;
-  margin: 22px 0 0;
-  color: var(--ink-soft);
-  font-size: 17px;
-}
-
-.motif-summary {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  margin-top: 52px;
-  border-top: 1px solid var(--line-dark);
-  border-left: 1px solid var(--line-dark);
-  background: var(--paper-bright);
-}
-
-.motif-summary p {
-  min-height: 124px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin: 0;
-  padding: 17px 20px;
-  border-right: 1px solid var(--line-dark);
-  border-bottom: 1px solid var(--line-dark);
-}
-
-.motif-summary span,
-.motif-summary small {
-  color: var(--ink-faint);
-  font-family: var(--mono);
-  font-size: 13px;
-  letter-spacing: .06em;
-  text-transform: uppercase;
-}
-
-.motif-summary strong {
-  margin: 3px 0;
-  font-family: var(--serif);
-  font-size: 34px;
-  font-weight: 400;
-}
-
-.motif-summary .is-agreement {
-  box-shadow: inset 0 3px var(--green);
-}
-
-.motif-summary .is-agreement strong {
-  color: var(--green);
-}
-
-.motif-reading-guide {
-  display: grid;
-  grid-template-columns: 180px 1fr;
-  gap: 28px;
-  margin: 34px 0 22px;
-  padding: 17px 20px;
-  border-left: 3px solid var(--ink);
-  background: rgb(251 250 245 / 62%);
-}
-
-.motif-reading-guide strong {
-  font-family: var(--mono);
-  font-size: 14px;
-  letter-spacing: .07em;
-  text-transform: uppercase;
-}
-
-.motif-reading-guide p {
-  margin: 0;
-  color: var(--ink-soft);
-  font-size: 15px;
-}
-
-.motif-reading-guide b {
-  color: var(--ink);
-}
-
-.motif-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  border-top: 1px solid var(--line-dark);
-  border-left: 1px solid var(--line-dark);
-}
-
-.motif-card {
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  border-right: 1px solid var(--line-dark);
-  border-bottom: 1px solid var(--line-dark);
-  background: var(--paper-bright);
-}
-
-.motif-card.is-motif {
-  box-shadow: inset 0 4px var(--accent);
-}
-
-.motif-card > header {
-  min-height: 55px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  padding: 11px 13px;
-  border-bottom: 1px solid var(--line);
-}
-
-.motif-card > header div {
-  display: flex;
-  flex-direction: column;
-}
-
-.motif-card > header span {
-  font-family: var(--mono);
-  font-size: 17px;
-  font-weight: 750;
-}
-
-.motif-card > header small {
-  color: var(--ink-faint);
-  font-family: var(--mono);
-  font-size: 12px;
-}
-
-.motif-card > header b {
-  padding: 4px 6px;
-  background: var(--paper-deep);
-  color: var(--ink-faint);
-  font-family: var(--mono);
-  font-size: 11px;
-  font-weight: 650;
-  letter-spacing: .03em;
-  text-align: right;
-  text-transform: uppercase;
-}
-
-.motif-card.is-motif > header b {
-  background: var(--accent-pale);
-  color: var(--accent-deep);
-}
-
-.motif-card.is-anti > header b {
-  background: var(--green-pale);
-  color: var(--green);
-}
-
-.motif-card-body {
-  min-height: 218px;
-  display: grid;
-  grid-template-columns: 116px 1fr;
-  align-items: center;
-  gap: 6px;
-  padding: 14px 14px 17px 8px;
-}
-
-.motif-card-body h3 {
-  margin: 0;
-  font-family: var(--serif);
-  font-size: 21px;
-  font-weight: 400;
-  line-height: 1.08;
-}
-
-.motif-card-body p {
-  margin: 8px 0 0;
-  color: var(--ink-faint);
-  font-size: 13px;
-  line-height: 1.45;
-}
-
-.motif-diagram {
-  width: 116px;
-  height: 108px;
-  overflow: visible;
-}
-
-.motif-edges path {
-  fill: none;
-  stroke: var(--ink-soft);
-  stroke-width: 1.7;
-}
-
-.motif-diagram marker path {
-  fill: var(--ink-soft);
-}
-
-.is-motif .motif-edges path {
-  stroke: var(--accent-deep);
-  stroke-width: 2;
-}
-
-.is-motif .motif-diagram marker path {
-  fill: var(--accent-deep);
-}
-
-.motif-nodes circle {
-  fill: var(--paper-bright);
-  stroke: var(--ink);
-  stroke-width: 1.5;
-}
-
-.motif-nodes text {
-  fill: var(--ink);
-  font-family: var(--mono);
-  font-size: 10px;
-  font-weight: 700;
-  text-anchor: middle;
-}
-
-.motif-card dl {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  margin: auto 0 0;
-  border-top: 1px solid var(--line);
-}
-
-.motif-card dl div {
-  min-width: 0;
-  padding: 9px 7px;
-  border-right: 1px solid var(--line);
-  text-align: center;
-}
-
-.motif-card dl div:last-child {
-  border-right: 0;
-}
-
-.motif-card dt {
-  color: var(--ink-faint);
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: .03em;
-  text-transform: uppercase;
-}
-
-.motif-card dd {
-  margin: 3px 0 0;
-  font-family: var(--mono);
-  font-size: 14px;
-  font-weight: 650;
-}
-
-.motif-card.is-motif dl div:first-child dd,
-.motif-card.is-motif dl div:nth-child(3) dd {
-  color: var(--accent-deep);
-}
-
-.motif-card > footer {
-  display: flex;
-  justify-content: space-between;
-  gap: 8px;
-  padding: 8px 12px;
-  border-top: 1px solid var(--line);
-  color: var(--ink-faint);
-  font-family: var(--mono);
-  font-size: 11px;
-}
-
-.motif-card > footer code {
-  overflow: hidden;
-  color: var(--ink-soft);
-  font: inherit;
-  text-overflow: ellipsis;
-}
-
-.motif-result-note {
-  display: grid;
-  grid-template-columns: 1.15fr .85fr;
-  margin-top: 34px;
-  border: 1px solid var(--line-dark);
-  background: var(--paper-bright);
-}
-
-.motif-result-note > div {
-  padding: 28px 30px;
-}
-
-.motif-result-note > div:first-child {
-  border-right: 1px solid var(--line);
-  box-shadow: inset 4px 0 var(--accent);
-}
-
-.motif-result-note h3 {
-  margin: 8px 0 10px;
-  font-family: var(--serif);
-  font-size: 29px;
-  font-weight: 400;
-}
-
-.motif-result-note div > p:last-of-type {
-  margin: 8px 0 0;
-  color: var(--ink-soft);
-  font-size: 15px;
-}
-
-.motif-result-note b {
-  color: var(--ink);
-}
-
-.motif-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px 18px;
-  margin-top: 18px;
-}
-
-.motif-links a {
-  color: var(--accent-deep);
-  font-size: 14px;
-  font-weight: 700;
-  text-decoration: underline;
-  text-underline-offset: 3px;
 }
 
 .site-footer {
@@ -2514,6 +2225,9 @@ main {
 }
 
 .footer-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   font-size: 14px;
   text-decoration: underline;
   text-underline-offset: 3px;
@@ -2557,10 +2271,15 @@ dialog::backdrop {
 .dialog-close {
   width: 34px;
   height: 34px;
+  display: grid;
+  place-items: center;
   border: 1px solid var(--line);
   background: transparent;
-  font-family: var(--serif);
-  font-size: 27px;
+}
+
+.dialog-close .ui-icon {
+  width: var(--icon-size-default);
+  height: var(--icon-size-default);
 }
 
 .dialog-body {
@@ -2621,7 +2340,9 @@ dialog::backdrop {
 }
 
 .dialog-disclosure a {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   margin-top: 12px;
   color: var(--accent-deep);
   font-size: 14px;
@@ -2660,9 +2381,6 @@ dialog::backdrop {
     grid-column: 1 / -1;
   }
 
-  .motif-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
 }
 
 @media (max-width: 960px) {
@@ -2760,15 +2478,6 @@ dialog::backdrop {
     border-left: 0;
   }
 
-  .motifs-heading {
-    grid-template-columns: 280px 1fr;
-    gap: 40px;
-  }
-
-  .motif-summary,
-  .motif-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
 }
 
 @media (max-width: 700px) {
@@ -2925,37 +2634,8 @@ dialog::backdrop {
 
   .meaning-section,
   .examples-section,
-  .motifs-section,
   .falsifiable-section {
     width: calc(100% - 36px);
-  }
-
-  .motifs-section {
-    padding: 42px 20px 24px;
-  }
-
-  .motifs-heading,
-  .motif-result-note {
-    grid-template-columns: 1fr;
-  }
-
-  .motifs-introduction {
-    margin-top: 30px;
-  }
-
-  .motif-summary,
-  .motif-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .motif-reading-guide {
-    grid-template-columns: 1fr;
-    gap: 7px;
-  }
-
-  .motif-result-note > div:first-child {
-    border-right: 0;
-    border-bottom: 1px solid var(--line);
   }
 
   .meaning-section {

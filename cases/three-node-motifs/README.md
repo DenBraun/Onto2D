@@ -27,7 +27,7 @@ URLs, archival snapshots, byte lengths, and SHA-256 hashes.
 
 ## Reproduce
 
-Node.js 20 or newer is sufficient; this case has no npm dependency.
+Node.js 22 or newer is required; this case has no npm dependency.
 
 ```sh
 node cases/three-node-motifs/scripts/fetch-sources.mjs

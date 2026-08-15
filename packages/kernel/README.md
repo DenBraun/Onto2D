@@ -3,6 +3,33 @@
 This package is the dependency-free boundary of the Onto2D closure kernel. Its
 implemented foundation provides:
 
+## Install and first identity
+
+The package is ESM-only and requires Node.js 22 or newer.
+
+```sh
+npm install @onto2d/kernel
+```
+
+```js
+import { canonicalizeCandidate } from "@onto2d/kernel";
+
+const ref = `sha256:${"a".repeat(64)}`;
+const result = canonicalizeCandidate({
+  domain: "element-exact",
+  nodes: [{ ref }, { ref }],
+  edges: [{ from: 0, to: 1, role: "supports" }]
+});
+
+console.log(result.candidateId);
+```
+
+`canonicalizeCandidate()` is the smallest useful entrypoint. Use
+`createKernel()` for the complete configured facade. Invalid or incomplete
+semantic inputs fail closed with the exported kernel error contracts.
+
+## Implemented boundary
+
 - guarded canonical JSON with deterministic limits;
 - domain-separated SHA-256 content identities;
 - versioned model and error contracts;

@@ -1,7 +1,7 @@
 # Kernel Foundation Review Guide
 
-Status: maintainer review notes as of 2026-08-12. Static review is followed by
-local conformance execution on macOS arm64 with Node.js 20.20.2 and 22.23.2;
+Status: maintainer review notes as of 2026-08-15. Static review is followed by
+local conformance execution on macOS arm64 with Node.js 24.19.0;
 cross-platform and independent review gates remain.
 
 ## Review scope
@@ -528,9 +528,10 @@ npm run check
 npm run build
 ```
 
-The current full 410-test suite, repository checks, and build validation pass
-locally on macOS arm64 under Node.js 20.20.2 and 22.23.2. The repository CI
-matrix targets Node.js 20 and 22 across Ubuntu, macOS, and Windows.
+The current full 437-test suite, repository checks, independent golden
+verification, and build validation pass locally on macOS arm64 under Node.js
+24.19.0. The repository CI matrix targets Node.js 22 and 24 across Ubuntu,
+macOS, and Windows.
 ADR-0003, ADR-0004, and ADR-0005 remain proposed until the
 goldens receive independent review and additional supported platforms
 reproduce them. RFC 8785 binary64 and Unicode edge cases are now explicitly
@@ -587,5 +588,5 @@ matrix or a self-check into external execution/review evidence.
   loader requires the complete artifact inventory, exact references and
   cluster provenance; external artifact bytes must first be fully replayed by
   the catalogue adapter.
-- The local Node.js 20/22 suite and binary64/Unicode audit pass; cross-platform
+- The local Node.js 24 suite and binary64/Unicode audit pass; cross-platform
   reproduction and independent golden review remain open.

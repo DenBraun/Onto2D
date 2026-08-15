@@ -7,29 +7,28 @@ admissibility-closure kernel for finite complex-system models.
 
 The schema-v1 kernel implementation is locally closed: the public registry
 contains 195 implemented capabilities and no pending kernel operations. The
-pre-Explorer 410-test kernel/workspace baseline, repository checks, and
-validation build pass locally on macOS arm64 with Node.js 20 and 22.
+full 437-test workspace, repository checks, independent golden verification,
+package audit, and validation build pass locally on macOS arm64 with Node.js
+24.19.0.
 
 Release acceptance still requires the configured
-Ubuntu/macOS/Windows × Node.js 20/22 CI matrix and independent review of the
-canonical identity fixtures. After that gate, `POST-CLOSURE-VIS-01` requires a
-complete reproducible case and a generated visual presentation, preferably on
-GitHub Pages.
+Ubuntu/macOS/Windows x Node.js 22/24 CI matrix and independent review of the
+canonical identity fixtures.
 
-A dependency-free
-[Historical Load Explorer](apps/historical-load-explorer/README.md) now keeps
-two boundaries visible: an explicitly illustrative finite-path ΔH instrument,
-and a separate frozen empirical display of the 13 directed three-node motif
-classes. The motif display is a tested projection of the reproducible case
-artifact; its results do not enter the ΔH calculation.
+The repository now also includes the reproducible three-node-motif case and a
+dependency-free public interface with three deliberately separate studies:
 
-The Explorer and research-case additions bring the workspace suite to 422
-tests, all passing locally on macOS arm64 with Node.js 24.
+- [Historical Load Explorer](apps/historical-load-explorer/README.md) - an
+  illustrative finite-path dH instrument;
+- [Three-Node Motif Explorer](apps/three-node-motif-explorer/README.md) - a
+  tested read-only projection of the frozen empirical motif artifact;
+- [Canonical Identity Lab](apps/canonical-identity-lab/README.md) - a visual
+  replay of kernel-produced candidate and skeleton identities.
 
 For GitHub Pages, publish the selected branch from `/(root)`. The root
-[`index.html`](index.html) preserves the repository project path and opens the
-Explorer at `apps/historical-load-explorer/`; no separate Pages source folder
-is required.
+[`index.html`](index.html) is the no-scroll project landing page and links to
+all three studies with relative paths, so the repository project path is
+preserved and no separate Pages source folder is required.
 
 The existing `cases/level-0-oscillator/` directory currently freezes theory
 source identities only. It does not claim that the paper's resonant triad has
@@ -70,23 +69,24 @@ The detailed capability boundary and its evidence are maintained in
 
 This repository does not currently publish:
 
-- a production visual examples gallery or deployed GitHub Pages application;
+- a guaranteed hosted deployment or production application service;
 - healthcare, biological, cognitive, or organizational demo applications;
-- a general browser development server or an `npm run dev` command (the static
-  explorer prototype has the focused `npm run dev:explorer` command);
+- a bundled production web server or client-side application framework (the
+  static site uses the focused `npm run dev:site` command);
 - a plugin marketplace, diagnostic UI, or named AI-assistant integration;
 - a general scientific solver or empirical validation of the historical-load
   hypothesis;
 - reviewed policy, annotation, and disposition data for migration of the
   current catalogue.
 
-Those items must not be inferred from the implemented kernel APIs. The first
-visual result will be generated from verified run artifacts only after the
-release-acceptance gate.
+Those items must not be inferred from the implemented kernel APIs. Each public
+study states whether it is illustrative, empirical, or a replay of frozen
+kernel output.
 
 ## Development and verification
 
-Prerequisite: Node.js 20 or newer with npm.
+Prerequisite: Node.js 22 or newer with npm. Node.js 24 LTS is the recommended
+release-development runtime.
 
 ```sh
 npm ci
@@ -117,7 +117,9 @@ the canonical and skeleton fixtures in memory and compares them byte-for-byte
 without modifying the repository.
 
 See the [Development Guide](docs/DEVELOPMENT.md) and
-[Contributing Guide](CONTRIBUTING.md) for the full workflow.
+[Contributing Guide](CONTRIBUTING.md) for the full workflow. Maintainers should
+also complete the [Release Checklist](docs/RELEASE_CHECKLIST.md) before tagging
+a version.
 
 ## Repository map
 
@@ -129,8 +131,12 @@ See the [Development Guide](docs/DEVELOPMENT.md) and
   implementations;
 - `packages/run-store/` — verified local run persistence and operational
   records;
-- `apps/historical-load-explorer/` — static illustrative ΔH instrument and
-  read-only projection of the frozen motif case;
+- `index.html` and `assets/css/site.css` — no-scroll public project landing page;
+- `apps/historical-load-explorer/` - static illustrative dH instrument;
+- `apps/three-node-motif-explorer/` — read-only projection of the frozen motif
+  case;
+- `apps/canonical-identity-lab/` — interactive replay of canonical identity
+  fixtures;
 - `cases/` — research-case source locks, executable reproductions, and frozen
   expected artifacts;
 - `scr/` — preserved source catalogue and theory documents;
@@ -155,6 +161,9 @@ The exact dependency direction and ownership rules are documented in
   traceability and scientific limitations;
 - [Review Guide](docs/REVIEW_GUIDE.md) — verification order and remaining
   release evidence.
+- [Release Checklist](docs/RELEASE_CHECKLIST.md) - required evidence and
+  packaging checks before a GitHub or npm release.
+- [Changelog](CHANGELOG.md) - user-visible changes by version.
 
 ## License
 

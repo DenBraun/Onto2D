@@ -17,6 +17,10 @@ const explorerApp = readFileSync(
   new URL("../../apps/historical-load-explorer/app.js", import.meta.url),
   "utf8"
 );
+const explorerStyles = readFileSync(
+  new URL("../../assets/css/historical-load-explorer.css", import.meta.url),
+  "utf8"
+);
 
 test("the constitutive bridge reproduces the illustrative +3 readout", () => {
   const result = analyzeCase("constitutive-bridge", PRESETS.physical);
@@ -37,6 +41,8 @@ test("the constitutive bridge reproduces the illustrative +3 readout", () => {
   const modelRevision = explorerApp.match(/model\.js\?v=([^"']+)/)?.[1];
   assert.ok(appRevision, "app resource must carry a cache-busting revision");
   assert.equal(modelRevision, appRevision, "module graph revisions must stay aligned");
+  assert.doesNotMatch(explorerMarkup, /id="motifs"/);
+  assert.doesNotMatch(explorerApp, /MOTIF_EXPLORER_DATA/);
 });
 
 test("constraint ablation is computed from the remaining path space", () => {
@@ -46,6 +52,16 @@ test("constraint ablation is computed from the remaining path space", () => {
   assert.equal(result.contributions.closure, 1);
   assert.equal(result.contributions.connectivity, 0);
   assert.equal(result.contributions.dependency, 0);
+});
+
+test("constraint checkboxes keep a visible, browser-independent control", () => {
+  const inputRule = explorerStyles.match(/\.constraint-row input\s*\{[^}]+\}/s)?.[0] ?? "";
+  assert.match(inputRule, /width:\s*24px/);
+  assert.match(inputRule, /height:\s*24px/);
+  assert.doesNotMatch(inputRule, /pointer-events:\s*none/);
+  assert.match(explorerStyles, /\.constraint-row input:checked \+ \.checkmark::after/);
+  assert.match(explorerStyles, /\.constraint-row input:focus-visible \+ \.checkmark/);
+  assert.match(explorerMarkup, /assets\/css\/historical-load-explorer\.css\?v=20260815\.5/);
 });
 
 test("free, neutral, and unreachable states remain distinct", () => {

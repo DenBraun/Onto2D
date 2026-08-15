@@ -14,7 +14,7 @@ export const THREE_NODE_MOTIF_EXPLORER_DATA = Object.freeze({
   "publication": {
     "doi": "10.1126/science.298.5594.824",
     "url": "https://doi.org/10.1126/science.298.5594.824",
-    "reportedFfl": "40 observed; 7 ± 3 null; Z = 10"
+    "reportedFfl": "40 observed; 7 +/- 3 null; Z = 10"
   },
   "comparison": {
     "publishedTopMotif": "030T",

@@ -3,17 +3,87 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="refresh" content="0; url=./apps/historical-load-explorer/">
-    <meta name="description" content="Open the Onto2D Historical Load Explorer.">
-    <title>Historical Load Explorer — Onto2D</title>
-    <script>
-      const destination = new URL("./apps/historical-load-explorer/", window.location.href);
-      destination.search = window.location.search;
-      destination.hash = window.location.hash;
-      window.location.replace(destination.href);
-    </script>
+    <meta name="description" content="Onto2D turns ontology-backed graph rules into deterministic, replayable closure experiments.">
+    <title>Onto2D - Executable structure, history and closure</title>
+    <link rel="stylesheet" href="./assets/css/icons.css?v=20260815.1">
+    <link rel="stylesheet" href="./assets/css/site.css?v=20260815.5">
   </head>
   <body>
-    <p>Opening the <a href="./apps/historical-load-explorer/">Historical Load Explorer</a>…</p>
+    <div class="landing-shell">
+      <header class="landing-header">
+        <a class="brand" href="./" aria-label="Onto2D home">
+          <svg viewBox="0 0 34 34" aria-hidden="true">
+            <circle cx="7" cy="17" r="3"></circle><circle cx="27" cy="8" r="3"></circle><circle cx="27" cy="26" r="3"></circle><path d="M10 17h7m2-3 5-4m-5 10 5 4"></path>
+          </svg>
+          <span><strong>Onto2D</strong><small>Executable ontology laboratory</small></span>
+        </a>
+        <nav aria-label="Project links">
+          <span class="kernel-state"><i></i>Schema-v1 kernel closed</span>
+          <a href="https://github.com/DenBraun/Onto2D" target="_blank" rel="noopener noreferrer">GitHub <b aria-hidden="true"><svg class="ui-icon"><use href="./assets/icons/icons.svg#external-link"></use></svg></b></a>
+        </nav>
+      </header>
+
+      <main class="landing-main">
+        <section class="landing-hero" aria-labelledby="landing-title">
+          <div class="hero-copy">
+            <p class="overline">Ontology x graph identity x bounded closure</p>
+            <h1 id="landing-title">Make complex-system claims <em>executable.</em></h1>
+            <p>Onto2D converts declared structures, admissibility rules and formation steps into deterministic artifacts that can be replayed, compared and falsified.</p>
+          </div>
+          <div class="kernel-route" aria-label="Onto2D execution route">
+            <div><span>01</span><b>Declare</b><small>ontology + graph policy</small></div><i aria-hidden="true"><svg class="ui-icon"><use href="./assets/icons/icons.svg#arrow-right"></use></svg></i>
+            <div><span>02</span><b>Execute</b><small>filter + bounded closure</small></div><i aria-hidden="true"><svg class="ui-icon"><use href="./assets/icons/icons.svg#arrow-right"></use></svg></i>
+            <div><span>03</span><b>Verify</b><small>canonical artifact</small></div>
+          </div>
+        </section>
+
+        <section class="study-section" aria-labelledby="study-title">
+          <div class="study-heading"><p class="overline">Three ways into the project</p><h2 id="study-title">Choose a lens</h2></div>
+          <div class="study-grid">
+            <a class="study-card history-card" href="./apps/historical-load-explorer/">
+              <header><span>01 / Interactive model</span><b>Historical load</b></header>
+              <div class="study-visual history-visual" aria-hidden="true">
+                <svg viewBox="0 0 320 104">
+                  <g class="route muted"><path d="M18 34H86L126 64H190L232 34H302"></path><circle cx="18" cy="34" r="4"></circle><circle cx="86" cy="34" r="4"></circle><circle cx="126" cy="64" r="4"></circle><circle cx="190" cy="64" r="4"></circle><circle cx="232" cy="34" r="4"></circle></g>
+                  <g class="route allowed"><path d="M18 84H70L105 74H153L184 84H230L260 74H302"></path><circle cx="18" cy="84" r="4"></circle><circle cx="70" cy="84" r="4"></circle><circle cx="105" cy="74" r="4"></circle><circle cx="153" cy="74" r="4"></circle><circle cx="184" cy="84" r="4"></circle><circle cx="230" cy="84" r="4"></circle><circle cx="260" cy="74" r="4"></circle></g>
+                  <g class="blocked" transform="translate(126 64)"><circle r="9"></circle><path d="m-4-4 8 8m0-8-8 8"></path></g>
+                </svg><strong>dH <small>=</small> +3</strong>
+              </div>
+              <p>Hold the target fixed. Remove inadmissible histories. Measure the extra construction burden.</p>
+              <footer><span>Open experiment</span><i aria-hidden="true"><svg class="ui-icon"><use href="./assets/icons/icons.svg#arrow-right"></use></svg></i></footer>
+            </a>
+
+            <a class="study-card motif-card" href="./apps/three-node-motif-explorer/">
+              <header><span>02 / Frozen empirical case</span><b>13 network motifs</b></header>
+              <div class="study-visual motif-visual" aria-hidden="true">
+                <svg viewBox="0 0 320 116">
+                  <defs><marker id="landing-arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0 0 6 3 0 6z"></path></marker></defs>
+                  <g transform="translate(35 8)"><path d="M35 12 11 66M35 12l48 54M83 66H16"></path><circle cx="35" cy="12" r="8"></circle><circle cx="11" cy="66" r="8"></circle><circle cx="83" cy="66" r="8"></circle></g>
+                  <g transform="translate(130 8)"><path d="M35 12 11 66M11 66h72M83 66 35 12"></path><circle cx="35" cy="12" r="8"></circle><circle cx="11" cy="66" r="8"></circle><circle cx="83" cy="66" r="8"></circle></g>
+                  <g class="feature" transform="translate(225 8)"><path d="M35 12 11 66M35 12l48 54M83 66H16"></path><circle cx="35" cy="12" r="8"></circle><circle cx="11" cy="66" r="8"></circle><circle cx="83" cy="66" r="8"></circle></g>
+                </svg><strong>40 <small>vs null 7.531</small></strong>
+              </div>
+              <p>Inspect all directed triads and the reproduced <i>E. coli</i> feed-forward-loop ranking.</p>
+              <footer><span>Open empirical case</span><i aria-hidden="true"><svg class="ui-icon"><use href="./assets/icons/icons.svg#arrow-right"></use></svg></i></footer>
+            </a>
+
+            <a class="study-card identity-card" href="./apps/canonical-identity-lab/">
+              <header><span>03 / Kernel invariant</span><b>Canonical identity</b></header>
+              <div class="study-visual identity-visual" aria-hidden="true">
+                <svg viewBox="0 0 320 112">
+                  <g transform="translate(18 8)"><path d="M46 10 10 74M46 10l58 64M104 74H16"></path><circle cx="46" cy="10" r="9"></circle><circle cx="10" cy="74" r="9"></circle><circle cx="104" cy="74" r="9"></circle><text x="46" y="14">a</text><text x="10" y="78">b</text><text x="104" y="78">c</text></g>
+                  <text class="equals" x="151" y="61">=</text>
+                  <g transform="translate(188 8)"><path d="M46 10 10 74M46 10l58 64M104 74H16"></path><circle cx="46" cy="10" r="9"></circle><circle cx="10" cy="74" r="9"></circle><circle cx="104" cy="74" r="9"></circle><text x="46" y="14">x</text><text x="10" y="78">y</text><text x="104" y="78">z</text></g>
+                </svg><code>0f578d7e... = 0f578d7e...</code>
+              </div>
+              <p>Shuffle labels without changing identity, then mutate structure and watch the hash change.</p>
+              <footer><span>Open identity lab</span><i aria-hidden="true"><svg class="ui-icon"><use href="./assets/icons/icons.svg#arrow-right"></use></svg></i></footer>
+            </a>
+          </div>
+        </section>
+      </main>
+
+      <footer class="landing-footer"><p><span>Deterministic</span><i></i><span>Bounded</span><i></i><span>Replayable</span></p><p>Three views, three explicit evidence boundaries.</p></footer>
+    </div>
   </body>
 </html>

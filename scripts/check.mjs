@@ -7,6 +7,7 @@ const REPOSITORY_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)
 const checks = [
   "check-source.mjs",
   "check-workspace.mjs",
+  "check-types.mjs",
   "check-schemas.mjs",
   "check-kernel-closure.mjs",
   "check-docs.mjs",

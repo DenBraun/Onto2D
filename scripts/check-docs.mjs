@@ -4,7 +4,15 @@ import process from "node:process";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
 const REPOSITORY_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const DOCUMENT_ROOTS = ["README.md", "CONTRIBUTING.md", "docs", "cases", "packages"];
+const DOCUMENT_ROOTS = [
+  "README.md",
+  "CHANGELOG.md",
+  "CONTRIBUTING.md",
+  "SECURITY.md",
+  "docs",
+  "cases",
+  "packages"
+];
 const IGNORED_DIRECTORIES = new Set(["dist", "node_modules"]);
 
 async function collectMarkdown(relativePath) {
