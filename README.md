@@ -18,12 +18,14 @@ evidence through the scientific-adapter boundary.
 
 ## Try the studies
 
-- [Historical Load Explorer](apps/historical-load-explorer/README.md) uses a
-  disclosed finite toy model.
-- [Three-Node Motif Explorer](apps/three-node-motif-explorer/README.md) projects
-  a frozen reproduction of the published *E. coli* motif result.
-- [Canonical Identity Lab](apps/canonical-identity-lab/README.md) replays tested
-  candidate-identity fixtures.
+- [Historical Load Explorer](https://denbraun.github.io/Onto2D/apps/historical-load-explorer/)
+  uses a disclosed finite toy model ([source notes](apps/historical-load-explorer/README.md)).
+- [Three-Node Motif Explorer](https://denbraun.github.io/Onto2D/apps/three-node-motif-explorer/)
+  projects a frozen reproduction of the published *E. coli* motif result
+  ([source notes](apps/three-node-motif-explorer/README.md)).
+- [Canonical Identity Lab](https://denbraun.github.io/Onto2D/apps/canonical-identity-lab/)
+  replays tested candidate-identity fixtures
+  ([source notes](apps/canonical-identity-lab/README.md)).
 
 Run the static site:
 
@@ -31,8 +33,8 @@ Run the static site:
 npm run dev:site
 ```
 
-Then open `http://127.0.0.1:8080/`. For GitHub Pages, publish the branch from
-`/(root)`.
+Then open `http://127.0.0.1:8080/`, or use the
+[published GitHub Pages site](https://denbraun.github.io/Onto2D/).
 
 ## Verify the repository
 
