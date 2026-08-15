@@ -72,8 +72,7 @@ chain.
   entries, while the bundle target run remains the final depth.
 - Operational timestamps, platform data, and filesystem state remain outside
   semantic hashes.
-- Future GitHub Pages output can consume verified bundle artifacts directly,
-  but `POST-CLOSURE-VIS-01` remains deferred until the kernel closure gate.
+- Presentation layers can consume verified bundle artifacts directly.
 
 ## Rejected alternatives
 
@@ -96,4 +95,4 @@ chain.
 - store run-index uniqueness, wrong-run, wrong-kernel, and tamper failures;
 - bound and unbound `kernel.explain` behavior;
 - public TypeScript and five JSON Schema contracts;
-- Node.js 20/22 full repository suites, checks, and builds.
+- Node.js 22/24 CI full repository suites, checks, and builds.

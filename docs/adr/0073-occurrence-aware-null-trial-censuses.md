@@ -59,4 +59,4 @@ trials, unique occurrence identities despite repeated candidate IDs, embedded
 filter/candidate identity agreement, Boolean and predicate reconciliation,
 disabled state, primitive and depth-aware execution, exact verification,
 tampering, kernel facade methods, public types, compiled JSON Schema, and local
-Node.js 20/22 execution.
+Node.js 22/24 CI execution.

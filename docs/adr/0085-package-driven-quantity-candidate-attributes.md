@@ -85,6 +85,3 @@ predicate filtering, primitive and generalized-depth parity, current-level
 fixpoint binding, exact profile-class consensus, heterogeneous-class rejection,
 complete-provenance candidate identity, capability publication, runtime schema
 validation, and full repository regression execution.
-
-`POST-CLOSURE-VIS-01` remains scheduled after the complete kernel closure gate;
-this contract does not start presentation work early.

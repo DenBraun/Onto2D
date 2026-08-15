@@ -56,10 +56,9 @@ and complete result receive separate content identities.
 - Seeded permutation null execution remains a separate generic kernel gate;
   current-catalogue depth mapping and bottleneck authorship remain research
   inputs.
-- `POST-CLOSURE-VIS-01` remains deferred until the complete kernel closure.
 
 ## Verification
 
 Fixtures produce a deterministic depleted result, verify pooled counts/shares,
 separate definition/result hashes, exact replay, schema conformance, rejection
-of cluster-aware definitions and incomplete vertex partitions, and Node 20/22.
+of cluster-aware definitions and incomplete vertex partitions, and Node.js 22/24 CI.

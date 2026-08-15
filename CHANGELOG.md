@@ -2,7 +2,7 @@
 
 All notable user-visible changes are recorded in this file.
 
-## [0.1.0] - Unreleased
+## [0.1.0] - 2026-08-15
 
 ### Added
 
@@ -14,6 +14,14 @@ All notable user-visible changes are recorded in this file.
 - 130 JSON Schema Draft 2020-12 contracts and TypeScript declarations for all
   publishable workspaces.
 - Catalogue, scientific-boundary, and verified local run-store adapters.
+- Bounded Level-0 Phase-B numerical reference case with an external solver,
+  positive and negative controls, Oracle evidence, and frozen results.
+- Phase-C boundedness preflight that rejects the frozen free cubic potential
+  along an explicit amplitude ray and records the required model resolution.
+- Stabilized Phase-C envelope search with grid and domain controls, `Gamma`,
+  second-variation witnesses, and an explicit no-qualified-node Phase-D stop.
+- Integrated Level-0 pipeline artifact that reproduces every dependency and
+  records a complete negative result within the declared model.
 - Reproducible three-node motif case and three static project studies.
 
 ### Fixed

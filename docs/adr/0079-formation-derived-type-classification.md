@@ -62,4 +62,4 @@ Conformance covers package normalization, missing-invariant and duplicate-tag
 rejection, semantic/unit closure, assigned and withheld threshold outcomes,
 source-evaluation linkage, result ordering, type-tag propagation, structural
 and non-structural identity behavior, exact replay, TypeScript declarations,
-compiled JSON Schema, and Node.js 20/22 execution.
+compiled JSON Schema, and Node.js 22/24 CI execution.

@@ -1,7 +1,7 @@
 # ADR-0033: Complete package cohort partitioning
 
 Status: implementation baseline; local conformance passed,
-independent and cross-platform review pending
+cross-platform CI passed; independent review pending
 
 ## Context
 

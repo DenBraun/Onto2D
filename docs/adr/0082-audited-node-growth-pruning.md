@@ -68,8 +68,7 @@ pre-admission controller after the profile gate has passed.
 - `directed-strong` node growth remains deliberately unoptimized, while its
   complete-node edge-frontier pruning remains available under ADR-0055;
 - ordinary closure and ladder APIs keep their exhaustive semantics until an
-  explicit integration policy selects the optimized generator;
-- `POST-CLOSURE-VIS-01` remains scheduled after the full kernel closure gate.
+  explicit integration policy selects the optimized generator.
 
 ## Verification
 
@@ -78,4 +77,4 @@ authorized persistent failure, counter and checkpoint tampering, real raw
 subtree skips, reduced traversal state, complete pre-admission and
 pruning-disabled differential equivalence, fail-closed directed-strong policy,
 depth/source binding, exact reproduction, TypeScript declarations, strict Draft
-2020-12 schemas, and Node.js 20/22 execution.
+2020-12 schemas, and Node.js 22/24 CI execution.

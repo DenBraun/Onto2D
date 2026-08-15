@@ -90,4 +90,4 @@ or budget interpretation.
 - exact skipped raw-candidate and decoration-state reconciliation;
 - target-depth and prior-chain tamper rejection;
 - public runtime, TypeScript, and six JSON Schema contracts;
-- Node.js 20/22 repository checks, full suites, and builds.
+- Node.js 22/24 CI repository checks, full suites, and builds.

@@ -1,7 +1,7 @@
 # ADR-0020: Bound local exact-compare predicate evaluation
 
 Status: proposed implementation baseline; local conformance passed, extended
-by ADR-0021; independent and cross-platform review pending
+by ADR-0021; cross-platform CI passed; independent review pending
 
 ## Context
 

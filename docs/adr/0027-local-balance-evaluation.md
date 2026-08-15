@@ -1,7 +1,7 @@
 # ADR-0027: Local balance evaluation
 
 Status: proposed implementation baseline; local conformance passed,
-independent and cross-platform review pending
+cross-platform CI passed; independent review pending
 
 ADR-0046 later implements direct local scalar and profile-consensus invariant
 resolution without changing this balance contract.
@@ -94,4 +94,4 @@ Fixtures cover scalar pass/fail boundaries, threshold uncertainty, exact and
 compensated accumulation, Quantity unit normalization, aggregate uncertainty
 and evidence, semantic-policy behavior, empty selections, missing/type/unit/
 semantic failures, cycle-set rejection, canonical relabeling, package
-attribute preflight, schema conformance, and Node.js 20/22 determinism.
+attribute preflight, schema conformance, and Node.js 22/24 CI determinism.

@@ -1,7 +1,7 @@
 # ADR-0015: Deterministic decorated-candidate enumeration
 
 Status: proposed implementation baseline; local conformance passed,
-independent and cross-platform review pending
+cross-platform CI passed; independent review pending
 
 ## Context
 

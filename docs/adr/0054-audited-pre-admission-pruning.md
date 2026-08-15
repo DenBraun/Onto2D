@@ -100,4 +100,4 @@ execution remains separate closure work.
 - whole-audit failure disables every controller call and removal;
 - graph-policy exclusions precede pruning;
 - schema conformance, exact artifact replay, and tamper rejection;
-- Node.js 20/22 full-suite, repository-check, and build conformance.
+- Node.js 22/24 CI full-suite, repository-check, and build conformance.

@@ -1,7 +1,7 @@
 # ADR-0032: Package-bound finite functional evaluation
 
 Status: implementation baseline; local conformance passed,
-independent and cross-platform review pending
+cross-platform CI passed; independent review pending
 
 ## Context
 
@@ -95,4 +95,4 @@ addition, multi-Quantity products and interval bounds, boundary-only rounding,
 evidence/provenance union, node/edge/cycle counts, element and profile
 resolution, tolerance-target failure, missing/ambiguous data, altered
 filter/binding/package rejection, candidate relabelling, schema/type/hash
-agreement, and Node.js 20/22 determinism.
+agreement, and Node.js 22/24 CI determinism.

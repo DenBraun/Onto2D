@@ -1,7 +1,7 @@
 # ADR-0025: Derived Quantity scaling
 
 Status: proposed implementation baseline; local conformance passed; extended
-by ADR-0026; independent and cross-platform review pending
+by ADR-0026; cross-platform CI passed; independent review pending
 
 ADR-0046 later implements direct local scalar invariant resolution; the other
 future boundaries listed below remain separate.
@@ -77,5 +77,5 @@ Fixtures cover nested negative scaling, boundary-only rounding, absolute and
 relative tolerance scaling, zero scaling, evidence/provenance retention,
 exactness propagation from compensated scalar sums, selection witnesses,
 operand-order normalization, continued multi-Quantity product rejection,
-composition with Quantity addition, schema conformance, and Node.js 20/22
+composition with Quantity addition, schema conformance, and Node.js 22/24 CI
 determinism.

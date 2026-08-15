@@ -67,6 +67,3 @@ selection witnesses, tolerance and evidence propagation, cohort-key execution,
 formation-derived profile invariants that continue into target-depth-2 source
 populations, runtime JSON Schema validation, capability publication, and full
 repository regression execution.
-
-`POST-CLOSURE-VIS-01` remains scheduled only after the full kernel closure
-gate.

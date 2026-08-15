@@ -1,7 +1,7 @@
 # ADR-0023: Quantity-valued structural-attribute sums
 
 Status: proposed implementation baseline; local conformance passed; extended
-by ADR-0024; independent and cross-platform review pending
+by ADR-0024; cross-platform CI passed; independent review pending
 
 ## Context
 
@@ -100,4 +100,4 @@ aggregation, boundary-only rounding, exact and compensated value accumulation,
 outward rounding above an inexact binary64 representation, subnormal and
 overflow tolerance boundaries, empty typed sums, canonical evidence ordering,
 relabelling invariance, runtime type/unit/semantic mismatches, missing declared
-semantics, schema conformance, and Node.js 20/22 determinism.
+semantics, schema conformance, and Node.js 22/24 CI determinism.

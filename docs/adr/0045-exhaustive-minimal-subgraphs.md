@@ -1,7 +1,7 @@
 # ADR-0045: Exhaustive policy-bound minimal subgraphs
 
 Status: proposed implementation baseline; local conformance passed,
-independent and cross-platform review pending
+cross-platform CI passed; independent review pending
 
 ## Context
 
@@ -95,4 +95,4 @@ minimality, explicit policy-reference match and mismatch, empty/disconnected
 filtering, relabelling invariance, preflight exhaustion above 10,000
 substructures, package-bound evaluation, published JSON Schema acceptance, and
 rejection of incomplete or mislabeled minimal witnesses. The full workspace is
-validated on the supported local Node.js 20 and 22 runtimes.
+validated on the supported Node.js 22/24 CI matrix.

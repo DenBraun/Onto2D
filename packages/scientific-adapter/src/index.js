@@ -1,4 +1,4 @@
-export const SCIENTIFIC_ADAPTER_STATUS = "interface-defined/implementations-pending";
+export const SCIENTIFIC_ADAPTER_STATUS = "interface-defined/case-reference-available";
 
 export class InvalidScientificAdapterError extends TypeError {
   constructor(message) {

@@ -75,9 +75,7 @@ decision.
 - recursive edge and node subtree optimization does not inherit this narrower
   proof; its later authority is independently frozen by ADR-0084;
 - ordinary closure APIs keep their exhaustive generator until an integration
-  policy explicitly selects the optimized path;
-- `POST-CLOSURE-VIS-01` remains scheduled after the complete kernel closure
-  gate.
+  policy explicitly selects the optimized path.
 
 ## Verification
 
@@ -85,5 +83,5 @@ Conformance covers gate-before-pruner ordering, compatible and incompatible
 profile candidates, typed partner guards, exact composition-transcript replay,
 real predicate pruning, pruning-disabled eligible/indeterminate equality,
 depth-one and generalized-depth reproduction, schema validation, TypeScript
-declarations, and Node.js 20/22 execution. ADR-0084 separately verifies the
+declarations, and Node.js 22/24 CI execution. ADR-0084 separately verifies the
 raw-frontier composition boundary.

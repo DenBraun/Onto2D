@@ -1,7 +1,7 @@
 # ADR-0042: Bounded profile collapse and level-boundary diagnostics
 
 Status: proposed implementation baseline; local conformance passed,
-independent and cross-platform review pending
+cross-platform CI passed; independent review pending
 
 ## Context
 
@@ -79,5 +79,5 @@ counterexample, grouped observable inconsistency, domain hashes, exact replay,
 tamper rejection, interval minima, declared/detected matching, no-interval
 candidate-only behavior, strict JSON Schema validation, public JavaScript and
 TypeScript exposure, and configured-kernel adapters. The complete repository
-suite passes locally on Node.js 20 and 22. Independent implementation
-comparison and additional-platform evidence remain acceptance requirements.
+suite passes in the supported Node.js 22 and 24 CI matrix. Independent
+implementation comparison remains an acceptance requirement.

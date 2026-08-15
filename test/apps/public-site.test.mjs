@@ -11,12 +11,16 @@ const motifApp = read("apps/three-node-motif-explorer/app.js");
 const motifStyles = read("assets/css/three-node-motif-explorer.css");
 const identityMarkup = read("apps/canonical-identity-lab/index.html");
 const identityApp = read("apps/canonical-identity-lab/app.js");
+const levelZeroMarkup = read("apps/level-zero-validation/index.html");
+const levelZeroApp = read("apps/level-zero-validation/app.js");
+const levelZeroStyles = read("assets/css/level-zero-validation.css");
 const siteServer = read("apps/historical-load-explorer/serve.mjs");
 const iconSprite = read("assets/icons/icons.svg");
 const publicDirectories = [
   "apps/historical-load-explorer",
   "apps/three-node-motif-explorer",
-  "apps/canonical-identity-lab"
+  "apps/canonical-identity-lab",
+  "apps/level-zero-validation"
 ];
 const publicFiles = [
   "index.html",
@@ -25,6 +29,7 @@ const publicFiles = [
   "assets/css/historical-load-explorer.css",
   "assets/css/three-node-motif-explorer.css",
   "assets/css/canonical-identity-lab.css",
+  "assets/css/level-zero-validation.css",
   "assets/icons/icons.svg",
   ...publicDirectories.flatMap((directory) => readdirSync(
     new URL(`../../${directory}/`, import.meta.url)
@@ -47,7 +52,24 @@ test("the root is a no-scroll project landing page with exactly three study entr
     "./apps/three-node-motif-explorer/",
     "./apps/canonical-identity-lab/"
   ]);
+  assert.match(landing, /href="\.\/apps\/level-zero-validation\/"/);
   assert.match(landing, /Make complex-system claims/);
+});
+
+test("the Level-0 view projects frozen evidence into interactive branches", () => {
+  assert.match(levelZeroMarkup, /id="branches"/);
+  assert.match(levelZeroMarkup, /data-branch="localized-pulse"/);
+  assert.match(levelZeroMarkup, /data-branch="stable-plateau"/);
+  assert.match(levelZeroMarkup, /data-branch="uncoupled-vacuum"/);
+  assert.match(levelZeroMarkup, /id="base-profile"/);
+  assert.match(levelZeroMarkup, /id="extended-profile"/);
+  assert.match(levelZeroMarkup, /A visual explanation, not a new calculation/i);
+  assert.match(levelZeroApp, /artifacts\/level-zero-validation-v1\.json/);
+  assert.match(levelZeroApp, /artifacts\/phase-c-objecthood-v1\.json/);
+  assertScriptIdsExist(levelZeroApp, levelZeroMarkup);
+  const appRevision = levelZeroMarkup.match(/app\.js\?v=([^"']+)/)?.[1];
+  const modelRevision = levelZeroApp.match(/model\.js\?v=([^"']+)/)?.[1];
+  assert.equal(modelRevision, appRevision);
 });
 
 test("the dedicated motif Explorer has complete interactive hooks", () => {
@@ -115,4 +137,8 @@ test("shared interface icons use a bounded pixel scale", () => {
 
 test("motif Explorer text never drops below the readable interface minimum", () => {
   assert.doesNotMatch(motifStyles, /font-size:\s*(?:[1-9]|1[01])px/);
+});
+
+test("the Level-0 view text never drops below the readable interface minimum", () => {
+  assert.doesNotMatch(levelZeroStyles, /font-size:\s*(?:[1-9]|1[01])px/);
 });

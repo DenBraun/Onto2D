@@ -57,5 +57,4 @@ decisions for any changed SCC identities or destinations.
 - Applying non-empty changes to projection, resolution, and condensation is
   executable under ADR-0065; integration into a reviewed migration package,
   depth basis, and run identity remains a fail-closed migration step.
-- This does not author or apply changes to the current catalogue and does not
-  activate `POST-CLOSURE-VIS-01`.
+- This does not author or apply changes to the current catalogue.

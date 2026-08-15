@@ -72,9 +72,7 @@ edge frontiers retain the existing monotone connectivity rule.
 - the default `post-admission-v1` policy emits the same explicit census shape
   with all raw extensions classified as compatible;
 - ordinary closure APIs remain exhaustive until an explicit integration policy
-  selects an optimized path;
-- `POST-CLOSURE-VIS-01` remains scheduled after the complete kernel closure
-  gate.
+  selects an optimized path.
 
 ## Verification
 

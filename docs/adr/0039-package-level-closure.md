@@ -1,7 +1,7 @@
 # ADR-0039: Deterministic package-level closure
 
 Status: proposed implementation baseline; local conformance passed,
-independent and cross-platform review pending
+cross-platform CI passed; independent review pending
 
 ## Context
 
@@ -68,10 +68,7 @@ supported `primitive-to-derived-depth-1-v1` scope.
   ADR-0057; round-local fixpoint null execution follows in ADR-0080. Carrier promotion was implemented in
   [ADR-0043](0043-explicit-carrier-promotion.md);
   generalized explicit closure and ladder termination are specified by
-  ADR-0041 and boundary diagnostics by ADR-0042;
-- `POST-CLOSURE-VIS-01` remains deferred until those closure requirements are
-  complete, after which a verified case artifact will drive the GitHub Pages
-  visualization.
+  ADR-0041 and boundary diagnostics by ADR-0042.
 
 ## Verification
 
@@ -79,6 +76,5 @@ Local conformance covers complete, empty, and indeterminate terminals; run and
 level domain hashes; exact replay; tamper rejection; public kernel methods;
 unavailable-null-model rejection; aggregated ranking, perturbation, and
 sensitivity ceilings; strict JSON Schema validation and contradictory-status
-rejection; TypeScript declarations; and Node.js 20/22 repository validation.
-Independent implementation comparison and additional-platform evidence remain
-acceptance requirements.
+rejection; TypeScript declarations; and Node.js 22/24 CI validation.
+Independent implementation comparison remains an acceptance requirement.

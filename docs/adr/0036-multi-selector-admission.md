@@ -1,7 +1,7 @@
 # ADR-0036: Deterministic multi-selector admission
 
 Status: proposed implementation baseline; local conformance passed,
-independent and cross-platform review pending
+cross-platform CI passed; independent review pending
 
 ## Context
 

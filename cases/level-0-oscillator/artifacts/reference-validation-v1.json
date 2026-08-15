@@ -1,0 +1,3235 @@
+{
+  "schemaVersion": "1",
+  "caseId": "level-0-oscillator",
+  "modelId": "level-0-phase-b-reference",
+  "modelVersion": "1.0.0",
+  "modelHash": "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f",
+  "sourceHash": "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+  "source": {
+    "name": "topology-of-arising.pdf",
+    "repositoryPath": "scr/topology-of-arising.pdf",
+    "bytes": 340428,
+    "pages": 36,
+    "doi": "10.5281/zenodo.19397414",
+    "conceptDoi": "10.5281/zenodo.15862613",
+    "version": "v1.2",
+    "publicationDate": "2026-04-03",
+    "license": "CC-BY-4.0",
+    "sourceUrl": "https://zenodo.org/records/19397414",
+    "sha256": "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+    "reviewStatus": "reviewed",
+    "modelPageRange": {
+      "start": 5,
+      "end": 24
+    }
+  },
+  "status": "computational-conformance-only",
+  "scope": {
+    "included": [
+      "normalized Klein-Gordon dispersion",
+      "finite-difference stationarity convergence",
+      "wave-number and signed-frequency balance",
+      "three-node simple-cycle closure",
+      "node-removal destruction of the cycle"
+    ],
+    "excluded": [
+      "uniqueness of the metric or operator",
+      "localized CRT objecthood",
+      "nonlinear self-binding",
+      "collective Level-0 completion",
+      "Level-1 promotion",
+      "empirical physical validation"
+    ]
+  },
+  "solver": {
+    "id": "onto2d-level-0-reference-solver",
+    "version": "1.0.0",
+    "method": "periodic-second-order-central-difference-v1"
+  },
+  "scenarios": [
+    {
+      "id": "resonant-triad",
+      "control": "positive",
+      "description": "On-shell balanced modes carried by a three-node support cycle.",
+      "candidateId": "sha256:0e7d9ec6aa644bf6db643352349661cc351264a64759d79002497ec520dd09f3",
+      "skeletonId": "sha256:9be4ec8a7a5f4bca5008180fc8a6dff4b90b7f7a7f5939b3a45745e45675e517",
+      "requestBinding": {
+        "schemaVersion": "1",
+        "protocol": "oracle-protocol-v1",
+        "request": {
+          "candidate": {
+            "schemaVersion": "1",
+            "bytesBase64": "eyJkb21haW4iOiJzaW5nbGUtY2FuZGlkYXRlIiwiZWRnZXMiOlt7ImZyb20iOjAsInJvbGUiOiJyZXNvbmFudC1zdXBwb3J0IiwidG8iOjJ9LHsiZnJvbSI6MSwicm9sZSI6InJlc29uYW50LXN1cHBvcnQiLCJ0byI6MH0seyJmcm9tIjoyLCJyb2xlIjoicmVzb25hbnQtc3VwcG9ydCIsInRvIjoxfV0sIm5vZGVzIjpbeyJyZWYiOiJzaGEyNTY6MWZhYTIyNDk1ZTMzODVjZThiODdmNDdiYmE0YWQ5NTQ0NzhmZjQwNmE0OTY3N2U2MTAxOWQ1NTAzNTZjM2I0MiJ9LHsicmVmIjoic2hhMjU2OjdmNmY1YjliZTRjMGEwZDhkOGJjM2E5MmNlYTM2ZmM1NGM1MTJlNjVmZThjYzUwZDdlZjNhZjQwODg4YzYwNjEifSx7InJlZiI6InNoYTI1NjplOWY3Yzc3MTBhZWI3ZGU1ODJhZjEyNTljMDI4ZWI3MjBlYTQ1ZGJmMGIzZTMzYjc3ZGI3ZmViNzAwZWU0YzEwIn1dLCJza2VsZXRvbiI6InNoYTI1Njo5YmU0ZWM4YTdhNWY0YmNhNTAwODE4MGZjOGE2ZGZmNGI5MGI3ZjdhN2Y1OTM5YjNhNDU3NDVlNDU2NzVlNTE3In0=",
+            "hash": "sha256:0e7d9ec6aa644bf6db643352349661cc351264a64759d79002497ec520dd09f3"
+          },
+          "quantities": [
+            {
+              "id": "dispersion_max_abs_residual",
+              "unit": "1",
+              "semantic": "normalized-klein-gordon-dispersion-max-abs-residual-v1",
+              "toleranceTarget": {
+                "absolute": 1e-9
+              }
+            },
+            {
+              "id": "frequency_balance_abs_residual",
+              "unit": "1",
+              "semantic": "signed-angular-frequency-balance-abs-residual-v1",
+              "toleranceTarget": {
+                "absolute": 1e-9
+              }
+            },
+            {
+              "id": "periodic_norm_mean",
+              "unit": "1",
+              "semantic": "diagnostic-periodic-domain-l2-norm-mean-v1",
+              "toleranceTarget": {
+                "absolute": 1e-9
+              }
+            },
+            {
+              "id": "periodic_norm_relative_drift",
+              "unit": "1",
+              "semantic": "diagnostic-periodic-domain-l2-norm-relative-drift-v1",
+              "toleranceTarget": {
+                "absolute": 1e-9
+              }
+            },
+            {
+              "id": "stationarity_l2_residual_coarse",
+              "unit": "1",
+              "semantic": "normalized-klein-gordon-stationarity-l2-residual-coarse-v1",
+              "toleranceTarget": {
+                "absolute": 1e-9
+              }
+            },
+            {
+              "id": "stationarity_l2_residual_fine",
+              "unit": "1",
+              "semantic": "normalized-klein-gordon-stationarity-l2-residual-fine-v1",
+              "toleranceTarget": {
+                "absolute": 1e-9
+              }
+            },
+            {
+              "id": "stationarity_observed_order",
+              "unit": "1",
+              "semantic": "normalized-klein-gordon-stationarity-observed-grid-order-v1",
+              "toleranceTarget": {
+                "absolute": 1e-9
+              }
+            },
+            {
+              "id": "wave_number_balance_abs_residual",
+              "unit": "1",
+              "semantic": "wave-number-balance-abs-residual-v1",
+              "toleranceTarget": {
+                "absolute": 1e-9
+              }
+            }
+          ],
+          "parameters": {
+            "coarseGrid": 256,
+            "evidenceIds": [
+              "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+              "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+            ],
+            "fineGrid": 512,
+            "modelHash": "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f",
+            "modelId": "level-0-phase-b-reference",
+            "modelVersion": "1.0.0",
+            "modes": [
+              {
+                "A": 1,
+                "id": "r1",
+                "k": -2,
+                "m2": 5,
+                "omega": -3,
+                "phase": 0
+              },
+              {
+                "A": 0.75,
+                "id": "r2",
+                "k": -1,
+                "m2": 3,
+                "omega": -2,
+                "phase": 0.25
+              },
+              {
+                "A": 0.5,
+                "id": "r3",
+                "k": 3,
+                "m2": 16,
+                "omega": 5,
+                "phase": -0.4
+              }
+            ],
+            "reportedAbsoluteTolerance": 1e-10,
+            "roundingSignificantDigits": 12,
+            "scenarioId": "resonant-triad",
+            "spacePeriod": 6.283185307179586,
+            "timePeriod": 6.283185307179586
+          },
+          "toleranceTarget": {
+            "absolute": 1e-9
+          },
+          "solver": {
+            "id": "onto2d-level-0-reference-solver",
+            "version": "1.0.0",
+            "method": "periodic-second-order-central-difference-v1"
+          }
+        },
+        "requestHash": "sha256:fc913a3595bce5eb4e09ff4ddb3016a8ac4dcd207d045ea680eaf7070bee31d3"
+      },
+      "oracleResponse": {
+        "requestHash": "sha256:fc913a3595bce5eb4e09ff4ddb3016a8ac4dcd207d045ea680eaf7070bee31d3",
+        "values": {
+          "dispersion_max_abs_residual": {
+            "value": 0,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "normalized-klein-gordon-dispersion-max-abs-residual-v1",
+            "provenance": {
+              "kind": "oracle",
+              "source": "sha256:fc913a3595bce5eb4e09ff4ddb3016a8ac4dcd207d045ea680eaf7070bee31d3",
+              "method": "periodic-second-order-central-difference-v1",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "frequency_balance_abs_residual": {
+            "value": 0,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "signed-angular-frequency-balance-abs-residual-v1",
+            "provenance": {
+              "kind": "oracle",
+              "source": "sha256:fc913a3595bce5eb4e09ff4ddb3016a8ac4dcd207d045ea680eaf7070bee31d3",
+              "method": "periodic-second-order-central-difference-v1",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "periodic_norm_mean": {
+            "value": 11.3882733693,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "diagnostic-periodic-domain-l2-norm-mean-v1",
+            "provenance": {
+              "kind": "oracle",
+              "source": "sha256:fc913a3595bce5eb4e09ff4ddb3016a8ac4dcd207d045ea680eaf7070bee31d3",
+              "method": "periodic-second-order-central-difference-v1",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "periodic_norm_relative_drift": {
+            "value": 4.36747432121e-15,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "diagnostic-periodic-domain-l2-norm-relative-drift-v1",
+            "provenance": {
+              "kind": "oracle",
+              "source": "sha256:fc913a3595bce5eb4e09ff4ddb3016a8ac4dcd207d045ea680eaf7070bee31d3",
+              "method": "periodic-second-order-central-difference-v1",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "stationarity_l2_residual_coarse": {
+            "value": 0.0140426040841,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "normalized-klein-gordon-stationarity-l2-residual-coarse-v1",
+            "provenance": {
+              "kind": "oracle",
+              "source": "sha256:fc913a3595bce5eb4e09ff4ddb3016a8ac4dcd207d045ea680eaf7070bee31d3",
+              "method": "periodic-second-order-central-difference-v1",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "stationarity_l2_residual_fine": {
+            "value": 0.00351204808432,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "normalized-klein-gordon-stationarity-l2-residual-fine-v1",
+            "provenance": {
+              "kind": "oracle",
+              "source": "sha256:fc913a3595bce5eb4e09ff4ddb3016a8ac4dcd207d045ea680eaf7070bee31d3",
+              "method": "periodic-second-order-central-difference-v1",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "stationarity_observed_order": {
+            "value": 1.99942599382,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "normalized-klein-gordon-stationarity-observed-grid-order-v1",
+            "provenance": {
+              "kind": "oracle",
+              "source": "sha256:fc913a3595bce5eb4e09ff4ddb3016a8ac4dcd207d045ea680eaf7070bee31d3",
+              "method": "periodic-second-order-central-difference-v1",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "wave_number_balance_abs_residual": {
+            "value": 0,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "wave-number-balance-abs-residual-v1",
+            "provenance": {
+              "kind": "oracle",
+              "source": "sha256:fc913a3595bce5eb4e09ff4ddb3016a8ac4dcd207d045ea680eaf7070bee31d3",
+              "method": "periodic-second-order-central-difference-v1",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          }
+        },
+        "convergence": "converged",
+        "solver": {
+          "id": "onto2d-level-0-reference-solver",
+          "version": "1.0.0",
+          "method": "periodic-second-order-central-difference-v1",
+          "parameters": {
+            "coarseGrid": 256,
+            "evidenceIds": [
+              "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+              "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+            ],
+            "fineGrid": 512,
+            "modelHash": "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f",
+            "modelId": "level-0-phase-b-reference",
+            "modelVersion": "1.0.0",
+            "modes": [
+              {
+                "A": 1,
+                "id": "r1",
+                "k": -2,
+                "m2": 5,
+                "omega": -3,
+                "phase": 0
+              },
+              {
+                "A": 0.75,
+                "id": "r2",
+                "k": -1,
+                "m2": 3,
+                "omega": -2,
+                "phase": 0.25
+              },
+              {
+                "A": 0.5,
+                "id": "r3",
+                "k": 3,
+                "m2": 16,
+                "omega": 5,
+                "phase": -0.4
+              }
+            ],
+            "reportedAbsoluteTolerance": 1e-10,
+            "roundingSignificantDigits": 12,
+            "scenarioId": "resonant-triad",
+            "spacePeriod": 6.283185307179586,
+            "timePeriod": 6.283185307179586
+          }
+        },
+        "wallTimeMs": 0
+      },
+      "oracleValidation": {
+        "schemaVersion": "1",
+        "validator": "oracle-response-validator-v1",
+        "requestHash": "sha256:fc913a3595bce5eb4e09ff4ddb3016a8ac4dcd207d045ea680eaf7070bee31d3",
+        "responseHash": "sha256:4ad9d7421020e3fb1fa41211d6847f8f06d5c1b6143dab9b1d4cf7bd3678c4e2",
+        "status": "accepted",
+        "convergence": "converged",
+        "acceptedValues": {
+          "dispersion_max_abs_residual": {
+            "value": 0,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "normalized-klein-gordon-dispersion-max-abs-residual-v1",
+            "provenance": {
+              "kind": "oracle",
+              "method": "periodic-second-order-central-difference-v1",
+              "source": "sha256:fc913a3595bce5eb4e09ff4ddb3016a8ac4dcd207d045ea680eaf7070bee31d3",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "frequency_balance_abs_residual": {
+            "value": 0,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "signed-angular-frequency-balance-abs-residual-v1",
+            "provenance": {
+              "kind": "oracle",
+              "method": "periodic-second-order-central-difference-v1",
+              "source": "sha256:fc913a3595bce5eb4e09ff4ddb3016a8ac4dcd207d045ea680eaf7070bee31d3",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "periodic_norm_mean": {
+            "value": 11.3882733693,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "diagnostic-periodic-domain-l2-norm-mean-v1",
+            "provenance": {
+              "kind": "oracle",
+              "method": "periodic-second-order-central-difference-v1",
+              "source": "sha256:fc913a3595bce5eb4e09ff4ddb3016a8ac4dcd207d045ea680eaf7070bee31d3",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "periodic_norm_relative_drift": {
+            "value": 4.36747432121e-15,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "diagnostic-periodic-domain-l2-norm-relative-drift-v1",
+            "provenance": {
+              "kind": "oracle",
+              "method": "periodic-second-order-central-difference-v1",
+              "source": "sha256:fc913a3595bce5eb4e09ff4ddb3016a8ac4dcd207d045ea680eaf7070bee31d3",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "stationarity_l2_residual_coarse": {
+            "value": 0.0140426040841,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "normalized-klein-gordon-stationarity-l2-residual-coarse-v1",
+            "provenance": {
+              "kind": "oracle",
+              "method": "periodic-second-order-central-difference-v1",
+              "source": "sha256:fc913a3595bce5eb4e09ff4ddb3016a8ac4dcd207d045ea680eaf7070bee31d3",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "stationarity_l2_residual_fine": {
+            "value": 0.00351204808432,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "normalized-klein-gordon-stationarity-l2-residual-fine-v1",
+            "provenance": {
+              "kind": "oracle",
+              "method": "periodic-second-order-central-difference-v1",
+              "source": "sha256:fc913a3595bce5eb4e09ff4ddb3016a8ac4dcd207d045ea680eaf7070bee31d3",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "stationarity_observed_order": {
+            "value": 1.99942599382,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "normalized-klein-gordon-stationarity-observed-grid-order-v1",
+            "provenance": {
+              "kind": "oracle",
+              "method": "periodic-second-order-central-difference-v1",
+              "source": "sha256:fc913a3595bce5eb4e09ff4ddb3016a8ac4dcd207d045ea680eaf7070bee31d3",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "wave_number_balance_abs_residual": {
+            "value": 0,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "wave-number-balance-abs-residual-v1",
+            "provenance": {
+              "kind": "oracle",
+              "method": "periodic-second-order-central-difference-v1",
+              "source": "sha256:fc913a3595bce5eb4e09ff4ddb3016a8ac4dcd207d045ea680eaf7070bee31d3",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          }
+        },
+        "partialPolicy": {
+          "mode": "indeterminate"
+        },
+        "toleranceAdjustments": [],
+        "reasons": [],
+        "validationHash": "sha256:d99412d77df5b3736f70347b4964af6c3e4f5f5450d911ccc4beac34507d468d",
+        "returnedValues": {
+          "dispersion_max_abs_residual": {
+            "value": 0,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "normalized-klein-gordon-dispersion-max-abs-residual-v1",
+            "provenance": {
+              "kind": "oracle",
+              "method": "periodic-second-order-central-difference-v1",
+              "source": "sha256:fc913a3595bce5eb4e09ff4ddb3016a8ac4dcd207d045ea680eaf7070bee31d3",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "frequency_balance_abs_residual": {
+            "value": 0,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "signed-angular-frequency-balance-abs-residual-v1",
+            "provenance": {
+              "kind": "oracle",
+              "method": "periodic-second-order-central-difference-v1",
+              "source": "sha256:fc913a3595bce5eb4e09ff4ddb3016a8ac4dcd207d045ea680eaf7070bee31d3",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "periodic_norm_mean": {
+            "value": 11.3882733693,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "diagnostic-periodic-domain-l2-norm-mean-v1",
+            "provenance": {
+              "kind": "oracle",
+              "method": "periodic-second-order-central-difference-v1",
+              "source": "sha256:fc913a3595bce5eb4e09ff4ddb3016a8ac4dcd207d045ea680eaf7070bee31d3",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "periodic_norm_relative_drift": {
+            "value": 4.36747432121e-15,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "diagnostic-periodic-domain-l2-norm-relative-drift-v1",
+            "provenance": {
+              "kind": "oracle",
+              "method": "periodic-second-order-central-difference-v1",
+              "source": "sha256:fc913a3595bce5eb4e09ff4ddb3016a8ac4dcd207d045ea680eaf7070bee31d3",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "stationarity_l2_residual_coarse": {
+            "value": 0.0140426040841,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "normalized-klein-gordon-stationarity-l2-residual-coarse-v1",
+            "provenance": {
+              "kind": "oracle",
+              "method": "periodic-second-order-central-difference-v1",
+              "source": "sha256:fc913a3595bce5eb4e09ff4ddb3016a8ac4dcd207d045ea680eaf7070bee31d3",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "stationarity_l2_residual_fine": {
+            "value": 0.00351204808432,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "normalized-klein-gordon-stationarity-l2-residual-fine-v1",
+            "provenance": {
+              "kind": "oracle",
+              "method": "periodic-second-order-central-difference-v1",
+              "source": "sha256:fc913a3595bce5eb4e09ff4ddb3016a8ac4dcd207d045ea680eaf7070bee31d3",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "stationarity_observed_order": {
+            "value": 1.99942599382,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "normalized-klein-gordon-stationarity-observed-grid-order-v1",
+            "provenance": {
+              "kind": "oracle",
+              "method": "periodic-second-order-central-difference-v1",
+              "source": "sha256:fc913a3595bce5eb4e09ff4ddb3016a8ac4dcd207d045ea680eaf7070bee31d3",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "wave_number_balance_abs_residual": {
+            "value": 0,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "wave-number-balance-abs-residual-v1",
+            "provenance": {
+              "kind": "oracle",
+              "method": "periodic-second-order-central-difference-v1",
+              "source": "sha256:fc913a3595bce5eb4e09ff4ddb3016a8ac4dcd207d045ea680eaf7070bee31d3",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          }
+        },
+        "solver": {
+          "id": "onto2d-level-0-reference-solver",
+          "version": "1.0.0",
+          "method": "periodic-second-order-central-difference-v1",
+          "parameters": {
+            "coarseGrid": 256,
+            "evidenceIds": [
+              "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+              "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+            ],
+            "fineGrid": 512,
+            "modelHash": "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f",
+            "modelId": "level-0-phase-b-reference",
+            "modelVersion": "1.0.0",
+            "modes": [
+              {
+                "A": 1,
+                "id": "r1",
+                "k": -2,
+                "m2": 5,
+                "omega": -3,
+                "phase": 0
+              },
+              {
+                "A": 0.75,
+                "id": "r2",
+                "k": -1,
+                "m2": 3,
+                "omega": -2,
+                "phase": 0.25
+              },
+              {
+                "A": 0.5,
+                "id": "r3",
+                "k": 3,
+                "m2": 16,
+                "omega": 5,
+                "phase": -0.4
+              }
+            ],
+            "reportedAbsoluteTolerance": 1e-10,
+            "roundingSignificantDigits": 12,
+            "scenarioId": "resonant-triad",
+            "spacePeriod": 6.283185307179586,
+            "timePeriod": 6.283185307179586
+          }
+        },
+        "wallTimeMs": 0
+      },
+      "numerical": {
+        "values": {
+          "dispersion_max_abs_residual": 0,
+          "frequency_balance_abs_residual": 0,
+          "periodic_norm_mean": 11.3882733693,
+          "periodic_norm_relative_drift": 4.36747432121e-15,
+          "stationarity_l2_residual_coarse": 0.0140426040841,
+          "stationarity_l2_residual_fine": 0.00351204808432,
+          "stationarity_observed_order": 1.99942599382,
+          "wave_number_balance_abs_residual": 0
+        },
+        "dispersionPassed": true,
+        "stationarityPassed": true,
+        "balancePassed": true,
+        "periodicNormDiagnosticPassed": true,
+        "passed": true
+      },
+      "structural": {
+        "triadEvaluation": {
+          "schemaVersion": "1",
+          "evaluator": "graph-predicate-evaluator-v1",
+          "predicatePlanHash": "sha256:6408a5f6609265403564d3362d82c13765af7802b458bc44712c0f4b82f3f010",
+          "candidateId": "sha256:0e7d9ec6aa644bf6db643352349661cc351264a64759d79002497ec520dd09f3",
+          "graphPolicy": {
+            "connected": true,
+            "allowParallelEdges": true,
+            "allowSelfLoops": false,
+            "connectivityProjection": "undirected",
+            "structuralNodeAttributes": [],
+            "structuralEdgeAttributes": []
+          },
+          "outcome": "pass",
+          "witnesses": [
+            {
+              "expressionPath": "$.args[0]",
+              "operator": "degree",
+              "outcome": "pass",
+              "nodeIndexes": [
+                0
+              ],
+              "edgeIndexes": [
+                0,
+                1
+              ],
+              "count": 2,
+              "role": "resonant-support",
+              "min": 2,
+              "max": 2
+            },
+            {
+              "expressionPath": "$.args[0]",
+              "operator": "degree",
+              "outcome": "pass",
+              "nodeIndexes": [
+                1
+              ],
+              "edgeIndexes": [
+                1,
+                2
+              ],
+              "count": 2,
+              "role": "resonant-support",
+              "min": 2,
+              "max": 2
+            },
+            {
+              "expressionPath": "$.args[0]",
+              "operator": "degree",
+              "outcome": "pass",
+              "nodeIndexes": [
+                2
+              ],
+              "edgeIndexes": [
+                0,
+                2
+              ],
+              "count": 2,
+              "role": "resonant-support",
+              "min": 2,
+              "max": 2
+            },
+            {
+              "expressionPath": "$.args[1]",
+              "operator": "countRole",
+              "outcome": "pass",
+              "edgeIndexes": [
+                0,
+                1,
+                2
+              ],
+              "count": 3,
+              "role": "resonant-support",
+              "min": 3,
+              "max": 3
+            },
+            {
+              "expressionPath": "$.args[2]",
+              "operator": "cycleExists",
+              "outcome": "pass",
+              "projection": "undirected-simple",
+              "roles": [
+                "resonant-support"
+              ],
+              "nodeIndexes": [
+                0,
+                1,
+                2
+              ],
+              "edgeIndexes": [
+                1,
+                2,
+                0
+              ]
+            }
+          ],
+          "evaluationHash": "sha256:55df7ac161536f5d168b429806c65865105c5c41fb072fca55049ed7126f7328"
+        },
+        "simpleCycleRank": 1,
+        "requiredSimpleCycleRank": 1,
+        "rankPassed": true,
+        "removalIrreducible": true,
+        "removals": [
+          {
+            "removedInputIndex": 0,
+            "remainingCandidateId": "sha256:be68100ff2ab4f0dc38f2f61b67d6edc83d89d9c820b1a15a0c721c21e434080",
+            "cycleOutcome": "fail"
+          },
+          {
+            "removedInputIndex": 1,
+            "remainingCandidateId": "sha256:1a22bbf99876cde3693e7ee5d44dd38502b8915456375c5b592f38767c454ee1",
+            "cycleOutcome": "fail"
+          },
+          {
+            "removedInputIndex": 2,
+            "remainingCandidateId": "sha256:cb7562da8c196780ef090334f739f786bdff8a676645933bf708e686f6eebc7f",
+            "cycleOutcome": "fail"
+          }
+        ],
+        "passed": true
+      },
+      "admitted": true,
+      "expectedAdmitted": true,
+      "expectationMatched": true
+    },
+    {
+      "id": "balanced-dyad",
+      "control": "structural-negative",
+      "description": "On-shell balanced modes without a nontrivial simple loop.",
+      "candidateId": "sha256:50db2e062a958b376423cb7bfce019b0fcb57fa49ae24bc7f87e9037aeb8f449",
+      "skeletonId": "sha256:3694eb0b4b385d431fb31657c1f6e8972e9d4dda81bfa422c6094816fc5824cd",
+      "requestBinding": {
+        "schemaVersion": "1",
+        "protocol": "oracle-protocol-v1",
+        "request": {
+          "candidate": {
+            "schemaVersion": "1",
+            "bytesBase64": "eyJkb21haW4iOiJzaW5nbGUtY2FuZGlkYXRlIiwiZWRnZXMiOlt7ImZyb20iOjAsInJvbGUiOiJyZXNvbmFudC1zdXBwb3J0IiwidG8iOjF9LHsiZnJvbSI6MSwicm9sZSI6InJlc29uYW50LXN1cHBvcnQiLCJ0byI6MH1dLCJub2RlcyI6W3sicmVmIjoic2hhMjU2OjBhOGE0ODdhMjAxOTg3OGZkYzBlMzJmZDc5YzE1NDMzNjU4NDVjY2NmOTI0NzRkOTc1NGFkNzdhNzgwM2ZmNWUifSx7InJlZiI6InNoYTI1Njo2MDdjNzUwZTIxZmU4NmZlMDY5ZjMzZWFmOWI4YjI5ZjQ2NDkyNmNmNjRkNzk4MWU3ZjdhYWRhY2M4NDI3NDRmIn1dLCJza2VsZXRvbiI6InNoYTI1NjozNjk0ZWIwYjRiMzg1ZDQzMWZiMzE2NTdjMWY2ZTg5NzJlOWQ0ZGRhODFiZmE0MjJjNjA5NDgxNmZjNTgyNGNkIn0=",
+            "hash": "sha256:50db2e062a958b376423cb7bfce019b0fcb57fa49ae24bc7f87e9037aeb8f449"
+          },
+          "quantities": [
+            {
+              "id": "dispersion_max_abs_residual",
+              "unit": "1",
+              "semantic": "normalized-klein-gordon-dispersion-max-abs-residual-v1",
+              "toleranceTarget": {
+                "absolute": 1e-9
+              }
+            },
+            {
+              "id": "frequency_balance_abs_residual",
+              "unit": "1",
+              "semantic": "signed-angular-frequency-balance-abs-residual-v1",
+              "toleranceTarget": {
+                "absolute": 1e-9
+              }
+            },
+            {
+              "id": "periodic_norm_mean",
+              "unit": "1",
+              "semantic": "diagnostic-periodic-domain-l2-norm-mean-v1",
+              "toleranceTarget": {
+                "absolute": 1e-9
+              }
+            },
+            {
+              "id": "periodic_norm_relative_drift",
+              "unit": "1",
+              "semantic": "diagnostic-periodic-domain-l2-norm-relative-drift-v1",
+              "toleranceTarget": {
+                "absolute": 1e-9
+              }
+            },
+            {
+              "id": "stationarity_l2_residual_coarse",
+              "unit": "1",
+              "semantic": "normalized-klein-gordon-stationarity-l2-residual-coarse-v1",
+              "toleranceTarget": {
+                "absolute": 1e-9
+              }
+            },
+            {
+              "id": "stationarity_l2_residual_fine",
+              "unit": "1",
+              "semantic": "normalized-klein-gordon-stationarity-l2-residual-fine-v1",
+              "toleranceTarget": {
+                "absolute": 1e-9
+              }
+            },
+            {
+              "id": "stationarity_observed_order",
+              "unit": "1",
+              "semantic": "normalized-klein-gordon-stationarity-observed-grid-order-v1",
+              "toleranceTarget": {
+                "absolute": 1e-9
+              }
+            },
+            {
+              "id": "wave_number_balance_abs_residual",
+              "unit": "1",
+              "semantic": "wave-number-balance-abs-residual-v1",
+              "toleranceTarget": {
+                "absolute": 1e-9
+              }
+            }
+          ],
+          "parameters": {
+            "coarseGrid": 256,
+            "evidenceIds": [
+              "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+              "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+            ],
+            "fineGrid": 512,
+            "modelHash": "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f",
+            "modelId": "level-0-phase-b-reference",
+            "modelVersion": "1.0.0",
+            "modes": [
+              {
+                "A": 1,
+                "id": "d1",
+                "k": -1,
+                "m2": 3,
+                "omega": -2,
+                "phase": 0
+              },
+              {
+                "A": 0.8,
+                "id": "d2",
+                "k": 1,
+                "m2": 3,
+                "omega": 2,
+                "phase": 0.3
+              }
+            ],
+            "reportedAbsoluteTolerance": 1e-10,
+            "roundingSignificantDigits": 12,
+            "scenarioId": "balanced-dyad",
+            "spacePeriod": 6.283185307179586,
+            "timePeriod": 6.283185307179586
+          },
+          "toleranceTarget": {
+            "absolute": 1e-9
+          },
+          "solver": {
+            "id": "onto2d-level-0-reference-solver",
+            "version": "1.0.0",
+            "method": "periodic-second-order-central-difference-v1"
+          }
+        },
+        "requestHash": "sha256:0b4bbe1132a86a295ff7d97b94708ac59e3c5b01e50b538768d48044a2fb3f61"
+      },
+      "oracleResponse": {
+        "requestHash": "sha256:0b4bbe1132a86a295ff7d97b94708ac59e3c5b01e50b538768d48044a2fb3f61",
+        "values": {
+          "dispersion_max_abs_residual": {
+            "value": 0,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "normalized-klein-gordon-dispersion-max-abs-residual-v1",
+            "provenance": {
+              "kind": "oracle",
+              "source": "sha256:0b4bbe1132a86a295ff7d97b94708ac59e3c5b01e50b538768d48044a2fb3f61",
+              "method": "periodic-second-order-central-difference-v1",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "frequency_balance_abs_residual": {
+            "value": 0,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "signed-angular-frequency-balance-abs-residual-v1",
+            "provenance": {
+              "kind": "oracle",
+              "source": "sha256:0b4bbe1132a86a295ff7d97b94708ac59e3c5b01e50b538768d48044a2fb3f61",
+              "method": "periodic-second-order-central-difference-v1",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "periodic_norm_mean": {
+            "value": 10.3044239038,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "diagnostic-periodic-domain-l2-norm-mean-v1",
+            "provenance": {
+              "kind": "oracle",
+              "source": "sha256:0b4bbe1132a86a295ff7d97b94708ac59e3c5b01e50b538768d48044a2fb3f61",
+              "method": "periodic-second-order-central-difference-v1",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "periodic_norm_relative_drift": {
+            "value": 2.5858168142e-15,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "diagnostic-periodic-domain-l2-norm-relative-drift-v1",
+            "provenance": {
+              "kind": "oracle",
+              "source": "sha256:0b4bbe1132a86a295ff7d97b94708ac59e3c5b01e50b538768d48044a2fb3f61",
+              "method": "periodic-second-order-central-difference-v1",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "stationarity_l2_residual_coarse": {
+            "value": 0.000964217738772,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "normalized-klein-gordon-stationarity-l2-residual-coarse-v1",
+            "provenance": {
+              "kind": "oracle",
+              "source": "sha256:0b4bbe1132a86a295ff7d97b94708ac59e3c5b01e50b538768d48044a2fb3f61",
+              "method": "periodic-second-order-central-difference-v1",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "stationarity_l2_residual_fine": {
+            "value": 0.000241069682058,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "normalized-klein-gordon-stationarity-l2-residual-fine-v1",
+            "provenance": {
+              "kind": "oracle",
+              "source": "sha256:0b4bbe1132a86a295ff7d97b94708ac59e3c5b01e50b538768d48044a2fb3f61",
+              "method": "periodic-second-order-central-difference-v1",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "stationarity_observed_order": {
+            "value": 1.9999087484,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "normalized-klein-gordon-stationarity-observed-grid-order-v1",
+            "provenance": {
+              "kind": "oracle",
+              "source": "sha256:0b4bbe1132a86a295ff7d97b94708ac59e3c5b01e50b538768d48044a2fb3f61",
+              "method": "periodic-second-order-central-difference-v1",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "wave_number_balance_abs_residual": {
+            "value": 0,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "wave-number-balance-abs-residual-v1",
+            "provenance": {
+              "kind": "oracle",
+              "source": "sha256:0b4bbe1132a86a295ff7d97b94708ac59e3c5b01e50b538768d48044a2fb3f61",
+              "method": "periodic-second-order-central-difference-v1",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          }
+        },
+        "convergence": "converged",
+        "solver": {
+          "id": "onto2d-level-0-reference-solver",
+          "version": "1.0.0",
+          "method": "periodic-second-order-central-difference-v1",
+          "parameters": {
+            "coarseGrid": 256,
+            "evidenceIds": [
+              "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+              "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+            ],
+            "fineGrid": 512,
+            "modelHash": "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f",
+            "modelId": "level-0-phase-b-reference",
+            "modelVersion": "1.0.0",
+            "modes": [
+              {
+                "A": 1,
+                "id": "d1",
+                "k": -1,
+                "m2": 3,
+                "omega": -2,
+                "phase": 0
+              },
+              {
+                "A": 0.8,
+                "id": "d2",
+                "k": 1,
+                "m2": 3,
+                "omega": 2,
+                "phase": 0.3
+              }
+            ],
+            "reportedAbsoluteTolerance": 1e-10,
+            "roundingSignificantDigits": 12,
+            "scenarioId": "balanced-dyad",
+            "spacePeriod": 6.283185307179586,
+            "timePeriod": 6.283185307179586
+          }
+        },
+        "wallTimeMs": 0
+      },
+      "oracleValidation": {
+        "schemaVersion": "1",
+        "validator": "oracle-response-validator-v1",
+        "requestHash": "sha256:0b4bbe1132a86a295ff7d97b94708ac59e3c5b01e50b538768d48044a2fb3f61",
+        "responseHash": "sha256:9120216bd247abf55759327e3e088e41bafaa2e2337b7c9ec1f45af111154988",
+        "status": "accepted",
+        "convergence": "converged",
+        "acceptedValues": {
+          "dispersion_max_abs_residual": {
+            "value": 0,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "normalized-klein-gordon-dispersion-max-abs-residual-v1",
+            "provenance": {
+              "kind": "oracle",
+              "method": "periodic-second-order-central-difference-v1",
+              "source": "sha256:0b4bbe1132a86a295ff7d97b94708ac59e3c5b01e50b538768d48044a2fb3f61",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "frequency_balance_abs_residual": {
+            "value": 0,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "signed-angular-frequency-balance-abs-residual-v1",
+            "provenance": {
+              "kind": "oracle",
+              "method": "periodic-second-order-central-difference-v1",
+              "source": "sha256:0b4bbe1132a86a295ff7d97b94708ac59e3c5b01e50b538768d48044a2fb3f61",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "periodic_norm_mean": {
+            "value": 10.3044239038,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "diagnostic-periodic-domain-l2-norm-mean-v1",
+            "provenance": {
+              "kind": "oracle",
+              "method": "periodic-second-order-central-difference-v1",
+              "source": "sha256:0b4bbe1132a86a295ff7d97b94708ac59e3c5b01e50b538768d48044a2fb3f61",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "periodic_norm_relative_drift": {
+            "value": 2.5858168142e-15,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "diagnostic-periodic-domain-l2-norm-relative-drift-v1",
+            "provenance": {
+              "kind": "oracle",
+              "method": "periodic-second-order-central-difference-v1",
+              "source": "sha256:0b4bbe1132a86a295ff7d97b94708ac59e3c5b01e50b538768d48044a2fb3f61",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "stationarity_l2_residual_coarse": {
+            "value": 0.000964217738772,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "normalized-klein-gordon-stationarity-l2-residual-coarse-v1",
+            "provenance": {
+              "kind": "oracle",
+              "method": "periodic-second-order-central-difference-v1",
+              "source": "sha256:0b4bbe1132a86a295ff7d97b94708ac59e3c5b01e50b538768d48044a2fb3f61",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "stationarity_l2_residual_fine": {
+            "value": 0.000241069682058,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "normalized-klein-gordon-stationarity-l2-residual-fine-v1",
+            "provenance": {
+              "kind": "oracle",
+              "method": "periodic-second-order-central-difference-v1",
+              "source": "sha256:0b4bbe1132a86a295ff7d97b94708ac59e3c5b01e50b538768d48044a2fb3f61",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "stationarity_observed_order": {
+            "value": 1.9999087484,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "normalized-klein-gordon-stationarity-observed-grid-order-v1",
+            "provenance": {
+              "kind": "oracle",
+              "method": "periodic-second-order-central-difference-v1",
+              "source": "sha256:0b4bbe1132a86a295ff7d97b94708ac59e3c5b01e50b538768d48044a2fb3f61",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "wave_number_balance_abs_residual": {
+            "value": 0,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "wave-number-balance-abs-residual-v1",
+            "provenance": {
+              "kind": "oracle",
+              "method": "periodic-second-order-central-difference-v1",
+              "source": "sha256:0b4bbe1132a86a295ff7d97b94708ac59e3c5b01e50b538768d48044a2fb3f61",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          }
+        },
+        "partialPolicy": {
+          "mode": "indeterminate"
+        },
+        "toleranceAdjustments": [],
+        "reasons": [],
+        "validationHash": "sha256:6817522328b130adb402f5e72de6d271b44d7e482a58eb601f49ee5a149a07eb",
+        "returnedValues": {
+          "dispersion_max_abs_residual": {
+            "value": 0,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "normalized-klein-gordon-dispersion-max-abs-residual-v1",
+            "provenance": {
+              "kind": "oracle",
+              "method": "periodic-second-order-central-difference-v1",
+              "source": "sha256:0b4bbe1132a86a295ff7d97b94708ac59e3c5b01e50b538768d48044a2fb3f61",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "frequency_balance_abs_residual": {
+            "value": 0,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "signed-angular-frequency-balance-abs-residual-v1",
+            "provenance": {
+              "kind": "oracle",
+              "method": "periodic-second-order-central-difference-v1",
+              "source": "sha256:0b4bbe1132a86a295ff7d97b94708ac59e3c5b01e50b538768d48044a2fb3f61",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "periodic_norm_mean": {
+            "value": 10.3044239038,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "diagnostic-periodic-domain-l2-norm-mean-v1",
+            "provenance": {
+              "kind": "oracle",
+              "method": "periodic-second-order-central-difference-v1",
+              "source": "sha256:0b4bbe1132a86a295ff7d97b94708ac59e3c5b01e50b538768d48044a2fb3f61",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "periodic_norm_relative_drift": {
+            "value": 2.5858168142e-15,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "diagnostic-periodic-domain-l2-norm-relative-drift-v1",
+            "provenance": {
+              "kind": "oracle",
+              "method": "periodic-second-order-central-difference-v1",
+              "source": "sha256:0b4bbe1132a86a295ff7d97b94708ac59e3c5b01e50b538768d48044a2fb3f61",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "stationarity_l2_residual_coarse": {
+            "value": 0.000964217738772,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "normalized-klein-gordon-stationarity-l2-residual-coarse-v1",
+            "provenance": {
+              "kind": "oracle",
+              "method": "periodic-second-order-central-difference-v1",
+              "source": "sha256:0b4bbe1132a86a295ff7d97b94708ac59e3c5b01e50b538768d48044a2fb3f61",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "stationarity_l2_residual_fine": {
+            "value": 0.000241069682058,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "normalized-klein-gordon-stationarity-l2-residual-fine-v1",
+            "provenance": {
+              "kind": "oracle",
+              "method": "periodic-second-order-central-difference-v1",
+              "source": "sha256:0b4bbe1132a86a295ff7d97b94708ac59e3c5b01e50b538768d48044a2fb3f61",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "stationarity_observed_order": {
+            "value": 1.9999087484,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "normalized-klein-gordon-stationarity-observed-grid-order-v1",
+            "provenance": {
+              "kind": "oracle",
+              "method": "periodic-second-order-central-difference-v1",
+              "source": "sha256:0b4bbe1132a86a295ff7d97b94708ac59e3c5b01e50b538768d48044a2fb3f61",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "wave_number_balance_abs_residual": {
+            "value": 0,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "wave-number-balance-abs-residual-v1",
+            "provenance": {
+              "kind": "oracle",
+              "method": "periodic-second-order-central-difference-v1",
+              "source": "sha256:0b4bbe1132a86a295ff7d97b94708ac59e3c5b01e50b538768d48044a2fb3f61",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          }
+        },
+        "solver": {
+          "id": "onto2d-level-0-reference-solver",
+          "version": "1.0.0",
+          "method": "periodic-second-order-central-difference-v1",
+          "parameters": {
+            "coarseGrid": 256,
+            "evidenceIds": [
+              "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+              "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+            ],
+            "fineGrid": 512,
+            "modelHash": "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f",
+            "modelId": "level-0-phase-b-reference",
+            "modelVersion": "1.0.0",
+            "modes": [
+              {
+                "A": 1,
+                "id": "d1",
+                "k": -1,
+                "m2": 3,
+                "omega": -2,
+                "phase": 0
+              },
+              {
+                "A": 0.8,
+                "id": "d2",
+                "k": 1,
+                "m2": 3,
+                "omega": 2,
+                "phase": 0.3
+              }
+            ],
+            "reportedAbsoluteTolerance": 1e-10,
+            "roundingSignificantDigits": 12,
+            "scenarioId": "balanced-dyad",
+            "spacePeriod": 6.283185307179586,
+            "timePeriod": 6.283185307179586
+          }
+        },
+        "wallTimeMs": 0
+      },
+      "numerical": {
+        "values": {
+          "dispersion_max_abs_residual": 0,
+          "frequency_balance_abs_residual": 0,
+          "periodic_norm_mean": 10.3044239038,
+          "periodic_norm_relative_drift": 2.5858168142e-15,
+          "stationarity_l2_residual_coarse": 0.000964217738772,
+          "stationarity_l2_residual_fine": 0.000241069682058,
+          "stationarity_observed_order": 1.9999087484,
+          "wave_number_balance_abs_residual": 0
+        },
+        "dispersionPassed": true,
+        "stationarityPassed": true,
+        "balancePassed": true,
+        "periodicNormDiagnosticPassed": true,
+        "passed": true
+      },
+      "structural": {
+        "triadEvaluation": {
+          "schemaVersion": "1",
+          "evaluator": "graph-predicate-evaluator-v1",
+          "predicatePlanHash": "sha256:6408a5f6609265403564d3362d82c13765af7802b458bc44712c0f4b82f3f010",
+          "candidateId": "sha256:50db2e062a958b376423cb7bfce019b0fcb57fa49ae24bc7f87e9037aeb8f449",
+          "graphPolicy": {
+            "connected": true,
+            "allowParallelEdges": true,
+            "allowSelfLoops": false,
+            "connectivityProjection": "undirected",
+            "structuralNodeAttributes": [],
+            "structuralEdgeAttributes": []
+          },
+          "outcome": "fail",
+          "witnesses": [
+            {
+              "expressionPath": "$.args[0]",
+              "operator": "degree",
+              "outcome": "pass",
+              "nodeIndexes": [
+                0
+              ],
+              "edgeIndexes": [
+                0,
+                1
+              ],
+              "count": 2,
+              "role": "resonant-support",
+              "min": 2,
+              "max": 2
+            },
+            {
+              "expressionPath": "$.args[0]",
+              "operator": "degree",
+              "outcome": "pass",
+              "nodeIndexes": [
+                1
+              ],
+              "edgeIndexes": [
+                0,
+                1
+              ],
+              "count": 2,
+              "role": "resonant-support",
+              "min": 2,
+              "max": 2
+            },
+            {
+              "expressionPath": "$.args[1]",
+              "operator": "countRole",
+              "outcome": "fail",
+              "edgeIndexes": [
+                0,
+                1
+              ],
+              "count": 2,
+              "role": "resonant-support",
+              "min": 3,
+              "max": 3
+            },
+            {
+              "expressionPath": "$.args[2]",
+              "operator": "cycleExists",
+              "outcome": "fail",
+              "projection": "undirected-simple",
+              "roles": [
+                "resonant-support"
+              ],
+              "reason": "no-matching-cycle"
+            }
+          ],
+          "evaluationHash": "sha256:e1b8db8079cbe03c879cc894b029b1c130ea5c4a5b6be8cb9056b5dc5e5382ef"
+        },
+        "simpleCycleRank": 0,
+        "requiredSimpleCycleRank": 1,
+        "rankPassed": false,
+        "removalIrreducible": true,
+        "removals": [
+          {
+            "removedInputIndex": 0,
+            "remainingCandidateId": "sha256:e4a429a70ff46e01a11edf00e86a89732dda1ab9892d370d9608a62542c36b77",
+            "cycleOutcome": "fail"
+          },
+          {
+            "removedInputIndex": 1,
+            "remainingCandidateId": "sha256:387c343e6d3908a0314d20bc1c5c37913bb10f5283e8d36e2956fa7f7f3ec700",
+            "cycleOutcome": "fail"
+          }
+        ],
+        "passed": false
+      },
+      "admitted": false,
+      "expectedAdmitted": false,
+      "expectationMatched": true
+    },
+    {
+      "id": "detuned-triad",
+      "control": "resonance-negative",
+      "description": "On-shell modes and a support cycle with failed signed-frequency balance.",
+      "candidateId": "sha256:703f8ae3f24e387102177abb27e8f19087a06bb95cd297b9c70f6731d0a949fa",
+      "skeletonId": "sha256:9be4ec8a7a5f4bca5008180fc8a6dff4b90b7f7a7f5939b3a45745e45675e517",
+      "requestBinding": {
+        "schemaVersion": "1",
+        "protocol": "oracle-protocol-v1",
+        "request": {
+          "candidate": {
+            "schemaVersion": "1",
+            "bytesBase64": "eyJkb21haW4iOiJzaW5nbGUtY2FuZGlkYXRlIiwiZWRnZXMiOlt7ImZyb20iOjAsInJvbGUiOiJyZXNvbmFudC1zdXBwb3J0IiwidG8iOjJ9LHsiZnJvbSI6MSwicm9sZSI6InJlc29uYW50LXN1cHBvcnQiLCJ0byI6MH0seyJmcm9tIjoyLCJyb2xlIjoicmVzb25hbnQtc3VwcG9ydCIsInRvIjoxfV0sIm5vZGVzIjpbeyJyZWYiOiJzaGEyNTY6NjA3NWFhZTc5OTM0YjYxYTIwNzQ1ZWNhOWRmZmFkMjdhMDZmYzVhYzFmOTlhNWQ0NTFlMmRjNjUyNTU2MGJjMSJ9LHsicmVmIjoic2hhMjU2OjZhZDFhMjQzOTQ1OGNiZDAwYzE5MDI0MDc0MWM0NDVlNDkxOTRkZjdhYzU5ZjVmMmQ2NDE4NTI1NjIxMGUxYTEifSx7InJlZiI6InNoYTI1NjplZTYzNTc1YTRhZDFlMmM3ZmRjNTYwNmJjOTE0MmJhZWJkY2U2ODNkYmJhNWVmMTY4Y2UyZjk0MDg3NDk5Zjc4In1dLCJza2VsZXRvbiI6InNoYTI1Njo5YmU0ZWM4YTdhNWY0YmNhNTAwODE4MGZjOGE2ZGZmNGI5MGI3ZjdhN2Y1OTM5YjNhNDU3NDVlNDU2NzVlNTE3In0=",
+            "hash": "sha256:703f8ae3f24e387102177abb27e8f19087a06bb95cd297b9c70f6731d0a949fa"
+          },
+          "quantities": [
+            {
+              "id": "dispersion_max_abs_residual",
+              "unit": "1",
+              "semantic": "normalized-klein-gordon-dispersion-max-abs-residual-v1",
+              "toleranceTarget": {
+                "absolute": 1e-9
+              }
+            },
+            {
+              "id": "frequency_balance_abs_residual",
+              "unit": "1",
+              "semantic": "signed-angular-frequency-balance-abs-residual-v1",
+              "toleranceTarget": {
+                "absolute": 1e-9
+              }
+            },
+            {
+              "id": "periodic_norm_mean",
+              "unit": "1",
+              "semantic": "diagnostic-periodic-domain-l2-norm-mean-v1",
+              "toleranceTarget": {
+                "absolute": 1e-9
+              }
+            },
+            {
+              "id": "periodic_norm_relative_drift",
+              "unit": "1",
+              "semantic": "diagnostic-periodic-domain-l2-norm-relative-drift-v1",
+              "toleranceTarget": {
+                "absolute": 1e-9
+              }
+            },
+            {
+              "id": "stationarity_l2_residual_coarse",
+              "unit": "1",
+              "semantic": "normalized-klein-gordon-stationarity-l2-residual-coarse-v1",
+              "toleranceTarget": {
+                "absolute": 1e-9
+              }
+            },
+            {
+              "id": "stationarity_l2_residual_fine",
+              "unit": "1",
+              "semantic": "normalized-klein-gordon-stationarity-l2-residual-fine-v1",
+              "toleranceTarget": {
+                "absolute": 1e-9
+              }
+            },
+            {
+              "id": "stationarity_observed_order",
+              "unit": "1",
+              "semantic": "normalized-klein-gordon-stationarity-observed-grid-order-v1",
+              "toleranceTarget": {
+                "absolute": 1e-9
+              }
+            },
+            {
+              "id": "wave_number_balance_abs_residual",
+              "unit": "1",
+              "semantic": "wave-number-balance-abs-residual-v1",
+              "toleranceTarget": {
+                "absolute": 1e-9
+              }
+            }
+          ],
+          "parameters": {
+            "coarseGrid": 256,
+            "evidenceIds": [
+              "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+              "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+            ],
+            "fineGrid": 512,
+            "modelHash": "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f",
+            "modelId": "level-0-phase-b-reference",
+            "modelVersion": "1.0.0",
+            "modes": [
+              {
+                "A": 1,
+                "id": "t1",
+                "k": -2,
+                "m2": 5,
+                "omega": -3,
+                "phase": 0
+              },
+              {
+                "A": 0.75,
+                "id": "t2",
+                "k": -1,
+                "m2": 3,
+                "omega": -2,
+                "phase": 0.25
+              },
+              {
+                "A": 0.5,
+                "id": "t3",
+                "k": 3,
+                "m2": 27,
+                "omega": 6,
+                "phase": -0.4
+              }
+            ],
+            "reportedAbsoluteTolerance": 1e-10,
+            "roundingSignificantDigits": 12,
+            "scenarioId": "detuned-triad",
+            "spacePeriod": 6.283185307179586,
+            "timePeriod": 6.283185307179586
+          },
+          "toleranceTarget": {
+            "absolute": 1e-9
+          },
+          "solver": {
+            "id": "onto2d-level-0-reference-solver",
+            "version": "1.0.0",
+            "method": "periodic-second-order-central-difference-v1"
+          }
+        },
+        "requestHash": "sha256:25d5ae6115be15f1618b688b54b17c91166830d354d48099649093810be3f393"
+      },
+      "oracleResponse": {
+        "requestHash": "sha256:25d5ae6115be15f1618b688b54b17c91166830d354d48099649093810be3f393",
+        "values": {
+          "dispersion_max_abs_residual": {
+            "value": 0,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "normalized-klein-gordon-dispersion-max-abs-residual-v1",
+            "provenance": {
+              "kind": "oracle",
+              "source": "sha256:25d5ae6115be15f1618b688b54b17c91166830d354d48099649093810be3f393",
+              "method": "periodic-second-order-central-difference-v1",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "frequency_balance_abs_residual": {
+            "value": 1,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "signed-angular-frequency-balance-abs-residual-v1",
+            "provenance": {
+              "kind": "oracle",
+              "source": "sha256:25d5ae6115be15f1618b688b54b17c91166830d354d48099649093810be3f393",
+              "method": "periodic-second-order-central-difference-v1",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "periodic_norm_mean": {
+            "value": 11.3882733693,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "diagnostic-periodic-domain-l2-norm-mean-v1",
+            "provenance": {
+              "kind": "oracle",
+              "source": "sha256:25d5ae6115be15f1618b688b54b17c91166830d354d48099649093810be3f393",
+              "method": "periodic-second-order-central-difference-v1",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "periodic_norm_relative_drift": {
+            "value": 4.0555118697e-15,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "diagnostic-periodic-domain-l2-norm-relative-drift-v1",
+            "provenance": {
+              "kind": "oracle",
+              "source": "sha256:25d5ae6115be15f1618b688b54b17c91166830d354d48099649093810be3f393",
+              "method": "periodic-second-order-central-difference-v1",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "stationarity_l2_residual_coarse": {
+            "value": 0.0306523269472,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "normalized-klein-gordon-stationarity-l2-residual-coarse-v1",
+            "provenance": {
+              "kind": "oracle",
+              "source": "sha256:25d5ae6115be15f1618b688b54b17c91166830d354d48099649093810be3f393",
+              "method": "periodic-second-order-central-difference-v1",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "stationarity_l2_residual_fine": {
+            "value": 0.00766740784691,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "normalized-klein-gordon-stationarity-l2-residual-fine-v1",
+            "provenance": {
+              "kind": "oracle",
+              "source": "sha256:25d5ae6115be15f1618b688b54b17c91166830d354d48099649093810be3f393",
+              "method": "periodic-second-order-central-difference-v1",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "stationarity_observed_order": {
+            "value": 1.99918577189,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "normalized-klein-gordon-stationarity-observed-grid-order-v1",
+            "provenance": {
+              "kind": "oracle",
+              "source": "sha256:25d5ae6115be15f1618b688b54b17c91166830d354d48099649093810be3f393",
+              "method": "periodic-second-order-central-difference-v1",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "wave_number_balance_abs_residual": {
+            "value": 0,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "wave-number-balance-abs-residual-v1",
+            "provenance": {
+              "kind": "oracle",
+              "source": "sha256:25d5ae6115be15f1618b688b54b17c91166830d354d48099649093810be3f393",
+              "method": "periodic-second-order-central-difference-v1",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          }
+        },
+        "convergence": "converged",
+        "solver": {
+          "id": "onto2d-level-0-reference-solver",
+          "version": "1.0.0",
+          "method": "periodic-second-order-central-difference-v1",
+          "parameters": {
+            "coarseGrid": 256,
+            "evidenceIds": [
+              "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+              "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+            ],
+            "fineGrid": 512,
+            "modelHash": "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f",
+            "modelId": "level-0-phase-b-reference",
+            "modelVersion": "1.0.0",
+            "modes": [
+              {
+                "A": 1,
+                "id": "t1",
+                "k": -2,
+                "m2": 5,
+                "omega": -3,
+                "phase": 0
+              },
+              {
+                "A": 0.75,
+                "id": "t2",
+                "k": -1,
+                "m2": 3,
+                "omega": -2,
+                "phase": 0.25
+              },
+              {
+                "A": 0.5,
+                "id": "t3",
+                "k": 3,
+                "m2": 27,
+                "omega": 6,
+                "phase": -0.4
+              }
+            ],
+            "reportedAbsoluteTolerance": 1e-10,
+            "roundingSignificantDigits": 12,
+            "scenarioId": "detuned-triad",
+            "spacePeriod": 6.283185307179586,
+            "timePeriod": 6.283185307179586
+          }
+        },
+        "wallTimeMs": 0
+      },
+      "oracleValidation": {
+        "schemaVersion": "1",
+        "validator": "oracle-response-validator-v1",
+        "requestHash": "sha256:25d5ae6115be15f1618b688b54b17c91166830d354d48099649093810be3f393",
+        "responseHash": "sha256:04c59e6e3c8ea022f594b086a587f71d1e07c51de3f3e4ce6f9cc12b7f3d731c",
+        "status": "accepted",
+        "convergence": "converged",
+        "acceptedValues": {
+          "dispersion_max_abs_residual": {
+            "value": 0,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "normalized-klein-gordon-dispersion-max-abs-residual-v1",
+            "provenance": {
+              "kind": "oracle",
+              "method": "periodic-second-order-central-difference-v1",
+              "source": "sha256:25d5ae6115be15f1618b688b54b17c91166830d354d48099649093810be3f393",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "frequency_balance_abs_residual": {
+            "value": 1,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "signed-angular-frequency-balance-abs-residual-v1",
+            "provenance": {
+              "kind": "oracle",
+              "method": "periodic-second-order-central-difference-v1",
+              "source": "sha256:25d5ae6115be15f1618b688b54b17c91166830d354d48099649093810be3f393",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "periodic_norm_mean": {
+            "value": 11.3882733693,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "diagnostic-periodic-domain-l2-norm-mean-v1",
+            "provenance": {
+              "kind": "oracle",
+              "method": "periodic-second-order-central-difference-v1",
+              "source": "sha256:25d5ae6115be15f1618b688b54b17c91166830d354d48099649093810be3f393",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "periodic_norm_relative_drift": {
+            "value": 4.0555118697e-15,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "diagnostic-periodic-domain-l2-norm-relative-drift-v1",
+            "provenance": {
+              "kind": "oracle",
+              "method": "periodic-second-order-central-difference-v1",
+              "source": "sha256:25d5ae6115be15f1618b688b54b17c91166830d354d48099649093810be3f393",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "stationarity_l2_residual_coarse": {
+            "value": 0.0306523269472,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "normalized-klein-gordon-stationarity-l2-residual-coarse-v1",
+            "provenance": {
+              "kind": "oracle",
+              "method": "periodic-second-order-central-difference-v1",
+              "source": "sha256:25d5ae6115be15f1618b688b54b17c91166830d354d48099649093810be3f393",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "stationarity_l2_residual_fine": {
+            "value": 0.00766740784691,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "normalized-klein-gordon-stationarity-l2-residual-fine-v1",
+            "provenance": {
+              "kind": "oracle",
+              "method": "periodic-second-order-central-difference-v1",
+              "source": "sha256:25d5ae6115be15f1618b688b54b17c91166830d354d48099649093810be3f393",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "stationarity_observed_order": {
+            "value": 1.99918577189,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "normalized-klein-gordon-stationarity-observed-grid-order-v1",
+            "provenance": {
+              "kind": "oracle",
+              "method": "periodic-second-order-central-difference-v1",
+              "source": "sha256:25d5ae6115be15f1618b688b54b17c91166830d354d48099649093810be3f393",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "wave_number_balance_abs_residual": {
+            "value": 0,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "wave-number-balance-abs-residual-v1",
+            "provenance": {
+              "kind": "oracle",
+              "method": "periodic-second-order-central-difference-v1",
+              "source": "sha256:25d5ae6115be15f1618b688b54b17c91166830d354d48099649093810be3f393",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          }
+        },
+        "partialPolicy": {
+          "mode": "indeterminate"
+        },
+        "toleranceAdjustments": [],
+        "reasons": [],
+        "validationHash": "sha256:9d2796e3cfd4a9eace05d4d28d15a49d34f8b86eb7744ce8313d383134b34bda",
+        "returnedValues": {
+          "dispersion_max_abs_residual": {
+            "value": 0,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "normalized-klein-gordon-dispersion-max-abs-residual-v1",
+            "provenance": {
+              "kind": "oracle",
+              "method": "periodic-second-order-central-difference-v1",
+              "source": "sha256:25d5ae6115be15f1618b688b54b17c91166830d354d48099649093810be3f393",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "frequency_balance_abs_residual": {
+            "value": 1,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "signed-angular-frequency-balance-abs-residual-v1",
+            "provenance": {
+              "kind": "oracle",
+              "method": "periodic-second-order-central-difference-v1",
+              "source": "sha256:25d5ae6115be15f1618b688b54b17c91166830d354d48099649093810be3f393",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "periodic_norm_mean": {
+            "value": 11.3882733693,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "diagnostic-periodic-domain-l2-norm-mean-v1",
+            "provenance": {
+              "kind": "oracle",
+              "method": "periodic-second-order-central-difference-v1",
+              "source": "sha256:25d5ae6115be15f1618b688b54b17c91166830d354d48099649093810be3f393",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "periodic_norm_relative_drift": {
+            "value": 4.0555118697e-15,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "diagnostic-periodic-domain-l2-norm-relative-drift-v1",
+            "provenance": {
+              "kind": "oracle",
+              "method": "periodic-second-order-central-difference-v1",
+              "source": "sha256:25d5ae6115be15f1618b688b54b17c91166830d354d48099649093810be3f393",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "stationarity_l2_residual_coarse": {
+            "value": 0.0306523269472,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "normalized-klein-gordon-stationarity-l2-residual-coarse-v1",
+            "provenance": {
+              "kind": "oracle",
+              "method": "periodic-second-order-central-difference-v1",
+              "source": "sha256:25d5ae6115be15f1618b688b54b17c91166830d354d48099649093810be3f393",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "stationarity_l2_residual_fine": {
+            "value": 0.00766740784691,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "normalized-klein-gordon-stationarity-l2-residual-fine-v1",
+            "provenance": {
+              "kind": "oracle",
+              "method": "periodic-second-order-central-difference-v1",
+              "source": "sha256:25d5ae6115be15f1618b688b54b17c91166830d354d48099649093810be3f393",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "stationarity_observed_order": {
+            "value": 1.99918577189,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "normalized-klein-gordon-stationarity-observed-grid-order-v1",
+            "provenance": {
+              "kind": "oracle",
+              "method": "periodic-second-order-central-difference-v1",
+              "source": "sha256:25d5ae6115be15f1618b688b54b17c91166830d354d48099649093810be3f393",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "wave_number_balance_abs_residual": {
+            "value": 0,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "wave-number-balance-abs-residual-v1",
+            "provenance": {
+              "kind": "oracle",
+              "method": "periodic-second-order-central-difference-v1",
+              "source": "sha256:25d5ae6115be15f1618b688b54b17c91166830d354d48099649093810be3f393",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          }
+        },
+        "solver": {
+          "id": "onto2d-level-0-reference-solver",
+          "version": "1.0.0",
+          "method": "periodic-second-order-central-difference-v1",
+          "parameters": {
+            "coarseGrid": 256,
+            "evidenceIds": [
+              "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+              "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+            ],
+            "fineGrid": 512,
+            "modelHash": "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f",
+            "modelId": "level-0-phase-b-reference",
+            "modelVersion": "1.0.0",
+            "modes": [
+              {
+                "A": 1,
+                "id": "t1",
+                "k": -2,
+                "m2": 5,
+                "omega": -3,
+                "phase": 0
+              },
+              {
+                "A": 0.75,
+                "id": "t2",
+                "k": -1,
+                "m2": 3,
+                "omega": -2,
+                "phase": 0.25
+              },
+              {
+                "A": 0.5,
+                "id": "t3",
+                "k": 3,
+                "m2": 27,
+                "omega": 6,
+                "phase": -0.4
+              }
+            ],
+            "reportedAbsoluteTolerance": 1e-10,
+            "roundingSignificantDigits": 12,
+            "scenarioId": "detuned-triad",
+            "spacePeriod": 6.283185307179586,
+            "timePeriod": 6.283185307179586
+          }
+        },
+        "wallTimeMs": 0
+      },
+      "numerical": {
+        "values": {
+          "dispersion_max_abs_residual": 0,
+          "frequency_balance_abs_residual": 1,
+          "periodic_norm_mean": 11.3882733693,
+          "periodic_norm_relative_drift": 4.0555118697e-15,
+          "stationarity_l2_residual_coarse": 0.0306523269472,
+          "stationarity_l2_residual_fine": 0.00766740784691,
+          "stationarity_observed_order": 1.99918577189,
+          "wave_number_balance_abs_residual": 0
+        },
+        "dispersionPassed": true,
+        "stationarityPassed": true,
+        "balancePassed": false,
+        "periodicNormDiagnosticPassed": true,
+        "passed": false
+      },
+      "structural": {
+        "triadEvaluation": {
+          "schemaVersion": "1",
+          "evaluator": "graph-predicate-evaluator-v1",
+          "predicatePlanHash": "sha256:6408a5f6609265403564d3362d82c13765af7802b458bc44712c0f4b82f3f010",
+          "candidateId": "sha256:703f8ae3f24e387102177abb27e8f19087a06bb95cd297b9c70f6731d0a949fa",
+          "graphPolicy": {
+            "connected": true,
+            "allowParallelEdges": true,
+            "allowSelfLoops": false,
+            "connectivityProjection": "undirected",
+            "structuralNodeAttributes": [],
+            "structuralEdgeAttributes": []
+          },
+          "outcome": "pass",
+          "witnesses": [
+            {
+              "expressionPath": "$.args[0]",
+              "operator": "degree",
+              "outcome": "pass",
+              "nodeIndexes": [
+                0
+              ],
+              "edgeIndexes": [
+                0,
+                1
+              ],
+              "count": 2,
+              "role": "resonant-support",
+              "min": 2,
+              "max": 2
+            },
+            {
+              "expressionPath": "$.args[0]",
+              "operator": "degree",
+              "outcome": "pass",
+              "nodeIndexes": [
+                1
+              ],
+              "edgeIndexes": [
+                1,
+                2
+              ],
+              "count": 2,
+              "role": "resonant-support",
+              "min": 2,
+              "max": 2
+            },
+            {
+              "expressionPath": "$.args[0]",
+              "operator": "degree",
+              "outcome": "pass",
+              "nodeIndexes": [
+                2
+              ],
+              "edgeIndexes": [
+                0,
+                2
+              ],
+              "count": 2,
+              "role": "resonant-support",
+              "min": 2,
+              "max": 2
+            },
+            {
+              "expressionPath": "$.args[1]",
+              "operator": "countRole",
+              "outcome": "pass",
+              "edgeIndexes": [
+                0,
+                1,
+                2
+              ],
+              "count": 3,
+              "role": "resonant-support",
+              "min": 3,
+              "max": 3
+            },
+            {
+              "expressionPath": "$.args[2]",
+              "operator": "cycleExists",
+              "outcome": "pass",
+              "projection": "undirected-simple",
+              "roles": [
+                "resonant-support"
+              ],
+              "nodeIndexes": [
+                0,
+                1,
+                2
+              ],
+              "edgeIndexes": [
+                1,
+                2,
+                0
+              ]
+            }
+          ],
+          "evaluationHash": "sha256:0aa8baf093d97f8e4877d71c1cfd7d9dc24f82e980ea648372efd994e6aa43d7"
+        },
+        "simpleCycleRank": 1,
+        "requiredSimpleCycleRank": 1,
+        "rankPassed": true,
+        "removalIrreducible": true,
+        "removals": [
+          {
+            "removedInputIndex": 0,
+            "remainingCandidateId": "sha256:7f525172646eddc74d85db74b1e0acdf6a984f24acace3b5389bc85533056982",
+            "cycleOutcome": "fail"
+          },
+          {
+            "removedInputIndex": 1,
+            "remainingCandidateId": "sha256:3b6a2b97b8afd61d13a83e9e3728aea20a84534c999a35216f0a28671358e6da",
+            "cycleOutcome": "fail"
+          },
+          {
+            "removedInputIndex": 2,
+            "remainingCandidateId": "sha256:2b5e32c7de3219f560527f086e44b910c73304f36164b9f48c695cdba39ed441",
+            "cycleOutcome": "fail"
+          }
+        ],
+        "passed": true
+      },
+      "admitted": false,
+      "expectedAdmitted": false,
+      "expectationMatched": true
+    },
+    {
+      "id": "off-shell-triad",
+      "control": "dispersion-negative",
+      "description": "Balanced support cycle with one mode outside the declared dispersion relation.",
+      "candidateId": "sha256:2fa6ce51abf0062ceee4b508c440ab39123e7da14a2315de341f80b1ca354dcd",
+      "skeletonId": "sha256:9be4ec8a7a5f4bca5008180fc8a6dff4b90b7f7a7f5939b3a45745e45675e517",
+      "requestBinding": {
+        "schemaVersion": "1",
+        "protocol": "oracle-protocol-v1",
+        "request": {
+          "candidate": {
+            "schemaVersion": "1",
+            "bytesBase64": "eyJkb21haW4iOiJzaW5nbGUtY2FuZGlkYXRlIiwiZWRnZXMiOlt7ImZyb20iOjAsInJvbGUiOiJyZXNvbmFudC1zdXBwb3J0IiwidG8iOjF9LHsiZnJvbSI6MSwicm9sZSI6InJlc29uYW50LXN1cHBvcnQiLCJ0byI6Mn0seyJmcm9tIjoyLCJyb2xlIjoicmVzb25hbnQtc3VwcG9ydCIsInRvIjowfV0sIm5vZGVzIjpbeyJyZWYiOiJzaGEyNTY6NTEwYTczNDUxZTYyMTgzNjAyMTIwYzViMDI5N2NkOTQzMTg1ZDVmNGEwYjRjMGYzMjA5MGU0MzBiNGUzMjliYiJ9LHsicmVmIjoic2hhMjU2OmQ3ZTFkNGI4NmU3MjQzNGM0M2E5M2NlZjExNDA4Njc5MjVlYmIwMjA3NTY2MzdlMzhkM2E0NTY0M2YzYjdlYzcifSx7InJlZiI6InNoYTI1NjpmYWZjMDdmYmUzNWM5OWMxYWMwZjQxNzY4MjhlNzUyNzBjNzgwYmUzNmVjMmJmNmRjZDdlZjBiZWMwYzE0N2E2In1dLCJza2VsZXRvbiI6InNoYTI1Njo5YmU0ZWM4YTdhNWY0YmNhNTAwODE4MGZjOGE2ZGZmNGI5MGI3ZjdhN2Y1OTM5YjNhNDU3NDVlNDU2NzVlNTE3In0=",
+            "hash": "sha256:2fa6ce51abf0062ceee4b508c440ab39123e7da14a2315de341f80b1ca354dcd"
+          },
+          "quantities": [
+            {
+              "id": "dispersion_max_abs_residual",
+              "unit": "1",
+              "semantic": "normalized-klein-gordon-dispersion-max-abs-residual-v1",
+              "toleranceTarget": {
+                "absolute": 1e-9
+              }
+            },
+            {
+              "id": "frequency_balance_abs_residual",
+              "unit": "1",
+              "semantic": "signed-angular-frequency-balance-abs-residual-v1",
+              "toleranceTarget": {
+                "absolute": 1e-9
+              }
+            },
+            {
+              "id": "periodic_norm_mean",
+              "unit": "1",
+              "semantic": "diagnostic-periodic-domain-l2-norm-mean-v1",
+              "toleranceTarget": {
+                "absolute": 1e-9
+              }
+            },
+            {
+              "id": "periodic_norm_relative_drift",
+              "unit": "1",
+              "semantic": "diagnostic-periodic-domain-l2-norm-relative-drift-v1",
+              "toleranceTarget": {
+                "absolute": 1e-9
+              }
+            },
+            {
+              "id": "stationarity_l2_residual_coarse",
+              "unit": "1",
+              "semantic": "normalized-klein-gordon-stationarity-l2-residual-coarse-v1",
+              "toleranceTarget": {
+                "absolute": 1e-9
+              }
+            },
+            {
+              "id": "stationarity_l2_residual_fine",
+              "unit": "1",
+              "semantic": "normalized-klein-gordon-stationarity-l2-residual-fine-v1",
+              "toleranceTarget": {
+                "absolute": 1e-9
+              }
+            },
+            {
+              "id": "stationarity_observed_order",
+              "unit": "1",
+              "semantic": "normalized-klein-gordon-stationarity-observed-grid-order-v1",
+              "toleranceTarget": {
+                "absolute": 1e-9
+              }
+            },
+            {
+              "id": "wave_number_balance_abs_residual",
+              "unit": "1",
+              "semantic": "wave-number-balance-abs-residual-v1",
+              "toleranceTarget": {
+                "absolute": 1e-9
+              }
+            }
+          ],
+          "parameters": {
+            "coarseGrid": 256,
+            "evidenceIds": [
+              "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+              "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+            ],
+            "fineGrid": 512,
+            "modelHash": "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f",
+            "modelId": "level-0-phase-b-reference",
+            "modelVersion": "1.0.0",
+            "modes": [
+              {
+                "A": 1,
+                "id": "o1",
+                "k": -2,
+                "m2": 5,
+                "omega": -3,
+                "phase": 0
+              },
+              {
+                "A": 0.75,
+                "id": "o2",
+                "k": -1,
+                "m2": 3,
+                "omega": -2,
+                "phase": 0.25
+              },
+              {
+                "A": 0.5,
+                "id": "o3",
+                "k": 3,
+                "m2": 15.5,
+                "omega": 5,
+                "phase": -0.4
+              }
+            ],
+            "reportedAbsoluteTolerance": 1e-10,
+            "roundingSignificantDigits": 12,
+            "scenarioId": "off-shell-triad",
+            "spacePeriod": 6.283185307179586,
+            "timePeriod": 6.283185307179586
+          },
+          "toleranceTarget": {
+            "absolute": 1e-9
+          },
+          "solver": {
+            "id": "onto2d-level-0-reference-solver",
+            "version": "1.0.0",
+            "method": "periodic-second-order-central-difference-v1"
+          }
+        },
+        "requestHash": "sha256:7db75e58c7a29714a367676f09b3e171a9cfea041c8683f9fd15607c79aa497d"
+      },
+      "oracleResponse": {
+        "requestHash": "sha256:7db75e58c7a29714a367676f09b3e171a9cfea041c8683f9fd15607c79aa497d",
+        "values": {
+          "dispersion_max_abs_residual": {
+            "value": 0.5,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "normalized-klein-gordon-dispersion-max-abs-residual-v1",
+            "provenance": {
+              "kind": "oracle",
+              "source": "sha256:7db75e58c7a29714a367676f09b3e171a9cfea041c8683f9fd15607c79aa497d",
+              "method": "periodic-second-order-central-difference-v1",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "frequency_balance_abs_residual": {
+            "value": 0,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "signed-angular-frequency-balance-abs-residual-v1",
+            "provenance": {
+              "kind": "oracle",
+              "source": "sha256:7db75e58c7a29714a367676f09b3e171a9cfea041c8683f9fd15607c79aa497d",
+              "method": "periodic-second-order-central-difference-v1",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "periodic_norm_mean": {
+            "value": 11.3882733693,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "diagnostic-periodic-domain-l2-norm-mean-v1",
+            "provenance": {
+              "kind": "oracle",
+              "source": "sha256:7db75e58c7a29714a367676f09b3e171a9cfea041c8683f9fd15607c79aa497d",
+              "method": "periodic-second-order-central-difference-v1",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "periodic_norm_relative_drift": {
+            "value": 4.36747432121e-15,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "diagnostic-periodic-domain-l2-norm-relative-drift-v1",
+            "provenance": {
+              "kind": "oracle",
+              "source": "sha256:7db75e58c7a29714a367676f09b3e171a9cfea041c8683f9fd15607c79aa497d",
+              "method": "periodic-second-order-central-difference-v1",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "stationarity_l2_residual_coarse": {
+            "value": 0.236376455091,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "normalized-klein-gordon-stationarity-l2-residual-coarse-v1",
+            "provenance": {
+              "kind": "oracle",
+              "source": "sha256:7db75e58c7a29714a367676f09b3e171a9cfea041c8683f9fd15607c79aa497d",
+              "method": "periodic-second-order-central-difference-v1",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "stationarity_l2_residual_fine": {
+            "value": 0.246588299283,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "normalized-klein-gordon-stationarity-l2-residual-fine-v1",
+            "provenance": {
+              "kind": "oracle",
+              "source": "sha256:7db75e58c7a29714a367676f09b3e171a9cfea041c8683f9fd15607c79aa497d",
+              "method": "periodic-second-order-central-difference-v1",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "stationarity_observed_order": {
+            "value": -0.0610180057161,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "normalized-klein-gordon-stationarity-observed-grid-order-v1",
+            "provenance": {
+              "kind": "oracle",
+              "source": "sha256:7db75e58c7a29714a367676f09b3e171a9cfea041c8683f9fd15607c79aa497d",
+              "method": "periodic-second-order-central-difference-v1",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "wave_number_balance_abs_residual": {
+            "value": 0,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "wave-number-balance-abs-residual-v1",
+            "provenance": {
+              "kind": "oracle",
+              "source": "sha256:7db75e58c7a29714a367676f09b3e171a9cfea041c8683f9fd15607c79aa497d",
+              "method": "periodic-second-order-central-difference-v1",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          }
+        },
+        "convergence": "converged",
+        "solver": {
+          "id": "onto2d-level-0-reference-solver",
+          "version": "1.0.0",
+          "method": "periodic-second-order-central-difference-v1",
+          "parameters": {
+            "coarseGrid": 256,
+            "evidenceIds": [
+              "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+              "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+            ],
+            "fineGrid": 512,
+            "modelHash": "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f",
+            "modelId": "level-0-phase-b-reference",
+            "modelVersion": "1.0.0",
+            "modes": [
+              {
+                "A": 1,
+                "id": "o1",
+                "k": -2,
+                "m2": 5,
+                "omega": -3,
+                "phase": 0
+              },
+              {
+                "A": 0.75,
+                "id": "o2",
+                "k": -1,
+                "m2": 3,
+                "omega": -2,
+                "phase": 0.25
+              },
+              {
+                "A": 0.5,
+                "id": "o3",
+                "k": 3,
+                "m2": 15.5,
+                "omega": 5,
+                "phase": -0.4
+              }
+            ],
+            "reportedAbsoluteTolerance": 1e-10,
+            "roundingSignificantDigits": 12,
+            "scenarioId": "off-shell-triad",
+            "spacePeriod": 6.283185307179586,
+            "timePeriod": 6.283185307179586
+          }
+        },
+        "wallTimeMs": 0
+      },
+      "oracleValidation": {
+        "schemaVersion": "1",
+        "validator": "oracle-response-validator-v1",
+        "requestHash": "sha256:7db75e58c7a29714a367676f09b3e171a9cfea041c8683f9fd15607c79aa497d",
+        "responseHash": "sha256:cc76d10965f61747ed4d2f0a670c6466d2fe100c0f59a339a6c2858c3169f34e",
+        "status": "accepted",
+        "convergence": "converged",
+        "acceptedValues": {
+          "dispersion_max_abs_residual": {
+            "value": 0.5,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "normalized-klein-gordon-dispersion-max-abs-residual-v1",
+            "provenance": {
+              "kind": "oracle",
+              "method": "periodic-second-order-central-difference-v1",
+              "source": "sha256:7db75e58c7a29714a367676f09b3e171a9cfea041c8683f9fd15607c79aa497d",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "frequency_balance_abs_residual": {
+            "value": 0,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "signed-angular-frequency-balance-abs-residual-v1",
+            "provenance": {
+              "kind": "oracle",
+              "method": "periodic-second-order-central-difference-v1",
+              "source": "sha256:7db75e58c7a29714a367676f09b3e171a9cfea041c8683f9fd15607c79aa497d",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "periodic_norm_mean": {
+            "value": 11.3882733693,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "diagnostic-periodic-domain-l2-norm-mean-v1",
+            "provenance": {
+              "kind": "oracle",
+              "method": "periodic-second-order-central-difference-v1",
+              "source": "sha256:7db75e58c7a29714a367676f09b3e171a9cfea041c8683f9fd15607c79aa497d",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "periodic_norm_relative_drift": {
+            "value": 4.36747432121e-15,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "diagnostic-periodic-domain-l2-norm-relative-drift-v1",
+            "provenance": {
+              "kind": "oracle",
+              "method": "periodic-second-order-central-difference-v1",
+              "source": "sha256:7db75e58c7a29714a367676f09b3e171a9cfea041c8683f9fd15607c79aa497d",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "stationarity_l2_residual_coarse": {
+            "value": 0.236376455091,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "normalized-klein-gordon-stationarity-l2-residual-coarse-v1",
+            "provenance": {
+              "kind": "oracle",
+              "method": "periodic-second-order-central-difference-v1",
+              "source": "sha256:7db75e58c7a29714a367676f09b3e171a9cfea041c8683f9fd15607c79aa497d",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "stationarity_l2_residual_fine": {
+            "value": 0.246588299283,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "normalized-klein-gordon-stationarity-l2-residual-fine-v1",
+            "provenance": {
+              "kind": "oracle",
+              "method": "periodic-second-order-central-difference-v1",
+              "source": "sha256:7db75e58c7a29714a367676f09b3e171a9cfea041c8683f9fd15607c79aa497d",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "stationarity_observed_order": {
+            "value": -0.0610180057161,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "normalized-klein-gordon-stationarity-observed-grid-order-v1",
+            "provenance": {
+              "kind": "oracle",
+              "method": "periodic-second-order-central-difference-v1",
+              "source": "sha256:7db75e58c7a29714a367676f09b3e171a9cfea041c8683f9fd15607c79aa497d",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "wave_number_balance_abs_residual": {
+            "value": 0,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "wave-number-balance-abs-residual-v1",
+            "provenance": {
+              "kind": "oracle",
+              "method": "periodic-second-order-central-difference-v1",
+              "source": "sha256:7db75e58c7a29714a367676f09b3e171a9cfea041c8683f9fd15607c79aa497d",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          }
+        },
+        "partialPolicy": {
+          "mode": "indeterminate"
+        },
+        "toleranceAdjustments": [],
+        "reasons": [],
+        "validationHash": "sha256:d5d38fe146b9070faba78a52fd5512846b0e035d6a551cd74d342b24141a9751",
+        "returnedValues": {
+          "dispersion_max_abs_residual": {
+            "value": 0.5,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "normalized-klein-gordon-dispersion-max-abs-residual-v1",
+            "provenance": {
+              "kind": "oracle",
+              "method": "periodic-second-order-central-difference-v1",
+              "source": "sha256:7db75e58c7a29714a367676f09b3e171a9cfea041c8683f9fd15607c79aa497d",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "frequency_balance_abs_residual": {
+            "value": 0,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "signed-angular-frequency-balance-abs-residual-v1",
+            "provenance": {
+              "kind": "oracle",
+              "method": "periodic-second-order-central-difference-v1",
+              "source": "sha256:7db75e58c7a29714a367676f09b3e171a9cfea041c8683f9fd15607c79aa497d",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "periodic_norm_mean": {
+            "value": 11.3882733693,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "diagnostic-periodic-domain-l2-norm-mean-v1",
+            "provenance": {
+              "kind": "oracle",
+              "method": "periodic-second-order-central-difference-v1",
+              "source": "sha256:7db75e58c7a29714a367676f09b3e171a9cfea041c8683f9fd15607c79aa497d",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "periodic_norm_relative_drift": {
+            "value": 4.36747432121e-15,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "diagnostic-periodic-domain-l2-norm-relative-drift-v1",
+            "provenance": {
+              "kind": "oracle",
+              "method": "periodic-second-order-central-difference-v1",
+              "source": "sha256:7db75e58c7a29714a367676f09b3e171a9cfea041c8683f9fd15607c79aa497d",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "stationarity_l2_residual_coarse": {
+            "value": 0.236376455091,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "normalized-klein-gordon-stationarity-l2-residual-coarse-v1",
+            "provenance": {
+              "kind": "oracle",
+              "method": "periodic-second-order-central-difference-v1",
+              "source": "sha256:7db75e58c7a29714a367676f09b3e171a9cfea041c8683f9fd15607c79aa497d",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "stationarity_l2_residual_fine": {
+            "value": 0.246588299283,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "normalized-klein-gordon-stationarity-l2-residual-fine-v1",
+            "provenance": {
+              "kind": "oracle",
+              "method": "periodic-second-order-central-difference-v1",
+              "source": "sha256:7db75e58c7a29714a367676f09b3e171a9cfea041c8683f9fd15607c79aa497d",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "stationarity_observed_order": {
+            "value": -0.0610180057161,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "normalized-klein-gordon-stationarity-observed-grid-order-v1",
+            "provenance": {
+              "kind": "oracle",
+              "method": "periodic-second-order-central-difference-v1",
+              "source": "sha256:7db75e58c7a29714a367676f09b3e171a9cfea041c8683f9fd15607c79aa497d",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          },
+          "wave_number_balance_abs_residual": {
+            "value": 0,
+            "unit": "1",
+            "tolerance": {
+              "absolute": 1e-10
+            },
+            "semantic": "wave-number-balance-abs-residual-v1",
+            "provenance": {
+              "kind": "oracle",
+              "method": "periodic-second-order-central-difference-v1",
+              "source": "sha256:7db75e58c7a29714a367676f09b3e171a9cfea041c8683f9fd15607c79aa497d",
+              "evidence": [
+                "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+                "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+              ]
+            }
+          }
+        },
+        "solver": {
+          "id": "onto2d-level-0-reference-solver",
+          "version": "1.0.0",
+          "method": "periodic-second-order-central-difference-v1",
+          "parameters": {
+            "coarseGrid": 256,
+            "evidenceIds": [
+              "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+              "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f"
+            ],
+            "fineGrid": 512,
+            "modelHash": "sha256:c84ed471a612cad1a2f8d71f397305d329c32b12d34fff9b51ed905b3536090f",
+            "modelId": "level-0-phase-b-reference",
+            "modelVersion": "1.0.0",
+            "modes": [
+              {
+                "A": 1,
+                "id": "o1",
+                "k": -2,
+                "m2": 5,
+                "omega": -3,
+                "phase": 0
+              },
+              {
+                "A": 0.75,
+                "id": "o2",
+                "k": -1,
+                "m2": 3,
+                "omega": -2,
+                "phase": 0.25
+              },
+              {
+                "A": 0.5,
+                "id": "o3",
+                "k": 3,
+                "m2": 15.5,
+                "omega": 5,
+                "phase": -0.4
+              }
+            ],
+            "reportedAbsoluteTolerance": 1e-10,
+            "roundingSignificantDigits": 12,
+            "scenarioId": "off-shell-triad",
+            "spacePeriod": 6.283185307179586,
+            "timePeriod": 6.283185307179586
+          }
+        },
+        "wallTimeMs": 0
+      },
+      "numerical": {
+        "values": {
+          "dispersion_max_abs_residual": 0.5,
+          "frequency_balance_abs_residual": 0,
+          "periodic_norm_mean": 11.3882733693,
+          "periodic_norm_relative_drift": 4.36747432121e-15,
+          "stationarity_l2_residual_coarse": 0.236376455091,
+          "stationarity_l2_residual_fine": 0.246588299283,
+          "stationarity_observed_order": -0.0610180057161,
+          "wave_number_balance_abs_residual": 0
+        },
+        "dispersionPassed": false,
+        "stationarityPassed": false,
+        "balancePassed": true,
+        "periodicNormDiagnosticPassed": true,
+        "passed": false
+      },
+      "structural": {
+        "triadEvaluation": {
+          "schemaVersion": "1",
+          "evaluator": "graph-predicate-evaluator-v1",
+          "predicatePlanHash": "sha256:6408a5f6609265403564d3362d82c13765af7802b458bc44712c0f4b82f3f010",
+          "candidateId": "sha256:2fa6ce51abf0062ceee4b508c440ab39123e7da14a2315de341f80b1ca354dcd",
+          "graphPolicy": {
+            "connected": true,
+            "allowParallelEdges": true,
+            "allowSelfLoops": false,
+            "connectivityProjection": "undirected",
+            "structuralNodeAttributes": [],
+            "structuralEdgeAttributes": []
+          },
+          "outcome": "pass",
+          "witnesses": [
+            {
+              "expressionPath": "$.args[0]",
+              "operator": "degree",
+              "outcome": "pass",
+              "nodeIndexes": [
+                0
+              ],
+              "edgeIndexes": [
+                0,
+                2
+              ],
+              "count": 2,
+              "role": "resonant-support",
+              "min": 2,
+              "max": 2
+            },
+            {
+              "expressionPath": "$.args[0]",
+              "operator": "degree",
+              "outcome": "pass",
+              "nodeIndexes": [
+                1
+              ],
+              "edgeIndexes": [
+                0,
+                1
+              ],
+              "count": 2,
+              "role": "resonant-support",
+              "min": 2,
+              "max": 2
+            },
+            {
+              "expressionPath": "$.args[0]",
+              "operator": "degree",
+              "outcome": "pass",
+              "nodeIndexes": [
+                2
+              ],
+              "edgeIndexes": [
+                1,
+                2
+              ],
+              "count": 2,
+              "role": "resonant-support",
+              "min": 2,
+              "max": 2
+            },
+            {
+              "expressionPath": "$.args[1]",
+              "operator": "countRole",
+              "outcome": "pass",
+              "edgeIndexes": [
+                0,
+                1,
+                2
+              ],
+              "count": 3,
+              "role": "resonant-support",
+              "min": 3,
+              "max": 3
+            },
+            {
+              "expressionPath": "$.args[2]",
+              "operator": "cycleExists",
+              "outcome": "pass",
+              "projection": "undirected-simple",
+              "roles": [
+                "resonant-support"
+              ],
+              "nodeIndexes": [
+                0,
+                1,
+                2
+              ],
+              "edgeIndexes": [
+                0,
+                1,
+                2
+              ]
+            }
+          ],
+          "evaluationHash": "sha256:c5efe40dd355ce935c6d6509723d0bd34f5e9dfca5470ab582e7fedd6753245c"
+        },
+        "simpleCycleRank": 1,
+        "requiredSimpleCycleRank": 1,
+        "rankPassed": true,
+        "removalIrreducible": true,
+        "removals": [
+          {
+            "removedInputIndex": 0,
+            "remainingCandidateId": "sha256:bd229f66ab67baf21651631612c825c9fce0a6687d8e64268b5ddb339eeff0c7",
+            "cycleOutcome": "fail"
+          },
+          {
+            "removedInputIndex": 1,
+            "remainingCandidateId": "sha256:27cbc61369f00c7d31c7e81721785b4fae4c4a1e348d679806852e23d05172fb",
+            "cycleOutcome": "fail"
+          },
+          {
+            "removedInputIndex": 2,
+            "remainingCandidateId": "sha256:bed9c239c279cc4423574d63f3879e732c6e303c335ab58f45bf7a70b908bd6d",
+            "cycleOutcome": "fail"
+          }
+        ],
+        "passed": true
+      },
+      "admitted": false,
+      "expectedAdmitted": false,
+      "expectationMatched": true
+    }
+  ],
+  "summary": {
+    "scenarioCount": 4,
+    "admittedScenarioIds": [
+      "resonant-triad"
+    ],
+    "rejectedScenarioIds": [
+      "balanced-dyad",
+      "detuned-triad",
+      "off-shell-triad"
+    ],
+    "allExpectationsMatched": true,
+    "fullLevelZeroValidated": false,
+    "empiricalValidationClaimed": false
+  },
+  "analysisHash": "sha256:ecb9e32e8564e00f639c4a2f57b3a612f087b41ad3110cfde53957cacdf38483"
+}

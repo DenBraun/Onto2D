@@ -1,7 +1,7 @@
 # ADR-0022: Unrounded compensated scalar-attribute sums
 
 Status: proposed implementation baseline; local conformance passed, extended
-by ADR-0023; independent and cross-platform review pending
+by ADR-0023; cross-platform CI passed; independent review pending
 
 ## Context
 
@@ -78,4 +78,4 @@ historical baseline.
 Fixtures cover unrounded exact accumulation, retained low-order compensated
 terms, algorithm/exactness coupling, invalid algorithms, unchanged rounded
 `sumDecimals` behavior, nested evaluator propagation, schema conformance, and
-Node.js 20/22 determinism.
+Node.js 22/24 CI determinism.

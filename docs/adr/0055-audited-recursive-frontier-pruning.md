@@ -122,4 +122,4 @@ a self-declared hash is insufficient.
 - recursive/pre-admission/disabled differential conformance;
 - public TypeScript and JSON Schema contracts for audit, decision, and
   generation artifacts;
-- Node.js 20/22 repository checks, full suites, and builds.
+- Node.js 22/24 CI repository checks, full suites, and builds.

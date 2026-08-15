@@ -68,6 +68,3 @@ edge-only targeting, complete run-role coverage, exact/profile generation,
 derived-depth and current-level reuse, public TypeScript declarations, JSON
 Schema target conditions, runtime schema validation, capability publication,
 and repository regression execution.
-
-`POST-CLOSURE-VIS-01` remains scheduled only after the complete kernel closure
-gate.

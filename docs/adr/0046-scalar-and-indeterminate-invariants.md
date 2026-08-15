@@ -1,7 +1,7 @@
 # ADR-0046: Scalar invariant resolution and candidate-local uncertainty
 
 Status: proposed implementation baseline; local conformance passed,
-independent and cross-platform review pending
+cross-platform CI passed; independent review pending
 
 ## Context
 

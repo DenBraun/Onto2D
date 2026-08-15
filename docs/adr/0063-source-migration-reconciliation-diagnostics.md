@@ -60,5 +60,3 @@ The report still cannot be presented as the complete migration result.
 - Full `MigrationMetrics`, cross-catalogue-level cluster diagnostics,
   and reviewed raw-SCC dispositions are added later by ADR-0066;
   cluster-concentration analysis is added separately by ADR-0068.
-- `POST-CLOSURE-VIS-01` remains deferred until the complete kernel closure
-  gate.

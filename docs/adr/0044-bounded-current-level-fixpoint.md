@@ -75,9 +75,7 @@ last round.
 - ordinary and fixpoint ladders share candidate and selection semantics but
   retain distinct artifact versions and hash domains;
 - pruning authorization and cumulative fixpoint profile collapse remain
-  separate gates; round-local null execution is closed by ADR-0080;
-- `POST-CLOSURE-VIS-01` remains pending until the complete kernel closure gate,
-  rather than being triggered by this milestone alone.
+  separate gates; round-local null execution is closed by ADR-0080.
 
 ## Verification
 
@@ -88,6 +86,6 @@ current-level predicate and null-model execution, direct and multi-level exact r
 level tamper rejection, outer-ladder fixpoint termination, configured-kernel
 dispatch, profile-collapse/boundary rejection, domain hashes, and strict Draft
 2020-12 validation of binding, enumeration, census, round, population, level,
-and ladder artifacts. The complete repository suite passes locally on Node.js
-20 and 22. Independent implementation comparison and additional-platform
-evidence remain acceptance requirements.
+and ladder artifacts. The complete repository suite passes in the supported
+Node.js 22 and 24 CI matrix. Independent implementation comparison remains an
+acceptance requirement.

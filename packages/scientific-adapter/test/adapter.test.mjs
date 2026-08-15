@@ -28,7 +28,7 @@ test("scientific adapter boundary validates and freezes implementations", async 
     }
   });
 
-  assert.equal(SCIENTIFIC_ADAPTER_STATUS, "interface-defined/implementations-pending");
+  assert.equal(SCIENTIFIC_ADAPTER_STATUS, "interface-defined/case-reference-available");
   assert.ok(Object.isFrozen(adapter));
   assert.deepEqual(await adapter.evaluate({ parameters: { seed: "fixture" } }), {
     requestHash,

@@ -1,7 +1,7 @@
 # ADR-0038: Residual-slot profiles and derived-depth materialization
 
 Status: proposed implementation baseline; local conformance passed,
-independent and cross-platform review pending
+cross-platform CI passed; independent review pending
 
 ## Context
 

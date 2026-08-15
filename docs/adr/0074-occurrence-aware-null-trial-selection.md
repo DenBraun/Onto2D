@@ -74,5 +74,5 @@ occurrence-to-proposed-candidate functional lineage, complete base-ranking and
 admission count reconciliation, actually executed coefficient sensitivity,
 fragile metric interpretation, aggregate work ceilings, disabled state,
 primitive and generalized-depth replay, exact verification, tampering, kernel
-facade methods, public types, compiled JSON Schema, and local Node.js 20/22
+facade methods, public types, compiled JSON Schema, and Node.js 22/24 CI
 execution.

@@ -1,7 +1,7 @@
 # ADR-0030: Deterministic irreducible-removal evaluation
 
 Status: proposed implementation baseline; local conformance passed,
-independent and cross-platform review pending
+cross-platform CI passed; independent review pending
 
 ## Context
 
@@ -81,4 +81,4 @@ Conformance fixtures cover node- and edge-irreducible cycles, a reducible graph,
 whole failure, zero valid removals, included empty removals, disconnected and
 isolate policies, policy mismatch, nested-invariant refusal, canonical
 relabelling invariance, package-bound execution, schema conformance, content-
-hash reproduction, and Node.js 20/22 determinism.
+hash reproduction, and Node.js 22/24 CI determinism.

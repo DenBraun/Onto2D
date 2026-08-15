@@ -1,7 +1,7 @@
 # ADR-0003: Canonical identity foundation
 
 Status: proposed implementation baseline; local conformance passed,
-independent and cross-platform review pending
+cross-platform CI passed; independent review pending
 
 ## Context
 
@@ -61,8 +61,8 @@ This ADR must not be marked accepted until those checks execute successfully.
 
 The independent restricted canonical-JSON/domain-frame generator and its
 committed positive goldens are now present. Their deterministic regeneration
-and JavaScript comparison pass on local Node.js 20 and 22. Every finite RFC
+and JavaScript comparison pass in the supported Node.js 22 and 24 CI matrix.
+Every finite RFC
 8785 Appendix B vector, non-finite rejection, UTF-16 key ordering, Unicode
 preservation, and invalid-surrogate rejection now have direct fixtures.
-Independent review and cross-platform execution remain pending; the ADR status
-therefore does not change.
+Independent review remains pending; the ADR status therefore does not change.

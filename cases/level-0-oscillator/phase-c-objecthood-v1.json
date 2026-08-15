@@ -1,0 +1,153 @@
+{
+  "schemaVersion": "1",
+  "caseId": "level-0-oscillator",
+  "modelId": "level-0-phase-c-stabilized-envelope-search",
+  "modelVersion": "1.0.0",
+  "status": "bounded-computational-operationalization",
+  "source": {
+    "name": "topology-of-arising.pdf",
+    "repositoryPath": "scr/topology-of-arising.pdf",
+    "doi": "10.5281/zenodo.19397414",
+    "version": "v1.2",
+    "sha256": "3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+    "bytes": 340428,
+    "pageRange": { "start": 15, "end": 26 }
+  },
+  "dependencies": [
+    {
+      "id": "phase-b-reference-v1",
+      "repositoryPath": "cases/level-0-oscillator/artifacts/reference-validation-v1.json",
+      "analysisHash": "sha256:ecb9e32e8564e00f639c4a2f57b3a612f087b41ad3110cfde53957cacdf38483",
+      "requiredScenarioId": "resonant-triad",
+      "requiredCandidateId": "sha256:0e7d9ec6aa644bf6db643352349661cc351264a64759d79002497ec520dd09f3",
+      "requiredSkeletonId": "sha256:9be4ec8a7a5f4bca5008180fc8a6dff4b90b7f7a7f5939b3a45745e45675e517"
+    },
+    {
+      "id": "phase-c-cubic-boundedness-preflight-v1",
+      "repositoryPath": "cases/level-0-oscillator/artifacts/phase-c-boundedness-v1.json",
+      "analysisHash": "sha256:3a1a052cd01f2932428ab4c2e0d50dde1c20a0eca7e482a44cc10dd4a66b1c90",
+      "requiredStatus": "rejected-unbounded-potential"
+    }
+  ],
+  "inputMapping": {
+    "status": "declared-normalized-surrogate-not-derived",
+    "source": "the admitted Phase-B resonant-triad candidate",
+    "target": "three equal real envelopes in a phase-aligned resonant frame",
+    "retained": [
+      "three constituent components",
+      "three-node simple-cycle skeleton",
+      "admitted Phase-B source and analysis lineage"
+    ],
+    "notRetained": [
+      "individual Phase-B amplitudes",
+      "individual wave numbers",
+      "individual signed frequencies",
+      "individual Klein-Gordon mass-squared values"
+    ],
+    "claim": "the mapping is an explicit model assumption and not a derivation from Phase B or the source paper"
+  },
+  "scope": {
+    "fieldRepresentation": "three equal real envelopes u_i(x)=u(x) in a phase-aligned resonant frame",
+    "compositeEnvelope": "Psi_envelope(x)=u_1(x)+u_2(x)+u_3(x)",
+    "domain": "one-dimensional finite interval [-L,L] with homogeneous Dirichlet boundaries",
+    "energy": "E=integral(0.5*sum_i(dx(u_i)^2+m2*u_i^2)-2*lambda*u1*u2*u3+0.25*g*(sum_i(u_i^2))^2)dx",
+    "stationaryEquation": "-d2_x(u)+m2*u-2*lambda*u^2+3*g*u^3=0",
+    "gamma": "integral(abs(Psi_envelope)^2)dx=9*integral(u^2)dx",
+    "stabilizationPolicy": "g>0 is an explicit case-added quartic completion, not a term derived from the paper",
+    "localizationPolicy": "compare Gamma after enlarging the Dirichlet domain at fixed grid spacing",
+    "perturbationPolicy": "positive definiteness of the discrete second variation for all real component-amplitude perturbations",
+    "excluded": [
+      "complex phase perturbations",
+      "real-time dynamical persistence",
+      "Lorentz-covariant stability",
+      "uniqueness of the quartic completion",
+      "empirical physical validation"
+    ]
+  },
+  "parameters": {
+    "massSquared": 1,
+    "baseHalfWidth": 8,
+    "extendedHalfWidth": 12,
+    "coarseIntervals": 128,
+    "fineIntervals": 256,
+    "extendedIntervals": 384,
+    "newtonTolerance": 1e-11,
+    "newtonMaxIterations": 80,
+    "roundingSignificantDigits": 12,
+    "reportedAbsoluteTolerance": 1e-10
+  },
+  "acceptance": {
+    "stationarityMaxResidual": 1e-9,
+    "gammaMinimum": 0.1,
+    "gammaGridRelativeChangeMaximum": 0.005,
+    "profileGridRelativeL2Maximum": 0.005,
+    "gammaDomainRelativeChangeMaximum": 0.05,
+    "supportRadiusRelativeChangeMaximum": 0.05,
+    "positiveDefiniteFlag": 1
+  },
+  "oracle": {
+    "solver": {
+      "id": "onto2d-level-0-phase-c-objecthood",
+      "version": "1.0.0",
+      "method": "dirichlet-central-difference-newton-v1"
+    },
+    "toleranceTarget": { "absolute": 1e-9 },
+    "quantities": [
+      { "id": "potential_leading_coefficient", "unit": "1", "semantic": "symmetric-envelope-potential-leading-coefficient-v1", "toleranceTarget": { "absolute": 1e-9 } },
+      { "id": "potential_leading_degree", "unit": "1", "semantic": "symmetric-envelope-potential-leading-degree-v1", "toleranceTarget": { "absolute": 1e-9 } },
+      { "id": "stationarity_max_residual_coarse", "unit": "1", "semantic": "stationary-envelope-max-residual-coarse-v1", "toleranceTarget": { "absolute": 1e-9 } },
+      { "id": "stationarity_max_residual_fine", "unit": "1", "semantic": "stationary-envelope-max-residual-fine-v1", "toleranceTarget": { "absolute": 1e-9 } },
+      { "id": "gamma_coarse", "unit": "1", "semantic": "phase-aligned-composite-envelope-gamma-coarse-v1", "toleranceTarget": { "absolute": 1e-9 } },
+      { "id": "gamma_fine", "unit": "1", "semantic": "phase-aligned-composite-envelope-gamma-fine-v1", "toleranceTarget": { "absolute": 1e-9 } },
+      { "id": "gamma_extended", "unit": "1", "semantic": "phase-aligned-composite-envelope-gamma-extended-domain-v1", "toleranceTarget": { "absolute": 1e-9 } },
+      { "id": "gamma_grid_relative_change", "unit": "1", "semantic": "composite-envelope-gamma-grid-relative-change-v1", "toleranceTarget": { "absolute": 1e-9 } },
+      { "id": "gamma_domain_relative_change", "unit": "1", "semantic": "composite-envelope-gamma-domain-relative-change-v1", "toleranceTarget": { "absolute": 1e-9 } },
+      { "id": "profile_grid_relative_l2", "unit": "1", "semantic": "stationary-envelope-grid-relative-l2-v1", "toleranceTarget": { "absolute": 1e-9 } },
+      { "id": "energy_fine", "unit": "1", "semantic": "discrete-envelope-energy-fine-v1", "toleranceTarget": { "absolute": 1e-9 } },
+      { "id": "peak_amplitude_fine", "unit": "1", "semantic": "stationary-envelope-peak-amplitude-fine-v1", "toleranceTarget": { "absolute": 1e-9 } },
+      { "id": "support_radius_90_fine", "unit": "1", "semantic": "composite-envelope-central-90-percent-radius-fine-v1", "toleranceTarget": { "absolute": 1e-9 } },
+      { "id": "support_radius_90_extended", "unit": "1", "semantic": "composite-envelope-central-90-percent-radius-extended-v1", "toleranceTarget": { "absolute": 1e-9 } },
+      { "id": "support_radius_relative_change", "unit": "1", "semantic": "composite-envelope-support-radius-domain-relative-change-v1", "toleranceTarget": { "absolute": 1e-9 } },
+      { "id": "symmetric_hessian_min_ldl_pivot", "unit": "1", "semantic": "real-amplitude-symmetric-hessian-min-ldl-pivot-v1", "toleranceTarget": { "absolute": 1e-9 } },
+      { "id": "symmetric_profile_rayleigh_quotient", "unit": "1", "semantic": "real-amplitude-profile-direction-rayleigh-quotient-v1", "toleranceTarget": { "absolute": 1e-9 } },
+      { "id": "antisymmetric_hessian_min_ldl_pivot", "unit": "1", "semantic": "real-amplitude-antisymmetric-hessian-min-ldl-pivot-v1", "toleranceTarget": { "absolute": 1e-9 } },
+      { "id": "symmetric_hessian_positive_definite", "unit": "1", "semantic": "real-amplitude-symmetric-hessian-positive-definite-flag-v1", "toleranceTarget": { "absolute": 1e-9 } },
+      { "id": "antisymmetric_hessian_positive_definite", "unit": "1", "semantic": "real-amplitude-antisymmetric-hessian-positive-definite-flag-v1", "toleranceTarget": { "absolute": 1e-9 } },
+      { "id": "newton_iterations_coarse", "unit": "1", "semantic": "stationary-envelope-newton-iterations-coarse-v1", "toleranceTarget": { "absolute": 1e-9 } },
+      { "id": "newton_iterations_fine", "unit": "1", "semantic": "stationary-envelope-newton-iterations-fine-v1", "toleranceTarget": { "absolute": 1e-9 } },
+      { "id": "newton_iterations_extended", "unit": "1", "semantic": "stationary-envelope-newton-iterations-extended-v1", "toleranceTarget": { "absolute": 1e-9 } }
+    ]
+  },
+  "scenarios": [
+    {
+      "id": "localized-pulse",
+      "description": "Bounded quartic potential with a localized stationary pulse branch.",
+      "lambda": 2,
+      "quarticCoefficient": 0.5,
+      "initialBranch": "pulse",
+      "control": "localization-positive-stability-negative",
+      "expectedTrialObjecthood": false,
+      "expectedFailedGate": "amplitude-stability"
+    },
+    {
+      "id": "stable-plateau",
+      "description": "Bounded quartic potential with a stable nonzero plateau imposed by the finite box.",
+      "lambda": 2,
+      "quarticCoefficient": 0.5,
+      "initialBranch": "plateau",
+      "control": "stability-positive-localization-negative",
+      "expectedTrialObjecthood": false,
+      "expectedFailedGate": "intrinsic-localization"
+    },
+    {
+      "id": "uncoupled-vacuum",
+      "description": "Positive quadratic and quartic energy without cubic coupling.",
+      "lambda": 0,
+      "quarticCoefficient": 0.5,
+      "initialBranch": "zero",
+      "control": "nontrivial-gamma-negative",
+      "expectedTrialObjecthood": false,
+      "expectedFailedGate": "nontrivial-gamma"
+    }
+  ]
+}

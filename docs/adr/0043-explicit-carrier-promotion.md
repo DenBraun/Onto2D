@@ -1,7 +1,7 @@
 # ADR-0043: Explicit carrier promotion from verified closure artifacts
 
 Status: proposed implementation baseline; local conformance passed,
-independent and cross-platform review pending
+cross-platform CI passed; independent review pending
 
 ## Context
 
@@ -65,5 +65,5 @@ policy-supplied source coordinates, target-axis provenance, domain hashes,
 exact replay, tamper rejection, missing-evidence and invalid-level rejection,
 configured-kernel adapters, strict runtime JSON Schema validation, and loading
 the emitted target primitive through the ordinary package loader. The complete
-repository suite passes locally on Node.js 20 and 22. Independent implementation
-comparison and additional-platform evidence remain acceptance requirements.
+repository suite passes in the supported Node.js 22 and 24 CI matrix.
+Independent implementation comparison remains an acceptance requirement.

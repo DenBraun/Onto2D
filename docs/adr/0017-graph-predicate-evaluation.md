@@ -1,7 +1,7 @@
 # ADR-0017: Verified graph-predicate evaluation and partial-failure detection
 
 Status: proposed implementation baseline; local conformance passed,
-independent and cross-platform review pending
+cross-platform CI passed; independent review pending
 
 ## Context
 

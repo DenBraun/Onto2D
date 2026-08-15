@@ -78,6 +78,3 @@ single-node irreducibility with retained scalar or Quantity invariants. Package
 conformance covers explicit profile aggregation inside canonical removed
 substructures. Capability, declaration, schema, full-regression, and build
 checks remain mandatory.
-
-`POST-CLOSURE-VIS-01` remains scheduled only after every remaining kernel gate
-is closed.

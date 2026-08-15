@@ -72,4 +72,4 @@ Conformance covers logical normalization and package identity, invalid
 comparators, type-tag pass/fail, missing invariant data, legacy hash refs,
 guard/evaluation hashes, endpoint lineage, all-or-nothing materialization,
 profile-class member disagreement without representative substitution,
-published schemas, exact replay, and local Node.js 20/22 execution.
+published schemas, exact replay, and Node.js 22/24 CI execution.

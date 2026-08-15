@@ -73,5 +73,5 @@ Conformance covers all three model contracts, complete carrier disclosure,
 six independent model/trial streams, authored-order invariance, seed
 sensitivity, explicit disabled and ontology-gated states, primitive and depth-
 aware census inputs, hard trial limits, unknown options, tampering, kernel
-facade methods, public types, compiled JSON Schema, and local Node.js 20/22
+facade methods, public types, compiled JSON Schema, and Node.js 22/24 CI
 execution.

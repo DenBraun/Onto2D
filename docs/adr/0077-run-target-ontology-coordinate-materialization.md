@@ -61,4 +61,4 @@ Conformance covers target presence and absence, level/phase/segment fidelity,
 axis provenance, structural versus non-structural identity behavior, primitive,
 generalized-depth and bounded current-level propagation, closure exact replay,
 public TypeScript declarations, compiled JSON Schema, runtime artifact schema
-validation, and local Node.js 20/22 execution.
+validation, and Node.js 22/24 CI execution.

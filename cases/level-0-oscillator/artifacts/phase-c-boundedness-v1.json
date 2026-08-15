@@ -1,0 +1,875 @@
+{
+  "schemaVersion": "1",
+  "caseId": "level-0-oscillator",
+  "modelId": "level-0-phase-c-cubic-boundedness-preflight",
+  "modelVersion": "1.0.0",
+  "modelHash": "sha256:c532f0fdf1658e1afefd9fa647a29c47ed33f49a7c49f9792f18f7fa65eb4148",
+  "sourceHash": "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+  "source": {
+    "name": "topology-of-arising.pdf",
+    "repositoryPath": "scr/topology-of-arising.pdf",
+    "bytes": 340428,
+    "pages": 36,
+    "doi": "10.5281/zenodo.19397414",
+    "conceptDoi": "10.5281/zenodo.15862613",
+    "version": "v1.2",
+    "publicationDate": "2026-04-03",
+    "license": "CC-BY-4.0",
+    "sourceUrl": "https://zenodo.org/records/19397414",
+    "sha256": "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+    "reviewStatus": "reviewed",
+    "modelPageRange": {
+      "start": 25,
+      "end": 26
+    }
+  },
+  "status": "phase-c-boundedness-preflight",
+  "scope": {
+    "potential": "V=sum_i(m2_i*abs(psi_i)^2)-2*lambda*Re(psi1*psi2*psi3)",
+    "amplitudeRay": "abs(psi1)=abs(psi2)=abs(psi3)=r",
+    "phasePolicy": "choose the free total phase that minimizes the cubic term",
+    "amplitudeDomain": "unbounded-nonnegative",
+    "claim": "boundedness preflight only; no localized solution or stability claim"
+  },
+  "solver": {
+    "id": "onto2d-level-0-phase-c-preflight",
+    "version": "1.0.0",
+    "method": "cubic-amplitude-ray-v1"
+  },
+  "candidateId": "sha256:0ed266a6d59c2a02f9771f20d4a11cee9db79b520a3231e436d1dca8730c1cb2",
+  "skeletonId": "sha256:9be4ec8a7a5f4bca5008180fc8a6dff4b90b7f7a7f5939b3a45745e45675e517",
+  "requestBinding": {
+    "schemaVersion": "1",
+    "protocol": "oracle-protocol-v1",
+    "request": {
+      "candidate": {
+        "schemaVersion": "1",
+        "bytesBase64": "eyJkb21haW4iOiJzaW5nbGUtY2FuZGlkYXRlIiwiZWRnZXMiOlt7ImZyb20iOjAsInJvbGUiOiJjdWJpYy1jb3VwbGluZyIsInRvIjoyfSx7ImZyb20iOjEsInJvbGUiOiJjdWJpYy1jb3VwbGluZyIsInRvIjowfSx7ImZyb20iOjIsInJvbGUiOiJjdWJpYy1jb3VwbGluZyIsInRvIjoxfV0sIm5vZGVzIjpbeyJyZWYiOiJzaGEyNTY6MzdjZmI3OWY2ODNiYjY1Mjg1MWY1MWQxNDM0MWE3ZjY2ZjI1YmFhZjNjY2ExOGNhMmRmNTQ3MTE4ZDMwMjYwZCJ9LHsicmVmIjoic2hhMjU2OmU4ZmE4ZTBjOTgzMGQ0NzgyN2FiNzYyOGQ1NmRmYWQ5YWQyYjNhZmNjM2VmNmVhY2RiZGM4YzFhNDhhZjFkNjcifSx7InJlZiI6InNoYTI1NjplYzIwMzgwOGM1NjcxNTI2ODg5ZDUxNzNiZDFlM2Q0OTRhMjFmYmM2YzMzNDAwM2FhNjNiZGE5YmQ4YTc0ZGEwIn1dLCJza2VsZXRvbiI6InNoYTI1Njo5YmU0ZWM4YTdhNWY0YmNhNTAwODE4MGZjOGE2ZGZmNGI5MGI3ZjdhN2Y1OTM5YjNhNDU3NDVlNDU2NzVlNTE3In0=",
+        "hash": "sha256:0ed266a6d59c2a02f9771f20d4a11cee9db79b520a3231e436d1dca8730c1cb2"
+      },
+      "quantities": [
+        {
+          "id": "asymptotic_leading_coefficient",
+          "unit": "1",
+          "semantic": "phase-c-amplitude-ray-leading-coefficient-v1",
+          "toleranceTarget": {
+            "absolute": 0
+          }
+        },
+        {
+          "id": "asymptotic_leading_degree",
+          "unit": "1",
+          "semantic": "phase-c-amplitude-ray-leading-degree-v1",
+          "toleranceTarget": {
+            "absolute": 0
+          }
+        },
+        {
+          "id": "potential_at_radius_1",
+          "unit": "1",
+          "semantic": "phase-c-amplitude-ray-potential-at-radius-1-v1",
+          "toleranceTarget": {
+            "absolute": 0
+          }
+        },
+        {
+          "id": "potential_at_radius_16",
+          "unit": "1",
+          "semantic": "phase-c-amplitude-ray-potential-at-radius-16-v1",
+          "toleranceTarget": {
+            "absolute": 0
+          }
+        },
+        {
+          "id": "potential_at_radius_2",
+          "unit": "1",
+          "semantic": "phase-c-amplitude-ray-potential-at-radius-2-v1",
+          "toleranceTarget": {
+            "absolute": 0
+          }
+        },
+        {
+          "id": "potential_at_radius_32",
+          "unit": "1",
+          "semantic": "phase-c-amplitude-ray-potential-at-radius-32-v1",
+          "toleranceTarget": {
+            "absolute": 0
+          }
+        },
+        {
+          "id": "potential_at_radius_4",
+          "unit": "1",
+          "semantic": "phase-c-amplitude-ray-potential-at-radius-4-v1",
+          "toleranceTarget": {
+            "absolute": 0
+          }
+        },
+        {
+          "id": "potential_at_radius_64",
+          "unit": "1",
+          "semantic": "phase-c-amplitude-ray-potential-at-radius-64-v1",
+          "toleranceTarget": {
+            "absolute": 0
+          }
+        },
+        {
+          "id": "potential_at_radius_8",
+          "unit": "1",
+          "semantic": "phase-c-amplitude-ray-potential-at-radius-8-v1",
+          "toleranceTarget": {
+            "absolute": 0
+          }
+        },
+        {
+          "id": "terminal_derivative",
+          "unit": "1",
+          "semantic": "phase-c-amplitude-ray-terminal-derivative-v1",
+          "toleranceTarget": {
+            "absolute": 0
+          }
+        },
+        {
+          "id": "turning_radius",
+          "unit": "1",
+          "semantic": "phase-c-amplitude-ray-positive-turning-radius-v1",
+          "toleranceTarget": {
+            "absolute": 0
+          }
+        }
+      ],
+      "parameters": {
+        "evidenceIds": [
+          "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+          "sha256:c532f0fdf1658e1afefd9fa647a29c47ed33f49a7c49f9792f18f7fa65eb4148"
+        ],
+        "lambda": 0.25,
+        "massSquared": [
+          1,
+          1,
+          1
+        ],
+        "modelHash": "sha256:c532f0fdf1658e1afefd9fa647a29c47ed33f49a7c49f9792f18f7fa65eb4148",
+        "modelId": "level-0-phase-c-cubic-boundedness-preflight",
+        "modelVersion": "1.0.0",
+        "radii": [
+          1,
+          2,
+          4,
+          8,
+          16,
+          32,
+          64
+        ],
+        "reportedAbsoluteTolerance": 0
+      },
+      "toleranceTarget": {
+        "absolute": 0
+      },
+      "solver": {
+        "id": "onto2d-level-0-phase-c-preflight",
+        "version": "1.0.0",
+        "method": "cubic-amplitude-ray-v1"
+      }
+    },
+    "requestHash": "sha256:db403ce36b5375e1320021a02e92fbe4b16a8808545abf0c535fc11746c14d74"
+  },
+  "oracleResponse": {
+    "requestHash": "sha256:db403ce36b5375e1320021a02e92fbe4b16a8808545abf0c535fc11746c14d74",
+    "values": {
+      "asymptotic_leading_coefficient": {
+        "value": -0.5,
+        "unit": "1",
+        "tolerance": {
+          "absolute": 0
+        },
+        "semantic": "phase-c-amplitude-ray-leading-coefficient-v1",
+        "provenance": {
+          "kind": "oracle",
+          "source": "sha256:db403ce36b5375e1320021a02e92fbe4b16a8808545abf0c535fc11746c14d74",
+          "method": "cubic-amplitude-ray-v1",
+          "evidence": [
+            "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+            "sha256:c532f0fdf1658e1afefd9fa647a29c47ed33f49a7c49f9792f18f7fa65eb4148"
+          ]
+        }
+      },
+      "asymptotic_leading_degree": {
+        "value": 3,
+        "unit": "1",
+        "tolerance": {
+          "absolute": 0
+        },
+        "semantic": "phase-c-amplitude-ray-leading-degree-v1",
+        "provenance": {
+          "kind": "oracle",
+          "source": "sha256:db403ce36b5375e1320021a02e92fbe4b16a8808545abf0c535fc11746c14d74",
+          "method": "cubic-amplitude-ray-v1",
+          "evidence": [
+            "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+            "sha256:c532f0fdf1658e1afefd9fa647a29c47ed33f49a7c49f9792f18f7fa65eb4148"
+          ]
+        }
+      },
+      "potential_at_radius_1": {
+        "value": 2.5,
+        "unit": "1",
+        "tolerance": {
+          "absolute": 0
+        },
+        "semantic": "phase-c-amplitude-ray-potential-at-radius-1-v1",
+        "provenance": {
+          "kind": "oracle",
+          "source": "sha256:db403ce36b5375e1320021a02e92fbe4b16a8808545abf0c535fc11746c14d74",
+          "method": "cubic-amplitude-ray-v1",
+          "evidence": [
+            "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+            "sha256:c532f0fdf1658e1afefd9fa647a29c47ed33f49a7c49f9792f18f7fa65eb4148"
+          ]
+        }
+      },
+      "potential_at_radius_16": {
+        "value": -1280,
+        "unit": "1",
+        "tolerance": {
+          "absolute": 0
+        },
+        "semantic": "phase-c-amplitude-ray-potential-at-radius-16-v1",
+        "provenance": {
+          "kind": "oracle",
+          "source": "sha256:db403ce36b5375e1320021a02e92fbe4b16a8808545abf0c535fc11746c14d74",
+          "method": "cubic-amplitude-ray-v1",
+          "evidence": [
+            "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+            "sha256:c532f0fdf1658e1afefd9fa647a29c47ed33f49a7c49f9792f18f7fa65eb4148"
+          ]
+        }
+      },
+      "potential_at_radius_2": {
+        "value": 8,
+        "unit": "1",
+        "tolerance": {
+          "absolute": 0
+        },
+        "semantic": "phase-c-amplitude-ray-potential-at-radius-2-v1",
+        "provenance": {
+          "kind": "oracle",
+          "source": "sha256:db403ce36b5375e1320021a02e92fbe4b16a8808545abf0c535fc11746c14d74",
+          "method": "cubic-amplitude-ray-v1",
+          "evidence": [
+            "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+            "sha256:c532f0fdf1658e1afefd9fa647a29c47ed33f49a7c49f9792f18f7fa65eb4148"
+          ]
+        }
+      },
+      "potential_at_radius_32": {
+        "value": -13312,
+        "unit": "1",
+        "tolerance": {
+          "absolute": 0
+        },
+        "semantic": "phase-c-amplitude-ray-potential-at-radius-32-v1",
+        "provenance": {
+          "kind": "oracle",
+          "source": "sha256:db403ce36b5375e1320021a02e92fbe4b16a8808545abf0c535fc11746c14d74",
+          "method": "cubic-amplitude-ray-v1",
+          "evidence": [
+            "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+            "sha256:c532f0fdf1658e1afefd9fa647a29c47ed33f49a7c49f9792f18f7fa65eb4148"
+          ]
+        }
+      },
+      "potential_at_radius_4": {
+        "value": 16,
+        "unit": "1",
+        "tolerance": {
+          "absolute": 0
+        },
+        "semantic": "phase-c-amplitude-ray-potential-at-radius-4-v1",
+        "provenance": {
+          "kind": "oracle",
+          "source": "sha256:db403ce36b5375e1320021a02e92fbe4b16a8808545abf0c535fc11746c14d74",
+          "method": "cubic-amplitude-ray-v1",
+          "evidence": [
+            "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+            "sha256:c532f0fdf1658e1afefd9fa647a29c47ed33f49a7c49f9792f18f7fa65eb4148"
+          ]
+        }
+      },
+      "potential_at_radius_64": {
+        "value": -118784,
+        "unit": "1",
+        "tolerance": {
+          "absolute": 0
+        },
+        "semantic": "phase-c-amplitude-ray-potential-at-radius-64-v1",
+        "provenance": {
+          "kind": "oracle",
+          "source": "sha256:db403ce36b5375e1320021a02e92fbe4b16a8808545abf0c535fc11746c14d74",
+          "method": "cubic-amplitude-ray-v1",
+          "evidence": [
+            "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+            "sha256:c532f0fdf1658e1afefd9fa647a29c47ed33f49a7c49f9792f18f7fa65eb4148"
+          ]
+        }
+      },
+      "potential_at_radius_8": {
+        "value": -64,
+        "unit": "1",
+        "tolerance": {
+          "absolute": 0
+        },
+        "semantic": "phase-c-amplitude-ray-potential-at-radius-8-v1",
+        "provenance": {
+          "kind": "oracle",
+          "source": "sha256:db403ce36b5375e1320021a02e92fbe4b16a8808545abf0c535fc11746c14d74",
+          "method": "cubic-amplitude-ray-v1",
+          "evidence": [
+            "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+            "sha256:c532f0fdf1658e1afefd9fa647a29c47ed33f49a7c49f9792f18f7fa65eb4148"
+          ]
+        }
+      },
+      "terminal_derivative": {
+        "value": -5760,
+        "unit": "1",
+        "tolerance": {
+          "absolute": 0
+        },
+        "semantic": "phase-c-amplitude-ray-terminal-derivative-v1",
+        "provenance": {
+          "kind": "oracle",
+          "source": "sha256:db403ce36b5375e1320021a02e92fbe4b16a8808545abf0c535fc11746c14d74",
+          "method": "cubic-amplitude-ray-v1",
+          "evidence": [
+            "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+            "sha256:c532f0fdf1658e1afefd9fa647a29c47ed33f49a7c49f9792f18f7fa65eb4148"
+          ]
+        }
+      },
+      "turning_radius": {
+        "value": 4,
+        "unit": "1",
+        "tolerance": {
+          "absolute": 0
+        },
+        "semantic": "phase-c-amplitude-ray-positive-turning-radius-v1",
+        "provenance": {
+          "kind": "oracle",
+          "source": "sha256:db403ce36b5375e1320021a02e92fbe4b16a8808545abf0c535fc11746c14d74",
+          "method": "cubic-amplitude-ray-v1",
+          "evidence": [
+            "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+            "sha256:c532f0fdf1658e1afefd9fa647a29c47ed33f49a7c49f9792f18f7fa65eb4148"
+          ]
+        }
+      }
+    },
+    "convergence": "converged",
+    "solver": {
+      "id": "onto2d-level-0-phase-c-preflight",
+      "version": "1.0.0",
+      "method": "cubic-amplitude-ray-v1",
+      "parameters": {
+        "evidenceIds": [
+          "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+          "sha256:c532f0fdf1658e1afefd9fa647a29c47ed33f49a7c49f9792f18f7fa65eb4148"
+        ],
+        "lambda": 0.25,
+        "massSquared": [
+          1,
+          1,
+          1
+        ],
+        "modelHash": "sha256:c532f0fdf1658e1afefd9fa647a29c47ed33f49a7c49f9792f18f7fa65eb4148",
+        "modelId": "level-0-phase-c-cubic-boundedness-preflight",
+        "modelVersion": "1.0.0",
+        "radii": [
+          1,
+          2,
+          4,
+          8,
+          16,
+          32,
+          64
+        ],
+        "reportedAbsoluteTolerance": 0
+      }
+    },
+    "wallTimeMs": 0
+  },
+  "oracleValidation": {
+    "schemaVersion": "1",
+    "validator": "oracle-response-validator-v1",
+    "requestHash": "sha256:db403ce36b5375e1320021a02e92fbe4b16a8808545abf0c535fc11746c14d74",
+    "responseHash": "sha256:51b27bd4d86fcea66d94f38a0c3ecc25ec4ff1836538a3d74f3b5dec0ba759dc",
+    "status": "accepted",
+    "convergence": "converged",
+    "acceptedValues": {
+      "asymptotic_leading_coefficient": {
+        "value": -0.5,
+        "unit": "1",
+        "tolerance": {
+          "absolute": 0
+        },
+        "semantic": "phase-c-amplitude-ray-leading-coefficient-v1",
+        "provenance": {
+          "kind": "oracle",
+          "method": "cubic-amplitude-ray-v1",
+          "source": "sha256:db403ce36b5375e1320021a02e92fbe4b16a8808545abf0c535fc11746c14d74",
+          "evidence": [
+            "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+            "sha256:c532f0fdf1658e1afefd9fa647a29c47ed33f49a7c49f9792f18f7fa65eb4148"
+          ]
+        }
+      },
+      "asymptotic_leading_degree": {
+        "value": 3,
+        "unit": "1",
+        "tolerance": {
+          "absolute": 0
+        },
+        "semantic": "phase-c-amplitude-ray-leading-degree-v1",
+        "provenance": {
+          "kind": "oracle",
+          "method": "cubic-amplitude-ray-v1",
+          "source": "sha256:db403ce36b5375e1320021a02e92fbe4b16a8808545abf0c535fc11746c14d74",
+          "evidence": [
+            "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+            "sha256:c532f0fdf1658e1afefd9fa647a29c47ed33f49a7c49f9792f18f7fa65eb4148"
+          ]
+        }
+      },
+      "potential_at_radius_1": {
+        "value": 2.5,
+        "unit": "1",
+        "tolerance": {
+          "absolute": 0
+        },
+        "semantic": "phase-c-amplitude-ray-potential-at-radius-1-v1",
+        "provenance": {
+          "kind": "oracle",
+          "method": "cubic-amplitude-ray-v1",
+          "source": "sha256:db403ce36b5375e1320021a02e92fbe4b16a8808545abf0c535fc11746c14d74",
+          "evidence": [
+            "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+            "sha256:c532f0fdf1658e1afefd9fa647a29c47ed33f49a7c49f9792f18f7fa65eb4148"
+          ]
+        }
+      },
+      "potential_at_radius_16": {
+        "value": -1280,
+        "unit": "1",
+        "tolerance": {
+          "absolute": 0
+        },
+        "semantic": "phase-c-amplitude-ray-potential-at-radius-16-v1",
+        "provenance": {
+          "kind": "oracle",
+          "method": "cubic-amplitude-ray-v1",
+          "source": "sha256:db403ce36b5375e1320021a02e92fbe4b16a8808545abf0c535fc11746c14d74",
+          "evidence": [
+            "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+            "sha256:c532f0fdf1658e1afefd9fa647a29c47ed33f49a7c49f9792f18f7fa65eb4148"
+          ]
+        }
+      },
+      "potential_at_radius_2": {
+        "value": 8,
+        "unit": "1",
+        "tolerance": {
+          "absolute": 0
+        },
+        "semantic": "phase-c-amplitude-ray-potential-at-radius-2-v1",
+        "provenance": {
+          "kind": "oracle",
+          "method": "cubic-amplitude-ray-v1",
+          "source": "sha256:db403ce36b5375e1320021a02e92fbe4b16a8808545abf0c535fc11746c14d74",
+          "evidence": [
+            "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+            "sha256:c532f0fdf1658e1afefd9fa647a29c47ed33f49a7c49f9792f18f7fa65eb4148"
+          ]
+        }
+      },
+      "potential_at_radius_32": {
+        "value": -13312,
+        "unit": "1",
+        "tolerance": {
+          "absolute": 0
+        },
+        "semantic": "phase-c-amplitude-ray-potential-at-radius-32-v1",
+        "provenance": {
+          "kind": "oracle",
+          "method": "cubic-amplitude-ray-v1",
+          "source": "sha256:db403ce36b5375e1320021a02e92fbe4b16a8808545abf0c535fc11746c14d74",
+          "evidence": [
+            "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+            "sha256:c532f0fdf1658e1afefd9fa647a29c47ed33f49a7c49f9792f18f7fa65eb4148"
+          ]
+        }
+      },
+      "potential_at_radius_4": {
+        "value": 16,
+        "unit": "1",
+        "tolerance": {
+          "absolute": 0
+        },
+        "semantic": "phase-c-amplitude-ray-potential-at-radius-4-v1",
+        "provenance": {
+          "kind": "oracle",
+          "method": "cubic-amplitude-ray-v1",
+          "source": "sha256:db403ce36b5375e1320021a02e92fbe4b16a8808545abf0c535fc11746c14d74",
+          "evidence": [
+            "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+            "sha256:c532f0fdf1658e1afefd9fa647a29c47ed33f49a7c49f9792f18f7fa65eb4148"
+          ]
+        }
+      },
+      "potential_at_radius_64": {
+        "value": -118784,
+        "unit": "1",
+        "tolerance": {
+          "absolute": 0
+        },
+        "semantic": "phase-c-amplitude-ray-potential-at-radius-64-v1",
+        "provenance": {
+          "kind": "oracle",
+          "method": "cubic-amplitude-ray-v1",
+          "source": "sha256:db403ce36b5375e1320021a02e92fbe4b16a8808545abf0c535fc11746c14d74",
+          "evidence": [
+            "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+            "sha256:c532f0fdf1658e1afefd9fa647a29c47ed33f49a7c49f9792f18f7fa65eb4148"
+          ]
+        }
+      },
+      "potential_at_radius_8": {
+        "value": -64,
+        "unit": "1",
+        "tolerance": {
+          "absolute": 0
+        },
+        "semantic": "phase-c-amplitude-ray-potential-at-radius-8-v1",
+        "provenance": {
+          "kind": "oracle",
+          "method": "cubic-amplitude-ray-v1",
+          "source": "sha256:db403ce36b5375e1320021a02e92fbe4b16a8808545abf0c535fc11746c14d74",
+          "evidence": [
+            "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+            "sha256:c532f0fdf1658e1afefd9fa647a29c47ed33f49a7c49f9792f18f7fa65eb4148"
+          ]
+        }
+      },
+      "terminal_derivative": {
+        "value": -5760,
+        "unit": "1",
+        "tolerance": {
+          "absolute": 0
+        },
+        "semantic": "phase-c-amplitude-ray-terminal-derivative-v1",
+        "provenance": {
+          "kind": "oracle",
+          "method": "cubic-amplitude-ray-v1",
+          "source": "sha256:db403ce36b5375e1320021a02e92fbe4b16a8808545abf0c535fc11746c14d74",
+          "evidence": [
+            "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+            "sha256:c532f0fdf1658e1afefd9fa647a29c47ed33f49a7c49f9792f18f7fa65eb4148"
+          ]
+        }
+      },
+      "turning_radius": {
+        "value": 4,
+        "unit": "1",
+        "tolerance": {
+          "absolute": 0
+        },
+        "semantic": "phase-c-amplitude-ray-positive-turning-radius-v1",
+        "provenance": {
+          "kind": "oracle",
+          "method": "cubic-amplitude-ray-v1",
+          "source": "sha256:db403ce36b5375e1320021a02e92fbe4b16a8808545abf0c535fc11746c14d74",
+          "evidence": [
+            "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+            "sha256:c532f0fdf1658e1afefd9fa647a29c47ed33f49a7c49f9792f18f7fa65eb4148"
+          ]
+        }
+      }
+    },
+    "partialPolicy": {
+      "mode": "indeterminate"
+    },
+    "toleranceAdjustments": [],
+    "reasons": [],
+    "validationHash": "sha256:2050b97f9ac411b2b28336d725e068b54de601f633a65b08b2b15b79b26101d3",
+    "returnedValues": {
+      "asymptotic_leading_coefficient": {
+        "value": -0.5,
+        "unit": "1",
+        "tolerance": {
+          "absolute": 0
+        },
+        "semantic": "phase-c-amplitude-ray-leading-coefficient-v1",
+        "provenance": {
+          "kind": "oracle",
+          "method": "cubic-amplitude-ray-v1",
+          "source": "sha256:db403ce36b5375e1320021a02e92fbe4b16a8808545abf0c535fc11746c14d74",
+          "evidence": [
+            "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+            "sha256:c532f0fdf1658e1afefd9fa647a29c47ed33f49a7c49f9792f18f7fa65eb4148"
+          ]
+        }
+      },
+      "asymptotic_leading_degree": {
+        "value": 3,
+        "unit": "1",
+        "tolerance": {
+          "absolute": 0
+        },
+        "semantic": "phase-c-amplitude-ray-leading-degree-v1",
+        "provenance": {
+          "kind": "oracle",
+          "method": "cubic-amplitude-ray-v1",
+          "source": "sha256:db403ce36b5375e1320021a02e92fbe4b16a8808545abf0c535fc11746c14d74",
+          "evidence": [
+            "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+            "sha256:c532f0fdf1658e1afefd9fa647a29c47ed33f49a7c49f9792f18f7fa65eb4148"
+          ]
+        }
+      },
+      "potential_at_radius_1": {
+        "value": 2.5,
+        "unit": "1",
+        "tolerance": {
+          "absolute": 0
+        },
+        "semantic": "phase-c-amplitude-ray-potential-at-radius-1-v1",
+        "provenance": {
+          "kind": "oracle",
+          "method": "cubic-amplitude-ray-v1",
+          "source": "sha256:db403ce36b5375e1320021a02e92fbe4b16a8808545abf0c535fc11746c14d74",
+          "evidence": [
+            "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+            "sha256:c532f0fdf1658e1afefd9fa647a29c47ed33f49a7c49f9792f18f7fa65eb4148"
+          ]
+        }
+      },
+      "potential_at_radius_16": {
+        "value": -1280,
+        "unit": "1",
+        "tolerance": {
+          "absolute": 0
+        },
+        "semantic": "phase-c-amplitude-ray-potential-at-radius-16-v1",
+        "provenance": {
+          "kind": "oracle",
+          "method": "cubic-amplitude-ray-v1",
+          "source": "sha256:db403ce36b5375e1320021a02e92fbe4b16a8808545abf0c535fc11746c14d74",
+          "evidence": [
+            "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+            "sha256:c532f0fdf1658e1afefd9fa647a29c47ed33f49a7c49f9792f18f7fa65eb4148"
+          ]
+        }
+      },
+      "potential_at_radius_2": {
+        "value": 8,
+        "unit": "1",
+        "tolerance": {
+          "absolute": 0
+        },
+        "semantic": "phase-c-amplitude-ray-potential-at-radius-2-v1",
+        "provenance": {
+          "kind": "oracle",
+          "method": "cubic-amplitude-ray-v1",
+          "source": "sha256:db403ce36b5375e1320021a02e92fbe4b16a8808545abf0c535fc11746c14d74",
+          "evidence": [
+            "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+            "sha256:c532f0fdf1658e1afefd9fa647a29c47ed33f49a7c49f9792f18f7fa65eb4148"
+          ]
+        }
+      },
+      "potential_at_radius_32": {
+        "value": -13312,
+        "unit": "1",
+        "tolerance": {
+          "absolute": 0
+        },
+        "semantic": "phase-c-amplitude-ray-potential-at-radius-32-v1",
+        "provenance": {
+          "kind": "oracle",
+          "method": "cubic-amplitude-ray-v1",
+          "source": "sha256:db403ce36b5375e1320021a02e92fbe4b16a8808545abf0c535fc11746c14d74",
+          "evidence": [
+            "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+            "sha256:c532f0fdf1658e1afefd9fa647a29c47ed33f49a7c49f9792f18f7fa65eb4148"
+          ]
+        }
+      },
+      "potential_at_radius_4": {
+        "value": 16,
+        "unit": "1",
+        "tolerance": {
+          "absolute": 0
+        },
+        "semantic": "phase-c-amplitude-ray-potential-at-radius-4-v1",
+        "provenance": {
+          "kind": "oracle",
+          "method": "cubic-amplitude-ray-v1",
+          "source": "sha256:db403ce36b5375e1320021a02e92fbe4b16a8808545abf0c535fc11746c14d74",
+          "evidence": [
+            "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+            "sha256:c532f0fdf1658e1afefd9fa647a29c47ed33f49a7c49f9792f18f7fa65eb4148"
+          ]
+        }
+      },
+      "potential_at_radius_64": {
+        "value": -118784,
+        "unit": "1",
+        "tolerance": {
+          "absolute": 0
+        },
+        "semantic": "phase-c-amplitude-ray-potential-at-radius-64-v1",
+        "provenance": {
+          "kind": "oracle",
+          "method": "cubic-amplitude-ray-v1",
+          "source": "sha256:db403ce36b5375e1320021a02e92fbe4b16a8808545abf0c535fc11746c14d74",
+          "evidence": [
+            "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+            "sha256:c532f0fdf1658e1afefd9fa647a29c47ed33f49a7c49f9792f18f7fa65eb4148"
+          ]
+        }
+      },
+      "potential_at_radius_8": {
+        "value": -64,
+        "unit": "1",
+        "tolerance": {
+          "absolute": 0
+        },
+        "semantic": "phase-c-amplitude-ray-potential-at-radius-8-v1",
+        "provenance": {
+          "kind": "oracle",
+          "method": "cubic-amplitude-ray-v1",
+          "source": "sha256:db403ce36b5375e1320021a02e92fbe4b16a8808545abf0c535fc11746c14d74",
+          "evidence": [
+            "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+            "sha256:c532f0fdf1658e1afefd9fa647a29c47ed33f49a7c49f9792f18f7fa65eb4148"
+          ]
+        }
+      },
+      "terminal_derivative": {
+        "value": -5760,
+        "unit": "1",
+        "tolerance": {
+          "absolute": 0
+        },
+        "semantic": "phase-c-amplitude-ray-terminal-derivative-v1",
+        "provenance": {
+          "kind": "oracle",
+          "method": "cubic-amplitude-ray-v1",
+          "source": "sha256:db403ce36b5375e1320021a02e92fbe4b16a8808545abf0c535fc11746c14d74",
+          "evidence": [
+            "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+            "sha256:c532f0fdf1658e1afefd9fa647a29c47ed33f49a7c49f9792f18f7fa65eb4148"
+          ]
+        }
+      },
+      "turning_radius": {
+        "value": 4,
+        "unit": "1",
+        "tolerance": {
+          "absolute": 0
+        },
+        "semantic": "phase-c-amplitude-ray-positive-turning-radius-v1",
+        "provenance": {
+          "kind": "oracle",
+          "method": "cubic-amplitude-ray-v1",
+          "source": "sha256:db403ce36b5375e1320021a02e92fbe4b16a8808545abf0c535fc11746c14d74",
+          "evidence": [
+            "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+            "sha256:c532f0fdf1658e1afefd9fa647a29c47ed33f49a7c49f9792f18f7fa65eb4148"
+          ]
+        }
+      }
+    },
+    "solver": {
+      "id": "onto2d-level-0-phase-c-preflight",
+      "version": "1.0.0",
+      "method": "cubic-amplitude-ray-v1",
+      "parameters": {
+        "evidenceIds": [
+          "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+          "sha256:c532f0fdf1658e1afefd9fa647a29c47ed33f49a7c49f9792f18f7fa65eb4148"
+        ],
+        "lambda": 0.25,
+        "massSquared": [
+          1,
+          1,
+          1
+        ],
+        "modelHash": "sha256:c532f0fdf1658e1afefd9fa647a29c47ed33f49a7c49f9792f18f7fa65eb4148",
+        "modelId": "level-0-phase-c-cubic-boundedness-preflight",
+        "modelVersion": "1.0.0",
+        "radii": [
+          1,
+          2,
+          4,
+          8,
+          16,
+          32,
+          64
+        ],
+        "reportedAbsoluteTolerance": 0
+      }
+    },
+    "wallTimeMs": 0
+  },
+  "scientificResult": {
+    "samples": [
+      {
+        "radius": 1,
+        "potential": 2.5
+      },
+      {
+        "radius": 2,
+        "potential": 8
+      },
+      {
+        "radius": 4,
+        "potential": 16
+      },
+      {
+        "radius": 8,
+        "potential": -64
+      },
+      {
+        "radius": 16,
+        "potential": -1280
+      },
+      {
+        "radius": 32,
+        "potential": -13312
+      },
+      {
+        "radius": 64,
+        "potential": -118784
+      }
+    ],
+    "asymptoticLeadingDegree": 3,
+    "asymptoticLeadingCoefficient": -0.5,
+    "turningRadius": 4,
+    "terminalDerivative": -5760,
+    "tailStrictlyDescending": true,
+    "terminalDerivativeNegative": true,
+    "numericalTailWitness": true,
+    "analyticalUnboundedBelow": true,
+    "boundednessGatePassed": false,
+    "phaseCObjecthoodEstablished": false,
+    "status": "rejected-unbounded-potential",
+    "requiredResolution": "justify a bounded amplitude domain or freeze a stabilizing even-order term"
+  },
+  "summary": {
+    "oracleEvidenceAccepted": true,
+    "boundednessGatePassed": false,
+    "phaseCObjecthoodEstablished": false,
+    "fullLevelZeroValidated": false,
+    "empiricalValidationClaimed": false
+  },
+  "analysisHash": "sha256:3a1a052cd01f2932428ab4c2e0d50dde1c20a0eca7e482a44cc10dd4a66b1c90"
+}

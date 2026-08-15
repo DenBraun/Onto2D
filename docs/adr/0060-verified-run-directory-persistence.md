@@ -63,6 +63,5 @@ or run hashes. The receipt has its own JSON Schema and TypeScript contract.
   directories cannot be presented as complete runs.
 - Remote object stores and application-specific retention policies remain
   separate adapters.
-- This closes physical local artifact writing but does not begin
-  `POST-CLOSURE-VIS-01`; visualization still waits for completion of the
-  remaining kernel gates.
+- This closes physical local artifact writing without coupling persistence to
+  a presentation layer.

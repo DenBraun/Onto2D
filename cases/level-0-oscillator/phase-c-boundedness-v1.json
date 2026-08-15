@@ -1,0 +1,105 @@
+{
+  "schemaVersion": "1",
+  "caseId": "level-0-oscillator",
+  "modelId": "level-0-phase-c-cubic-boundedness-preflight",
+  "modelVersion": "1.0.0",
+  "status": "falsification-preflight",
+  "source": {
+    "name": "topology-of-arising.pdf",
+    "repositoryPath": "scr/topology-of-arising.pdf",
+    "doi": "10.5281/zenodo.19397414",
+    "version": "v1.2",
+    "sha256": "3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+    "bytes": 340428,
+    "pageRange": { "start": 25, "end": 26 }
+  },
+  "scope": {
+    "potential": "V=sum_i(m2_i*abs(psi_i)^2)-2*lambda*Re(psi1*psi2*psi3)",
+    "amplitudeRay": "abs(psi1)=abs(psi2)=abs(psi3)=r",
+    "phasePolicy": "choose the free total phase that minimizes the cubic term",
+    "amplitudeDomain": "unbounded-nonnegative",
+    "claim": "boundedness preflight only; no localized solution or stability claim"
+  },
+  "parameters": {
+    "massSquared": [1, 1, 1],
+    "lambda": 0.25,
+    "radii": [1, 2, 4, 8, 16, 32, 64],
+    "reportedAbsoluteTolerance": 0
+  },
+  "oracle": {
+    "solver": {
+      "id": "onto2d-level-0-phase-c-preflight",
+      "version": "1.0.0",
+      "method": "cubic-amplitude-ray-v1"
+    },
+    "toleranceTarget": { "absolute": 0 },
+    "quantities": [
+      {
+        "id": "asymptotic_leading_coefficient",
+        "unit": "1",
+        "semantic": "phase-c-amplitude-ray-leading-coefficient-v1",
+        "toleranceTarget": { "absolute": 0 }
+      },
+      {
+        "id": "asymptotic_leading_degree",
+        "unit": "1",
+        "semantic": "phase-c-amplitude-ray-leading-degree-v1",
+        "toleranceTarget": { "absolute": 0 }
+      },
+      {
+        "id": "potential_at_radius_1",
+        "unit": "1",
+        "semantic": "phase-c-amplitude-ray-potential-at-radius-1-v1",
+        "toleranceTarget": { "absolute": 0 }
+      },
+      {
+        "id": "potential_at_radius_2",
+        "unit": "1",
+        "semantic": "phase-c-amplitude-ray-potential-at-radius-2-v1",
+        "toleranceTarget": { "absolute": 0 }
+      },
+      {
+        "id": "potential_at_radius_4",
+        "unit": "1",
+        "semantic": "phase-c-amplitude-ray-potential-at-radius-4-v1",
+        "toleranceTarget": { "absolute": 0 }
+      },
+      {
+        "id": "potential_at_radius_8",
+        "unit": "1",
+        "semantic": "phase-c-amplitude-ray-potential-at-radius-8-v1",
+        "toleranceTarget": { "absolute": 0 }
+      },
+      {
+        "id": "potential_at_radius_16",
+        "unit": "1",
+        "semantic": "phase-c-amplitude-ray-potential-at-radius-16-v1",
+        "toleranceTarget": { "absolute": 0 }
+      },
+      {
+        "id": "potential_at_radius_32",
+        "unit": "1",
+        "semantic": "phase-c-amplitude-ray-potential-at-radius-32-v1",
+        "toleranceTarget": { "absolute": 0 }
+      },
+      {
+        "id": "potential_at_radius_64",
+        "unit": "1",
+        "semantic": "phase-c-amplitude-ray-potential-at-radius-64-v1",
+        "toleranceTarget": { "absolute": 0 }
+      },
+      {
+        "id": "terminal_derivative",
+        "unit": "1",
+        "semantic": "phase-c-amplitude-ray-terminal-derivative-v1",
+        "toleranceTarget": { "absolute": 0 }
+      },
+      {
+        "id": "turning_radius",
+        "unit": "1",
+        "semantic": "phase-c-amplitude-ray-positive-turning-radius-v1",
+        "toleranceTarget": { "absolute": 0 }
+      }
+    ]
+  }
+}

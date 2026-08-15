@@ -1,7 +1,7 @@
 # ADR-0040: Verified depth-source population selection and binding
 
 Status: proposed implementation baseline; local conformance passed,
-independent and cross-platform review pending
+cross-platform CI passed; independent review pending
 
 ## Context
 
@@ -83,6 +83,5 @@ profile classes, domain hashing, strict schema validation, tamper rejection,
 exact replay, element/profile depth-aware alphabets, finite enumeration,
 binding hashing, universe-membership rejection, local filtering, complete
 census/count/selectivity reconciliation, complete selection/materialization,
-TypeScript declarations, and public API exposure. Independent
-implementation comparison and additional-platform evidence remain acceptance
-requirements.
+TypeScript declarations, public API exposure, and Node.js 22/24 CI validation.
+Independent implementation comparison remains an acceptance requirement.

@@ -1,7 +1,7 @@
 # ADR-0029: Complete package-bound local-filter census
 
 Status: proposed implementation baseline; local conformance passed,
-independent and cross-platform review pending
+cross-platform CI passed; independent review pending
 
 ## Context
 
@@ -92,4 +92,4 @@ rejections, inert and dominating predicates, indeterminate-threshold handling,
 budget-exhaustion refusal, API capability exposure, schema conformance,
 content-hash reproduction, serialized-artifact mismatch rejection, exact
 `0.90` dominance-boundary handling, prototype-sensitive predicate IDs, and
-Node.js 20/22 determinism.
+Node.js 22/24 CI determinism.

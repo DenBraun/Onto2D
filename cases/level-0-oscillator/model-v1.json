@@ -1,0 +1,183 @@
+{
+  "schemaVersion": "1",
+  "caseId": "level-0-oscillator",
+  "modelId": "level-0-phase-b-reference",
+  "modelVersion": "1.0.0",
+  "status": "bounded-computational-operationalization",
+  "source": {
+    "name": "topology-of-arising.pdf",
+    "repositoryPath": "scr/topology-of-arising.pdf",
+    "doi": "10.5281/zenodo.19397414",
+    "version": "v1.2",
+    "sha256": "3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+    "bytes": 340428,
+    "pageRange": { "start": 5, "end": 24 }
+  },
+  "scope": {
+    "included": [
+      "normalized Klein-Gordon dispersion",
+      "finite-difference stationarity convergence",
+      "wave-number and signed-frequency balance",
+      "three-node simple-cycle closure",
+      "node-removal destruction of the cycle"
+    ],
+    "excluded": [
+      "uniqueness of the metric or operator",
+      "localized CRT objecthood",
+      "nonlinear self-binding",
+      "collective Level-0 completion",
+      "Level-1 promotion",
+      "empirical physical validation"
+    ]
+  },
+  "normalization": {
+    "coordinateUnit": "1",
+    "fieldUnit": "1",
+    "spacePeriod": 6.283185307179586,
+    "timePeriod": 6.283185307179586,
+    "equation": "d2_t(psi)-d2_x(psi)+m2*psi=0",
+    "mode": "psi=A*exp(i*(k*x-omega*t+phase))",
+    "dispersion": "m2=omega^2-k^2",
+    "frequencyConvention": "signed"
+  },
+  "numericalMethod": {
+    "id": "periodic-second-order-central-difference-v1",
+    "coarseGrid": 256,
+    "fineGrid": 512,
+    "roundingSignificantDigits": 12,
+    "reportedAbsoluteTolerance": 1e-10
+  },
+  "acceptance": {
+    "dispersionMaxAbsResidual": 1e-10,
+    "stationarityFineL2Residual": 0.02,
+    "stationarityObservedOrderMin": 1.8,
+    "waveNumberBalanceAbsResidual": 1e-10,
+    "frequencyBalanceAbsResidual": 1e-10,
+    "periodicNormRelativeDrift": 1e-10,
+    "requiredSimpleCycleRank": 1
+  },
+  "oracle": {
+    "solver": {
+      "id": "onto2d-level-0-reference-solver",
+      "version": "1.0.0",
+      "method": "periodic-second-order-central-difference-v1"
+    },
+    "toleranceTarget": {
+      "absolute": 1e-9
+    },
+    "quantities": [
+      {
+        "id": "dispersion_max_abs_residual",
+        "unit": "1",
+        "semantic": "normalized-klein-gordon-dispersion-max-abs-residual-v1",
+        "toleranceTarget": { "absolute": 1e-9 }
+      },
+      {
+        "id": "frequency_balance_abs_residual",
+        "unit": "1",
+        "semantic": "signed-angular-frequency-balance-abs-residual-v1",
+        "toleranceTarget": { "absolute": 1e-9 }
+      },
+      {
+        "id": "periodic_norm_mean",
+        "unit": "1",
+        "semantic": "diagnostic-periodic-domain-l2-norm-mean-v1",
+        "toleranceTarget": { "absolute": 1e-9 }
+      },
+      {
+        "id": "periodic_norm_relative_drift",
+        "unit": "1",
+        "semantic": "diagnostic-periodic-domain-l2-norm-relative-drift-v1",
+        "toleranceTarget": { "absolute": 1e-9 }
+      },
+      {
+        "id": "stationarity_l2_residual_coarse",
+        "unit": "1",
+        "semantic": "normalized-klein-gordon-stationarity-l2-residual-coarse-v1",
+        "toleranceTarget": { "absolute": 1e-9 }
+      },
+      {
+        "id": "stationarity_l2_residual_fine",
+        "unit": "1",
+        "semantic": "normalized-klein-gordon-stationarity-l2-residual-fine-v1",
+        "toleranceTarget": { "absolute": 1e-9 }
+      },
+      {
+        "id": "stationarity_observed_order",
+        "unit": "1",
+        "semantic": "normalized-klein-gordon-stationarity-observed-grid-order-v1",
+        "toleranceTarget": { "absolute": 1e-9 }
+      },
+      {
+        "id": "wave_number_balance_abs_residual",
+        "unit": "1",
+        "semantic": "wave-number-balance-abs-residual-v1",
+        "toleranceTarget": { "absolute": 1e-9 }
+      }
+    ]
+  },
+  "scenarios": [
+    {
+      "id": "resonant-triad",
+      "description": "On-shell balanced modes carried by a three-node support cycle.",
+      "modes": [
+        { "id": "r1", "A": 1, "k": -2, "omega": -3, "m2": 5, "phase": 0 },
+        { "id": "r2", "A": 0.75, "k": -1, "omega": -2, "m2": 3, "phase": 0.25 },
+        { "id": "r3", "A": 0.5, "k": 3, "omega": 5, "m2": 16, "phase": -0.4 }
+      ],
+      "edges": [
+        { "from": "r1", "to": "r2", "role": "resonant-support" },
+        { "from": "r2", "to": "r3", "role": "resonant-support" },
+        { "from": "r3", "to": "r1", "role": "resonant-support" }
+      ],
+      "expectedAdmitted": true,
+      "control": "positive"
+    },
+    {
+      "id": "balanced-dyad",
+      "description": "On-shell balanced modes without a nontrivial simple loop.",
+      "modes": [
+        { "id": "d1", "A": 1, "k": -1, "omega": -2, "m2": 3, "phase": 0 },
+        { "id": "d2", "A": 0.8, "k": 1, "omega": 2, "m2": 3, "phase": 0.3 }
+      ],
+      "edges": [
+        { "from": "d1", "to": "d2", "role": "resonant-support" },
+        { "from": "d2", "to": "d1", "role": "resonant-support" }
+      ],
+      "expectedAdmitted": false,
+      "control": "structural-negative"
+    },
+    {
+      "id": "detuned-triad",
+      "description": "On-shell modes and a support cycle with failed signed-frequency balance.",
+      "modes": [
+        { "id": "t1", "A": 1, "k": -2, "omega": -3, "m2": 5, "phase": 0 },
+        { "id": "t2", "A": 0.75, "k": -1, "omega": -2, "m2": 3, "phase": 0.25 },
+        { "id": "t3", "A": 0.5, "k": 3, "omega": 6, "m2": 27, "phase": -0.4 }
+      ],
+      "edges": [
+        { "from": "t1", "to": "t2", "role": "resonant-support" },
+        { "from": "t2", "to": "t3", "role": "resonant-support" },
+        { "from": "t3", "to": "t1", "role": "resonant-support" }
+      ],
+      "expectedAdmitted": false,
+      "control": "resonance-negative"
+    },
+    {
+      "id": "off-shell-triad",
+      "description": "Balanced support cycle with one mode outside the declared dispersion relation.",
+      "modes": [
+        { "id": "o1", "A": 1, "k": -2, "omega": -3, "m2": 5, "phase": 0 },
+        { "id": "o2", "A": 0.75, "k": -1, "omega": -2, "m2": 3, "phase": 0.25 },
+        { "id": "o3", "A": 0.5, "k": 3, "omega": 5, "m2": 15.5, "phase": -0.4 }
+      ],
+      "edges": [
+        { "from": "o1", "to": "o2", "role": "resonant-support" },
+        { "from": "o2", "to": "o3", "role": "resonant-support" },
+        { "from": "o3", "to": "o1", "role": "resonant-support" }
+      ],
+      "expectedAdmitted": false,
+      "control": "dispersion-negative"
+    }
+  ]
+}

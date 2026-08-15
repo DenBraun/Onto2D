@@ -65,4 +65,4 @@ Conformance covers enabled and disabled null paths, two distinct fixpoint
 round carriers, complete per-round artifact chains, current-level filter
 evaluation schemas, terminal-baseline projection, artifact-presence
 conditionals, exact replay, capability/status publication, strict Draft
-2020-12 schema compilation, and Node.js 20/22 execution.
+2020-12 schema compilation, and Node.js 22/24 CI execution.

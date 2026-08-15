@@ -1,7 +1,7 @@
 # ADR-0041: Generalized level and explicit ladder closure
 
 Status: proposed implementation baseline; local conformance passed,
-independent and cross-platform review pending
+cross-platform CI passed; independent review pending
 
 ## Context
 
@@ -82,7 +82,6 @@ minimum-depth and re-derivation accounting, domain hashing, strict JSON Schema
 validation, public JavaScript and TypeScript exposure, configured-kernel
 capabilities, tamper rejection, and explicit bounded-fixpoint rejection by the
 ordinary coordinator. ADR-0044 additionally verifies generic dispatch to the
-separate bounded coordinator. The
-complete repository suite passes locally on Node.js 20 and 22. Independent
-implementation comparison and additional-platform evidence remain acceptance
-requirements.
+separate bounded coordinator. The complete repository suite passes in the
+supported Node.js 22 and 24 CI matrix. Independent implementation comparison
+remains an acceptance requirement.

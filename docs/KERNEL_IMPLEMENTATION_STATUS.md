@@ -33,15 +33,21 @@ data shapes are available from `@onto2d/schemas`.
 | Boundary | Implemented | Still external or pending |
 |---|---|---|
 | Catalogue | Audit, classified projections, reviewed resolution/condensation replay, diagnostics, metrics, explanations | Policy authorship, annotation collection, reviewed current-catalogue migration inputs |
-| Scientific | Adapter validation and request/response protocol | Numerical solver implementations and scientific evidence |
+| Scientific | Adapter validation and request/response protocol; bounded Phase-B case solver; Phase-C boundedness preflight and stabilized trial-family search | General nonlinear search, dynamic stability, and complete scientific evidence |
 | Run store | Verified local bundle persistence and append-only execution records | Remote object-store persistence |
 
 ## Cases
 
 - `cases/three-node-motifs` is a frozen, executable empirical reproduction.
-- `cases/level-0-oscillator` currently freezes source identities and analysis;
-  it is not a numerical validation of the theory.
+- `cases/level-0-oscillator` contains a bounded numerical Phase-B reference
+  benchmark, a negative Phase-C boundedness preflight, and a bounded objecthood
+  search with no qualified node. It is not complete Level-0 or empirical
+  validation of the theory.
 - The Historical Load Explorer is illustrative rather than empirical.
+
+The required numerical, migration, solver, and empirical work is tracked in the
+[Scientific Roadmap](SCIENTIFIC_ROADMAP.md). It is separate from schema-v1
+kernel implementation closure.
 
 ## Verification
 

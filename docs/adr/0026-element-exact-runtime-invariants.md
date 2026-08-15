@@ -1,7 +1,7 @@
 # ADR-0026: Element-exact runtime invariant resolution
 
 Status: proposed implementation baseline; local conformance passed; extended
-by ADR-0027 and ADR-0028; independent and cross-platform review pending
+by ADR-0027 and ADR-0028; cross-platform CI passed; independent review pending
 
 ADR-0046 later extends this Quantity-only v8 baseline with typed scalar
 resolution and candidate-local indeterminate outcomes.
@@ -89,4 +89,4 @@ Fixtures cover singleton and explicit canonical-node resolution, context-order
 invariance, nested addition/scaling, tolerance and provenance retention,
 missing contexts and values, context/candidate drift, unit/semantic mismatch,
 ambiguous selectors, profile-domain rejection, package-derived context,
-schema conformance, and Node.js 20/22 determinism.
+schema conformance, and Node.js 22/24 CI determinism.

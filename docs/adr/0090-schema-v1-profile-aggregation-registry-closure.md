@@ -54,6 +54,3 @@ Scalar and Quantity tests cover exact member order, precision, uncertainty,
 evidence, and profile-wide execution in local predicates, functionals, cohort
 keys, and nested substructures. Capability and documentation checks ensure the
 closed registry is no longer reported as unfinished work.
-
-`POST-CLOSURE-VIS-01` remains scheduled only after every remaining kernel gate
-is closed.

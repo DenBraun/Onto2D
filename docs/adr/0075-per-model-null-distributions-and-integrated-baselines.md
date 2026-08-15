@@ -84,4 +84,4 @@ standard deviation, zero variance, observed-constant relations, missing and
 fragile metrics, disabled state, primitive and generalized-depth exact replay,
 tampering, public kernel methods and types, compiled JSON Schema, configured
 primitive/depth closure integration, closure schema conformance, and local
-Node.js 20/22 execution.
+Node.js 22/24 CI execution.

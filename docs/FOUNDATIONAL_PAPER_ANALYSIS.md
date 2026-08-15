@@ -8,6 +8,9 @@ Source identity used for this analysis:
 |---|---|
 | Title | *Topology of arising and the principle of minimal action in admissibility structures* |
 | Author | Denis Britov, Independent Researcher |
+| Version | v1.2, published 2026-04-03 |
+| DOI | `10.5281/zenodo.19397414` |
+| License | CC BY 4.0 |
 | Supplied length | 36 PDF pages |
 | SHA-256 | `3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7` |
 | Analysis status | Complete textual review of pages 1–36 |

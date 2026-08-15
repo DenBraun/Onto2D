@@ -73,4 +73,4 @@ Conformance covers v2 package normalization, missing functional references,
 semantic drift, functional execution over a concrete formation, derived
 profile and element invariant propagation, complete evaluation lineage,
 indeterminate tolerance failure, no partial consumptions/elements, exact
-artifact replay, published schemas, and local Node.js 20/22 execution.
+artifact replay, published schemas, and Node.js 22/24 CI execution.

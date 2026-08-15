@@ -1,7 +1,7 @@
 # ADR-0024: Derived Quantity addition
 
 Status: proposed implementation baseline; local conformance passed; extended
-by ADR-0025 and ADR-0026; independent and cross-platform review pending
+by ADR-0025 and ADR-0026; cross-platform CI passed; independent review pending
 
 ## Context
 
@@ -78,4 +78,4 @@ Fixtures cover direct-plus-aggregate addition, nested boundary-only rounding,
 absolute/relative tolerance propagation, evidence union, exactness propagation
 from compensated sums, operand-order normalization, semantic mismatch,
 implicit number/Quantity lift rejection, continued multiplication rejection,
-schema conformance, and Node.js 20/22 determinism.
+schema conformance, and Node.js 22/24 CI determinism.

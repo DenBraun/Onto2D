@@ -57,11 +57,10 @@ explicitly.
 - An application-level persistent migration store and the actual reviewed
   current-catalogue migration remain pending; no ambient `kernel.explainSource`
   result is fabricated.
-- The index will be a suitable input to `POST-CLOSURE-VIS-01`, but that visual
-  gate remains deferred until complete kernel closure.
+- The index is suitable input for application-owned presentation layers.
 
 ## Verification
 
 Fixtures cover isolated-node lookup, unchanged and amended relation lineage,
 raw-component lookup, exact index/result hashes, schema conformance, full
-serialized replay, missing queries, tampered indexes, and Node 20/22.
+serialized replay, missing queries, tampered indexes, and Node.js 22/24 CI.

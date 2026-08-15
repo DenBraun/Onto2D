@@ -1,7 +1,7 @@
 # ADR-0021: Exact scalar structural-attribute sums
 
 Status: proposed implementation baseline; local conformance passed, extended
-by ADR-0022; independent and cross-platform review pending
+by ADR-0022; cross-platform CI passed; independent review pending
 
 ## Context
 

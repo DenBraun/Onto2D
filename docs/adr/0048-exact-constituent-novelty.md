@@ -1,7 +1,7 @@
 # ADR-0048: Exact constituent novelty evaluation
 
 Status: proposed implementation baseline; local conformance passed,
-independent and cross-platform review pending
+cross-platform CI passed; independent review pending
 
 ## Context
 
@@ -87,4 +87,4 @@ invariance, profile-domain rejection, nested policy discovery, nested invariant
 rejection, package-filter execution, complete-census separation, exact witness
 schema acceptance, and rejection of invalid projection, missing constituent,
 or unexpected policy evidence. The complete workspace is validated on the
-supported local Node.js 20 and 22 runtimes.
+supported Node.js 22/24 CI matrix.

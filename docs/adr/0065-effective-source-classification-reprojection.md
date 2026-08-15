@@ -59,7 +59,6 @@ with `SOURCE_MIGRATION_REPROJECTION_REQUIRED`.
 - This mechanism does not author current-catalogue changes, policies,
   annotations, or component dispositions. Those research inputs and the
   loadable migration package remain pending.
-- `POST-CLOSURE-VIS-01` remains deferred until the complete kernel closure.
 
 ## Verification
 
@@ -68,4 +67,4 @@ per-relation state lineage and independent projection hash, recompute a larger
 formation-support SCC, require fresh component and destination decisions,
 rebuild the condensation DAG, and reproduce amended migration diagnostics.
 They also cover stale frozen projections, missing amendment logs, tampered
-effective artifacts, JSON Schema conformance, and Node 20/22 execution.
+effective artifacts, JSON Schema conformance, and Node.js 22/24 CI execution.

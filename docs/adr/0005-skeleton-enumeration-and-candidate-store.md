@@ -1,7 +1,7 @@
 # ADR-0005: Bounded skeleton enumeration and candidate-store state
 
 Status: proposed implementation baseline; local conformance passed,
-independent and cross-platform review pending
+cross-platform CI passed; independent review pending
 
 ## Context
 
@@ -64,6 +64,6 @@ snapshots are non-interpretable.
 - differential comparison with an independent graph generator.
 
 The independent exhaustive generator and frozen full-permutation-orbit fixture
-regenerate deterministically and match the JavaScript conformance test on local
-Node.js 20 and 22. This ADR must not be marked accepted until independent
-review and additional supported-platform execution pass.
+regenerate deterministically and match the JavaScript conformance test in the
+supported Node.js 22 and 24 CI matrix. This ADR must not be marked accepted
+until independent review passes.

@@ -1,7 +1,7 @@
 # ADR-0028: Profile-wide invariant consensus
 
 Status: proposed implementation baseline; local conformance passed,
-independent and cross-platform review pending
+cross-platform CI passed; independent review pending
 
 ADR-0046 later extends this Quantity-only v9 baseline with exact scalar
 consensus and replaces candidate-local missing/disagreement exceptions with
@@ -89,4 +89,4 @@ Fixtures cover SI-equivalent member normalization, context/member-order
 invariance, complete witness fields, missing and disagreeing members, malformed
 profile contexts, package-derived consensus, package rejection of a
 representative-only disagreement, schema conformance, balance aggregation-field
-rejection, and Node.js 20/22 determinism.
+rejection, and Node.js 22/24 CI determinism.

@@ -83,6 +83,3 @@ depth 2. Loader negatives cover semantic/type drift; binding validation covers
 runtime source-population drift. Primitive, profile-quotient, arbitrary-depth,
 current-level, schema, capability, full-regression, and build checks remain
 mandatory.
-
-`POST-CLOSURE-VIS-01` remains scheduled only after every remaining kernel gate
-is closed.

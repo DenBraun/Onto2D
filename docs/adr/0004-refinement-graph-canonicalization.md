@@ -1,7 +1,7 @@
 # ADR-0004: Refinement-based graph canonicalization
 
 Status: proposed implementation baseline; local conformance passed,
-independent and cross-platform review pending
+cross-platform CI passed; independent review pending
 
 ## Context
 
@@ -80,7 +80,7 @@ Exhaustion throws `CANONICALIZATION_BUDGET_EXHAUSTED`; no partial ID is emitted.
 - independently reviewed canonical byte goldens;
 - repeat execution on every supported Node.js platform.
 
-The tests and independently generated canonical skeleton-byte goldens agree on
-local Node.js 20 and 22. The first comparison caught and corrected non-minimal
-five-node skeleton bytes before freeze. This ADR must not be marked accepted
-until independent review and additional supported-platform checks pass.
+The tests and independently generated canonical skeleton-byte goldens agree in
+the supported Node.js 22 and 24 CI matrix. The first comparison caught and
+corrected non-minimal five-node skeleton bytes before freeze. This ADR must not
+be marked accepted until independent review passes.

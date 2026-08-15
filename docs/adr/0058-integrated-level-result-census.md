@@ -44,7 +44,7 @@ values. The complete artifact is hashed in
 
 This closes the `integrated-level-result-census` capability. It is a semantic
 kernel artifact suitable as an input to later run bundles and reports, but it
-does not implement persistence or activate `POST-CLOSURE-VIS-01`.
+does not implement persistence.
 
 ## Consequences
 
@@ -75,4 +75,4 @@ does not implement persistence or activate `POST-CLOSURE-VIS-01`.
 - prior-level-chain and tamper rejection;
 - independent result-census hash reproduction;
 - public kernel, TypeScript, and JSON Schema contracts;
-- runtime schema conformance and Node.js 20/22 repository verification.
+- runtime schema conformance and Node.js 22/24 CI repository verification.

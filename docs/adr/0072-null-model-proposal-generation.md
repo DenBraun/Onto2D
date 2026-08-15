@@ -74,4 +74,4 @@ degree preservation, carrier membership for every model, exact uniform frame
 disclosure with replacement, swap-count reconciliation and mixing status,
 seed/order determinism inherited from the plan, primitive and depth-aware
 execution, disabled state, hard occurrence limits, tampering, kernel facade
-methods, public types, compiled JSON Schema, and local Node.js 20/22 execution.
+methods, public types, compiled JSON Schema, and Node.js 22/24 CI execution.

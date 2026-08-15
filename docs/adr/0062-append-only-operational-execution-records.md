@@ -58,5 +58,4 @@ Execution-record byte and count limits are explicit reader/writer bounds.
   operational collection.
 - Operational records now satisfy the local execution-record storage gate;
   remote object-store persistence remains a separate adapter.
-- This does not activate `POST-CLOSURE-VIS-01`; the visualization must still
-  wait for full kernel closure.
+- Operational records remain independent of presentation concerns.

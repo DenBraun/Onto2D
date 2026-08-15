@@ -81,4 +81,4 @@ activate the post-completion visualization gate.
 - unknown-candidate and wrong-prior-chain rejection;
 - independent index and query hash reproduction;
 - public TypeScript and JSON Schema contracts with runtime conformance;
-- Node.js 20/22 repository checks, full suites, and builds.
+- Node.js 22/24 CI repository checks, full suites, and builds.

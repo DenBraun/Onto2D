@@ -65,8 +65,7 @@ reproduction from the same input, options, checkpoint, and step ceiling.
 - small step sizes may replay substantial prefixes and are therefore a
   correctness mechanism, not yet a constant-time performance cursor;
 - incomplete-node descendant accounting is executable; ADR-0082 subsequently
-  freezes its separate predicate audit/controller and differential generator;
-- `POST-CLOSURE-VIS-01` remains scheduled after the full kernel closure gate.
+  freezes its separate predicate audit/controller and differential generator.
 
 ## Verification
 

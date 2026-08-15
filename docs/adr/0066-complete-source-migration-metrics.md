@@ -60,11 +60,10 @@ complete artifact under `onto2d:source-migration-metrics:v1`.
   ADR-0068 from an independently frozen bottleneck definition. Current-
   catalogue policy, annotations, dispositions, levels, and the loadable
   migration package remain research/application inputs.
-- `POST-CLOSURE-VIS-01` remains deferred until the complete kernel closure.
 
 ## Verification
 
 Fixtures cover raw-SCC separation, reviewed constitutive condensation, a
 cross-level amended cluster, complete node/edge propagation, independent risk-
 policy and metrics hashes, exact replay, JSON Schema conformance, missing
-catalogue levels, contradictory dispositions, tampering, and Node 20/22.
+catalogue levels, contradictory dispositions, tampering, and Node.js 22/24 CI.

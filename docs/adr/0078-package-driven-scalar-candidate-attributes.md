@@ -81,4 +81,4 @@ constants, predicate type analysis and filtering, exact and uniform quotient
 alphabets, heterogeneous quotient rejection, missing and Quantity-valued source
 rejection, primitive/depth binding parity, canonical candidate artifacts,
 public TypeScript declarations, compiled JSON Schema, runtime schema validation,
-pruning regressions, and local Node.js 20/22 execution.
+pruning regressions, and Node.js 22/24 CI execution.
