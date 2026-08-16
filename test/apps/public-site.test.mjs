@@ -18,6 +18,7 @@ const studioMarkup = read("apps/model-studio/index.html");
 const studioApp = read("apps/model-studio/model-studio.js");
 const studioStyles = read("assets/css/model-studio-workbench.css");
 const siteServer = read("apps/historical-load-explorer/serve.mjs");
+const documentLifecycle = read("assets/js/document-state-reset.js");
 const iconSprite = read("assets/icons/ui-symbols.svg");
 const publicDirectories = [
   "apps/historical-load-explorer",
@@ -35,6 +36,7 @@ const publicFiles = [
   "assets/css/study-canonical-identity.css",
   "assets/css/study-level-zero.css",
   "assets/css/model-studio-workbench.css",
+  "assets/js/document-state-reset.js",
   "assets/icons/ui-symbols.svg",
   "assets/icons/onto2d-mark.svg",
   ...publicDirectories.flatMap((directory) => readdirSync(
@@ -111,10 +113,17 @@ test("the Level-0 view projects frozen evidence into interactive branches", () =
   assert.match(levelZeroMarkup, /id="dynamics-profile-difference"/);
   assert.match(levelZeroMarkup, /id="dynamics-amplification-symmetric"/);
   assert.match(levelZeroMarkup, /id="dynamics-playhead"/);
+  assert.match(levelZeroMarkup, /id="expanded"/);
+  assert.match(levelZeroMarkup, /id="expanded-scenario-tabs"/);
+  assert.match(levelZeroMarkup, /id="expanded-component-1"/);
+  assert.match(levelZeroMarkup, /id="expanded-trace-off-center"/);
+  assert.match(levelZeroMarkup, /id="expanded-failed-gates"/);
   assert.match(levelZeroMarkup, /A visual explanation, not a new calculation/i);
   assert.match(levelZeroApp, /artifacts\/level-zero-validation-v1\.json/);
+  assert.match(levelZeroApp, /artifacts\/level-zero-validation-v2\.json/);
   assert.match(levelZeroApp, /artifacts\/phase-c-objecthood-v1\.json/);
   assert.match(levelZeroApp, /artifacts\/phase-c-dynamics-v1\.json/);
+  assert.match(levelZeroApp, /artifacts\/phase-c-expanded-search-v1\.json/);
   assertScriptIdsExist(levelZeroApp, levelZeroMarkup);
   const appRevision = levelZeroMarkup.match(/level-zero-study\.js\?v=([^"']+)/)?.[1];
   const modelRevision = levelZeroApp.match(/level-zero-visual-model\.js\?v=([^"']+)/)?.[1];
@@ -152,6 +161,35 @@ test("the local site server resolves directory URLs to their index pages", () =>
   assert.match(siteServer, /pathname\.endsWith\("\/"\)/);
   assert.match(siteServer, /`\$\{pathname\}index\.html`/);
   assert.match(siteServer, /path\.resolve\(applicationRoot/);
+  assert.match(siteServer, /documentRequest && requestUrl\.searchParams\.has\("v"\)/);
+  assert.match(siteServer, /"Location": `\$\{pathname\}\$\{requestUrl\.search\}`/);
+});
+
+test("document navigation has one canonical URL and rejects stale bfcache restores", () => {
+  const pages = [
+    landing,
+    motifMarkup,
+    identityMarkup,
+    levelZeroMarkup,
+    studioMarkup,
+    read("apps/historical-load-explorer/index.html")
+  ];
+  for (const markup of pages) {
+    assert.match(markup, /assets\/js\/document-state-reset\.js/);
+    const navigationLinks = [...markup.matchAll(/<a\b[^>]*href="([^"]+)"/g)]
+      .map((match) => match[1]);
+    for (const href of navigationLinks) {
+      assert.doesNotMatch(href, /[?&]v=/, `versioned document navigation remains: ${href}`);
+    }
+  }
+  assert.match(documentLifecycle, /searchParams\.has\("v"\)/);
+  assert.match(documentLifecycle, /location\.replace\(currentUrl\.href\)/);
+  assert.match(documentLifecycle, /event\.persisted/);
+  assert.match(documentLifecycle, /location\.reload\(\)/);
+  assert.match(documentLifecycle, /serviceWorker\.getRegistration\(\)/);
+  assert.match(documentLifecycle, /registration\.unregister\(\)/);
+  assert.match(documentLifecycle, /window\.caches\.delete\(name\)/);
+  assert.match(documentLifecycle, /localHostnames\.has\(window\.location\.hostname\)/);
 });
 
 test("the complete public site surface is ASCII-only", () => {

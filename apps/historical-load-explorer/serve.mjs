@@ -27,6 +27,15 @@ const server = createServer(async (request, response) => {
   try {
     const requestUrl = new URL(request.url ?? "/", "http://localhost");
     const pathname = decodeURIComponent(requestUrl.pathname);
+    const documentRequest = pathname.endsWith("/") || path.extname(pathname) === ".html";
+    if (documentRequest && requestUrl.searchParams.has("v")) {
+      requestUrl.searchParams.delete("v");
+      response.writeHead(302, {
+        "Cache-Control": "no-store, max-age=0",
+        "Location": `${pathname}${requestUrl.search}`
+      }).end();
+      return;
+    }
     const relativePath = pathname.endsWith("/") ? `${pathname}index.html` : pathname;
     const absolutePath = path.resolve(applicationRoot, `.${relativePath}`);
 

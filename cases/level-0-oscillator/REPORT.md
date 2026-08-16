@@ -81,12 +81,12 @@ work.
 ## Reproduction
 
 ```sh
-npm run case:level-0:verify
+npm run case:level-0:phase-b:verify
 node --test test/cases/level-0-oscillator.test.mjs
 ```
 
 Regeneration is intentional and mutating:
 
 ```sh
-npm run case:level-0
+npm run case:level-0:phase-b
 ```

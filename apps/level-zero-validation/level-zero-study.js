@@ -1,4 +1,5 @@
 import {
+  buildExpandedSearchView,
   buildVisualStudy,
   buildDynamicsView,
   formatMetric,
@@ -6,7 +7,7 @@ import {
   profilePath,
   sampleProfile,
   seriesPath
-} from "./level-zero-visual-model.js?v=20260816.10";
+} from "./level-zero-visual-model.js?v=20260816.11";
 
 const $ = (selector) => document.querySelector(selector);
 const elements = {
@@ -54,12 +55,35 @@ const elements = {
   dynamicsAntisymmetricMaximum: $("#dynamics-antisymmetric-maximum"),
   dynamicsDeparture: $("#dynamics-departure"),
   dynamicsEnergyDrift: $("#dynamics-energy-drift"),
-  dynamicsResolution: $("#dynamics-resolution")
+  dynamicsResolution: $("#dynamics-resolution"),
+  expandedStatus: $("#expanded-status"),
+  expandedHash: $("#expanded-hash"),
+  expandedSummary: $("#expanded-summary"),
+  expandedScenarioTabs: $("#expanded-scenario-tabs"),
+  expandedTitle: $("#expanded-title"),
+  expandedNote: $("#expanded-note"),
+  expandedEligibility: $("#expanded-eligibility"),
+  expandedDecision: $("#expanded-decision"),
+  expandedFailedGates: $("#expanded-failed-gates"),
+  expandedAsymmetry: $("#expanded-asymmetry"),
+  expandedGamma: $("#expanded-gamma"),
+  expandedRealHessian: $("#expanded-real-hessian"),
+  expandedPhaseHessian: $("#expanded-phase-hessian"),
+  expandedWorstDynamics: $("#expanded-worst-dynamics"),
+  expandedComponent1: $("#expanded-component-1"),
+  expandedComponent2: $("#expanded-component-2"),
+  expandedComponent3: $("#expanded-component-3"),
+  expandedTraceCommon: $("#expanded-trace-common"),
+  expandedTraceRelative: $("#expanded-trace-relative"),
+  expandedTraceOffCenter: $("#expanded-trace-off-center"),
+  expandedTraceWave: $("#expanded-trace-wave")
 };
 
 let study;
 let dynamicsView;
+let expandedView;
 let activeBranchId = "localized-pulse";
+let activeExpandedScenarioId = "mild-mass-split";
 
 function gate(element, passed) {
   element.dataset.state = passed ? "pass" : "fail";
@@ -198,31 +222,162 @@ function renderDynamics() {
   renderDynamicsFrame(dynamicsView.frames.length - 1);
 }
 
+const expandedTraceElements = Object.freeze({
+  "complex-common-phase": elements.expandedTraceCommon,
+  "complex-relative-phase": elements.expandedTraceRelative,
+  "real-off-center": elements.expandedTraceOffCenter,
+  "complex-wave-packet": elements.expandedTraceWave
+});
+
+function renderExpandedScenario() {
+  const scenario = expandedView.scenarios.find(
+    (entry) => entry.id === activeExpandedScenarioId
+  );
+  if (!scenario) throw new TypeError("The selected expanded scenario is unavailable.");
+
+  const componentMaximum = Math.max(...scenario.stationary.components.flat());
+  const profileBounds = {
+    xMin: Math.min(...scenario.stationary.x),
+    xMax: Math.max(...scenario.stationary.x),
+    yMin: 0,
+    yMax: Math.max(0.1, componentMaximum * 1.12)
+  };
+  [
+    elements.expandedComponent1,
+    elements.expandedComponent2,
+    elements.expandedComponent3
+  ].forEach((path, index) => {
+    path.setAttribute(
+      "d",
+      seriesPath(
+        scenario.stationary.x,
+        scenario.stationary.components[index],
+        720,
+        300,
+        profileBounds
+      )
+    );
+  });
+
+  for (const probe of scenario.dynamics) {
+    expandedTraceElements[probe.id].setAttribute(
+      "d",
+      seriesPath(probe.times, probe.amplification, 720, 300, {
+        xMin: probe.times[0],
+        xMax: probe.times.at(-1),
+        yMin: 0,
+        yMax: 10.5
+      })
+    );
+  }
+
+  const values = scenario.values;
+  elements.expandedTitle.textContent = scenario.name;
+  elements.expandedNote.textContent = scenario.note;
+  elements.expandedEligibility.textContent = scenario.eligible
+    ? "PREREGISTERED TEST"
+    : "DISCLOSED CONTROL";
+  elements.expandedEligibility.dataset.state = scenario.eligible ? "test" : "control";
+  elements.expandedDecision.textContent = scenario.passed ? "QUALIFIED" : "REJECTED";
+  elements.expandedDecision.dataset.state = scenario.passed ? "pass" : "fail";
+  elements.expandedFailedGates.textContent = scenario.failedGates.length > 0
+    ? `Failed necessary gates: ${scenario.failedGates.join(", ")}.`
+    : "Every declared necessary gate passed.";
+  elements.expandedAsymmetry.textContent = formatMetric(
+    values.component_asymmetry_index_fine,
+    5
+  );
+  elements.expandedGamma.textContent = formatMetric(values.gamma_fine, 6);
+  elements.expandedRealHessian.textContent = scenario.gates.realAmplitudeStabilityPassed
+    ? "positive definite"
+    : "not positive definite";
+  elements.expandedPhaseHessian.textContent = scenario.gates.complexPhaseStabilityPassed
+    ? "positive definite"
+    : "not positive definite";
+  elements.expandedWorstDynamics.textContent = `${formatMetric(
+    values.dynamic_worst_amplification_space_refined,
+    6
+  )}x`;
+
+  elements.expandedScenarioTabs.querySelectorAll("button").forEach((button) => {
+    const active = button.dataset.expandedScenario === activeExpandedScenarioId;
+    button.classList.toggle("is-active", active);
+    button.setAttribute("aria-pressed", active ? "true" : "false");
+  });
+}
+
+function renderExpanded() {
+  elements.expandedScenarioTabs.replaceChildren();
+  expandedView.scenarios.forEach((scenario, index) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.dataset.expandedScenario = scenario.id;
+    button.setAttribute("aria-pressed", "false");
+    const number = document.createElement("span");
+    number.textContent = String(index + 1).padStart(2, "0");
+    const label = document.createElement("strong");
+    label.textContent = scenario.shortName;
+    const result = document.createElement("small");
+    result.textContent = scenario.eligible ? "tested / rejected" : "control";
+    button.append(number, label, result);
+    button.addEventListener("click", () => {
+      activeExpandedScenarioId = scenario.id;
+      renderExpandedScenario();
+    });
+    elements.expandedScenarioTabs.append(button);
+  });
+  elements.expandedSummary.textContent = `${expandedView.qualifiedCount} / ${expandedView.eligibleCount} qualified`;
+  elements.expandedStatus.textContent = "BOUNDED NEGATIVE RESULT";
+  elements.expandedHash.textContent = expandedView.expandedAnalysisHash;
+  renderExpandedScenario();
+}
+
 async function loadStudy() {
-  const [integratedResponse, objecthoodResponse, dynamicsResponse] = await Promise.all([
+  const [
+    integratedV1Response,
+    integratedV2Response,
+    objecthoodResponse,
+    dynamicsResponse,
+    expandedResponse
+  ] = await Promise.all([
     fetch("../../cases/level-0-oscillator/artifacts/level-zero-validation-v1.json", { cache: "no-store" }),
+    fetch("../../cases/level-0-oscillator/artifacts/level-zero-validation-v2.json", { cache: "no-store" }),
     fetch("../../cases/level-0-oscillator/artifacts/phase-c-objecthood-v1.json", { cache: "no-store" }),
-    fetch("../../cases/level-0-oscillator/artifacts/phase-c-dynamics-v1.json", { cache: "no-store" })
+    fetch("../../cases/level-0-oscillator/artifacts/phase-c-dynamics-v1.json", { cache: "no-store" }),
+    fetch("../../cases/level-0-oscillator/artifacts/phase-c-expanded-search-v1.json", { cache: "no-store" })
   ]);
-  if (!integratedResponse.ok || !objecthoodResponse.ok || !dynamicsResponse.ok) {
+  if (
+    !integratedV1Response.ok ||
+    !integratedV2Response.ok ||
+    !objecthoodResponse.ok ||
+    !dynamicsResponse.ok ||
+    !expandedResponse.ok
+  ) {
     throw new Error("Frozen Level-0 artifacts could not be loaded.");
   }
+  const integratedV1Artifact = await integratedV1Response.json();
+  const integratedV2Artifact = await integratedV2Response.json();
   const objecthoodArtifact = await objecthoodResponse.json();
   study = buildVisualStudy(
-    await integratedResponse.json(),
+    integratedV1Artifact,
     objecthoodArtifact
   );
   dynamicsView = buildDynamicsView(objecthoodArtifact, await dynamicsResponse.json());
-  elements.analysisHash.textContent = study.analysisHash;
+  expandedView = buildExpandedSearchView(
+    integratedV2Artifact,
+    await expandedResponse.json()
+  );
+  elements.analysisHash.textContent = expandedView.analysisHash;
   elements.sourceDoi.textContent = study.sourceDoi;
   elements.phaseBState.textContent = study.phaseBPassed ? "PASS" : "FAIL";
   elements.cubicState.textContent = study.cubicRejected ? "REJECTED" : "UNRESOLVED";
   elements.objectState.textContent = study.levelZeroValidated ? "QUALIFIED" : "NO NODE";
   elements.phaseDState.textContent = study.phaseDStopped ? "NOT RUN" : "AVAILABLE";
-  elements.status.textContent = "Three frozen artifacts loaded";
+  elements.status.textContent = "Five frozen artifacts loaded";
   elements.status.dataset.state = "ready";
   renderBranch();
   renderDynamics();
+  renderExpanded();
 }
 
 document.querySelectorAll("[data-branch]").forEach((button) => {
@@ -241,4 +396,6 @@ loadStudy().catch((error) => {
   elements.status.dataset.state = "error";
   elements.dynamicsStatus.textContent = "DYNAMICS UNAVAILABLE";
   elements.dynamicsStatus.dataset.state = "error";
+  elements.expandedStatus.textContent = "EXPANDED SEARCH UNAVAILABLE";
+  elements.expandedStatus.dataset.state = "error";
 });

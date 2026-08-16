@@ -3,37 +3,39 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="../../assets/js/document-state-reset.js" defer></script>
     <meta name="description" content="Interactive evidence view for the frozen Onto2D Level-0 numerical validation result.">
     <title>Level-0 Numerical Validation - Onto2D</title>
-    <link rel="icon" href="../../assets/icons/favicon.ico?v=20260816.10" type="image/x-icon">
-    <link rel="stylesheet" href="../../assets/css/ui-icons.css?v=20260816.10">
-    <link rel="stylesheet" href="../../assets/css/study-level-zero.css?v=20260816.10">
-    <script type="module" src="./level-zero-study.js?v=20260816.10"></script>
+    <link rel="icon" href="../../assets/icons/favicon.ico?v=20260816.11" type="image/x-icon">
+    <link rel="stylesheet" href="../../assets/css/ui-icons.css?v=20260816.11">
+    <link rel="stylesheet" href="../../assets/css/study-level-zero.css?v=20260816.11">
+    <script type="module" src="./level-zero-study.js?v=20260816.11"></script>
   </head>
   <body>
     <a class="skip-link" href="#story">Skip to the result</a>
 
     <header class="site-header">
-      <a class="brand" href="../../?v=20260816.10" aria-label="Back to Onto2D home">
+      <a class="brand" href="../../" aria-label="Back to Onto2D home">
         <svg viewBox="0 0 34 34" aria-hidden="true"><circle cx="7" cy="17" r="3"></circle><circle cx="27" cy="8" r="3"></circle><circle cx="27" cy="26" r="3"></circle><path d="M10 17h7m2-3 5-4m-5 10 5 4"></path></svg>
         <span><strong>Level-0 Validation</strong><small>Frozen numerical case</small></span>
       </a>
       <nav aria-label="Page navigation">
-        <a href="../../?v=20260816.10">Project home</a>
+        <a href="../../">Project home</a>
         <a href="#branches">Try the branches</a>
         <a href="#dynamics">Dynamics</a>
-        <a href="../../cases/level-0-oscillator/LEVEL_ZERO_VALIDATION.md">Full report</a>
+        <a href="#expanded">Expanded search</a>
+        <a href="../../cases/level-0-oscillator/LEVEL_ZERO_VALIDATION_V2.md">Full report</a>
         <a href="https://github.com/DenBraun/Onto2D" target="_blank" rel="noopener noreferrer">GitHub <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#external-link"></use></svg></a>
       </nav>
     </header>
 
     <main>
       <section class="hero" aria-labelledby="page-title">
-        <div class="hero-index" aria-hidden="true">RESEARCH RESULT<br>LEVEL 0 / V1</div>
+        <div class="hero-index" aria-hidden="true">RESEARCH RESULT<br>LEVEL 0 / V2</div>
         <div class="hero-copy">
           <p class="overline">Integrated disposition</p>
           <h1 id="page-title">Structural closure passes.<br><em>Objecthood does not.</em></h1>
-          <p>The resonant triad passes Phase B. No tested bounded Phase-C branch is simultaneously localized, non-trivial and amplitude-stable, so Phase D has no eligible input.</p>
+          <p>The resonant triad passes Phase B. The preregistered asymmetric search also finds localized, non-trivial branches, but none passes both real-amplitude and complex-phase stability.</p>
         </div>
         <div class="hero-result">
           <span>Final answer</span>
@@ -196,24 +198,85 @@
         </div>
       </section>
 
+      <section class="expanded-study" id="expanded" aria-labelledby="expanded-title-section">
+        <div class="section-heading"><span>04</span><div><p class="overline">Preregistered bounded extension</p><h2 id="expanded-title-section">Asymmetry changes the shape, not the disposition.</h2></div></div>
+        <div class="expanded-shell">
+          <header class="expanded-header">
+            <div><p class="overline">Six scenarios / four perturbations</p><h3>Asymmetric parameters and complex dynamics</h3></div>
+            <div class="expanded-header-result"><strong id="expanded-summary">... / ... qualified</strong><span id="expanded-status">LOADING EXPANDED SEARCH</span></div>
+          </header>
+
+          <div class="expanded-tabs" id="expanded-scenario-tabs" aria-label="Choose a preregistered expanded scenario"></div>
+
+          <div class="expanded-selection" aria-live="polite">
+            <header>
+              <div><p class="overline">Selected scenario</p><h3 id="expanded-title">Loading scenario</h3><p id="expanded-note">Loading frozen evidence.</p></div>
+              <div><span id="expanded-eligibility" data-state="test">PREREGISTERED TEST</span><strong id="expanded-decision" data-state="fail">LOADING</strong></div>
+            </header>
+
+            <div class="expanded-metrics" aria-label="Expanded scenario metrics">
+              <p><span>Component asymmetry</span><b id="expanded-asymmetry">...</b><small>zero only for the control</small></p>
+              <p><span>Gamma</span><b id="expanded-gamma">...</b><small>non-triviality functional</small></p>
+              <p><span>Real Hessian</span><b id="expanded-real-hessian">...</b><small>amplitude sector</small></p>
+              <p><span>Phase Hessian</span><b id="expanded-phase-hessian">...</b><small>complex phase sector</small></p>
+              <p><span>Worst dynamic probe</span><b id="expanded-worst-dynamics">...</b><small>10x departure gate</small></p>
+            </div>
+
+            <div class="expanded-plots">
+              <article>
+                <header><div><p class="overline">Stationary solution</p><h3>Three component envelopes</h3></div><div class="plot-legend expanded-component-legend"><span><i></i>u1</span><span><i></i>u2</span><span><i></i>u3</span></div></header>
+                <svg class="expanded-plot" viewBox="0 0 720 300" role="img" aria-labelledby="expanded-profile-title expanded-profile-description">
+                  <title id="expanded-profile-title">Three stationary component profiles</title>
+                  <desc id="expanded-profile-description">The independently solved component envelopes for the selected frozen scenario.</desc>
+                  <g class="grid-lines" aria-hidden="true"><path d="M48 22V262M211 22V262M375 22V262M538 22V262M702 22V262"></path><path d="M48 262H702M48 202H702M48 142H702M48 82H702M48 22H702"></path></g>
+                  <g class="axes" aria-hidden="true"><path d="M48 22V262H702"></path><text x="39" y="267">0</text><text x="40" y="286">-8</text><text x="370" y="286">0</text><text x="694" y="286">8</text><text x="646" y="285">position x</text><text x="8" y="34">u(x)</text></g>
+                  <path id="expanded-component-1" class="expanded-line component-1" d=""></path>
+                  <path id="expanded-component-2" class="expanded-line component-2" d=""></path>
+                  <path id="expanded-component-3" class="expanded-line component-3" d=""></path>
+                </svg>
+              </article>
+
+              <article>
+                <header><div><p class="overline">Complex real-time bank</p><h3>Amplification by perturbation</h3></div></header>
+                <svg class="expanded-plot" viewBox="0 0 720 300" role="img" aria-labelledby="expanded-dynamics-title expanded-dynamics-description">
+                  <title id="expanded-dynamics-title">Four perturbation amplification traces</title>
+                  <desc id="expanded-dynamics-description">The four preregistered refined dynamics traces remain below the ten-times departure threshold.</desc>
+                  <g class="grid-lines" aria-hidden="true"><path d="M48 22V262M211 22V262M375 22V262M538 22V262M702 22V262"></path><path d="M48 262H702M48 205H702M48 148H702M48 91H702M48 34H702"></path></g>
+                  <g class="axes" aria-hidden="true"><path d="M48 22V262H702"></path><text x="39" y="267">0</text><text x="27" y="210">2.5</text><text x="27" y="153">5</text><text x="27" y="96">7.5</text><text x="20" y="39">10</text><text x="45" y="286">0</text><text x="370" y="286">2</text><text x="696" y="286">4</text><text x="666" y="285">time</text><text x="8" y="34">x</text></g>
+                  <path class="expanded-threshold" d="M48 33.43H702"></path>
+                  <text class="expanded-threshold-label" x="690" y="27">10x threshold</text>
+                  <path id="expanded-trace-common" class="expanded-line trace-common" d=""></path>
+                  <path id="expanded-trace-relative" class="expanded-line trace-relative" d=""></path>
+                  <path id="expanded-trace-off-center" class="expanded-line trace-off-center" d=""></path>
+                  <path id="expanded-trace-wave" class="expanded-line trace-wave" d=""></path>
+                </svg>
+                <div class="expanded-trace-legend" aria-label="Perturbation trace legend"><span><i></i>common phase</span><span><i></i>relative phase</span><span><i></i>off-center real</span><span><i></i>complex wave packet</span></div>
+              </article>
+            </div>
+
+            <div class="expanded-disposition"><span>SCENARIO DISPOSITION</span><strong id="expanded-failed-gates">Loading failed gates.</strong><p>The unreduced phase sector includes neutral relative-phase directions. A symmetry-reduced gate needs a new protocol; real-amplitude stability also fails independently.</p></div>
+          </div>
+        </div>
+      </section>
+
       <section class="decision-contract" aria-labelledby="guide-title">
-        <div class="section-heading"><span>04</span><div><p class="overline">Decision contract</p><h2 id="guide-title">How the evidence is read.</h2></div></div>
+        <div class="section-heading"><span>05</span><div><p class="overline">Decision contract</p><h2 id="guide-title">How the evidence is read.</h2></div></div>
         <div class="glossary-grid">
           <article><span>01</span><strong>Closure</strong><p>Phase-B balance, stationarity and irreducibility admit the resonant triad.</p></article>
           <article><span>02</span><strong>Non-triviality</strong><p>The integrated field functional Gamma must remain strictly nonzero.</p></article>
           <article><span>03</span><strong>Localization</strong><p>Gamma and support must remain intrinsic under numerical-domain extension.</p></article>
           <article><span>04</span><strong>Stability</strong><p>The declared perturbation sectors must contain no negative energy direction.</p></article>
         </div>
-        <blockquote><span>INTEGRATED RESULT</span>The declared structural candidate is admitted, but no bounded Phase-C branch qualifies as a CRT-node. Level 0 is not validated within this model.</blockquote>
+        <blockquote><span>INTEGRATED RESULT</span>The declared structural candidate is admitted, but neither the original branches nor the preregistered asymmetric extension supplies a CRT-node. Level 0 is not validated within this expanded model.</blockquote>
       </section>
 
       <section class="evidence" aria-labelledby="evidence-title">
         <div><p class="overline">Evidence boundary</p><h2 id="evidence-title">A visual explanation, not a new calculation.</h2><p>The page reads frozen repository artifacts. It does not change thresholds, rerun selection in the browser, or turn the result into an empirical claim.</p></div>
-        <dl><div><dt>Integrated analysis hash</dt><dd id="analysis-hash">loading...</dd></div><div><dt>Dynamics analysis hash</dt><dd id="dynamics-hash">loading...</dd></div><div><dt>Source DOI</dt><dd id="source-doi">loading...</dd></div><div><dt>External review</dt><dd>pending</dd></div></dl>
-        <div class="evidence-links"><a href="../../cases/level-0-oscillator/LEVEL_ZERO_VALIDATION.md">Read the integrated report <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#arrow-right"></use></svg></a><a href="../../cases/level-0-oscillator/PHASE_C_DYNAMICS.md">Read the dynamics report <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#arrow-right"></use></svg></a><a href="../../cases/level-0-oscillator/REVIEW.md">Open reviewer checklist <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#arrow-right"></use></svg></a></div>
+        <dl><div><dt>Integrated v2 analysis hash</dt><dd id="analysis-hash">loading...</dd></div><div><dt>Expanded search hash</dt><dd id="expanded-hash">loading...</dd></div><div><dt>Dynamics analysis hash</dt><dd id="dynamics-hash">loading...</dd></div><div><dt>Source DOI</dt><dd id="source-doi">loading...</dd></div><div><dt>External review</dt><dd>pending</dd></div></dl>
+        <div class="evidence-links"><a href="../../cases/level-0-oscillator/LEVEL_ZERO_VALIDATION_V2.md">Read the integrated report <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#arrow-right"></use></svg></a><a href="../../cases/level-0-oscillator/PHASE_C_EXPANDED_SEARCH.md">Read the expanded search report <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#arrow-right"></use></svg></a><a href="../../cases/level-0-oscillator/REVIEW.md">Open reviewer checklist <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#arrow-right"></use></svg></a></div>
       </section>
     </main>
 
-    <footer class="site-footer"><a href="../../?v=20260816.10"><svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#arrow-left"></use></svg> Onto2D project home</a><p>Bounded numerical case | negative result | no empirical claim</p><a href="#story">Read again <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#chevron-up"></use></svg></a></footer>
+    <footer class="site-footer"><a href="../../"><svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#arrow-left"></use></svg> Onto2D project home</a><p>Bounded numerical case | negative result | no empirical claim</p><a href="#story">Read again <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#chevron-up"></use></svg></a></footer>
   </body>
 </html>

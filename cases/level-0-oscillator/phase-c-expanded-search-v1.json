@@ -1,0 +1,164 @@
+{
+  "schemaVersion": "1",
+  "caseId": "level-0-oscillator",
+  "modelId": "level-0-phase-c-asymmetric-complex-search",
+  "modelVersion": "1.0.0",
+  "status": "preregistered-bounded-extension",
+  "preregisteredAt": "2026-08-16",
+  "source": {
+    "name": "topology-of-arising.pdf",
+    "repositoryPath": "scr/topology-of-arising.pdf",
+    "doi": "10.5281/zenodo.19397414",
+    "version": "v1.2",
+    "sha256": "3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+    "bytes": 340428,
+    "pageRange": { "start": 15, "end": 26 }
+  },
+  "dependencies": [
+    {
+      "id": "phase-c-objecthood-search-v1",
+      "repositoryPath": "cases/level-0-oscillator/artifacts/phase-c-objecthood-v1.json",
+      "analysisHash": "sha256:c3c13e3682ed27a81653f38f6bb52befb84d1539bb873a5b9ef87ed3837e9bc5",
+      "requiredScenarioId": "localized-pulse",
+      "requiredCandidateId": "sha256:f9c56bc22bdc27a23a89674f0bea6f43c24deb59ce6aafab0235bb13d840d337"
+    },
+    {
+      "id": "phase-c-dynamics-v1",
+      "repositoryPath": "cases/level-0-oscillator/artifacts/phase-c-dynamics-v1.json",
+      "analysisHash": "sha256:d3fa61690eb4d4598d6db2398edda927d6a7f5b3a4f8e87e51d73b688a91f247",
+      "requiredStatus": "symmetric-dynamical-instability-confirmed"
+    }
+  ],
+  "inputMapping": {
+    "status": "declared-extension-of-normalized-surrogate-not-derived",
+    "source": "the frozen Phase-C quartic three-envelope model",
+    "retained": [
+      "three coupled envelope components",
+      "positive quartic completion",
+      "Dirichlet finite-domain convention",
+      "paired-control perturbation measurement",
+      "source and Phase-C evidence lineage"
+    ],
+    "extended": [
+      "component-specific mass-squared parameters",
+      "independent real stationary envelopes",
+      "imaginary envelope components",
+      "complex-phase and spatially asymmetric perturbations"
+    ],
+    "claim": "the extension is a case assumption and not a derivation from the source paper"
+  },
+  "scope": {
+    "fieldRepresentation": "three complex envelopes psi_i(x,t)=u_i(x,t)+i*v_i(x,t)",
+    "domain": "one-dimensional finite interval [-L,L] with homogeneous Dirichlet boundaries",
+    "energy": "E=integral(0.5*sum_i(abs(dt(psi_i))^2+abs(dx(psi_i))^2+m2_i*abs(psi_i)^2)-2*lambda*Re(psi_1*psi_2*psi_3)+0.25*g*(sum_i(abs(psi_i)^2))^2)dx",
+    "stationaryEquations": "-d2_x(u_i)+m2_i*u_i-2*lambda*u_j*u_k+g*(sum_l(u_l^2))*u_i=0",
+    "gamma": "integral(abs(psi_1+psi_2+psi_3)^2)dx",
+    "staticPerturbationPolicy": "block-LDL positive-definiteness certificates for complete real-amplitude and imaginary phase sectors on the fine grid",
+    "dynamicPerturbationPolicy": "paired-control complex velocity-Verlet evolution for every preregistered direction at base, time-refined, and space-refined resolution",
+    "excluded": [
+      "all parameter values",
+      "all complex perturbation functions",
+      "alternative nonlinear completions",
+      "unbounded time evolution",
+      "Lorentz-covariant stability",
+      "empirical physical validation"
+    ]
+  },
+  "parameters": {
+    "baseHalfWidth": 8,
+    "extendedHalfWidth": 12,
+    "coarseIntervals": 64,
+    "fineIntervals": 128,
+    "extendedIntervals": 192,
+    "dynamicRefinedIntervals": 256,
+    "newtonTolerance": 1e-10,
+    "newtonMaxIterations": 100,
+    "dynamicDuration": 4,
+    "dynamicCfl": 0.2,
+    "timeRefinementFactor": 2,
+    "perturbationFraction": 0.001,
+    "departureAmplificationThreshold": 10,
+    "traceCount": 21,
+    "roundingSignificantDigits": 12,
+    "traceSignificantDigits": 10,
+    "reportedAbsoluteTolerance": 1e-9
+  },
+  "acceptance": {
+    "stationarityMaxResidual": 1e-8,
+    "gammaMinimum": 0.1,
+    "gammaGridRelativeChangeMaximum": 0.01,
+    "profileGridRelativeL2Maximum": 0.01,
+    "gammaDomainRelativeChangeMaximum": 0.05,
+    "supportRadiusRelativeChangeMaximum": 0.05,
+    "asymmetryIndexMinimum": 0.01,
+    "positiveDefiniteFlag": 1,
+    "controlProfileRelativeDepartureMaximum": 1e-6,
+    "energyRelativeDriftMaximum": 1e-5,
+    "dynamicAmplificationMaximum": 10,
+    "dynamicRefinementRelativeChangeMaximum": 0.05
+  },
+  "hypotheses": {
+    "primaryAlternative": "at least one non-control scenario passes stationarity, nontriviality, intrinsic localization, real-amplitude stability, phase stability, and the complete declared dynamic bank",
+    "primaryNull": "no non-control scenario passes every declared necessary gate",
+    "outcomePolicy": "report positive, negative, mixed, or numerically indeterminate without adding scenarios after inspection"
+  },
+  "stoppingRule": "evaluate exactly the six scenarios and four perturbations below once; do not expand the grid or remove a direction after inspecting results",
+  "oracle": {
+    "solver": {
+      "id": "onto2d-level-0-phase-c-expanded",
+      "version": "1.0.0",
+      "method": "three-component-block-newton-complex-verlet-v1"
+    },
+    "toleranceTarget": { "absolute": 1e-8 },
+    "quantities": [
+      { "id": "stationarity_max_residual_coarse", "unit": "1", "semantic": "asymmetric-envelope-stationarity-residual-coarse-v1", "toleranceTarget": { "absolute": 1e-8 } },
+      { "id": "stationarity_max_residual_fine", "unit": "1", "semantic": "asymmetric-envelope-stationarity-residual-fine-v1", "toleranceTarget": { "absolute": 1e-8 } },
+      { "id": "stationarity_max_residual_extended", "unit": "1", "semantic": "asymmetric-envelope-stationarity-residual-extended-v1", "toleranceTarget": { "absolute": 1e-8 } },
+      { "id": "gamma_coarse", "unit": "1", "semantic": "asymmetric-composite-envelope-gamma-coarse-v1", "toleranceTarget": { "absolute": 1e-8 } },
+      { "id": "gamma_fine", "unit": "1", "semantic": "asymmetric-composite-envelope-gamma-fine-v1", "toleranceTarget": { "absolute": 1e-8 } },
+      { "id": "gamma_extended", "unit": "1", "semantic": "asymmetric-composite-envelope-gamma-extended-v1", "toleranceTarget": { "absolute": 1e-8 } },
+      { "id": "gamma_grid_relative_change", "unit": "1", "semantic": "asymmetric-gamma-grid-relative-change-v1", "toleranceTarget": { "absolute": 1e-8 } },
+      { "id": "gamma_domain_relative_change", "unit": "1", "semantic": "asymmetric-gamma-domain-relative-change-v1", "toleranceTarget": { "absolute": 1e-8 } },
+      { "id": "profile_grid_relative_l2", "unit": "1", "semantic": "asymmetric-profile-grid-relative-l2-v1", "toleranceTarget": { "absolute": 1e-8 } },
+      { "id": "support_radius_90_fine", "unit": "1", "semantic": "asymmetric-composite-support-radius-fine-v1", "toleranceTarget": { "absolute": 1e-8 } },
+      { "id": "support_radius_90_extended", "unit": "1", "semantic": "asymmetric-composite-support-radius-extended-v1", "toleranceTarget": { "absolute": 1e-8 } },
+      { "id": "support_radius_relative_change", "unit": "1", "semantic": "asymmetric-support-radius-relative-change-v1", "toleranceTarget": { "absolute": 1e-8 } },
+      { "id": "component_asymmetry_index_fine", "unit": "1", "semantic": "component-envelope-asymmetry-index-v1", "toleranceTarget": { "absolute": 1e-8 } },
+      { "id": "energy_fine", "unit": "1", "semantic": "three-component-envelope-energy-fine-v1", "toleranceTarget": { "absolute": 1e-8 } },
+      { "id": "real_hessian_min_block_schur_eigenvalue", "unit": "1", "semantic": "real-amplitude-block-hessian-min-schur-eigenvalue-v1", "toleranceTarget": { "absolute": 1e-8 } },
+      { "id": "phase_hessian_min_block_schur_eigenvalue", "unit": "1", "semantic": "imaginary-phase-block-hessian-min-schur-eigenvalue-v1", "toleranceTarget": { "absolute": 1e-8 } },
+      { "id": "real_hessian_positive_definite", "unit": "1", "semantic": "real-amplitude-block-hessian-positive-definite-flag-v1", "toleranceTarget": { "absolute": 1e-8 } },
+      { "id": "phase_hessian_positive_definite", "unit": "1", "semantic": "imaginary-phase-block-hessian-positive-definite-flag-v1", "toleranceTarget": { "absolute": 1e-8 } },
+      { "id": "newton_iterations_coarse", "unit": "1", "semantic": "asymmetric-block-newton-iterations-coarse-v1", "toleranceTarget": { "absolute": 1e-8 } },
+      { "id": "newton_iterations_fine", "unit": "1", "semantic": "asymmetric-block-newton-iterations-fine-v1", "toleranceTarget": { "absolute": 1e-8 } },
+      { "id": "newton_iterations_extended", "unit": "1", "semantic": "asymmetric-block-newton-iterations-extended-v1", "toleranceTarget": { "absolute": 1e-8 } },
+      { "id": "control_max_profile_relative_departure_base", "unit": "1", "semantic": "complex-dynamics-control-departure-base-v1", "toleranceTarget": { "absolute": 1e-8 } },
+      { "id": "control_max_profile_relative_departure_refined", "unit": "1", "semantic": "complex-dynamics-control-departure-refined-v1", "toleranceTarget": { "absolute": 1e-8 } },
+      { "id": "dynamic_max_energy_relative_drift_base", "unit": "1", "semantic": "complex-dynamics-energy-drift-base-v1", "toleranceTarget": { "absolute": 1e-8 } },
+      { "id": "dynamic_max_energy_relative_drift_refined", "unit": "1", "semantic": "complex-dynamics-energy-drift-refined-v1", "toleranceTarget": { "absolute": 1e-8 } },
+      { "id": "dynamic_worst_amplification_base", "unit": "1", "semantic": "perturbation-bank-worst-amplification-base-v1", "toleranceTarget": { "absolute": 1e-8 } },
+      { "id": "dynamic_worst_amplification_time_refined", "unit": "1", "semantic": "perturbation-bank-worst-amplification-time-refined-v1", "toleranceTarget": { "absolute": 1e-8 } },
+      { "id": "dynamic_worst_amplification_space_refined", "unit": "1", "semantic": "perturbation-bank-worst-amplification-space-refined-v1", "toleranceTarget": { "absolute": 1e-8 } },
+      { "id": "dynamic_time_relative_change", "unit": "1", "semantic": "perturbation-bank-time-refinement-change-v1", "toleranceTarget": { "absolute": 1e-8 } },
+      { "id": "dynamic_space_relative_change", "unit": "1", "semantic": "perturbation-bank-space-refinement-change-v1", "toleranceTarget": { "absolute": 1e-8 } },
+      { "id": "complex_common_phase_max_amplification_refined", "unit": "1", "semantic": "common-phase-perturbation-amplification-v1", "toleranceTarget": { "absolute": 1e-8 } },
+      { "id": "complex_relative_phase_max_amplification_refined", "unit": "1", "semantic": "relative-phase-perturbation-amplification-v1", "toleranceTarget": { "absolute": 1e-8 } },
+      { "id": "real_off_center_max_amplification_refined", "unit": "1", "semantic": "off-center-real-perturbation-amplification-v1", "toleranceTarget": { "absolute": 1e-8 } },
+      { "id": "complex_wave_packet_max_amplification_refined", "unit": "1", "semantic": "complex-wave-packet-perturbation-amplification-v1", "toleranceTarget": { "absolute": 1e-8 } }
+    ]
+  },
+  "perturbations": [
+    { "id": "complex-common-phase", "field": "imaginary", "componentDirection": [1, 1, 1], "spatialProfile": "stationary-envelope" },
+    { "id": "complex-relative-phase", "field": "imaginary", "componentDirection": [1, -1, 0], "spatialProfile": "stationary-envelope" },
+    { "id": "real-off-center", "field": "real", "componentDirection": [1, -0.5, 0.25], "spatialProfile": "unit-gaussian-centered-at-1.5" },
+    { "id": "complex-wave-packet", "field": "imaginary", "componentDirection": [1, 0.5, -0.75], "spatialProfile": "unit-gaussian-times-first-cosine-centered-at-minus-1.5" }
+  ],
+  "scenarios": [
+    { "id": "symmetric-control", "eligible": false, "massSquared": [1, 1, 1], "lambda": 2, "quarticCoefficient": 0.5, "seedScale": [1, 1, 1] },
+    { "id": "mild-mass-split", "eligible": true, "massSquared": [0.9, 1, 1.1], "lambda": 2, "quarticCoefficient": 0.5, "seedScale": [1.1, 1, 0.9] },
+    { "id": "wide-mass-split", "eligible": true, "massSquared": [0.8, 1, 1.2], "lambda": 2, "quarticCoefficient": 0.5, "seedScale": [1.15, 1, 0.85] },
+    { "id": "stronger-coupling", "eligible": true, "massSquared": [0.9, 1, 1.1], "lambda": 2.2, "quarticCoefficient": 0.5, "seedScale": [1.1, 1, 0.9] },
+    { "id": "stiffer-quartic", "eligible": true, "massSquared": [0.9, 1, 1.1], "lambda": 2, "quarticCoefficient": 0.65, "seedScale": [1.1, 1, 0.9] },
+    { "id": "lower-coupling-split", "eligible": true, "massSquared": [0.85, 1.05, 1.1], "lambda": 1.8, "quarticCoefficient": 0.45, "seedScale": [1.12, 0.96, 0.88] }
+  ]
+}

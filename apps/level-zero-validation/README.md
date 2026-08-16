@@ -1,9 +1,10 @@
 # Level-0 Numerical Validation
 
 This static page presents the frozen Level-0 numerical case as an interactive
-evidence view. It loads the integrated, Phase-C objecthood, and bounded real-time
-dynamics artifacts directly; the browser does not recompute or reinterpret the
-scientific result.
+evidence view. It loads both integrated dispositions, the Phase-C objecthood
+and bounded real-time artifacts, and the preregistered asymmetric/complex
+search directly. The browser does not recompute or reinterpret the scientific
+result.
 
 Run the repository site and open the page:
 
@@ -23,3 +24,10 @@ that growth with the antisymmetric control. Because the full profiles remain
 visually close, a separate difference lens shows their absolute pointwise
 difference relative to its initial maximum. A playhead links the selected frame
 to the complete amplification trace.
+
+The expanded-search panel switches between the one disclosed control and five
+eligible asymmetric scenarios. It plots all three stationary component
+envelopes and all four refined perturbation traces from the frozen artifact.
+The display keeps the dynamic-bank pass separate from the failed real and phase
+Hessian gates, because every frozen necessary gate must pass for trial
+objecthood.

@@ -4,6 +4,7 @@ import test from "node:test";
 
 import {
   buildDynamicsView,
+  buildExpandedSearchView,
   buildVisualStudy,
   formatMetric,
   normalizedDifferenceProfile,
@@ -25,6 +26,12 @@ const objecthood = await readJson(
 );
 const dynamics = await readJson(
   "cases/level-0-oscillator/artifacts/phase-c-dynamics-v1.json"
+);
+const integratedV2 = await readJson(
+  "cases/level-0-oscillator/artifacts/level-zero-validation-v2.json"
+);
+const expanded = await readJson(
+  "cases/level-0-oscillator/artifacts/phase-c-expanded-search-v1.json"
 );
 
 test("the visual study preserves the frozen phase disposition", () => {
@@ -174,6 +181,73 @@ test("the dynamics visual refuses a trace bound to different evidence", () => {
   assert.throws(
     () => normalizedDifferenceProfile(viewFrameFixture(), 0),
     /positive initial maximum/
+  );
+});
+
+test("the expanded visual preserves the preregistered bounded disposition", () => {
+  const view = buildExpandedSearchView(integratedV2, expanded);
+  assert.equal(view.analysisHash, integratedV2.analysisHash);
+  assert.equal(view.expandedAnalysisHash, expanded.analysisHash);
+  assert.equal(view.scenarioCount, 6);
+  assert.equal(view.eligibleCount, 5);
+  assert.equal(view.qualifiedCount, 0);
+  assert.equal(view.indeterminateCount, 0);
+  assert.equal(view.perturbationCount, 4);
+  assert.deepEqual(
+    view.scenarios.filter((scenario) => scenario.eligible).map((scenario) => ({
+      id: scenario.id,
+      asymmetric: scenario.gates.asymmetryPassed,
+      realStable: scenario.gates.realAmplitudeStabilityPassed,
+      phaseStable: scenario.gates.complexPhaseStabilityPassed,
+      dynamicBank: scenario.gates.dynamicBankPassed,
+      passed: scenario.passed
+    })),
+    [
+      "mild-mass-split",
+      "wide-mass-split",
+      "stronger-coupling",
+      "stiffer-quartic",
+      "lower-coupling-split"
+    ].map((id) => ({
+      id,
+      asymmetric: true,
+      realStable: false,
+      phaseStable: false,
+      dynamicBank: true,
+      passed: false
+    }))
+  );
+  for (const scenario of view.scenarios) {
+    assert.equal(scenario.stationary.components.length, 3);
+    assert.equal(scenario.dynamics.length, 4);
+    for (const probe of scenario.dynamics) {
+      assert.equal(probe.times.length, probe.amplification.length);
+      const path = seriesPath(probe.times, probe.amplification, 720, 300, {
+        xMin: probe.times[0],
+        xMax: probe.times.at(-1),
+        yMin: 0,
+        yMax: 10.5
+      });
+      assert.match(path, /^M/);
+      assert.doesNotMatch(path, /NaN|Infinity/);
+    }
+  }
+});
+
+test("the expanded visual rejects unbound or incomplete evidence", () => {
+  assert.throws(
+    () => buildExpandedSearchView(integratedV2, {
+      ...expanded,
+      analysisHash: "sha256:different"
+    }),
+    /not bound to the integrated Level-0 result/
+  );
+  assert.throws(
+    () => buildExpandedSearchView(integratedV2, {
+      ...expanded,
+      scenarios: expanded.scenarios.slice(0, 5)
+    }),
+    /six preregistered scenarios/
   );
 });
 

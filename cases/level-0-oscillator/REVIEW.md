@@ -1,6 +1,6 @@
 # Independent scientific review packet
 
-Status date: 2026-08-15
+Status date: 2026-08-16
 
 This review concerns the bounded Level-0 computational case. Approval means
 that its assumptions, calculations, evidence chain, and negative conclusion
@@ -25,6 +25,7 @@ npm run check
 npm run build
 npm run case:level-0:verify
 npm run case:level-0:dynamics:verify
+npm run case:level-0:expanded:verify
 npm test
 ```
 
@@ -52,15 +53,30 @@ reproduced, or the source lock fails.
    numerical peak approaches it.
 8. Confirm that enlarging the domain leaves the pulse concentration nearly
    unchanged but increases the plateau concentration and support materially.
-9. Confirm that each tested branch fails at least one necessary objecthood
-   gate and that unrun complex/time perturbations cannot reverse those
-   existing failures.
+9. Confirm that each original tested branch fails at least one necessary
+   objecthood gate.
 10. Confirm that Phase D receives no eligible node and is not silently run on
     a failed Phase-C candidate.
 11. Independently derive the three-envelope time-evolution equation from the
     declared energy and confirm the sign of every nonlinear term.
 12. Reproduce the symmetric perturbation amplification, the bounded
     antisymmetric control, and the temporal/spatial refinement comparisons.
+13. Confirm that
+    [`PHASE_C_EXPANDED_PREREGISTRATION.md`](PHASE_C_EXPANDED_PREREGISTRATION.md)
+    and [`phase-c-expanded-search-v1.json`](phase-c-expanded-search-v1.json)
+    fix the six scenarios, four perturbations, thresholds, and stopping rule
+    independently of the reported outcome.
+14. Independently reproduce at least one eligible asymmetric stationary
+    solution and compare its residual, `Gamma`, component-asymmetry index, and
+    enlarged-domain localization measures.
+15. Independently construct the complete discrete real-amplitude and
+    imaginary-phase Hessians for at least one eligible scenario. Confirm both
+    frozen positive-definiteness dispositions without relying only on the
+    repository block factorization.
+16. Reproduce all four refined dynamic probes for at least one eligible
+    scenario and confirm the control, energy, and refinement gates.
+17. Confirm that the bounded dynamic-bank pass does not override either failed
+    static stability gate and that Phase D still receives no eligible node.
 
 ## Claim audit
 
@@ -84,6 +100,9 @@ Independent cubic boundedness check:
 Independent pulse/Gamma/Rayleigh check:
 Independent plateau-root/domain check:
 Independent real-time dynamics check:
+Independent asymmetric stationary check:
+Independent real/phase Hessian check:
+Independent four-probe dynamics check:
 Phase-B to Phase-C mapping accepted: yes/no
 Claim boundary accepted: yes/no
 Blocking findings:

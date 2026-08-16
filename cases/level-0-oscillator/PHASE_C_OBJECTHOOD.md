@@ -2,6 +2,10 @@
 
 Status date: 2026-08-15
 
+This is the frozen equal-envelope v1 report. Its asymmetric and complex
+follow-up is documented separately in
+[`PHASE_C_EXPANDED_SEARCH.md`](PHASE_C_EXPANDED_SEARCH.md).
+
 ## Outcome
 
 No branch in the frozen trial family satisfies localization, nontrivial

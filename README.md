@@ -52,8 +52,8 @@ generative semantics. See the
   ([source notes](apps/canonical-identity-lab/README.md)).
 
 The [Level-0 Numerical Validation](https://denbraun.github.io/Onto2D/apps/level-zero-validation/)
-presents the bounded negative result as an artifact-backed gate sequence and
-interactive branch comparison
+presents the expanded bounded negative result as an artifact-backed gate
+sequence, interactive branch comparison, and asymmetric complex search
 ([source notes](apps/level-zero-validation/README.md)).
 
 The [Model Studio](https://denbraun.github.io/Onto2D/apps/model-studio/)
@@ -102,7 +102,8 @@ commands and fixture policy.
 Research inputs and reproductions live in [`cases/`](cases). The
 [Level-0 oscillator case](cases/level-0-oscillator/README.md) contains a bounded
 Phase-B numerical reference benchmark and a negative Phase-C boundedness
-preflight, a bounded objecthood search, and a real-time persistence probe; the
+preflight, a bounded objecthood search, a real-time persistence probe, and a
+preregistered asymmetric/complex extension; the
 [three-node-motif case](cases/three-node-motifs/README.md) is an executable,
 frozen empirical reproduction.
 

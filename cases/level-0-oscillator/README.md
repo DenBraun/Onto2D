@@ -14,6 +14,7 @@ npm run case:level-0:phase-b:verify
 npm run case:level-0:phase-c:verify
 npm run case:level-0:objecthood:verify
 npm run case:level-0:dynamics:verify
+npm run case:level-0:expanded:verify
 ```
 
 To regenerate the frozen artifact intentionally:
@@ -24,13 +25,16 @@ npm run case:level-0:phase-b
 npm run case:level-0:phase-c
 npm run case:level-0:objecthood
 npm run case:level-0:dynamics
+npm run case:level-0:expanded
 ```
 
 The non-mutating verification command is the normal review path.
 
 The default `case:level-0` command runs the integrated gated pipeline. Its
 human-readable conclusion is in
-[`LEVEL_ZERO_VALIDATION.md`](LEVEL_ZERO_VALIDATION.md).
+[`LEVEL_ZERO_VALIDATION_V2.md`](LEVEL_ZERO_VALIDATION_V2.md). The frozen v1
+pipeline remains available as `npm run case:level-0:v1:verify` and is documented
+in [`LEVEL_ZERO_VALIDATION.md`](LEVEL_ZERO_VALIDATION.md).
 
 For the interactive evidence view, open
 [`Level-0 Numerical Validation`](../../apps/level-zero-validation/).
@@ -107,6 +111,14 @@ the exact three-envelope case energy. A symmetric perturbation grows while an
 antisymmetric control remains bounded. This independently supports the static
 stability rejection without changing the completed Level-0 disposition.
 
+The preregistered extension in
+[`PHASE_C_EXPANDED_SEARCH.md`](PHASE_C_EXPANDED_SEARCH.md) removes the equal
+envelope restriction for five asymmetric parameter sets and executes a frozen
+four-direction complex perturbation bank. All eligible branches are localized
+and non-trivial, but none passes the real-amplitude or complex-phase Hessian
+gate. The integrated v2 disposition therefore remains negative inside the
+expanded declared model.
+
 ## Interpretation boundary
 
 This benchmark establishes computational conformance for one declared model:
@@ -116,8 +128,8 @@ This benchmark establishes computational conformance for one declared model:
 - topology alone does not rescue detuned or off-shell modes;
 - the finite-difference residual converges at the expected order.
 
-The periodic L2 norm is reported only as a solver diagnostic. It is not the
-paper's localized `Gamma`, and it does not establish bounded support,
-perturbative persistence, nonlinear CRT objecthood, collective stability,
-Level-0 completion, or physical truth. Those require new frozen scientific
-specifications and evidence.
+The periodic L2 norm in the Phase-B benchmark is reported only as a solver
+diagnostic. It is not the paper's localized `Gamma`. Later Phase-C studies add
+their own explicit concentration, localization, static-stability, and dynamic
+tests, but do not establish collective stability, general Level-0 completion,
+or physical truth outside their frozen search domains.

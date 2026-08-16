@@ -2,6 +2,11 @@
 
 Status date: 2026-08-15
 
+This is the frozen two-direction real-amplitude probe. The later four-direction
+complex extension is documented in
+[`PHASE_C_EXPANDED_SEARCH.md`](PHASE_C_EXPANDED_SEARCH.md) without modifying
+this artifact.
+
 ## Result
 
 The localized stationary pulse is dynamically unstable under the declared

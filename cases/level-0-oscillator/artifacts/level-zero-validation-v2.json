@@ -1,0 +1,107 @@
+{
+  "schemaVersion": "1",
+  "caseId": "level-0-oscillator",
+  "modelId": "level-0-expanded-pipeline-validation",
+  "modelVersion": "2.0.0",
+  "modelHash": "sha256:4b5c2a1fcbea65d864888b830db595c28d06724258a673748614b1d225f0a05b",
+  "sourceHash": "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+  "source": {
+    "name": "topology-of-arising.pdf",
+    "repositoryPath": "scr/topology-of-arising.pdf",
+    "bytes": 340428,
+    "pages": 36,
+    "doi": "10.5281/zenodo.19397414",
+    "conceptDoi": "10.5281/zenodo.15862613",
+    "version": "v1.2",
+    "publicationDate": "2026-04-03",
+    "license": "CC-BY-4.0",
+    "sourceUrl": "https://zenodo.org/records/19397414",
+    "sha256": "sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+    "reviewStatus": "reviewed",
+    "modelPageRange": {
+      "start": 15,
+      "end": 26
+    }
+  },
+  "status": "complete-negative-result-within-expanded-declared-model",
+  "pipeline": [
+    "reproduce the complete v1 gated Level-0 case",
+    "reproduce the preregistered asymmetric and complex Phase-C extension",
+    "carry forward any qualified expanded branch into Phase D",
+    "stop without creating a collective when no eligible branch exists"
+  ],
+  "claims": {
+    "positive": "Level 0 is validated only if a Phase-C branch passes every declared gate and its resulting population passes Phase D",
+    "negative": "the complete expanded declared model is not validated when no Phase-C branch qualifies",
+    "boundary": "the result applies only to the frozen v1 case plus the six-scenario, four-perturbation extension",
+    "notClaimed": [
+      "validation or falsification of the general theory",
+      "coverage of all asymmetric parameters or complex perturbations",
+      "empirical physical validation"
+    ]
+  },
+  "review": {
+    "status": "pending-independent-scientific-review",
+    "localReproductionIsNotReview": true
+  },
+  "dependencies": [
+    {
+      "id": "level-zero-validation-v1",
+      "repositoryPath": "cases/level-0-oscillator/artifacts/level-zero-validation-v1.json",
+      "analysisHash": "sha256:f9c7cb2b7364aece577dc8bd6e0b97375213c7d2974ff78cc6cc66b6979d6d8d",
+      "modelHash": "sha256:92cf3e05e8d75866bed589acf97906488d334c4c1772259c6cedb8f9da8cc6c4",
+      "status": "complete-negative-result-within-declared-model",
+      "exactReproductionVerified": true
+    },
+    {
+      "id": "phase-c-expanded-search-v1",
+      "repositoryPath": "cases/level-0-oscillator/artifacts/phase-c-expanded-search-v1.json",
+      "analysisHash": "sha256:c5cb34687b813fa04026ef9bb5b59eeb06700326b1610ee510ee324a8aab83af",
+      "modelHash": "sha256:bb2f3d26ac0da622f7c6c107716c18c46cfbd3e25eec1dd4d360de84cad85712",
+      "status": "completed-preregistered-bounded-extension",
+      "exactReproductionVerified": true
+    }
+  ],
+  "phases": {
+    "phaseB": {
+      "status": "passed-declared-gate",
+      "admittedScenarioIds": [
+        "resonant-triad"
+      ]
+    },
+    "phaseCPreflight": {
+      "status": "rejected-unbounded-potential",
+      "analyticalUnboundedBelow": true
+    },
+    "phaseCObjecthood": {
+      "status": "no-object-qualified-node",
+      "trialObjecthoodScenarioIds": [],
+      "paperCRTObjecthoodScenarioIds": [],
+      "completePerturbationClassCovered": false,
+      "terminalNegativeResultComplete": true
+    },
+    "phaseD": {
+      "status": "not-run-no-object-qualified-nodes",
+      "eligibleNodeScenarioIds": []
+    },
+    "phaseCExpanded": {
+      "status": "bounded-negative-no-qualified-asymmetric-branch",
+      "preregisteredScenarioCount": 6,
+      "preregisteredPerturbationCount": 4,
+      "qualifiedScenarioIds": [],
+      "indeterminateScenarioIds": [],
+      "completeParameterOrPerturbationSpaceCovered": false
+    }
+  },
+  "conclusion": {
+    "declaredCaseExecutionComplete": true,
+    "declaredModelLevelZeroValidated": false,
+    "priorV1DispositionChanged": false,
+    "generalTheoryValidated": false,
+    "generalTheoryFalsified": false,
+    "empiricalValidationClaimed": false,
+    "independentScientificReviewComplete": false,
+    "result": "Level 0 remains unvalidated in the expanded declared model because no asymmetric Phase-C branch passes every static and dynamic gate."
+  },
+  "analysisHash": "sha256:608ce4895ae17cb5cb1b74fed9fa63daefd8f9f8e7b23c47c4cdcb8194d8e176"
+}

@@ -2,6 +2,10 @@
 
 Status date: 2026-08-15
 
+This is the frozen v1 report. The current expanded disposition is documented
+in [`LEVEL_ZERO_VALIDATION_V2.md`](LEVEL_ZERO_VALIDATION_V2.md); v1 remains
+unchanged and independently reproducible.
+
 ## Result
 
 The declared case executed completely and produced a negative result:
@@ -53,7 +57,7 @@ complete integrated result is
 Run the non-mutating reproduction with:
 
 ```sh
-npm run case:level-0:verify
+npm run case:level-0:v1:verify
 ```
 
 Independent scientific review is pending. The exact reproduction and manual
@@ -87,7 +91,7 @@ individual carrier parameters with a normalized equal-envelope surrogate.
 That replacement is an assumption of this case, not a derived continuation of
 the Phase-B field solution.
 
-The following remain open beyond this case:
+The following were open beyond this v1 case:
 
 - asymmetric three-envelope solutions;
 - alternative bounded nonlinear completions and parameter ranges;
@@ -95,8 +99,10 @@ The following remain open beyond this case:
 - a positive Phase-C node population and consequent Phase-D collective model;
 - empirical comparison with physical observations.
 
-These are future hypotheses, not missing values that the current result may
-silently invent.
+The asymmetric/complex item was subsequently tested in a separate
+preregistered bounded extension. See
+[`PHASE_C_EXPANDED_SEARCH.md`](PHASE_C_EXPANDED_SEARCH.md). Its negative result
+does not modify this frozen v1 artifact.
 
 The unrun complex-phase and time-evolution tests cannot reverse this terminal
 result because every tested branch already fails a necessary gate. They remain

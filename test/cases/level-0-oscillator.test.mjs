@@ -10,6 +10,7 @@ import { runPhaseCBoundednessPreflight } from "../../cases/level-0-oscillator/ru
 import { runPhaseCObjecthoodSearch } from "../../cases/level-0-oscillator/run-phase-c-objecthood.mjs";
 import { runPhaseCDynamicsProbe } from "../../cases/level-0-oscillator/run-phase-c-dynamics.mjs";
 import { runIntegratedLevelZeroValidation } from "../../cases/level-0-oscillator/run-level-zero-validation.mjs";
+import { runIntegratedLevelZeroValidationV2 } from "../../cases/level-0-oscillator/run-level-zero-validation-v2.mjs";
 import {
   LEVEL_ZERO_REFERENCE_SOLVER,
   levelZeroReferenceSolver
@@ -32,6 +33,7 @@ const phaseCResult = runPhaseCBoundednessPreflight();
 const phaseCObjecthoodResult = runPhaseCObjecthoodSearch();
 const phaseCDynamicsResult = runPhaseCDynamicsProbe();
 const integratedLevelZeroResult = runIntegratedLevelZeroValidation();
+const integratedLevelZeroV2Result = runIntegratedLevelZeroValidationV2();
 
 async function analysis() {
   return analysisResult;
@@ -51,6 +53,10 @@ async function phaseCDynamicsAnalysis() {
 
 async function integratedLevelZeroAnalysis() {
   return integratedLevelZeroResult;
+}
+
+async function integratedLevelZeroV2Analysis() {
+  return integratedLevelZeroV2Result;
 }
 
 function expectedStationarityResidual(modes, grid, spacePeriod, timePeriod) {
@@ -744,4 +750,60 @@ test("the frozen integrated Level-0 artifact and report are exact reproductions"
   );
   assert.match(reviewGuide, /npm run case:level-0:verify/);
   assert.match(reviewGuide, /not approval of the general\s+theory/i);
+});
+
+test("the expanded integrated Level-0 case is an exact bounded negative reproduction", async () => {
+  const result = await integratedLevelZeroV2Analysis();
+  const frozen = JSON.parse(await readFile(
+    new URL(
+      "../../cases/level-0-oscillator/artifacts/level-zero-validation-v2.json",
+      import.meta.url
+    ),
+    "utf8"
+  ));
+  assert.deepEqual(result, frozen);
+  assert.equal(result.status, "complete-negative-result-within-expanded-declared-model");
+  assert.equal(result.phases.phaseCExpanded.preregisteredScenarioCount, 6);
+  assert.equal(result.phases.phaseCExpanded.preregisteredPerturbationCount, 4);
+  assert.deepEqual(result.phases.phaseCExpanded.qualifiedScenarioIds, []);
+  assert.deepEqual(result.phases.phaseCExpanded.indeterminateScenarioIds, []);
+  assert.equal(result.phases.phaseD.status, "not-run-no-object-qualified-nodes");
+  assert.equal(result.conclusion.declaredCaseExecutionComplete, true);
+  assert.equal(result.conclusion.declaredModelLevelZeroValidated, false);
+  assert.equal(result.conclusion.priorV1DispositionChanged, false);
+  assert.equal(result.conclusion.generalTheoryValidated, false);
+  assert.equal(result.conclusion.generalTheoryFalsified, false);
+  assert.equal(result.conclusion.empiricalValidationClaimed, false);
+
+  const expanded = JSON.parse(await readFile(
+    new URL(
+      "../../cases/level-0-oscillator/artifacts/phase-c-expanded-search-v1.json",
+      import.meta.url
+    ),
+    "utf8"
+  ));
+  assert.equal(expanded.conclusion.testedAllPreregisteredScenarios, true);
+  assert.equal(expanded.conclusion.testedAllPreregisteredPerturbations, true);
+  assert.equal(expanded.conclusion.completeParameterOrPerturbationSpaceCovered, false);
+  assert.deepEqual(expanded.conclusion.qualifiedScenarioIds, []);
+  const eligible = expanded.scenarios.filter((scenario) => scenario.eligible);
+  assert.equal(eligible.length, 5);
+  for (const scenario of eligible) {
+    assert.equal(scenario.scientificResult.gates.asymmetryPassed, true);
+    assert.equal(scenario.scientificResult.gates.intrinsicLocalizationPassed, true);
+    assert.equal(scenario.scientificResult.gates.dynamicBankPassed, true);
+    assert.equal(scenario.scientificResult.gates.realAmplitudeStabilityPassed, false);
+    assert.equal(scenario.scientificResult.gates.complexPhaseStabilityPassed, false);
+    assert.equal(scenario.visualization.dynamics.length, 4);
+  }
+
+  const report = await readFile(
+    new URL("../../cases/level-0-oscillator/LEVEL_ZERO_VALIDATION_V2.md", import.meta.url),
+    "utf8"
+  );
+  assert.match(report, new RegExp(result.modelHash));
+  assert.match(report, new RegExp(result.analysisHash));
+  for (const dependency of result.dependencies) {
+    assert.match(report, new RegExp(dependency.analysisHash));
+  }
 });

@@ -1,6 +1,6 @@
 # Scientific Roadmap
 
-Status date: 2026-08-15
+Status date: 2026-08-16
 
 ## Scope
 
@@ -22,30 +22,38 @@ three negative controls, Oracle evidence, and a frozen reproducible report. The
 goal remains a numerical test of a precisely stated complete Level-0 model,
 including negative and indeterminate outcomes.
 
-Current milestone: Phase-B computational conformance is implemented. Localized
-CRT objecthood, collective Phase D, and complete Level-0 validation remain
-open. A Phase-C preflight also shows that the frozen free cubic potential is
-unbounded below on its declared amplitude domain. The next nonlinear model must
-therefore justify a bounded domain, add a stabilizing even-order term, or
-provide another explicit lower-bound certificate before objecthood tests.
+Current milestone: the expanded declared Level-0 pipeline is implemented with
+an explicit bounded negative result. Phase-B computational conformance passes.
+The free cubic Phase-C potential is unbounded below, and the disclosed positive
+quartic completion supplies no object-qualified node in either its original or
+expanded trial family. Collective Phase D and general Level-0 validation remain
+open because no eligible Phase-C population exists.
 
 A first bounded follow-up now adds a disclosed quartic stabilizer and searches
 three symmetric real-envelope branches. The localized pulse fails the
 real-amplitude stability gate, the stable plateau fails domain-independent
 localization, and the uncoupled vacuum fails nontrivial `Gamma`. This closes the
 declared trial family with a negative result, not the general Phase-C question.
-An additional bounded dynamics probe now evolves the localized pulse under the
+An additional bounded dynamics probe evolves the localized pulse under the
 same three-envelope energy. Its symmetric perturbation grows, its
 antisymmetric control remains bounded, and its coupled space-time refinements
-agree. This supports the existing static rejection but does not reopen the
-terminal result. The next extension must preregister an asymmetric parameter
-search plus complex-phase and broader time-evolution perturbations.
+agree. A subsequent outcome-independent preregistration freezes one control,
+five asymmetric parameter sets, complete real and imaginary block-Hessian
+checks, and four broader real/complex time perturbations. All six calculations
+converge; the five eligible branches are asymmetric, localized, non-trivial,
+and dynamically bounded under the declared probes. None passes the real or
+phase Hessian gate. This closes that finite extension without claiming coverage
+of the continuous parameter or perturbation space.
 
-The current integrated runner closes this declared pipeline with the explicit
-status `complete-negative-result-within-declared-model`: Phase B passes, Phase
-C supplies no object-qualified node, and Phase D stops without inventing an
-eligible population. Broader Level-0 validation remains open outside this
-bounded trial family.
+The current integrated v2 runner closes this expanded pipeline with the
+explicit status `complete-negative-result-within-expanded-declared-model`:
+Phase B passes, Phase C supplies no object-qualified node, and Phase D stops
+without inventing an eligible population. The next Level-0 extension requires
+a new preregistration for an alternative bounded nonlinear completion or a
+scientifically justified phase-symmetry policy, plus an independent numerical
+comparison for the stability quantities used by the gate. Repeating a denser
+version of the same finite grid without that protocol is not the next
+milestone.
 
 Required work:
 

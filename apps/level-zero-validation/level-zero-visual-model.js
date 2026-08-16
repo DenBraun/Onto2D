@@ -25,6 +25,60 @@ const GATE_LABELS = Object.freeze({
   nontrivialGamma: "non-trivial Gamma"
 });
 
+const EXPANDED_SCENARIO_COPY = Object.freeze({
+  "symmetric-control": {
+    name: "Symmetric control",
+    shortName: "Control",
+    note: "The original equal-mass branch is retained as a disclosed, ineligible control."
+  },
+  "mild-mass-split": {
+    name: "Mild mass split",
+    shortName: "Mild split",
+    note: "A small component-mass separation produces a converged asymmetric envelope."
+  },
+  "wide-mass-split": {
+    name: "Wide mass split",
+    shortName: "Wide split",
+    note: "A wider mass separation tests whether stronger component asymmetry changes the disposition."
+  },
+  "stronger-coupling": {
+    name: "Stronger coupling",
+    shortName: "Coupling",
+    note: "The interaction strength is increased while the asymmetric mass split is retained."
+  },
+  "stiffer-quartic": {
+    name: "Stiffer quartic",
+    shortName: "Quartic",
+    note: "A stronger bounded stabilizer tests a narrower and less amplified branch."
+  },
+  "lower-coupling-split": {
+    name: "Lower coupling split",
+    shortName: "Low coupling",
+    note: "Reduced coupling tests a broader localized asymmetric solution."
+  }
+});
+
+const EXPANDED_GATE_LABELS = Object.freeze({
+  asymmetry: "asymmetry",
+  "real-amplitude-stability": "real-amplitude stability",
+  "complex-phase-stability": "complex-phase stability",
+  stationarity: "stationarity",
+  "grid-convergence": "grid convergence",
+  "nontrivial-gamma": "non-trivial Gamma",
+  "intrinsic-localization": "intrinsic localization",
+  "control-persistence": "control persistence",
+  "energy-conservation": "energy conservation",
+  "dynamic-refinement": "dynamic refinement",
+  "dynamic-bank": "dynamic perturbation bank"
+});
+
+const EXPANDED_PERTURBATION_LABELS = Object.freeze({
+  "complex-common-phase": "Common phase",
+  "complex-relative-phase": "Relative phase",
+  "real-off-center": "Off-center real",
+  "complex-wave-packet": "Complex wave packet"
+});
+
 function requireObject(value, name) {
   if (!value || typeof value !== "object" || Array.isArray(value)) {
     throw new TypeError(`${name} must be an object.`);
@@ -145,6 +199,102 @@ export function buildDynamicsView(objecthoodArtifact, dynamicsArtifact) {
     profileMaximum: Math.max(...frames.flatMap(
       (frame) => [...frame.controlComposite, ...frame.perturbedComposite]
     ))
+  };
+}
+
+export function buildExpandedSearchView(integratedArtifact, expandedArtifact) {
+  const integrated = requireObject(integratedArtifact, "integratedArtifact");
+  const expanded = requireObject(expandedArtifact, "expandedArtifact");
+  const dependency = integrated.dependencies?.find(
+    (entry) => entry.id === "phase-c-expanded-search-v1"
+  );
+  if (!dependency || dependency.analysisHash !== expanded.analysisHash) {
+    throw new TypeError("The expanded search is not bound to the integrated Level-0 result.");
+  }
+  if (
+    integrated.status !== "complete-negative-result-within-expanded-declared-model" ||
+    integrated.conclusion?.priorV1DispositionChanged !== false ||
+    integrated.conclusion?.declaredModelLevelZeroValidated !== false ||
+    expanded.status !== "completed-preregistered-bounded-extension" ||
+    expanded.conclusion?.result !== "bounded-negative-no-qualified-asymmetric-branch"
+  ) {
+    throw new TypeError("The expanded artifacts have an unsupported scientific disposition.");
+  }
+  if (!Array.isArray(expanded.scenarios) || expanded.scenarios.length !== 6) {
+    throw new TypeError("The expanded artifact must contain the six preregistered scenarios.");
+  }
+  if (
+    expanded.preregistration?.scenarioCount !== 6 ||
+    expanded.preregistration?.eligibleScenarioCount !== 5 ||
+    expanded.preregistration?.perturbationCount !== 4
+  ) {
+    throw new TypeError("The expanded artifact does not preserve the preregistered search size.");
+  }
+  const scenarios = expanded.scenarios.map((scenario) => {
+    const copy = EXPANDED_SCENARIO_COPY[scenario.id];
+    const stationary = scenario.visualization?.stationary;
+    const dynamics = scenario.visualization?.dynamics;
+    const result = scenario.scientificResult;
+    if (
+      !copy ||
+      !Array.isArray(stationary?.x) ||
+      stationary.x.length < 2 ||
+      !Array.isArray(stationary.components) ||
+      stationary.components.length !== 3 ||
+      !stationary.components.every(
+        (component) => Array.isArray(component) && component.length === stationary.x.length
+      ) ||
+      !Array.isArray(dynamics) ||
+      dynamics.length !== 4 ||
+      !dynamics.every(
+        (probe) => EXPANDED_PERTURBATION_LABELS[probe.id] &&
+          Array.isArray(probe.trace) &&
+          probe.trace.length >= 2 &&
+          probe.trace.every(
+            (point) => Number.isFinite(point.time) && Number.isFinite(point.amplification)
+          )
+      ) ||
+      !result ||
+      !result.values ||
+      !result.gates ||
+      !Array.isArray(result.failedNecessaryGates)
+    ) {
+      throw new TypeError(`The expanded scenario ${scenario.id} has incomplete visual evidence.`);
+    }
+    return {
+      id: scenario.id,
+      eligible: scenario.eligible,
+      ...copy,
+      parameters: scenario.parameters,
+      values: result.values,
+      gates: result.gates,
+      passed: result.trialObjecthoodPassed,
+      failedGates: result.failedNecessaryGates.map(
+        (gate) => EXPANDED_GATE_LABELS[gate] ?? gate
+      ),
+      stationary: {
+        x: stationary.x,
+        components: stationary.components
+      },
+      dynamics: dynamics.map((probe) => ({
+        id: probe.id,
+        label: EXPANDED_PERTURBATION_LABELS[probe.id],
+        maximumAmplification: probe.maximumAmplification,
+        times: probe.trace.map((point) => point.time),
+        amplification: probe.trace.map((point) => point.amplification)
+      }))
+    };
+  });
+  return {
+    analysisHash: integrated.analysisHash,
+    expandedAnalysisHash: expanded.analysisHash,
+    result: expanded.conclusion.result,
+    scenarioCount: scenarios.length,
+    eligibleCount: scenarios.filter((scenario) => scenario.eligible).length,
+    qualifiedCount: scenarios.filter((scenario) => scenario.passed).length,
+    indeterminateCount: expanded.conclusion.indeterminateScenarioIds?.length ?? 0,
+    perturbationCount: expanded.preregistration?.perturbationCount,
+    scenarios
   };
 }
 

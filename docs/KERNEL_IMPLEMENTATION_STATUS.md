@@ -46,16 +46,17 @@ are presentation features, not additional kernel or scientific capabilities.
 | Boundary | Implemented | Still external or pending |
 |---|---|---|
 | Catalogue | Audit, classified projections, reviewed resolution/condensation replay, diagnostics, metrics, explanations | Policy authorship, annotation collection, reviewed current-catalogue migration inputs |
-| Scientific | Adapter validation and request/response protocol; bounded Phase-B case solver; Phase-C boundedness preflight and stabilized trial-family search | General nonlinear search, dynamic stability, and complete scientific evidence |
+| Scientific | Adapter validation and request/response protocol; bounded Phase-B solver; Phase-C preflight, stabilized trial family, real-time probe, and preregistered asymmetric/complex extension | General parameter-space coverage, independent numerical comparison, collective Phase D, and empirical evidence |
 | Run store | Verified local bundle persistence and append-only execution records | Remote object-store persistence |
 
 ## Cases
 
 - `cases/three-node-motifs` is a frozen, executable empirical reproduction.
 - `cases/level-0-oscillator` contains a bounded numerical Phase-B reference
-  benchmark, a negative Phase-C boundedness preflight, and a bounded objecthood
-  search with no qualified node. It is not complete Level-0 or empirical
-  validation of the theory.
+  benchmark, a negative Phase-C boundedness preflight, a bounded objecthood
+  search, a real-time probe, and a preregistered six-scenario/four-perturbation
+  extension with no qualified node. It is a complete negative result for the
+  expanded declared model, not general Level-0 or empirical validation.
 - The Historical Load Explorer is illustrative rather than empirical.
 
 The required numerical, migration, solver, and empirical work is tracked in the
