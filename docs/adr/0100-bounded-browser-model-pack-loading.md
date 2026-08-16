@@ -25,9 +25,11 @@ HTTP requests are sequential and use `GET`, `cache: "no-store"`,
 status 200, the exact requested response URL, a JSON media type, a readable
 byte stream, and a valid optional `Content-Length`. Declared and streamed
 sizes are checked against per-file and cumulative limits before copying or
-parsing, declared length must equal received length, and UTF-8 and JSON parsing
-are strict. Both sources pass their decoded values to the existing full Model
-Pack reconstruction and hash/index verifier.
+parsing, and UTF-8 and JSON parsing are strict. Declared length is not required
+to equal the decoded stream size because a CDN can declare compressed transfer
+bytes while Fetch exposes decompressed content. The decoded stream remains the
+authoritative bounded input. Both sources pass their decoded values to the
+existing full Model Pack reconstruction and hash/index verifier.
 
 Options are plain data with a closed field set. Accessors and symbols are
 rejected without invocation. The published entrypoint contains no Node

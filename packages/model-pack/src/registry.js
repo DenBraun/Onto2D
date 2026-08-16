@@ -480,12 +480,11 @@ function inspectResponse(response, requestedUrl, maximum) {
   if (!JSON_MEDIA_TYPE.test(mediaType)) {
     fail("MODEL_PACK_REGISTRY_CONTENT_TYPE_INVALID", "The registry response is not JSON content.");
   }
-  let declaredLength = null;
   if (contentLength !== null) {
     if (!/^(?:0|[1-9][0-9]*)$/.test(contentLength)) {
       fail("MODEL_PACK_REGISTRY_CONTENT_LENGTH_INVALID", "Content-Length is not a valid byte count.");
     }
-    declaredLength = Number(contentLength);
+    const declaredLength = Number(contentLength);
     if (!Number.isSafeInteger(declaredLength)) {
       fail("MODEL_PACK_REGISTRY_CONTENT_LENGTH_INVALID", "Content-Length exceeds the supported range.");
     }
@@ -498,9 +497,10 @@ function inspectResponse(response, requestedUrl, maximum) {
   if (fields.body === null || typeof fields.body?.getReader !== "function") {
     fail("MODEL_PACK_REGISTRY_STREAM_INVALID", "The registry response requires a readable byte stream.");
   }
+  // Fetch exposes decoded bytes even when Content-Length describes a compressed transfer.
+  // The bounded decoded stream below is therefore the authoritative size check.
   return Object.freeze({
-    stream: fields.body,
-    declaredLength
+    stream: fields.body
   });
 }
 
@@ -593,9 +593,6 @@ export async function resolveModelPackRegistryHttp(registryUrl, selection, optio
   }
   const inspected = inspectResponse(response, requestedUrl, normalized.maxRegistryBytes);
   const bytes = await readBoundedRegistry(inspected.stream, normalized.maxRegistryBytes);
-  if (inspected.declaredLength !== null && inspected.declaredLength !== bytes.byteLength) {
-    fail("MODEL_PACK_REGISTRY_CONTENT_LENGTH_MISMATCH", "Content-Length differs from registry bytes.");
-  }
   return resolveNormalized(parseRegistryJson(bytes), requestedUrl, selection, normalized);
 }
 

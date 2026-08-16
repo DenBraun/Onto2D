@@ -1176,7 +1176,6 @@ function inspectResponse(response, requestedUrl, relative, limits, budget) {
       path: relative
     });
   }
-  let declaredLength = null;
   if (contentLength !== null) {
     if (!/^(?:0|[1-9][0-9]*)$/.test(contentLength)) {
       fail3("MODEL_PACK_BROWSER_CONTENT_LENGTH_INVALID", "Content-Length is not a valid byte count.", {
@@ -1200,14 +1199,13 @@ function inspectResponse(response, requestedUrl, relative, limits, budget) {
         maxTotalBytes: limits.maxTotalBytes
       });
     }
-    declaredLength = declared;
   }
   if (fields.body === null || typeof fields.body?.getReader !== "function") {
     fail3("MODEL_PACK_BROWSER_STREAM_INVALID", "A Model Pack response requires a readable byte stream.", {
       path: relative
     });
   }
-  return Object.freeze({ stream: fields.body, declaredLength });
+  return Object.freeze({ stream: fields.body });
 }
 async function readBoundedStream(stream, maximum, budget, totalMaximum, relative, prefix) {
   let reader;
@@ -1319,13 +1317,6 @@ async function fetchJson(fetchImplementation, requestedUrl, relative, options, b
     relative,
     "MODEL_PACK_BROWSER_FILE"
   );
-  if (inspected.declaredLength !== null && inspected.declaredLength !== bytes.byteLength) {
-    fail3(
-      "MODEL_PACK_BROWSER_CONTENT_LENGTH_MISMATCH",
-      "Content-Length does not match the received Model Pack bytes.",
-      { path: relative }
-    );
-  }
   return parseJson(bytes, relative);
 }
 async function loadModelPackHttpDirectory(baseUrl, options = {}) {

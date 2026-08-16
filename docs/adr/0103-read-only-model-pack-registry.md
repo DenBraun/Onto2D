@@ -36,10 +36,11 @@ an explicit future policy rather than URL inference.
 The HTTP resolver accepts one absolute HTTP(S) registry URL without
 credentials, query, or fragment. It performs one `GET` with no credentials,
 redirects, referrer, or HTTP caching. Status, response URL, JSON media type,
-declared and streamed byte counts, UTF-8, JSON, entry count, field sets,
+declared and decoded-stream byte limits, UTF-8, JSON, entry count, field sets,
 identifiers, hashes, paths, and final URL length are bounded and fail closed.
-Options and direct registry values reject accessors and unknown fields without
-invocation.
+The declared transfer length is not compared with decoded Fetch bytes, so
+transparent CDN compression is supported. Options and direct registry values
+reject accessors and unknown fields without invocation.
 
 A registry resolution is discovery data, not Model Pack verification. The
 separate `matchModelPackRegistryResolution` function binds a previously

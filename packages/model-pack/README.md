@@ -181,8 +181,10 @@ inspected filesystem type rather than trusting a filename extension.
 The browser HTTP loader accepts one explicit absolute HTTP(S) base URL without
 credentials, query, or fragment. It fetches only the fixed required split JSON
 paths, disables redirects and HTTP caching, validates response identity, JSON
-media type, declared and received byte counts, UTF-8, JSON, and cumulative
-stream limits, then runs full Model Pack reconstruction. Set
+media type, declared and decoded-stream byte limits, UTF-8, JSON, and cumulative
+stream limits, then runs full Model Pack reconstruction. Declared transfer size
+is not compared with decoded bytes because Fetch transparently decompresses CDN
+responses. Set
 `bundle: "required"` to additionally require `bundle.json` to reproduce those
 split files exactly. The bundle loader accepts a `Blob`, `ArrayBuffer`, or
 array-buffer view and checks its byte limit before parsing and verification.

@@ -243,7 +243,6 @@ test("HTTP status, redirects, identity, media type, and malformed bodies fail cl
     [makeResponse(document, { contentType: "text/plain" }), "MODEL_PACK_REGISTRY_CONTENT_TYPE_INVALID"],
     [makeResponse(document, { body: null }), "MODEL_PACK_REGISTRY_STREAM_INVALID"],
     [makeResponse(document, { contentLength: "1e3" }), "MODEL_PACK_REGISTRY_CONTENT_LENGTH_INVALID"],
-    [makeResponse(document, { contentLength: "1" }), "MODEL_PACK_REGISTRY_CONTENT_LENGTH_MISMATCH"],
     [makeResponse(new Uint8Array([0xff])), "MODEL_PACK_REGISTRY_UTF8_INVALID"],
     [makeResponse(encoder.encode("{")), "MODEL_PACK_REGISTRY_JSON_INVALID"]
   ];
@@ -265,6 +264,17 @@ test("HTTP status, redirects, identity, media type, and malformed bodies fail cl
     }),
     "MODEL_PACK_REGISTRY_FETCH_FAILED"
   );
+});
+
+test("HTTP registry loading accepts decoded bytes larger than compressed Content-Length", async () => {
+  const pack = fixture();
+  const document = registry([entry(pack)]);
+  const resolved = await resolveModelPackRegistryHttp(REGISTRY_URL, selection(pack), {
+    async fetch() {
+      return makeResponse(document, { contentLength: "1" });
+    }
+  });
+  assert.equal(resolved.rootHash, pack.manifest.rootHash);
 });
 
 test("declared and streamed registry bytes are bounded and failed streams are cancelled", async () => {

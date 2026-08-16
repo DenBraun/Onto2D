@@ -116,8 +116,10 @@ loader accepts one explicit absolute HTTP(S) base URL and requests only the
 fixed required JSON paths. Credentials in the URL, query strings, fragments,
 redirects, opaque responses, response-URL drift, non-JSON media types,
 malformed `Content-Length`, invalid UTF-8 or JSON, and per-file or cumulative
-stream-limit violations fail closed. A declared length must equal the received
-byte count. An optional required `bundle.json` must reproduce the authoritative
+stream-limit violations fail closed. A valid declared length is used as an
+early transport bound, but is not compared with the decoded Fetch stream:
+CDNs may report compressed transfer bytes while Fetch exposes decompressed
+content. An optional required `bundle.json` must reproduce the authoritative
 split files exactly. The same entrypoint accepts bounded raw JSON bundle bytes
 or a `Blob`; it does not interpret ZIP data.
 

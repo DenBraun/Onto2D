@@ -279,15 +279,6 @@ test("declared, streamed, total, and malformed HTTP bytes are bounded", async ()
     "MODEL_PACK_BROWSER_CONTENT_LENGTH_INVALID"
   );
 
-  mock = makeFetch(values, ({ url }) => makeResponse({}, {
-    contentLength: "1",
-    url: url.href
-  }));
-  await rejected(
-    () => loadModelPackHttpDirectory(BASE_URL, { fetch: mock.implementation }),
-    "MODEL_PACK_BROWSER_CONTENT_LENGTH_MISMATCH"
-  );
-
   let cancelled = 0;
   mock = makeFetch(values, ({ url }) => makeResponse({}, {
     contentLength: null,
@@ -338,6 +329,16 @@ test("declared, streamed, total, and malformed HTTP bytes are bounded", async ()
       code
     );
   }
+});
+
+test("HTTP directory loading accepts decoded bytes larger than compressed Content-Length", async () => {
+  const pack = fixture();
+  const mock = makeFetch(transportValues(pack), ({ url, value }) => makeResponse(value, {
+    contentLength: "1",
+    url: url.href
+  }));
+  const loaded = await loadModelPackHttpDirectory(BASE_URL, { fetch: mock.implementation });
+  assert.equal(canonicalize(loaded), canonicalize(pack));
 });
 
 test("bundle sources enforce byte, encoding, JSON, and verification boundaries", async () => {

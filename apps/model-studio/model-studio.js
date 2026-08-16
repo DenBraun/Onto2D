@@ -1,29 +1,29 @@
 import {
   loadModelPackBundle,
   loadModelPackHttpDirectory
-} from "../../packages/model-pack/src/browser.js?v=20260816.17";
+} from "../../packages/model-pack/src/browser.js?v=20260816.18";
 import {
   createIndexedDbModelPackCacheStorage,
   createVerifiedModelPackCache
-} from "../../packages/model-pack/src/cache.js?v=20260816.17";
+} from "../../packages/model-pack/src/cache.js?v=20260816.18";
 import {
   matchModelPackRegistryResolution,
   resolveModelPackRegistryHttp
-} from "../../packages/model-pack/src/registry.js?v=20260816.17";
-import { createModelPackWorkerClient } from "../../packages/model-pack/src/worker.js?v=20260816.17";
-import { RDF_IMPORT_LIMITS, importNTriples } from "../../packages/rdf-import/src/index.js?v=20260816.17";
+} from "../../packages/model-pack/src/registry.js?v=20260816.18";
+import { createModelPackWorkerClient } from "../../packages/model-pack/src/worker.js?v=20260816.18";
+import { RDF_IMPORT_LIMITS, importNTriples } from "../../packages/rdf-import/src/index.js?v=20260816.18";
 import {
   buildRdfMappedModelPack,
   verifyRdfMappingPolicy
-} from "../../packages/rdf-mapping/src/index.js?v=20260816.17";
-import { validateShacl } from "../../packages/shacl-validation/src/index.js?v=20260816.17";
-import { createVerifiedModelPresentation } from "../../packages/engine/src/presentation.js?v=20260816.17";
-import { layoutNeighborhood } from "../../packages/view/src/index.js?v=20260816.17";
-import { graphHighlight } from "./graph-interactions.js?v=20260816.17";
+} from "../../packages/rdf-mapping/src/index.js?v=20260816.18";
+import { validateShacl } from "../../packages/shacl-validation/src/index.js?v=20260816.18";
+import { createVerifiedModelPresentation } from "../../packages/engine/src/presentation.js?v=20260816.18";
+import { layoutNeighborhood } from "../../packages/view/src/index.js?v=20260816.18";
+import { graphHighlight } from "./graph-interactions.js?v=20260816.18";
 
 const MODEL_REGISTRY_URL = new URL("../../models/registry.json", import.meta.url);
 const MODEL_PACK_WORKER_URL = new URL(
-  "../../assets/js/model-pack-worker.js?v=20260816.17",
+  "../../assets/js/model-pack-worker.js?v=20260816.18",
   import.meta.url
 );
 const MODEL_SELECTION = Object.freeze({
