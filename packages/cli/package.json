@@ -1,7 +1,7 @@
 {
-  "name": "@onto2d/model-pack",
+  "name": "@onto2d/cli",
   "version": "0.1.0",
-  "description": "Deterministic construction and fail-closed verification of transparent Onto2D Model Packs.",
+  "description": "Read-only command-line verification and inspection for local Onto2D Model Packs.",
   "type": "module",
   "types": "./src/index.d.ts",
   "license": "MIT",
@@ -14,12 +14,12 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/DenBraun/Onto2D.git",
-    "directory": "packages/model-pack"
+    "directory": "packages/cli"
   },
   "bugs": {
     "url": "https://github.com/DenBraun/Onto2D/issues"
   },
-  "homepage": "https://github.com/DenBraun/Onto2D/tree/main/packages/model-pack#readme",
+  "homepage": "https://github.com/DenBraun/Onto2D/tree/main/packages/cli#readme",
   "publishConfig": {
     "access": "public"
   },
@@ -27,18 +27,14 @@
     ".": {
       "types": "./src/index.d.ts",
       "import": "./src/index.js"
-    },
-    "./node": {
-      "types": "./src/node.d.ts",
-      "import": "./src/node.js"
-    },
-    "./browser": {
-      "types": "./src/browser.d.ts",
-      "import": "./src/browser.js"
     }
   },
+  "bin": {
+    "onto2d": "./src/bin.js"
+  },
   "dependencies": {
-    "@onto2d/kernel": "0.1.0"
+    "@onto2d/engine": "0.1.0",
+    "@onto2d/model-pack": "0.1.0"
   },
   "engines": {
     "node": ">=22"

@@ -4,7 +4,7 @@ import {
   deepFreeze,
   hashCanonical,
   isContentHash
-} from "@onto2d/kernel";
+} from "@onto2d/kernel/canonical";
 
 export const MODEL_PACK_FORMAT = "onto2d-model-pack";
 export const MODEL_PACK_FORMAT_VERSION = "1";
@@ -306,6 +306,13 @@ export function verifyModelPack(pack) {
     manifest.compatibility?.modelPackFormatVersion !== MODEL_PACK_FORMAT_VERSION
   ) {
     fail("MODEL_PACK_COMPATIBILITY_UNSUPPORTED", "The Model Pack format is not supported.");
+  }
+  for (const filePath of Object.values(FILE_PATHS)) {
+    if (!Object.hasOwn(files, filePath)) {
+      fail("MODEL_PACK_FILE_MISSING", "The Model Pack is missing a required file.", {
+        path: filePath
+      });
+    }
   }
   const expected = buildModelPack({
     model: manifest.model,

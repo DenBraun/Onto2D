@@ -58,8 +58,8 @@ sequence, interactive branch comparison, and asymmetric complex search
 ([source notes](apps/level-zero-validation/README.md)).
 
 The [Model Studio](https://denbraun.github.io/Onto2D/apps/model-studio/)
-browses the exact bundled Model Pack through catalogue filters, bounded
-directed neighborhoods, and source-record inspection
+bounds and fully verifies the exact bundled Model Pack in the browser before
+exposing catalogue filters, directed neighborhoods, and source-record inspection
 ([source notes](apps/model-studio/README.md)).
 
 Run the static site:
@@ -86,13 +86,23 @@ npm run build
 tree is generated. See the [Development Guide](docs/DEVELOPMENT.md) for focused
 commands and fixture policy.
 
+The read-only CLI can verify and inspect a transparent local Model Pack from
+either its split directory or a bounded ZIP transport:
+
+```sh
+node packages/cli/src/bin.js verify ./models/causal-emergence/releases/2026.08.15
+node packages/cli/src/bin.js verify ./causal-emergence.onto2d.zip
+node packages/cli/src/bin.js node ./models/causal-emergence/releases/2026.08.15 0.8
+```
+
 ## Packages
 
 | Package | Responsibility |
 |---|---|
 | [`@onto2d/kernel`](packages/kernel/README.md) | Deterministic model, identity, evaluation, closure, and artifacts |
+| [`@onto2d/cli`](packages/cli/README.md) | Read-only local Model Pack verification and engine queries |
 | [`@onto2d/schemas`](packages/schemas/README.md) | JSON Schema Draft 2020-12 transport contracts |
-| [`@onto2d/model-pack`](packages/model-pack/README.md) | Canonical, transparent model release build and verification |
+| [`@onto2d/model-pack`](packages/model-pack/README.md) | Canonical model releases plus bounded Node and browser verification transports |
 | [`@onto2d/engine`](packages/engine/README.md) | Headless exact-version model API, workspaces, analyses, and diff |
 | [`@onto2d/canonical-identity-analysis`](packages/canonical-identity-analysis/README.md) | Replayable kernel-backed candidate identity analysis |
 | [`@onto2d/view`](packages/view/README.md) | Browser-safe catalogue, neighborhood, and deterministic layout projections |

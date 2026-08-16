@@ -2,12 +2,30 @@ import {
   canonicalizeCandidate,
   type CandidateId
 } from "@onto2d/kernel";
+import {
+  canonicalize as portableCanonicalize,
+  hashCanonical as portableHashCanonical
+} from "@onto2d/kernel/canonical";
 import { schemaUrls } from "@onto2d/schemas";
 import { auditSourceCatalogue } from "@onto2d/catalog-adapter";
 import { defineScientificAdapter } from "@onto2d/scientific-adapter";
 import { writePackageRunArtifactBundle } from "@onto2d/run-store";
+import { runCli, type RunCliOptions } from "@onto2d/cli";
 import { buildModelPack, type ModelPack } from "@onto2d/model-pack";
-import { loadModelPackDirectory } from "@onto2d/model-pack/node";
+import {
+  loadModelPackBundle,
+  loadModelPackHttpDirectory,
+  type ModelPackBrowserBundleOptions,
+  type ModelPackBrowserBundleSource,
+  type ModelPackHttpDirectoryOptions
+} from "@onto2d/model-pack/browser";
+import {
+  loadModelPackArchive,
+  loadModelPackDirectory,
+  loadModelPackPath,
+  type ModelPackArchiveLimits,
+  type ModelPackPathOptions
+} from "@onto2d/model-pack/node";
 import {
   canonicalIdentityAnalysis,
   verifyCanonicalIdentityArtifact,
@@ -39,10 +57,19 @@ const adapter = defineScientificAdapter({
 });
 
 void candidateId;
+void portableCanonicalize({ browser: true });
+void portableHashCanonical("onto2d:artifact:v1", { browser: true });
 void adapter;
 void schemaUrls.candidate;
 void auditSourceCatalogue;
 void writePackageRunArtifactBundle;
+const cliOptions: RunCliOptions = {
+  cwd: ".",
+  stdout: { write() {} },
+  stderr: { write() {} }
+};
+const cliRun = runCli(["--version"], cliOptions);
+void cliRun;
 const modelPack: ModelPack = buildModelPack({
   model: { id: "types", name: "Types", version: "1" },
   source: { id: "types", files: [{ path: "types.json", hash: ref }] },
@@ -68,6 +95,23 @@ void lineage;
 void artifact;
 void verifyCanonicalIdentityArtifact;
 void loadModelPackDirectory;
+const archiveLimits: Partial<ModelPackArchiveLimits> = { maxCompressionRatio: 200 };
+const pathOptions: ModelPackPathOptions = { archive: archiveLimits };
+void loadModelPackArchive;
+void loadModelPackPath;
+void pathOptions;
+const browserHttpOptions: ModelPackHttpDirectoryOptions = {
+  bundle: "omit",
+  maxFileBytes: 1024,
+  maxTotalBytes: 8192
+};
+const browserBundleOptions: ModelPackBrowserBundleOptions = { maxBundleBytes: 8192 };
+const browserBundleSource: ModelPackBrowserBundleSource = new Uint8Array();
+void loadModelPackHttpDirectory;
+void loadModelPackBundle;
+void browserHttpOptions;
+void browserBundleOptions;
+void browserBundleSource;
 void DefaultOnto2D.create();
 const modelView = createModelView({ nodes: [{ id: "a" }], edges: [] });
 const modelLayout: NeighborhoodLayout = layoutNeighborhood(

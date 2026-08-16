@@ -18,8 +18,15 @@ Updated: 2026-08-16.
 - dependency-free `@onto2d/view` catalogue and neighborhood projections with
   deterministic SVG-ready layout;
 - initial Model Studio over the exact bundled release with query, local graph,
-  and source-record inspection;
-- public JavaScript and TypeScript entrypoints with boundary tests.
+  source-record inspection, and full in-browser Model Pack verification;
+- public JavaScript and TypeScript entrypoints with boundary tests;
+- read-only CLI for bounded local pack verification, node inspection,
+  neighborhoods, and shortest-path queries;
+- strict local ZIP32 transport with bounded decompression and shared
+  file-or-directory dispatch;
+- browser-safe bounded loading for split HTTP Model Packs and raw bundle
+  `Blob` or byte sources, with strict response validation and full pack
+  reconstruction.
 
 ## Release lifecycle
 
@@ -51,9 +58,12 @@ do not merge their semantics into the generic engine.
 
 ## Operations
 
-Later work includes archive transport with decompression limits, a CLI, browser
-and worker adapters, verified caches, remote registries, and lazy presentation
-loading. Numerical Level-0 validation, catalogue migration, generalization and
-independent comparison of the external solver, and empirical Historical Load
-remain scientific projects tracked in the
-[Scientific Roadmap](SCIENTIFIC_ROADMAP.md).
+The first operations milestones are the read-only `@onto2d/cli` and strict
+local ZIP transport over the public Model Pack and engine APIs, followed by the
+bounded browser Model Pack adapter. The next transport milestone is an explicit
+worker protocol built on the stable browser source contract. Later work
+includes verified caches, remote registries, and lazy presentation loading.
+Numerical Level-0 validation,
+catalogue migration, generalization and independent comparison of the external
+solver, and empirical Historical Load remain scientific projects tracked in
+the [Scientific Roadmap](SCIENTIFIC_ROADMAP.md).

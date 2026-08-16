@@ -35,6 +35,14 @@ All notable user-visible changes are recorded in this file.
   neighborhood, and SVG-ready graph projections.
 - Model Studio for searching the exact bundled catalogue, navigating bounded
   directed neighborhoods, and inspecting source records.
+- Read-only CLI and bounded ZIP32 transport for verification and engine queries
+  over local split or archived Model Packs.
+- Browser-safe bounded Model Pack loading from split HTTP files and raw bundle
+  bytes or `Blob` sources, with complete reconstruction before Model Studio
+  exposes a release.
+- Portable `@onto2d/kernel/canonical` entrypoint with Node-independent
+  synchronous SHA-256 for browser verification under the unchanged identity
+  contract.
 
 ### Fixed
 

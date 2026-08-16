@@ -25,3 +25,13 @@ onto.model.children("a");
 
 The user-facing root `onto2d` facade supplies the bundled Causal Emergence
 Model Pack. Direct engine users compose packs explicitly.
+
+The separate [`@onto2d/cli`](../cli/README.md) composes this API with the
+bounded Node source loader for split directories and ZIP archives. Filesystem
+access, archive parsing, and command-line state remain
+outside the engine package.
+
+Browser applications can compose a verified pack through
+`@onto2d/model-pack/browser` before creating an engine or presentation view.
+Fetch policy, response limits, and browser state likewise remain outside the
+engine.

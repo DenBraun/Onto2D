@@ -1,7 +1,6 @@
-import { createHash } from "node:crypto";
-import { Buffer } from "node:buffer";
 import { canonicalBytes } from "./canonical.js";
 import { KernelError } from "./errors.js";
+import { sha256Hex } from "./sha256.js";
 
 const DOMAIN_PATTERN = /^onto2d:[a-z0-9]+(?:-[a-z0-9]+)*:v[1-9][0-9]*$/;
 const HASH_PATTERN = /^sha256:[a-f0-9]{64}$/;
@@ -246,14 +245,12 @@ function assertDomain(domain) {
 }
 
 function frameDomain(domain) {
-  const bytes = encoder.encode(domain);
-  return Buffer.concat([
-    Buffer.from("ONTO2D\0", "utf8"),
-    Buffer.from(String(bytes.byteLength), "ascii"),
-    Buffer.from("\0", "utf8"),
-    Buffer.from(bytes),
-    Buffer.from("\0", "utf8")
-  ]);
+  const domainBytes = encoder.encode(domain);
+  const prefix = encoder.encode(`ONTO2D\0${domainBytes.byteLength}\0`);
+  const frame = new Uint8Array(prefix.byteLength + domainBytes.byteLength + 1);
+  frame.set(prefix, 0);
+  frame.set(domainBytes, prefix.byteLength);
+  return frame;
 }
 
 export function hashBytes(domain, bytes) {
@@ -261,10 +258,7 @@ export function hashBytes(domain, bytes) {
   if (!(bytes instanceof Uint8Array)) {
     throw new TypeError("hashBytes requires a Uint8Array payload.");
   }
-  const digest = createHash("sha256")
-    .update(frameDomain(domain))
-    .update(bytes)
-    .digest("hex");
+  const digest = sha256Hex([frameDomain(domain), bytes]);
   return `sha256:${digest}`;
 }
 
@@ -273,7 +267,7 @@ export function hashArtifactBytes(bytes) {
   if (!(bytes instanceof Uint8Array)) {
     throw new TypeError("hashArtifactBytes requires a Uint8Array payload.");
   }
-  return `sha256:${createHash("sha256").update(bytes).digest("hex")}`;
+  return `sha256:${sha256Hex([bytes])}`;
 }
 
 export function hashCanonical(domain, value, options) {
@@ -292,9 +286,28 @@ export function createCanonicalForm(domain, value, schemaVersion = "1", options)
   const bytes = canonicalBytes(value, options);
   return deepFreezeCanonicalForm({
     schemaVersion,
-    bytesBase64: Buffer.from(bytes).toString("base64"),
+    bytesBase64: encodeBase64(bytes),
     hash: hashBytes(domain, bytes)
   });
+}
+
+const BASE64_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+
+function encodeBase64(bytes) {
+  let output = "";
+  for (let index = 0; index < bytes.byteLength; index += 3) {
+    const first = bytes[index];
+    const hasSecond = index + 1 < bytes.byteLength;
+    const hasThird = index + 2 < bytes.byteLength;
+    const second = hasSecond ? bytes[index + 1] : 0;
+    const third = hasThird ? bytes[index + 2] : 0;
+    const value = (first << 16) | (second << 8) | third;
+    output += BASE64_ALPHABET[(value >>> 18) & 63];
+    output += BASE64_ALPHABET[(value >>> 12) & 63];
+    output += hasSecond ? BASE64_ALPHABET[(value >>> 6) & 63] : "=";
+    output += hasThird ? BASE64_ALPHABET[value & 63] : "=";
+  }
+  return output;
 }
 
 function deepFreezeCanonicalForm(form) {

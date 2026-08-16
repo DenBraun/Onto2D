@@ -6,6 +6,7 @@ import { canonicalize } from "@onto2d/kernel";
 import {
   ModelPackError,
   buildModelPack,
+  modelPackFilePaths,
   verifyModelPack
 } from "../src/index.js";
 
@@ -73,6 +74,20 @@ test("Model Pack verification reconstructs every semantic file and derived index
   const unexpected = structuredClone(pack);
   unexpected.files["model/script.js"] = "alert(1)";
   assert.throws(() => verifyModelPack(unexpected), /differ from reconstruction/);
+});
+
+test("Model Pack verification reports missing bundle files at the pack boundary", () => {
+  const pack = fixture();
+  const incomplete = structuredClone(pack);
+  delete incomplete.files[modelPackFilePaths().nodes];
+  assert.throws(
+    () => verifyModelPack(incomplete),
+    (error) => (
+      error instanceof ModelPackError
+      && error.code === "MODEL_PACK_FILE_MISSING"
+      && error.details.path === modelPackFilePaths().nodes
+    )
+  );
 });
 
 test("semantic changes create a new root while release metadata stays outside semantic identity", () => {

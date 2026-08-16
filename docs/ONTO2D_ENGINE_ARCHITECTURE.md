@@ -41,12 +41,26 @@ The root facade also registers `canonical-identity`. It calls the kernel's
 canonicalizer and returns a replayable artifact bound to the exact selected
 Model Pack; it does not duplicate canonicalization logic.
 
+## Command-line composition
+
+`@onto2d/cli` is a separate read-only operational package. Its `verify`
+command uses the `@onto2d/model-pack/node` source loader for either a split
+directory or a ZIP file; model queries first obtain that verified pack and then
+call the public `@onto2d/engine` API. The CLI never imports the kernel, reads
+semantic files around the loader, repairs a pack, extracts an archive onto the
+filesystem, or writes into the source.
+
+Successful commands emit a versioned deterministic JSON envelope. CLI output
+is an operational projection, not a Model Pack file, semantic artifact, cache,
+or new model identity. Usage failures, rejected data, and internal failures
+have distinct stable exit codes.
+
 `@onto2d/view` is a separate dependency-free presentation boundary. It accepts
 explicit node and edge arrays and returns catalogue, bounded neighborhood, and
 SVG-ready layout projections. It does not authenticate packs, import the
 engine, or place coordinates in semantic hashes. The static Model Studio uses
-this layer over the bundled release and discloses that browser-side count and
-shape checks are not a replacement for Model Pack verification.
+the browser Model Pack adapter to authenticate the complete bundled release,
+then passes only the verified node and edge arrays into this view layer.
 
 ## Model Pack contract
 
@@ -62,8 +76,38 @@ extra, stale, or hash-mismatched content.
 Node.js applications may load the transparent split format through
 `@onto2d/model-pack/node`. The bounded directory loader accepts only the known
 JSON layout and rejects links, unexpected entries, invalid UTF-8, invalid JSON,
-resource-limit violations, stale indexes, and hash drift. Archive and remote
-transports are not implied by this local loader.
+resource-limit violations, stale indexes, and hash drift.
+
+The same subpath accepts a strict single-disk ZIP32 transport containing the
+identical root-relative layout. Only stored and Deflate entries are supported.
+The loader checks central and local metadata, entry types, CRC-32, UTF-8, JSON,
+required and unexpected paths, per-entry compressed and uncompressed sizes,
+total expansion, and compression ratio before normal Model Pack verification.
+It rejects duplicate entries, links, encryption, data descriptors, ZIP64,
+alternative path metadata, non-contiguous records, and changed archive bytes.
+ZIP encoding and transport metadata do not enter `rootHash` or `manifestHash`;
+only the verified extracted Model Pack does. The ZIP loader does not fetch
+remote content.
+
+Browser applications may use `@onto2d/model-pack/browser`. Its HTTP directory
+loader accepts one explicit absolute HTTP(S) base URL and requests only the
+fixed required JSON paths. Credentials in the URL, query strings, fragments,
+redirects, opaque responses, response-URL drift, non-JSON media types,
+malformed `Content-Length`, invalid UTF-8 or JSON, and per-file or cumulative
+stream-limit violations fail closed. A declared length must equal the received
+byte count. An optional required `bundle.json` must reproduce the authoritative
+split files exactly. The same entrypoint accepts bounded raw JSON bundle bytes
+or a `Blob`; it does not interpret ZIP data.
+
+The browser verifier reaches kernel identity only through the narrow
+`@onto2d/kernel/canonical` entrypoint. That entrypoint contains the same
+canonicalization and synchronous SHA-256 behavior as the full kernel without
+loading Node-only Oracle or graph modules into the browser module graph.
+
+Both browser sources feed the normal Model Pack verifier. URL layout, transfer
+chunking, response headers, and the choice between split files and bundle bytes
+do not enter model identity. The adapter performs no alias resolution,
+discovery, retries, persistent caching, registry access, or automatic repair.
 
 The bundled Causal Emergence pack is compiled reproducibly from the preserved
 `scr/` snapshot. Its 971 relations are labelled `source-parent`: they have not
@@ -84,9 +128,10 @@ actual diff. Similar labels or identifiers never create implicit lineage.
 
 ## Boundaries
 
-This milestone does not add kernel semantics, a UI framework, archive or remote
-loading, an RDF/OWL adapter, empirical Historical Load values, or a fabricated
-second release for Studio comparison. Analyses must be registered explicitly.
+This milestone does not add kernel semantics, a UI framework, remote registry
+or cache policy, a worker protocol, an RDF/OWL adapter, empirical Historical
+Load values, or a fabricated second release for Studio comparison. Analyses
+must be registered explicitly.
 Deferred engineering work is listed in the
 [Engine Roadmap](ENGINE_ROADMAP.md); scientific dependencies remain in the
 [Scientific Roadmap](SCIENTIFIC_ROADMAP.md).

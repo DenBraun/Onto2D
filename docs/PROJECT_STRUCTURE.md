@@ -6,7 +6,7 @@
 applications and cases
         |
         v
- view + engine + model-pack + adapters + solvers + run-store
+ cli + view + engine + model-pack + adapters + solvers + run-store
                   |
                   v
            kernel + schemas
@@ -26,8 +26,9 @@ Emergence snapshot.
 | Location | Owns |
 |---|---|
 | `packages/kernel` | Deterministic semantic execution and verification |
+| `packages/cli` | Read-only local Model Pack verification and engine queries |
 | `packages/schemas` | Versioned external data shapes |
-| `packages/model-pack` | Canonical model release assembly and verification |
+| `packages/model-pack` | Canonical model release assembly, verification, and bounded Node/browser transports |
 | `packages/engine` | Headless model access, traversal, workspaces, analyses, and diff |
 | `packages/canonical-identity-analysis` | Replayable kernel-backed identity analysis |
 | `packages/view` | Deterministic presentation projections and graph layout |
@@ -47,6 +48,8 @@ Emergence snapshot.
 ## Boundary rules
 
 - Source data in `scr/` is not edited to satisfy an audit.
+- The CLI composes public loader and engine APIs; it does not bypass pack verification.
+- Directory, ZIP, and HTTP transport metadata never changes Model Pack semantic identity.
 - Cases may call the kernel but must not add case-specific branches to it.
 - Scientific solvers may implement adapter contracts but must not import the kernel.
 - Applications do not become authorities for scientific values or canonical

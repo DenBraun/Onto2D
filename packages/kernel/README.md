@@ -1,7 +1,7 @@
 # `@onto2d/kernel`
 
 Dependency-free deterministic runtime for finite Onto2D models. ESM only;
-Node.js 22 or newer is required.
+Node.js 22 or newer is required for the complete entrypoint.
 
 ```sh
 npm install @onto2d/kernel
@@ -20,6 +20,17 @@ const result = canonicalizeCandidate({
 });
 
 console.log(result.candidateId);
+```
+
+Browser code that only needs the canonical JSON and domain-separated hash
+surface can use the portable subpath. It has no Node imports and uses the same
+guarded canonicalization and SHA-256 identity contract as the full kernel:
+
+```js
+import { canonicalize, hashCanonical } from "@onto2d/kernel/canonical";
+
+const bytes = canonicalize({ b: 2, a: 1 });
+const hash = hashCanonical("onto2d:artifact:v1", { b: 2, a: 1 });
 ```
 
 ## Public capability groups

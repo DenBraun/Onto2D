@@ -1,12 +1,15 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
+import * as cli from "@onto2d/cli";
 import * as catalogAdapter from "@onto2d/catalog-adapter";
 import * as canonicalIdentityAnalysis from "@onto2d/canonical-identity-analysis";
 import * as kernel from "@onto2d/kernel";
+import * as kernelCanonical from "@onto2d/kernel/canonical";
 import * as levelZeroSolver from "@onto2d/level-zero-solver";
 import * as engine from "@onto2d/engine";
 import * as modelPack from "@onto2d/model-pack";
+import * as modelPackBrowser from "@onto2d/model-pack/browser";
 import * as modelPackNode from "@onto2d/model-pack/node";
 import * as runStore from "@onto2d/run-store";
 import * as schemas from "@onto2d/schemas";
@@ -14,6 +17,11 @@ import * as scientificAdapter from "@onto2d/scientific-adapter";
 import * as view from "@onto2d/view";
 
 const PACKAGE_SURFACES = Object.freeze([
+  Object.freeze({
+    name: "cli",
+    runtime: cli,
+    declarations: new URL("../../packages/cli/src/index.d.ts", import.meta.url)
+  }),
   Object.freeze({
     name: "level-zero-solver",
     runtime: levelZeroSolver,
@@ -45,9 +53,19 @@ const PACKAGE_SURFACES = Object.freeze([
     declarations: new URL("../../packages/model-pack/src/node.d.ts", import.meta.url)
   }),
   Object.freeze({
+    name: "model-pack/browser",
+    runtime: modelPackBrowser,
+    declarations: new URL("../../packages/model-pack/src/browser.d.ts", import.meta.url)
+  }),
+  Object.freeze({
     name: "kernel",
     runtime: kernel,
     declarations: new URL("../../packages/kernel/src/index.d.ts", import.meta.url)
+  }),
+  Object.freeze({
+    name: "kernel/canonical",
+    runtime: kernelCanonical,
+    declarations: new URL("../../packages/kernel/src/canonical-entry.d.ts", import.meta.url)
   }),
   Object.freeze({
     name: "schemas",
@@ -95,13 +113,23 @@ test("published workspace names resolve through their export maps", () => {
   });
 
   assert.match(identity.candidateId, /^sha256:[0-9a-f]{64}$/);
+  assert.equal(kernelCanonical.canonicalize({ b: 2, a: 1 }), "{\"a\":1,\"b\":2}");
+  assert.equal(typeof kernelCanonical.hashCanonical, "function");
   assert.equal(schemas.SCHEMA_VERSION, "1");
   assert.ok(schemas.schemaUrls.candidate instanceof URL);
   assert.equal(typeof catalogAdapter.auditSourceCatalogue, "function");
   assert.equal(typeof runStore.writePackageRunArtifactBundle, "function");
+  assert.equal(typeof cli.runCli, "function");
+  assert.equal(cli.CLI_EXIT_CODES.data, 3);
   assert.equal(typeof engine.Onto2D.create, "function");
   assert.equal(typeof modelPack.verifyModelPack, "function");
+  assert.equal(typeof modelPackBrowser.loadModelPackHttpDirectory, "function");
+  assert.equal(typeof modelPackBrowser.loadModelPackBundle, "function");
+  assert.equal(modelPackBrowser.MODEL_PACK_BROWSER_LIMITS.maxFileBytes, 16 * 1024 * 1024);
   assert.equal(typeof modelPackNode.loadModelPackDirectory, "function");
+  assert.equal(typeof modelPackNode.loadModelPackArchive, "function");
+  assert.equal(typeof modelPackNode.loadModelPackPath, "function");
+  assert.equal(modelPackNode.MODEL_PACK_ARCHIVE_LIMITS.maxCompressionRatio, 200);
   assert.equal(typeof canonicalIdentityAnalysis.verifyCanonicalIdentityArtifact, "function");
   assert.equal(typeof view.layoutNeighborhood, "function");
   assert.equal(typeof levelZeroSolver.levelZeroReferenceSolver.evaluate, "function");

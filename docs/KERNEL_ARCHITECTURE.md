@@ -94,6 +94,12 @@ hashes. Graph identity uses canonical node/edge ordering rather than caller
 order. Skeleton identity excludes policy-controlled decorations; candidate
 identity retains all declared structural information.
 
+The narrow `@onto2d/kernel/canonical` subpath exposes canonical JSON, cloning,
+freezing, content-hash recognition, and domain-separated hashing without any
+Node import. Its portable synchronous SHA-256 implementation is checked
+against independent Node references and the frozen canonical goldens; it does
+not define a second hash policy.
+
 Every verifier recomputes prerequisite identities. A supplied hash is evidence
 to check, not authority to trust. Canonicalization has a deterministic search
 budget; exhaustion is explicit and non-interpretable.

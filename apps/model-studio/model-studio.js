@@ -1,7 +1,8 @@
-import { createModelView, layoutNeighborhood } from "../../packages/view/src/index.js?v=20260816.10";
-import { graphHighlight } from "./graph-interactions.js?v=20260816.10";
+import { loadModelPackHttpDirectory } from "../../packages/model-pack/src/browser.js?v=20260816.11";
+import { createModelView, layoutNeighborhood } from "../../packages/view/src/index.js?v=20260816.11";
+import { graphHighlight } from "./graph-interactions.js?v=20260816.11";
 
-const MODEL_ROOT = "../../models/causal-emergence/releases/2026.08.15";
+const MODEL_ROOT = new URL("../../models/causal-emergence/releases/2026.08.15/", import.meta.url);
 const SVG_NAMESPACE = "http://www.w3.org/2000/svg";
 const DEFAULT_FOCUS = "0.0";
 const GRAPH_LIMITS = Object.freeze({ maxNodes: 48, maxEdges: 180 });
@@ -60,12 +61,6 @@ function selectValue(element) {
 
 function selectNumericValue(element) {
   return element.value === "" ? [] : [Number(element.value)];
-}
-
-async function fetchJson(path) {
-  const response = await fetch(`${MODEL_ROOT}/${path}`, { cache: "no-store" });
-  if (!response.ok) throw new Error(`Could not load ${path}: HTTP ${response.status}.`);
-  return response.json();
 }
 
 function populateSelect(element, entries, allLabel) {
@@ -419,19 +414,16 @@ function displayError(error) {
 }
 
 async function start() {
-  const [manifest, nodes, edges] = await Promise.all([
-    fetchJson("manifest.json"),
-    fetchJson("model/nodes.json"),
-    fetchJson("model/edges.json")
-  ]);
+  const pack = await loadModelPackHttpDirectory(MODEL_ROOT);
+  const manifest = pack.manifest;
+  const nodes = pack.files["model/nodes.json"];
+  const edges = pack.files["model/edges.json"];
   const view = createModelView({ nodes, edges });
   if (
     manifest?.model?.id !== "causal-emergence"
     || manifest?.model?.version !== "2026.08.15"
-    || manifest?.statistics?.nodeCount !== view.statistics.nodeCount
-    || manifest?.statistics?.edgeCount !== view.statistics.edgeCount
   ) {
-    throw new Error("The displayed Model Pack metadata does not match its graph files.");
+    throw new Error("The verified Model Pack is not the release expected by Model Studio.");
   }
   state.manifest = manifest;
   state.view = view;
@@ -453,7 +445,7 @@ async function start() {
   bindEvents();
   render();
   document.body.dataset.state = "ready";
-  elements["load-state"].textContent = "Model ready";
+  elements["load-state"].textContent = "Model verified";
 }
 
 start().catch(displayError);

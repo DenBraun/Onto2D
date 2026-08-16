@@ -66,12 +66,16 @@ test("the root is a no-scroll project landing page with exactly three study entr
   assert.match(landing, /Make complex-system claims/);
 });
 
-test("Model Studio reads the real pack through the shared deterministic view layer", () => {
+test("Model Studio fully verifies the real pack before using the shared view layer", () => {
   assert.match(studioApp, /models\/causal-emergence\/releases\/2026\.08\.15/);
+  assert.match(studioApp, /packages\/model-pack\/src\/browser\.js/);
   assert.match(studioApp, /packages\/view\/src\/index\.js/);
-  assert.match(studioApp, /fetchJson\("manifest\.json"\)/);
-  assert.match(studioApp, /fetchJson\("model\/nodes\.json"\)/);
-  assert.match(studioApp, /fetchJson\("model\/edges\.json"\)/);
+  assert.match(studioApp, /loadModelPackHttpDirectory\(MODEL_ROOT\)/);
+  assert.match(studioApp, /pack\.files\["model\/nodes\.json"\]/);
+  assert.match(studioApp, /pack\.files\["model\/edges\.json"\]/);
+  assert.doesNotMatch(studioApp, /function fetchJson/);
+  assert.match(studioApp, /Model verified/);
+  assert.match(studioMarkup, /"@onto2d\/kernel\/canonical":"\.\.\/\.\.\/packages\/kernel\/src\/canonical-entry\.js\?v=/);
   assert.match(studioApp, /layoutNeighborhood\(projection/);
   assert.match(studioApp, /addEventListener\("click", \(\) => inspectNode\(node\.id\)\)/);
   assert.match(studioApp, /addEventListener\("dblclick", \(\) => focusNode\(node\.id\)\)/);
@@ -94,10 +98,14 @@ test("Model Studio reads the real pack through the shared deterministic view lay
     assert.match(studioMarkup, new RegExp(`id=["']${id}["']`), `missing #${id}`);
   }
   const appRevision = studioMarkup.match(/model-studio\.js\?v=([^"']+)/)?.[1];
+  const browserRevision = studioApp.match(/packages\/model-pack\/src\/browser\.js\?v=([^"']+)/)?.[1];
   const viewRevision = studioApp.match(/packages\/view\/src\/index\.js\?v=([^"']+)/)?.[1];
   const interactionRevision = studioApp.match(/graph-interactions\.js\?v=([^"']+)/)?.[1];
+  const kernelRevision = studioMarkup.match(/packages\/kernel\/src\/canonical-entry\.js\?v=([^"']+)/)?.[1];
+  assert.equal(browserRevision, appRevision);
   assert.equal(viewRevision, appRevision);
   assert.equal(interactionRevision, appRevision);
+  assert.equal(kernelRevision, appRevision);
 });
 
 test("the Level-0 view projects frozen evidence into interactive branches", () => {

@@ -1,12 +1,22 @@
 import { constants } from "node:fs";
 import { lstat, open, readdir } from "node:fs/promises";
 import path from "node:path";
-import { canonicalClone, canonicalize } from "@onto2d/kernel";
+import { ModelPackError } from "./index.js";
 import {
-  ModelPackError,
-  modelPackFilePaths,
-  verifyModelPack
-} from "./index.js";
+  MODEL_PACK_ALLOWED_DIRECTORIES,
+  MODEL_PACK_ALLOWED_PATHS,
+  MODEL_PACK_REQUIRED_PATHS,
+  inspectTransportOptions,
+  modelPackTransportFail,
+  verifyTransportFiles
+} from "./transport-layout.js";
+import {
+  MODEL_PACK_ARCHIVE_LIMITS,
+  loadModelPackArchive,
+  normalizeModelPackArchiveLimits
+} from "./node-archive.js";
+
+export { MODEL_PACK_ARCHIVE_LIMITS, loadModelPackArchive };
 
 export const MODEL_PACK_DIRECTORY_LIMITS = Object.freeze({
   maxFileCount: 32,
@@ -14,41 +24,61 @@ export const MODEL_PACK_DIRECTORY_LIMITS = Object.freeze({
   maxTotalBytes: 64 * 1024 * 1024
 });
 
-const REQUIRED_PATHS = Object.freeze([
-  "manifest.json",
-  ...Object.values(modelPackFilePaths())
-]);
-const OPTIONAL_PATHS = Object.freeze(["bundle.json"]);
-const ALLOWED_PATHS = new Set([...REQUIRED_PATHS, ...OPTIONAL_PATHS]);
-const ALLOWED_DIRECTORIES = new Set(
-  [...ALLOWED_PATHS].flatMap((filePath) => {
-    const segments = filePath.split("/");
-    return segments.slice(0, -1).map((_, index) => segments.slice(0, index + 1).join("/"));
-  })
-);
-
 function fail(code, message, details = {}) {
-  throw new ModelPackError(code, message, details);
+  modelPackTransportFail(code, message, details);
+}
+
+function requireSourceOptions(value) {
+  if (value === undefined) return Object.freeze({ directory: {}, archive: {} });
+  const entries = inspectTransportOptions(
+    value,
+    "MODEL_PACK_SOURCE_OPTIONS_INVALID",
+    "Model Pack source options"
+  );
+  const unknown = [...entries.keys()]
+    .filter((field) => field !== "directory" && field !== "archive")
+    .sort();
+  if (unknown.length > 0) {
+    fail("MODEL_PACK_SOURCE_OPTIONS_INVALID", "Model Pack source options contain unknown fields.", {
+      unknown
+    });
+  }
+  return Object.freeze({
+    directory: requireOptions(entries.has("directory") ? entries.get("directory") : {}),
+    archive: normalizeModelPackArchiveLimits(entries.has("archive") ? entries.get("archive") : {})
+  });
+}
+
+function requireSourcePath(value) {
+  if (
+    typeof value !== "string" ||
+    value.length === 0 ||
+    value.length > 16_384 ||
+    value.includes("\0")
+  ) {
+    fail("MODEL_PACK_SOURCE_PATH_INVALID", "source must be a non-empty bounded path string.");
+  }
+  return path.resolve(value);
 }
 
 function requireOptions(value) {
   if (value === undefined) return MODEL_PACK_DIRECTORY_LIMITS;
-  if (value === null || typeof value !== "object" || Array.isArray(value)) {
-    fail("MODEL_PACK_DIRECTORY_OPTIONS_INVALID", "Directory loader options must be a plain object.");
-  }
-  const prototype = Object.getPrototypeOf(value);
-  if (prototype !== Object.prototype && prototype !== null) {
-    fail("MODEL_PACK_DIRECTORY_OPTIONS_INVALID", "Directory loader options must be a plain object.");
-  }
-  const safe = canonicalClone(value);
+  const entries = inspectTransportOptions(
+    value,
+    "MODEL_PACK_DIRECTORY_OPTIONS_INVALID",
+    "Directory loader options"
+  );
   const fields = new Set(Object.keys(MODEL_PACK_DIRECTORY_LIMITS));
-  const unknown = Object.keys(safe).filter((field) => !fields.has(field));
+  const unknown = [...entries.keys()].filter((field) => !fields.has(field)).sort();
   if (unknown.length > 0) {
     fail("MODEL_PACK_DIRECTORY_OPTIONS_INVALID", "Directory loader options contain unknown fields.", {
       unknown
     });
   }
-  const limits = { ...MODEL_PACK_DIRECTORY_LIMITS, ...safe };
+  const limits = { ...MODEL_PACK_DIRECTORY_LIMITS };
+  for (const field of fields) {
+    if (entries.has(field)) limits[field] = entries.get(field);
+  }
   for (const [field, maximum] of [
     ["maxFileCount", 4096],
     ["maxFileBytes", 1024 * 1024 * 1024],
@@ -100,14 +130,14 @@ async function inventory(directory, limits) {
         });
       }
       if (entry.isDirectory()) {
-        if (!ALLOWED_DIRECTORIES.has(relative)) {
+        if (!MODEL_PACK_ALLOWED_DIRECTORIES.has(relative)) {
           fail("MODEL_PACK_DIRECTORY_ENTRY_UNEXPECTED", "The Model Pack contains an unexpected directory.", {
             path: relative
           });
         }
         await visit(relative);
       } else if (entry.isFile()) {
-        if (!ALLOWED_PATHS.has(relative)) {
+        if (!MODEL_PACK_ALLOWED_PATHS.has(relative)) {
           fail("MODEL_PACK_DIRECTORY_ENTRY_UNEXPECTED", "The Model Pack contains an unexpected file.", {
             path: relative
           });
@@ -126,7 +156,7 @@ async function inventory(directory, limits) {
     }
   };
   await visit();
-  for (const required of REQUIRED_PATHS) {
+  for (const required of MODEL_PACK_REQUIRED_PATHS) {
     if (!files.includes(required)) {
       fail("MODEL_PACK_DIRECTORY_FILE_MISSING", "The Model Pack directory is incomplete.", {
         path: required
@@ -205,17 +235,41 @@ export async function loadModelPackDirectory(directory, options = {}) {
   const absolute = path.resolve(directory);
   const files = await inventory(absolute, limits);
   const budget = { bytes: 0 };
-  const manifest = await readJson(absolute, "manifest.json", limits, budget);
-  const packFiles = {};
-  for (const relative of Object.values(modelPackFilePaths())) {
-    packFiles[relative] = await readJson(absolute, relative, limits, budget);
+  const values = new Map();
+  for (const relative of files) {
+    values.set(relative, await readJson(absolute, relative, limits, budget));
   }
-  const verified = verifyModelPack({ manifest, files: packFiles });
-  if (files.includes("bundle.json")) {
-    const bundle = verifyModelPack(await readJson(absolute, "bundle.json", limits, budget));
-    if (canonicalize(bundle) !== canonicalize(verified)) {
-      fail("MODEL_PACK_DIRECTORY_BUNDLE_MISMATCH", "bundle.json differs from the split Model Pack files.");
+  let verified;
+  try {
+    verified = verifyTransportFiles(values);
+  } catch (error) {
+    if (error instanceof ModelPackError && error.code === "MODEL_PACK_TRANSPORT_BUNDLE_MISMATCH") {
+      fail("MODEL_PACK_DIRECTORY_BUNDLE_MISMATCH", error.message);
     }
+    throw error;
   }
   return verified;
+}
+
+export async function loadModelPackPath(source, options = {}) {
+  const absolute = requireSourcePath(source);
+  const transportOptions = requireSourceOptions(options);
+  let entry;
+  try {
+    entry = await lstat(absolute);
+  } catch (error) {
+    fail("MODEL_PACK_SOURCE_UNAVAILABLE", "The Model Pack source cannot be inspected.", {
+      cause: error.code ?? error.name
+    });
+  }
+  if (entry.isSymbolicLink()) {
+    fail("MODEL_PACK_SOURCE_SYMLINK_REJECTED", "The Model Pack source must not be a symbolic link.");
+  }
+  if (entry.isDirectory()) {
+    return loadModelPackDirectory(absolute, transportOptions.directory);
+  }
+  if (entry.isFile()) {
+    return loadModelPackArchive(absolute, transportOptions.archive);
+  }
+  fail("MODEL_PACK_SOURCE_TYPE_UNSUPPORTED", "The Model Pack source must be a directory or ZIP file.");
 }

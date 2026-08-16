@@ -1,15 +1,15 @@
 # Model Studio
 
 Model Studio is a static browser projection of the frozen Causal Emergence
-Model Pack release `2026.08.15`. It loads the committed manifest, nodes, and
-edges, then uses `@onto2d/view` for deterministic catalogue and neighborhood
-layout projections.
+Model Pack release `2026.08.15`. It loads every required split file through
+the bounded `@onto2d/model-pack/browser` transport, reconstructs the pack, and
+verifies its semantic hashes and derived indexes before exposing any data to
+`@onto2d/view` for deterministic catalogue and neighborhood projections.
 
-The page does not recompute Model Pack hashes or reinterpret `source-parent`
-relations as reviewed causation. Repository verification through
-`@onto2d/model-pack` remains authoritative for pack integrity. Version
-comparison is intentionally absent until a second real release and reviewed
-lineage record exist.
+The browser verifies the exact bytes it receives; it does not reinterpret
+`source-parent` relations as reviewed causation or replace scientific review
+of the release. Version comparison is intentionally absent until a second
+real release and reviewed lineage record exist.
 
 The interface uses a compact IDE workbench with a catalogue Explorer, graph
 editor, and node Inspector. A click inspects a node without changing the
