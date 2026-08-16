@@ -10,7 +10,7 @@ import {
   profilePath,
   sampleProfile,
   seriesPath
-} from "../../apps/level-zero-validation/model.js";
+} from "../../apps/level-zero-validation/level-zero-visual-model.js";
 
 const readJson = async (relativePath) => JSON.parse(await readFile(
   new URL(`../../${relativePath}`, import.meta.url),

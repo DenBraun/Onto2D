@@ -15,6 +15,10 @@ Updated: 2026-08-16.
   integrity checks;
 - Canonical Identity as a registered, replayable analysis included by the root
   facade;
+- dependency-free `@onto2d/view` catalogue and neighborhood projections with
+  deterministic SVG-ready layout;
+- initial Model Studio over the exact bundled release with query, local graph,
+  and source-record inspection;
 - public JavaScript and TypeScript entrypoints with boundary tests.
 
 ## Release lifecycle
@@ -33,10 +37,11 @@ Before publishing the root facade:
 
 1. Keep Historical Load illustrative until empirical values and preprocessing
    are reviewed.
-2. Add a small `@onto2d/view` layer for deterministic layouts and verified
-   overlays without moving authority into the browser.
-3. Build a minimal Studio only after the shared analysis contract is stable:
-   model selection, query, neighborhood, comparison, and artifact inspection.
+2. Keep `@onto2d/view` limited to deterministic presentation projections;
+   Model Pack verification and scientific interpretation stay upstream.
+3. Extend Studio with model selection, comparison, and artifact inspection
+   when a second real release, reviewed lineage, and further registered
+   analysis artifacts exist.
 
 ## External models
 

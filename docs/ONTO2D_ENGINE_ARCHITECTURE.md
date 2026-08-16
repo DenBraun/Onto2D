@@ -6,17 +6,15 @@ Status: release-quality engine milestone implemented on 2026-08-16.
 
 ```text
 applications and root facade
-             |
-             v
-      @onto2d/engine
-        /          \
-       v            v
-@onto2d/model-pack  registered analysis packages
-       |            /
-       +-----------+
-             |
-             v
-      kernel + schemas
+       /                  \
+      v                    v
+@onto2d/view        @onto2d/engine
+                           /     \
+                          v       v
+              @onto2d/model-pack  analyses
+                          \       /
+                           v     v
+                       kernel + schemas
 ```
 
 `@onto2d/engine` is a headless, catalogue-independent facade. It resolves an
@@ -42,6 +40,13 @@ source relations.
 The root facade also registers `canonical-identity`. It calls the kernel's
 canonicalizer and returns a replayable artifact bound to the exact selected
 Model Pack; it does not duplicate canonicalization logic.
+
+`@onto2d/view` is a separate dependency-free presentation boundary. It accepts
+explicit node and edge arrays and returns catalogue, bounded neighborhood, and
+SVG-ready layout projections. It does not authenticate packs, import the
+engine, or place coordinates in semantic hashes. The static Model Studio uses
+this layer over the bundled release and discloses that browser-side count and
+shape checks are not a replacement for Model Pack verification.
 
 ## Model Pack contract
 
@@ -80,7 +85,8 @@ actual diff. Similar labels or identifiers never create implicit lineage.
 ## Boundaries
 
 This milestone does not add kernel semantics, a UI framework, archive or remote
-loading, an RDF/OWL adapter, or empirical Historical Load values. Analyses must
-be registered explicitly. Deferred engineering work is listed in the
+loading, an RDF/OWL adapter, empirical Historical Load values, or a fabricated
+second release for Studio comparison. Analyses must be registered explicitly.
+Deferred engineering work is listed in the
 [Engine Roadmap](ENGINE_ROADMAP.md); scientific dependencies remain in the
 [Scientific Roadmap](SCIENTIFIC_ROADMAP.md).

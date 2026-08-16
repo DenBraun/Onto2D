@@ -54,7 +54,7 @@ export function graphSvg(view) {
     return `<path class="graph-edge${roleEdge ? " role-edge" : ""}" data-edge-index="${index}" data-from="${edge.from}" data-to="${edge.to}" data-role="${escapeXml(edge.role)}" d="M${line.x1.toFixed(1)} ${line.y1.toFixed(1)}L${line.x2.toFixed(1)} ${line.y2.toFixed(1)}" marker-end="url(#${roleEdge ? "identity-role-arrow" : "identity-arrow"})"></path>`;
   }).join("");
   const nodes = GRAPH_POSITIONS.map((position, index) => (
-    `<g class="graph-node" data-node-index="${index}" data-label="${escapeXml(view.labels[index])}"><circle cx="${position.x}" cy="${position.y}" r="20"></circle><text x="${position.x}" y="${position.y + 5}">${escapeXml(view.labels[index])}</text></g>`
+    `<g class="graph-node" data-node-index="${index}" data-label="${escapeXml(view.labels[index])}"><circle cx="${position.x}" cy="${position.y}" r="20"></circle><text x="${position.x}" y="${position.y}" dominant-baseline="middle">${escapeXml(view.labels[index])}</text></g>`
   )).join("");
   const description = view.edges.map((edge) => (
     `${view.labels[edge.from]} to ${view.labels[edge.to]} [${edge.role}]`

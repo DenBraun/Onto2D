@@ -31,6 +31,10 @@ All notable user-visible changes are recorded in this file.
 - Three-envelope Phase-C real-time persistence probe with symmetric-instability,
   antisymmetric-control, energy-drift, and resolution checks.
 - Reproducible three-node motif case and three static project studies.
+- Browser-safe `@onto2d/view` package with deterministic catalogue,
+  neighborhood, and SVG-ready graph projections.
+- Model Studio for searching the exact bundled catalogue, navigating bounded
+  directed neighborhoods, and inspecting source records.
 
 ### Fixed
 

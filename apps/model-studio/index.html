@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Browse the exact Onto2D Causal Emergence Model Pack as a searchable catalogue and directed neighborhood graph.">
+    <title>Model Studio - Onto2D</title>
+    <link rel="icon" href="../../assets/icons/favicon.ico?v=20260816.10" type="image/x-icon">
+    <link rel="stylesheet" href="../../assets/css/ui-icons.css?v=20260816.10">
+    <link rel="stylesheet" href="../../assets/css/model-studio-workbench.css?v=20260816.10">
+    <script type="module" src="./model-studio.js?v=20260816.10"></script>
+  </head>
+  <body data-state="loading">
+    <a class="skip-link" href="#studio">Skip to graph editor</a>
+
+    <div class="workbench">
+      <header class="titlebar">
+        <div class="window-mark" aria-hidden="true"><svg viewBox="0 0 34 34"><circle cx="7" cy="17" r="3"></circle><circle cx="27" cy="8" r="3"></circle><circle cx="27" cy="26" r="3"></circle><path d="M10 17h7m2-3 5-4m-5 10 5 4"></path></svg></div>
+        <nav class="menubar" aria-label="Project links"><a href="../../?v=20260816.10">Project</a><a href="../canonical-identity-lab/?v=20260816.10">Studies</a><a href="https://github.com/DenBraun/Onto2D" target="_blank" rel="noopener noreferrer">GitHub</a></nav>
+        <p class="window-title"><span>causal-emergence</span> - Model Studio</p>
+        <div class="title-actions"><span class="exact-release"><i></i><span id="load-state" role="status" aria-live="polite">Loading model</span></span><a href="../../?v=20260816.10" aria-label="Close Studio and return to project home"><svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#close"></use></svg></a></div>
+      </header>
+
+      <div class="workspace">
+        <aside class="catalog-panel" aria-labelledby="catalog-title">
+          <header class="sidebar-header"><h1 id="catalog-title">Explorer</h1><button id="reset-view" class="toolbar-button" type="button" title="Reset filters and graph" aria-label="Reset filters and graph"><svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#refresh"></use></svg></button></header>
+          <section class="model-section" aria-labelledby="model-section-title">
+            <h2 id="model-section-title"><svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#chevron-down"></use></svg> Model Pack</h2>
+            <dl class="release-summary"><div><dt>Model</dt><dd id="model-name">Loading...</dd></div><div><dt>Release</dt><dd id="model-version">...</dd></div><div><dt>Graph</dt><dd><span id="node-count">...</span> nodes / <span id="edge-count">...</span> edges</dd></div><div><dt>Root</dt><dd><code id="root-hash">...</code></dd></div></dl>
+          </section>
+
+          <section class="catalog-section" aria-labelledby="records-title">
+            <header class="tree-heading"><h2 id="records-title"><svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#chevron-down"></use></svg> Arisings</h2><span id="catalog-count" aria-live="polite">...</span></header>
+            <div class="catalog-tools">
+              <label class="search-field" for="catalog-search"><span class="visually-hidden">Search ID, name, or summary</span><svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#search"></use></svg><input id="catalog-search" type="search" autocomplete="off" placeholder="Search arisings"></label>
+              <div class="filter-grid">
+                <label><span>Level</span><select id="level-filter" title="Filter by level"><option value="">All</option></select></label><label><span>Type</span><select id="role-filter" title="Filter by type"><option value="">All</option></select></label><label><span>Phase</span><select id="phase-filter" title="Filter by phase"><option value="">All</option></select></label><label><span>Status</span><select id="status-filter" title="Filter by scientific status"><option value="">All</option></select></label>
+              </div>
+              <label class="sort-field"><span>Order</span><select id="catalog-sort"><option value="id:asc">ID</option><option value="level:asc">Level, then ID</option><option value="name:asc">Name</option><option value="degree:desc">Most connected</option></select></label>
+            </div>
+            <div class="catalog-list" id="catalog-list" role="listbox" aria-label="Model nodes" tabindex="-1"></div>
+            <div class="catalog-empty" id="catalog-empty" hidden><strong>No matching records</strong><p>Clear a filter or shorten the search.</p></div>
+          </section>
+        </aside>
+
+        <main class="editor-group" id="studio">
+          <div class="editor-tabs" role="tablist" aria-label="Open editors"><div class="editor-tab is-active" role="tab" aria-selected="true"><svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#network"></use></svg><span id="editor-tab-label">0.0 Field Distinguishability</span><i></i></div></div>
+          <div class="editor-toolbar">
+            <div class="graph-controls" aria-label="Neighborhood controls">
+              <fieldset id="direction-controls"><legend>Direction</legend><button type="button" data-direction="parents" aria-pressed="false">Parents</button><button type="button" data-direction="both" aria-pressed="true">Both</button><button type="button" data-direction="children" aria-pressed="false">Children</button></fieldset><span class="toolbar-separator"></span><fieldset id="depth-controls"><legend>Depth</legend><span class="control-label">Depth</span><button type="button" data-depth="1" aria-pressed="true">1</button><button type="button" data-depth="2" aria-pressed="false">2</button></fieldset>
+            </div>
+            <div class="graph-legend" aria-label="Graph legend"><strong id="graph-title">Loading neighborhood...</strong><span><i class="parent-key"></i>parent</span><span><i class="focus-key"></i>focus</span><span><i class="child-key"></i>child</span></div>
+          </div>
+          <section class="graph-stage" aria-label="Graph editor">
+            <svg id="neighborhood-graph" viewBox="0 0 1040 680" role="img" aria-labelledby="svg-title svg-description"><title id="svg-title">Directed neighborhood graph</title><desc id="svg-description">Parents are placed to the left, the selected node in the center, and children to the right. Arrowheads point from source to target.</desc><defs><marker id="studio-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 10 5 0 10z"></path></marker><marker id="studio-arrow-focus" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 10 5 0 10z"></path></marker></defs><g id="graph-edges" class="graph-edges"></g><g id="graph-nodes" class="graph-nodes"></g></svg>
+            <div class="graph-message" id="graph-message" hidden></div>
+          </section>
+          <footer class="editor-footer"><p id="graph-counts">...</p><p>Click: inspect / double-click: focus</p></footer>
+        </main>
+
+        <aside class="inspector-panel" aria-labelledby="inspector-title">
+          <header class="sidebar-header"><h2 id="inspector-title">Inspector</h2><span id="selected-id">...</span></header>
+          <div class="inspector-content">
+            <div class="node-heading"><p id="selected-coordinate">Level ... / Phase ...</p><h3 id="selected-name">Loading...</h3><div id="selected-tags" class="tag-row"></div></div>
+            <p class="node-summary" id="selected-summary">Loading the selected model record.</p>
+            <dl class="node-metrics"><div><dt>Parents</dt><dd id="parent-count">...</dd></div><div><dt>Children</dt><dd id="child-count">...</dd></div><div><dt>Edges</dt><dd id="degree-count">...</dd></div></dl>
+            <section class="relation-section" aria-labelledby="parents-title"><header><h4 id="parents-title"><svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#chevron-down"></use></svg> Direct parents</h4><span id="parents-total">0</span></header><div id="parent-list" class="relation-list"></div></section>
+            <section class="relation-section" aria-labelledby="children-title"><header><h4 id="children-title"><svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#chevron-down"></use></svg> Direct children</h4><span id="children-total">0</span></header><div id="child-list" class="relation-list"></div></section>
+            <details class="record-details"><summary>Full description</summary><p id="selected-description"></p></details><details class="record-details"><summary>Evidence and source fields</summary><pre id="selected-record"></pre></details>
+            <section class="source-boundary" aria-label="Evidence boundary"><h4>Model boundary</h4><p><strong>Transparent source snapshot.</strong> Links are preserved <code>source-parent</code> records, not reviewed generative causation.</p><p>There is only one real Model Pack release. Version comparison remains disabled until reviewed lineage exists.</p></section>
+          </div>
+        </aside>
+      </div>
+
+    </div>
+  </body>
+</html>

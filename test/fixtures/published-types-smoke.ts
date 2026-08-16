@@ -20,6 +20,7 @@ import {
   type ModelIdentity
 } from "@onto2d/engine";
 import { Onto2D as DefaultOnto2D } from "onto2d";
+import { createModelView, layoutNeighborhood, type NeighborhoodLayout } from "@onto2d/view";
 
 const ref = `sha256:${"a".repeat(64)}` as const;
 const result = canonicalizeCandidate({
@@ -68,3 +69,8 @@ void artifact;
 void verifyCanonicalIdentityArtifact;
 void loadModelPackDirectory;
 void DefaultOnto2D.create();
+const modelView = createModelView({ nodes: [{ id: "a" }], edges: [] });
+const modelLayout: NeighborhoodLayout = layoutNeighborhood(
+  modelView.neighborhood({ focusId: "a" })
+);
+void modelLayout;

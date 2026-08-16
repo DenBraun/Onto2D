@@ -56,6 +56,11 @@ presents the bounded negative result as an artifact-backed gate sequence and
 interactive branch comparison
 ([source notes](apps/level-zero-validation/README.md)).
 
+The [Model Studio](https://denbraun.github.io/Onto2D/apps/model-studio/)
+browses the exact bundled Model Pack through catalogue filters, bounded
+directed neighborhoods, and source-record inspection
+([source notes](apps/model-studio/README.md)).
+
 Run the static site:
 
 ```sh
@@ -89,6 +94,7 @@ commands and fixture policy.
 | [`@onto2d/model-pack`](packages/model-pack/README.md) | Canonical, transparent model release build and verification |
 | [`@onto2d/engine`](packages/engine/README.md) | Headless exact-version model API, workspaces, analyses, and diff |
 | [`@onto2d/canonical-identity-analysis`](packages/canonical-identity-analysis/README.md) | Replayable kernel-backed candidate identity analysis |
+| [`@onto2d/view`](packages/view/README.md) | Browser-safe catalogue, neighborhood, and deterministic layout projections |
 | [`@onto2d/catalog-adapter`](packages/catalog-adapter/README.md) | Source-catalogue audit and reviewed migration replay |
 | [`@onto2d/scientific-adapter`](packages/scientific-adapter/README.md) | Boundary for external numerical implementations |
 | [`@onto2d/run-store`](packages/run-store/README.md) | Verified local persistence of semantic run bundles |

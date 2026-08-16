@@ -4,33 +4,39 @@ import test from "node:test";
 
 const read = (relative) => readFileSync(new URL(`../../${relative}`, import.meta.url), "utf8");
 const landing = read("index.html");
-const landingStyles = read("assets/css/site.css");
-const iconStyles = read("assets/css/icons.css");
+const landingStyles = read("assets/css/project-home.css");
+const iconStyles = read("assets/css/ui-icons.css");
 const motifMarkup = read("apps/three-node-motif-explorer/index.html");
-const motifApp = read("apps/three-node-motif-explorer/app.js");
-const motifStyles = read("assets/css/three-node-motif-explorer.css");
+const motifApp = read("apps/three-node-motif-explorer/network-motif-study.js");
+const motifStyles = read("assets/css/study-network-motifs.css");
 const identityMarkup = read("apps/canonical-identity-lab/index.html");
-const identityApp = read("apps/canonical-identity-lab/app.js");
+const identityApp = read("apps/canonical-identity-lab/identity-lab.js");
 const levelZeroMarkup = read("apps/level-zero-validation/index.html");
-const levelZeroApp = read("apps/level-zero-validation/app.js");
-const levelZeroStyles = read("assets/css/level-zero-validation.css");
+const levelZeroApp = read("apps/level-zero-validation/level-zero-study.js");
+const levelZeroStyles = read("assets/css/study-level-zero.css");
+const studioMarkup = read("apps/model-studio/index.html");
+const studioApp = read("apps/model-studio/model-studio.js");
+const studioStyles = read("assets/css/model-studio-workbench.css");
 const siteServer = read("apps/historical-load-explorer/serve.mjs");
-const iconSprite = read("assets/icons/icons.svg");
+const iconSprite = read("assets/icons/ui-symbols.svg");
 const publicDirectories = [
   "apps/historical-load-explorer",
   "apps/three-node-motif-explorer",
   "apps/canonical-identity-lab",
-  "apps/level-zero-validation"
+  "apps/level-zero-validation",
+  "apps/model-studio"
 ];
 const publicFiles = [
   "index.html",
-  "assets/css/icons.css",
-  "assets/css/site.css",
-  "assets/css/historical-load-explorer.css",
-  "assets/css/three-node-motif-explorer.css",
-  "assets/css/canonical-identity-lab.css",
-  "assets/css/level-zero-validation.css",
-  "assets/icons/icons.svg",
+  "assets/css/ui-icons.css",
+  "assets/css/project-home.css",
+  "assets/css/study-historical-load.css",
+  "assets/css/study-network-motifs.css",
+  "assets/css/study-canonical-identity.css",
+  "assets/css/study-level-zero.css",
+  "assets/css/model-studio-workbench.css",
+  "assets/icons/ui-symbols.svg",
+  "assets/icons/onto2d-mark.svg",
   ...publicDirectories.flatMap((directory) => readdirSync(
     new URL(`../../${directory}/`, import.meta.url)
   ).filter((name) => /\.(?:css|html|js|json|md|mjs)$/.test(name)).map((name) => `${directory}/${name}`))
@@ -46,14 +52,50 @@ function assertScriptIdsExist(script, markup) {
 test("the root is a no-scroll project landing page with exactly three study entries", () => {
   assert.doesNotMatch(landing, /http-equiv="refresh"/i);
   assert.match(landingStyles, /html,body\s*\{[^}]*overflow:hidden/s);
-  const studyLinks = [...landing.matchAll(/class="study-card[^"']*" href="([^"]+)"/g)].map((match) => match[1]);
+  const studyLinks = [...landing.matchAll(/class="study-card[^"']*" href="([^"]+)"/g)]
+    .map((match) => match[1].split("?")[0]);
   assert.deepEqual(studyLinks, [
     "./apps/historical-load-explorer/",
     "./apps/three-node-motif-explorer/",
     "./apps/canonical-identity-lab/"
   ]);
-  assert.match(landing, /href="\.\/apps\/level-zero-validation\/"/);
+  assert.match(landing, /href="\.\/apps\/level-zero-validation\/(?:\?v=[^"]+)?"/);
+  assert.match(landing, /href="\.\/apps\/model-studio\/(?:\?v=[^"]+)?"/);
   assert.match(landing, /Make complex-system claims/);
+});
+
+test("Model Studio reads the real pack through the shared deterministic view layer", () => {
+  assert.match(studioApp, /models\/causal-emergence\/releases\/2026\.08\.15/);
+  assert.match(studioApp, /packages\/view\/src\/index\.js/);
+  assert.match(studioApp, /fetchJson\("manifest\.json"\)/);
+  assert.match(studioApp, /fetchJson\("model\/nodes\.json"\)/);
+  assert.match(studioApp, /fetchJson\("model\/edges\.json"\)/);
+  assert.match(studioApp, /layoutNeighborhood\(projection/);
+  assert.match(studioApp, /addEventListener\("click", \(\) => inspectNode\(node\.id\)\)/);
+  assert.match(studioApp, /addEventListener\("dblclick", \(\) => focusNode\(node\.id\)\)/);
+  assert.match(studioApp, /graphHighlight\(activeGraphProjection, target\)/);
+  assert.match(studioMarkup, /not reviewed generative causation/i);
+  assert.match(studioMarkup, /There is only one real Model Pack release/i);
+  assert.doesNotMatch(studioMarkup, /class="activity-bar"/);
+  assert.doesNotMatch(studioMarkup, /class="breadcrumbs"/);
+  assert.doesNotMatch(studioMarkup, /class="statusbar"/);
+  for (const id of [
+    "catalog-search",
+    "catalog-list",
+    "direction-controls",
+    "depth-controls",
+    "neighborhood-graph",
+    "graph-edges",
+    "graph-nodes",
+    "selected-record"
+  ]) {
+    assert.match(studioMarkup, new RegExp(`id=["']${id}["']`), `missing #${id}`);
+  }
+  const appRevision = studioMarkup.match(/model-studio\.js\?v=([^"']+)/)?.[1];
+  const viewRevision = studioApp.match(/packages\/view\/src\/index\.js\?v=([^"']+)/)?.[1];
+  const interactionRevision = studioApp.match(/graph-interactions\.js\?v=([^"']+)/)?.[1];
+  assert.equal(viewRevision, appRevision);
+  assert.equal(interactionRevision, appRevision);
 });
 
 test("the Level-0 view projects frozen evidence into interactive branches", () => {
@@ -74,8 +116,8 @@ test("the Level-0 view projects frozen evidence into interactive branches", () =
   assert.match(levelZeroApp, /artifacts\/phase-c-objecthood-v1\.json/);
   assert.match(levelZeroApp, /artifacts\/phase-c-dynamics-v1\.json/);
   assertScriptIdsExist(levelZeroApp, levelZeroMarkup);
-  const appRevision = levelZeroMarkup.match(/app\.js\?v=([^"']+)/)?.[1];
-  const modelRevision = levelZeroApp.match(/model\.js\?v=([^"']+)/)?.[1];
+  const appRevision = levelZeroMarkup.match(/level-zero-study\.js\?v=([^"']+)/)?.[1];
+  const modelRevision = levelZeroApp.match(/level-zero-visual-model\.js\?v=([^"']+)/)?.[1];
   assert.equal(modelRevision, appRevision);
 });
 
@@ -86,9 +128,9 @@ test("the dedicated motif Explorer has complete interactive hooks", () => {
   assert.match(motifMarkup, /not an evolutionary reconstruction/i);
   assert.match(motifMarkup, /Frozen empirical case/i);
   assertScriptIdsExist(motifApp, motifMarkup);
-  const appRevision = motifMarkup.match(/app\.js\?v=([^"']+)/)?.[1];
-  const dataRevision = motifApp.match(/data\.js\?v=([^"']+)/)?.[1];
-  const readingModelRevision = motifApp.match(/reading-model\.js\?v=([^"']+)/)?.[1];
+  const appRevision = motifMarkup.match(/network-motif-study\.js\?v=([^"']+)/)?.[1];
+  const dataRevision = motifApp.match(/network-motif-data\.js\?v=([^"']+)/)?.[1];
+  const readingModelRevision = motifApp.match(/motif-reading\.js\?v=([^"']+)/)?.[1];
   assert.equal(dataRevision, appRevision);
   assert.equal(readingModelRevision, appRevision);
 });
@@ -99,9 +141,9 @@ test("the identity lab discloses its frozen-fixture boundary and all hooks exist
   assert.match(identityMarkup, /data-action="reverse"/);
   assert.match(identityMarkup, /data-action="role"/);
   assertScriptIdsExist(identityApp, identityMarkup);
-  const appRevision = identityMarkup.match(/app\.js\?v=([^"']+)/)?.[1];
-  const modelRevision = identityApp.match(/model\.js\?v=([^"']+)/)?.[1];
-  const graphViewRevision = identityApp.match(/graph-view\.js\?v=([^"']+)/)?.[1];
+  const appRevision = identityMarkup.match(/identity-lab\.js\?v=([^"']+)/)?.[1];
+  const modelRevision = identityApp.match(/identity-model\.js\?v=([^"']+)/)?.[1];
+  const graphViewRevision = identityApp.match(/identity-graph-renderer\.js\?v=([^"']+)/)?.[1];
   assert.equal(modelRevision, appRevision);
   assert.equal(graphViewRevision, appRevision);
 });
@@ -122,12 +164,12 @@ test("the complete public site surface is ASCII-only", () => {
 
 test("all shared vector icon references resolve to the local SVG sprite", () => {
   const symbolIds = new Set([...iconSprite.matchAll(/<symbol id="([a-z-]+)"/g)].map((match) => match[1]));
-  assert.equal(symbolIds.size, 12);
+  assert.equal(symbolIds.size, 16);
 
   const markupReferences = publicFiles.flatMap((file) => [
-    ...read(file).matchAll(/icons\.svg#([a-z-]+)/g)
+    ...read(file).matchAll(/ui-symbols\.svg#([a-z-]+)/g)
   ].map((match) => match[1]));
-  const dynamicReferences = [...read("apps/historical-load-explorer/app.js").matchAll(/iconMarkup\("([a-z-]+)"\)/g)]
+  const dynamicReferences = [...read("apps/historical-load-explorer/historical-load-study.js").matchAll(/iconMarkup\("([a-z-]+)"\)/g)]
     .map((match) => match[1]);
   for (const iconId of [...markupReferences, ...dynamicReferences]) {
     assert.ok(symbolIds.has(iconId), `missing vector icon #${iconId}`);
@@ -148,4 +190,8 @@ test("motif Explorer text never drops below the readable interface minimum", () 
 
 test("the Level-0 view text never drops below the readable interface minimum", () => {
   assert.doesNotMatch(levelZeroStyles, /font-size:\s*(?:[1-9]|1[01])px/);
+});
+
+test("Model Studio text never drops below the readable interface minimum", () => {
+  assert.doesNotMatch(studioStyles, /font-size:\s*(?:[1-9]|1[01])px/);
 });

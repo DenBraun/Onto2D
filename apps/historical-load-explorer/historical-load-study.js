@@ -5,11 +5,11 @@ import {
   analyzeCase,
   constraintsForStrictness,
   matchingPreset
-} from "./model.js?v=20260815.4";
+} from "./historical-load-model.js?v=20260816.10";
 
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
-const iconMarkup = (name) => `<svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/icons.svg#${name}"></use></svg>`;
+const iconMarkup = (name) => `<svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#${name}"></use></svg>`;
 
 const elements = {
   caseSelect: $("#case-select"),

@@ -6,7 +6,7 @@
 applications and cases
         |
         v
- engine + model-pack + adapters + run-store
+ view + engine + model-pack + adapters + run-store
                   |
                   v
            kernel + schemas
@@ -30,11 +30,12 @@ Emergence snapshot.
 | `packages/model-pack` | Canonical model release assembly and verification |
 | `packages/engine` | Headless model access, traversal, workspaces, analyses, and diff |
 | `packages/canonical-identity-analysis` | Replayable kernel-backed identity analysis |
+| `packages/view` | Deterministic presentation projections and graph layout |
 | `packages/catalog-adapter` | Catalogue loading, audit, and reviewed migration replay |
 | `packages/scientific-adapter` | Interface for external numerical implementations |
 | `packages/run-store` | Filesystem persistence of verified run bundles and execution records |
 | `cases` | Source locks, case rules, reproducible scripts, and frozen results |
-| `apps` | Explanatory interfaces over disclosed toy data or verified fixtures |
+| `apps` | Explanatory studies and model readers over disclosed or versioned inputs |
 | `models` | Reproducible, reviewed Model Pack releases and their compilers |
 | `src` | Private root facade that composes the engine with bundled releases |
 | `scr` | Preserved source catalogue and reference material |
@@ -48,6 +49,7 @@ Emergence snapshot.
 - Cases may call the kernel but must not add case-specific branches to it.
 - Applications do not become authorities for scientific values or canonical
   identity; they project disclosed models or tested artifacts.
+- View layouts are derived presentation output and never enter model identity.
 - Model Pack indexes are derived accelerators and never authority over the
   canonical model files.
 - Operational metadata such as timestamps and resource use does not enter

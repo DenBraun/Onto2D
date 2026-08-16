@@ -10,7 +10,7 @@ import {
   IDENTITY_SCENARIOS,
   TRIANGLE_SKELETON_ID,
   inputView
-} from "../../apps/canonical-identity-lab/model.js";
+} from "../../apps/canonical-identity-lab/identity-model.js";
 import { buildCausalEmergenceRelease } from "../../models/causal-emergence/build.mjs";
 
 test("the root facade loads the exact bundled Causal Emergence Model Pack", async () => {

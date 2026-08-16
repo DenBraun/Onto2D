@@ -10,8 +10,14 @@ import * as modelPackNode from "@onto2d/model-pack/node";
 import * as runStore from "@onto2d/run-store";
 import * as schemas from "@onto2d/schemas";
 import * as scientificAdapter from "@onto2d/scientific-adapter";
+import * as view from "@onto2d/view";
 
 const PACKAGE_SURFACES = Object.freeze([
+  Object.freeze({
+    name: "view",
+    runtime: view,
+    declarations: new URL("../../packages/view/src/index.d.ts", import.meta.url)
+  }),
   Object.freeze({
     name: "canonical-identity-analysis",
     runtime: canonicalIdentityAnalysis,
@@ -91,6 +97,7 @@ test("published workspace names resolve through their export maps", () => {
   assert.equal(typeof modelPack.verifyModelPack, "function");
   assert.equal(typeof modelPackNode.loadModelPackDirectory, "function");
   assert.equal(typeof canonicalIdentityAnalysis.verifyCanonicalIdentityArtifact, "function");
+  assert.equal(typeof view.layoutNeighborhood, "function");
   assert.ok(Object.isFrozen(adapter));
 });
 

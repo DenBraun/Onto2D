@@ -6,7 +6,7 @@ import {
   profilePath,
   sampleProfile,
   seriesPath
-} from "./model.js?v=20260815.3";
+} from "./level-zero-visual-model.js?v=20260816.10";
 
 const $ = (selector) => document.querySelector(selector);
 const elements = {
@@ -66,7 +66,7 @@ function gate(element, passed) {
   element.querySelector("b").textContent = passed ? "YES" : "NO";
   element.querySelector("svg use").setAttribute(
     "href",
-    `../../assets/icons/icons.svg#${passed ? "check" : "reject"}`
+    `../../assets/icons/ui-symbols.svg#${passed ? "check" : "reject"}`
   );
 }
 
@@ -200,9 +200,9 @@ function renderDynamics() {
 
 async function loadStudy() {
   const [integratedResponse, objecthoodResponse, dynamicsResponse] = await Promise.all([
-    fetch("../../cases/level-0-oscillator/artifacts/level-zero-validation-v1.json"),
-    fetch("../../cases/level-0-oscillator/artifacts/phase-c-objecthood-v1.json"),
-    fetch("../../cases/level-0-oscillator/artifacts/phase-c-dynamics-v1.json")
+    fetch("../../cases/level-0-oscillator/artifacts/level-zero-validation-v1.json", { cache: "no-store" }),
+    fetch("../../cases/level-0-oscillator/artifacts/phase-c-objecthood-v1.json", { cache: "no-store" }),
+    fetch("../../cases/level-0-oscillator/artifacts/phase-c-dynamics-v1.json", { cache: "no-store" })
   ]);
   if (!integratedResponse.ok || !objecthoodResponse.ok || !dynamicsResponse.ok) {
     throw new Error("Frozen Level-0 artifacts could not be loaded.");
@@ -239,4 +239,6 @@ elements.dynamicsSlider.addEventListener("input", () => {
 loadStudy().catch((error) => {
   elements.status.textContent = error.message;
   elements.status.dataset.state = "error";
+  elements.dynamicsStatus.textContent = "DYNAMICS UNAVAILABLE";
+  elements.dynamicsStatus.dataset.state = "error";
 });

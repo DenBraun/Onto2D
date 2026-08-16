@@ -40,6 +40,15 @@ export {
   modelPackFilePaths,
   verifyModelPack
 } from "@onto2d/model-pack";
+export {
+  CATALOG_SORTS,
+  NEIGHBORHOOD_DIRECTIONS,
+  VIEW_VERSION,
+  ModelView,
+  ViewError,
+  createModelView,
+  layoutNeighborhood
+} from "@onto2d/view";
 
 export const bundledCausalEmergenceModelPack = verifyModelPack(bundledPackJson);
 

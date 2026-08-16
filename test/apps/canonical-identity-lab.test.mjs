@@ -1,14 +1,14 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { canonicalizeCandidate } from "../../packages/kernel/src/index.js";
-import { graphSvg } from "../../apps/canonical-identity-lab/graph-view.js";
+import { graphSvg } from "../../apps/canonical-identity-lab/identity-graph-renderer.js";
 import {
   ANONYMOUS_NODE_REF,
   IDENTITY_SCENARIOS,
   NODE_PERMUTATIONS,
   TRIANGLE_SKELETON_ID,
   inputView
-} from "../../apps/canonical-identity-lab/model.js";
+} from "../../apps/canonical-identity-lab/identity-model.js";
 
 function candidate(edges) {
   return canonicalizeCandidate({
@@ -62,7 +62,7 @@ test("all displayed graph views keep three SVG nodes and exact directed edges", 
       for (const reverseEdgeOrder of [false, true]) {
         const view = inputView(scenario.id, permutationIndex, reverseEdgeOrder);
         const markup = graphSvg(view);
-        const nodes = [...markup.matchAll(/<g class="graph-node" data-node-index="(\d+)" data-label="([^"]+)"><circle cx="(\d+)" cy="(\d+)" r="20"><\/circle><text x="(\d+)" y="(\d+)">/g)]
+        const nodes = [...markup.matchAll(/<g class="graph-node" data-node-index="(\d+)" data-label="([^"]+)"><circle cx="(\d+)" cy="(\d+)" r="20"><\/circle><text x="(\d+)" y="(\d+)" dominant-baseline="middle">/g)]
           .map((match) => ({
             index: Number(match[1]),
             label: match[2],
@@ -88,7 +88,7 @@ test("all displayed graph views keep three SVG nodes and exact directed edges", 
         assert.equal(new Set(nodes.map((node) => `${node.x}:${node.y}`)).size, 3);
         for (const node of nodes) {
           assert.equal(node.textX, node.x);
-          assert.equal(node.textY, node.y + 5);
+          assert.equal(node.textY, node.y);
           assert.ok(node.x >= 20 && node.x <= 280);
           assert.ok(node.y >= 20 && node.y <= 240);
         }

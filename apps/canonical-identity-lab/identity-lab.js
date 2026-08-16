@@ -1,5 +1,5 @@
-import { IDENTITY_SCENARIOS, TRIANGLE_SKELETON_ID, inputView } from "./model.js?v=20260815.6";
-import { graphSvg } from "./graph-view.js?v=20260815.6";
+import { IDENTITY_SCENARIOS, TRIANGLE_SKELETON_ID, inputView } from "./identity-model.js?v=20260816.10";
+import { graphSvg } from "./identity-graph-renderer.js?v=20260816.10";
 
 const $ = (selector, root = document) => root.querySelector(selector);
 const state = { scenarioId: "base", permutationIndex: 0, reverseEdgeOrder: false };

@@ -20,11 +20,11 @@ import {
   createTrialRng,
   randomizeByMfinderSwitches
 } from "../../cases/three-node-motifs/src/randomize.mjs";
-import { THREE_NODE_MOTIF_EXPLORER_DATA } from "../../apps/three-node-motif-explorer/data.js";
+import { THREE_NODE_MOTIF_EXPLORER_DATA } from "../../apps/three-node-motif-explorer/network-motif-data.js";
 import {
   analyzeFflConstruction,
   deriveEcoliReading
-} from "../../apps/three-node-motif-explorer/reading-model.js";
+} from "../../apps/three-node-motif-explorer/motif-reading.js";
 
 const OFF_DIAGONAL = [[0, 1], [0, 2], [1, 0], [1, 2], [2, 0], [2, 1]];
 

@@ -7,18 +7,18 @@ import {
   analyzeCase,
   constraintsForStrictness,
   matchingPreset
-} from "../../apps/historical-load-explorer/model.js";
+} from "../../apps/historical-load-explorer/historical-load-model.js";
 
 const explorerMarkup = readFileSync(
   new URL("../../apps/historical-load-explorer/index.html", import.meta.url),
   "utf8"
 );
 const explorerApp = readFileSync(
-  new URL("../../apps/historical-load-explorer/app.js", import.meta.url),
+  new URL("../../apps/historical-load-explorer/historical-load-study.js", import.meta.url),
   "utf8"
 );
 const explorerStyles = readFileSync(
-  new URL("../../assets/css/historical-load-explorer.css", import.meta.url),
+  new URL("../../assets/css/study-historical-load.css", import.meta.url),
   "utf8"
 );
 
@@ -37,8 +37,8 @@ test("the constitutive bridge reproduces the illustrative +3 readout", () => {
   }
 
   assert.match(explorerMarkup, /id="graph-rule"/, "legacy graph hook must remain cache-compatible");
-  const appRevision = explorerMarkup.match(/app\.js\?v=([^"']+)/)?.[1];
-  const modelRevision = explorerApp.match(/model\.js\?v=([^"']+)/)?.[1];
+  const appRevision = explorerMarkup.match(/historical-load-study\.js\?v=([^"']+)/)?.[1];
+  const modelRevision = explorerApp.match(/historical-load-model\.js\?v=([^"']+)/)?.[1];
   assert.ok(appRevision, "app resource must carry a cache-busting revision");
   assert.equal(modelRevision, appRevision, "module graph revisions must stay aligned");
   assert.doesNotMatch(explorerMarkup, /id="motifs"/);
@@ -61,7 +61,7 @@ test("constraint checkboxes keep a visible, browser-independent control", () => 
   assert.doesNotMatch(inputRule, /pointer-events:\s*none/);
   assert.match(explorerStyles, /\.constraint-row input:checked \+ \.checkmark::after/);
   assert.match(explorerStyles, /\.constraint-row input:focus-visible \+ \.checkmark/);
-  assert.match(explorerMarkup, /assets\/css\/historical-load-explorer\.css\?v=20260815\.5/);
+  assert.match(explorerMarkup, /assets\/css\/study-historical-load\.css\?v=[^"']+/);
 });
 
 test("free, neutral, and unreachable states remain distinct", () => {

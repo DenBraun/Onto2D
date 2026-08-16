@@ -37,6 +37,10 @@ These orchestration features do not add kernel capabilities or change the
 closed schema-v1 kernel contract. See the
 [Engine Architecture](ONTO2D_ENGINE_ARCHITECTURE.md).
 
+The separate `@onto2d/view` package and Model Studio provide deterministic
+catalogue and bounded neighborhood projections over the bundled release. They
+are presentation features, not additional kernel or scientific capabilities.
+
 ## Adapter status
 
 | Boundary | Implemented | Still external or pending |

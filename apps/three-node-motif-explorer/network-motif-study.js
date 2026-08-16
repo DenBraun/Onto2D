@@ -1,5 +1,5 @@
-import { THREE_NODE_MOTIF_EXPLORER_DATA as DATA } from "./data.js?v=20260815.4";
-import { analyzeFflConstruction, deriveEcoliReading } from "./reading-model.js?v=20260815.4";
+import { THREE_NODE_MOTIF_EXPLORER_DATA as DATA } from "./network-motif-data.js?v=20260816.10";
+import { analyzeFflConstruction, deriveEcoliReading } from "./motif-reading.js?v=20260816.10";
 
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];

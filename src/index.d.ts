@@ -77,6 +77,35 @@ export type {
   ModelPackNode,
   ModelPackSource
 } from "@onto2d/model-pack";
+export {
+  CATALOG_SORTS,
+  NEIGHBORHOOD_DIRECTIONS,
+  VIEW_VERSION,
+  ModelView,
+  ViewError,
+  createModelView,
+  layoutNeighborhood
+} from "@onto2d/view";
+export type {
+  CatalogOptions,
+  CatalogProjection,
+  CatalogSort,
+  FacetEntry,
+  LayoutOptions,
+  NeighborhoodDirection as ViewNeighborhoodDirection,
+  NeighborhoodEdge as ViewNeighborhoodEdge,
+  NeighborhoodLayout,
+  NeighborhoodNode as ViewNeighborhoodNode,
+  NeighborhoodOptions as ViewNeighborhoodOptions,
+  NeighborhoodProjection,
+  PositionedNeighborhoodNode,
+  RoutedNeighborhoodEdge,
+  SortOrder,
+  ViewEdge,
+  ViewInput,
+  ViewNode,
+  ViewNodeSummary
+} from "@onto2d/view";
 
 export const bundledCausalEmergenceModelPack: Readonly<ModelPack>;
 

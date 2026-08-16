@@ -15,6 +15,7 @@ if (!Number.isInteger(requestedPort) || requestedPort < 1 || requestedPort > 655
 const contentTypes = Object.freeze({
   ".css": "text/css; charset=utf-8",
   ".html": "text/html; charset=utf-8",
+  ".ico": "image/x-icon",
   ".js": "text/javascript; charset=utf-8",
   ".json": "application/json; charset=utf-8",
   ".mjs": "text/javascript; charset=utf-8",
@@ -38,9 +39,11 @@ const server = createServer(async (request, response) => {
     if (!fileStat.isFile()) throw new Error("Not a file");
 
     response.writeHead(200, {
-      "Cache-Control": "no-store",
+      "Cache-Control": "no-store, max-age=0",
       "Content-Length": fileStat.size,
-      "Content-Type": contentTypes[path.extname(absolutePath)] ?? "application/octet-stream"
+      "Content-Type": contentTypes[path.extname(absolutePath)] ?? "application/octet-stream",
+      "Expires": "0",
+      "Pragma": "no-cache"
     });
     createReadStream(absolutePath).pipe(response);
   } catch {
