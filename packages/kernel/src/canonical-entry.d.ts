@@ -15,4 +15,5 @@ export function hashCanonical(
   value: JsonValue,
   options?: CanonicalizationOptions
 ): ContentHash;
+export function hashArtifactBytes(bytes: Uint8Array): ContentHash;
 export function isContentHash(value: unknown): value is ContentHash;

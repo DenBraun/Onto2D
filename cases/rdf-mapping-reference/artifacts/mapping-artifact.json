@@ -1,0 +1,224 @@
+{
+  "schemaVersion": "1",
+  "format": "onto2d-rdf-mapping-artifact",
+  "formatVersion": "1",
+  "profile": "rdf-to-model-pack-explicit-v1",
+  "policyHash": "sha256:41f301d4d4d6c05a3941a8a5d3a84540fa7b4e20d87641f330572233701e8053",
+  "inputs": {
+    "data": {
+      "sourceHash": "sha256:018c481cfdf14a116a1bca21b9d04263e712fc308aa65fafc77e5ca73655d8bd",
+      "graphHash": "sha256:d599578cae1c8e0a1b5d248a42995de559aa221ea9fb2f6dca25f420baa2e317",
+      "importHash": "sha256:f7efce1db2471e0c723628d105e5beb46479c625b308b0af4feb4dc17454ad36"
+    },
+    "shapes": {
+      "sourceHash": "sha256:80fd2006f69ef217e855a00ed3c14616d9b87c4c13b3cf4263fe6fa42115d8ca",
+      "graphHash": "sha256:911102445ac426903ce693a3357649cb3716631c2c7f64196354e560f2d6efdc",
+      "importHash": "sha256:9dbd95f8300cfaf54fad438b76d4995aae671a4f90e9086b4578da029f7693df"
+    },
+    "validation": {
+      "profile": "shacl10-core-structural-v1",
+      "planHash": "sha256:f160738734139bc21c46a22e242704ad22b08d6316cce9463f888fb41a2ee5ea",
+      "reportHash": "sha256:528b13fe88574843c10e57ab239198681beb7ed7c358762e59da457140de9999",
+      "conforms": true
+    }
+  },
+  "semantics": {
+    "classSelection": "explicit-rdf-type",
+    "nodeIdentity": "source-iri",
+    "edgeDirection": "rdf-subject-to-object",
+    "statementAccounting": "complete",
+    "shapeCoverage": "mapped-classes-and-predicates",
+    "inference": false,
+    "dereferencing": false,
+    "blankNodeEntities": false,
+    "validatedOnly": true
+  },
+  "nodes": [
+    {
+      "id": "http://example.com/ns#Acme",
+      "level": 0,
+      "levelMeaning": "Flat source layer; not an inferred Onto2D formation depth.",
+      "typeRole": "Organization",
+      "scientificStatus": "external-reference",
+      "rdfSource": {
+        "termId": "sha256:387782b27be789fdc54113cc1335cb370db59bd7f4dd67e6442ec5222e856a04",
+        "classIri": "http://example.com/ns#Company",
+        "classStatementId": "sha256:30a5794fca96adc46be4d72e5b47e7efbe407850223e27ebccc7f027e972092d",
+        "labelStatementId": "sha256:c297141f6148857d0cb96526a675be46fd76217a22c9ec92a50f1615f882db87"
+      },
+      "label": "Acme"
+    },
+    {
+      "id": "http://example.com/ns#Alice",
+      "level": 0,
+      "levelMeaning": "Flat source layer; not an inferred Onto2D formation depth.",
+      "typeRole": "Person",
+      "scientificStatus": "external-reference",
+      "rdfSource": {
+        "termId": "sha256:e20a5dbf6b893730dbc0cc8453d8db327739eae9593ee37eef8f75a8c2c54355",
+        "classIri": "http://example.com/ns#Person",
+        "classStatementId": "sha256:9a6d330b36315c04722673e7ae7c84152053cfd0c84937261eb24c4ba1e6b2da",
+        "labelStatementId": "sha256:dbca852e5247ad995c2276f20307a0ae4a4e38386a81ddc7fbb621f22c91c990"
+      },
+      "label": "Alice"
+    },
+    {
+      "id": "http://example.com/ns#Bob",
+      "level": 0,
+      "levelMeaning": "Flat source layer; not an inferred Onto2D formation depth.",
+      "typeRole": "Person",
+      "scientificStatus": "external-reference",
+      "rdfSource": {
+        "termId": "sha256:757d0a56bc90d6b6b4d03e785de3c069007da3ce6a6e572232f81496331f21b5",
+        "classIri": "http://example.com/ns#Person",
+        "classStatementId": "sha256:9343976c74631d877beee29e3e96e3de6eb191b18c8f8862af53f98c2d22d90f",
+        "labelStatementId": "sha256:a52a230027ff357c526004abaf19aa3f91b6faa49f8c84f4c7bff2da13cc61be"
+      },
+      "label": "Bob"
+    }
+  ],
+  "edges": [
+    {
+      "id": "sha256:a011a8fb9927c965c7962dc248711c625f4c3f99b9f033a069f4642290569cd2",
+      "source": "http://example.com/ns#Bob",
+      "target": "http://example.com/ns#Acme",
+      "relationLayer": "external-reference",
+      "relationRole": "works-for",
+      "rdfSource": {
+        "statementId": "sha256:cf279ede18731c53fbb80186b0843c33105affbb880e47457e4e99aaec3e0664",
+        "predicateIri": "http://example.com/ns#worksFor"
+      }
+    },
+    {
+      "id": "sha256:ee472d8510341ba5f9c567fdf3f5300225a394226672d95b67df876f55201a27",
+      "source": "http://example.com/ns#Alice",
+      "target": "http://example.com/ns#Acme",
+      "relationLayer": "external-reference",
+      "relationRole": "works-for",
+      "rdfSource": {
+        "statementId": "sha256:6c9a7af78701e6074c8b946d84bf380f2b382d8dd902ae56d0a2e335d8e47717",
+        "predicateIri": "http://example.com/ns#worksFor"
+      }
+    }
+  ],
+  "statementAccounting": [
+    {
+      "statementId": "sha256:30a5794fca96adc46be4d72e5b47e7efbe407850223e27ebccc7f027e972092d",
+      "predicateIri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+      "occurrenceCount": 1,
+      "disposition": "node-type",
+      "rule": "class:http://example.com/ns#Company",
+      "outputIds": [
+        "http://example.com/ns#Acme"
+      ]
+    },
+    {
+      "statementId": "sha256:6c9a7af78701e6074c8b946d84bf380f2b382d8dd902ae56d0a2e335d8e47717",
+      "predicateIri": "http://example.com/ns#worksFor",
+      "occurrenceCount": 1,
+      "disposition": "edge",
+      "rule": "predicate:http://example.com/ns#worksFor",
+      "outputIds": [
+        "sha256:ee472d8510341ba5f9c567fdf3f5300225a394226672d95b67df876f55201a27"
+      ]
+    },
+    {
+      "statementId": "sha256:9343976c74631d877beee29e3e96e3de6eb191b18c8f8862af53f98c2d22d90f",
+      "predicateIri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+      "occurrenceCount": 1,
+      "disposition": "node-type",
+      "rule": "class:http://example.com/ns#Person",
+      "outputIds": [
+        "http://example.com/ns#Bob"
+      ]
+    },
+    {
+      "statementId": "sha256:9a6d330b36315c04722673e7ae7c84152053cfd0c84937261eb24c4ba1e6b2da",
+      "predicateIri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+      "occurrenceCount": 1,
+      "disposition": "node-type",
+      "rule": "class:http://example.com/ns#Person",
+      "outputIds": [
+        "http://example.com/ns#Alice"
+      ]
+    },
+    {
+      "statementId": "sha256:a52a230027ff357c526004abaf19aa3f91b6faa49f8c84f4c7bff2da13cc61be",
+      "predicateIri": "http://www.w3.org/2000/01/rdf-schema#label",
+      "occurrenceCount": 1,
+      "disposition": "node-label",
+      "rule": "predicate:http://www.w3.org/2000/01/rdf-schema#label",
+      "outputIds": [
+        "http://example.com/ns#Bob"
+      ]
+    },
+    {
+      "statementId": "sha256:c297141f6148857d0cb96526a675be46fd76217a22c9ec92a50f1615f882db87",
+      "predicateIri": "http://www.w3.org/2000/01/rdf-schema#label",
+      "occurrenceCount": 1,
+      "disposition": "node-label",
+      "rule": "predicate:http://www.w3.org/2000/01/rdf-schema#label",
+      "outputIds": [
+        "http://example.com/ns#Acme"
+      ]
+    },
+    {
+      "statementId": "sha256:cf279ede18731c53fbb80186b0843c33105affbb880e47457e4e99aaec3e0664",
+      "predicateIri": "http://example.com/ns#worksFor",
+      "occurrenceCount": 1,
+      "disposition": "edge",
+      "rule": "predicate:http://example.com/ns#worksFor",
+      "outputIds": [
+        "sha256:a011a8fb9927c965c7962dc248711c625f4c3f99b9f033a069f4642290569cd2"
+      ]
+    },
+    {
+      "statementId": "sha256:d668f871936417a494483171b31d7a3b4cc90e67500bd21ff0b18a7291f9eca7",
+      "predicateIri": "http://example.com/ns#ssn",
+      "occurrenceCount": 1,
+      "disposition": "ignored",
+      "rule": "predicate:http://example.com/ns#ssn",
+      "outputIds": []
+    },
+    {
+      "statementId": "sha256:dbca852e5247ad995c2276f20307a0ae4a4e38386a81ddc7fbb621f22c91c990",
+      "predicateIri": "http://www.w3.org/2000/01/rdf-schema#label",
+      "occurrenceCount": 1,
+      "disposition": "node-label",
+      "rule": "predicate:http://www.w3.org/2000/01/rdf-schema#label",
+      "outputIds": [
+        "http://example.com/ns#Alice"
+      ]
+    },
+    {
+      "statementId": "sha256:de7769b1ceb7d09c95df6f5fd6d9cfd8bddb3ba001ea9a0dfb37a28b155499b9",
+      "predicateIri": "http://example.com/ns#ssn",
+      "occurrenceCount": 1,
+      "disposition": "ignored",
+      "rule": "predicate:http://example.com/ns#ssn",
+      "outputIds": []
+    }
+  ],
+  "ignoredStatements": [
+    {
+      "statementId": "sha256:d668f871936417a494483171b31d7a3b4cc90e67500bd21ff0b18a7291f9eca7",
+      "predicateIri": "http://example.com/ns#ssn",
+      "reason": "Sensitive identifiers are excluded from the structural Model Pack."
+    },
+    {
+      "statementId": "sha256:de7769b1ceb7d09c95df6f5fd6d9cfd8bddb3ba001ea9a0dfb37a28b155499b9",
+      "predicateIri": "http://example.com/ns#ssn",
+      "reason": "Sensitive identifiers are excluded from the structural Model Pack."
+    }
+  ],
+  "statistics": {
+    "sourceStatementCount": 10,
+    "statementCount": 10,
+    "duplicateStatementCount": 0,
+    "nodeCount": 3,
+    "edgeCount": 2,
+    "labelStatementCount": 3,
+    "ignoredStatementCount": 2
+  },
+  "mappingHash": "sha256:8cd49bd182cdd042d4b8f45970418171866ee7b92d215170e474790da6b58de3"
+}

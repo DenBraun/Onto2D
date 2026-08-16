@@ -470,7 +470,38 @@ function assignLayers(nodes) {
   return layers;
 }
 
-function edgeRoute(edge, positions, radius, offset) {
+function pointToSegmentDistance(point, start, end) {
+  const dx = end.x - start.x;
+  const dy = end.y - start.y;
+  const lengthSquared = dx * dx + dy * dy;
+  if (lengthSquared === 0) return { distance: Math.hypot(point.x - start.x, point.y - start.y), t: 0 };
+  const rawT = ((point.x - start.x) * dx + (point.y - start.y) * dy) / lengthSquared;
+  const t = Math.max(0, Math.min(1, rawT));
+  return {
+    distance: Math.hypot(point.x - (start.x + dx * t), point.y - (start.y + dy * t)),
+    t
+  };
+}
+
+function pointToward(origin, target, distance) {
+  const dx = target.x - origin.x;
+  const dy = target.y - origin.y;
+  const length = Math.hypot(dx, dy);
+  return {
+    x: origin.x + (dx / length) * distance,
+    y: origin.y + (dy / length) * distance
+  };
+}
+
+function quadraticPoint(start, control, end, t) {
+  const inverse = 1 - t;
+  return {
+    x: inverse * inverse * start.x + 2 * inverse * t * control.x + t * t * end.x,
+    y: inverse * inverse * start.y + 2 * inverse * t * control.y + t * t * end.y
+  };
+}
+
+function edgeRoute(edge, positions, radius, offset, detourLane = 0) {
   const source = positions.get(edge.source);
   const target = positions.get(edge.target);
   if (edge.source === edge.target) {
@@ -481,6 +512,34 @@ function edgeRoute(edge, positions, radius, offset) {
       path: `M ${pointText(x + radius * 0.55)} ${pointText(y - radius * 0.78)} C ${pointText(x + spread)} ${pointText(y - spread * 1.6)} ${pointText(x - spread)} ${pointText(y - spread * 1.6)} ${pointText(x - radius * 0.55)} ${pointText(y - radius * 0.78)}`,
       labelX: round(x),
       labelY: round(y - spread * 1.55)
+    };
+  }
+  const obstructions = [];
+  for (const node of positions.values()) {
+    if (node.id === edge.source || node.id === edge.target) continue;
+    const proximity = pointToSegmentDistance(node, source, target);
+    if (proximity.t > 0.04 && proximity.t < 0.96 && proximity.distance < radius * 1.45) {
+      obstructions.push(node);
+    }
+  }
+  if (obstructions.length > 0) {
+    const endpointInset = radius + 3;
+    const arrowInset = radius + 8;
+    const dx = target.x - source.x;
+    const dy = target.y - source.y;
+    const mostlyVertical = Math.abs(dy) >= Math.abs(dx);
+    const bend = radius * 2.05 + Math.abs(offset) + detourLane * radius * 0.28;
+    const control = {
+      x: (source.x + target.x) / 2 + (mostlyVertical ? bend : 0),
+      y: (source.y + target.y) / 2 + (mostlyVertical ? 0 : Math.sign(dx || 1) * bend)
+    };
+    const start = pointToward(source, control, endpointInset);
+    const end = pointToward(target, control, arrowInset);
+    const label = quadraticPoint(start, control, end, 0.5);
+    return {
+      path: `M ${pointText(start.x)} ${pointText(start.y)} Q ${pointText(control.x)} ${pointText(control.y)} ${pointText(end.x)} ${pointText(end.y)}`,
+      labelX: round(label.x),
+      labelY: round(label.y)
     };
   }
   const dx = target.x - source.x;
@@ -626,7 +685,7 @@ export function layoutNeighborhood(projection, options = {}) {
     group.sort((left, right) => compareText(left.id, right.id));
     group.forEach((edge, index) => {
       const offset = (index - (group.length - 1) / 2) * 15;
-      edges.push({ ...edge, ...edgeRoute(edge, positions, nodeRadius, offset) });
+      edges.push({ ...edge, ...edgeRoute(edge, positions, nodeRadius, offset, index) });
     });
   }
   edges.sort((left, right) => compareText(left.id, right.id));

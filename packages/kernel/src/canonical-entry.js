@@ -1,2 +1,2 @@
 export { canonicalClone, canonicalize, deepFreeze } from "./canonical.js";
-export { hashCanonical, isContentHash } from "./hash.js";
+export { hashArtifactBytes, hashCanonical, isContentHash } from "./hash.js";

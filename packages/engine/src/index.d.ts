@@ -5,6 +5,8 @@ import type {
   ModelPackManifest,
   ModelPackNode
 } from "@onto2d/model-pack";
+import type { ModelPackRegistryResolution } from "@onto2d/model-pack/registry";
+import type { LazyModelPresentation } from "@onto2d/view/lazy";
 
 export class EngineError extends Error {
   readonly code: string;
@@ -72,6 +74,16 @@ export class Model {
 }
 
 export function createModel(pack: ModelPack): Model;
+
+export interface VerifiedModelPresentationOptions {
+  resolution?: ModelPackRegistryResolution;
+  defaultCatalogPageSize?: number;
+}
+
+export function createVerifiedModelPresentation(
+  pack: ModelPack,
+  options?: VerifiedModelPresentationOptions
+): LazyModelPresentation;
 
 export interface WorkspaceModelInstance {
   workspaceId: string;

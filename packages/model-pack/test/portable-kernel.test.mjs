@@ -38,6 +38,7 @@ test("portable canonical entry exposes the bounded Model Pack hash surface", () 
     "canonicalClone",
     "canonicalize",
     "deepFreeze",
+    "hashArtifactBytes",
     "hashCanonical",
     "isContentHash"
   ]);
@@ -48,6 +49,11 @@ test("portable canonical entry exposes the bounded Model Pack hash surface", () 
   assert.ok(portableCanonical.isContentHash(
     portableCanonical.hashCanonical("onto2d:artifact:v1", input)
   ));
+  const artifactBytes = encoder.encode("browser artifact");
+  assert.equal(
+    portableCanonical.hashArtifactBytes(artifactBytes),
+    hashArtifactBytes(artifactBytes)
+  );
 
   const form = createCanonicalForm("onto2d:artifact:v1", { text: "browser" });
   assert.equal(Buffer.from(form.bytesBase64, "base64").toString("utf8"), "{\"text\":\"browser\"}");

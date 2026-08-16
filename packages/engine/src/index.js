@@ -11,4 +11,5 @@ export {
   verifyModelLineage
 } from "./lineage.js";
 export { ModelRegistry } from "./registry.js";
+export { createVerifiedModelPresentation } from "./presentation.js";
 export { ENGINE_API_VERSION, ENGINE_VERSION, Onto2D } from "./engine.js";

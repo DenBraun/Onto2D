@@ -1,0 +1,34 @@
+{
+  "schemaVersion": "1",
+  "caseId": "w3c-person-company-v1",
+  "reference": {
+    "title": "Shapes Constraint Language (SHACL), section 1.4 SHACL Example",
+    "url": "https://www.w3.org/TR/2017/REC-shacl-20170720/#validation-example",
+    "version": "W3C Recommendation 20 July 2017",
+    "accessed": "2026-08-16",
+    "license": "https://www.w3.org/copyright/software-license-2015/"
+  },
+  "adaptation": {
+    "status": "derived-reference-fixture",
+    "changes": [
+      "Replaced the deliberately invalid data with a small conforming graph.",
+      "Added a typed company and readable rdfs:label statements.",
+      "Replaced anonymous property shapes with explicit IRIs.",
+      "Limited constraints to the declared Onto2D SHACL profile.",
+      "Declared SSN statements as reviewed omissions from the Model Pack."
+    ],
+    "claims": "This fixture demonstrates a mapping boundary; it is not a W3C conformance test."
+  },
+  "localInputs": [
+    {
+      "path": "data.nt",
+      "role": "conforming RDF data",
+      "hash": "sha256:018c481cfdf14a116a1bca21b9d04263e712fc308aa65fafc77e5ca73655d8bd"
+    },
+    {
+      "path": "shapes.nt",
+      "role": "closed-profile SHACL shapes",
+      "hash": "sha256:80fd2006f69ef217e855a00ed3c14616d9b87c4c13b3cf4263fe6fa42115d8ca"
+    }
+  ]
+}

@@ -35,3 +35,18 @@ Browser applications can compose a verified pack through
 `@onto2d/model-pack/browser` before creating an engine or presentation view.
 Fetch policy, response limits, and browser state likewise remain outside the
 engine.
+
+The browser-safe `@onto2d/engine/presentation` subpath creates a bounded lazy
+view only from a fully verified Model Pack:
+
+```js
+import { createVerifiedModelPresentation } from "@onto2d/engine/presentation";
+
+const presentation = createVerifiedModelPresentation(pack, { resolution });
+const page = presentation.catalog({ limit: 60 });
+const detail = presentation.inspect(page.items[0].id);
+```
+
+When `resolution` is supplied, model ID, version, root hash, and manifest hash
+must all match. Presentation responses retain that exact identity but are not
+semantic artifacts and cannot be used as partial analysis populations.

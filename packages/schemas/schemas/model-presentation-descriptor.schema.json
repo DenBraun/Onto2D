@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/model-presentation-descriptor.schema.json",
+  "title": "Onto2D lazy model presentation descriptor",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["format", "formatVersion", "kind", "identity", "statistics", "facets", "capabilities"],
+  "properties": {
+    "format": { "const": "onto2d-model-presentation" },
+    "formatVersion": { "const": "1" },
+    "kind": { "const": "descriptor" },
+    "identity": { "$ref": "#/$defs/identity" },
+    "statistics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["nodeCount", "edgeCount"],
+      "properties": {
+        "nodeCount": { "type": "integer", "minimum": 0, "maximum": 100000 },
+        "edgeCount": { "type": "integer", "minimum": 0, "maximum": 1000000 }
+      }
+    },
+    "facets": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["levels", "phases", "typeRoles", "scientificStatuses"],
+      "properties": {
+        "levels": { "$ref": "#/$defs/facet" },
+        "phases": { "$ref": "#/$defs/facet" },
+        "typeRoles": { "$ref": "#/$defs/facet" },
+        "scientificStatuses": { "$ref": "#/$defs/facet" }
+      }
+    },
+    "capabilities": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["catalogPaging", "explicitInspection", "boundedNeighborhoods", "semanticExecution"],
+      "properties": {
+        "catalogPaging": { "const": true },
+        "explicitInspection": { "const": true },
+        "boundedNeighborhoods": { "const": true },
+        "semanticExecution": { "const": false }
+      }
+    }
+  },
+  "$defs": {
+    "contentHash": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["modelId", "modelVersion", "rootHash", "manifestHash"],
+      "properties": {
+        "modelId": { "type": "string", "minLength": 1, "maxLength": 1024 },
+        "modelVersion": { "type": "string", "minLength": 1, "maxLength": 1024 },
+        "rootHash": { "$ref": "#/$defs/contentHash" },
+        "manifestHash": { "$ref": "#/$defs/contentHash" }
+      }
+    },
+    "facet": {
+      "type": "array",
+      "maxItems": 100000,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["value", "count"],
+        "properties": {
+          "value": { "type": ["null", "boolean", "number", "string"] },
+          "count": { "type": "integer", "minimum": 1, "maximum": 100000 }
+        }
+      }
+    }
+  }
+}

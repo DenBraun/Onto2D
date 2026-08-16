@@ -89,6 +89,31 @@ test("parallel and self-loop routes remain finite and distinct", () => {
   assert.ok(layout.edges.every((edge) => !edge.path.includes("NaN")));
 });
 
+test("an edge crossing an intermediate node takes a right-side detour", () => {
+  const projection = {
+    query: {
+      focusId: "focus",
+      depth: 2,
+      direction: "both",
+      maxNodes: 20,
+      maxEdges: 20
+    },
+    nodes: [
+      { id: "focus", relation: "focus", distance: 0, upstreamDistance: 0, downstreamDistance: 0 },
+      { id: "a", relation: "parent", distance: 1, upstreamDistance: 1, downstreamDistance: null },
+      { id: "middle", relation: "parent", distance: 1, upstreamDistance: 1, downstreamDistance: null },
+      { id: "z", relation: "parent", distance: 1, upstreamDistance: 1, downstreamDistance: null }
+    ],
+    edges: [{ id: "long", source: "a", target: "z" }]
+  };
+  const layout = layoutNeighborhood(projection, { width: 800, height: 480, nodeRadius: 23 });
+  const route = layout.edges[0].path;
+  const positions = new Map(layout.nodes.map((node) => [node.id, node]));
+  const control = route.match(/ Q ([-\d.]+) ([-\d.]+) /);
+  assert.ok(control, "the obstructed route must remain one simple quadratic curve");
+  assert.ok(Number(control[1]) > positions.get("middle").x + 46);
+});
+
 test("dense boundary layers use inward lanes without overlapping node centers", () => {
   const manyNodes = [
     { id: "focus" },

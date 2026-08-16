@@ -1,0 +1,160 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/rdf-mapping-policy.schema.json",
+  "title": "Onto2D RDF mapping policy",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "format",
+    "formatVersion",
+    "profile",
+    "id",
+    "provenance",
+    "inputs",
+    "levelPolicy",
+    "nodeRules",
+    "predicateRules",
+    "policyHash"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "format": { "const": "onto2d-rdf-mapping-policy" },
+    "formatVersion": { "const": "1" },
+    "profile": { "const": "rdf-to-model-pack-explicit-v1" },
+    "id": { "$ref": "#/$defs/identifier" },
+    "provenance": {
+      "type": "object",
+      "required": ["title", "sourceUri", "sourceVersion", "licenseUri", "adaptation"],
+      "properties": {
+        "title": { "type": "string", "minLength": 1, "maxLength": 1024 },
+        "sourceUri": { "$ref": "#/$defs/iri" },
+        "sourceVersion": { "type": "string", "minLength": 1, "maxLength": 1024 },
+        "licenseUri": { "$ref": "#/$defs/iri" },
+        "adaptation": { "type": "string", "minLength": 1, "maxLength": 4096 }
+      },
+      "additionalProperties": false
+    },
+    "inputs": {
+      "type": "object",
+      "required": [
+        "dataSourceId",
+        "shapesSourceId",
+        "dataImportHash",
+        "shapesImportHash",
+        "validationReportHash"
+      ],
+      "properties": {
+        "dataSourceId": { "$ref": "#/$defs/identifier" },
+        "shapesSourceId": { "$ref": "#/$defs/identifier" },
+        "dataImportHash": { "$ref": "#/$defs/hash" },
+        "shapesImportHash": { "$ref": "#/$defs/hash" },
+        "validationReportHash": { "$ref": "#/$defs/hash" }
+      },
+      "additionalProperties": false
+    },
+    "levelPolicy": {
+      "type": "object",
+      "required": ["kind", "value", "meaning"],
+      "properties": {
+        "kind": { "const": "constant" },
+        "value": { "type": "integer", "minimum": 0, "maximum": 1000000 },
+        "meaning": { "type": "string", "minLength": 1, "maxLength": 1024 }
+      },
+      "additionalProperties": false
+    },
+    "nodeRules": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 256,
+      "items": {
+        "type": "object",
+        "required": ["classIri", "typeRole", "scientificStatus"],
+        "properties": {
+          "classIri": { "$ref": "#/$defs/iri" },
+          "typeRole": { "$ref": "#/$defs/identifier" },
+          "scientificStatus": { "$ref": "#/$defs/identifier" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "predicateRules": {
+      "type": "array",
+      "maxItems": 1024,
+      "items": {
+        "oneOf": [
+          {
+            "type": "object",
+            "required": ["predicateIri", "action", "required"],
+            "properties": {
+              "predicateIri": { "$ref": "#/$defs/iri" },
+              "action": { "const": "label" },
+              "required": { "type": "boolean" }
+            },
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "required": [
+              "predicateIri",
+              "action",
+              "sourceClasses",
+              "targetClasses",
+              "relationLayer",
+              "relationRole"
+            ],
+            "properties": {
+              "predicateIri": { "$ref": "#/$defs/iri" },
+              "action": { "const": "edge" },
+              "sourceClasses": { "$ref": "#/$defs/classList" },
+              "targetClasses": {
+                "type": "array",
+                "minItems": 1,
+                "maxItems": 1,
+                "items": { "$ref": "#/$defs/iri" }
+              },
+              "relationLayer": { "$ref": "#/$defs/identifier" },
+              "relationRole": { "$ref": "#/$defs/identifier" }
+            },
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "required": ["predicateIri", "action", "reason"],
+            "properties": {
+              "predicateIri": { "$ref": "#/$defs/iri" },
+              "action": { "const": "ignore" },
+              "reason": { "type": "string", "minLength": 1, "maxLength": 1024 }
+            },
+            "additionalProperties": false
+          }
+        ]
+      }
+    },
+    "policyHash": { "$ref": "#/$defs/hash" }
+  },
+  "$defs": {
+    "hash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "identifier": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+    },
+    "iri": {
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 16384,
+      "pattern": "^[A-Za-z][A-Za-z0-9+.-]*:"
+    },
+    "classList": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 256,
+      "items": { "$ref": "#/$defs/iri" }
+    }
+  },
+  "additionalProperties": false
+}

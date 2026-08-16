@@ -35,7 +35,20 @@ Updated: 2026-08-16.
   bounded IndexedDB storage, and deterministic eviction;
 - a browser-safe read-only Model Pack registry with explicit model/version
   selection, content-hash pinning, exact release resolution, same-origin
-  relative pack locations, and verified Studio composition.
+  relative pack locations, and verified Studio composition;
+- exact-identity lazy presentation sessions with bounded lightweight catalogue
+  pages, graph projections, explicit full-record inspection, and verified
+  Model Studio composition;
+- a narrow browser-safe RDF 1.1 N-Triples import profile with bounded parsing,
+  exact source binding, document-scoped blank nodes, deterministic graph
+  identity, and a semantics-neutral graph projection;
+- a closed browser-safe SHACL 1.0 Core structural profile over exact RDF import
+  artifacts, with deterministic compiled plans, bounded class traversal, and
+  hash-bound validation reports;
+- a reviewed, fail-closed RDF-to-Onto2D mapping profile with exact input
+  binding, explicit level and relation policy, complete statement accounting,
+  source provenance, a Model Pack bridge, a frozen public reference case, and
+  local verified-set import through Model Studio.
 
 ## Release lifecycle
 
@@ -61,9 +74,19 @@ Before publishing the root facade:
 
 ## External models
 
-Start with a narrow RDF import profile, then SHACL validation. Consider OWL,
-OntoUML, SysML, ASAM, and SAMM adapters only from concrete reviewed use cases;
-do not merge their semantics into the generic engine.
+The narrow RDF import, SHACL validation, and first RDF-to-Onto2D mapping
+boundaries are complete. `@onto2d/rdf-mapping` consumes exact imports and a
+conforming exact report, then applies a hash-bound policy with explicit class,
+level, label, relation, omission, and provenance rules. The public W3C-derived
+reference case replays the complete chain into a verified Model Pack.
+Model Studio exposes the same chain for an exact local data, shapes, and policy
+set; it does not accept unreviewed RDF as an Onto2D model or publish the result.
+
+The reference proves the engineering contract, not an empirical or domain
+mapping claim. A second mapping must begin with a concrete independently
+reviewed dataset and domain policy; only then should the profile be generalized
+or a dedicated OWL, OntoUML, SysML, ASAM, or SAMM adapter be considered. Their
+semantics must not enter the generic importer, validator, mapper, or engine.
 
 ## Operations
 
@@ -73,8 +96,14 @@ protocol built on that stable browser contract. The verified cache milestone
 is also complete, including Model Studio integration without making storage a
 trust boundary. The narrow read-only remote registry is also complete: it
 resolves only explicit model/version pairs and stays separate from loading and
-verification. The next operations milestone is lazy presentation loading for
-large verified models.
+verification. Lazy presentation loading for large verified models is complete
+at the presentation boundary; it does not pretend that Model Pack v1 has
+independently verifiable semantic chunks. A physical chunked transport requires
+a reviewed Model Pack format revision. The next format-level engineering
+milestone is a Model Pack v2 proposal for manifest-bound optional artifacts and
+independently verifiable semantic chunks. It must settle lineage sidecars,
+chunk identity, complete-model verification, and v1 compatibility before code
+or release fixtures are changed.
 Numerical Level-0 validation,
 catalogue migration, generalization and independent comparison of the external
 solver, and empirical Historical Load remain scientific projects tracked in

@@ -1,0 +1,247 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/rdf-mapping-artifact.schema.json",
+  "title": "Onto2D RDF mapping artifact",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "format",
+    "formatVersion",
+    "profile",
+    "policyHash",
+    "inputs",
+    "semantics",
+    "nodes",
+    "edges",
+    "statementAccounting",
+    "ignoredStatements",
+    "statistics",
+    "mappingHash"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "format": { "const": "onto2d-rdf-mapping-artifact" },
+    "formatVersion": { "const": "1" },
+    "profile": { "const": "rdf-to-model-pack-explicit-v1" },
+    "policyHash": { "$ref": "#/$defs/hash" },
+    "inputs": {
+      "type": "object",
+      "required": ["data", "shapes", "validation"],
+      "properties": {
+        "data": { "$ref": "#/$defs/artifactIdentity" },
+        "shapes": { "$ref": "#/$defs/artifactIdentity" },
+        "validation": {
+          "type": "object",
+          "required": ["profile", "planHash", "reportHash", "conforms"],
+          "properties": {
+            "profile": { "const": "shacl10-core-structural-v1" },
+            "planHash": { "$ref": "#/$defs/hash" },
+            "reportHash": { "$ref": "#/$defs/hash" },
+            "conforms": { "const": true }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "semantics": {
+      "type": "object",
+      "required": [
+        "classSelection",
+        "nodeIdentity",
+        "edgeDirection",
+        "statementAccounting",
+        "shapeCoverage",
+        "inference",
+        "dereferencing",
+        "blankNodeEntities",
+        "validatedOnly"
+      ],
+      "properties": {
+        "classSelection": { "const": "explicit-rdf-type" },
+        "nodeIdentity": { "const": "source-iri" },
+        "edgeDirection": { "const": "rdf-subject-to-object" },
+        "statementAccounting": { "const": "complete" },
+        "shapeCoverage": { "const": "mapped-classes-and-predicates" },
+        "inference": { "const": false },
+        "dereferencing": { "const": false },
+        "blankNodeEntities": { "const": false },
+        "validatedOnly": { "const": true }
+      },
+      "additionalProperties": false
+    },
+    "nodes": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 100000,
+      "items": { "$ref": "#/$defs/node" }
+    },
+    "edges": {
+      "type": "array",
+      "maxItems": 100000,
+      "items": { "$ref": "#/$defs/edge" }
+    },
+    "statementAccounting": {
+      "type": "array",
+      "maxItems": 100000,
+      "items": { "$ref": "#/$defs/accounting" }
+    },
+    "ignoredStatements": {
+      "type": "array",
+      "maxItems": 100000,
+      "items": { "$ref": "#/$defs/ignored" }
+    },
+    "statistics": {
+      "type": "object",
+      "required": [
+        "sourceStatementCount",
+        "statementCount",
+        "duplicateStatementCount",
+        "nodeCount",
+        "edgeCount",
+        "labelStatementCount",
+        "ignoredStatementCount"
+      ],
+      "properties": {
+        "sourceStatementCount": { "$ref": "#/$defs/count" },
+        "statementCount": { "$ref": "#/$defs/count" },
+        "duplicateStatementCount": { "$ref": "#/$defs/count" },
+        "nodeCount": { "$ref": "#/$defs/count" },
+        "edgeCount": { "$ref": "#/$defs/count" },
+        "labelStatementCount": { "$ref": "#/$defs/count" },
+        "ignoredStatementCount": { "$ref": "#/$defs/count" }
+      },
+      "additionalProperties": false
+    },
+    "mappingHash": { "$ref": "#/$defs/hash" }
+  },
+  "$defs": {
+    "hash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "iri": {
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 16384,
+      "pattern": "^[A-Za-z][A-Za-z0-9+.-]*:"
+    },
+    "artifactIdentity": {
+      "type": "object",
+      "required": ["sourceHash", "graphHash", "importHash"],
+      "properties": {
+        "sourceHash": { "$ref": "#/$defs/hash" },
+        "graphHash": { "$ref": "#/$defs/hash" },
+        "importHash": { "$ref": "#/$defs/hash" }
+      },
+      "additionalProperties": false
+    },
+    "rdfSourceNode": {
+      "type": "object",
+      "required": ["termId", "classIri", "classStatementId", "labelStatementId"],
+      "properties": {
+        "termId": { "$ref": "#/$defs/hash" },
+        "classIri": { "$ref": "#/$defs/iri" },
+        "classStatementId": { "$ref": "#/$defs/hash" },
+        "labelStatementId": {
+          "oneOf": [
+            { "$ref": "#/$defs/hash" },
+            { "type": "null" }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "rdfSourceEdge": {
+      "type": "object",
+      "required": ["statementId", "predicateIri"],
+      "properties": {
+        "statementId": { "$ref": "#/$defs/hash" },
+        "predicateIri": { "$ref": "#/$defs/iri" }
+      },
+      "additionalProperties": false
+    },
+    "node": {
+      "type": "object",
+      "required": [
+        "id",
+        "level",
+        "levelMeaning",
+        "typeRole",
+        "scientificStatus",
+        "rdfSource"
+      ],
+      "properties": {
+        "id": { "$ref": "#/$defs/iri" },
+        "label": { "type": "string" },
+        "level": { "type": "integer", "minimum": 0, "maximum": 1000000 },
+        "levelMeaning": { "type": "string", "minLength": 1, "maxLength": 1024 },
+        "typeRole": { "type": "string", "minLength": 1, "maxLength": 256 },
+        "scientificStatus": { "type": "string", "minLength": 1, "maxLength": 256 },
+        "rdfSource": { "$ref": "#/$defs/rdfSourceNode" }
+      },
+      "additionalProperties": false
+    },
+    "edge": {
+      "type": "object",
+      "required": [
+        "id",
+        "source",
+        "target",
+        "relationLayer",
+        "relationRole",
+        "rdfSource"
+      ],
+      "properties": {
+        "id": { "$ref": "#/$defs/hash" },
+        "source": { "$ref": "#/$defs/iri" },
+        "target": { "$ref": "#/$defs/iri" },
+        "relationLayer": { "type": "string", "minLength": 1, "maxLength": 256 },
+        "relationRole": { "type": "string", "minLength": 1, "maxLength": 256 },
+        "rdfSource": { "$ref": "#/$defs/rdfSourceEdge" }
+      },
+      "additionalProperties": false
+    },
+    "accounting": {
+      "type": "object",
+      "required": [
+        "statementId",
+        "predicateIri",
+        "occurrenceCount",
+        "disposition",
+        "rule",
+        "outputIds"
+      ],
+      "properties": {
+        "statementId": { "$ref": "#/$defs/hash" },
+        "predicateIri": { "$ref": "#/$defs/iri" },
+        "occurrenceCount": { "type": "integer", "minimum": 1 },
+        "disposition": {
+          "enum": ["node-type", "node-label", "edge", "ignored"]
+        },
+        "rule": { "type": "string", "minLength": 1, "maxLength": 16640 },
+        "outputIds": {
+          "type": "array",
+          "maxItems": 1,
+          "items": { "type": "string", "minLength": 1, "maxLength": 16384 }
+        }
+      },
+      "additionalProperties": false
+    },
+    "ignored": {
+      "type": "object",
+      "required": ["statementId", "predicateIri", "reason"],
+      "properties": {
+        "statementId": { "$ref": "#/$defs/hash" },
+        "predicateIri": { "$ref": "#/$defs/iri" },
+        "reason": { "type": "string", "minLength": 1, "maxLength": 1024 }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

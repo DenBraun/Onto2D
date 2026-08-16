@@ -8,11 +8,11 @@
     <title>Model Studio - Onto2D</title>
     <link rel="icon" href="../../assets/icons/favicon.ico?v=20260816.10" type="image/x-icon">
     <link rel="stylesheet" href="../../assets/css/ui-icons.css?v=20260816.10">
-    <link rel="stylesheet" href="../../assets/css/model-studio-workbench.css?v=20260816.10">
+    <link rel="stylesheet" href="../../assets/css/model-studio-workbench.css?v=20260816.11">
     <script type="importmap">
-      {"imports":{"@onto2d/kernel/canonical":"../../packages/kernel/src/canonical-entry.js?v=20260816.14"}}
+      {"imports":{"@onto2d/kernel/canonical":"../../packages/kernel/src/canonical-entry.js?v=20260816.17","@onto2d/model-pack":"../../packages/model-pack/src/index.js?v=20260816.17","@onto2d/model-pack/registry":"../../packages/model-pack/src/registry.js?v=20260816.17","@onto2d/rdf-import":"../../packages/rdf-import/src/index.js?v=20260816.17","@onto2d/rdf-mapping":"../../packages/rdf-mapping/src/index.js?v=20260816.17","@onto2d/shacl-validation":"../../packages/shacl-validation/src/index.js?v=20260816.17","@onto2d/view":"../../packages/view/src/index.js?v=20260816.17","@onto2d/view/lazy":"../../packages/view/src/lazy.js?v=20260816.17"}}
     </script>
-    <script type="module" src="./model-studio.js?v=20260816.14"></script>
+    <script type="module" src="./model-studio.js?v=20260816.17"></script>
   </head>
   <body data-state="loading">
     <a class="skip-link" href="#studio">Skip to graph editor</a>
@@ -21,7 +21,7 @@
       <header class="titlebar">
         <div class="window-mark" aria-hidden="true"><svg viewBox="0 0 34 34"><circle cx="7" cy="17" r="3"></circle><circle cx="27" cy="8" r="3"></circle><circle cx="27" cy="26" r="3"></circle><path d="M10 17h7m2-3 5-4m-5 10 5 4"></path></svg></div>
         <nav class="menubar" aria-label="Project links"><a href="../../">Project</a><a href="../canonical-identity-lab/">Studies</a><a href="https://github.com/DenBraun/Onto2D" target="_blank" rel="noopener noreferrer">GitHub</a></nav>
-        <p class="window-title"><span>causal-emergence</span> - Model Studio</p>
+        <p class="window-title"><span id="window-model-id">causal-emergence</span> - Model Studio</p>
         <div class="title-actions"><span class="exact-release"><i></i><span id="load-state" role="status" aria-live="polite">Loading model</span></span><a href="../../" aria-label="Close Studio and return to project home"><svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#close"></use></svg></a></div>
       </header>
 
@@ -44,11 +44,12 @@
             </div>
             <div class="catalog-list" id="catalog-list" role="listbox" aria-label="Model nodes" tabindex="-1"></div>
             <div class="catalog-empty" id="catalog-empty" hidden><strong>No matching records</strong><p>Clear a filter or shorten the search.</p></div>
+            <button class="catalog-more" id="catalog-more" type="button" hidden>Load more records</button>
           </section>
         </aside>
 
         <main class="editor-group" id="studio">
-          <div class="editor-tabs" role="tablist" aria-label="Open editors"><div class="editor-tab is-active" role="tab" aria-selected="true"><svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#network"></use></svg><span id="editor-tab-label">0.0 Field Distinguishability</span><i></i></div></div>
+          <div class="editor-tabs" role="tablist" aria-label="Open editors"><div class="editor-tab is-active" role="tab" aria-selected="true"><svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#network"></use></svg><span id="editor-tab-label">0.0 Field Distinguishability</span><i></i></div><button id="rdf-import-open" class="editor-add" type="button" aria-haspopup="dialog" aria-controls="rdf-import-dialog" aria-label="Import a reviewed RDF mapping" title="Import reviewed RDF mapping" disabled><span aria-hidden="true">+</span></button></div>
           <div class="editor-toolbar">
             <div class="graph-controls" aria-label="Neighborhood controls">
               <fieldset id="direction-controls"><legend>Direction</legend><button type="button" data-direction="parents" aria-pressed="false">Parents</button><button type="button" data-direction="both" aria-pressed="true">Both</button><button type="button" data-direction="children" aria-pressed="false">Children</button></fieldset><span class="toolbar-separator"></span><fieldset id="depth-controls"><legend>Depth</legend><span class="control-label">Depth</span><button type="button" data-depth="1" aria-pressed="true">1</button><button type="button" data-depth="2" aria-pressed="false">2</button></fieldset>
@@ -71,11 +72,26 @@
             <section class="relation-section" aria-labelledby="parents-title"><header><h4 id="parents-title"><svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#chevron-down"></use></svg> Direct parents</h4><span id="parents-total">0</span></header><div id="parent-list" class="relation-list"></div></section>
             <section class="relation-section" aria-labelledby="children-title"><header><h4 id="children-title"><svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#chevron-down"></use></svg> Direct children</h4><span id="children-total">0</span></header><div id="child-list" class="relation-list"></div></section>
             <details class="record-details"><summary>Full description</summary><p id="selected-description"></p></details><details class="record-details"><summary>Evidence and source fields</summary><pre id="selected-record"></pre></details>
-            <section class="source-boundary" aria-label="Evidence boundary"><h4>Model boundary</h4><p><strong>Transparent source snapshot.</strong> Links are preserved <code>source-parent</code> records, not reviewed generative causation.</p><p>There is only one real Model Pack release. Version comparison remains disabled until reviewed lineage exists.</p></section>
+            <section class="source-boundary" aria-label="Evidence boundary"><h4 id="model-boundary-title">Model boundary</h4><p id="model-boundary-summary"><strong>Transparent source snapshot.</strong> Links are preserved <code>source-parent</code> records, not reviewed generative causation.</p><p id="model-boundary-note">There is only one real Model Pack release. Version comparison remains disabled until reviewed lineage exists.</p></section>
           </div>
         </aside>
       </div>
 
     </div>
+
+    <dialog id="rdf-import-dialog" class="import-dialog" aria-labelledby="rdf-import-title" aria-describedby="rdf-import-description">
+      <form id="rdf-import-form">
+        <header class="import-dialog-header"><div><p>LOCAL VERIFIED INPUT</p><h2 id="rdf-import-title">Import RDF mapping</h2></div><button id="rdf-import-close" class="dialog-close" type="button" aria-label="Close import dialog"><svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#close"></use></svg></button></header>
+        <p id="rdf-import-description" class="import-description">Open one reviewed set. The browser runs N-Triples import, SHACL validation, exact mapping-policy verification, and Model Pack construction locally.</p>
+        <div class="import-files">
+          <label for="rdf-data-file"><span><strong>Data graph</strong><small>N-Triples source</small></span><input id="rdf-data-file" name="rdf-data-file" type="file" accept=".nt,application/n-triples" required></label>
+          <label for="rdf-shapes-file"><span><strong>SHACL shapes</strong><small>N-Triples constraints</small></span><input id="rdf-shapes-file" name="rdf-shapes-file" type="file" accept=".nt,application/n-triples" required></label>
+          <label for="rdf-policy-file"><span><strong>Mapping policy</strong><small>Exact reviewed JSON</small></span><input id="rdf-policy-file" name="rdf-policy-file" type="file" accept=".json,application/json" required></label>
+        </div>
+        <p class="import-boundary"><strong>Exact set required.</strong> The policy contains the source IDs and hashes for these exact data and shapes files. Arbitrary RDF without a matching reviewed policy is rejected.</p>
+        <p id="rdf-import-status" class="import-status" role="status" aria-live="polite"></p>
+        <footer class="import-actions"><button id="rdf-import-cancel" type="button">Cancel</button><button id="rdf-import-submit" class="primary-action" type="submit">Verify and open</button></footer>
+      </form>
+    </dialog>
   </body>
 </html>

@@ -1,0 +1,156 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/rdf-neutral-graph.schema.json",
+  "title": "Onto2D RDF Neutral Graph Projection",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "format",
+    "formatVersion",
+    "profile",
+    "identity",
+    "nodes",
+    "edges",
+    "statistics",
+    "semantics",
+    "projectionHash"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "format": { "const": "onto2d-rdf-neutral-graph" },
+    "formatVersion": { "const": "1" },
+    "profile": { "const": "rdf11-n-triples-safe-v1" },
+    "identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sourceHash", "graphHash", "importHash"],
+      "properties": {
+        "sourceHash": { "$ref": "#/$defs/contentHash" },
+        "graphHash": { "$ref": "#/$defs/contentHash" },
+        "importHash": { "$ref": "#/$defs/contentHash" }
+      }
+    },
+    "nodes": {
+      "type": "array",
+      "maxItems": 200000,
+      "items": { "$ref": "#/$defs/node" }
+    },
+    "edges": {
+      "type": "array",
+      "maxItems": 100000,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "source",
+          "target",
+          "predicate",
+          "predicateId",
+          "occurrenceCount"
+        ],
+        "properties": {
+          "id": { "$ref": "#/$defs/contentHash" },
+          "source": { "$ref": "#/$defs/contentHash" },
+          "target": { "$ref": "#/$defs/contentHash" },
+          "predicate": { "$ref": "#/$defs/absoluteIri" },
+          "predicateId": { "$ref": "#/$defs/contentHash" },
+          "occurrenceCount": { "type": "integer", "minimum": 1, "maximum": 100000 }
+        }
+      }
+    },
+    "statistics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "nodeCount",
+        "edgeCount",
+        "iriNodeCount",
+        "blankNodeCount",
+        "literalNodeCount"
+      ],
+      "properties": {
+        "nodeCount": { "type": "integer", "minimum": 0, "maximum": 200000 },
+        "edgeCount": { "type": "integer", "minimum": 0, "maximum": 100000 },
+        "iriNodeCount": { "type": "integer", "minimum": 0, "maximum": 200000 },
+        "blankNodeCount": { "type": "integer", "minimum": 0, "maximum": 200000 },
+        "literalNodeCount": { "type": "integer", "minimum": 0, "maximum": 100000 }
+      }
+    },
+    "semantics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["inference", "relationKind", "modelPackReady"],
+      "properties": {
+        "inference": { "const": false },
+        "relationKind": { "const": "rdf-predicate" },
+        "modelPackReady": { "const": false }
+      }
+    },
+    "projectionHash": { "$ref": "#/$defs/contentHash" }
+  },
+  "$defs": {
+    "contentHash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "absoluteIri": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 16384,
+      "pattern": "^[A-Za-z][A-Za-z0-9+.-]*:"
+    },
+    "node": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["id", "termType", "value"],
+          "properties": {
+            "id": { "$ref": "#/$defs/contentHash" },
+            "termType": { "const": "iri" },
+            "value": { "$ref": "#/$defs/absoluteIri" }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["id", "termType", "value", "scope"],
+          "properties": {
+            "id": { "$ref": "#/$defs/contentHash" },
+            "termType": { "const": "blank-node" },
+            "value": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256,
+              "pattern": "^[A-Za-z0-9_](?:[A-Za-z0-9_.-]*[A-Za-z0-9_-])?$"
+            },
+            "scope": { "$ref": "#/$defs/contentHash" }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["id", "termType", "value", "datatype", "language"],
+          "properties": {
+            "id": { "$ref": "#/$defs/contentHash" },
+            "termType": { "const": "literal" },
+            "value": { "type": "string", "maxLength": 16384 },
+            "datatype": { "$ref": "#/$defs/absoluteIri" },
+            "language": {
+              "oneOf": [
+                { "type": "null" },
+                {
+                  "type": "string",
+                  "pattern": "^[a-z]+(?:-[a-z0-9]+)*$",
+                  "maxLength": 16384
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,470 @@
+{
+  "files": {
+    "indexes/by-id.json": [
+      {
+        "id": "http://example.com/ns#Acme",
+        "index": 0
+      },
+      {
+        "id": "http://example.com/ns#Alice",
+        "index": 1
+      },
+      {
+        "id": "http://example.com/ns#Bob",
+        "index": 2
+      }
+    ],
+    "indexes/children.json": [
+      {
+        "id": "http://example.com/ns#Acme",
+        "nodes": []
+      },
+      {
+        "id": "http://example.com/ns#Alice",
+        "nodes": [
+          "http://example.com/ns#Acme"
+        ]
+      },
+      {
+        "id": "http://example.com/ns#Bob",
+        "nodes": [
+          "http://example.com/ns#Acme"
+        ]
+      }
+    ],
+    "indexes/levels.json": [
+      {
+        "nodes": [
+          "http://example.com/ns#Acme",
+          "http://example.com/ns#Alice",
+          "http://example.com/ns#Bob"
+        ],
+        "value": 0
+      }
+    ],
+    "indexes/parents.json": [
+      {
+        "id": "http://example.com/ns#Acme",
+        "nodes": [
+          "http://example.com/ns#Alice",
+          "http://example.com/ns#Bob"
+        ]
+      },
+      {
+        "id": "http://example.com/ns#Alice",
+        "nodes": []
+      },
+      {
+        "id": "http://example.com/ns#Bob",
+        "nodes": []
+      }
+    ],
+    "indexes/phases.json": [],
+    "indexes/scientific-status.json": [
+      {
+        "nodes": [
+          "http://example.com/ns#Acme",
+          "http://example.com/ns#Alice",
+          "http://example.com/ns#Bob"
+        ],
+        "value": "external-reference"
+      }
+    ],
+    "indexes/type-roles.json": [
+      {
+        "nodes": [
+          "http://example.com/ns#Acme"
+        ],
+        "value": "Organization"
+      },
+      {
+        "nodes": [
+          "http://example.com/ns#Alice",
+          "http://example.com/ns#Bob"
+        ],
+        "value": "Person"
+      }
+    ],
+    "model/dictionaries.json": {
+      "rdfMapping": {
+        "audit": {
+          "format": "onto2d-rdf-mapping-artifact",
+          "formatVersion": "1",
+          "ignoredStatements": [
+            {
+              "predicateIri": "http://example.com/ns#ssn",
+              "reason": "Sensitive identifiers are excluded from the structural Model Pack.",
+              "statementId": "sha256:d668f871936417a494483171b31d7a3b4cc90e67500bd21ff0b18a7291f9eca7"
+            },
+            {
+              "predicateIri": "http://example.com/ns#ssn",
+              "reason": "Sensitive identifiers are excluded from the structural Model Pack.",
+              "statementId": "sha256:de7769b1ceb7d09c95df6f5fd6d9cfd8bddb3ba001ea9a0dfb37a28b155499b9"
+            }
+          ],
+          "inputs": {
+            "data": {
+              "graphHash": "sha256:d599578cae1c8e0a1b5d248a42995de559aa221ea9fb2f6dca25f420baa2e317",
+              "importHash": "sha256:f7efce1db2471e0c723628d105e5beb46479c625b308b0af4feb4dc17454ad36",
+              "sourceHash": "sha256:018c481cfdf14a116a1bca21b9d04263e712fc308aa65fafc77e5ca73655d8bd"
+            },
+            "shapes": {
+              "graphHash": "sha256:911102445ac426903ce693a3357649cb3716631c2c7f64196354e560f2d6efdc",
+              "importHash": "sha256:9dbd95f8300cfaf54fad438b76d4995aae671a4f90e9086b4578da029f7693df",
+              "sourceHash": "sha256:80fd2006f69ef217e855a00ed3c14616d9b87c4c13b3cf4263fe6fa42115d8ca"
+            },
+            "validation": {
+              "conforms": true,
+              "planHash": "sha256:f160738734139bc21c46a22e242704ad22b08d6316cce9463f888fb41a2ee5ea",
+              "profile": "shacl10-core-structural-v1",
+              "reportHash": "sha256:528b13fe88574843c10e57ab239198681beb7ed7c358762e59da457140de9999"
+            }
+          },
+          "mappingHash": "sha256:8cd49bd182cdd042d4b8f45970418171866ee7b92d215170e474790da6b58de3",
+          "policyHash": "sha256:41f301d4d4d6c05a3941a8a5d3a84540fa7b4e20d87641f330572233701e8053",
+          "profile": "rdf-to-model-pack-explicit-v1",
+          "schemaVersion": "1",
+          "semantics": {
+            "blankNodeEntities": false,
+            "classSelection": "explicit-rdf-type",
+            "dereferencing": false,
+            "edgeDirection": "rdf-subject-to-object",
+            "inference": false,
+            "nodeIdentity": "source-iri",
+            "shapeCoverage": "mapped-classes-and-predicates",
+            "statementAccounting": "complete",
+            "validatedOnly": true
+          },
+          "statementAccounting": [
+            {
+              "disposition": "node-type",
+              "occurrenceCount": 1,
+              "outputIds": [
+                "http://example.com/ns#Acme"
+              ],
+              "predicateIri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+              "rule": "class:http://example.com/ns#Company",
+              "statementId": "sha256:30a5794fca96adc46be4d72e5b47e7efbe407850223e27ebccc7f027e972092d"
+            },
+            {
+              "disposition": "edge",
+              "occurrenceCount": 1,
+              "outputIds": [
+                "sha256:ee472d8510341ba5f9c567fdf3f5300225a394226672d95b67df876f55201a27"
+              ],
+              "predicateIri": "http://example.com/ns#worksFor",
+              "rule": "predicate:http://example.com/ns#worksFor",
+              "statementId": "sha256:6c9a7af78701e6074c8b946d84bf380f2b382d8dd902ae56d0a2e335d8e47717"
+            },
+            {
+              "disposition": "node-type",
+              "occurrenceCount": 1,
+              "outputIds": [
+                "http://example.com/ns#Bob"
+              ],
+              "predicateIri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+              "rule": "class:http://example.com/ns#Person",
+              "statementId": "sha256:9343976c74631d877beee29e3e96e3de6eb191b18c8f8862af53f98c2d22d90f"
+            },
+            {
+              "disposition": "node-type",
+              "occurrenceCount": 1,
+              "outputIds": [
+                "http://example.com/ns#Alice"
+              ],
+              "predicateIri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+              "rule": "class:http://example.com/ns#Person",
+              "statementId": "sha256:9a6d330b36315c04722673e7ae7c84152053cfd0c84937261eb24c4ba1e6b2da"
+            },
+            {
+              "disposition": "node-label",
+              "occurrenceCount": 1,
+              "outputIds": [
+                "http://example.com/ns#Bob"
+              ],
+              "predicateIri": "http://www.w3.org/2000/01/rdf-schema#label",
+              "rule": "predicate:http://www.w3.org/2000/01/rdf-schema#label",
+              "statementId": "sha256:a52a230027ff357c526004abaf19aa3f91b6faa49f8c84f4c7bff2da13cc61be"
+            },
+            {
+              "disposition": "node-label",
+              "occurrenceCount": 1,
+              "outputIds": [
+                "http://example.com/ns#Acme"
+              ],
+              "predicateIri": "http://www.w3.org/2000/01/rdf-schema#label",
+              "rule": "predicate:http://www.w3.org/2000/01/rdf-schema#label",
+              "statementId": "sha256:c297141f6148857d0cb96526a675be46fd76217a22c9ec92a50f1615f882db87"
+            },
+            {
+              "disposition": "edge",
+              "occurrenceCount": 1,
+              "outputIds": [
+                "sha256:a011a8fb9927c965c7962dc248711c625f4c3f99b9f033a069f4642290569cd2"
+              ],
+              "predicateIri": "http://example.com/ns#worksFor",
+              "rule": "predicate:http://example.com/ns#worksFor",
+              "statementId": "sha256:cf279ede18731c53fbb80186b0843c33105affbb880e47457e4e99aaec3e0664"
+            },
+            {
+              "disposition": "ignored",
+              "occurrenceCount": 1,
+              "outputIds": [],
+              "predicateIri": "http://example.com/ns#ssn",
+              "rule": "predicate:http://example.com/ns#ssn",
+              "statementId": "sha256:d668f871936417a494483171b31d7a3b4cc90e67500bd21ff0b18a7291f9eca7"
+            },
+            {
+              "disposition": "node-label",
+              "occurrenceCount": 1,
+              "outputIds": [
+                "http://example.com/ns#Alice"
+              ],
+              "predicateIri": "http://www.w3.org/2000/01/rdf-schema#label",
+              "rule": "predicate:http://www.w3.org/2000/01/rdf-schema#label",
+              "statementId": "sha256:dbca852e5247ad995c2276f20307a0ae4a4e38386a81ddc7fbb621f22c91c990"
+            },
+            {
+              "disposition": "ignored",
+              "occurrenceCount": 1,
+              "outputIds": [],
+              "predicateIri": "http://example.com/ns#ssn",
+              "rule": "predicate:http://example.com/ns#ssn",
+              "statementId": "sha256:de7769b1ceb7d09c95df6f5fd6d9cfd8bddb3ba001ea9a0dfb37a28b155499b9"
+            }
+          ],
+          "statistics": {
+            "duplicateStatementCount": 0,
+            "edgeCount": 2,
+            "ignoredStatementCount": 2,
+            "labelStatementCount": 3,
+            "nodeCount": 3,
+            "sourceStatementCount": 10,
+            "statementCount": 10
+          }
+        },
+        "policy": {
+          "format": "onto2d-rdf-mapping-policy",
+          "formatVersion": "1",
+          "id": "w3c-person-company-v1",
+          "inputs": {
+            "dataImportHash": "sha256:f7efce1db2471e0c723628d105e5beb46479c625b308b0af4feb4dc17454ad36",
+            "dataSourceId": "w3c-person-company-data-v1",
+            "shapesImportHash": "sha256:9dbd95f8300cfaf54fad438b76d4995aae671a4f90e9086b4578da029f7693df",
+            "shapesSourceId": "w3c-person-company-shapes-v1",
+            "validationReportHash": "sha256:528b13fe88574843c10e57ab239198681beb7ed7c358762e59da457140de9999"
+          },
+          "levelPolicy": {
+            "kind": "constant",
+            "meaning": "Flat source layer; not an inferred Onto2D formation depth.",
+            "value": 0
+          },
+          "nodeRules": [
+            {
+              "classIri": "http://example.com/ns#Company",
+              "scientificStatus": "external-reference",
+              "typeRole": "Organization"
+            },
+            {
+              "classIri": "http://example.com/ns#Person",
+              "scientificStatus": "external-reference",
+              "typeRole": "Person"
+            }
+          ],
+          "policyHash": "sha256:41f301d4d4d6c05a3941a8a5d3a84540fa7b4e20d87641f330572233701e8053",
+          "predicateRules": [
+            {
+              "action": "ignore",
+              "predicateIri": "http://example.com/ns#ssn",
+              "reason": "Sensitive identifiers are excluded from the structural Model Pack."
+            },
+            {
+              "action": "edge",
+              "predicateIri": "http://example.com/ns#worksFor",
+              "relationLayer": "external-reference",
+              "relationRole": "works-for",
+              "sourceClasses": [
+                "http://example.com/ns#Person"
+              ],
+              "targetClasses": [
+                "http://example.com/ns#Company"
+              ]
+            },
+            {
+              "action": "label",
+              "predicateIri": "http://www.w3.org/2000/01/rdf-schema#label",
+              "required": true
+            }
+          ],
+          "profile": "rdf-to-model-pack-explicit-v1",
+          "provenance": {
+            "adaptation": "Conforming data, explicit shape IRIs, labels, and constraints limited to the Onto2D closed SHACL profile.",
+            "licenseUri": "https://www.w3.org/copyright/software-license-2015/",
+            "sourceUri": "https://www.w3.org/TR/2017/REC-shacl-20170720/#validation-example",
+            "sourceVersion": "W3C Recommendation 20 July 2017",
+            "title": "W3C SHACL Person and Company example"
+          },
+          "schemaVersion": "1"
+        }
+      }
+    },
+    "model/edges.json": [
+      {
+        "id": "sha256:a011a8fb9927c965c7962dc248711c625f4c3f99b9f033a069f4642290569cd2",
+        "rdfSource": {
+          "predicateIri": "http://example.com/ns#worksFor",
+          "statementId": "sha256:cf279ede18731c53fbb80186b0843c33105affbb880e47457e4e99aaec3e0664"
+        },
+        "relationLayer": "external-reference",
+        "relationRole": "works-for",
+        "source": "http://example.com/ns#Bob",
+        "target": "http://example.com/ns#Acme"
+      },
+      {
+        "id": "sha256:ee472d8510341ba5f9c567fdf3f5300225a394226672d95b67df876f55201a27",
+        "rdfSource": {
+          "predicateIri": "http://example.com/ns#worksFor",
+          "statementId": "sha256:6c9a7af78701e6074c8b946d84bf380f2b382d8dd902ae56d0a2e335d8e47717"
+        },
+        "relationLayer": "external-reference",
+        "relationRole": "works-for",
+        "source": "http://example.com/ns#Alice",
+        "target": "http://example.com/ns#Acme"
+      }
+    ],
+    "model/nodes.json": [
+      {
+        "id": "http://example.com/ns#Acme",
+        "label": "Acme",
+        "level": 0,
+        "levelMeaning": "Flat source layer; not an inferred Onto2D formation depth.",
+        "rdfSource": {
+          "classIri": "http://example.com/ns#Company",
+          "classStatementId": "sha256:30a5794fca96adc46be4d72e5b47e7efbe407850223e27ebccc7f027e972092d",
+          "labelStatementId": "sha256:c297141f6148857d0cb96526a675be46fd76217a22c9ec92a50f1615f882db87",
+          "termId": "sha256:387782b27be789fdc54113cc1335cb370db59bd7f4dd67e6442ec5222e856a04"
+        },
+        "scientificStatus": "external-reference",
+        "typeRole": "Organization"
+      },
+      {
+        "id": "http://example.com/ns#Alice",
+        "label": "Alice",
+        "level": 0,
+        "levelMeaning": "Flat source layer; not an inferred Onto2D formation depth.",
+        "rdfSource": {
+          "classIri": "http://example.com/ns#Person",
+          "classStatementId": "sha256:9a6d330b36315c04722673e7ae7c84152053cfd0c84937261eb24c4ba1e6b2da",
+          "labelStatementId": "sha256:dbca852e5247ad995c2276f20307a0ae4a4e38386a81ddc7fbb621f22c91c990",
+          "termId": "sha256:e20a5dbf6b893730dbc0cc8453d8db327739eae9593ee37eef8f75a8c2c54355"
+        },
+        "scientificStatus": "external-reference",
+        "typeRole": "Person"
+      },
+      {
+        "id": "http://example.com/ns#Bob",
+        "label": "Bob",
+        "level": 0,
+        "levelMeaning": "Flat source layer; not an inferred Onto2D formation depth.",
+        "rdfSource": {
+          "classIri": "http://example.com/ns#Person",
+          "classStatementId": "sha256:9343976c74631d877beee29e3e96e3de6eb191b18c8f8862af53f98c2d22d90f",
+          "labelStatementId": "sha256:a52a230027ff357c526004abaf19aa3f91b6faa49f8c84f4c7bff2da13cc61be",
+          "termId": "sha256:757d0a56bc90d6b6b4d03e785de3c069007da3ce6a6e572232f81496331f21b5"
+        },
+        "scientificStatus": "external-reference",
+        "typeRole": "Person"
+      }
+    ]
+  },
+  "manifest": {
+    "compatibility": {
+      "engineApiVersion": "1",
+      "modelPackFormatVersion": "1"
+    },
+    "format": "onto2d-model-pack",
+    "formatVersion": "1",
+    "indexFiles": [
+      {
+        "hash": "sha256:ceeb86e9f834b21530e5c6214f1c269e2a02e7aa2e6028e76860ce1902ef9701",
+        "id": "byId",
+        "path": "indexes/by-id.json"
+      },
+      {
+        "hash": "sha256:7eed9aa56057972ed3fe4870599dcf2526ed7a773db4b560e322fc456305735e",
+        "id": "parents",
+        "path": "indexes/parents.json"
+      },
+      {
+        "hash": "sha256:4352a93578f23b831ec591524cebd69eb22f9f67f995ce94778659bb2823633c",
+        "id": "children",
+        "path": "indexes/children.json"
+      },
+      {
+        "hash": "sha256:01923679fdd7a4566f042219221ae864c7579a7abf43547ce8612c998625b7e9",
+        "id": "levels",
+        "path": "indexes/levels.json"
+      },
+      {
+        "hash": "sha256:a6e665f248bcdabdab9f74ff37023974dbdfd6681c94fb3680408c9c6d05db12",
+        "id": "phases",
+        "path": "indexes/phases.json"
+      },
+      {
+        "hash": "sha256:2df51570d8bd341042557582e0587fe0196bebe26fa0a2b04c7fbdf47c44e605",
+        "id": "typeRoles",
+        "path": "indexes/type-roles.json"
+      },
+      {
+        "hash": "sha256:767ca59aaf3972bc1ecc6219316f6dd2b107aae80b9c5c07982be6be5c2ca7a4",
+        "id": "scientificStatus",
+        "path": "indexes/scientific-status.json"
+      }
+    ],
+    "manifestHash": "sha256:0014e11bc3b7549728e398aabbd4643d9aafd0a03382e308984bb54843be19cc",
+    "model": {
+      "description": "Reviewed RDF-to-Onto2D mapping boundary reference.",
+      "id": "w3c-person-company",
+      "name": "W3C Person and Company reference",
+      "status": "reference",
+      "version": "1.0.0"
+    },
+    "rootHash": "sha256:8698c78cb13ac5a7ab4908e0d72787a81cbb70b6e2e8df1647dd647181ab686e",
+    "schemaVersion": "1",
+    "semanticFiles": [
+      {
+        "hash": "sha256:5c73dc78ce647484d904844d346a84b17e41d8a7f7b29158cbb5ed259819b272",
+        "id": "nodes",
+        "path": "model/nodes.json"
+      },
+      {
+        "hash": "sha256:240df1589661e2d95257368f2d12794942b283fb4bd803e8937260fb60b7622a",
+        "id": "edges",
+        "path": "model/edges.json"
+      },
+      {
+        "hash": "sha256:47a86553ac3d8d1a17ff425d17b7163b396cc1a5faa837a6cccae49d8791f3b8",
+        "id": "dictionaries",
+        "path": "model/dictionaries.json"
+      }
+    ],
+    "source": {
+      "auditHash": "sha256:8cd49bd182cdd042d4b8f45970418171866ee7b92d215170e474790da6b58de3",
+      "files": [
+        {
+          "hash": "sha256:018c481cfdf14a116a1bca21b9d04263e712fc308aa65fafc77e5ca73655d8bd",
+          "path": "rdf/data.nt"
+        },
+        {
+          "hash": "sha256:80fd2006f69ef217e855a00ed3c14616d9b87c4c13b3cf4263fe6fa42115d8ca",
+          "path": "rdf/shapes.nt"
+        }
+      ],
+      "id": "w3c-person-company-v1"
+    },
+    "statistics": {
+      "edgeCount": 2,
+      "nodeCount": 3
+    }
+  }
+}

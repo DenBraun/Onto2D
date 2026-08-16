@@ -65,8 +65,46 @@ import {
   type Model,
   type ModelIdentity
 } from "@onto2d/engine";
+import {
+  createVerifiedModelPresentation,
+  type VerifiedModelPresentationOptions
+} from "@onto2d/engine/presentation";
 import { Onto2D as DefaultOnto2D } from "onto2d";
 import { createModelView, layoutNeighborhood, type NeighborhoodLayout } from "@onto2d/view";
+import {
+  createLazyModelPresentation,
+  type ModelPresentationCatalogPage,
+  type ModelPresentationNodeDetail
+} from "@onto2d/view/lazy";
+import {
+  importNTriples,
+  matchRdfImportSource,
+  projectRdfImportGraph,
+  verifyRdfImportArtifact,
+  type RdfImportArtifact,
+  type RdfImportOptions,
+  type RdfNeutralGraph
+} from "@onto2d/rdf-import";
+import {
+  compileShaclShapes,
+  validateShacl,
+  validateShaclPlan,
+  verifyShaclPlan,
+  verifyShaclValidationReport,
+  type ShaclPlan,
+  type ShaclValidationOptions,
+  type ShaclValidationReport
+} from "@onto2d/shacl-validation";
+import {
+  buildRdfMappedModelPack,
+  createRdfMappingPolicy,
+  mapRdfToOnto2D,
+  verifyRdfMappingArtifact,
+  verifyRdfMappingPolicy,
+  type CreateRdfMappingPolicyInput,
+  type RdfMappingArtifact,
+  type RdfMappingPolicy
+} from "@onto2d/rdf-mapping";
 
 const ref = `sha256:${"a".repeat(64)}` as const;
 const result = canonicalizeCandidate({
@@ -200,3 +238,51 @@ const modelLayout: NeighborhoodLayout = layoutNeighborhood(
   modelView.neighborhood({ focusId: "a" })
 );
 void modelLayout;
+const verifiedPresentationOptions: VerifiedModelPresentationOptions = {
+  resolution: registryResolution,
+  defaultCatalogPageSize: 25
+};
+const verifiedPresentation = createVerifiedModelPresentation(modelPack, verifiedPresentationOptions);
+const presentationPage: ModelPresentationCatalogPage = verifiedPresentation.catalog();
+const presentationDetail: ModelPresentationNodeDetail = verifiedPresentation.inspect("a");
+const presentationLayout = layoutNeighborhood(
+  verifiedPresentation.neighborhood({ focusId: "a" })
+);
+const directPresentation = createLazyModelPresentation({
+  identity: verifiedPresentation.descriptor.identity,
+  nodes: [{ id: "a" }],
+  edges: []
+});
+void presentationPage;
+void presentationDetail;
+void presentationLayout;
+void directPresentation;
+const rdfOptions: RdfImportOptions = { sourceId: "typescript-rdf" };
+const rdfSource = "<https://example.test/a> <https://example.test/p> <https://example.test/b> .";
+const rdfArtifact: Readonly<RdfImportArtifact> = importNTriples(rdfSource, rdfOptions);
+const rdfGraph: Readonly<RdfNeutralGraph> = projectRdfImportGraph(rdfArtifact);
+void verifyRdfImportArtifact(rdfArtifact);
+void matchRdfImportSource(rdfArtifact, rdfSource);
+void rdfGraph;
+const emptyShapes = importNTriples("", { sourceId: "typescript-shapes" });
+const shaclPlan: Readonly<ShaclPlan> = compileShaclShapes(emptyShapes);
+const shaclOptions: ShaclValidationOptions = { maxResults: 100 };
+const shaclReport: Readonly<ShaclValidationReport> = validateShacl(
+  rdfArtifact,
+  emptyShapes,
+  shaclOptions
+);
+void verifyShaclPlan(emptyShapes, shaclPlan);
+void validateShaclPlan(rdfArtifact, emptyShapes, shaclPlan);
+void verifyShaclValidationReport(rdfArtifact, emptyShapes, shaclReport);
+const mappingPolicyInput: CreateRdfMappingPolicyInput | undefined = undefined;
+const mappingPolicy: RdfMappingPolicy | undefined = undefined;
+const mappingArtifact: RdfMappingArtifact | undefined = undefined;
+void mappingPolicyInput;
+void mappingPolicy;
+void mappingArtifact;
+void createRdfMappingPolicy;
+void verifyRdfMappingPolicy;
+void mapRdfToOnto2D;
+void verifyRdfMappingArtifact;
+void buildRdfMappedModelPack;

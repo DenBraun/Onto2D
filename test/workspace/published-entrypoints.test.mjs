@@ -8,6 +8,7 @@ import * as kernel from "@onto2d/kernel";
 import * as kernelCanonical from "@onto2d/kernel/canonical";
 import * as levelZeroSolver from "@onto2d/level-zero-solver";
 import * as engine from "@onto2d/engine";
+import * as enginePresentation from "@onto2d/engine/presentation";
 import * as modelPack from "@onto2d/model-pack";
 import * as modelPackBrowser from "@onto2d/model-pack/browser";
 import * as modelPackCache from "@onto2d/model-pack/cache";
@@ -15,9 +16,13 @@ import * as modelPackNode from "@onto2d/model-pack/node";
 import * as modelPackRegistry from "@onto2d/model-pack/registry";
 import * as modelPackWorker from "@onto2d/model-pack/worker";
 import * as runStore from "@onto2d/run-store";
+import * as rdfImport from "@onto2d/rdf-import";
+import * as rdfMapping from "@onto2d/rdf-mapping";
+import * as shaclValidation from "@onto2d/shacl-validation";
 import * as schemas from "@onto2d/schemas";
 import * as scientificAdapter from "@onto2d/scientific-adapter";
 import * as view from "@onto2d/view";
+import * as viewLazy from "@onto2d/view/lazy";
 
 const PACKAGE_SURFACES = Object.freeze([
   Object.freeze({
@@ -36,6 +41,11 @@ const PACKAGE_SURFACES = Object.freeze([
     declarations: new URL("../../packages/view/src/index.d.ts", import.meta.url)
   }),
   Object.freeze({
+    name: "view/lazy",
+    runtime: viewLazy,
+    declarations: new URL("../../packages/view/src/lazy.d.ts", import.meta.url)
+  }),
+  Object.freeze({
     name: "canonical-identity-analysis",
     runtime: canonicalIdentityAnalysis,
     declarations: new URL("../../packages/canonical-identity-analysis/src/index.d.ts", import.meta.url)
@@ -44,6 +54,11 @@ const PACKAGE_SURFACES = Object.freeze([
     name: "engine",
     runtime: engine,
     declarations: new URL("../../packages/engine/src/index.d.ts", import.meta.url)
+  }),
+  Object.freeze({
+    name: "engine/presentation",
+    runtime: enginePresentation,
+    declarations: new URL("../../packages/engine/src/presentation.d.ts", import.meta.url)
   }),
   Object.freeze({
     name: "model-pack",
@@ -104,6 +119,21 @@ const PACKAGE_SURFACES = Object.freeze([
     name: "run-store",
     runtime: runStore,
     declarations: new URL("../../packages/run-store/src/index.d.ts", import.meta.url)
+  }),
+  Object.freeze({
+    name: "rdf-import",
+    runtime: rdfImport,
+    declarations: new URL("../../packages/rdf-import/src/index.d.ts", import.meta.url)
+  }),
+  Object.freeze({
+    name: "rdf-mapping",
+    runtime: rdfMapping,
+    declarations: new URL("../../packages/rdf-mapping/src/index.d.ts", import.meta.url)
+  }),
+  Object.freeze({
+    name: "shacl-validation",
+    runtime: shaclValidation,
+    declarations: new URL("../../packages/shacl-validation/src/index.d.ts", import.meta.url)
   })
 ]);
 
@@ -133,6 +163,7 @@ test("published workspace names resolve through their export maps", () => {
   assert.match(identity.candidateId, /^sha256:[0-9a-f]{64}$/);
   assert.equal(kernelCanonical.canonicalize({ b: 2, a: 1 }), "{\"a\":1,\"b\":2}");
   assert.equal(typeof kernelCanonical.hashCanonical, "function");
+  assert.equal(typeof kernelCanonical.hashArtifactBytes, "function");
   assert.equal(schemas.SCHEMA_VERSION, "1");
   assert.ok(schemas.schemaUrls.candidate instanceof URL);
   assert.equal(typeof catalogAdapter.auditSourceCatalogue, "function");
@@ -140,6 +171,8 @@ test("published workspace names resolve through their export maps", () => {
   assert.equal(typeof cli.runCli, "function");
   assert.equal(cli.CLI_EXIT_CODES.data, 3);
   assert.equal(typeof engine.Onto2D.create, "function");
+  assert.equal(typeof engine.createVerifiedModelPresentation, "function");
+  assert.equal(typeof enginePresentation.createVerifiedModelPresentation, "function");
   assert.equal(typeof modelPack.verifyModelPack, "function");
   assert.equal(typeof modelPackBrowser.loadModelPackHttpDirectory, "function");
   assert.equal(typeof modelPackBrowser.loadModelPackBundle, "function");
@@ -161,6 +194,19 @@ test("published workspace names resolve through their export maps", () => {
   assert.equal(modelPackNode.MODEL_PACK_ARCHIVE_LIMITS.maxCompressionRatio, 200);
   assert.equal(typeof canonicalIdentityAnalysis.verifyCanonicalIdentityArtifact, "function");
   assert.equal(typeof view.layoutNeighborhood, "function");
+  assert.equal(typeof viewLazy.createLazyModelPresentation, "function");
+  assert.equal(viewLazy.MODEL_PRESENTATION_FORMAT_VERSION, "1");
+  assert.equal(typeof rdfImport.importNTriples, "function");
+  assert.equal(typeof rdfImport.verifyRdfImportArtifact, "function");
+  assert.equal(typeof rdfImport.projectRdfImportGraph, "function");
+  assert.equal(rdfImport.RDF_IMPORT_PROFILE_ID, "rdf11-n-triples-safe-v1");
+  assert.equal(typeof rdfMapping.createRdfMappingPolicy, "function");
+  assert.equal(typeof rdfMapping.mapRdfToOnto2D, "function");
+  assert.equal(typeof rdfMapping.buildRdfMappedModelPack, "function");
+  assert.equal(rdfMapping.RDF_MAPPING_PROFILE_ID, "rdf-to-model-pack-explicit-v1");
+  assert.equal(typeof shaclValidation.compileShaclShapes, "function");
+  assert.equal(typeof shaclValidation.validateShacl, "function");
+  assert.equal(shaclValidation.SHACL_VALIDATION_PROFILE_ID, "shacl10-core-structural-v1");
   assert.equal(typeof levelZeroSolver.levelZeroReferenceSolver.evaluate, "function");
   assert.equal(levelZeroSolver.levelZeroReferenceSolver.id, "onto2d-level-0-reference-solver");
   assert.ok(Object.isFrozen(adapter));

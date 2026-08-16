@@ -114,13 +114,27 @@ export interface LayoutOptions {
   nodeRadius?: number;
 }
 
-export interface PositionedNeighborhoodNode extends NeighborhoodNode {
+export interface NeighborhoodLayoutNodeInput extends Omit<NeighborhoodNode, "data"> {
+  data?: Readonly<ViewNode>;
+}
+
+export interface NeighborhoodLayoutEdgeInput extends Omit<NeighborhoodEdge, "data"> {
+  data?: Readonly<ViewEdge>;
+}
+
+export interface NeighborhoodLayoutProjection {
+  query: Required<NeighborhoodOptions>;
+  nodes: readonly Readonly<NeighborhoodLayoutNodeInput>[];
+  edges: readonly Readonly<NeighborhoodLayoutEdgeInput>[];
+}
+
+export interface PositionedNeighborhoodNode extends NeighborhoodLayoutNodeInput {
   layer: number;
   x: number;
   y: number;
 }
 
-export interface RoutedNeighborhoodEdge extends NeighborhoodEdge {
+export interface RoutedNeighborhoodEdge extends NeighborhoodLayoutEdgeInput {
   path: string;
   labelX: number;
   labelY: number;
@@ -160,6 +174,6 @@ export class ModelView {
 
 export function createModelView(input: ViewInput): ModelView;
 export function layoutNeighborhood(
-  projection: NeighborhoodProjection,
+  projection: NeighborhoodProjection | NeighborhoodLayoutProjection,
   options?: LayoutOptions
 ): Readonly<NeighborhoodLayout>;

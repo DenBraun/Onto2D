@@ -1,0 +1,63 @@
+{
+  "schemaVersion": "1",
+  "format": "onto2d-rdf-mapping-policy",
+  "formatVersion": "1",
+  "profile": "rdf-to-model-pack-explicit-v1",
+  "id": "w3c-person-company-v1",
+  "provenance": {
+    "title": "W3C SHACL Person and Company example",
+    "sourceUri": "https://www.w3.org/TR/2017/REC-shacl-20170720/#validation-example",
+    "sourceVersion": "W3C Recommendation 20 July 2017",
+    "licenseUri": "https://www.w3.org/copyright/software-license-2015/",
+    "adaptation": "Conforming data, explicit shape IRIs, labels, and constraints limited to the Onto2D closed SHACL profile."
+  },
+  "inputs": {
+    "dataSourceId": "w3c-person-company-data-v1",
+    "shapesSourceId": "w3c-person-company-shapes-v1",
+    "dataImportHash": "sha256:f7efce1db2471e0c723628d105e5beb46479c625b308b0af4feb4dc17454ad36",
+    "shapesImportHash": "sha256:9dbd95f8300cfaf54fad438b76d4995aae671a4f90e9086b4578da029f7693df",
+    "validationReportHash": "sha256:528b13fe88574843c10e57ab239198681beb7ed7c358762e59da457140de9999"
+  },
+  "levelPolicy": {
+    "kind": "constant",
+    "value": 0,
+    "meaning": "Flat source layer; not an inferred Onto2D formation depth."
+  },
+  "nodeRules": [
+    {
+      "classIri": "http://example.com/ns#Company",
+      "typeRole": "Organization",
+      "scientificStatus": "external-reference"
+    },
+    {
+      "classIri": "http://example.com/ns#Person",
+      "typeRole": "Person",
+      "scientificStatus": "external-reference"
+    }
+  ],
+  "predicateRules": [
+    {
+      "predicateIri": "http://example.com/ns#ssn",
+      "action": "ignore",
+      "reason": "Sensitive identifiers are excluded from the structural Model Pack."
+    },
+    {
+      "predicateIri": "http://example.com/ns#worksFor",
+      "action": "edge",
+      "sourceClasses": [
+        "http://example.com/ns#Person"
+      ],
+      "targetClasses": [
+        "http://example.com/ns#Company"
+      ],
+      "relationLayer": "external-reference",
+      "relationRole": "works-for"
+    },
+    {
+      "predicateIri": "http://www.w3.org/2000/01/rdf-schema#label",
+      "action": "label",
+      "required": true
+    }
+  ],
+  "policyHash": "sha256:41f301d4d4d6c05a3941a8a5d3a84540fa7b4e20d87641f330572233701e8053"
+}

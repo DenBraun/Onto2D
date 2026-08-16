@@ -1,0 +1,191 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/model-presentation-projection.schema.json",
+  "title": "Onto2D lazy model presentation projection",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["format", "formatVersion", "kind", "identity"],
+  "properties": {
+    "format": { "const": "onto2d-model-presentation" },
+    "formatVersion": { "const": "1" },
+    "kind": { "enum": ["catalog-page", "node-detail", "neighborhood"] },
+    "identity": { "$ref": "#/$defs/identity" },
+    "query": { "oneOf": [{ "$ref": "#/$defs/catalogQuery" }, { "$ref": "#/$defs/neighborhoodQuery" }] },
+    "total": { "type": "integer", "minimum": 0, "maximum": 100000 },
+    "matching": { "type": "integer", "minimum": 0, "maximum": 100000 },
+    "offset": { "type": "integer", "minimum": 0, "maximum": 100000 },
+    "limit": { "type": "integer", "minimum": 1, "maximum": 500 },
+    "nextOffset": { "type": ["integer", "null"], "minimum": 0, "maximum": 100000 },
+    "items": { "type": "array", "maxItems": 500, "items": { "$ref": "#/$defs/nodeSummary" } },
+    "node": { "$ref": "#/$defs/nodeSummary" },
+    "record": { "$ref": "#/$defs/nodeRecord" },
+    "relations": { "$ref": "#/$defs/relations" },
+    "relationCounts": { "$ref": "#/$defs/relationCounts" },
+    "focus": { "$ref": "#/$defs/nodeSummary" },
+    "adjacent": { "$ref": "#/$defs/adjacent" },
+    "nodes": { "type": "array", "maxItems": 500, "items": { "$ref": "#/$defs/neighborhoodNode" } },
+    "edges": { "type": "array", "maxItems": 2000, "items": { "$ref": "#/$defs/neighborhoodEdge" } },
+    "counts": { "$ref": "#/$defs/neighborhoodCounts" },
+    "truncated": { "type": "boolean" }
+  },
+  "oneOf": [
+    {
+      "properties": { "kind": { "const": "catalog-page" } },
+      "required": ["query", "total", "matching", "offset", "limit", "nextOffset", "items"],
+      "propertyNames": { "enum": ["format", "formatVersion", "kind", "identity", "query", "total", "matching", "offset", "limit", "nextOffset", "items"] }
+    },
+    {
+      "properties": { "kind": { "const": "node-detail" } },
+      "required": ["node", "record", "relations", "relationCounts"],
+      "propertyNames": { "enum": ["format", "formatVersion", "kind", "identity", "node", "record", "relations", "relationCounts"] }
+    },
+    {
+      "properties": { "kind": { "const": "neighborhood" } },
+      "required": ["query", "focus", "adjacent", "nodes", "edges", "counts", "truncated"],
+      "propertyNames": { "enum": ["format", "formatVersion", "kind", "identity", "query", "focus", "adjacent", "nodes", "edges", "counts", "truncated"] }
+    }
+  ],
+  "$defs": {
+    "contentHash": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["modelId", "modelVersion", "rootHash", "manifestHash"],
+      "properties": {
+        "modelId": { "type": "string", "minLength": 1, "maxLength": 1024 },
+        "modelVersion": { "type": "string", "minLength": 1, "maxLength": 1024 },
+        "rootHash": { "$ref": "#/$defs/contentHash" },
+        "manifestHash": { "$ref": "#/$defs/contentHash" }
+      }
+    },
+    "nodeSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "level", "phase", "typeRole", "scientificStatus", "shortDescription", "parentCount", "childCount", "incomingEdgeCount", "outgoingEdgeCount", "degree"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1, "maxLength": 1024 },
+        "name": { "type": "string" },
+        "level": {},
+        "phase": {},
+        "typeRole": {},
+        "scientificStatus": {},
+        "shortDescription": { "type": "string" },
+        "parentCount": { "type": "integer", "minimum": 0, "maximum": 100000 },
+        "childCount": { "type": "integer", "minimum": 0, "maximum": 100000 },
+        "incomingEdgeCount": { "type": "integer", "minimum": 0, "maximum": 1000000 },
+        "outgoingEdgeCount": { "type": "integer", "minimum": 0, "maximum": 1000000 },
+        "degree": { "type": "integer", "minimum": 0, "maximum": 2000000 }
+      }
+    },
+    "catalogQuery": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["search", "levels", "phases", "typeRoles", "scientificStatuses", "sort", "order"],
+      "properties": {
+        "search": { "type": "string", "maxLength": 256 },
+        "levels": { "type": "array", "maxItems": 256 },
+        "phases": { "type": "array", "maxItems": 256 },
+        "typeRoles": { "type": "array", "maxItems": 256 },
+        "scientificStatuses": { "type": "array", "maxItems": 256 },
+        "sort": { "enum": ["id", "name", "level", "degree"] },
+        "order": { "enum": ["asc", "desc"] }
+      }
+    },
+    "neighborhoodQuery": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["focusId", "depth", "direction", "maxNodes", "maxEdges"],
+      "properties": {
+        "focusId": { "type": "string", "minLength": 1, "maxLength": 1024 },
+        "depth": { "type": "integer", "minimum": 0, "maximum": 4 },
+        "direction": { "enum": ["both", "parents", "children"] },
+        "maxNodes": { "type": "integer", "minimum": 1, "maximum": 500 },
+        "maxEdges": { "type": "integer", "minimum": 0, "maximum": 2000 }
+      }
+    },
+    "nodeRecord": {
+      "type": "object",
+      "required": ["id"],
+      "properties": { "id": { "type": "string", "minLength": 1, "maxLength": 1024 } }
+    },
+    "relations": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["parents", "children"],
+      "properties": {
+        "parents": { "type": "array", "maxItems": 1000, "items": { "$ref": "#/$defs/nodeSummary" } },
+        "children": { "type": "array", "maxItems": 1000, "items": { "$ref": "#/$defs/nodeSummary" } }
+      }
+    },
+    "relationCounts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["parentCount", "childCount", "hiddenParentCount", "hiddenChildCount"],
+      "properties": {
+        "parentCount": { "type": "integer", "minimum": 0, "maximum": 100000 },
+        "childCount": { "type": "integer", "minimum": 0, "maximum": 100000 },
+        "hiddenParentCount": { "type": "integer", "minimum": 0, "maximum": 100000 },
+        "hiddenChildCount": { "type": "integer", "minimum": 0, "maximum": 100000 }
+      }
+    },
+    "adjacent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["parents", "children"],
+      "properties": {
+        "parents": { "type": "array", "maxItems": 100000, "items": { "type": "string" } },
+        "children": { "type": "array", "maxItems": 100000, "items": { "type": "string" } }
+      }
+    },
+    "neighborhoodNode": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "level", "phase", "typeRole", "scientificStatus", "shortDescription", "parentCount", "childCount", "incomingEdgeCount", "outgoingEdgeCount", "degree", "relation", "distance", "upstreamDistance", "downstreamDistance"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1, "maxLength": 1024 },
+        "name": { "type": "string" },
+        "level": {},
+        "phase": {},
+        "typeRole": {},
+        "scientificStatus": {},
+        "shortDescription": { "type": "string" },
+        "parentCount": { "type": "integer", "minimum": 0, "maximum": 100000 },
+        "childCount": { "type": "integer", "minimum": 0, "maximum": 100000 },
+        "incomingEdgeCount": { "type": "integer", "minimum": 0, "maximum": 1000000 },
+        "outgoingEdgeCount": { "type": "integer", "minimum": 0, "maximum": 1000000 },
+        "degree": { "type": "integer", "minimum": 0, "maximum": 2000000 },
+        "relation": { "enum": ["focus", "parent", "child", "both"] },
+        "distance": { "type": "integer", "minimum": 0, "maximum": 4 },
+        "upstreamDistance": { "type": ["integer", "null"], "minimum": 0, "maximum": 4 },
+        "downstreamDistance": { "type": ["integer", "null"], "minimum": 0, "maximum": 4 }
+      }
+    },
+    "neighborhoodEdge": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "source", "target", "relationLayer", "dependencyType", "necessity", "weight"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1, "maxLength": 1024 },
+        "source": { "type": "string", "minLength": 1, "maxLength": 1024 },
+        "target": { "type": "string", "minLength": 1, "maxLength": 1024 },
+        "relationLayer": {},
+        "dependencyType": {},
+        "necessity": {},
+        "weight": {}
+      }
+    },
+    "neighborhoodCounts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["discoveredNodeCount", "displayedNodeCount", "hiddenNodeCount", "availableEdgeCount", "displayedEdgeCount", "hiddenEdgeCount"],
+      "properties": {
+        "discoveredNodeCount": { "type": "integer", "minimum": 1, "maximum": 100000 },
+        "displayedNodeCount": { "type": "integer", "minimum": 1, "maximum": 500 },
+        "hiddenNodeCount": { "type": "integer", "minimum": 0, "maximum": 100000 },
+        "availableEdgeCount": { "type": "integer", "minimum": 0, "maximum": 1000000 },
+        "displayedEdgeCount": { "type": "integer", "minimum": 0, "maximum": 2000 },
+        "hiddenEdgeCount": { "type": "integer", "minimum": 0, "maximum": 1000000 }
+      }
+    }
+  }
+}

@@ -6,10 +6,10 @@
 applications and cases
         |
         v
- cli + view + engine + model-pack + adapters + solvers + run-store
-                  |
-                  v
-           kernel + schemas
+ cli + engine + model-pack + rdf-mapping + adapters + solvers + run-store
+       |       |              |          |
+       v       v              v          v
+      view   kernel + schemas + shacl-validation + rdf-import + kernel/canonical
 ```
 
 Dependencies point inward. `@onto2d/kernel` has no package dependencies and
@@ -29,9 +29,12 @@ Emergence snapshot.
 | `packages/cli` | Read-only local Model Pack verification and engine queries |
 | `packages/schemas` | Versioned external data shapes |
 | `packages/model-pack` | Canonical releases, bounded verification transports, workers, verified caching, and read-only registry resolution |
-| `packages/engine` | Headless model access, traversal, workspaces, analyses, and diff |
+| `packages/engine` | Headless model access, traversal, workspaces, analyses, diff, and verified presentation composition |
 | `packages/canonical-identity-analysis` | Replayable kernel-backed identity analysis |
-| `packages/view` | Deterministic presentation projections and graph layout |
+| `packages/view` | Deterministic presentation projections, lazy pages, explicit inspection, and graph layout |
+| `packages/rdf-import` | Bounded RDF 1.1 import artifacts and semantics-neutral graph projection |
+| `packages/shacl-validation` | Closed SHACL 1.0 Core validation plans and reports over exact RDF imports |
+| `packages/rdf-mapping` | Reviewed RDF-to-Onto2D policies, complete statement accounting, and Model Pack projection |
 | `packages/catalog-adapter` | Catalogue loading, audit, and reviewed migration replay |
 | `packages/scientific-adapter` | Interface for external numerical implementations |
 | `packages/level-zero-solver` | Bounded Phase-B numerical implementation outside the kernel |
@@ -59,6 +62,20 @@ Emergence snapshot.
 - Applications do not become authorities for scientific values or canonical
   identity; they project disclosed models or tested artifacts.
 - View layouts are derived presentation output and never enter model identity.
+- Lazy presentation may omit non-visible records, but complete semantic
+  execution must use a fully materialized and verified Model Pack.
+- RDF import preserves RDF terms and predicates without assigning Onto2D
+  levels, relation kinds, causality, or Model Pack readiness. Crossing that
+  boundary requires a separate reviewed mapping policy.
+- Blank-node identities are local to one exact RDF source hash and never merge
+  implicitly across imports.
+- SHACL validation binds exact data and shapes imports, performs only its
+  declared Core constraints and class traversal, and never implies an
+  RDF-to-Onto2D semantic mapping.
+- RDF mapping consumes only exact imports and a conforming exact SHACL report;
+  its policy carries both source IDs and all exact input hashes, declares
+  source, level, class, relation, and omission policy, and accounts for every
+  source statement before building a Model Pack.
 - Model Pack indexes are derived accelerators and never authority over the
   canonical model files.
 - Operational metadata such as timestamps and resource use does not enter

@@ -4,13 +4,35 @@ import { schemaUrls, SCHEMA_VERSION } from "../../packages/schemas/src/index.js"
 
 test("schema package exposes every initial contract as a file URL", () => {
   assert.equal(SCHEMA_VERSION, "1");
-  assert.equal(Object.keys(schemaUrls).length, 136);
+  assert.equal(Object.keys(schemaUrls).length, 144);
   assert.ok(
     schemaUrls.modelPackManifest.pathname.endsWith("model-pack-manifest.schema.json")
   );
   assert.ok(schemaUrls.modelPackRegistry.pathname.endsWith("model-pack-registry.schema.json"));
   assert.ok(schemaUrls.modelPackResolution.pathname.endsWith("model-pack-resolution.schema.json"));
+  assert.ok(
+    schemaUrls.modelPresentationDescriptor.pathname.endsWith(
+      "model-presentation-descriptor.schema.json"
+    )
+  );
+  assert.ok(
+    schemaUrls.modelPresentationProjection.pathname.endsWith(
+      "model-presentation-projection.schema.json"
+    )
+  );
   assert.ok(schemaUrls.modelLineage.pathname.endsWith("model-lineage.schema.json"));
+  assert.ok(
+    schemaUrls.rdfImportArtifact.pathname.endsWith("rdf-import-artifact.schema.json")
+  );
+  assert.ok(schemaUrls.rdfNeutralGraph.pathname.endsWith("rdf-neutral-graph.schema.json"));
+  assert.ok(
+    schemaUrls.shaclValidationPlan.pathname.endsWith("shacl-validation-plan.schema.json")
+  );
+  assert.ok(
+    schemaUrls.shaclValidationReport.pathname.endsWith("shacl-validation-report.schema.json")
+  );
+  assert.ok(schemaUrls.rdfMappingPolicy.pathname.endsWith("rdf-mapping-policy.schema.json"));
+  assert.ok(schemaUrls.rdfMappingArtifact.pathname.endsWith("rdf-mapping-artifact.schema.json"));
   assert.ok(
     schemaUrls.canonicalIdentityArtifact.pathname.endsWith(
       "canonical-identity-artifact.schema.json"

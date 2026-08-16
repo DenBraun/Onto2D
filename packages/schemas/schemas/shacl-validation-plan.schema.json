@@ -1,0 +1,221 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/shacl-validation-plan.schema.json",
+  "title": "Onto2D SHACL Validation Plan",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "format",
+    "formatVersion",
+    "profile",
+    "shapesIdentity",
+    "nodeShapes",
+    "propertyShapes",
+    "statistics",
+    "planHash"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "format": { "const": "onto2d-shacl-plan" },
+    "formatVersion": { "const": "1" },
+    "profile": { "const": "shacl10-core-structural-v1" },
+    "shapesIdentity": { "$ref": "#/$defs/artifactIdentity" },
+    "nodeShapes": {
+      "type": "array",
+      "maxItems": 1000,
+      "items": { "$ref": "#/$defs/nodeShape" }
+    },
+    "propertyShapes": {
+      "type": "array",
+      "maxItems": 5000,
+      "items": { "$ref": "#/$defs/propertyShape" }
+    },
+    "statistics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "nodeShapeCount",
+        "propertyShapeCount",
+        "targetCount",
+        "propertyReferenceCount",
+        "deactivatedShapeCount"
+      ],
+      "properties": {
+        "nodeShapeCount": { "type": "integer", "minimum": 0, "maximum": 1000 },
+        "propertyShapeCount": { "type": "integer", "minimum": 0, "maximum": 5000 },
+        "targetCount": { "type": "integer", "minimum": 0, "maximum": 10000 },
+        "propertyReferenceCount": { "type": "integer", "minimum": 0, "maximum": 10000 },
+        "deactivatedShapeCount": { "type": "integer", "minimum": 0, "maximum": 6000 }
+      }
+    },
+    "planHash": { "$ref": "#/$defs/contentHash" }
+  },
+  "$defs": {
+    "contentHash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "absoluteIri": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 16384,
+      "pattern": "^[A-Za-z][A-Za-z0-9+.-]*:"
+    },
+    "artifactIdentity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sourceHash", "graphHash", "importHash"],
+      "properties": {
+        "sourceHash": { "$ref": "#/$defs/contentHash" },
+        "graphHash": { "$ref": "#/$defs/contentHash" },
+        "importHash": { "$ref": "#/$defs/contentHash" }
+      }
+    },
+    "iriTerm": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "termType", "value"],
+      "properties": {
+        "id": { "$ref": "#/$defs/contentHash" },
+        "termType": { "const": "iri" },
+        "value": { "$ref": "#/$defs/absoluteIri" }
+      }
+    },
+    "blankNodeTerm": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "termType", "value", "scope"],
+      "properties": {
+        "id": { "$ref": "#/$defs/contentHash" },
+        "termType": { "const": "blank-node" },
+        "value": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256,
+          "pattern": "^[A-Za-z0-9_](?:[A-Za-z0-9_.-]*[A-Za-z0-9_-])?$"
+        },
+        "scope": { "$ref": "#/$defs/contentHash" }
+      }
+    },
+    "literalTerm": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "termType", "value", "datatype", "language"],
+      "properties": {
+        "id": { "$ref": "#/$defs/contentHash" },
+        "termType": { "const": "literal" },
+        "value": { "type": "string", "maxLength": 16384 },
+        "datatype": { "$ref": "#/$defs/absoluteIri" },
+        "language": {
+          "oneOf": [
+            { "type": "null" },
+            { "type": "string", "maxLength": 16384, "pattern": "^[a-z]+(?:-[a-z0-9]+)*$" }
+          ]
+        }
+      }
+    },
+    "subjectTerm": {
+      "oneOf": [
+        { "$ref": "#/$defs/iriTerm" },
+        { "$ref": "#/$defs/blankNodeTerm" }
+      ]
+    },
+    "objectTerm": {
+      "oneOf": [
+        { "$ref": "#/$defs/iriTerm" },
+        { "$ref": "#/$defs/blankNodeTerm" },
+        { "$ref": "#/$defs/literalTerm" }
+      ]
+    },
+    "message": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["value", "language"],
+      "properties": {
+        "value": { "type": "string", "maxLength": 16384 },
+        "language": {
+          "oneOf": [
+            { "type": "null" },
+            { "type": "string", "maxLength": 16384, "pattern": "^[a-z]+(?:-[a-z0-9]+)*$" }
+          ]
+        }
+      }
+    },
+    "constraints": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["minCount", "maxCount", "datatype", "nodeKind", "class"],
+      "properties": {
+        "minCount": { "oneOf": [{ "type": "null" }, { "type": "integer", "minimum": 0 }] },
+        "maxCount": { "oneOf": [{ "type": "null" }, { "type": "integer", "minimum": 0 }] },
+        "datatype": { "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/absoluteIri" }] },
+        "nodeKind": { "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/absoluteIri" }] },
+        "class": { "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/absoluteIri" }] }
+      }
+    },
+    "target": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "term"],
+          "properties": { "kind": { "const": "node" }, "term": { "$ref": "#/$defs/objectTerm" } }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "class"],
+          "properties": { "kind": { "const": "class" }, "class": { "$ref": "#/$defs/absoluteIri" } }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "predicate"],
+          "properties": {
+            "kind": { "enum": ["subjects-of", "objects-of"] },
+            "predicate": { "$ref": "#/$defs/absoluteIri" }
+          }
+        }
+      ]
+    },
+    "nodeShape": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "term",
+        "targets",
+        "propertyShapeIds",
+        "constraints",
+        "severity",
+        "messages",
+        "deactivated"
+      ],
+      "properties": {
+        "id": { "$ref": "#/$defs/contentHash" },
+        "term": { "$ref": "#/$defs/subjectTerm" },
+        "targets": { "type": "array", "maxItems": 10000, "items": { "$ref": "#/$defs/target" } },
+        "propertyShapeIds": { "type": "array", "maxItems": 10000, "items": { "$ref": "#/$defs/contentHash" } },
+        "constraints": { "$ref": "#/$defs/constraints" },
+        "severity": { "$ref": "#/$defs/absoluteIri" },
+        "messages": { "type": "array", "maxItems": 32, "items": { "$ref": "#/$defs/message" } },
+        "deactivated": { "type": "boolean" }
+      }
+    },
+    "propertyShape": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "term", "path", "constraints", "severity", "messages", "deactivated"],
+      "properties": {
+        "id": { "$ref": "#/$defs/contentHash" },
+        "term": { "$ref": "#/$defs/subjectTerm" },
+        "path": { "$ref": "#/$defs/iriTerm" },
+        "constraints": { "$ref": "#/$defs/constraints" },
+        "severity": { "$ref": "#/$defs/absoluteIri" },
+        "messages": { "type": "array", "maxItems": 32, "items": { "$ref": "#/$defs/message" } },
+        "deactivated": { "type": "boolean" }
+      }
+    }
+  }
+}

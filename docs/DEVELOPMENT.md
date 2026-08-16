@@ -40,6 +40,8 @@ Focused commands:
 | `npm run audit:catalogue` | Current source-catalogue audit |
 | `npm run model:causal-emergence` | Rebuild the bundled Model Pack |
 | `npm run model:causal-emergence:verify` | Verify its committed release without writing |
+| `npm run case:rdf-mapping` | Rebuild the public RDF mapping reference |
+| `npm run case:rdf-mapping:verify` | Replay its frozen evidence without writing |
 | `npm run dev:site` | Local static project site |
 | `npm run build:worker` | Regenerate the committed static worker asset |
 

@@ -75,6 +75,10 @@ test("Model Studio fully verifies the real pack before using the shared view lay
   assert.match(studioApp, /packages\/model-pack\/src\/cache\.js/);
   assert.match(studioApp, /packages\/model-pack\/src\/registry\.js/);
   assert.match(studioApp, /packages\/model-pack\/src\/worker\.js/);
+  assert.match(studioApp, /packages\/engine\/src\/presentation\.js/);
+  assert.match(studioApp, /packages\/rdf-import\/src\/index\.js/);
+  assert.match(studioApp, /packages\/rdf-mapping\/src\/index\.js/);
+  assert.match(studioApp, /packages\/shacl-validation\/src\/index\.js/);
   assert.match(studioApp, /packages\/view\/src\/index\.js/);
   assert.match(studioApp, /resolveModelPackRegistryHttp/);
   assert.match(studioApp, /expectedRegistryHash: EXPECTED_REGISTRY_HASH/);
@@ -96,15 +100,23 @@ test("Model Studio fully verifies the real pack before using the shared view lay
   assert.match(studioApp, /dataset\.registry = resolution\.registryTrust/);
   assert.match(studioApp, /dataset\.verifier = "worker"/);
   assert.match(studioApp, /dataset\.verifier = "main-thread-fallback"/);
-  assert.match(studioApp, /pack\.files\["model\/nodes\.json"\]/);
-  assert.match(studioApp, /pack\.files\["model\/edges\.json"\]/);
+  assert.match(studioApp, /createVerifiedModelPresentation\(pack, presentationOptions\)/);
+  assert.match(studioApp, /state\.presentation\.catalog\(/);
+  assert.match(studioApp, /state\.presentation\.inspect\(/);
+  assert.match(studioApp, /state\.presentation\.neighborhood\(/);
+  assert.match(studioApp, /dataset\.presentation = "lazy"/);
+  assert.doesNotMatch(studioApp, /pack\.files\["model\/(?:nodes|edges)\.json"\]/);
   assert.doesNotMatch(studioApp, /function fetchJson/);
   assert.match(studioApp, /Model verified/);
   assert.match(studioMarkup, /"@onto2d\/kernel\/canonical":"\.\.\/\.\.\/packages\/kernel\/src\/canonical-entry\.js\?v=/);
+  assert.match(studioMarkup, /"@onto2d\/view\/lazy":"\.\.\/\.\.\/packages\/view\/src\/lazy\.js\?v=/);
   assert.match(studioApp, /layoutNeighborhood\(projection/);
   assert.match(studioApp, /addEventListener\("click", \(\) => inspectNode\(node\.id\)\)/);
   assert.match(studioApp, /addEventListener\("dblclick", \(\) => focusNode\(node\.id\)\)/);
   assert.match(studioApp, /graphHighlight\(activeGraphProjection, target\)/);
+  assert.match(studioApp, /policy\.inputs\.dataSourceId/);
+  assert.match(studioApp, /policy\.inputs\.shapesSourceId/);
+  assert.match(studioApp, /buildRdfMappedModelPack\(data, shapes, report, policy/);
   assert.match(studioMarkup, /not reviewed generative causation/i);
   assert.match(studioMarkup, /There is only one real Model Pack release/i);
   assert.doesNotMatch(studioMarkup, /class="activity-bar"/);
@@ -113,6 +125,12 @@ test("Model Studio fully verifies the real pack before using the shared view lay
   for (const id of [
     "catalog-search",
     "catalog-list",
+    "catalog-more",
+    "rdf-import-open",
+    "rdf-import-dialog",
+    "rdf-data-file",
+    "rdf-shapes-file",
+    "rdf-policy-file",
     "direction-controls",
     "depth-controls",
     "neighborhood-graph",
@@ -128,6 +146,10 @@ test("Model Studio fully verifies the real pack before using the shared view lay
   const registryRevision = studioApp.match(/packages\/model-pack\/src\/registry\.js\?v=([^"']+)/)?.[1];
   const workerClientRevision = studioApp.match(/packages\/model-pack\/src\/worker\.js\?v=([^"']+)/)?.[1];
   const workerBundleRevision = studioApp.match(/assets\/js\/model-pack-worker\.js\?v=([^"']+)/)?.[1];
+  const presentationRevision = studioApp.match(/packages\/engine\/src\/presentation\.js\?v=([^"']+)/)?.[1];
+  const rdfImportRevision = studioApp.match(/packages\/rdf-import\/src\/index\.js\?v=([^"']+)/)?.[1];
+  const rdfMappingRevision = studioApp.match(/packages\/rdf-mapping\/src\/index\.js\?v=([^"']+)/)?.[1];
+  const shaclRevision = studioApp.match(/packages\/shacl-validation\/src\/index\.js\?v=([^"']+)/)?.[1];
   const viewRevision = studioApp.match(/packages\/view\/src\/index\.js\?v=([^"']+)/)?.[1];
   const interactionRevision = studioApp.match(/graph-interactions\.js\?v=([^"']+)/)?.[1];
   const kernelRevision = studioMarkup.match(/packages\/kernel\/src\/canonical-entry\.js\?v=([^"']+)/)?.[1];
@@ -136,6 +158,10 @@ test("Model Studio fully verifies the real pack before using the shared view lay
   assert.equal(registryRevision, appRevision);
   assert.equal(workerClientRevision, appRevision);
   assert.equal(workerBundleRevision, appRevision);
+  assert.equal(presentationRevision, appRevision);
+  assert.equal(rdfImportRevision, appRevision);
+  assert.equal(rdfMappingRevision, appRevision);
+  assert.equal(shaclRevision, appRevision);
   assert.equal(viewRevision, appRevision);
   assert.equal(interactionRevision, appRevision);
   assert.equal(kernelRevision, appRevision);

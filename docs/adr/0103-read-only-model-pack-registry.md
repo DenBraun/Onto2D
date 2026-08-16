@@ -81,7 +81,9 @@ bytes, `rootHash`, `manifestHash`, kernel behavior, or analysis artifacts.
 - one committed registry can be checked against every indexed bundle;
 - the runtime and its complete dependency graph remain browser-safe;
 - publication, signing, aliases, version negotiation, mirrors, retries,
-  background refresh, and cross-origin pack hosting remain future work.
+  background refresh, and cross-origin pack hosting remain future work;
+- exact registry-bound lazy presentation is specified by
+  [ADR-0104](0104-lazy-verified-model-presentation.md).
 
 ## Artifacts and acceptance
 

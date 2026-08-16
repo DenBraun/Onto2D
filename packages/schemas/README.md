@@ -20,6 +20,9 @@ The package covers:
 - explanations, semantic run bundles, persistence receipts, and execution
   records;
 - source-classification and reviewed migration artifacts.
+- bounded RDF import artifacts and semantics-neutral graph projections;
+- deterministic SHACL validation plans and exact-input reports;
+- reviewed RDF-to-Onto2D policies and complete statement-accounting artifacts.
 
 `schemaUrls` is the authoritative exported registry. Repository checks compile
 every schema, resolve references, and verify export coverage.

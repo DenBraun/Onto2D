@@ -59,7 +59,9 @@ sequence, interactive branch comparison, and asymmetric complex search
 
 The [Model Studio](https://denbraun.github.io/Onto2D/apps/model-studio/)
 bounds and fully verifies the exact bundled Model Pack in the browser before
-exposing catalogue filters, directed neighborhoods, and source-record inspection
+exposing lazy catalogue pages, directed neighborhoods, and explicit source-record inspection.
+Its `+` action also opens an exact local `data.nt` + `shapes.nt` +
+`mapping-policy.json` set after replaying the complete RDF verification chain
 ([source notes](apps/model-studio/README.md)).
 
 Run the static site:
@@ -103,9 +105,12 @@ node packages/cli/src/bin.js node ./models/causal-emergence/releases/2026.08.15 
 | [`@onto2d/cli`](packages/cli/README.md) | Read-only local Model Pack verification and engine queries |
 | [`@onto2d/schemas`](packages/schemas/README.md) | JSON Schema Draft 2020-12 transport contracts |
 | [`@onto2d/model-pack`](packages/model-pack/README.md) | Canonical releases plus bounded transports, workers, verified caching, and read-only registry resolution |
-| [`@onto2d/engine`](packages/engine/README.md) | Headless exact-version model API, workspaces, analyses, and diff |
+| [`@onto2d/engine`](packages/engine/README.md) | Headless exact-version model API, workspaces, analyses, diff, and verified presentation composition |
 | [`@onto2d/canonical-identity-analysis`](packages/canonical-identity-analysis/README.md) | Replayable kernel-backed candidate identity analysis |
-| [`@onto2d/view`](packages/view/README.md) | Browser-safe catalogue, neighborhood, and deterministic layout projections |
+| [`@onto2d/view`](packages/view/README.md) | Browser-safe paged catalogue, explicit inspection, neighborhood, and deterministic layout projections |
+| [`@onto2d/rdf-import`](packages/rdf-import/README.md) | Bounded RDF 1.1 N-Triples import artifacts and semantics-neutral graph projections |
+| [`@onto2d/shacl-validation`](packages/shacl-validation/README.md) | Closed, deterministic SHACL 1.0 Core validation over exact RDF import artifacts |
+| [`@onto2d/rdf-mapping`](packages/rdf-mapping/README.md) | Reviewed RDF-to-Onto2D policy, complete source accounting, and Model Pack projection |
 | [`@onto2d/catalog-adapter`](packages/catalog-adapter/README.md) | Source-catalogue audit and reviewed migration replay |
 | [`@onto2d/scientific-adapter`](packages/scientific-adapter/README.md) | Boundary for external numerical implementations |
 | [`@onto2d/level-zero-solver`](packages/level-zero-solver/README.md) | Bounded external Phase-B reference solver |
@@ -117,7 +122,10 @@ Phase-B numerical reference benchmark and a negative Phase-C boundedness
 preflight, a bounded objecthood search, a real-time persistence probe, and a
 preregistered asymmetric/complex extension; the
 [three-node-motif case](cases/three-node-motifs/README.md) is an executable,
-frozen empirical reproduction.
+frozen empirical reproduction. The
+[RDF mapping reference](cases/rdf-mapping-reference/README.md) replays a
+W3C-derived conforming graph through import, SHACL validation, explicit mapping,
+and complete Model Pack verification.
 
 ## Documentation
 
