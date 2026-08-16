@@ -11,8 +11,14 @@ All notable user-visible changes are recorded in this file.
 - Canonical graph and skeleton identity, bounded generation, predicates,
   functionals, selection, multi-depth closure, null models, explanations, and
   replayable run artifacts.
-- 130 JSON Schema Draft 2020-12 contracts and TypeScript declarations for all
+- 134 JSON Schema Draft 2020-12 contracts and TypeScript declarations for all
   publishable workspaces.
+- Transparent Model Packs, a reproducible Causal Emergence snapshot, and a
+  headless engine preview for exact model queries, traversal, workspaces, and
+  structural diff.
+- Declared lineage validation, bounded transparent-directory loading for
+  Node.js, and the registered Canonical Identity analysis with replayable
+  artifacts.
 - Catalogue, scientific-boundary, and verified local run-store adapters.
 - Bounded Level-0 Phase-B numerical reference case with an external solver,
   positive and negative controls, Oracle evidence, and frozen results.

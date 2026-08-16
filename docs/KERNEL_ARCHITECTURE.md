@@ -38,18 +38,20 @@ The kernel does not own:
 Those responsibilities belong to applications, adapters, stores, and reviewed
 case packages.
 
+The headless engine and Model Pack format sit outside the kernel. They select,
+query, and traverse verified released models without changing kernel semantics;
+see [Onto2D Engine Architecture](ONTO2D_ENGINE_ARCHITECTURE.md).
+
 ## Dependency rule
 
 ```text
 cases / applications
         |
         v
-catalog adapter   scientific adapter   run store
-        \                |                /
-         +---------------+---------------+
-                         |
-                         v
-                    kernel + schemas
+ engine + model pack + adapters + run store
+                  |
+                  v
+            kernel + schemas
 ```
 
 `@onto2d/kernel` is dependency-free. Outer layers may translate or persist

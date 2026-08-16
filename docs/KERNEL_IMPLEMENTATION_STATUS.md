@@ -28,6 +28,15 @@ groups are:
 Exact public names are available from `packages/kernel/src/index.js`; exact
 data shapes are available from `@onto2d/schemas`.
 
+## Engine status
+
+The separate headless engine now provides verified Model Pack access, bounded
+local-directory loading, exact version resolution, workspaces, declared
+lineage-aware structural diff, and a registered Canonical Identity analysis.
+These orchestration features do not add kernel capabilities or change the
+closed schema-v1 kernel contract. See the
+[Engine Architecture](ONTO2D_ENGINE_ARCHITECTURE.md).
+
 ## Adapter status
 
 | Boundary | Implemented | Still external or pending |

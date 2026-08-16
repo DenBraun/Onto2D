@@ -2,6 +2,9 @@
   "name": "onto2d",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
+  "types": "./src/index.d.ts",
+  "sideEffects": false,
   "description": "Ontology-backed tooling and the staged Onto2D closure-kernel workspace.",
   "license": "MIT",
   "repository": "github:DenBraun/Onto2D",
@@ -14,6 +17,12 @@
   ],
   "engines": {
     "node": ">=22"
+  },
+  "exports": {
+    ".": {
+      "types": "./src/index.d.ts",
+      "import": "./src/index.js"
+    }
   },
   "scripts": {
     "build": "node scripts/build.mjs",
@@ -31,6 +40,8 @@
     "case:motifs:fetch": "node cases/three-node-motifs/scripts/fetch-sources.mjs",
     "dev:site": "node apps/historical-load-explorer/serve.mjs",
     "dev:explorer": "node apps/historical-load-explorer/serve.mjs",
+    "model:causal-emergence": "node models/causal-emergence/build.mjs",
+    "model:causal-emergence:verify": "node models/causal-emergence/build.mjs --verify",
     "check": "node scripts/check.mjs",
     "check:catalogue": "node scripts/audit-catalogue.mjs --verify",
     "check:closure": "node scripts/check-kernel-closure.mjs",
@@ -43,6 +54,11 @@
     "test": "node scripts/test.mjs",
     "test:kernel": "node scripts/test.mjs packages/kernel/test",
     "audit:catalogue": "node scripts/audit-catalogue.mjs"
+  },
+  "dependencies": {
+    "@onto2d/canonical-identity-analysis": "0.1.0",
+    "@onto2d/engine": "0.1.0",
+    "@onto2d/model-pack": "0.1.0"
   },
   "devDependencies": {
     "ajv": "8.18.0",

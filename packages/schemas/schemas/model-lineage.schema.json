@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/model-lineage.schema.json",
+  "title": "Onto2D Model Lineage",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "builder", "from", "to", "events", "lineageHash"],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "builder": { "const": "onto2d-model-lineage-v1" },
+    "from": { "$ref": "#/$defs/modelIdentity" },
+    "to": { "$ref": "#/$defs/modelIdentity" },
+    "events": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/event" }
+    },
+    "lineageHash": { "$ref": "#/$defs/contentHash" }
+  },
+  "$defs": {
+    "contentHash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "identifier": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1024,
+      "pattern": "^(?:\\S|\\S(?:.*\\S)?)$",
+      "not": { "enum": ["__proto__", "constructor", "prototype"] }
+    },
+    "modelIdentity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["modelId", "modelVersion", "modelRootHash"],
+      "properties": {
+        "modelId": { "$ref": "#/$defs/identifier" },
+        "modelVersion": { "$ref": "#/$defs/identifier" },
+        "modelRootHash": { "$ref": "#/$defs/contentHash" }
+      }
+    },
+    "identifiers": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/identifier" }
+    },
+    "event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "kind", "entity", "from", "to"],
+      "properties": {
+        "id": { "$ref": "#/$defs/identifier" },
+        "kind": {
+          "enum": [
+            "rename",
+            "move",
+            "split",
+            "merge",
+            "deprecate",
+            "replace",
+            "relation-change",
+            "classification-change",
+            "metadata-only-change"
+          ]
+        },
+        "entity": { "enum": ["node", "edge", "model"] },
+        "from": { "$ref": "#/$defs/identifiers" },
+        "to": { "$ref": "#/$defs/identifiers" },
+        "fields": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/identifier" }
+        },
+        "note": { "type": "string", "minLength": 1, "maxLength": 4096 }
+      }
+    }
+  }
+}

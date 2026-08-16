@@ -35,6 +35,8 @@ Focused commands:
 | `npm run check:workspace` | Package names, exports, and dependency boundaries |
 | `npm run check:docs` | Markdown links and code fences |
 | `npm run audit:catalogue` | Current source-catalogue audit |
+| `npm run model:causal-emergence` | Rebuild the bundled Model Pack |
+| `npm run model:causal-emergence:verify` | Verify its committed release without writing |
 | `npm run dev:site` | Local static project site |
 
 ## Change workflow
@@ -72,4 +74,6 @@ check.
 ## Generated output
 
 `node_modules/`, `coverage/`, `dist/`, and `runs/*` are ignored. Commit only
-reviewed, reproducible fixtures with their source and policy identities.
+reproducible fixtures with their source and policy identities. Committed Model
+Pack candidates under `models/` must be rebuilt and have their source audit and
+hash changes reviewed before release.

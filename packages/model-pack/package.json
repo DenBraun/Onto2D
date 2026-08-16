@@ -1,0 +1,42 @@
+{
+  "name": "@onto2d/model-pack",
+  "version": "0.1.0",
+  "description": "Deterministic construction and fail-closed verification of transparent Onto2D Model Packs.",
+  "type": "module",
+  "types": "./src/index.d.ts",
+  "license": "MIT",
+  "sideEffects": false,
+  "files": [
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DenBraun/Onto2D.git",
+    "directory": "packages/model-pack"
+  },
+  "bugs": {
+    "url": "https://github.com/DenBraun/Onto2D/issues"
+  },
+  "homepage": "https://github.com/DenBraun/Onto2D/tree/main/packages/model-pack#readme",
+  "publishConfig": {
+    "access": "public"
+  },
+  "exports": {
+    ".": {
+      "types": "./src/index.d.ts",
+      "import": "./src/index.js"
+    },
+    "./node": {
+      "types": "./src/node.d.ts",
+      "import": "./src/node.js"
+    }
+  },
+  "dependencies": {
+    "@onto2d/kernel": "0.1.0"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

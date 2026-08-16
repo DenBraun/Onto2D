@@ -1,0 +1,133 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/canonical-identity-artifact.schema.json",
+  "title": "Onto2D Canonical Identity Artifact",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "analysis",
+    "engine",
+    "model",
+    "request",
+    "requestHash",
+    "result",
+    "artifactHash"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "analysis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "version"],
+      "properties": {
+        "id": { "const": "canonical-identity" },
+        "version": { "const": "1" }
+      }
+    },
+    "engine": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["version", "apiVersion"],
+      "properties": {
+        "version": { "const": "0.1.0" },
+        "apiVersion": { "const": "1" }
+      }
+    },
+    "model": { "$ref": "#/$defs/modelIdentity" },
+    "request": { "$ref": "canonical-identity-request.schema.json" },
+    "requestHash": { "$ref": "#/$defs/contentHash" },
+    "result": { "$ref": "#/$defs/result" },
+    "artifactHash": { "$ref": "#/$defs/contentHash" }
+  },
+  "$defs": {
+    "contentHash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "modelIdentity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["modelId", "modelVersion", "modelRootHash"],
+      "properties": {
+        "modelId": { "type": "string", "minLength": 1 },
+        "modelVersion": { "type": "string", "minLength": 1 },
+        "modelRootHash": { "$ref": "#/$defs/contentHash" }
+      }
+    },
+    "canonicalForm": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schemaVersion", "bytesBase64", "hash"],
+      "properties": {
+        "schemaVersion": { "type": "string", "minLength": 1 },
+        "bytesBase64": { "type": "string", "contentEncoding": "base64" },
+        "hash": { "$ref": "#/$defs/contentHash" }
+      }
+    },
+    "limits": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["maxNodes", "maxEdges", "maxSearchStates"],
+      "properties": {
+        "maxNodes": { "type": "integer", "minimum": 1 },
+        "maxEdges": { "type": "integer", "minimum": 0 },
+        "maxSearchStates": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "mapping": {
+      "type": "array",
+      "items": { "type": "integer", "minimum": 0 }
+    },
+    "statistics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["searchStates", "leaves", "refinementRounds"],
+      "properties": {
+        "searchStates": { "type": "integer", "minimum": 0 },
+        "leaves": { "type": "integer", "minimum": 0 },
+        "refinementRounds": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "completeStatistics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["searchStates", "leaves", "refinementRounds", "skeleton", "candidate"],
+      "properties": {
+        "searchStates": { "type": "integer", "minimum": 0 },
+        "leaves": { "type": "integer", "minimum": 0 },
+        "refinementRounds": { "type": "integer", "minimum": 0 },
+        "skeleton": { "$ref": "#/$defs/statistics" },
+        "candidate": { "$ref": "#/$defs/statistics" }
+      }
+    },
+    "result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "candidateId",
+        "skeletonId",
+        "candidate",
+        "skeletonCanonicalForm",
+        "graphPolicy",
+        "canonicalizationLimits",
+        "inputToCanonical",
+        "canonicalToInput",
+        "inputEdgeToCanonical",
+        "statistics"
+      ],
+      "properties": {
+        "candidateId": { "$ref": "#/$defs/contentHash" },
+        "skeletonId": { "$ref": "#/$defs/contentHash" },
+        "candidate": { "$ref": "candidate.schema.json" },
+        "skeletonCanonicalForm": { "$ref": "#/$defs/canonicalForm" },
+        "graphPolicy": { "$ref": "graph-policy.schema.json" },
+        "canonicalizationLimits": { "$ref": "#/$defs/limits" },
+        "inputToCanonical": { "$ref": "#/$defs/mapping" },
+        "canonicalToInput": { "$ref": "#/$defs/mapping" },
+        "inputEdgeToCanonical": { "$ref": "#/$defs/mapping" },
+        "statistics": { "$ref": "#/$defs/completeStatistics" }
+      }
+    }
+  }
+}

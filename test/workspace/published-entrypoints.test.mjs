@@ -2,12 +2,36 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 import * as catalogAdapter from "@onto2d/catalog-adapter";
+import * as canonicalIdentityAnalysis from "@onto2d/canonical-identity-analysis";
 import * as kernel from "@onto2d/kernel";
+import * as engine from "@onto2d/engine";
+import * as modelPack from "@onto2d/model-pack";
+import * as modelPackNode from "@onto2d/model-pack/node";
 import * as runStore from "@onto2d/run-store";
 import * as schemas from "@onto2d/schemas";
 import * as scientificAdapter from "@onto2d/scientific-adapter";
 
 const PACKAGE_SURFACES = Object.freeze([
+  Object.freeze({
+    name: "canonical-identity-analysis",
+    runtime: canonicalIdentityAnalysis,
+    declarations: new URL("../../packages/canonical-identity-analysis/src/index.d.ts", import.meta.url)
+  }),
+  Object.freeze({
+    name: "engine",
+    runtime: engine,
+    declarations: new URL("../../packages/engine/src/index.d.ts", import.meta.url)
+  }),
+  Object.freeze({
+    name: "model-pack",
+    runtime: modelPack,
+    declarations: new URL("../../packages/model-pack/src/index.d.ts", import.meta.url)
+  }),
+  Object.freeze({
+    name: "model-pack/node",
+    runtime: modelPackNode,
+    declarations: new URL("../../packages/model-pack/src/node.d.ts", import.meta.url)
+  }),
   Object.freeze({
     name: "kernel",
     runtime: kernel,
@@ -63,6 +87,10 @@ test("published workspace names resolve through their export maps", () => {
   assert.ok(schemas.schemaUrls.candidate instanceof URL);
   assert.equal(typeof catalogAdapter.auditSourceCatalogue, "function");
   assert.equal(typeof runStore.writePackageRunArtifactBundle, "function");
+  assert.equal(typeof engine.Onto2D.create, "function");
+  assert.equal(typeof modelPack.verifyModelPack, "function");
+  assert.equal(typeof modelPackNode.loadModelPackDirectory, "function");
+  assert.equal(typeof canonicalIdentityAnalysis.verifyCanonicalIdentityArtifact, "function");
   assert.ok(Object.isFrozen(adapter));
 });
 

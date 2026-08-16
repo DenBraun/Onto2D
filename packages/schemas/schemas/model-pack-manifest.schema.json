@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/model-pack-manifest.schema.json",
+  "title": "Onto2D Model Pack manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "format",
+    "formatVersion",
+    "model",
+    "compatibility",
+    "source",
+    "semanticFiles",
+    "indexFiles",
+    "statistics",
+    "rootHash",
+    "manifestHash"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "1" },
+    "format": { "const": "onto2d-model-pack" },
+    "formatVersion": { "const": "1" },
+    "model": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "version"],
+      "properties": {
+        "id": { "$ref": "#/$defs/nonEmptyString" },
+        "name": { "$ref": "#/$defs/nonEmptyString" },
+        "version": { "$ref": "#/$defs/nonEmptyString" },
+        "description": { "$ref": "#/$defs/nonEmptyString" },
+        "status": { "$ref": "#/$defs/nonEmptyString" }
+      }
+    },
+    "compatibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["engineApiVersion", "modelPackFormatVersion"],
+      "properties": {
+        "engineApiVersion": { "const": "1" },
+        "modelPackFormatVersion": { "const": "1" }
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "files"],
+      "properties": {
+        "id": { "$ref": "#/$defs/nonEmptyString" },
+        "files": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/sourceFile" }
+        },
+        "auditHash": { "$ref": "#/$defs/contentHash" }
+      }
+    },
+    "semanticFiles": {
+      "type": "array",
+      "minItems": 3,
+      "items": { "$ref": "#/$defs/packFile" }
+    },
+    "indexFiles": {
+      "type": "array",
+      "minItems": 7,
+      "items": { "$ref": "#/$defs/packFile" }
+    },
+    "statistics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["nodeCount", "edgeCount"],
+      "properties": {
+        "nodeCount": { "type": "integer", "minimum": 1 },
+        "edgeCount": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "rootHash": { "$ref": "#/$defs/contentHash" },
+    "manifestHash": { "$ref": "#/$defs/contentHash" }
+  },
+  "$defs": {
+    "nonEmptyString": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4096
+    },
+    "contentHash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "sourceFile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "hash"],
+      "properties": {
+        "path": { "$ref": "#/$defs/nonEmptyString" },
+        "hash": { "$ref": "#/$defs/contentHash" }
+      }
+    },
+    "packFile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "path", "hash"],
+      "properties": {
+        "id": { "$ref": "#/$defs/nonEmptyString" },
+        "path": { "$ref": "#/$defs/nonEmptyString" },
+        "hash": { "$ref": "#/$defs/contentHash" }
+      }
+    }
+  }
+}

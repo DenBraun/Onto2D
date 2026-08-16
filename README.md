@@ -17,6 +17,29 @@ The repository does not include a general scientific solver or empirical
 validation of the foundational theory. Those claims require explicit external
 evidence through the scientific-adapter boundary.
 
+The repository also contains a private engine preview: a deterministic Model
+Pack contract, a frozen Causal Emergence source snapshot, and a headless API
+for exact model queries and traversal. It is not yet a published npm package.
+
+## Engine preview
+
+```js
+import { Onto2D } from "onto2d";
+
+const engine = await Onto2D.create();
+const node = engine.model.require("0.8");
+const parents = engine.model.parents(node.id);
+
+const identity = await engine.analyze("canonical-identity", {
+  candidate: myCandidate
+});
+```
+
+The bundled release preserves source relations as `source-parent` and records
+known catalogue findings; it does not silently upgrade them into reviewed
+generative semantics. See the
+[Engine Architecture](docs/ONTO2D_ENGINE_ARCHITECTURE.md).
+
 ## Try the studies
 
 - [Historical Load Explorer](https://denbraun.github.io/Onto2D/apps/historical-load-explorer/)
@@ -63,6 +86,9 @@ commands and fixture policy.
 |---|---|
 | [`@onto2d/kernel`](packages/kernel/README.md) | Deterministic model, identity, evaluation, closure, and artifacts |
 | [`@onto2d/schemas`](packages/schemas/README.md) | JSON Schema Draft 2020-12 transport contracts |
+| [`@onto2d/model-pack`](packages/model-pack/README.md) | Canonical, transparent model release build and verification |
+| [`@onto2d/engine`](packages/engine/README.md) | Headless exact-version model API, workspaces, analyses, and diff |
+| [`@onto2d/canonical-identity-analysis`](packages/canonical-identity-analysis/README.md) | Replayable kernel-backed candidate identity analysis |
 | [`@onto2d/catalog-adapter`](packages/catalog-adapter/README.md) | Source-catalogue audit and reviewed migration replay |
 | [`@onto2d/scientific-adapter`](packages/scientific-adapter/README.md) | Boundary for external numerical implementations |
 | [`@onto2d/run-store`](packages/run-store/README.md) | Verified local persistence of semantic run bundles |
@@ -78,6 +104,10 @@ frozen empirical reproduction.
 
 - [Architecture](docs/KERNEL_ARCHITECTURE.md) explains the system boundaries and
   execution model.
+- [Engine Architecture](docs/ONTO2D_ENGINE_ARCHITECTURE.md) defines Model Packs,
+  model access, workspace state, and comparison boundaries.
+- [Engine Roadmap](docs/ENGINE_ROADMAP.md) separates the implemented foundation
+  from Studio, adapters, loaders, and operational work.
 - [Implementation Status](docs/KERNEL_IMPLEMENTATION_STATUS.md) separates the
   closed kernel from remaining external work.
 - [Scientific Roadmap](docs/SCIENTIFIC_ROADMAP.md) defines the numerical,

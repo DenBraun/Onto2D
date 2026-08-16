@@ -9,6 +9,12 @@ The browser deliberately does not implement a second graph canonicalizer.
 displayed candidate and skeleton IDs with `@onto2d/kernel`, including all 36
 node-permutation x edge-order representations of the baseline graph.
 
+The same operation is now available to SDK users as the registered
+`canonical-identity` analysis. The root `Onto2D.create()` facade includes it by
+default and returns a replayable artifact bound to the selected Model Pack.
+The static page remains a fixture projection until the shared view layer is
+implemented.
+
 Serve the repository root and open `/apps/canonical-identity-lab/`:
 
 ```sh
