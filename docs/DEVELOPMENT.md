@@ -19,9 +19,10 @@ npm run build
 ```
 
 `npm test` runs every repository test. `npm run check` validates source files,
-workspace boundaries, TypeScript declarations, schemas, the frozen kernel
-closure contract, documentation, and the catalogue audit. `npm run build`
-confirms the source-only package build.
+workspace boundaries, TypeScript declarations, the committed browser-worker
+bundle, the pinned Model Pack registry, schemas, the frozen kernel closure
+contract, documentation, and the catalogue audit. `npm run build` confirms the
+published source packages and generated static worker asset.
 
 Focused commands:
 
@@ -32,12 +33,15 @@ Focused commands:
 | `npm run check:goldens` | Independent canonical and skeleton fixtures |
 | `npm run check:schemas` | Schema compilation and export coverage |
 | `npm run check:types` | Published TypeScript entrypoints |
+| `npm run check:registry` | Exact registry releases and Studio pin |
+| `npm run check:worker` | Reproducible Model Pack worker bundle |
 | `npm run check:workspace` | Package names, exports, and dependency boundaries |
 | `npm run check:docs` | Markdown links and code fences |
 | `npm run audit:catalogue` | Current source-catalogue audit |
 | `npm run model:causal-emergence` | Rebuild the bundled Model Pack |
 | `npm run model:causal-emergence:verify` | Verify its committed release without writing |
 | `npm run dev:site` | Local static project site |
+| `npm run build:worker` | Regenerate the committed static worker asset |
 
 ## Change workflow
 
@@ -74,6 +78,9 @@ check.
 ## Generated output
 
 `node_modules/`, `coverage/`, `dist/`, and `runs/*` are ignored. Commit only
-reproducible fixtures with their source and policy identities. Committed Model
-Pack candidates under `models/` must be rebuilt and have their source audit and
-hash changes reviewed before release.
+reproducible fixtures with their source and policy identities. The generated
+`assets/js/model-pack-worker.js` is an explicit exception because the static
+GitHub Pages application cannot use the document import map inside a worker;
+commit it together with its modular source and verify it with
+`npm run check:worker`. Committed Model Pack candidates under `models/` must be
+rebuilt and have their source audit and hash changes reviewed before release.

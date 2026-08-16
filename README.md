@@ -102,7 +102,7 @@ node packages/cli/src/bin.js node ./models/causal-emergence/releases/2026.08.15 
 | [`@onto2d/kernel`](packages/kernel/README.md) | Deterministic model, identity, evaluation, closure, and artifacts |
 | [`@onto2d/cli`](packages/cli/README.md) | Read-only local Model Pack verification and engine queries |
 | [`@onto2d/schemas`](packages/schemas/README.md) | JSON Schema Draft 2020-12 transport contracts |
-| [`@onto2d/model-pack`](packages/model-pack/README.md) | Canonical model releases plus bounded Node and browser verification transports |
+| [`@onto2d/model-pack`](packages/model-pack/README.md) | Canonical releases plus bounded transports, workers, verified caching, and read-only registry resolution |
 | [`@onto2d/engine`](packages/engine/README.md) | Headless exact-version model API, workspaces, analyses, and diff |
 | [`@onto2d/canonical-identity-analysis`](packages/canonical-identity-analysis/README.md) | Replayable kernel-backed candidate identity analysis |
 | [`@onto2d/view`](packages/view/README.md) | Browser-safe catalogue, neighborhood, and deterministic layout projections |

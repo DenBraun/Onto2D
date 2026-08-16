@@ -61,6 +61,110 @@ const remote = await loadModelPackHttpDirectory(
 const selected = await loadModelPackBundle(fileInput.files[0]);
 ```
 
+For browser verification off the UI thread, expose a module-worker entrypoint
+through the application's normal bundling or static-asset pipeline:
+
+```js
+// model-pack-worker-entry.js
+import { installModelPackWorkerEndpoint } from "@onto2d/model-pack/worker";
+
+installModelPackWorkerEndpoint(globalThis);
+```
+
+```js
+import { createModelPackWorkerClient } from "@onto2d/model-pack/worker";
+
+const worker = new Worker(new URL("./model-pack-worker-entry.js", import.meta.url), {
+  type: "module"
+});
+const client = createModelPackWorkerClient(worker, { ownsWorker: true });
+
+try {
+  const pack = await client.loadHttpDirectory(
+    "https://example.org/models/example/1.0.0/"
+  );
+} finally {
+  client.close();
+}
+```
+
+The worker protocol has a fixed name and version, closed message shapes,
+bounded request identifiers, request and concurrency limits, timeouts,
+`AbortSignal` cancellation, and stable serialized `ModelPackError` values.
+Bundle bytes use copy semantics by default. `transfer: "move"` is explicit and
+is allowed only for an `ArrayBuffer`, or a view covering its complete buffer;
+the caller's buffer is then detached. Closing a client cancels its outstanding
+endpoint work and removes every listener and timer.
+
+The endpoint performs the same complete browser verification described below.
+The client validates and freezes the returned transport envelope but does not
+repeat all hashes on the UI thread. A worker entry containing bare package
+specifiers therefore needs a bundler or another worker-compatible module
+resolution strategy; document import maps do not resolve worker imports. Model
+Studio commits a reproducibly generated self-contained worker asset and uses
+the direct browser verifier only as a safe operational fallback.
+
+A read-only registry can resolve one explicit model and version before loading
+or caching it:
+
+```js
+import {
+  matchModelPackRegistryResolution,
+  resolveModelPackRegistryHttp
+} from "@onto2d/model-pack/registry";
+
+const resolution = await resolveModelPackRegistryHttp(
+  "https://example.org/models/registry.json",
+  { modelId: "example", version: "1.0.0" },
+  { expectedRegistryHash }
+);
+
+const pack = await loadModelPackHttpDirectory(resolution.baseUrl);
+matchModelPackRegistryResolution(pack, resolution);
+```
+
+Registry lookup never accepts an alias or version range. The bounded registry
+entry provides both exact Model Pack hashes and one relative directory path;
+the resolved URL remains on the registry origin and below its directory. The
+HTTP resolver sends no credentials or referrer and rejects redirects. Pinning
+the canonical `registryHash` makes registry drift explicit. Without a pin, the
+resolution reports `transport-only` and does not claim independent authority.
+The matcher binds an already verified pack to model ID, version, root hash, and
+manifest hash; it does not replace full Model Pack verification.
+
+For persistent browser reuse, place the separate verified cache above either
+the direct bundle verifier or its worker-backed equivalent:
+
+```js
+import {
+  createIndexedDbModelPackCacheStorage,
+  createVerifiedModelPackCache
+} from "@onto2d/model-pack/cache";
+
+const storage = createIndexedDbModelPackCacheStorage({
+  databaseName: "example-model-cache-v1"
+});
+const cache = createVerifiedModelPackCache(storage, { ownsStorage: true });
+
+try {
+  const result = await cache.load({
+    rootHash: expectedRootHash,
+    manifestHash: expectedManifestHash
+  }, () => loadModelPackHttpDirectory(modelUrl));
+  useVerifiedPack(result.pack);
+} finally {
+  await cache.close();
+}
+```
+
+The expected identity must contain exact content hashes. A cache hit is still
+fully parsed, reconstructed, hashed, canonical-byte checked, and compared with
+both expected hashes. Candidates are verified before an atomic commit.
+Malformed records are removed before an explicit loader can recover them.
+Storage limits and deterministic first-in-first-out eviction are application
+policy; they never change Model Pack identity. Use the in-memory adapter for
+the same contract without browser persistence.
+
 The directory loader rejects links, unexpected entries, invalid UTF-8, invalid
 JSON, incomplete layouts, changed bytes, oversized input, stale indexes, and
 hash mismatches. The archive loader accepts a bounded single-disk ZIP32 subset
@@ -85,6 +189,7 @@ array-buffer view and checks its byte limit before parsing and verification.
 
 Default browser limits are 16 MiB per split file, 64 MiB total split content,
 64 MiB for a bundle, and 16,384 characters per resolved URL. The adapter does
-not discover models, resolve aliases, use a registry, persist a cache, load ZIP
-archives, retry requests, or repair content. Those policies belong to higher
-operational layers.
+not discover models, resolve aliases, use a registry, persist a cache itself,
+load ZIP archives, retry requests, or repair content. The optional cache
+and registry subpaths are higher operational layers and do not weaken this
+source contract.

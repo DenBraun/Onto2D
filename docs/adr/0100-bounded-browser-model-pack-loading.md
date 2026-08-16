@@ -47,5 +47,9 @@ adapter before constructing any presentation view.
 - the adapter does not discover releases, resolve aliases, retry, persist a
   cache, contact a registry, parse ZIP, repair a pack, or establish scientific
   validity;
-- worker messaging, verified caches, remote registries, and lazy presentation
-  loading remain separate operational milestones.
+- the versioned worker messaging boundary is specified separately by
+  [ADR-0101](0101-browser-model-pack-worker-protocol.md), and verified caching
+  is specified by [ADR-0102](0102-verified-model-pack-cache.md); read-only
+  registry resolution is specified by
+  [ADR-0103](0103-read-only-model-pack-registry.md), while lazy presentation
+  loading remains a separate operational milestone.

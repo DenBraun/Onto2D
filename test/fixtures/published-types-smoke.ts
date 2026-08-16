@@ -20,12 +20,40 @@ import {
   type ModelPackHttpDirectoryOptions
 } from "@onto2d/model-pack/browser";
 import {
+  createIndexedDbModelPackCacheStorage,
+  createMemoryModelPackCacheStorage,
+  createVerifiedModelPackCache,
+  modelPackCacheKey,
+  type ModelPackCacheIdentity,
+  type ModelPackCacheLoadResult,
+  type ModelPackCacheStorage,
+  type VerifiedModelPackCache
+} from "@onto2d/model-pack/cache";
+import {
   loadModelPackArchive,
   loadModelPackDirectory,
   loadModelPackPath,
   type ModelPackArchiveLimits,
   type ModelPackPathOptions
 } from "@onto2d/model-pack/node";
+import {
+  matchModelPackRegistryResolution,
+  resolveModelPackRegistry,
+  resolveModelPackRegistryHttp,
+  type ModelPackRegistry,
+  type ModelPackRegistryHttpOptions,
+  type ModelPackRegistryResolution,
+  type ModelPackRegistrySelection
+} from "@onto2d/model-pack/registry";
+import {
+  createModelPackWorkerClient,
+  installModelPackWorkerEndpoint,
+  type ModelPackWorkerBundleOptions,
+  type ModelPackWorkerClient,
+  type ModelPackWorkerHttpOptions,
+  type ModelPackWorkerRequestMessage,
+  type ModelPackWorkerResponseMessage
+} from "@onto2d/model-pack/worker";
 import {
   canonicalIdentityAnalysis,
   verifyCanonicalIdentityArtifact,
@@ -112,6 +140,60 @@ void loadModelPackBundle;
 void browserHttpOptions;
 void browserBundleOptions;
 void browserBundleSource;
+const cacheIdentity: ModelPackCacheIdentity = {
+  rootHash: modelPack.manifest.rootHash,
+  manifestHash: modelPack.manifest.manifestHash
+};
+const memoryCacheStorage: ModelPackCacheStorage = createMemoryModelPackCacheStorage();
+const verifiedCache: VerifiedModelPackCache = createVerifiedModelPackCache(memoryCacheStorage);
+const cacheLoad: Promise<ModelPackCacheLoadResult> = verifiedCache.load(
+  cacheIdentity,
+  async () => modelPack
+);
+void createIndexedDbModelPackCacheStorage;
+void modelPackCacheKey(cacheIdentity);
+void cacheLoad;
+const registryDocument: ModelPackRegistry = {
+  format: "onto2d-model-pack-registry",
+  formatVersion: "1",
+  entries: [{
+    modelId: "types",
+    version: "1",
+    rootHash: modelPack.manifest.rootHash,
+    manifestHash: modelPack.manifest.manifestHash,
+    packPath: "types/1/"
+  }]
+};
+const registrySelection: ModelPackRegistrySelection = { modelId: "types", version: "1" };
+const registryResolution: ModelPackRegistryResolution = resolveModelPackRegistry(
+  registryDocument,
+  "https://example.test/models/registry.json",
+  registrySelection
+);
+const registryHttpOptions: ModelPackRegistryHttpOptions = {
+  expectedRegistryHash: registryResolution.registryHash,
+  maxRegistryBytes: 8192
+};
+void resolveModelPackRegistryHttp;
+void matchModelPackRegistryResolution(modelPack, registryResolution);
+void registryHttpOptions;
+const workerHttpOptions: ModelPackWorkerHttpOptions = { timeoutMs: 30_000 };
+const workerBundleOptions: ModelPackWorkerBundleOptions = {
+  transfer: "copy",
+  maxBundleBytes: 8192
+};
+const workerClientFactory: typeof createModelPackWorkerClient = createModelPackWorkerClient;
+const workerEndpointFactory: typeof installModelPackWorkerEndpoint = installModelPackWorkerEndpoint;
+const workerClient: ModelPackWorkerClient | undefined = undefined;
+const workerRequest: ModelPackWorkerRequestMessage | undefined = undefined;
+const workerResponse: ModelPackWorkerResponseMessage | undefined = undefined;
+void workerHttpOptions;
+void workerBundleOptions;
+void workerClientFactory;
+void workerEndpointFactory;
+void workerClient;
+void workerRequest;
+void workerResponse;
 void DefaultOnto2D.create();
 const modelView = createModelView({ nodes: [{ id: "a" }], edges: [] });
 const modelLayout: NeighborhoodLayout = layoutNeighborhood(

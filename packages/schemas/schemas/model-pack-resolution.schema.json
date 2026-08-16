@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/model-pack-resolution.schema.json",
+  "title": "Onto2D Model Pack registry resolution",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "format",
+    "formatVersion",
+    "registryHash",
+    "registryUrl",
+    "registryTrust",
+    "modelId",
+    "version",
+    "rootHash",
+    "manifestHash",
+    "baseUrl"
+  ],
+  "properties": {
+    "format": { "const": "onto2d-model-pack-resolution" },
+    "formatVersion": { "const": "1" },
+    "registryHash": { "$ref": "#/$defs/contentHash" },
+    "registryUrl": { "$ref": "#/$defs/httpUrl" },
+    "registryTrust": { "enum": ["hash-pinned", "transport-only"] },
+    "modelId": { "$ref": "#/$defs/identifier" },
+    "version": { "$ref": "#/$defs/identifier" },
+    "rootHash": { "$ref": "#/$defs/contentHash" },
+    "manifestHash": { "$ref": "#/$defs/contentHash" },
+    "baseUrl": { "$ref": "#/$defs/httpUrl" }
+  },
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$",
+      "not": { "enum": ["__proto__", "constructor", "prototype"] }
+    },
+    "contentHash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "httpUrl": {
+      "type": "string",
+      "minLength": 8,
+      "maxLength": 16384,
+      "pattern": "^https?://"
+    }
+  }
+}

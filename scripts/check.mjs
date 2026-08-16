@@ -8,6 +8,8 @@ const checks = [
   "check-source.mjs",
   "check-workspace.mjs",
   "check-types.mjs",
+  "check-model-pack-worker.mjs",
+  "check-model-pack-registry.mjs",
   "check-schemas.mjs",
   "check-kernel-closure.mjs",
   "check-docs.mjs",

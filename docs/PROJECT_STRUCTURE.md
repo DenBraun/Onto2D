@@ -28,7 +28,7 @@ Emergence snapshot.
 | `packages/kernel` | Deterministic semantic execution and verification |
 | `packages/cli` | Read-only local Model Pack verification and engine queries |
 | `packages/schemas` | Versioned external data shapes |
-| `packages/model-pack` | Canonical model release assembly, verification, and bounded Node/browser transports |
+| `packages/model-pack` | Canonical releases, bounded verification transports, workers, verified caching, and read-only registry resolution |
 | `packages/engine` | Headless model access, traversal, workspaces, analyses, and diff |
 | `packages/canonical-identity-analysis` | Replayable kernel-backed identity analysis |
 | `packages/view` | Deterministic presentation projections and graph layout |
@@ -50,6 +50,10 @@ Emergence snapshot.
 - Source data in `scr/` is not edited to satisfy an audit.
 - The CLI composes public loader and engine APIs; it does not bypass pack verification.
 - Directory, ZIP, and HTTP transport metadata never changes Model Pack semantic identity.
+- Cache records are verified before use; storage and eviction metadata never
+  changes Model Pack semantic identity.
+- Registry selection is explicit and its paths remain below the registry
+  origin; registry metadata never changes Model Pack semantic identity.
 - Cases may call the kernel but must not add case-specific branches to it.
 - Scientific solvers may implement adapter contracts but must not import the kernel.
 - Applications do not become authorities for scientific values or canonical

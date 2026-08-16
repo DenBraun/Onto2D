@@ -35,6 +35,8 @@ export const schemaUrls = Object.freeze({
   sourceMigrationExplanation: schema("source-migration-explanation"),
   sourceClusterConcentration: schema("source-cluster-concentration"),
   modelPackManifest: schema("model-pack-manifest"),
+  modelPackRegistry: schema("model-pack-registry"),
+  modelPackResolution: schema("model-pack-resolution"),
   modelLineage: schema("model-lineage"),
   canonicalIdentityRequest: schema("canonical-identity-request"),
   canonicalIdentityArtifact: schema("canonical-identity-artifact"),

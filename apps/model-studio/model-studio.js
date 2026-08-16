@@ -1,8 +1,34 @@
-import { loadModelPackHttpDirectory } from "../../packages/model-pack/src/browser.js?v=20260816.11";
-import { createModelView, layoutNeighborhood } from "../../packages/view/src/index.js?v=20260816.11";
-import { graphHighlight } from "./graph-interactions.js?v=20260816.11";
+import {
+  loadModelPackBundle,
+  loadModelPackHttpDirectory
+} from "../../packages/model-pack/src/browser.js?v=20260816.14";
+import {
+  createIndexedDbModelPackCacheStorage,
+  createVerifiedModelPackCache
+} from "../../packages/model-pack/src/cache.js?v=20260816.14";
+import {
+  matchModelPackRegistryResolution,
+  resolveModelPackRegistryHttp
+} from "../../packages/model-pack/src/registry.js?v=20260816.14";
+import { createModelPackWorkerClient } from "../../packages/model-pack/src/worker.js?v=20260816.14";
+import { createModelView, layoutNeighborhood } from "../../packages/view/src/index.js?v=20260816.14";
+import { graphHighlight } from "./graph-interactions.js?v=20260816.14";
 
-const MODEL_ROOT = new URL("../../models/causal-emergence/releases/2026.08.15/", import.meta.url);
+const MODEL_REGISTRY_URL = new URL("../../models/registry.json", import.meta.url);
+const MODEL_PACK_WORKER_URL = new URL(
+  "../../assets/js/model-pack-worker.js?v=20260816.14",
+  import.meta.url
+);
+const MODEL_SELECTION = Object.freeze({
+  modelId: "causal-emergence",
+  version: "2026.08.15"
+});
+const EXPECTED_REGISTRY_HASH = "sha256:11a8245635b36395d814f37ca35d2a35e28ce8d78eb19fa89c6b3da8d73759a6";
+const MODEL_CACHE_OPTIONS = Object.freeze({
+  databaseName: "onto2d-model-studio-cache-v1",
+  maxEntries: 4,
+  maxTotalBytes: 128 * 1024 * 1024
+});
 const SVG_NAMESPACE = "http://www.w3.org/2000/svg";
 const DEFAULT_FOCUS = "0.0";
 const GRAPH_LIMITS = Object.freeze({ maxNodes: 48, maxEdges: 180 });
@@ -413,15 +439,121 @@ function displayError(error) {
   console.error(error);
 }
 
+function isWorkerOperationalFailure(error) {
+  return typeof error?.code === "string" && error.code.startsWith("MODEL_PACK_WORKER_");
+}
+
+function isCacheStorageFailure(error) {
+  return typeof error?.code === "string" && (
+    error.code.startsWith("MODEL_PACK_CACHE_STORAGE_")
+    || error.code.startsWith("MODEL_PACK_CACHE_INDEXEDDB_")
+  );
+}
+
+async function loadThroughVerifiedCache(resolution, loader, verifyBundle = loadModelPackBundle) {
+  const identity = Object.freeze({
+    rootHash: resolution.rootHash,
+    manifestHash: resolution.manifestHash
+  });
+  const loadBoundPack = async () => matchModelPackRegistryResolution(
+    await loader(),
+    resolution
+  );
+  const verifyBoundBundle = async (source) => matchModelPackRegistryResolution(
+    await verifyBundle(source),
+    resolution
+  );
+  let cache;
+  try {
+    const storage = createIndexedDbModelPackCacheStorage({
+      databaseName: MODEL_CACHE_OPTIONS.databaseName
+    });
+    cache = createVerifiedModelPackCache(storage, {
+      verifyBundle: verifyBoundBundle,
+      maxEntries: MODEL_CACHE_OPTIONS.maxEntries,
+      maxTotalBytes: MODEL_CACHE_OPTIONS.maxTotalBytes,
+      ownsStorage: true
+    });
+  } catch (error) {
+    if (!isCacheStorageFailure(error)) throw error;
+    document.body.dataset.cache = "unavailable";
+    return loadBoundPack();
+  }
+
+  try {
+    const result = await cache.load(identity, loadBoundPack);
+    document.body.dataset.cache = result.source === "cache"
+      ? "hit"
+      : result.cacheState === "invalid" ? "recovered" : "miss";
+    return result.pack;
+  } catch (error) {
+    if (!isCacheStorageFailure(error)) throw error;
+    document.body.dataset.cache = "unavailable";
+    return loadBoundPack();
+  } finally {
+    await cache.close();
+  }
+}
+
+async function loadVerifiedModelPack(resolution) {
+  if (typeof Worker !== "function") {
+    document.body.dataset.verifier = "main-thread-fallback";
+    return loadThroughVerifiedCache(
+      resolution,
+      () => loadModelPackHttpDirectory(resolution.baseUrl)
+    );
+  }
+
+  let worker = null;
+  let client = null;
+  try {
+    worker = new Worker(MODEL_PACK_WORKER_URL, {
+      type: "module",
+      name: "onto2d-model-pack-verifier"
+    });
+    client = createModelPackWorkerClient(worker, {
+      clientId: "model-studio",
+      ownsWorker: true,
+      requestTimeoutMs: 60_000
+    });
+    const pack = await loadThroughVerifiedCache(
+      resolution,
+      () => client.loadHttpDirectory(resolution.baseUrl),
+      (source) => client.loadBundle(source, { transfer: "move" })
+    );
+    document.body.dataset.verifier = "worker";
+    return pack;
+  } catch (error) {
+    if (client !== null && !isWorkerOperationalFailure(error)) throw error;
+    document.body.dataset.verifier = "main-thread-fallback";
+    return loadThroughVerifiedCache(
+      resolution,
+      () => loadModelPackHttpDirectory(resolution.baseUrl)
+    );
+  } finally {
+    if (client !== null) {
+      client.close();
+    } else if (worker !== null) {
+      worker.terminate();
+    }
+  }
+}
+
 async function start() {
-  const pack = await loadModelPackHttpDirectory(MODEL_ROOT);
+  const resolution = await resolveModelPackRegistryHttp(
+    MODEL_REGISTRY_URL,
+    MODEL_SELECTION,
+    { expectedRegistryHash: EXPECTED_REGISTRY_HASH }
+  );
+  document.body.dataset.registry = resolution.registryTrust;
+  const pack = await loadVerifiedModelPack(resolution);
   const manifest = pack.manifest;
   const nodes = pack.files["model/nodes.json"];
   const edges = pack.files["model/edges.json"];
   const view = createModelView({ nodes, edges });
   if (
-    manifest?.model?.id !== "causal-emergence"
-    || manifest?.model?.version !== "2026.08.15"
+    manifest?.model?.id !== MODEL_SELECTION.modelId
+    || manifest?.model?.version !== MODEL_SELECTION.version
   ) {
     throw new Error("The verified Model Pack is not the release expected by Model Studio.");
   }
@@ -445,7 +577,9 @@ async function start() {
   bindEvents();
   render();
   document.body.dataset.state = "ready";
-  elements["load-state"].textContent = "Model verified";
+  elements["load-state"].textContent = document.body.dataset.cache === "hit"
+    ? "Cached model verified"
+    : "Model verified";
 }
 
 start().catch(displayError);

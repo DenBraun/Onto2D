@@ -10,4 +10,4 @@ const result = spawnSync(process.execPath, [path.join(repositoryRoot, "scripts",
 });
 
 if (result.status !== 0) process.exit(result.status ?? 1);
-console.log("Build validation passed: packages are published directly from checked source; no transpilation artifact is required.");
+console.log("Build validation passed: published packages use checked source, the registry is exact, and the static worker bundle matches its modular entrypoint.");

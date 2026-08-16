@@ -26,7 +26,16 @@ Updated: 2026-08-16.
   file-or-directory dispatch;
 - browser-safe bounded loading for split HTTP Model Packs and raw bundle
   `Blob` or byte sources, with strict response validation and full pack
-  reconstruction.
+  reconstruction;
+- versioned browser-worker Model Pack verification with bounded concurrency,
+  cancellation, explicit byte-transfer semantics, stable errors, and a
+  reproducibly checked self-contained Studio worker asset;
+- browser-safe verified Model Pack caching keyed by exact release identity,
+  with canonical immutable records, verify-on-read and verify-before-write,
+  bounded IndexedDB storage, and deterministic eviction;
+- a browser-safe read-only Model Pack registry with explicit model/version
+  selection, content-hash pinning, exact release resolution, same-origin
+  relative pack locations, and verified Studio composition.
 
 ## Release lifecycle
 
@@ -58,11 +67,14 @@ do not merge their semantics into the generic engine.
 
 ## Operations
 
-The first operations milestones are the read-only `@onto2d/cli` and strict
-local ZIP transport over the public Model Pack and engine APIs, followed by the
-bounded browser Model Pack adapter. The next transport milestone is an explicit
-worker protocol built on the stable browser source contract. Later work
-includes verified caches, remote registries, and lazy presentation loading.
+The first operations milestones are the read-only `@onto2d/cli`, strict local
+ZIP transport, the bounded browser Model Pack adapter, and an explicit worker
+protocol built on that stable browser contract. The verified cache milestone
+is also complete, including Model Studio integration without making storage a
+trust boundary. The narrow read-only remote registry is also complete: it
+resolves only explicit model/version pairs and stays separate from loading and
+verification. The next operations milestone is lazy presentation loading for
+large verified models.
 Numerical Level-0 validation,
 catalogue migration, generalization and independent comparison of the external
 solver, and empirical Historical Load remain scientific projects tracked in

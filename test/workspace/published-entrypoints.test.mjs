@@ -10,7 +10,10 @@ import * as levelZeroSolver from "@onto2d/level-zero-solver";
 import * as engine from "@onto2d/engine";
 import * as modelPack from "@onto2d/model-pack";
 import * as modelPackBrowser from "@onto2d/model-pack/browser";
+import * as modelPackCache from "@onto2d/model-pack/cache";
 import * as modelPackNode from "@onto2d/model-pack/node";
+import * as modelPackRegistry from "@onto2d/model-pack/registry";
+import * as modelPackWorker from "@onto2d/model-pack/worker";
 import * as runStore from "@onto2d/run-store";
 import * as schemas from "@onto2d/schemas";
 import * as scientificAdapter from "@onto2d/scientific-adapter";
@@ -56,6 +59,21 @@ const PACKAGE_SURFACES = Object.freeze([
     name: "model-pack/browser",
     runtime: modelPackBrowser,
     declarations: new URL("../../packages/model-pack/src/browser.d.ts", import.meta.url)
+  }),
+  Object.freeze({
+    name: "model-pack/cache",
+    runtime: modelPackCache,
+    declarations: new URL("../../packages/model-pack/src/cache.d.ts", import.meta.url)
+  }),
+  Object.freeze({
+    name: "model-pack/registry",
+    runtime: modelPackRegistry,
+    declarations: new URL("../../packages/model-pack/src/registry.d.ts", import.meta.url)
+  }),
+  Object.freeze({
+    name: "model-pack/worker",
+    runtime: modelPackWorker,
+    declarations: new URL("../../packages/model-pack/src/worker.d.ts", import.meta.url)
   }),
   Object.freeze({
     name: "kernel",
@@ -126,6 +144,17 @@ test("published workspace names resolve through their export maps", () => {
   assert.equal(typeof modelPackBrowser.loadModelPackHttpDirectory, "function");
   assert.equal(typeof modelPackBrowser.loadModelPackBundle, "function");
   assert.equal(modelPackBrowser.MODEL_PACK_BROWSER_LIMITS.maxFileBytes, 16 * 1024 * 1024);
+  assert.equal(typeof modelPackCache.createVerifiedModelPackCache, "function");
+  assert.equal(typeof modelPackCache.createMemoryModelPackCacheStorage, "function");
+  assert.equal(typeof modelPackCache.createIndexedDbModelPackCacheStorage, "function");
+  assert.equal(modelPackCache.MODEL_PACK_CACHE_FORMAT_VERSION, "1");
+  assert.equal(typeof modelPackRegistry.resolveModelPackRegistry, "function");
+  assert.equal(typeof modelPackRegistry.resolveModelPackRegistryHttp, "function");
+  assert.equal(typeof modelPackRegistry.matchModelPackRegistryResolution, "function");
+  assert.equal(modelPackRegistry.MODEL_PACK_REGISTRY_FORMAT_VERSION, "1");
+  assert.equal(typeof modelPackWorker.createModelPackWorkerClient, "function");
+  assert.equal(typeof modelPackWorker.installModelPackWorkerEndpoint, "function");
+  assert.equal(modelPackWorker.MODEL_PACK_WORKER_PROTOCOL.version, "1");
   assert.equal(typeof modelPackNode.loadModelPackDirectory, "function");
   assert.equal(typeof modelPackNode.loadModelPackArchive, "function");
   assert.equal(typeof modelPackNode.loadModelPackPath, "function");

@@ -26,6 +26,7 @@
   },
   "scripts": {
     "build": "node scripts/build.mjs",
+    "build:worker": "node scripts/build-model-pack-worker.mjs",
     "case:level-0": "node cases/level-0-oscillator/run-level-zero-validation-v2.mjs",
     "case:level-0:verify": "node cases/level-0-oscillator/run-level-zero-validation-v2.mjs --verify",
     "case:level-0:v1": "node cases/level-0-oscillator/run-level-zero-validation.mjs",
@@ -51,6 +52,8 @@
     "check:closure": "node scripts/check-kernel-closure.mjs",
     "check:docs": "node scripts/check-docs.mjs",
     "check:goldens": "python3 scripts/reference/generate-conformance-fixtures.py --verify",
+    "check:registry": "node scripts/check-model-pack-registry.mjs",
+    "check:worker": "node scripts/check-model-pack-worker.mjs",
     "check:schemas": "node scripts/check-schemas.mjs",
     "check:source": "node scripts/check-source.mjs",
     "check:types": "node scripts/check-types.mjs",
@@ -67,6 +70,7 @@
   },
   "devDependencies": {
     "ajv": "8.18.0",
+    "esbuild": "0.28.2",
     "typescript": "5.9.3"
   }
 }
