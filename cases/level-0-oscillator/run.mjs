@@ -15,7 +15,7 @@ import {
 import {
   LEVEL_ZERO_REFERENCE_SOLVER,
   levelZeroReferenceSolver
-} from "./solver/reference-solver.mjs";
+} from "@onto2d/level-zero-solver";
 
 const caseRoot = path.dirname(fileURLToPath(import.meta.url));
 const repositoryRoot = path.resolve(caseRoot, "../..");

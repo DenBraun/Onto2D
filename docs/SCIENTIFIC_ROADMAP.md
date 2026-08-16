@@ -116,10 +116,17 @@ Completion criteria:
 
 ## 3. External numerical solver
 
-`@onto2d/scientific-adapter` defines the trust boundary but contains no solver.
-The goal is a separately versioned numerical implementation that can answer the
-Level-0 oracle requests without becoming an undeclared dependency of the
-kernel.
+`@onto2d/scientific-adapter` defines the trust boundary and intentionally
+contains no solver. The separately publishable `@onto2d/level-zero-solver` now
+answers the frozen Phase-B requests without importing the kernel. It preserves
+the `onto2d-level-0-reference-solver@1.0.0` method identity, enforces explicit
+resource limits, and has manufactured-mode, convergence, boundary, and failure
+contract checks. The frozen case artifact reproduces without semantic drift.
+
+This is the first bounded implementation milestone, not completion of the
+workstream. Phase-C methods remain case-local, platform comparison is not yet
+frozen, and the required independent numerical comparison has not been
+performed.
 
 Required work:
 

@@ -78,12 +78,12 @@ operationalization, not a derivation from the paper.
 
 ## Evidence boundary
 
-The case-specific solver is
-[`solver/reference-solver.mjs`](solver/reference-solver.mjs). It uses the
-`@onto2d/scientific-adapter` interface and does not import the kernel. The case
-runner creates canonical candidates and Oracle request bindings, invokes the
-solver, and asks the kernel to validate the normalized response and evidence
-references.
+The Phase-B solver is the separately publishable
+[`@onto2d/level-zero-solver`](../../packages/level-zero-solver/README.md). It
+uses the `@onto2d/scientific-adapter` interface and does not import the kernel.
+The case runner creates canonical candidates and Oracle request bindings,
+invokes the solver, and asks the kernel to validate the normalized response
+and evidence references.
 
 The frozen
 [`reference-validation-v1.json`](artifacts/reference-validation-v1.json)

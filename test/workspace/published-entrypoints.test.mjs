@@ -4,6 +4,7 @@ import test from "node:test";
 import * as catalogAdapter from "@onto2d/catalog-adapter";
 import * as canonicalIdentityAnalysis from "@onto2d/canonical-identity-analysis";
 import * as kernel from "@onto2d/kernel";
+import * as levelZeroSolver from "@onto2d/level-zero-solver";
 import * as engine from "@onto2d/engine";
 import * as modelPack from "@onto2d/model-pack";
 import * as modelPackNode from "@onto2d/model-pack/node";
@@ -13,6 +14,11 @@ import * as scientificAdapter from "@onto2d/scientific-adapter";
 import * as view from "@onto2d/view";
 
 const PACKAGE_SURFACES = Object.freeze([
+  Object.freeze({
+    name: "level-zero-solver",
+    runtime: levelZeroSolver,
+    declarations: new URL("../../packages/level-zero-solver/src/index.d.ts", import.meta.url)
+  }),
   Object.freeze({
     name: "view",
     runtime: view,
@@ -98,6 +104,8 @@ test("published workspace names resolve through their export maps", () => {
   assert.equal(typeof modelPackNode.loadModelPackDirectory, "function");
   assert.equal(typeof canonicalIdentityAnalysis.verifyCanonicalIdentityArtifact, "function");
   assert.equal(typeof view.layoutNeighborhood, "function");
+  assert.equal(typeof levelZeroSolver.levelZeroReferenceSolver.evaluate, "function");
+  assert.equal(levelZeroSolver.levelZeroReferenceSolver.id, "onto2d-level-0-reference-solver");
   assert.ok(Object.isFrozen(adapter));
 });
 

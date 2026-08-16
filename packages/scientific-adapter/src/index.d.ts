@@ -1,4 +1,4 @@
-export const SCIENTIFIC_ADAPTER_STATUS: "interface-defined/case-reference-available";
+export const SCIENTIFIC_ADAPTER_STATUS: "interface-defined/external-reference-available";
 
 export class InvalidScientificAdapterError extends TypeError {
   readonly code: "SCIENTIFIC_ADAPTER_INVALID";

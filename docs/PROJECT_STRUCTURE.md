@@ -6,7 +6,7 @@
 applications and cases
         |
         v
- view + engine + model-pack + adapters + run-store
+ view + engine + model-pack + adapters + solvers + run-store
                   |
                   v
            kernel + schemas
@@ -33,6 +33,7 @@ Emergence snapshot.
 | `packages/view` | Deterministic presentation projections and graph layout |
 | `packages/catalog-adapter` | Catalogue loading, audit, and reviewed migration replay |
 | `packages/scientific-adapter` | Interface for external numerical implementations |
+| `packages/level-zero-solver` | Bounded Phase-B numerical implementation outside the kernel |
 | `packages/run-store` | Filesystem persistence of verified run bundles and execution records |
 | `cases` | Source locks, case rules, reproducible scripts, and frozen results |
 | `apps` | Explanatory studies and model readers over disclosed or versioned inputs |
@@ -47,6 +48,7 @@ Emergence snapshot.
 
 - Source data in `scr/` is not edited to satisfy an audit.
 - Cases may call the kernel but must not add case-specific branches to it.
+- Scientific solvers may implement adapter contracts but must not import the kernel.
 - Applications do not become authorities for scientific values or canonical
   identity; they project disclosed models or tested artifacts.
 - View layouts are derived presentation output and never enter model identity.

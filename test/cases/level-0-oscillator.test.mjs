@@ -14,7 +14,7 @@ import { runIntegratedLevelZeroValidationV2 } from "../../cases/level-0-oscillat
 import {
   LEVEL_ZERO_REFERENCE_SOLVER,
   levelZeroReferenceSolver
-} from "../../cases/level-0-oscillator/solver/reference-solver.mjs";
+} from "@onto2d/level-zero-solver";
 import {
   PHASE_C_BOUNDEDNESS_SOLVER,
   phaseCBoundednessSolver
@@ -169,9 +169,9 @@ test("an analytic discrete reference independently reproduces the solver diagnos
   }
 });
 
-test("the case-specific solver stays outside the kernel and binds exact evidence", async () => {
+test("the external solver package stays outside the kernel and binds exact evidence", async () => {
   const source = await readFile(
-    new URL("../../cases/level-0-oscillator/solver/reference-solver.mjs", import.meta.url),
+    new URL("../../packages/level-zero-solver/src/index.js", import.meta.url),
     "utf8"
   );
   assert.doesNotMatch(source, /packages\/kernel|@onto2d\/kernel/);

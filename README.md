@@ -13,9 +13,10 @@ The implementation baseline passes the supported CI matrix. Tagging `v0.1.0`
 still requires independent review of the canonical identity fixtures and a
 green run on the exact release commit.
 
-The repository does not include a general scientific solver or empirical
-validation of the foundational theory. Those claims require explicit external
-evidence through the scientific-adapter boundary.
+The repository includes a bounded external Phase-B reference solver, but no
+general scientific solver or empirical validation of the foundational theory.
+Those claims require explicit external evidence through the scientific-adapter
+boundary.
 
 The repository also contains a private engine preview: a deterministic Model
 Pack contract, a frozen Causal Emergence source snapshot, and a headless API
@@ -97,6 +98,7 @@ commands and fixture policy.
 | [`@onto2d/view`](packages/view/README.md) | Browser-safe catalogue, neighborhood, and deterministic layout projections |
 | [`@onto2d/catalog-adapter`](packages/catalog-adapter/README.md) | Source-catalogue audit and reviewed migration replay |
 | [`@onto2d/scientific-adapter`](packages/scientific-adapter/README.md) | Boundary for external numerical implementations |
+| [`@onto2d/level-zero-solver`](packages/level-zero-solver/README.md) | Bounded external Phase-B reference solver |
 | [`@onto2d/run-store`](packages/run-store/README.md) | Verified local persistence of semantic run bundles |
 
 Research inputs and reproductions live in [`cases/`](cases). The

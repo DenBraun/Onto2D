@@ -46,7 +46,7 @@ are presentation features, not additional kernel or scientific capabilities.
 | Boundary | Implemented | Still external or pending |
 |---|---|---|
 | Catalogue | Audit, classified projections, reviewed resolution/condensation replay, diagnostics, metrics, explanations | Policy authorship, annotation collection, reviewed current-catalogue migration inputs |
-| Scientific | Adapter validation and request/response protocol; bounded Phase-B solver; Phase-C preflight, stabilized trial family, real-time probe, and preregistered asymmetric/complex extension | General parameter-space coverage, independent numerical comparison, collective Phase D, and empirical evidence |
+| Scientific | Adapter validation and request/response protocol; separately publishable bounded Phase-B solver; Phase-C preflight, stabilized trial family, real-time probe, and preregistered asymmetric/complex extension | General parameter-space coverage, independent numerical comparison, collective Phase D, and empirical evidence |
 | Run store | Verified local bundle persistence and append-only execution records | Remote object-store persistence |
 
 ## Cases

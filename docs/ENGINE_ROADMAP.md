@@ -53,6 +53,7 @@ do not merge their semantics into the generic engine.
 
 Later work includes archive transport with decompression limits, a CLI, browser
 and worker adapters, verified caches, remote registries, and lazy presentation
-loading. Numerical Level-0 validation,
-catalogue migration, an external solver, and empirical Historical Load remain
-scientific projects tracked in the [Scientific Roadmap](SCIENTIFIC_ROADMAP.md).
+loading. Numerical Level-0 validation, catalogue migration, generalization and
+independent comparison of the external solver, and empirical Historical Load
+remain scientific projects tracked in the
+[Scientific Roadmap](SCIENTIFIC_ROADMAP.md).
