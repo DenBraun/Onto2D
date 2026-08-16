@@ -18,6 +18,46 @@ export const LEVEL_ZERO_SOLVER_LIMITS = Object.freeze({
 
 const CONTENT_HASH = /^sha256:[a-f0-9]{64}$/;
 const ERROR_CODE = /^LEVEL_ZERO_[A-Z0-9]+(?:_[A-Z0-9]+)*$/;
+const FORBIDDEN_KEYS = new Set(["__proto__", "constructor", "prototype"]);
+const ENVELOPE_FIELDS = new Set(["requestHash", "request"]);
+const REQUEST_FIELDS = new Set([
+  "candidate",
+  "quantities",
+  "parameters",
+  "toleranceTarget",
+  "solver"
+]);
+const SOLVER_FIELDS = new Set(["id", "version", "method"]);
+const QUANTITY_FIELDS = new Set(["id", "unit", "semantic", "toleranceTarget"]);
+const PARAMETER_FIELDS = new Set([
+  "modelId",
+  "modelVersion",
+  "modelHash",
+  "scenarioId",
+  "modes",
+  "spacePeriod",
+  "timePeriod",
+  "coarseGrid",
+  "fineGrid",
+  "roundingSignificantDigits",
+  "reportedAbsoluteTolerance",
+  "evidenceIds"
+]);
+const REQUIRED_PARAMETER_FIELDS = new Set([
+  "modes",
+  "spacePeriod",
+  "timePeriod",
+  "coarseGrid",
+  "fineGrid",
+  "roundingSignificantDigits",
+  "reportedAbsoluteTolerance",
+  "evidenceIds"
+]);
+const MODE_FIELDS = new Set(["id", "A", "k", "omega", "m2", "phase"]);
+const REQUIRED_MODE_FIELDS = new Set(["A", "k", "omega", "m2", "phase"]);
+const MAX_INPUT_DEPTH = 64;
+const MAX_INPUT_ENTRIES = 200_000;
+const MAX_INPUT_STRING_LENGTH = 1_048_576;
 const OUTPUT_IDS = new Set([
   "dispersion_max_abs_residual",
   "frequency_balance_abs_residual",
@@ -56,6 +96,137 @@ function isObject(value) {
   return value !== null && typeof value === "object" && !Array.isArray(value);
 }
 
+function clonePlainData(value, path = "$", budget = { entries: 0 }, depth = 0, ancestors = new WeakSet()) {
+  budget.entries += 1;
+  if (budget.entries > MAX_INPUT_ENTRIES || depth > MAX_INPUT_DEPTH) {
+    fail("LEVEL_ZERO_RESOURCE_LIMIT_EXCEEDED", "Level-0 request exceeds the data-shape limit.", {
+      path
+    });
+  }
+  if (value === null || typeof value === "boolean") return value;
+  if (typeof value === "number") {
+    if (!Number.isFinite(value)) {
+      fail("LEVEL_ZERO_REQUEST_INVALID", "Level-0 request numbers must be finite.", { path });
+    }
+    return Object.is(value, -0) ? 0 : value;
+  }
+  if (typeof value === "string") {
+    if (value.length > MAX_INPUT_STRING_LENGTH) {
+      fail("LEVEL_ZERO_RESOURCE_LIMIT_EXCEEDED", "Level-0 request string exceeds the limit.", {
+        path
+      });
+    }
+    return value;
+  }
+  if (typeof value !== "object") {
+    fail("LEVEL_ZERO_REQUEST_INVALID", "Level-0 request must contain plain JSON data only.", {
+      path
+    });
+  }
+  if (ancestors.has(value)) {
+    fail("LEVEL_ZERO_REQUEST_INVALID", "Level-0 request must not contain cycles.", { path });
+  }
+  ancestors.add(value);
+  try {
+    if (Object.getOwnPropertySymbols(value).length > 0) {
+      fail("LEVEL_ZERO_REQUEST_INVALID", "Level-0 request must not contain symbol fields.", { path });
+    }
+    const descriptors = Object.getOwnPropertyDescriptors(value);
+    if (Array.isArray(value)) {
+      for (const field of Object.keys(descriptors)) {
+        if (field === "length") continue;
+        if (!/^(?:0|[1-9][0-9]*)$/.test(field) || Number(field) >= value.length) {
+          fail("LEVEL_ZERO_REQUEST_INVALID", "Level-0 request arrays must not contain named fields.", {
+            path,
+            field
+          });
+        }
+      }
+      const result = [];
+      for (let index = 0; index < value.length; index += 1) {
+        const descriptor = descriptors[index];
+        if (!descriptor || !("value" in descriptor) || !descriptor.enumerable) {
+          fail("LEVEL_ZERO_REQUEST_INVALID", "Level-0 request arrays must contain dense data elements.", {
+            path,
+            index
+          });
+        }
+        result.push(clonePlainData(
+          descriptor.value,
+          `${path}[${index}]`,
+          budget,
+          depth + 1,
+          ancestors
+        ));
+      }
+      return Object.freeze(result);
+    }
+    const prototype = Object.getPrototypeOf(value);
+    if (prototype !== Object.prototype && prototype !== null) {
+      fail("LEVEL_ZERO_REQUEST_INVALID", "Level-0 request values must be plain objects.", { path });
+    }
+    const result = {};
+    for (const field of Object.keys(descriptors).sort()) {
+      const descriptor = descriptors[field];
+      if (!("value" in descriptor) || !descriptor.enumerable || FORBIDDEN_KEYS.has(field)) {
+        fail(
+          "LEVEL_ZERO_REQUEST_INVALID",
+          "Level-0 request objects must contain enumerable safe data fields only.",
+          { path, field }
+        );
+      }
+      result[field] = clonePlainData(
+        descriptor.value,
+        `${path}.${field}`,
+        budget,
+        depth + 1,
+        ancestors
+      );
+    }
+    return Object.freeze(result);
+  } finally {
+    ancestors.delete(value);
+  }
+}
+
+function requireFields(
+  value,
+  allowed,
+  required,
+  path,
+  code = "LEVEL_ZERO_REQUEST_INVALID"
+) {
+  if (!isObject(value)) {
+    fail(code, `${path} must be a plain object.`, { path });
+  }
+  const fields = Object.keys(value);
+  const unknown = fields.filter((field) => !allowed.has(field)).sort();
+  const missing = [...required].filter((field) => !Object.hasOwn(value, field)).sort();
+  if (unknown.length > 0 || missing.length > 0) {
+    fail(code, `${path} has an invalid field set.`, {
+      path,
+      unknown,
+      missing
+    });
+  }
+  return value;
+}
+
+function normalizedString(value, path, code = "LEVEL_ZERO_REQUEST_INVALID") {
+  if (
+    typeof value !== "string"
+    || value.length === 0
+    || value.length > 1024
+    || value.trim() !== value
+    || FORBIDDEN_KEYS.has(value)
+  ) {
+    fail(code, `${path} must be a normalized safe bounded string.`, {
+      path
+    });
+  }
+  return value;
+}
+
 function assertFinite(value, path) {
   if (!Number.isFinite(value)) {
     fail("LEVEL_ZERO_PARAMETER_INVALID", "Level-0 solver parameter must be finite.", { path });
@@ -64,16 +235,17 @@ function assertFinite(value, path) {
 }
 
 function validateEnvelope(envelope) {
-  if (!isObject(envelope)) {
-    fail("LEVEL_ZERO_REQUEST_INVALID", "Level-0 solver requires a request envelope.");
-  }
-  const { requestHash, request } = envelope;
+  const normalizedEnvelope = clonePlainData(envelope);
+  requireFields(normalizedEnvelope, ENVELOPE_FIELDS, ENVELOPE_FIELDS, "$envelope");
+  const { requestHash, request } = normalizedEnvelope;
   if (!CONTENT_HASH.test(requestHash) || !isObject(request)) {
     fail(
       "LEVEL_ZERO_REQUEST_INVALID",
       "Level-0 solver envelope requires a content-hash requestHash and request object."
     );
   }
+  requireFields(request, REQUEST_FIELDS, REQUEST_FIELDS, "$envelope.request");
+  requireFields(request.solver, SOLVER_FIELDS, SOLVER_FIELDS, "$envelope.request.solver");
   for (const field of ["id", "version", "method"]) {
     if (request.solver?.[field] !== LEVEL_ZERO_REFERENCE_SOLVER[field]) {
       fail("LEVEL_ZERO_SOLVER_MISMATCH", "Level-0 solver identity does not match the request.", {
@@ -94,9 +266,15 @@ function validateEnvelope(envelope) {
   }
   const quantityIds = new Set();
   for (const [index, specification] of request.quantities.entries()) {
-    if (!isObject(specification) || typeof specification.id !== "string") {
-      fail("LEVEL_ZERO_REQUEST_INVALID", "Level-0 quantity specification is invalid.", { index });
-    }
+    requireFields(
+      specification,
+      QUANTITY_FIELDS,
+      QUANTITY_FIELDS,
+      `$envelope.request.quantities[${index}]`
+    );
+    normalizedString(specification.id, `quantities[${index}].id`);
+    normalizedString(specification.unit, `quantities[${index}].unit`);
+    normalizedString(specification.semantic, `quantities[${index}].semantic`);
     if (!OUTPUT_IDS.has(specification.id)) {
       fail("LEVEL_ZERO_QUANTITY_UNSUPPORTED", "Level-0 quantity is not supported.", {
         id: specification.id
@@ -113,9 +291,13 @@ function validateEnvelope(envelope) {
 }
 
 function validateParameters(parameters) {
-  if (!isObject(parameters)) {
-    fail("LEVEL_ZERO_PARAMETER_INVALID", "Level-0 solver parameters must be an object.");
-  }
+  requireFields(
+    parameters,
+    PARAMETER_FIELDS,
+    REQUIRED_PARAMETER_FIELDS,
+    "$envelope.request.parameters",
+    "LEVEL_ZERO_PARAMETER_INVALID"
+  );
   if (!Array.isArray(parameters.modes) || parameters.modes.length < 1) {
     fail("LEVEL_ZERO_PARAMETER_INVALID", "Level-0 solver requires at least one mode.");
   }
@@ -126,8 +308,19 @@ function validateParameters(parameters) {
     });
   }
   for (const [index, mode] of parameters.modes.entries()) {
-    if (!isObject(mode)) {
-      fail("LEVEL_ZERO_PARAMETER_INVALID", "Level-0 mode must be an object.", { index });
+    requireFields(
+      mode,
+      MODE_FIELDS,
+      REQUIRED_MODE_FIELDS,
+      `parameters.modes[${index}]`,
+      "LEVEL_ZERO_PARAMETER_INVALID"
+    );
+    if (mode.id !== undefined) {
+      normalizedString(
+        mode.id,
+        `parameters.modes[${index}].id`,
+        "LEVEL_ZERO_PARAMETER_INVALID"
+      );
     }
     for (const field of ["A", "k", "omega", "m2", "phase"]) {
       assertFinite(mode[field], `modes[${index}].${field}`);
@@ -210,6 +403,9 @@ function validateParameters(parameters) {
         index
       });
     }
+  }
+  if (new Set(parameters.evidenceIds).size !== parameters.evidenceIds.length) {
+    fail("LEVEL_ZERO_PARAMETER_INVALID", "Level-0 evidence identifiers must be unique.");
   }
   return parameters;
 }
@@ -364,7 +560,7 @@ export const levelZeroReferenceSolver = defineScientificAdapter({
         }
       };
     }
-    return {
+    return clonePlainData({
       requestHash,
       values,
       convergence: "converged",
@@ -373,6 +569,6 @@ export const levelZeroReferenceSolver = defineScientificAdapter({
         parameters: request.parameters
       },
       wallTimeMs: 0
-    };
+    });
   }
 });

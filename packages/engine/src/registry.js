@@ -3,28 +3,15 @@ import { verifyModelPack } from "@onto2d/model-pack";
 import { createModel } from "./model.js";
 import { diffModels } from "./diff.js";
 import { engineFail } from "./errors.js";
+import { dataArray, dataEntries, safeIdentifier } from "./input.js";
 import { verifyModelLineage } from "./lineage.js";
 
 function compareText(left, right) {
   return left < right ? -1 : left > right ? 1 : 0;
 }
 
-function requirePlainRecord(value, name) {
-  if (value === null || typeof value !== "object" || Array.isArray(value)) {
-    engineFail("ENGINE_MODEL_REGISTRY_INPUT_INVALID", `${name} must be a plain object.`, { name });
-  }
-  const prototype = Object.getPrototypeOf(value);
-  if (prototype !== Object.prototype && prototype !== null) {
-    engineFail("ENGINE_MODEL_REGISTRY_INPUT_INVALID", `${name} must be a plain object.`, { name });
-  }
-  return value;
-}
-
 function requireReferencePart(value, name) {
-  if (typeof value !== "string" || value.length === 0 || value.length > 1024) {
-    engineFail("ENGINE_MODEL_REFERENCE_INVALID", `${name} must be a non-empty bounded string.`, { name });
-  }
-  return value;
+  return safeIdentifier(value, "ENGINE_MODEL_REFERENCE_INVALID", name);
 }
 
 function lineageKey(left, right) {
@@ -46,13 +33,16 @@ function parseReference(reference) {
     };
   }
   if (reference && typeof reference === "object" && !Array.isArray(reference)) {
-    requirePlainRecord(reference, "reference");
-    if (typeof reference.id === "string" && typeof reference.version === "string") {
-      return {
-        id: requireReferencePart(reference.id, "reference.id"),
-        version: requireReferencePart(reference.version, "reference.version")
-      };
-    }
+    const entries = dataEntries(reference, {
+      code: "ENGINE_MODEL_REFERENCE_INVALID",
+      subject: "Model reference",
+      allowed: new Set(["id", "version"]),
+      required: new Set(["id", "version"])
+    });
+    return {
+      id: requireReferencePart(entries.get("id"), "reference.id"),
+      version: requireReferencePart(entries.get("version"), "reference.version")
+    };
   }
   engineFail("ENGINE_MODEL_REFERENCE_INVALID", "A model reference requires id and version.");
 }
@@ -64,15 +54,26 @@ export class ModelRegistry {
   #lineages = new Map();
 
   constructor(packs, aliases = {}, lineages = []) {
-    if (!Array.isArray(packs) || packs.length === 0) {
+    const packValues = dataArray(
+      packs,
+      "ENGINE_MODEL_REGISTRY_INPUT_INVALID",
+      "Model Packs"
+    );
+    if (packValues.length === 0) {
       engineFail("ENGINE_MODEL_REGISTRY_EMPTY", "The engine requires at least one Model Pack.");
     }
-    for (const pack of packs) this.register(pack);
-    requirePlainRecord(aliases, "aliases");
-    for (const [modelId, modelAliases] of Object.entries(aliases)) {
+    for (const pack of packValues) this.register(pack);
+    const aliasEntries = dataEntries(aliases, {
+      code: "ENGINE_MODEL_REGISTRY_INPUT_INVALID",
+      subject: "aliases"
+    });
+    for (const [modelId, modelAliases] of aliasEntries) {
       requireReferencePart(modelId, "alias.modelId");
-      requirePlainRecord(modelAliases, `aliases.${modelId}`);
-      for (const [alias, version] of Object.entries(modelAliases)) {
+      const modelAliasEntries = dataEntries(modelAliases, {
+        code: "ENGINE_MODEL_REGISTRY_INPUT_INVALID",
+        subject: `aliases.${modelId}`
+      });
+      for (const [alias, version] of modelAliasEntries) {
         requireReferencePart(alias, "alias");
         requireReferencePart(version, "alias.version");
         const exact = `${modelId}@${version}`;
@@ -86,10 +87,9 @@ export class ModelRegistry {
         this.#aliases.set(`${modelId}@${alias}`, exact);
       }
     }
-    if (!Array.isArray(lineages)) {
-      engineFail("ENGINE_LINEAGES_INVALID", "lineages must be an array.");
+    for (const lineage of dataArray(lineages, "ENGINE_LINEAGES_INVALID", "lineages")) {
+      this.registerLineage(lineage);
     }
-    for (const lineage of lineages) this.registerLineage(lineage);
   }
 
   register(pack) {

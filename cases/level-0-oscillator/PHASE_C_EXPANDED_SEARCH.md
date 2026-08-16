@@ -44,8 +44,8 @@ The outcome-independent protocol was written before the new solver was run:
 
 - human-readable preregistration:
   [`PHASE_C_EXPANDED_PREREGISTRATION.md`](PHASE_C_EXPANDED_PREREGISTRATION.md);
-- machine-readable specification:
-  [`phase-c-expanded-search-v1.json`](phase-c-expanded-search-v1.json);
+- portable machine-readable successor:
+  [`phase-c-expanded-search-v2.json`](phase-c-expanded-search-v2.json);
 - exactly one symmetric control and five eligible asymmetric parameter sets;
 - exactly four perturbations: common phase, relative phase, off-center real,
   and complex wave packet;
@@ -69,6 +69,11 @@ imaginary-phase sectors are checked by a block `LDL` positive-definiteness
 certificate. Complex time evolution uses paired-control velocity Verlet at
 base and refined resolution.
 
+Solver v2 applies `portable-numeric-reporting-v1`: converged Newton residuals
+are represented by the declared tolerance bound, numerical metrics are placed
+on the `1e-9` reporting grid, and visualization traces use a `1e-6` grid. The
+original v1 preregistration and artifact remain unchanged.
+
 ## Reproduce
 
 The runner first reproduces the frozen objecthood and dynamics dependencies,
@@ -86,10 +91,10 @@ npm run case:level-0:expanded
 
 Frozen identities:
 
-- model hash: `sha256:bb2f3d26ac0da622f7c6c107716c18c46cfbd3e25eec1dd4d360de84cad85712`;
-- analysis hash: `sha256:c5cb34687b813fa04026ef9bb5b59eeb06700326b1610ee510ee324a8aab83af`;
+- model hash: `sha256:f2e3dd288150fe2426d273f461b5d768c5490375479a3841fb38ba5dbf1b80e8`;
+- analysis hash: `sha256:78703eec1202bebe57cdd5014e49bbac4c9a5a801bb9ff419cc0e21e32afd2f6`;
 - artifact:
-  [`artifacts/phase-c-expanded-search-v1.json`](artifacts/phase-c-expanded-search-v1.json);
+  [`artifacts/phase-c-expanded-search-v2.json`](artifacts/phase-c-expanded-search-v2.json);
 - solver:
   [`solver/phase-c-expanded-solver.mjs`](solver/phase-c-expanded-solver.mjs).
 

@@ -8,7 +8,7 @@
     <title>Model Studio - Onto2D</title>
     <link rel="icon" href="../../assets/icons/favicon.ico?v=20260816.10" type="image/x-icon">
     <link rel="stylesheet" href="../../assets/css/ui-icons.css?v=20260816.10">
-    <link rel="stylesheet" href="../../assets/css/model-studio-workbench.css?v=20260816.11">
+    <link rel="stylesheet" href="../../assets/css/model-studio-workbench.css?v=20260816.12">
     <script type="importmap">
       {"imports":{"@onto2d/kernel/canonical":"../../packages/kernel/src/canonical-entry.js?v=20260816.18","@onto2d/model-pack":"../../packages/model-pack/src/index.js?v=20260816.18","@onto2d/model-pack/registry":"../../packages/model-pack/src/registry.js?v=20260816.18","@onto2d/rdf-import":"../../packages/rdf-import/src/index.js?v=20260816.18","@onto2d/rdf-mapping":"../../packages/rdf-mapping/src/index.js?v=20260816.18","@onto2d/shacl-validation":"../../packages/shacl-validation/src/index.js?v=20260816.18","@onto2d/view":"../../packages/view/src/index.js?v=20260816.18","@onto2d/view/lazy":"../../packages/view/src/lazy.js?v=20260816.18"}}
     </script>
@@ -57,6 +57,10 @@
             <div class="graph-legend" aria-label="Graph legend"><strong id="graph-title">Loading neighborhood...</strong><span><i class="parent-key"></i>parent</span><span><i class="focus-key"></i>focus</span><span><i class="child-key"></i>child</span></div>
           </div>
           <section class="graph-stage" aria-label="Graph editor">
+            <div class="graph-loading" role="status" aria-live="polite">
+              <span class="graph-loading-spinner" aria-hidden="true"></span>
+              <span>Verifying model pack</span>
+            </div>
             <svg id="neighborhood-graph" viewBox="0 0 1040 680" role="img" aria-labelledby="svg-title svg-description"><title id="svg-title">Directed neighborhood graph</title><desc id="svg-description">Parents are placed to the left, the selected node in the center, and children to the right. Arrowheads point from source to target.</desc><defs><marker id="studio-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 10 5 0 10z"></path></marker><marker id="studio-arrow-focus" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 10 5 0 10z"></path></marker></defs><g id="graph-edges" class="graph-edges"></g><g id="graph-nodes" class="graph-nodes"></g></svg>
             <div class="graph-message" id="graph-message" hidden></div>
           </section>

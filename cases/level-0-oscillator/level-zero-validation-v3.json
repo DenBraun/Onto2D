@@ -1,0 +1,79 @@
+{
+  "schemaVersion": "1",
+  "caseId": "level-0-oscillator",
+  "modelId": "level-0-portable-expanded-pipeline-validation",
+  "modelVersion": "3.0.0",
+  "status": "portable-expanded-gated-validation",
+  "source": {
+    "name": "topology-of-arising.pdf",
+    "repositoryPath": "scr/topology-of-arising.pdf",
+    "doi": "10.5281/zenodo.19397414",
+    "version": "v1.2",
+    "sha256": "3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7",
+    "bytes": 340428,
+    "pageRange": { "start": 5, "end": 30 }
+  },
+  "dependencies": [
+    {
+      "id": "phase-b-reference-v1",
+      "repositoryPath": "cases/level-0-oscillator/artifacts/reference-validation-v1.json",
+      "analysisHash": "sha256:ecb9e32e8564e00f639c4a2f57b3a612f087b41ad3110cfde53957cacdf38483",
+      "requiredStatus": "computational-conformance-only"
+    },
+    {
+      "id": "phase-c-boundedness-preflight-v1",
+      "repositoryPath": "cases/level-0-oscillator/artifacts/phase-c-boundedness-v1.json",
+      "analysisHash": "sha256:3a1a052cd01f2932428ab4c2e0d50dde1c20a0eca7e482a44cc10dd4a66b1c90",
+      "requiredStatus": "phase-c-boundedness-preflight"
+    },
+    {
+      "id": "phase-c-objecthood-search-v2",
+      "repositoryPath": "cases/level-0-oscillator/artifacts/phase-c-objecthood-v2.json",
+      "analysisHash": "sha256:b2442288c5ebc8e6df802a46deb78697155e345c9f76cd68fe7312738aa4047f",
+      "requiredStatus": "bounded-phase-c-trial-family-search"
+    },
+    {
+      "id": "phase-c-dynamics-v2",
+      "repositoryPath": "cases/level-0-oscillator/artifacts/phase-c-dynamics-v2.json",
+      "analysisHash": "sha256:fddf195e2a439e051b94ad0d560774a0d996e927ad66ccc154d08f6013fabc2f",
+      "requiredStatus": "bounded-real-time-persistence-probe",
+      "requiredResult": "symmetric-dynamical-instability-confirmed"
+    },
+    {
+      "id": "phase-c-expanded-search-v2",
+      "repositoryPath": "cases/level-0-oscillator/artifacts/phase-c-expanded-search-v2.json",
+      "analysisHash": "sha256:78703eec1202bebe57cdd5014e49bbac4c9a5a801bb9ff419cc0e21e32afd2f6",
+      "requiredStatus": "completed-preregistered-bounded-extension",
+      "requiredResult": "bounded-negative-no-qualified-asymmetric-branch"
+    }
+  ],
+  "pipeline": [
+    "reproduce the Phase-B reference and Phase-C boundedness preflight",
+    "reproduce the portable-reporting Phase-C objecthood and dynamics contracts",
+    "reproduce the portable-reporting preregistered asymmetric and complex extension",
+    "carry any qualified branch into Phase D",
+    "stop without creating a collective when no eligible branch exists"
+  ],
+  "claims": {
+    "positive": "Level 0 is validated only if a Phase-C branch passes every declared gate and its resulting population passes Phase D",
+    "negative": "the complete expanded declared model is not validated when no Phase-C branch qualifies",
+    "boundary": "the result applies only to the frozen reference, boundedness preflight, and version-2 portable Phase-C contracts",
+    "notClaimed": [
+      "validation or falsification of the general theory",
+      "coverage of all asymmetric parameters or complex perturbations",
+      "empirical physical validation"
+    ]
+  },
+  "numericalIdentity": {
+    "policy": "portable-numeric-reporting-v1",
+    "legacyContractsPreserved": [
+      "level-zero-validation-v1",
+      "level-zero-validation-v2"
+    ],
+    "migration": "versioned-successor-not-in-place-replacement"
+  },
+  "review": {
+    "status": "pending-independent-scientific-review",
+    "localReproductionIsNotReview": true
+  }
+}

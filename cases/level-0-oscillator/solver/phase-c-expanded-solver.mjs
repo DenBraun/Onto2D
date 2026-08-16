@@ -1,10 +1,28 @@
 import { defineScientificAdapter } from "../../../packages/scientific-adapter/src/index.js";
+import {
+  assertPortableQuantities,
+  portableMetricValue,
+  portableTraceValue,
+  validatePortableReporting
+} from "./portable-reporting.mjs";
 
 export const PHASE_C_EXPANDED_SOLVER = Object.freeze({
   id: "onto2d-level-0-phase-c-expanded",
   version: "1.0.0",
   method: "three-component-block-newton-complex-verlet-v1"
 });
+
+export const PHASE_C_EXPANDED_SOLVER_V2 = Object.freeze({
+  id: "onto2d-level-0-phase-c-expanded",
+  version: "2.0.0",
+  method: "three-component-block-newton-complex-verlet-portable-report-v2"
+});
+
+const EXPANDED_RESIDUAL_IDS = new Set([
+  "stationarity_max_residual_coarse",
+  "stationarity_max_residual_fine",
+  "stationarity_max_residual_extended"
+]);
 
 const COMPONENTS = 3;
 
@@ -32,7 +50,7 @@ function finiteTriple(value, name, { positive = false } = {}) {
   return value.slice();
 }
 
-function validateParameters(parameters) {
+function validateParameters(parameters, { portable = false } = {}) {
   if (!parameters || typeof parameters !== "object" || Array.isArray(parameters)) {
     throw new TypeError("Expanded Phase-C parameters must be an object.");
   }
@@ -74,13 +92,17 @@ function validateParameters(parameters) {
   if (!Number.isInteger(parameters.traceCount) || parameters.traceCount < 3 || parameters.traceCount > 101) {
     throw new TypeError("traceCount must be an integer from three through 101.");
   }
-  for (const field of ["roundingSignificantDigits", "traceSignificantDigits"]) {
-    if (!Number.isInteger(parameters[field]) || parameters[field] < 1 || parameters[field] > 15) {
-      throw new TypeError(`${field} must be an integer from one through fifteen.`);
+  if (portable) {
+    validatePortableReporting(parameters, { requireTraceDigits: true });
+  } else {
+    for (const field of ["roundingSignificantDigits", "traceSignificantDigits"]) {
+      if (!Number.isInteger(parameters[field]) || parameters[field] < 1 || parameters[field] > 15) {
+        throw new TypeError(`${field} must be an integer from one through fifteen.`);
+      }
     }
-  }
-  if (!Number.isFinite(parameters.reportedAbsoluteTolerance) || parameters.reportedAbsoluteTolerance < 0) {
-    throw new TypeError("reportedAbsoluteTolerance must be finite and non-negative.");
+    if (!Number.isFinite(parameters.reportedAbsoluteTolerance) || parameters.reportedAbsoluteTolerance < 0) {
+      throw new TypeError("reportedAbsoluteTolerance must be finite and non-negative.");
+    }
   }
   finiteTriple(parameters.massSquared, "massSquared", { positive: true });
   finiteTriple(parameters.seedScale, "seedScale", { positive: true });
@@ -660,7 +682,13 @@ function rounded(value, digits) {
   return Number.parseFloat(value.toPrecision(digits));
 }
 
-function runDynamicPair(solution, perturbation, parameters, cfl, includeTrace) {
+function traceValue(value, parameters, portable) {
+  return portable
+    ? portableTraceValue(value, parameters)
+    : rounded(value, parameters.traceSignificantDigits);
+}
+
+function runDynamicPair(solution, perturbation, parameters, cfl, includeTrace, portable) {
   const stationary = stationaryState(solution);
   let control = cloneState(stationary);
   let perturbed = perturbationState(solution, perturbation, parameters);
@@ -695,8 +723,8 @@ function runDynamicPair(solution, perturbation, parameters, cfl, includeTrace) {
     }
     if (includeTrace && traceSteps.has(step)) {
       trace.push({
-        time: rounded(step * dt, parameters.traceSignificantDigits),
-        amplification: rounded(amplification, parameters.traceSignificantDigits)
+        time: traceValue(step * dt, parameters, portable),
+        amplification: traceValue(amplification, parameters, portable)
       });
     }
     if (step === steps) break;
@@ -717,10 +745,10 @@ function runDynamicPair(solution, perturbation, parameters, cfl, includeTrace) {
   };
 }
 
-function runBank(solution, parameters, cfl, includeTrace) {
+function runBank(solution, parameters, cfl, includeTrace, portable) {
   return parameters.perturbations.map((perturbation) => ({
     id: perturbation.id,
-    ...runDynamicPair(solution, perturbation, parameters, cfl, includeTrace)
+    ...runDynamicPair(solution, perturbation, parameters, cfl, includeTrace, portable)
   }));
 }
 
@@ -734,8 +762,9 @@ function requiredProbe(bank, id) {
   return probe;
 }
 
-export function runPhaseCExpandedNumerics(rawParameters) {
-  const parameters = validateParameters(rawParameters);
+export function runPhaseCExpandedNumerics(rawParameters, options = {}) {
+  const portable = options.portable ?? Boolean(rawParameters?.reportingPolicy);
+  const parameters = validateParameters(rawParameters, { portable });
   const coarse = solveStationary(
     parameters,
     parameters.baseHalfWidth,
@@ -763,14 +792,21 @@ export function runPhaseCExpandedNumerics(rawParameters) {
   const radiusExtended = supportRadius90(extended);
   const realHessian = hessianCertificate(fine, parameters, "real");
   const phaseHessian = hessianCertificate(fine, parameters, "phase");
-  const baseBank = runBank(fine, parameters, parameters.dynamicCfl, false);
+  const baseBank = runBank(fine, parameters, parameters.dynamicCfl, false, portable);
   const timeBank = runBank(
     fine,
     parameters,
     parameters.dynamicCfl / parameters.timeRefinementFactor,
-    false
+    false,
+    portable
   );
-  const refinedBank = runBank(dynamicRefined, parameters, parameters.dynamicCfl, true);
+  const refinedBank = runBank(
+    dynamicRefined,
+    parameters,
+    parameters.dynamicCfl,
+    true,
+    portable
+  );
   const worstBase = maximum(baseBank, "maximumAmplification");
   const worstTime = maximum(timeBank, "maximumAmplification");
   const worstRefined = maximum(refinedBank, "maximumAmplification");
@@ -833,32 +869,31 @@ export function runPhaseCExpandedNumerics(rawParameters) {
       stationary: {
         halfWidth: fine.halfWidth,
         intervals: fine.intervals,
-        dx: rounded(fine.dx, parameters.traceSignificantDigits),
-        x: Array.from({ length: fine.fields[0].length }, (_, index) => rounded(
+        dx: traceValue(fine.dx, parameters, portable),
+        x: Array.from({ length: fine.fields[0].length }, (_, index) => traceValue(
           -fine.halfWidth + (index + 1) * fine.dx,
-          parameters.traceSignificantDigits
+          parameters,
+          portable
         )),
         components: fine.fields.map((field) => field.map(
-          (value) => rounded(value, parameters.traceSignificantDigits)
+          (value) => traceValue(value, parameters, portable)
         ))
       },
       dynamics: refinedBank.map((probe) => ({
         id: probe.id,
-        dt: rounded(probe.dt, parameters.traceSignificantDigits),
+        dt: traceValue(probe.dt, parameters, portable),
         steps: probe.steps,
-        maximumAmplification: rounded(
-          probe.maximumAmplification,
-          parameters.traceSignificantDigits
-        ),
-        departureTime: rounded(probe.departureTime, parameters.traceSignificantDigits),
+        maximumAmplification: traceValue(probe.maximumAmplification, parameters, portable),
+        departureTime: traceValue(probe.departureTime, parameters, portable),
         trace: probe.trace
       }))
     }
   };
 }
 
-export const phaseCExpandedSolver = defineScientificAdapter({
-  ...PHASE_C_EXPANDED_SOLVER,
+function createPhaseCExpandedSolver(identity, { portable = false } = {}) {
+  return defineScientificAdapter({
+  ...identity,
   async evaluate(envelope) {
     if (!envelope || typeof envelope !== "object" || Array.isArray(envelope)) {
       throw new TypeError("Expanded Phase-C solver requires a request envelope.");
@@ -868,26 +903,38 @@ export const phaseCExpandedSolver = defineScientificAdapter({
       throw new TypeError("Expanded Phase-C solver envelope requires requestHash and request.");
     }
     for (const field of ["id", "version", "method"]) {
-      if (request.solver?.[field] !== PHASE_C_EXPANDED_SOLVER[field]) {
+      if (request.solver?.[field] !== identity[field]) {
         throw new TypeError(`Expanded Phase-C solver ${field} does not match the request.`);
       }
     }
-    const parameters = validateParameters(request.parameters);
-    const { metrics } = runPhaseCExpandedNumerics(parameters);
+    const parameters = validateParameters(request.parameters, { portable });
+    if (portable) assertPortableQuantities(request.quantities, parameters.reportingPolicy);
+    const { metrics } = runPhaseCExpandedNumerics(parameters, { portable });
     const values = {};
     for (const specification of request.quantities) {
       if (!Object.prototype.hasOwnProperty.call(metrics, specification.id)) {
         throw new TypeError(`Unsupported expanded Phase-C quantity: ${specification.id}`);
       }
       values[specification.id] = {
-        value: rounded(metrics[specification.id], parameters.roundingSignificantDigits),
+        value: portable
+          ? portableMetricValue(
+            specification.id,
+            metrics[specification.id],
+            parameters,
+            EXPANDED_RESIDUAL_IDS
+          )
+          : rounded(metrics[specification.id], parameters.roundingSignificantDigits),
         unit: specification.unit,
-        tolerance: { absolute: parameters.reportedAbsoluteTolerance },
+        tolerance: {
+          absolute: portable
+            ? parameters.reportingPolicy.absoluteTolerance
+            : parameters.reportedAbsoluteTolerance
+        },
         semantic: specification.semantic,
         provenance: {
           kind: "oracle",
           source: requestHash,
-          method: PHASE_C_EXPANDED_SOLVER.method,
+          method: identity.method,
           evidence: [...parameters.evidenceIds]
         }
       };
@@ -896,8 +943,16 @@ export const phaseCExpandedSolver = defineScientificAdapter({
       requestHash,
       values,
       convergence: "converged",
-      solver: { ...PHASE_C_EXPANDED_SOLVER, parameters: request.parameters },
+      solver: { ...identity, parameters: request.parameters },
       wallTimeMs: 0
     };
   }
-});
+  });
+}
+
+export const phaseCExpandedSolver = createPhaseCExpandedSolver(PHASE_C_EXPANDED_SOLVER);
+
+export const phaseCExpandedSolverV2 = createPhaseCExpandedSolver(
+  PHASE_C_EXPANDED_SOLVER_V2,
+  { portable: true }
+);

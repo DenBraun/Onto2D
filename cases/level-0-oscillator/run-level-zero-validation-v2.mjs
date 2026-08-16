@@ -5,16 +5,19 @@ import { fileURLToPath } from "node:url";
 import { canonicalize, hashCanonical } from "../../packages/kernel/src/index.js";
 import { verifyLevelZeroSource } from "./run.mjs";
 import { runIntegratedLevelZeroValidation } from "./run-level-zero-validation.mjs";
-import { runPhaseCExpandedSearch } from "./run-phase-c-expanded-search.mjs";
 
 const caseRoot = path.dirname(fileURLToPath(import.meta.url));
 const repositoryRoot = path.resolve(caseRoot, "../..");
 const MODEL_DOMAIN = "onto2d:level-zero-expanded-pipeline-model:v2";
 const ANALYSIS_DOMAIN = "onto2d:level-zero-expanded-pipeline-validation:v2";
 
+const archivedAnalysisDomains = Object.freeze({
+  "phase-c-expanded-search-v1": "onto2d:level-zero-phase-c-expanded-analysis:v1"
+});
+
 const reproductions = Object.freeze({
   "level-zero-validation-v1": runIntegratedLevelZeroValidation,
-  "phase-c-expanded-search-v1": runPhaseCExpandedSearch
+  "phase-c-expanded-search-v1": null
 });
 
 function validateModel(model) {
@@ -44,9 +47,20 @@ async function reproduceDependency(dependency) {
     throw new TypeError(`Integrated v2 dependency ${dependency.id} leaves the repository.`);
   }
   const frozen = JSON.parse(await readFile(dependencyPath, "utf8"));
-  const reproduced = await reproductions[dependency.id]();
-  if (canonicalize(frozen) !== canonicalize(reproduced)) {
-    throw new TypeError(`Integrated v2 dependency ${dependency.id} differs from reproduction.`);
+  const reproduce = reproductions[dependency.id];
+  let reproduced;
+  if (reproduce) {
+    reproduced = await reproduce();
+    if (canonicalize(frozen) !== canonicalize(reproduced)) {
+      throw new TypeError(`Integrated v2 dependency ${dependency.id} differs from reproduction.`);
+    }
+  } else {
+    const { analysisHash, ...basis } = frozen;
+    const archivedDomain = archivedAnalysisDomains[dependency.id];
+    if (!archivedDomain || hashCanonical(archivedDomain, basis) !== analysisHash) {
+      throw new TypeError(`Integrated v2 archived dependency ${dependency.id} fails integrity.`);
+    }
+    reproduced = frozen;
   }
   if (reproduced.analysisHash !== dependency.analysisHash) {
     throw new TypeError(`Integrated v2 dependency ${dependency.id} hash differs from the model.`);

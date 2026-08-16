@@ -1,10 +1,27 @@
 import { defineScientificAdapter } from "../../../packages/scientific-adapter/src/index.js";
+import {
+  assertPortableQuantities,
+  portableMetricValue,
+  portableTraceValue,
+  validatePortableReporting
+} from "./portable-reporting.mjs";
 
 export const PHASE_C_DYNAMICS_SOLVER = Object.freeze({
   id: "onto2d-level-0-phase-c-dynamics",
   version: "1.0.0",
   method: "three-envelope-dirichlet-velocity-verlet-v1"
 });
+
+export const PHASE_C_DYNAMICS_SOLVER_V2 = Object.freeze({
+  id: "onto2d-level-0-phase-c-dynamics",
+  version: "2.0.0",
+  method: "three-envelope-dirichlet-velocity-verlet-portable-report-v2"
+});
+
+const DYNAMICS_RESIDUAL_IDS = new Set([
+  "stationarity_max_residual_base",
+  "stationarity_max_residual_refined"
+]);
 
 function finitePositive(value, name) {
   if (!Number.isFinite(value) || value <= 0) {
@@ -29,7 +46,7 @@ function validateDirection(direction, name) {
   return direction.map((value) => value / norm);
 }
 
-function validateParameters(parameters) {
+function validateParameters(parameters, { portable = false } = {}) {
   if (!parameters || typeof parameters !== "object" || Array.isArray(parameters)) {
     throw new TypeError("Phase-C dynamics parameters must be an object.");
   }
@@ -74,13 +91,17 @@ function validateParameters(parameters) {
   if (!Number.isInteger(parameters.newtonMaxIterations) || parameters.newtonMaxIterations < 1) {
     throw new TypeError("newtonMaxIterations must be a positive integer.");
   }
-  for (const field of ["roundingSignificantDigits", "traceSignificantDigits"]) {
-    if (!Number.isInteger(parameters[field]) || parameters[field] < 1 || parameters[field] > 15) {
-      throw new TypeError(`${field} must be an integer from one through fifteen.`);
+  if (portable) {
+    validatePortableReporting(parameters, { requireTraceDigits: true });
+  } else {
+    for (const field of ["roundingSignificantDigits", "traceSignificantDigits"]) {
+      if (!Number.isInteger(parameters[field]) || parameters[field] < 1 || parameters[field] > 15) {
+        throw new TypeError(`${field} must be an integer from one through fifteen.`);
+      }
     }
-  }
-  if (!Number.isFinite(parameters.reportedAbsoluteTolerance) || parameters.reportedAbsoluteTolerance < 0) {
-    throw new TypeError("reportedAbsoluteTolerance must be finite and non-negative.");
+    if (!Number.isFinite(parameters.reportedAbsoluteTolerance) || parameters.reportedAbsoluteTolerance < 0) {
+      throw new TypeError("reportedAbsoluteTolerance must be finite and non-negative.");
+    }
   }
   if (!Array.isArray(parameters.evidenceIds) || parameters.evidenceIds.length < 1) {
     throw new TypeError("evidenceIds must be a non-empty array.");
@@ -291,7 +312,13 @@ function rounded(value, digits) {
   return Number.parseFloat(value.toPrecision(digits));
 }
 
-function sampledProfile(fields, parameters, dx) {
+function traceValue(value, parameters, portable) {
+  return portable
+    ? portableTraceValue(value, parameters)
+    : rounded(value, parameters.traceSignificantDigits);
+}
+
+function sampledProfile(fields, parameters, dx, portable) {
   const values = [];
   for (let boundaryIndex = 0; boundaryIndex <= fields[0].length + 1; boundaryIndex += 1) {
     if (
@@ -304,14 +331,14 @@ function sampledProfile(fields, parameters, dx) {
       ? [0, 0, 0]
       : fields.map((field) => field[internalIndex]);
     values.push({
-      x: rounded(-parameters.halfWidth + boundaryIndex * dx, parameters.traceSignificantDigits),
-      composite: rounded(components.reduce((sum, value) => sum + value, 0), parameters.traceSignificantDigits)
+      x: traceValue(-parameters.halfWidth + boundaryIndex * dx, parameters, portable),
+      composite: traceValue(components.reduce((sum, value) => sum + value, 0), parameters, portable)
     });
   }
   return values;
 }
 
-function runPair(stationary, direction, parameters, includeProfiles) {
+function runPair(stationary, direction, parameters, includeProfiles, portable) {
   const stationaryFields = Array.from({ length: 3 }, () => stationary.profile.slice());
   const controlInitial = {
     fields: cloneFields(stationaryFields),
@@ -365,16 +392,22 @@ function runPair(stationary, direction, parameters, includeProfiles) {
     }
     if (snapshotSteps.has(step)) {
       const frame = {
-        time: rounded(time, parameters.traceSignificantDigits),
-        amplification: rounded(amplification, parameters.traceSignificantDigits),
-        gammaRelativeChange: rounded(
+        time: traceValue(time, parameters, portable),
+        amplification: traceValue(amplification, parameters, portable),
+        gammaRelativeChange: traceValue(
           relativeChange(gamma(perturbed.fields, stationary.dx), initialGamma),
-          parameters.traceSignificantDigits
+          parameters,
+          portable
         )
       };
       if (includeProfiles) {
-        const controlProfile = sampledProfile(control.fields, parameters, stationary.dx);
-        const perturbedProfile = sampledProfile(perturbed.fields, parameters, stationary.dx);
+        const controlProfile = sampledProfile(control.fields, parameters, stationary.dx, portable);
+        const perturbedProfile = sampledProfile(
+          perturbed.fields,
+          parameters,
+          stationary.dx,
+          portable
+        );
         frame.x = controlProfile.map((entry) => entry.x);
         frame.controlComposite = controlProfile.map((entry) => entry.composite);
         frame.perturbedComposite = perturbedProfile.map((entry) => entry.composite);
@@ -401,34 +434,56 @@ function runPair(stationary, direction, parameters, includeProfiles) {
   };
 }
 
-export function runPhaseCDynamicsNumerics(rawParameters) {
-  const parameters = validateParameters(rawParameters);
+export function runPhaseCDynamicsNumerics(rawParameters, options = {}) {
+  const portable = options.portable ?? Boolean(rawParameters?.reportingPolicy);
+  const parameters = validateParameters(rawParameters, { portable });
   const baseStationary = solveStationaryPulse(parameters, parameters.baseIntervals);
   const refinedStationary = solveStationaryPulse(parameters, parameters.refinedIntervals);
   const timeRefinedParameters = {
     ...parameters,
     cfl: parameters.cfl / parameters.timeRefinementFactor
   };
-  const symmetricBase = runPair(baseStationary, parameters.symmetricDirection, parameters, false);
+  const symmetricBase = runPair(
+    baseStationary,
+    parameters.symmetricDirection,
+    parameters,
+    false,
+    portable
+  );
   const symmetricTimeRefined = runPair(
     baseStationary,
     parameters.symmetricDirection,
     timeRefinedParameters,
-    false
+    false,
+    portable
   );
-  const symmetricRefined = runPair(refinedStationary, parameters.symmetricDirection, parameters, true);
-  const antisymmetricBase = runPair(baseStationary, parameters.antisymmetricDirection, parameters, false);
+  const symmetricRefined = runPair(
+    refinedStationary,
+    parameters.symmetricDirection,
+    parameters,
+    true,
+    portable
+  );
+  const antisymmetricBase = runPair(
+    baseStationary,
+    parameters.antisymmetricDirection,
+    parameters,
+    false,
+    portable
+  );
   const antisymmetricTimeRefined = runPair(
     baseStationary,
     parameters.antisymmetricDirection,
     timeRefinedParameters,
-    false
+    false,
+    portable
   );
   const antisymmetricRefined = runPair(
     refinedStationary,
     parameters.antisymmetricDirection,
     parameters,
-    false
+    false,
+    portable
   );
   const metrics = {
     stationarity_max_residual_base: baseStationary.maxResidual,
@@ -496,8 +551,8 @@ export function runPhaseCDynamicsNumerics(rawParameters) {
       branchId: "localized-pulse",
       probeId: "symmetric-profile-perturbation",
       intervals: refinedStationary.intervals,
-      dx: rounded(refinedStationary.dx, parameters.traceSignificantDigits),
-      dt: rounded(symmetricRefined.dt, parameters.traceSignificantDigits),
+      dx: traceValue(refinedStationary.dx, parameters, portable),
+      dt: traceValue(symmetricRefined.dt, parameters, portable),
       steps: symmetricRefined.steps,
       componentCount: 3,
       perturbationFraction: parameters.perturbationFraction,
@@ -510,8 +565,9 @@ export function runPhaseCDynamicsNumerics(rawParameters) {
   };
 }
 
-export const phaseCDynamicsSolver = defineScientificAdapter({
-  ...PHASE_C_DYNAMICS_SOLVER,
+function createPhaseCDynamicsSolver(identity, { portable = false } = {}) {
+  return defineScientificAdapter({
+  ...identity,
   async evaluate(envelope) {
     if (!envelope || typeof envelope !== "object" || Array.isArray(envelope)) {
       throw new TypeError("Phase-C dynamics solver requires a request envelope.");
@@ -521,26 +577,38 @@ export const phaseCDynamicsSolver = defineScientificAdapter({
       throw new TypeError("Phase-C dynamics solver envelope requires requestHash and request.");
     }
     for (const field of ["id", "version", "method"]) {
-      if (request.solver?.[field] !== PHASE_C_DYNAMICS_SOLVER[field]) {
+      if (request.solver?.[field] !== identity[field]) {
         throw new TypeError(`Phase-C dynamics solver ${field} does not match the request.`);
       }
     }
-    const parameters = validateParameters(request.parameters);
-    const { metrics } = runPhaseCDynamicsNumerics(parameters);
+    const parameters = validateParameters(request.parameters, { portable });
+    if (portable) assertPortableQuantities(request.quantities, parameters.reportingPolicy);
+    const { metrics } = runPhaseCDynamicsNumerics(parameters, { portable });
     const values = {};
     for (const specification of request.quantities) {
       if (!Object.prototype.hasOwnProperty.call(metrics, specification.id)) {
         throw new TypeError(`Unsupported Phase-C dynamics quantity: ${specification.id}`);
       }
       values[specification.id] = {
-        value: rounded(metrics[specification.id], parameters.roundingSignificantDigits),
+        value: portable
+          ? portableMetricValue(
+            specification.id,
+            metrics[specification.id],
+            parameters,
+            DYNAMICS_RESIDUAL_IDS
+          )
+          : rounded(metrics[specification.id], parameters.roundingSignificantDigits),
         unit: specification.unit,
-        tolerance: { absolute: parameters.reportedAbsoluteTolerance },
+        tolerance: {
+          absolute: portable
+            ? parameters.reportingPolicy.absoluteTolerance
+            : parameters.reportedAbsoluteTolerance
+        },
         semantic: specification.semantic,
         provenance: {
           kind: "oracle",
           source: requestHash,
-          method: PHASE_C_DYNAMICS_SOLVER.method,
+          method: identity.method,
           evidence: [...parameters.evidenceIds]
         }
       };
@@ -549,8 +617,16 @@ export const phaseCDynamicsSolver = defineScientificAdapter({
       requestHash,
       values,
       convergence: "converged",
-      solver: { ...PHASE_C_DYNAMICS_SOLVER, parameters: request.parameters },
+      solver: { ...identity, parameters: request.parameters },
       wallTimeMs: 0
     };
   }
 });
+}
+
+export const phaseCDynamicsSolver = createPhaseCDynamicsSolver(PHASE_C_DYNAMICS_SOLVER);
+
+export const phaseCDynamicsSolverV2 = createPhaseCDynamicsSolver(
+  PHASE_C_DYNAMICS_SOLVER_V2,
+  { portable: true }
+);

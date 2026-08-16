@@ -1,5 +1,6 @@
 import { canonicalize, deepFreeze, hashCanonical } from "@onto2d/kernel";
 import { engineFail } from "./errors.js";
+import { dataEntries } from "./input.js";
 import { verifyModelLineage } from "./lineage.js";
 
 function compareText(left, right) {
@@ -20,14 +21,12 @@ function changedFields(left, right, ignored = new Set(["id"])) {
 
 function requireDiffOptions(options) {
   if (options === undefined) return {};
-  if (options === null || typeof options !== "object" || Array.isArray(options)) {
-    engineFail("ENGINE_DIFF_OPTIONS_INVALID", "Model diff options must be a plain object.");
-  }
-  const unknown = Object.keys(options).filter((field) => field !== "lineage");
-  if (unknown.length > 0) {
-    engineFail("ENGINE_DIFF_OPTIONS_INVALID", "Model diff options contain unknown fields.", { unknown });
-  }
-  return options;
+  const entries = dataEntries(options, {
+    code: "ENGINE_DIFF_OPTIONS_INVALID",
+    subject: "Model diff options",
+    allowed: new Set(["lineage"])
+  });
+  return entries.has("lineage") ? { lineage: entries.get("lineage") } : {};
 }
 
 function requireReferences(event, leftIds, rightIds) {

@@ -11,6 +11,7 @@ import { runPhaseCObjecthoodSearch } from "../../cases/level-0-oscillator/run-ph
 import { runPhaseCDynamicsProbe } from "../../cases/level-0-oscillator/run-phase-c-dynamics.mjs";
 import { runIntegratedLevelZeroValidation } from "../../cases/level-0-oscillator/run-level-zero-validation.mjs";
 import { runIntegratedLevelZeroValidationV2 } from "../../cases/level-0-oscillator/run-level-zero-validation-v2.mjs";
+import { runIntegratedLevelZeroValidationV3 } from "../../cases/level-0-oscillator/run-level-zero-validation-v3.mjs";
 import {
   LEVEL_ZERO_REFERENCE_SOLVER,
   levelZeroReferenceSolver
@@ -20,12 +21,12 @@ import {
   phaseCBoundednessSolver
 } from "../../cases/level-0-oscillator/solver/phase-c-boundedness-solver.mjs";
 import {
-  PHASE_C_OBJECTHOOD_SOLVER,
-  phaseCObjecthoodSolver
+  PHASE_C_OBJECTHOOD_SOLVER_V2,
+  phaseCObjecthoodSolverV2
 } from "../../cases/level-0-oscillator/solver/phase-c-objecthood-solver.mjs";
 import {
-  PHASE_C_DYNAMICS_SOLVER,
-  phaseCDynamicsSolver
+  PHASE_C_DYNAMICS_SOLVER_V2,
+  phaseCDynamicsSolverV2
 } from "../../cases/level-0-oscillator/solver/phase-c-dynamics-solver.mjs";
 
 const analysisResult = runLevelZeroValidation();
@@ -34,6 +35,7 @@ const phaseCObjecthoodResult = runPhaseCObjecthoodSearch();
 const phaseCDynamicsResult = runPhaseCDynamicsProbe();
 const integratedLevelZeroResult = runIntegratedLevelZeroValidation();
 const integratedLevelZeroV2Result = runIntegratedLevelZeroValidationV2();
+const integratedLevelZeroV3Result = runIntegratedLevelZeroValidationV3();
 
 async function analysis() {
   return analysisResult;
@@ -57,6 +59,10 @@ async function integratedLevelZeroAnalysis() {
 
 async function integratedLevelZeroV2Analysis() {
   return integratedLevelZeroV2Result;
+}
+
+async function integratedLevelZeroV3Analysis() {
+  return integratedLevelZeroV3Result;
 }
 
 function expectedStationarityResidual(modes, grid, spacePeriod, timePeriod) {
@@ -374,7 +380,7 @@ test("the Phase-C search has explicit convergence and domain-size witnesses", as
   const pulse = result.scenarios.find((scenario) => scenario.id === "localized-pulse");
   const plateau = result.scenarios.find((scenario) => scenario.id === "stable-plateau");
 
-  assert.ok(pulse.scientificResult.values.stationarity_max_residual_fine < 1e-11);
+  assert.equal(pulse.scientificResult.values.stationarity_max_residual_fine, 1e-11);
   assert.ok(pulse.scientificResult.values.gamma_grid_relative_change < 0.001);
   assert.ok(pulse.scientificResult.values.profile_grid_relative_l2 < 0.001);
   assert.ok(pulse.scientificResult.values.gamma_domain_relative_change < 0.001);
@@ -448,11 +454,11 @@ test("the Phase-C objecthood solver stays outside the kernel and binds all evide
   assert.doesNotMatch(source, /packages\/kernel|@onto2d\/kernel/);
   assert.deepEqual(
     {
-      id: phaseCObjecthoodSolver.id,
-      version: phaseCObjecthoodSolver.version,
-      method: phaseCObjecthoodSolver.method
+      id: phaseCObjecthoodSolverV2.id,
+      version: phaseCObjecthoodSolverV2.version,
+      method: phaseCObjecthoodSolverV2.method
     },
-    PHASE_C_OBJECTHOOD_SOLVER
+    PHASE_C_OBJECTHOOD_SOLVER_V2
   );
 
   const result = await phaseCObjecthoodAnalysis();
@@ -474,7 +480,7 @@ test("the Phase-C objecthood solver stays outside the kernel and binds all evide
 
 test("Phase-C objecthood input and dependency drift fail closed", async () => {
   const model = JSON.parse(await readFile(
-    new URL("../../cases/level-0-oscillator/phase-c-objecthood-v1.json", import.meta.url),
+    new URL("../../cases/level-0-oscillator/phase-c-objecthood-v2.json", import.meta.url),
     "utf8"
   ));
   const baseline = await phaseCObjecthoodAnalysis();
@@ -516,7 +522,7 @@ test("Phase D stops explicitly when Phase C supplies no object-qualified node", 
 test("the frozen Phase-C objecthood artifact and report are exact reproductions", async () => {
   const frozen = JSON.parse(await readFile(
     new URL(
-      "../../cases/level-0-oscillator/artifacts/phase-c-objecthood-v1.json",
+      "../../cases/level-0-oscillator/artifacts/phase-c-objecthood-v2.json",
       import.meta.url
     ),
     "utf8"
@@ -533,6 +539,27 @@ test("the frozen Phase-C objecthood artifact and report are exact reproductions"
     assert.match(report, new RegExp(dependency.analysisHash));
   }
   assert.match(report, new RegExp(result.source.doi));
+});
+
+test("portable Phase-C reporting replaces converged noise and excludes raw LDL pivots", async () => {
+  const result = await phaseCObjecthoodAnalysis();
+  assert.equal(result.solver.version, "2.0.0");
+  for (const scenario of result.scenarios) {
+    const values = scenario.scientificResult.values;
+    assert.equal(values.stationarity_max_residual_coarse, 1e-11);
+    assert.equal(values.stationarity_max_residual_fine, 1e-11);
+    assert.equal(
+      Object.keys(values).some((id) => id.includes("ldl_min_pivot")),
+      false
+    );
+    assert.deepEqual(
+      scenario.requestBinding.request.parameters.reportingPolicy.identityExcludedQuantities,
+      [
+        "antisymmetric_hessian_min_ldl_pivot",
+        "symmetric_hessian_min_ldl_pivot"
+      ]
+    );
+  }
 });
 
 test("the Phase-C dynamics probe confirms the declared symmetric instability", async () => {
@@ -575,7 +602,7 @@ test("the static negative Rayleigh direction predicts the dynamics growth scale"
     (scenario) => scenario.id === "localized-pulse"
   ).scientificResult.values.symmetric_profile_rayleigh_quotient;
   const model = JSON.parse(await readFile(
-    new URL("../../cases/level-0-oscillator/phase-c-dynamics-v1.json", import.meta.url),
+    new URL("../../cases/level-0-oscillator/phase-c-dynamics-v2.json", import.meta.url),
     "utf8"
   ));
   const linearPrediction = Math.cosh(Math.sqrt(-rayleigh) * model.parameters.duration);
@@ -619,11 +646,11 @@ test("the dynamics solver stays outside the kernel and binds exact evidence", as
   assert.doesNotMatch(source, /Plotly|Markov|document\./);
   assert.deepEqual(
     {
-      id: phaseCDynamicsSolver.id,
-      version: phaseCDynamicsSolver.version,
-      method: phaseCDynamicsSolver.method
+      id: phaseCDynamicsSolverV2.id,
+      version: phaseCDynamicsSolverV2.version,
+      method: phaseCDynamicsSolverV2.method
     },
-    PHASE_C_DYNAMICS_SOLVER
+    PHASE_C_DYNAMICS_SOLVER_V2
   );
   const result = await phaseCDynamicsAnalysis();
   const rebound = createOracleRequestBinding(result.requestBinding.request);
@@ -638,7 +665,7 @@ test("the dynamics solver stays outside the kernel and binds exact evidence", as
 
 test("Phase-C dynamics input and dependency drift fail closed", async () => {
   const model = JSON.parse(await readFile(
-    new URL("../../cases/level-0-oscillator/phase-c-dynamics-v1.json", import.meta.url),
+    new URL("../../cases/level-0-oscillator/phase-c-dynamics-v2.json", import.meta.url),
     "utf8"
   ));
   const baseline = await phaseCDynamicsAnalysis();
@@ -667,7 +694,7 @@ test("Phase-C dynamics input and dependency drift fail closed", async () => {
 test("the frozen Phase-C dynamics artifact and report are exact reproductions", async () => {
   const frozen = JSON.parse(await readFile(
     new URL(
-      "../../cases/level-0-oscillator/artifacts/phase-c-dynamics-v1.json",
+      "../../cases/level-0-oscillator/artifacts/phase-c-dynamics-v2.json",
       import.meta.url
     ),
     "utf8"
@@ -806,4 +833,55 @@ test("the expanded integrated Level-0 case is an exact bounded negative reproduc
   for (const dependency of result.dependencies) {
     assert.match(report, new RegExp(dependency.analysisHash));
   }
+});
+
+test("the portable integrated Level-0 v3 chain is an exact versioned successor", async () => {
+  const result = await integratedLevelZeroV3Analysis();
+  const frozen = JSON.parse(await readFile(
+    new URL(
+      "../../cases/level-0-oscillator/artifacts/level-zero-validation-v3.json",
+      import.meta.url
+    ),
+    "utf8"
+  ));
+  assert.deepEqual(result, frozen);
+  assert.equal(result.status, "complete-negative-result-within-portable-expanded-model");
+  assert.equal(result.numericalIdentity.policy, "portable-numeric-reporting-v1");
+  assert.equal(result.numericalIdentity.migration, "versioned-successor-not-in-place-replacement");
+  assert.deepEqual(
+    result.dependencies.map((dependency) => dependency.id),
+    [
+      "phase-b-reference-v1",
+      "phase-c-boundedness-preflight-v1",
+      "phase-c-objecthood-search-v2",
+      "phase-c-dynamics-v2",
+      "phase-c-expanded-search-v2"
+    ]
+  );
+  assert.ok(result.dependencies.every((dependency) => dependency.exactReproductionVerified));
+  assert.equal(result.conclusion.declaredCaseExecutionComplete, true);
+  assert.equal(result.conclusion.declaredModelLevelZeroValidated, false);
+
+  const legacyV1 = JSON.parse(await readFile(
+    new URL(
+      "../../cases/level-0-oscillator/artifacts/level-zero-validation-v1.json",
+      import.meta.url
+    ),
+    "utf8"
+  ));
+  const legacyV2 = JSON.parse(await readFile(
+    new URL(
+      "../../cases/level-0-oscillator/artifacts/level-zero-validation-v2.json",
+      import.meta.url
+    ),
+    "utf8"
+  ));
+  assert.equal(
+    legacyV1.analysisHash,
+    "sha256:f9c7cb2b7364aece577dc8bd6e0b97375213c7d2974ff78cc6cc66b6979d6d8d"
+  );
+  assert.equal(
+    legacyV2.analysisHash,
+    "sha256:608ce4895ae17cb5cb1b74fed9fa63daefd8f9f8e7b23c47c4cdcb8194d8e176"
+  );
 });

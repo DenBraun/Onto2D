@@ -1,9 +1,10 @@
 # Phase-C stabilized envelope search
 
-Status date: 2026-08-15
+Status date: 2026-08-16
 
-This is the frozen equal-envelope v1 report. Its asymmetric and complex
-follow-up is documented separately in
+This report describes the portable-reporting v2 successor of the frozen
+equal-envelope search. The original v1 model and artifact remain archived and
+unchanged. The asymmetric and complex follow-up is documented separately in
 [`PHASE_C_EXPANDED_SEARCH.md`](PHASE_C_EXPANDED_SEARCH.md).
 
 ## Outcome
@@ -71,6 +72,12 @@ iteration. The base interval has half-width `8`, with `128` and `256`
 subintervals. The domain control has half-width `12` and `384` subintervals,
 which preserves the fine-grid spacing.
 
+Solver v2 reports any converged stationarity residual below the declared
+Newton tolerance as the upper bound `1e-11`. Raw symmetric and antisymmetric
+`LDL` minimum pivots remain available to the calculation but are excluded from
+identity-bearing Oracle quantities; the positive-definite gate flags and
+stable Rayleigh witnesses remain frozen.
+
 The localization gate requires both `Gamma` and the central 90-percent support
 radius to change by at most five percent after the domain is enlarged.
 Real-amplitude stability requires positive-definite discrete Hessians in the
@@ -89,12 +96,12 @@ mandatory if a future branch passes all earlier gates.
 
 ### Localized pulse
 
-- fine-grid residual: `8.79106102967e-14`;
-- `Gamma`: `4.61616961549` on the base domain and `4.61624418058` on the
+- fine-grid convergence bound: `1e-11`;
+- `Gamma`: `4.616169615` on the base domain and `4.616244181` on the
   extended domain;
-- relative domain change: `0.0000161527612103`;
+- relative domain change: `0.000016153`;
 - 90-percent support radius: `1.9375` on both domains;
-- profile-direction Rayleigh quotient: `-0.99330785572`.
+- profile-direction Rayleigh quotient: `-0.993307856`.
 
 The negative Rayleigh quotient is an explicit descending perturbation
 direction. The pulse is localized and numerically stationary but is not a
@@ -102,7 +109,7 @@ local minimum of the declared energy.
 
 ### Stable plateau
 
-- fine-grid residual: `9.84101689028e-13`;
+- fine-grid convergence bound: `1e-11`;
 - `Gamma`: `734.740946104` on the base domain and `1145.12671636` on the
   extended domain;
 - relative domain change: `0.358375858662`;
@@ -125,15 +132,15 @@ create an object-like carrier from the zero field.
 - source SHA-256: `sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7`;
 - Phase-B reference: `sha256:ecb9e32e8564e00f639c4a2f57b3a612f087b41ad3110cfde53957cacdf38483`;
 - boundedness preflight: `sha256:3a1a052cd01f2932428ab4c2e0d50dde1c20a0eca7e482a44cc10dd4a66b1c90`;
-- model hash: `sha256:337f605b262cc32cc3e86e7b9324d9300f9220f3762eb96cb8a57351f6ea718c`;
-- analysis hash: `sha256:c3c13e3682ed27a81653f38f6bb52befb84d1539bb873a5b9ef87ed3837e9bc5`;
-- solver: `onto2d-level-0-phase-c-objecthood@1.0.0`, method
-  `dirichlet-central-difference-newton-v1`.
+- model hash: `sha256:523bdf998cd2c9202aade71b198d8d2334deddef50920400888a0a32282e7670`;
+- analysis hash: `sha256:b2442288c5ebc8e6df802a46deb78697155e345c9f76cd68fe7312738aa4047f`;
+- solver: `onto2d-level-0-phase-c-objecthood@2.0.0`, method
+  `dirichlet-central-difference-newton-portable-report-v2`.
 
 The complete machine-readable specification is
-[`phase-c-objecthood-v1.json`](phase-c-objecthood-v1.json). The exact Oracle
+[`phase-c-objecthood-v2.json`](phase-c-objecthood-v2.json). The exact Oracle
 requests, responses, gate witnesses, and terminal Phase-D status are frozen in
-[`artifacts/phase-c-objecthood-v1.json`](artifacts/phase-c-objecthood-v1.json).
+[`artifacts/phase-c-objecthood-v2.json`](artifacts/phase-c-objecthood-v2.json).
 
 ## Limits and next falsifiable step
 

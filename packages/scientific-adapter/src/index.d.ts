@@ -12,6 +12,6 @@ export interface ScientificAdapter<Request = unknown, Response = unknown> {
   evaluate(request: Request): Response | Promise<Response>;
 }
 
-export function defineScientificAdapter<T extends ScientificAdapter>(
-  adapter: T
-): Readonly<T>;
+export function defineScientificAdapter<Request = unknown, Response = unknown>(
+  adapter: ScientificAdapter<Request, Response>
+): Readonly<ScientificAdapter<Request, Response>>;

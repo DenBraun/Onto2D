@@ -9,22 +9,17 @@ import {
   validateOracleResponse
 } from "../../packages/kernel/src/index.js";
 import { verifyLevelZeroSource } from "./run.mjs";
-import { runPhaseCObjecthoodSearch } from "./run-phase-c-objecthood.mjs";
+import { runPhaseCObjecthoodSearch } from "./run-phase-c-objecthood-v1.mjs";
 import {
-  PHASE_C_DYNAMICS_SOLVER_V2,
-  phaseCDynamicsSolverV2,
+  PHASE_C_DYNAMICS_SOLVER,
+  phaseCDynamicsSolver,
   runPhaseCDynamicsNumerics
 } from "./solver/phase-c-dynamics-solver.mjs";
-import { portableMetricValue } from "./solver/portable-reporting.mjs";
 
 const caseRoot = path.dirname(fileURLToPath(import.meta.url));
 const repositoryRoot = path.resolve(caseRoot, "../..");
-const MODEL_DOMAIN = "onto2d:level-zero-phase-c-dynamics-model:v2";
-const ANALYSIS_DOMAIN = "onto2d:level-zero-phase-c-dynamics-analysis:v2";
-const DYNAMICS_RESIDUAL_IDS = new Set([
-  "stationarity_max_residual_base",
-  "stationarity_max_residual_refined"
-]);
+const MODEL_DOMAIN = "onto2d:level-zero-phase-c-dynamics-model:v1";
+const ANALYSIS_DOMAIN = "onto2d:level-zero-phase-c-dynamics-analysis:v1";
 
 function validateModel(model) {
   if (
@@ -32,16 +27,15 @@ function validateModel(model) {
     model.schemaVersion !== "1" ||
     model.caseId !== "level-0-oscillator" ||
     model.modelId !== "level-0-phase-c-real-time-persistence-probe" ||
-    model.modelVersion !== "2.0.0" ||
     model.status !== "bounded-dynamics-extension"
   ) {
     throw new TypeError("Unsupported Level-0 Phase-C dynamics model.");
   }
-  if (canonicalize(model.oracle?.solver) !== canonicalize(PHASE_C_DYNAMICS_SOLVER_V2)) {
+  if (canonicalize(model.oracle?.solver) !== canonicalize(PHASE_C_DYNAMICS_SOLVER)) {
     throw new TypeError("Phase-C dynamics solver identity does not match the model.");
   }
   if (
-    model.dependency?.id !== "phase-c-objecthood-search-v2" ||
+    model.dependency?.id !== "phase-c-objecthood-search-v1" ||
     typeof model.dependency.repositoryPath !== "string"
   ) {
     throw new TypeError("Phase-C dynamics model must bind the objecthood search.");
@@ -208,7 +202,7 @@ function classify(values, acceptance, expectation) {
 
 export async function runPhaseCDynamicsProbe({ model: suppliedModel } = {}) {
   const model = validateModel(suppliedModel ?? JSON.parse(await readFile(
-    new URL("./phase-c-dynamics-v2.json", import.meta.url),
+    new URL("./phase-c-dynamics-v1.json", import.meta.url),
     "utf8"
   )));
   const source = await verifyLevelZeroSource(model);
@@ -217,7 +211,7 @@ export async function runPhaseCDynamicsProbe({ model: suppliedModel } = {}) {
   const modelHash = hashCanonical(MODEL_DOMAIN, model);
   const evidenceIds = [sourceHash, dependency.record.analysisHash, modelHash];
   const requestBinding = requestFor(model, modelHash, evidenceIds, dependency.candidate);
-  const oracleResponse = await phaseCDynamicsSolverV2.evaluate({
+  const oracleResponse = await phaseCDynamicsSolver.evaluate({
     requestHash: requestBinding.requestHash,
     request: requestBinding.request
   });
@@ -230,7 +224,7 @@ export async function runPhaseCDynamicsProbe({ model: suppliedModel } = {}) {
   const replay = runPhaseCDynamicsNumerics(requestBinding.request.parameters);
   const roundedReplayValues = Object.fromEntries(Object.entries(replay.metrics).map(([id, value]) => [
     id,
-    portableMetricValue(id, value, model.parameters, DYNAMICS_RESIDUAL_IDS)
+    value === 0 ? 0 : Number.parseFloat(value.toPrecision(model.parameters.roundingSignificantDigits))
   ]));
   if (canonicalize(roundedReplayValues) !== canonicalize(scientificResult.values)) {
     throw new TypeError("Phase-C dynamics visualization replay differs from Oracle values.");
@@ -247,7 +241,7 @@ export async function runPhaseCDynamicsProbe({ model: suppliedModel } = {}) {
     inputMapping: model.inputMapping,
     status: "bounded-real-time-persistence-probe",
     scope: model.scope,
-    solver: PHASE_C_DYNAMICS_SOLVER_V2,
+    solver: PHASE_C_DYNAMICS_SOLVER,
     requestBinding,
     oracleResponse,
     oracleValidation,
@@ -271,7 +265,7 @@ export async function runPhaseCDynamicsProbe({ model: suppliedModel } = {}) {
 
 function parseArguments(argv) {
   const options = {
-    output: path.join(caseRoot, "artifacts", "phase-c-dynamics-v2.json"),
+    output: path.join(caseRoot, "artifacts", "phase-c-dynamics-v1.json"),
     verify: false
   };
   for (let index = 0; index < argv.length; index += 1) {

@@ -1,9 +1,10 @@
 # Phase-C real-time persistence probe
 
-Status date: 2026-08-15
+Status date: 2026-08-16
 
-This is the frozen two-direction real-amplitude probe. The later four-direction
-complex extension is documented in
+This is the portable-reporting v2 successor of the frozen two-direction
+real-amplitude probe. The original v1 model and artifact remain archived and
+unchanged. The later four-direction complex extension is documented in
 [`PHASE_C_EXPANDED_SEARCH.md`](PHASE_C_EXPANDED_SEARCH.md) without modifying
 this artifact.
 
@@ -17,9 +18,9 @@ symmetric-dynamical-instability-confirmed
 ```
 
 The refined run amplifies a `0.001` normalized profile-shaped perturbation by
-`28.2471607644` at `t=4`. The amplification first reaches the preregistered
+`28.247160764` at `t=4`. The amplification first reaches the preregistered
 threshold of `10` at `t=2.975`. The antisymmetric control remains bounded with
-a maximum amplification of `1` and a final amplification of `0.786663532647`.
+a maximum amplification of `1` and a final amplification of `0.786663533`.
 
 This extends the earlier static second-variation result. It does not change the
 already negative objecthood disposition: the pulse still fails a necessary
@@ -70,21 +71,26 @@ its CFL time step matches the temporally refined base run.
 
 | Diagnostic | Base | Refined |
 |---|---:|---:|
-| symmetric maximum amplification | `28.2478319278` | `28.2471607644` |
-| symmetric final Gamma change | `0.0304834420002` | `0.0304827768142` |
-| symmetric maximum energy drift | `3.06840323436e-8` | `7.67046504345e-9` |
+| symmetric maximum amplification | `28.247831928` | `28.247160764` |
+| symmetric final Gamma change | `0.030483442` | `0.030482777` |
+| symmetric maximum energy drift | `3.1e-8` | `8e-9` |
 | antisymmetric maximum amplification | `1` | `1` |
-| antisymmetric final amplification | `0.786605307167` | `0.786663532647` |
-| antisymmetric maximum energy drift | `2.76695337432e-10` | `6.91724746621e-11` |
-| stationary-control profile departure | `1.47282543567e-13` | `1.44556523408e-13` |
+| antisymmetric final amplification | `0.786605307` | `0.786663533` |
+| antisymmetric maximum energy drift | `0` | `0` |
+| stationary-control profile departure | `0` | `0` |
 
-The symmetric amplification changes by `2.03248465247e-5` under temporal
-refinement and `4.40841829253e-5` under spatial refinement. All declared
+The symmetric amplification changes by `0.000020325` under temporal refinement
+and `0.000044084` under spatial refinement. All declared
 stationarity, energy, control, and convergence checks pass.
 
+Values smaller than the portable reporting grid are recorded as zero, while
+converged stationarity residuals are recorded as the Newton-tolerance upper
+bound `1e-11`. Visualization traces use a separate `1e-6` grid and do not carry
+scientific identity at higher precision.
+
 As an independent scale check, the frozen static profile-direction Rayleigh
-quotient is `-0.99330785572`. Linearized zero-velocity growth predicts
-`cosh(sqrt(0.99330785572)*4) = 26.9448068519`; the refined nonlinear result is
+quotient is `-0.993307856`. Linearized zero-velocity growth predicts
+`cosh(sqrt(0.993307856)*4)`, approximately `26.9448`; the refined nonlinear result is
 within five percent of that prediction.
 
 ## Reproduction and evidence
@@ -96,8 +102,8 @@ npm run case:level-0:dynamics:verify
 ```
 
 The machine-readable model is
-[`phase-c-dynamics-v1.json`](phase-c-dynamics-v1.json). The frozen output is
-[`artifacts/phase-c-dynamics-v1.json`](artifacts/phase-c-dynamics-v1.json), and
+[`phase-c-dynamics-v2.json`](phase-c-dynamics-v2.json). The frozen output is
+[`artifacts/phase-c-dynamics-v2.json`](artifacts/phase-c-dynamics-v2.json), and
 the case-specific solver is
 [`solver/phase-c-dynamics-solver.mjs`](solver/phase-c-dynamics-solver.mjs).
 
@@ -105,11 +111,11 @@ Evidence identities:
 
 - source DOI: `10.5281/zenodo.19397414`;
 - Phase-C objecthood dependency:
-  `sha256:c3c13e3682ed27a81653f38f6bb52befb84d1539bb873a5b9ef87ed3837e9bc5`;
+  `sha256:b2442288c5ebc8e6df802a46deb78697155e345c9f76cd68fe7312738aa4047f`;
 - dynamics model:
-  `sha256:1527416db53db882b69620e5d75f28438570e7b5ec4baea8035e2f9fc899e1fd`;
+  `sha256:fd8f8b68b958bb018157557d01b65e6524302cda839abd437d6283a38211e378`;
 - dynamics analysis:
-  `sha256:d3fa61690eb4d4598d6db2398edda927d6a7f5b3a4f8e87e51d73b688a91f247`.
+  `sha256:fddf195e2a439e051b94ad0d560774a0d996e927ad66ccc154d08f6013fabc2f`.
 
 ## Claim boundary
 

@@ -5,7 +5,6 @@ import { fileURLToPath } from "node:url";
 import { canonicalize, hashCanonical } from "../../packages/kernel/src/index.js";
 import { runLevelZeroValidation } from "./run.mjs";
 import { runPhaseCBoundednessPreflight } from "./run-phase-c-preflight.mjs";
-import { runPhaseCObjecthoodSearch } from "./run-phase-c-objecthood.mjs";
 import { verifyLevelZeroSource } from "./run.mjs";
 
 const caseRoot = path.dirname(fileURLToPath(import.meta.url));
@@ -13,10 +12,14 @@ const repositoryRoot = path.resolve(caseRoot, "../..");
 const MODEL_DOMAIN = "onto2d:level-zero-declared-pipeline-model:v1";
 const ANALYSIS_DOMAIN = "onto2d:level-zero-declared-pipeline-validation:v1";
 
+const archivedAnalysisDomains = Object.freeze({
+  "phase-c-objecthood-search-v1": "onto2d:level-zero-phase-c-objecthood-search:v1"
+});
+
 const reproductions = Object.freeze({
   "phase-b-reference-v1": runLevelZeroValidation,
   "phase-c-boundedness-preflight-v1": runPhaseCBoundednessPreflight,
-  "phase-c-objecthood-search-v1": runPhaseCObjecthoodSearch
+  "phase-c-objecthood-search-v1": null
 });
 
 function validateModel(model) {
@@ -44,9 +47,20 @@ async function reproduceDependency(dependency) {
     throw new TypeError(`Integrated dependency ${dependency.id} leaves the repository.`);
   }
   const frozen = JSON.parse(await readFile(dependencyPath, "utf8"));
-  const reproduced = await reproductions[dependency.id]();
-  if (canonicalize(frozen) !== canonicalize(reproduced)) {
-    throw new TypeError(`Integrated dependency ${dependency.id} differs from its reproduction.`);
+  const reproduce = reproductions[dependency.id];
+  let reproduced;
+  if (reproduce) {
+    reproduced = await reproduce();
+    if (canonicalize(frozen) !== canonicalize(reproduced)) {
+      throw new TypeError(`Integrated dependency ${dependency.id} differs from its reproduction.`);
+    }
+  } else {
+    const { analysisHash, ...basis } = frozen;
+    const archivedDomain = archivedAnalysisDomains[dependency.id];
+    if (!archivedDomain || hashCanonical(archivedDomain, basis) !== analysisHash) {
+      throw new TypeError(`Integrated archived dependency ${dependency.id} fails integrity.`);
+    }
+    reproduced = frozen;
   }
   if (reproduced.analysisHash !== dependency.analysisHash) {
     throw new TypeError(`Integrated dependency ${dependency.id} analysis hash differs from the model.`);

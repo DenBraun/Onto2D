@@ -63,7 +63,7 @@ reproduced, or the source lock fails.
     antisymmetric control, and the temporal/spatial refinement comparisons.
 13. Confirm that
     [`PHASE_C_EXPANDED_PREREGISTRATION.md`](PHASE_C_EXPANDED_PREREGISTRATION.md)
-    and [`phase-c-expanded-search-v1.json`](phase-c-expanded-search-v1.json)
+    and [`phase-c-expanded-search-v2.json`](phase-c-expanded-search-v2.json)
     fix the six scenarios, four perturbations, thresholds, and stopping rule
     independently of the reported outcome.
 14. Independently reproduce at least one eligible asymmetric stationary

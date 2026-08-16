@@ -7,7 +7,7 @@ import {
   profilePath,
   sampleProfile,
   seriesPath
-} from "./level-zero-visual-model.js?v=20260816.11";
+} from "./level-zero-visual-model.js?v=20260816.12";
 
 const $ = (selector) => document.querySelector(selector);
 const elements = {
@@ -334,37 +334,33 @@ function renderExpanded() {
 
 async function loadStudy() {
   const [
-    integratedV1Response,
-    integratedV2Response,
+    integratedResponse,
     objecthoodResponse,
     dynamicsResponse,
     expandedResponse
   ] = await Promise.all([
-    fetch("../../cases/level-0-oscillator/artifacts/level-zero-validation-v1.json", { cache: "no-store" }),
-    fetch("../../cases/level-0-oscillator/artifacts/level-zero-validation-v2.json", { cache: "no-store" }),
-    fetch("../../cases/level-0-oscillator/artifacts/phase-c-objecthood-v1.json", { cache: "no-store" }),
-    fetch("../../cases/level-0-oscillator/artifacts/phase-c-dynamics-v1.json", { cache: "no-store" }),
-    fetch("../../cases/level-0-oscillator/artifacts/phase-c-expanded-search-v1.json", { cache: "no-store" })
+    fetch("../../cases/level-0-oscillator/artifacts/level-zero-validation-v3.json", { cache: "no-store" }),
+    fetch("../../cases/level-0-oscillator/artifacts/phase-c-objecthood-v2.json", { cache: "no-store" }),
+    fetch("../../cases/level-0-oscillator/artifacts/phase-c-dynamics-v2.json", { cache: "no-store" }),
+    fetch("../../cases/level-0-oscillator/artifacts/phase-c-expanded-search-v2.json", { cache: "no-store" })
   ]);
   if (
-    !integratedV1Response.ok ||
-    !integratedV2Response.ok ||
+    !integratedResponse.ok ||
     !objecthoodResponse.ok ||
     !dynamicsResponse.ok ||
     !expandedResponse.ok
   ) {
     throw new Error("Frozen Level-0 artifacts could not be loaded.");
   }
-  const integratedV1Artifact = await integratedV1Response.json();
-  const integratedV2Artifact = await integratedV2Response.json();
+  const integratedArtifact = await integratedResponse.json();
   const objecthoodArtifact = await objecthoodResponse.json();
   study = buildVisualStudy(
-    integratedV1Artifact,
+    integratedArtifact,
     objecthoodArtifact
   );
   dynamicsView = buildDynamicsView(objecthoodArtifact, await dynamicsResponse.json());
   expandedView = buildExpandedSearchView(
-    integratedV2Artifact,
+    integratedArtifact,
     await expandedResponse.json()
   );
   elements.analysisHash.textContent = expandedView.analysisHash;
@@ -373,7 +369,7 @@ async function loadStudy() {
   elements.cubicState.textContent = study.cubicRejected ? "REJECTED" : "UNRESOLVED";
   elements.objectState.textContent = study.levelZeroValidated ? "QUALIFIED" : "NO NODE";
   elements.phaseDState.textContent = study.phaseDStopped ? "NOT RUN" : "AVAILABLE";
-  elements.status.textContent = "Five frozen artifacts loaded";
+  elements.status.textContent = "Portable v3 evidence loaded";
   elements.status.dataset.state = "ready";
   renderBranch();
   renderDynamics();

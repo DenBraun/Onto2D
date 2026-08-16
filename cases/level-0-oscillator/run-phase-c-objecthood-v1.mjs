@@ -12,15 +12,15 @@ import {
 import { runLevelZeroValidation, verifyLevelZeroSource } from "./run.mjs";
 import { runPhaseCBoundednessPreflight } from "./run-phase-c-preflight.mjs";
 import {
-  PHASE_C_OBJECTHOOD_SOLVER_V2,
-  phaseCObjecthoodSolverV2
+  PHASE_C_OBJECTHOOD_SOLVER,
+  phaseCObjecthoodSolver
 } from "./solver/phase-c-objecthood-solver.mjs";
 
 const caseRoot = path.dirname(fileURLToPath(import.meta.url));
 const repositoryRoot = path.resolve(caseRoot, "../..");
-const MODEL_DOMAIN = "onto2d:level-zero-phase-c-objecthood-model:v2";
-const COMPONENT_DOMAIN = "onto2d:level-zero-phase-c-objecthood-component:v2";
-const ANALYSIS_DOMAIN = "onto2d:level-zero-phase-c-objecthood-search:v2";
+const MODEL_DOMAIN = "onto2d:level-zero-phase-c-objecthood-model:v1";
+const COMPONENT_DOMAIN = "onto2d:level-zero-phase-c-objecthood-component:v1";
+const ANALYSIS_DOMAIN = "onto2d:level-zero-phase-c-objecthood-search:v1";
 
 function validateModel(model) {
   if (
@@ -28,14 +28,13 @@ function validateModel(model) {
     model.schemaVersion !== "1" ||
     model.caseId !== "level-0-oscillator" ||
     model.modelId !== "level-0-phase-c-stabilized-envelope-search" ||
-    model.modelVersion !== "2.0.0" ||
     model.status !== "bounded-computational-operationalization" ||
     !Array.isArray(model.scenarios) ||
     model.scenarios.length < 1
   ) {
     throw new TypeError("Unsupported Level-0 Phase-C objecthood model.");
   }
-  if (canonicalize(model.oracle?.solver) !== canonicalize(PHASE_C_OBJECTHOOD_SOLVER_V2)) {
+  if (canonicalize(model.oracle?.solver) !== canonicalize(PHASE_C_OBJECTHOOD_SOLVER)) {
     throw new TypeError("Phase-C objecthood solver identity does not match the model.");
   }
   const scenarioIds = model.scenarios.map((scenario) => scenario.id);
@@ -143,7 +142,8 @@ function requestFor(model, modelHash, evidenceIds, scenario, canonicalForm) {
       extendedIntervals: model.parameters.extendedIntervals,
       newtonTolerance: model.parameters.newtonTolerance,
       newtonMaxIterations: model.parameters.newtonMaxIterations,
-      reportingPolicy: model.parameters.reportingPolicy,
+      roundingSignificantDigits: model.parameters.roundingSignificantDigits,
+      reportedAbsoluteTolerance: model.parameters.reportedAbsoluteTolerance,
       lambda: scenario.lambda,
       quarticCoefficient: scenario.quarticCoefficient,
       initialBranch: scenario.initialBranch,
@@ -228,7 +228,7 @@ function namedGate(result, name) {
 
 export async function runPhaseCObjecthoodSearch({ model: suppliedModel } = {}) {
   const model = validateModel(suppliedModel ?? JSON.parse(await readFile(
-    new URL("./phase-c-objecthood-v2.json", import.meta.url),
+    new URL("./phase-c-objecthood-v1.json", import.meta.url),
     "utf8"
   )));
   const source = await verifyLevelZeroSource(model);
@@ -251,7 +251,7 @@ export async function runPhaseCObjecthoodSearch({ model: suppliedModel } = {}) {
       scenario,
       canonical.canonicalForm
     );
-    const oracleResponse = await phaseCObjecthoodSolverV2.evaluate({
+    const oracleResponse = await phaseCObjecthoodSolver.evaluate({
       requestHash: requestBinding.requestHash,
       request: requestBinding.request
     });
@@ -300,7 +300,7 @@ export async function runPhaseCObjecthoodSearch({ model: suppliedModel } = {}) {
     inputMapping: model.inputMapping,
     status: "bounded-phase-c-trial-family-search",
     scope: model.scope,
-    solver: PHASE_C_OBJECTHOOD_SOLVER_V2,
+    solver: PHASE_C_OBJECTHOOD_SOLVER,
     scenarios,
     phaseD: {
       status: paperQualified.length === 0
@@ -330,7 +330,7 @@ export async function runPhaseCObjecthoodSearch({ model: suppliedModel } = {}) {
 
 function parseArguments(argv) {
   const options = {
-    output: path.join(caseRoot, "artifacts", "phase-c-objecthood-v2.json"),
+    output: path.join(caseRoot, "artifacts", "phase-c-objecthood-v1.json"),
     verify: false
   };
   for (let index = 0; index < argv.length; index += 1) {

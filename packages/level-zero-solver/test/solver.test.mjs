@@ -34,17 +34,20 @@ function envelope(overrides = {}) {
         {
           id: "stationarity_l2_residual_coarse",
           unit: "1",
-          semantic: "manufactured-coarse-residual"
+          semantic: "manufactured-coarse-residual",
+          toleranceTarget: { absolute: 1e-10 }
         },
         {
           id: "stationarity_l2_residual_fine",
           unit: "1",
-          semantic: "manufactured-fine-residual"
+          semantic: "manufactured-fine-residual",
+          toleranceTarget: { absolute: 1e-10 }
         },
         {
           id: "stationarity_observed_order",
           unit: "1",
-          semantic: "manufactured-observed-order"
+          semantic: "manufactured-observed-order",
+          toleranceTarget: { absolute: 1e-10 }
         }
       ],
       parameters: parameters(),
@@ -137,7 +140,12 @@ test("invalid, mismatched, unsupported, and over-limit requests remain distinct"
   );
   await assert.rejects(
     levelZeroReferenceSolver.evaluate(envelope({
-      quantities: [{ id: "unknown", unit: "1", semantic: "unknown" }]
+      quantities: [{
+        id: "unknown",
+        unit: "1",
+        semantic: "unknown",
+        toleranceTarget: { absolute: 1e-10 }
+      }]
     })),
     (error) => error instanceof LevelZeroSolverError && error.code === "LEVEL_ZERO_QUANTITY_UNSUPPORTED"
   );
@@ -146,6 +154,30 @@ test("invalid, mismatched, unsupported, and over-limit requests remain distinct"
     (error) =>
       error instanceof LevelZeroSolverError && error.code === "LEVEL_ZERO_RESOURCE_LIMIT_EXCEEDED"
   );
+});
+
+test("the solver rejects active input objects and returns an immutable snapshot", async () => {
+  let reads = 0;
+  const unsafe = envelope();
+  Object.defineProperty(unsafe.request.parameters, "coarseGrid", {
+    enumerable: true,
+    get() {
+      reads += 1;
+      return 32;
+    }
+  });
+  await assert.rejects(
+    levelZeroReferenceSolver.evaluate(unsafe),
+    (error) => error instanceof LevelZeroSolverError && error.code === "LEVEL_ZERO_REQUEST_INVALID"
+  );
+  assert.equal(reads, 0);
+
+  const requestEnvelope = envelope();
+  const response = await levelZeroReferenceSolver.evaluate(requestEnvelope);
+  requestEnvelope.request.parameters.evidenceIds[0] = REQUEST_HASH;
+  assert.deepEqual(response.solver.parameters.evidenceIds, [EVIDENCE_HASH]);
+  assert.ok(Object.isFrozen(response));
+  assert.ok(Object.isFrozen(response.solver.parameters));
 });
 
 test("the external solver package does not import the kernel", async () => {

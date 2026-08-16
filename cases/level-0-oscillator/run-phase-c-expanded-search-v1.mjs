@@ -9,19 +9,18 @@ import {
   validateOracleResponse
 } from "../../packages/kernel/src/index.js";
 import { verifyLevelZeroSource } from "./run.mjs";
-import { runPhaseCObjecthoodSearch } from "./run-phase-c-objecthood.mjs";
-import { runPhaseCDynamicsProbe } from "./run-phase-c-dynamics.mjs";
+import { runPhaseCObjecthoodSearch } from "./run-phase-c-objecthood-v1.mjs";
+import { runPhaseCDynamicsProbe } from "./run-phase-c-dynamics-v1.mjs";
 import {
-  PHASE_C_EXPANDED_SOLVER_V2,
-  phaseCExpandedSolverV2,
+  PHASE_C_EXPANDED_SOLVER,
+  phaseCExpandedSolver,
   runPhaseCExpandedNumerics
 } from "./solver/phase-c-expanded-solver.mjs";
-import { portableMetricValue } from "./solver/portable-reporting.mjs";
 
 const caseRoot = path.dirname(fileURLToPath(import.meta.url));
 const repositoryRoot = path.resolve(caseRoot, "../..");
-const MODEL_DOMAIN = "onto2d:level-zero-phase-c-expanded-model:v2";
-const ANALYSIS_DOMAIN = "onto2d:level-zero-phase-c-expanded-analysis:v2";
+const MODEL_DOMAIN = "onto2d:level-zero-phase-c-expanded-model:v1";
+const ANALYSIS_DOMAIN = "onto2d:level-zero-phase-c-expanded-analysis:v1";
 
 function validateModel(model) {
   if (
@@ -29,13 +28,12 @@ function validateModel(model) {
     model.schemaVersion !== "1" ||
     model.caseId !== "level-0-oscillator" ||
     model.modelId !== "level-0-phase-c-asymmetric-complex-search" ||
-    model.modelVersion !== "2.0.0" ||
     model.status !== "preregistered-bounded-extension" ||
     model.preregisteredAt !== "2026-08-16"
   ) {
     throw new TypeError("Unsupported expanded Level-0 Phase-C model.");
   }
-  if (canonicalize(model.oracle?.solver) !== canonicalize(PHASE_C_EXPANDED_SOLVER_V2)) {
+  if (canonicalize(model.oracle?.solver) !== canonicalize(PHASE_C_EXPANDED_SOLVER)) {
     throw new TypeError("Expanded Phase-C solver identity does not match the model.");
   }
   if (!Array.isArray(model.scenarios) || model.scenarios.length !== 6) {
@@ -78,10 +76,10 @@ async function exactArtifact(dependency, reproduce) {
 
 async function verifyDependencies(model) {
   const objecthoodDependency = model.dependencies.find(
-    (dependency) => dependency.id === "phase-c-objecthood-search-v2"
+    (dependency) => dependency.id === "phase-c-objecthood-search-v1"
   );
   const dynamicsDependency = model.dependencies.find(
-    (dependency) => dependency.id === "phase-c-dynamics-v2"
+    (dependency) => dependency.id === "phase-c-dynamics-v1"
   );
   if (!objecthoodDependency || !dynamicsDependency) {
     throw new TypeError("Expanded Phase-C dependency identifiers are incomplete.");
@@ -232,21 +230,16 @@ function classifyScenario(scenario, values, acceptance) {
   };
 }
 
-function portableReplay(metrics, parameters) {
-  const residualIds = new Set([
-    "stationarity_max_residual_coarse",
-    "stationarity_max_residual_fine",
-    "stationarity_max_residual_extended"
-  ]);
+function roundedReplay(metrics, digits) {
   return Object.fromEntries(Object.entries(metrics).map(([id, value]) => [
     id,
-    portableMetricValue(id, value, parameters, residualIds)
+    value === 0 ? 0 : Number.parseFloat(value.toPrecision(digits))
   ]));
 }
 
 export async function runPhaseCExpandedSearch({ model: suppliedModel } = {}) {
   const model = validateModel(suppliedModel ?? JSON.parse(await readFile(
-    new URL("./phase-c-expanded-search-v2.json", import.meta.url),
+    new URL("./phase-c-expanded-search-v1.json", import.meta.url),
     "utf8"
   )));
   const source = await verifyLevelZeroSource(model);
@@ -267,7 +260,7 @@ export async function runPhaseCExpandedSearch({ model: suppliedModel } = {}) {
       evidenceIds,
       dependencies.candidate
     );
-    const oracleResponse = await phaseCExpandedSolverV2.evaluate({
+    const oracleResponse = await phaseCExpandedSolver.evaluate({
       requestHash: requestBinding.requestHash,
       request: requestBinding.request
     });
@@ -283,9 +276,9 @@ export async function runPhaseCExpandedSearch({ model: suppliedModel } = {}) {
     );
     const replay = runPhaseCExpandedNumerics(requestBinding.request.parameters);
     if (
-      canonicalize(portableReplay(
+      canonicalize(roundedReplay(
         replay.metrics,
-        requestBinding.request.parameters
+        model.parameters.roundingSignificantDigits
       )) !== canonicalize(scientificResult.values)
     ) {
       throw new TypeError(`${scenario.id} visualization replay differs from Oracle values.`);
@@ -336,7 +329,7 @@ export async function runPhaseCExpandedSearch({ model: suppliedModel } = {}) {
     },
     status: "completed-preregistered-bounded-extension",
     scope: model.scope,
-    solver: PHASE_C_EXPANDED_SOLVER_V2,
+    solver: PHASE_C_EXPANDED_SOLVER,
     scenarios,
     conclusion: {
       qualifiedScenarioIds: qualified.map((scenario) => scenario.id),
@@ -359,7 +352,7 @@ export async function runPhaseCExpandedSearch({ model: suppliedModel } = {}) {
 
 function parseArguments(argv) {
   const options = {
-    output: path.join(caseRoot, "artifacts", "phase-c-expanded-search-v2.json"),
+    output: path.join(caseRoot, "artifacts", "phase-c-expanded-search-v1.json"),
     verify: false
   };
   for (let index = 0; index < argv.length; index += 1) {

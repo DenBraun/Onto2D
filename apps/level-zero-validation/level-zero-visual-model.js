@@ -90,13 +90,13 @@ export function buildVisualStudy(integratedArtifact, objecthoodArtifact) {
   const integrated = requireObject(integratedArtifact, "integratedArtifact");
   const objecthood = requireObject(objecthoodArtifact, "objecthoodArtifact");
   const dependency = integrated.dependencies?.find(
-    (entry) => entry.id === "phase-c-objecthood-search-v1"
+    (entry) => entry.id === "phase-c-objecthood-search-v2"
   );
   if (!dependency || dependency.analysisHash !== objecthood.analysisHash) {
     throw new TypeError("The visual artifacts do not share the frozen Phase-C identity.");
   }
   if (
-    integrated.status !== "complete-negative-result-within-declared-model" ||
+    integrated.status !== "complete-negative-result-within-portable-expanded-model" ||
     integrated.conclusion?.declaredCaseExecutionComplete !== true ||
     integrated.conclusion?.declaredModelLevelZeroValidated !== false
   ) {
@@ -206,14 +206,14 @@ export function buildExpandedSearchView(integratedArtifact, expandedArtifact) {
   const integrated = requireObject(integratedArtifact, "integratedArtifact");
   const expanded = requireObject(expandedArtifact, "expandedArtifact");
   const dependency = integrated.dependencies?.find(
-    (entry) => entry.id === "phase-c-expanded-search-v1"
+    (entry) => entry.id === "phase-c-expanded-search-v2"
   );
   if (!dependency || dependency.analysisHash !== expanded.analysisHash) {
     throw new TypeError("The expanded search is not bound to the integrated Level-0 result.");
   }
   if (
-    integrated.status !== "complete-negative-result-within-expanded-declared-model" ||
-    integrated.conclusion?.priorV1DispositionChanged !== false ||
+    integrated.status !== "complete-negative-result-within-portable-expanded-model" ||
+    integrated.conclusion?.priorDispositionChanged !== false ||
     integrated.conclusion?.declaredModelLevelZeroValidated !== false ||
     expanded.status !== "completed-preregistered-bounded-extension" ||
     expanded.conclusion?.result !== "bounded-negative-no-qualified-asymmetric-branch"

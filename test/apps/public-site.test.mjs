@@ -193,11 +193,10 @@ test("the Level-0 view projects frozen evidence into interactive branches", () =
   assert.match(levelZeroMarkup, /id="expanded-trace-off-center"/);
   assert.match(levelZeroMarkup, /id="expanded-failed-gates"/);
   assert.match(levelZeroMarkup, /A visual explanation, not a new calculation/i);
-  assert.match(levelZeroApp, /artifacts\/level-zero-validation-v1\.json/);
-  assert.match(levelZeroApp, /artifacts\/level-zero-validation-v2\.json/);
-  assert.match(levelZeroApp, /artifacts\/phase-c-objecthood-v1\.json/);
-  assert.match(levelZeroApp, /artifacts\/phase-c-dynamics-v1\.json/);
-  assert.match(levelZeroApp, /artifacts\/phase-c-expanded-search-v1\.json/);
+  assert.match(levelZeroApp, /artifacts\/level-zero-validation-v3\.json/);
+  assert.match(levelZeroApp, /artifacts\/phase-c-objecthood-v2\.json/);
+  assert.match(levelZeroApp, /artifacts\/phase-c-dynamics-v2\.json/);
+  assert.match(levelZeroApp, /artifacts\/phase-c-expanded-search-v2\.json/);
   assertScriptIdsExist(levelZeroApp, levelZeroMarkup);
   const appRevision = levelZeroMarkup.match(/level-zero-study\.js\?v=([^"']+)/)?.[1];
   const modelRevision = levelZeroApp.match(/level-zero-visual-model\.js\?v=([^"']+)/)?.[1];

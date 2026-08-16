@@ -52,12 +52,28 @@ function validateArgv(argv) {
   if (!Array.isArray(argv)) {
     cliFail("CLI_ARGUMENTS_INVALID", "CLI arguments must be an array.");
   }
+  if (Object.getOwnPropertySymbols(argv).length > 0) {
+    cliFail("CLI_ARGUMENTS_INVALID", "CLI arguments must not contain symbol fields.");
+  }
+  const descriptors = Object.getOwnPropertyDescriptors(argv);
+  for (const field of Object.keys(descriptors)) {
+    if (field === "length") continue;
+    if (!/^(?:0|[1-9][0-9]*)$/.test(field) || Number(field) >= argv.length) {
+      cliFail("CLI_ARGUMENTS_INVALID", "CLI arguments must not contain named fields.", { field });
+    }
+  }
   if (argv.length > MAX_ARGUMENTS) {
     cliFail("CLI_ARGUMENT_LIMIT_EXCEEDED", "CLI argument count exceeds the supported limit.", {
       maximum: MAX_ARGUMENTS
     });
   }
-  for (const [index, argument] of argv.entries()) {
+  const result = [];
+  for (let index = 0; index < argv.length; index += 1) {
+    const descriptor = descriptors[index];
+    if (!descriptor || !("value" in descriptor) || !descriptor.enumerable) {
+      cliFail("CLI_ARGUMENTS_INVALID", "CLI arguments must contain dense data elements.", { index });
+    }
+    const argument = descriptor.value;
     if (
       typeof argument !== "string" ||
       argument.length === 0 ||
@@ -68,7 +84,9 @@ function validateArgv(argv) {
         index
       });
     }
+    result.push(argument);
   }
+  return result;
 }
 
 function parseInteger(value, flag, minimum, maximum) {
@@ -157,8 +175,8 @@ function requireCount(command, argv, positionalCount) {
   }
 }
 
-export function parseCliArguments(argv) {
-  validateArgv(argv);
+export function parseCliArguments(input) {
+  const argv = validateArgv(input);
   if (argv.length === 0) {
     return Object.freeze({ kind: "help", text: GENERAL_HELP });
   }

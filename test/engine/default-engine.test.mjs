@@ -67,3 +67,17 @@ test("the default engine analysis replays the Canonical Identity Lab fixture", a
   assert.equal(artifact.result.skeletonId, TRIANGLE_SKELETON_ID);
   assert.equal(artifact.model.modelRootHash, bundledCausalEmergenceModelPack.manifest.rootHash);
 });
+
+test("the root facade rejects option accessors without invoking them", async () => {
+  let reads = 0;
+  const options = {};
+  Object.defineProperty(options, "models", {
+    enumerable: true,
+    get() {
+      reads += 1;
+      return [];
+    }
+  });
+  await assert.rejects(() => Onto2D.create(options), TypeError);
+  assert.equal(reads, 0);
+});

@@ -32,14 +32,25 @@ function normalizeOptions(options) {
   if (prototype !== Object.prototype && prototype !== null) {
     throw new TypeError("CLI options must be a plain object.");
   }
-  const unknown = Object.keys(options).filter((key) => !["cwd", "stdout", "stderr"].includes(key));
+  if (Object.getOwnPropertySymbols(options).length > 0) {
+    throw new TypeError("CLI options must not contain symbol fields.");
+  }
+  const descriptors = Object.getOwnPropertyDescriptors(options);
+  const fields = Object.keys(descriptors);
+  for (const field of fields) {
+    const descriptor = descriptors[field];
+    if (!("value" in descriptor) || !descriptor.enumerable) {
+      throw new TypeError("CLI options must contain enumerable data fields only.");
+    }
+  }
+  const unknown = fields.filter((key) => !["cwd", "stdout", "stderr"].includes(key));
   if (unknown.length > 0) throw new TypeError("CLI options contain unknown fields.");
-  const stdout = options.stdout ?? process.stdout;
-  const stderr = options.stderr ?? process.stderr;
+  const stdout = descriptors.stdout?.value ?? process.stdout;
+  const stderr = descriptors.stderr?.value ?? process.stderr;
   if (!stdout || typeof stdout.write !== "function" || !stderr || typeof stderr.write !== "function") {
     throw new TypeError("CLI output streams require write(chunk).");
   }
-  const cwd = options.cwd ?? process.cwd();
+  const cwd = descriptors.cwd?.value ?? process.cwd();
   if (typeof cwd !== "string" || cwd.length === 0 || cwd.includes("\0")) {
     throw new TypeError("CLI cwd must be a non-empty path string.");
   }
@@ -69,6 +80,13 @@ function failureFor(error) {
   };
 }
 
+function commandHint(argv) {
+  if (!Array.isArray(argv)) return null;
+  const descriptor = Object.getOwnPropertyDescriptor(argv, "0");
+  if (!descriptor || !("value" in descriptor) || typeof descriptor.value !== "string") return null;
+  return descriptor.value.startsWith("--") ? null : descriptor.value;
+}
+
 export async function runCli(argv, options = {}) {
   let io;
   try {
@@ -85,9 +103,7 @@ export async function runCli(argv, options = {}) {
     return fallback.exitCode;
   }
 
-  let command = Array.isArray(argv) && typeof argv[0] === "string" && !argv[0].startsWith("--")
-    ? argv[0]
-    : null;
+  let command = commandHint(argv);
   try {
     const parsed = parseCliArguments(argv);
     command = parsed.command ?? null;

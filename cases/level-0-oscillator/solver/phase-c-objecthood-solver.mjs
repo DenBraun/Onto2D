@@ -1,10 +1,31 @@
 import { defineScientificAdapter } from "../../../packages/scientific-adapter/src/index.js";
+import {
+  assertPortableQuantities,
+  portableMetricValue,
+  validatePortableReporting
+} from "./portable-reporting.mjs";
 
 export const PHASE_C_OBJECTHOOD_SOLVER = Object.freeze({
   id: "onto2d-level-0-phase-c-objecthood",
   version: "1.0.0",
   method: "dirichlet-central-difference-newton-v1"
 });
+
+export const PHASE_C_OBJECTHOOD_SOLVER_V2 = Object.freeze({
+  id: "onto2d-level-0-phase-c-objecthood",
+  version: "2.0.0",
+  method: "dirichlet-central-difference-newton-portable-report-v2"
+});
+
+export const PHASE_C_OBJECTHOOD_IDENTITY_EXCLUSIONS = Object.freeze([
+  "antisymmetric_hessian_min_ldl_pivot",
+  "symmetric_hessian_min_ldl_pivot"
+]);
+
+const OBJECTHOOD_RESIDUAL_IDS = new Set([
+  "stationarity_max_residual_coarse",
+  "stationarity_max_residual_fine"
+]);
 
 function finitePositive(value, name) {
   if (!Number.isFinite(value) || value <= 0) {
@@ -20,7 +41,7 @@ function positiveEvenInteger(value, name) {
   return value;
 }
 
-function validateParameters(parameters) {
+function validateParameters(parameters, { portable = false } = {}) {
   if (!parameters || typeof parameters !== "object" || Array.isArray(parameters)) {
     throw new TypeError("Phase-C objecthood parameters must be an object.");
   }
@@ -45,15 +66,21 @@ function validateParameters(parameters) {
   if (!Number.isInteger(parameters.newtonMaxIterations) || parameters.newtonMaxIterations < 1) {
     throw new TypeError("newtonMaxIterations must be a positive integer.");
   }
-  if (
-    !Number.isInteger(parameters.roundingSignificantDigits) ||
-    parameters.roundingSignificantDigits < 1 ||
-    parameters.roundingSignificantDigits > 15
-  ) {
-    throw new TypeError("roundingSignificantDigits must be an integer from one through fifteen.");
-  }
-  if (!Number.isFinite(parameters.reportedAbsoluteTolerance) || parameters.reportedAbsoluteTolerance < 0) {
-    throw new TypeError("reportedAbsoluteTolerance must be finite and non-negative.");
+  if (portable) {
+    validatePortableReporting(parameters, {
+      identityExcludedQuantities: PHASE_C_OBJECTHOOD_IDENTITY_EXCLUSIONS
+    });
+  } else {
+    if (
+      !Number.isInteger(parameters.roundingSignificantDigits) ||
+      parameters.roundingSignificantDigits < 1 ||
+      parameters.roundingSignificantDigits > 15
+    ) {
+      throw new TypeError("roundingSignificantDigits must be an integer from one through fifteen.");
+    }
+    if (!Number.isFinite(parameters.reportedAbsoluteTolerance) || parameters.reportedAbsoluteTolerance < 0) {
+      throw new TypeError("reportedAbsoluteTolerance must be finite and non-negative.");
+    }
   }
   if (!Number.isFinite(parameters.lambda) || parameters.lambda < 0) {
     throw new TypeError("lambda must be finite and non-negative.");
@@ -321,8 +348,9 @@ function compute(parameters) {
   };
 }
 
-export const phaseCObjecthoodSolver = defineScientificAdapter({
-  ...PHASE_C_OBJECTHOOD_SOLVER,
+function createPhaseCObjecthoodSolver(identity, { portable = false } = {}) {
+  return defineScientificAdapter({
+  ...identity,
   async evaluate(envelope) {
     if (!envelope || typeof envelope !== "object" || Array.isArray(envelope)) {
       throw new TypeError("Phase-C objecthood solver requires a request envelope.");
@@ -332,11 +360,12 @@ export const phaseCObjecthoodSolver = defineScientificAdapter({
       throw new TypeError("Phase-C objecthood solver envelope requires requestHash and request.");
     }
     for (const field of ["id", "version", "method"]) {
-      if (request.solver?.[field] !== PHASE_C_OBJECTHOOD_SOLVER[field]) {
+      if (request.solver?.[field] !== identity[field]) {
         throw new TypeError(`Phase-C objecthood solver ${field} does not match the request.`);
       }
     }
-    const parameters = validateParameters(request.parameters);
+    const parameters = validateParameters(request.parameters, { portable });
+    if (portable) assertPortableQuantities(request.quantities, parameters.reportingPolicy);
     const computed = compute(parameters);
     const values = {};
     for (const specification of request.quantities) {
@@ -344,14 +373,25 @@ export const phaseCObjecthoodSolver = defineScientificAdapter({
         throw new TypeError(`Unsupported Phase-C objecthood quantity: ${specification.id}`);
       }
       values[specification.id] = {
-        value: round(computed[specification.id], parameters.roundingSignificantDigits),
+        value: portable
+          ? portableMetricValue(
+            specification.id,
+            computed[specification.id],
+            parameters,
+            OBJECTHOOD_RESIDUAL_IDS
+          )
+          : round(computed[specification.id], parameters.roundingSignificantDigits),
         unit: specification.unit,
-        tolerance: { absolute: parameters.reportedAbsoluteTolerance },
+        tolerance: {
+          absolute: portable
+            ? parameters.reportingPolicy.absoluteTolerance
+            : parameters.reportedAbsoluteTolerance
+        },
         semantic: specification.semantic,
         provenance: {
           kind: "oracle",
           source: requestHash,
-          method: PHASE_C_OBJECTHOOD_SOLVER.method,
+          method: identity.method,
           evidence: [...parameters.evidenceIds]
         }
       };
@@ -360,8 +400,18 @@ export const phaseCObjecthoodSolver = defineScientificAdapter({
       requestHash,
       values,
       convergence: "converged",
-      solver: { ...PHASE_C_OBJECTHOOD_SOLVER, parameters: request.parameters },
+      solver: { ...identity, parameters: request.parameters },
       wallTimeMs: 0
     };
   }
 });
+}
+
+export const phaseCObjecthoodSolver = createPhaseCObjecthoodSolver(
+  PHASE_C_OBJECTHOOD_SOLVER
+);
+
+export const phaseCObjecthoodSolverV2 = createPhaseCObjecthoodSolver(
+  PHASE_C_OBJECTHOOD_SOLVER_V2,
+  { portable: true }
+);

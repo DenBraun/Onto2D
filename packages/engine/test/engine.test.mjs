@@ -7,6 +7,7 @@ import {
   EngineError,
   Onto2D,
   buildModelLineage,
+  diffModels,
   modelIdentity,
   verifyModelLineage
 } from "../src/index.js";
@@ -304,4 +305,84 @@ test("explicitly registered analyses receive exact model resolution", async () =
     rootHash: first.manifest.rootHash
   });
   await assert.rejects(() => onto.analyze("missing"), /not registered/);
+});
+
+test("engine configuration, references, and diff options reject active objects", async () => {
+  let reads = 0;
+  const activeOptions = {};
+  Object.defineProperty(activeOptions, "models", {
+    enumerable: true,
+    get() {
+      reads += 1;
+      return [first];
+    }
+  });
+  await assert.rejects(
+    Onto2D.create(activeOptions),
+    (error) => error instanceof EngineError && error.code === "ENGINE_OPTIONS_INVALID"
+  );
+  assert.equal(reads, 0);
+
+  const modelAliases = {};
+  Object.defineProperty(modelAliases, "stable", {
+    enumerable: true,
+    get() {
+      reads += 1;
+      return "1.0.0";
+    }
+  });
+  await assert.rejects(
+    Onto2D.create({ models: [first], aliases: { fixture: modelAliases } }),
+    (error) => (
+      error instanceof EngineError
+      && error.code === "ENGINE_MODEL_REGISTRY_INPUT_INVALID"
+    )
+  );
+  assert.equal(reads, 0);
+
+  const onto = await Onto2D.create({ models: [first], model: "fixture@1.0.0" });
+  const reference = { version: "1.0.0" };
+  Object.defineProperty(reference, "id", {
+    enumerable: true,
+    get() {
+      reads += 1;
+      return "fixture";
+    }
+  });
+  assert.throws(
+    () => onto.models.resolve(reference),
+    (error) => error instanceof EngineError && error.code === "ENGINE_MODEL_REFERENCE_INVALID"
+  );
+  assert.equal(reads, 0);
+
+  const diffOptions = {};
+  Object.defineProperty(diffOptions, "lineage", {
+    enumerable: true,
+    get() {
+      reads += 1;
+      return undefined;
+    }
+  });
+  assert.throws(
+    () => diffModels(onto.model, onto.model, diffOptions),
+    (error) => error instanceof EngineError && error.code === "ENGINE_DIFF_OPTIONS_INVALID"
+  );
+  assert.equal(reads, 0);
+});
+
+test("analysis definitions cannot claim inherited Object capabilities", async () => {
+  await assert.rejects(
+    Onto2D.create({
+      models: [first],
+      analyses: [{
+        id: "unsafe-capability",
+        version: "1",
+        requiredModelCapabilities: ["constructor"],
+        run() {
+          return true;
+        }
+      }]
+    }),
+    (error) => error instanceof EngineError && error.code === "ENGINE_ANALYSIS_INVALID"
+  );
 });

@@ -50,3 +50,32 @@ test("scientific adapter boundary rejects incomplete implementations", () => {
     InvalidScientificAdapterError
   );
 });
+
+test("scientific adapter definitions are exact and accessor-safe", () => {
+  let reads = 0;
+  const active = {
+    id: "fixture",
+    version: "1",
+    method: "fixture",
+    evaluate() {}
+  };
+  Object.defineProperty(active, "id", {
+    enumerable: true,
+    get() {
+      reads += 1;
+      return "fixture";
+    }
+  });
+  assert.throws(() => defineScientificAdapter(active), InvalidScientificAdapterError);
+  assert.equal(reads, 0);
+  assert.throws(
+    () => defineScientificAdapter({
+      id: "fixture",
+      version: "1",
+      method: "fixture",
+      evaluate() {},
+      hiddenPolicy: "not-declared"
+    }),
+    InvalidScientificAdapterError
+  );
+});

@@ -3,6 +3,70 @@ import { verifyModelPack } from "@onto2d/model-pack";
 import { canonicalIdentityAnalysis } from "@onto2d/canonical-identity-analysis";
 import bundledPackJson from "../models/causal-emergence/releases/2026.08.15/bundle.json" with { type: "json" };
 
+const CREATE_OPTION_FIELDS = new Set(["models", "aliases", "lineages", "model", "analyses"]);
+const FORBIDDEN_KEYS = new Set(["__proto__", "constructor", "prototype"]);
+
+function plainEntries(value, subject, allowed) {
+  if (value === null || typeof value !== "object" || Array.isArray(value)) {
+    throw new TypeError(`${subject} must be a plain object.`);
+  }
+  const prototype = Object.getPrototypeOf(value);
+  if (prototype !== Object.prototype && prototype !== null) {
+    throw new TypeError(`${subject} must be a plain object.`);
+  }
+  if (Object.getOwnPropertySymbols(value).length > 0) {
+    throw new TypeError(`${subject} must not contain symbol fields.`);
+  }
+  const descriptors = Object.getOwnPropertyDescriptors(value);
+  const entries = new Map();
+  for (const field of Object.keys(descriptors).sort()) {
+    const descriptor = descriptors[field];
+    if (!("value" in descriptor) || !descriptor.enumerable || FORBIDDEN_KEYS.has(field)) {
+      throw new TypeError(`${subject} must contain enumerable safe data fields only.`);
+    }
+    if (allowed !== undefined && !allowed.has(field)) {
+      throw new TypeError(`${subject} contains an unknown field: ${field}.`);
+    }
+    entries.set(field, descriptor.value);
+  }
+  return entries;
+}
+
+function arrayValues(value, subject) {
+  if (!Array.isArray(value)) throw new TypeError(`${subject} must be an array.`);
+  if (Object.getOwnPropertySymbols(value).length > 0) {
+    throw new TypeError(`${subject} must not contain symbol fields.`);
+  }
+  const descriptors = Object.getOwnPropertyDescriptors(value);
+  for (const field of Object.keys(descriptors)) {
+    if (field === "length") continue;
+    if (!/^(?:0|[1-9][0-9]*)$/.test(field) || Number(field) >= value.length) {
+      throw new TypeError(`${subject} must not contain named fields.`);
+    }
+  }
+  const result = [];
+  for (let index = 0; index < value.length; index += 1) {
+    const descriptor = descriptors[index];
+    if (!descriptor || !("value" in descriptor) || !descriptor.enumerable) {
+      throw new TypeError(`${subject} must contain dense data elements only.`);
+    }
+    result.push(descriptor.value);
+  }
+  return result;
+}
+
+function copyAliases(value) {
+  const result = Object.create(null);
+  for (const [modelId, aliases] of plainEntries(value, "Onto2D.create aliases")) {
+    const modelAliases = Object.create(null);
+    for (const [alias, version] of plainEntries(aliases, `Onto2D.create aliases.${modelId}`)) {
+      modelAliases[alias] = version;
+    }
+    result[modelId] = modelAliases;
+  }
+  return result;
+}
+
 export {
   ENGINE_API_VERSION,
   ENGINE_VERSION,
@@ -54,44 +118,30 @@ export const bundledCausalEmergenceModelPack = verifyModelPack(bundledPackJson);
 
 export class Onto2D {
   static async create(options = {}) {
-    if (options === null || typeof options !== "object" || Array.isArray(options)) {
-      throw new TypeError("Onto2D.create options must be a plain object.");
+    const entries = plainEntries(options, "Onto2D.create options", CREATE_OPTION_FIELDS);
+    const suppliedModels = entries.get("models") ?? [];
+    const suppliedAnalyses = entries.get("analyses") ?? [];
+    const aliases = copyAliases(entries.get("aliases") ?? {});
+    const causalAliases = aliases["causal-emergence"] ?? Object.create(null);
+    if (!Object.hasOwn(causalAliases, "stable")) {
+      causalAliases.stable = bundledCausalEmergenceModelPack.manifest.model.version;
     }
-    const prototype = Object.getPrototypeOf(options);
-    if (prototype !== Object.prototype && prototype !== null) {
-      throw new TypeError("Onto2D.create options must be a plain object.");
+    if (!Object.hasOwn(causalAliases, "latest")) {
+      causalAliases.latest = bundledCausalEmergenceModelPack.manifest.model.version;
     }
-    const suppliedModels = options.models ?? [];
-    if (!Array.isArray(suppliedModels)) {
-      throw new TypeError("Onto2D.create models must be an array.");
-    }
-    const suppliedAnalyses = options.analyses ?? [];
-    if (!Array.isArray(suppliedAnalyses)) {
-      throw new TypeError("Onto2D.create analyses must be an array.");
-    }
-    const suppliedAliases = options.aliases ?? {};
-    if (
-      suppliedAliases === null ||
-      typeof suppliedAliases !== "object" ||
-      Array.isArray(suppliedAliases) ||
-      ![Object.prototype, null].includes(Object.getPrototypeOf(suppliedAliases))
-    ) {
-      throw new TypeError("Onto2D.create aliases must be a plain object.");
-    }
-    const aliases = {
-      ...suppliedAliases,
-      "causal-emergence": {
-        stable: bundledCausalEmergenceModelPack.manifest.model.version,
-        latest: bundledCausalEmergenceModelPack.manifest.model.version,
-        ...(suppliedAliases["causal-emergence"] ?? {})
-      }
-    };
+    aliases["causal-emergence"] = causalAliases;
     return EngineOnto2D.create({
-      ...options,
-      models: [bundledCausalEmergenceModelPack, ...suppliedModels],
+      models: [
+        bundledCausalEmergenceModelPack,
+        ...arrayValues(suppliedModels, "Onto2D.create models")
+      ],
       aliases,
-      model: options.model ?? "causal-emergence@stable",
-      analyses: [canonicalIdentityAnalysis, ...suppliedAnalyses]
+      lineages: entries.get("lineages") ?? [],
+      model: entries.get("model") ?? "causal-emergence@stable",
+      analyses: [
+        canonicalIdentityAnalysis,
+        ...arrayValues(suppliedAnalyses, "Onto2D.create analyses")
+      ]
     });
   }
 }

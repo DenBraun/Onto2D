@@ -32,9 +32,11 @@ The non-mutating verification command is the normal review path.
 
 The default `case:level-0` command runs the integrated gated pipeline. Its
 human-readable conclusion is in
-[`LEVEL_ZERO_VALIDATION_V2.md`](LEVEL_ZERO_VALIDATION_V2.md). The frozen v1
-pipeline remains available as `npm run case:level-0:v1:verify` and is documented
-in [`LEVEL_ZERO_VALIDATION.md`](LEVEL_ZERO_VALIDATION.md).
+[`LEVEL_ZERO_VALIDATION_V3.md`](LEVEL_ZERO_VALIDATION_V3.md). Frozen v1 and v2
+pipelines remain available as `npm run case:level-0:v1:verify` and
+`npm run case:level-0:v2:verify`; their reports are
+[`LEVEL_ZERO_VALIDATION.md`](LEVEL_ZERO_VALIDATION.md) and
+[`LEVEL_ZERO_VALIDATION_V2.md`](LEVEL_ZERO_VALIDATION_V2.md).
 
 For the interactive evidence view, open
 [`Level-0 Numerical Validation`](../../apps/level-zero-validation/).
@@ -116,8 +118,8 @@ The preregistered extension in
 envelope restriction for five asymmetric parameter sets and executes a frozen
 four-direction complex perturbation bank. All eligible branches are localized
 and non-trivial, but none passes the real-amplitude or complex-phase Hessian
-gate. The integrated v2 disposition therefore remains negative inside the
-expanded declared model.
+gate. The integrated v3 disposition therefore remains negative inside the
+portable expanded declared model.
 
 ## Interpretation boundary
 

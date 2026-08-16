@@ -34,6 +34,10 @@ export interface LevelZeroMode {
 }
 
 export interface LevelZeroSolverParameters {
+  readonly modelId?: string;
+  readonly modelVersion?: string;
+  readonly modelHash?: string;
+  readonly scenarioId?: string;
   readonly modes: readonly LevelZeroMode[];
   readonly spacePeriod: number;
   readonly timePeriod: number;
@@ -42,21 +46,25 @@ export interface LevelZeroSolverParameters {
   readonly roundingSignificantDigits: number;
   readonly reportedAbsoluteTolerance: number;
   readonly evidenceIds: readonly string[];
-  readonly [key: string]: unknown;
 }
 
 export interface LevelZeroQuantitySpecification {
   readonly id: string;
-  readonly unit: unknown;
+  readonly unit: string;
   readonly semantic: string;
-  readonly [key: string]: unknown;
+  readonly toleranceTarget: Readonly<{ absolute?: number; relative?: number }>;
 }
 
 export interface LevelZeroSolverRequest {
   readonly solver: typeof LEVEL_ZERO_REFERENCE_SOLVER;
   readonly quantities: readonly LevelZeroQuantitySpecification[];
   readonly parameters: LevelZeroSolverParameters;
-  readonly [key: string]: unknown;
+  readonly candidate: Readonly<{
+    schemaVersion: string;
+    bytesBase64: string;
+    hash: string;
+  }>;
+  readonly toleranceTarget: Readonly<{ absolute?: number; relative?: number }>;
 }
 
 export interface LevelZeroSolverEnvelope {

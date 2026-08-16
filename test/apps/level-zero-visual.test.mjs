@@ -19,19 +19,16 @@ const readJson = async (relativePath) => JSON.parse(await readFile(
 ));
 
 const integrated = await readJson(
-  "cases/level-0-oscillator/artifacts/level-zero-validation-v1.json"
+  "cases/level-0-oscillator/artifacts/level-zero-validation-v3.json"
 );
 const objecthood = await readJson(
-  "cases/level-0-oscillator/artifacts/phase-c-objecthood-v1.json"
+  "cases/level-0-oscillator/artifacts/phase-c-objecthood-v2.json"
 );
 const dynamics = await readJson(
-  "cases/level-0-oscillator/artifacts/phase-c-dynamics-v1.json"
-);
-const integratedV2 = await readJson(
-  "cases/level-0-oscillator/artifacts/level-zero-validation-v2.json"
+  "cases/level-0-oscillator/artifacts/phase-c-dynamics-v2.json"
 );
 const expanded = await readJson(
-  "cases/level-0-oscillator/artifacts/phase-c-expanded-search-v1.json"
+  "cases/level-0-oscillator/artifacts/phase-c-expanded-search-v2.json"
 );
 
 test("the visual study preserves the frozen phase disposition", () => {
@@ -130,7 +127,7 @@ test("the dynamics view preserves the frozen instability result and controls", (
   const view = buildDynamicsView(objecthood, dynamics);
   assert.equal(view.frames.length, 25);
   assert.equal(view.antisymmetricFrames.length, 25);
-  assert.equal(view.maximumAmplification, 28.2471607644);
+  assert.equal(view.maximumAmplification, 28.247160764);
   assert.equal(view.antisymmetricMaximum, 1);
   assert.equal(view.departureTime, 2.975);
   assert.equal(view.persistencePassed, false);
@@ -185,8 +182,8 @@ test("the dynamics visual refuses a trace bound to different evidence", () => {
 });
 
 test("the expanded visual preserves the preregistered bounded disposition", () => {
-  const view = buildExpandedSearchView(integratedV2, expanded);
-  assert.equal(view.analysisHash, integratedV2.analysisHash);
+  const view = buildExpandedSearchView(integrated, expanded);
+  assert.equal(view.analysisHash, integrated.analysisHash);
   assert.equal(view.expandedAnalysisHash, expanded.analysisHash);
   assert.equal(view.scenarioCount, 6);
   assert.equal(view.eligibleCount, 5);
@@ -236,14 +233,14 @@ test("the expanded visual preserves the preregistered bounded disposition", () =
 
 test("the expanded visual rejects unbound or incomplete evidence", () => {
   assert.throws(
-    () => buildExpandedSearchView(integratedV2, {
+    () => buildExpandedSearchView(integrated, {
       ...expanded,
       analysisHash: "sha256:different"
     }),
     /not bound to the integrated Level-0 result/
   );
   assert.throws(
-    () => buildExpandedSearchView(integratedV2, {
+    () => buildExpandedSearchView(integrated, {
       ...expanded,
       scenarios: expanded.scenarios.slice(0, 5)
     }),

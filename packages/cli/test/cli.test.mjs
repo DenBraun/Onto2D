@@ -12,6 +12,7 @@ import {
   CLI_VERSION,
   runCli
 } from "../src/index.js";
+import { parseCliArguments } from "../src/parser.js";
 import {
   createZip,
   modelPackZipEntries
@@ -220,6 +221,23 @@ test("selectors reject malformed, non-finite, prototype-sensitive, and excessive
     assert.equal(result.exitCode, CLI_EXIT_CODES.usage);
     assert.equal(JSON.parse(result.stderr).error.code, "CLI_OPTION_INVALID");
   }
+});
+
+test("argument arrays reject accessors without invoking them", () => {
+  let reads = 0;
+  const argv = ["--help"];
+  Object.defineProperty(argv, "0", {
+    enumerable: true,
+    get() {
+      reads += 1;
+      return "--help";
+    }
+  });
+  assert.throws(
+    () => parseCliArguments(argv),
+    (error) => error.code === "CLI_ARGUMENTS_INVALID"
+  );
+  assert.equal(reads, 0);
 });
 
 test("the packaged bin executes the same JSON contract", () => {
