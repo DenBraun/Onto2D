@@ -1,0 +1,167 @@
+{
+  "format": "onto2d-live-bootstrap-source",
+  "formatVersion": "1",
+  "repository": "https://github.com/fosslinux/live-bootstrap",
+  "revision": "9a268c4c39cae952b268bc86da342be2175f03d4",
+  "revisionTree": "a1cdd49e41776ce150b790fe18f93c7611a142ae",
+  "extractionProfile": "live-bootstrap-provenance-v1",
+  "submodules": [
+    {
+      "path": "seed/stage0-posix",
+      "repository": "https://github.com/oriansj/stage0-posix",
+      "revision": "45d90f5955b6907dc6cdea9ebafce558359edcd3",
+      "contentStatus": "not-consumed"
+    }
+  ],
+  "profile": {
+    "id": "default-amd64",
+    "description": "Onto2D inspection profile corresponding to an amd64 QEMU run with declared defaults.",
+    "upstreamSupportStatus": "development-only",
+    "upstreamSupportNote": "At the pinned revision rootfs.py reports that only x86 is supported and other architectures are for development only.",
+    "variables": {
+      "ARCH": "amd64",
+      "ARCH_DIR": "AMD64",
+      "BARE_METAL": "False",
+      "BUILD_KERNELS": "False",
+      "CHROOT": "False",
+      "CONFIGURATOR": "False",
+      "FINAL_JOBS": "2",
+      "FORCE_TIMESTAMPS": "False",
+      "INTERACTIVE": "False",
+      "INTERNAL_CI": "False",
+      "JOBS": "2",
+      "KERNEL_BOOTSTRAP": "True",
+      "QEMU": "True",
+      "SWAP_SIZE": "0",
+      "UPDATE_CHECKSUMS": "False"
+    }
+  },
+  "files": [
+    {
+      "path": "steps/manifest",
+      "fixturePath": "fixtures/manifest/steps-manifest",
+      "role": "observed bootstrap execution sequence",
+      "sha256": "sha256:10d7fd566cdffab1802befcaaeb48484248c8e8eb0e2bc4efaa95fa8de54c592"
+    },
+    {
+      "path": ".gitmodules",
+      "fixturePath": "fixtures/upstream-metadata/gitmodules",
+      "role": "declared stage0-posix external-root repository",
+      "sha256": "sha256:78e03c213c91fc9d96be09fd4c47e9d572c89c64a85f9201ef2a588aad599964"
+    },
+    {
+      "path": "seed/after.kaem",
+      "fixturePath": "fixtures/selected-build-scripts/seed/after.kaem",
+      "role": "selected early bootstrap handoff script",
+      "sha256": "sha256:41daafe1f9a6a400c70ebce93b8e5c4e637ee244fc8c16ad4ea0f1dc91fa47d6"
+    },
+    {
+      "path": "steps/mes-0.27.1/pass1.kaem",
+      "fixturePath": "fixtures/selected-build-scripts/steps/mes-0.27.1/pass1.kaem",
+      "role": "selected Mes build evidence",
+      "sha256": "sha256:b747e2dc2c16f6b8d58e60581235980bdc59a94a3cc72d0d2a2659769615bf48"
+    },
+    {
+      "path": "steps/tcc-0.9.26/pass1.kaem",
+      "fixturePath": "fixtures/selected-build-scripts/steps/tcc-0.9.26/pass1.kaem",
+      "role": "selected TCC 0.9.26 build evidence",
+      "sha256": "sha256:dfec476b02f1c9eed0203392178aa0f12cf3b982f539a1f6ca520cd538718f77"
+    },
+    {
+      "path": "steps/tcc-0.9.27/pass1.kaem",
+      "fixturePath": "fixtures/selected-build-scripts/steps/tcc-0.9.27/pass1.kaem",
+      "role": "selected TCC 0.9.27 pass 1 build evidence",
+      "sha256": "sha256:bb5a3db849681027b13b58c58f09077cfa53a009d4a60101e47183b53b3a7b91"
+    },
+    {
+      "path": "steps/tcc-0.9.27/pass2.sh",
+      "fixturePath": "fixtures/selected-build-scripts/steps/tcc-0.9.27/pass2.sh",
+      "role": "selected TCC 0.9.27 pass 2 build evidence",
+      "sha256": "sha256:2626d06ea9b9a9e2fc0c59fb42dc3fb14c3ce5f4c76062f3c179ac8aaf9bb56a"
+    },
+    {
+      "path": "steps/tcc-0.9.27/pass3.sh",
+      "fixturePath": "fixtures/selected-build-scripts/steps/tcc-0.9.27/pass3.sh",
+      "role": "selected TCC 0.9.27 pass 3 build evidence",
+      "sha256": "sha256:35d007b03de376fe8dfd57e5ec5e1f9ceda84c3813d67901c2c55a9b3786fb78"
+    },
+    {
+      "path": "steps/musl-1.1.24/pass1.sh",
+      "fixturePath": "fixtures/selected-build-scripts/steps/musl-1.1.24/pass1.sh",
+      "role": "selected musl build evidence",
+      "sha256": "sha256:4e5d8754f8abaa504f480231ab31e00509af163db08f4d8084574babc4ad3fb7"
+    },
+    {
+      "path": "steps/binutils-2.30/pass1.sh",
+      "fixturePath": "fixtures/selected-build-scripts/steps/binutils-2.30/pass1.sh",
+      "role": "selected binutils build evidence",
+      "sha256": "sha256:bdcc6044f7997767ffad89c4725ff6a7579caf1aa0a6b2f7ab4e12bbf0ca4c31"
+    },
+    {
+      "path": "steps/gcc-4.0.4/pass1.sh",
+      "fixturePath": "fixtures/selected-build-scripts/steps/gcc-4.0.4/pass1.sh",
+      "role": "selected GCC 4.0.4 pass 1 build evidence",
+      "sha256": "sha256:3e8adef9b9012d45e85a01950fb7352e7670ab73f8382a11a46c4dd7bb81adcc"
+    },
+    {
+      "path": "steps/gcc-4.0.4/pass2.sh",
+      "fixturePath": "fixtures/selected-build-scripts/steps/gcc-4.0.4/pass2.sh",
+      "role": "selected GCC 4.0.4 pass 2 bounded audit",
+      "sha256": "sha256:93c3c887d8b40c8e63ea4edd8859743757efbc38ce4cd8eadfb4a4a8a7bae234"
+    },
+    {
+      "path": "steps/gcc-4.7.4/pass1.sh",
+      "fixturePath": "fixtures/selected-build-scripts/steps/gcc-4.7.4/pass1.sh",
+      "role": "selected GCC 4.7.4 build evidence",
+      "sha256": "sha256:998a01ac2162f5f75c13c1313d797faccd9b4586cf404587839c6eaf15f69206"
+    },
+    {
+      "path": "steps/linux-4.14.341-openela/pass1.sh",
+      "fixturePath": "fixtures/selected-build-scripts/steps/linux-4.14.341-openela/pass1.sh",
+      "role": "selected Linux build evidence",
+      "sha256": "sha256:3bdb9efbd8955f63f456855a261ca690e6c3225eb1481d5bbd27609431f8fc90"
+    },
+    {
+      "path": "steps/bash-2.05b/pass1.kaem",
+      "fixturePath": "fixtures/selected-build-scripts/steps/bash-2.05b/pass1.kaem",
+      "role": "selected early Bash build evidence",
+      "sha256": "sha256:46b41c51f7ef2093b3357272df554c9424e22bcf4a912e9770b76eb690b87df4"
+    },
+    {
+      "path": "steps/bash-5.2.15/pass1.sh",
+      "fixturePath": "fixtures/selected-build-scripts/steps/bash-5.2.15/pass1.sh",
+      "role": "selected modern Bash build evidence",
+      "sha256": "sha256:dabcda53ef4fb7adce4fbc11d6721641c4111ec581703dd925a1dff4a5a897fc"
+    },
+    {
+      "path": "steps/make-3.82/pass1.kaem",
+      "fixturePath": "fixtures/selected-build-scripts/steps/make-3.82/pass1.kaem",
+      "role": "selected early Make build evidence",
+      "sha256": "sha256:cfa3d911d131f775cbc75cbabed2b0f14ec8b8ae0feec6d6b8b17376f410a378"
+    },
+    {
+      "path": "steps/make-4.2.1/pass1.sh",
+      "fixturePath": "fixtures/selected-build-scripts/steps/make-4.2.1/pass1.sh",
+      "role": "selected modern Make build evidence",
+      "sha256": "sha256:a2b42c0720f41223101e9e53137b558db8a6b81378e30ef808db5f1b69d8603f"
+    }
+  ],
+  "trustBoundary": {
+    "modeled": [
+      "exact consumed upstream file bytes",
+      "manifest directive order and syntax",
+      "declared profile variables"
+    ],
+    "outside": [
+      "hardware",
+      "firmware",
+      "microcode",
+      "host preparation",
+      "mirrors and network transport",
+      "unconsumed upstream files",
+      "submodule contents",
+      "runtime filesystem effects",
+      "successful completion of the represented builds"
+    ]
+  }
+}

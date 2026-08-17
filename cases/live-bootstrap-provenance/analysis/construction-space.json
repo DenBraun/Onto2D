@@ -1,0 +1,130 @@
+{
+  "format": "onto2d-live-bootstrap-construction-space",
+  "formatVersion": "1",
+  "analysisVersion": "live-bootstrap-construction-v1",
+  "bounded": true,
+  "target": {
+    "id": "target:first-gcc-toolchain",
+    "label": "First reached GCC 4.0.4 toolchain milestone",
+    "selector": {
+      "directive": "build",
+      "target": "gcc-4.0.4",
+      "occurrence": 1
+    }
+  },
+  "actualPath": {
+    "id": "path:observed-prefix-to-first-gcc",
+    "label": "Pinned manifest prefix through the first GCC 4.0.4 build event",
+    "initialTrustRoot": "external-root:pre-manifest-environment",
+    "properties": {
+      "actual": true,
+      "sourceDerived": true,
+      "bootstrapAncestry": true,
+      "auditableBootstrap": true
+    },
+    "interpretationNote": "These properties are Onto2D classifications inside this bounded construction space, not claims made by live-bootstrap."
+  },
+  "counterfactualEdges": [
+    {
+      "id": "counterfactual:obtain-opaque-prebuilt-gcc",
+      "from": "initial-state",
+      "to": "target:first-gcc-toolchain",
+      "label": "Obtain an opaque prebuilt GCC 4.0.4 toolchain",
+      "introducedBy": "Onto2D",
+      "upstreamFact": false
+    },
+    {
+      "id": "counterfactual:obtain-prebuilt-c-toolchain",
+      "from": "initial-state",
+      "to": "state:prebuilt-c-toolchain",
+      "label": "Obtain a larger pre-existing binary C toolchain",
+      "introducedBy": "Onto2D",
+      "upstreamFact": false
+    },
+    {
+      "id": "counterfactual:build-gcc-from-source",
+      "from": "state:prebuilt-c-toolchain",
+      "to": "target:first-gcc-toolchain",
+      "label": "Build GCC 4.0.4 from source with the pre-existing toolchain",
+      "introducedBy": "Onto2D",
+      "upstreamFact": false
+    }
+  ],
+  "counterfactualPaths": [
+    {
+      "id": "path:opaque-prebuilt-gcc",
+      "label": "Opaque prebuilt GCC shortcut",
+      "target": "target:first-gcc-toolchain",
+      "properties": {
+        "actual": false,
+        "sourceDerived": false,
+        "bootstrapAncestry": false,
+        "auditableBootstrap": false
+      },
+      "steps": [
+        {
+          "stepId": "step:obtain-opaque-prebuilt-gcc",
+          "edgeId": "counterfactual:obtain-opaque-prebuilt-gcc",
+          "kind": "counterfactual-obtain",
+          "label": "Obtain opaque prebuilt GCC",
+          "toolId": "tool:gcc-4.0.4",
+          "trustRoots": ["trust-root:opaque-prebuilt-gcc"],
+          "cost": { "event": 1, "build": 0 }
+        }
+      ]
+    },
+    {
+      "id": "path:source-from-prebuilt-toolchain",
+      "label": "Source build using a pre-existing binary toolchain",
+      "target": "target:first-gcc-toolchain",
+      "properties": {
+        "actual": false,
+        "sourceDerived": true,
+        "bootstrapAncestry": false,
+        "auditableBootstrap": false
+      },
+      "steps": [
+        {
+          "stepId": "step:obtain-prebuilt-c-toolchain",
+          "edgeId": "counterfactual:obtain-prebuilt-c-toolchain",
+          "kind": "counterfactual-obtain",
+          "label": "Obtain prebuilt C toolchain",
+          "toolId": "tool:prebuilt-c-toolchain",
+          "trustRoots": ["trust-root:prebuilt-c-toolchain"],
+          "cost": { "event": 1, "build": 0 }
+        },
+        {
+          "stepId": "step:build-gcc-from-source",
+          "edgeId": "counterfactual:build-gcc-from-source",
+          "kind": "counterfactual-build",
+          "label": "Build GCC 4.0.4 from source",
+          "toolId": "tool:gcc-4.0.4",
+          "trustRoots": ["trust-root:prebuilt-c-toolchain"],
+          "cost": { "event": 1, "build": 1 }
+        }
+      ]
+    }
+  ],
+  "costFunctions": [
+    {
+      "id": "event-count",
+      "label": "Event count",
+      "description": "Sum of declared event cost units; the initial external-root marker has zero event cost."
+    },
+    {
+      "id": "build-event-count",
+      "label": "Build-event count",
+      "description": "Sum of declared build cost units."
+    },
+    {
+      "id": "distinct-tool-count",
+      "label": "Distinct tool count",
+      "description": "Cardinality of non-null tool identifiers on the declared path."
+    },
+    {
+      "id": "trust-root-count",
+      "label": "Trust-root count",
+      "description": "Cardinality of distinct declared trust-root identifiers on the path."
+    }
+  ]
+}

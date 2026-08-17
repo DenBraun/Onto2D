@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="../../assets/js/document-state-reset.js" defer></script>
+    <meta name="description" content="Inspect the pinned live-bootstrap trace, provenance evidence, trust roots, bounded counterfactual paths, and Onto2D Historical Load analysis.">
+    <title>Bootstrap Provenance Explorer - Onto2D</title>
+    <link rel="icon" href="../../assets/icons/favicon.ico?v=20260817.1" type="image/x-icon">
+    <link rel="stylesheet" href="../../assets/css/ui-icons.css?v=20260817.1">
+    <link rel="stylesheet" href="../../assets/css/study-bootstrap-provenance.css?v=20260817.4">
+    <script type="importmap">
+      {"imports":{"@onto2d/view":"../../packages/view/src/index.js?v=20260817.2"}}
+    </script>
+    <script type="module" src="./bootstrap-provenance-explorer.js?v=20260817.2"></script>
+  </head>
+  <body data-state="loading">
+    <a class="skip-link" href="#explorer">Skip to bootstrap trace</a>
+
+    <header class="site-header">
+      <a class="brand" href="../../" aria-label="Back to Onto2D home">
+        <svg viewBox="0 0 34 34" aria-hidden="true"><circle cx="7" cy="17" r="3"></circle><circle cx="27" cy="8" r="3"></circle><circle cx="27" cy="26" r="3"></circle><path d="M10 17h7m2-3 5-4m-5 10 5 4"></path></svg>
+        <span><strong>Bootstrap Provenance</strong><small>Evidence explorer / 0.1</small></span>
+      </a>
+      <nav aria-label="Project navigation"><a href="../../">Project</a><a href="../model-studio/">Model Studio</a><a href="../../cases/live-bootstrap-provenance/README.md">Case method</a><a href="https://github.com/DenBraun/Onto2D" target="_blank" rel="noopener noreferrer">GitHub</a></nav>
+      <span class="verified-badge"><i></i><span id="load-state" role="status" aria-live="polite">Verifying artifacts</span></span>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="page-title">
+        <div>
+          <p class="eyebrow">Pinned execution evidence / finite analysis space</p>
+          <h1 id="page-title">Trace what happened.<br><em>Separate what is inferred.</em></h1>
+          <p class="hero-deck">A source-bound view of live-bootstrap events and evidence, with Onto2D counterfactual analysis kept in a visibly separate layer.</p>
+        </div>
+        <dl class="identity-card">
+          <div><dt>Upstream revision</dt><dd><code id="revision-value">...</code></dd></div>
+          <div><dt>Trace</dt><dd><code id="trace-identity">...</code></dd></div>
+          <div><dt>Evidence</dt><dd><code id="evidence-identity">...</code></dd></div>
+          <div><dt>Profile</dt><dd>default-amd64 / QEMU inspection</dd></div>
+        </dl>
+      </section>
+
+      <section class="layer-boundary" aria-label="Interpretation layers">
+        <article data-layer="upstream"><span>01</span><div><strong>Upstream fact</strong><p>Manifest text, order, selected reviewed lines, and pinned revision.</p></div></article>
+        <article data-layer="derived"><span>02</span><div><strong>Deterministic derivation</strong><p>Predicate activity, state projection, and evidence graph assembly.</p></div></article>
+        <article data-layer="analysis"><span>03</span><div><strong>Onto2D analysis</strong><p>Finite alternatives, regimes, costs, ablation, and Historical Load.</p></div></article>
+      </section>
+
+      <section class="explorer-shell" id="explorer" aria-label="Bootstrap provenance research interface">
+        <aside class="trace-panel" aria-labelledby="trace-title">
+          <header class="panel-title"><div><p>01 / UPSTREAM-DERIVED</p><h2 id="trace-title">Bootstrap Trace</h2></div><span id="trace-count">...</span></header>
+          <div class="trace-controls">
+            <label class="trace-search"><span>Search package, milestone, or source text</span><input id="trace-search" type="search" autocomplete="off" placeholder="e.g. tcc-0.9.27"></label>
+            <div><label><span>Directive</span><select id="directive-filter"><option value="all">All directives</option></select></label><label><span>Status</span><select id="activity-filter"><option value="all">Active + inactive</option><option value="active">Active</option><option value="inactive">Inactive</option></select></label></div>
+          </div>
+          <div class="trace-legend" aria-label="Trace legend"><span><i class="active"></i>active</span><span><i class="inactive"></i>inactive under profile</span></div>
+          <div id="trace-list" class="trace-list" role="list"></div>
+        </aside>
+
+        <div class="research-stage">
+          <section class="provenance-card" aria-labelledby="graph-title">
+            <header class="section-heading">
+              <div><p>02 / EVIDENCE GRAPH</p><h2 id="graph-title">Provenance Graph</h2></div>
+              <div class="mode-switch" id="evidence-mode" aria-label="Evidence visibility">
+                <button type="button" data-mode="observed">Observed only</button><button class="is-active" type="button" data-mode="derived" aria-pressed="true">Observed + derived</button><button type="button" data-mode="all">All including inferred</button>
+              </div>
+            </header>
+            <div class="graph-notice"><strong id="graph-mode-note">Upstream and deterministic-derived edges are visible.</strong><span>Counterfactual construction edges are never merged into this evidence graph.</span></div>
+            <div class="graph-wrap">
+              <svg id="provenance-graph" viewBox="0 0 960 510" role="img" aria-labelledby="provenance-svg-title provenance-svg-description">
+                <title id="provenance-svg-title">Bounded provenance neighborhood</title><desc id="provenance-svg-description">A selected node and its upstream and downstream evidence relations.</desc>
+                <defs>
+                  <marker id="evidence-arrow" viewBox="0 0 10 10" refX="9.2" refY="5" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" orient="auto"><path d="M0 0 10 5 0 10z"></path></marker>
+                  <marker id="evidence-arrow-derived" viewBox="0 0 10 10" refX="9.2" refY="5" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" orient="auto"><path d="M0 0 10 5 0 10z"></path></marker>
+                  <marker id="evidence-arrow-unknown" viewBox="0 0 10 10" refX="9.2" refY="5" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" orient="auto"><path d="M0 0 10 5 0 10z"></path></marker>
+                  <marker id="evidence-arrow-focus" viewBox="0 0 10 10" refX="9.2" refY="5" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" orient="auto"><path d="M0 0 10 5 0 10z"></path></marker>
+                </defs>
+                <g id="provenance-edges"></g><g id="provenance-nodes"></g>
+              </svg>
+              <p id="graph-empty" class="empty-state" hidden>No graph records match this evidence layer.</p>
+            </div>
+            <footer><p id="graph-counts">...</p><div id="evidence-legend" class="evidence-legend"></div></footer>
+          </section>
+
+          <section class="trust-card" aria-labelledby="trust-title">
+            <header class="section-heading"><div><p>03 / EXPLICIT ROOTS</p><h2 id="trust-title">Trust Boundary</h2></div><p>No "zero trust" claim is made.</p></header>
+            <div id="trust-roots" class="trust-roots"></div>
+            <p class="boundary-note">Submodule contents, hardware, firmware, microcode, host preparation, mirrors, and runtime effects remain outside the verified source boundary of this case.</p>
+          </section>
+
+          <section class="paths-card" aria-labelledby="paths-title">
+            <header class="section-heading"><div><p>04 / ONTO2D CONSTRUCTION MODEL</p><h2 id="paths-title">Counterfactual Paths</h2></div><span>3 disclosed paths / bounded</span></header>
+            <div class="path-boundary"><strong>Actual is evidence-linked.</strong><span>Alternatives below are Onto2D constructions, not unexecuted upstream branches.</span></div>
+            <div id="path-cards" class="path-cards"></div>
+          </section>
+
+          <section class="load-card" aria-labelledby="load-title">
+            <header class="section-heading"><div><p>05 / ONTO2D INTERPRETATION</p><h2 id="load-title">Historical Load</h2></div><div class="analysis-controls"><label><span>Cost</span><select id="cost-function"></select></label><label><span>Regime</span><select id="regime-select"></select></label></div></header>
+            <p id="analysis-disclaimer" class="analysis-disclaimer"></p>
+            <div class="load-grid">
+              <div class="load-readout"><span>Delta H</span><strong id="load-value">...</strong><small id="load-formula">aF - a0</small></div>
+              <dl class="load-facts"><div><dt>Target</dt><dd id="load-target">...</dd></div><div><dt>a0 / unconstrained minimum</dt><dd id="a0-value">...</dd></div><div><dt>aF / constrained minimum</dt><dd id="af-value">...</dd></div><div><dt>First path divergence</dt><dd id="divergence-value">...</dd></div></dl>
+            </div>
+            <div class="load-interpretation" aria-live="polite"><div><span>What this number says here</span><strong id="load-meaning">...</strong></div><p id="load-scope">...</p></div>
+            <div class="comparison-heading"><h3>Actual trace, unconstrained optimum, selected constrained optimum</h3><p>Color and labels encode epistemic status, not performance.</p></div>
+            <div id="path-comparison" class="path-comparison"></div>
+            <div class="constraint-grid"><section><h3>Active constraints</h3><div id="constraint-list" class="constraint-list"></div></section><section><h3>Single-constraint ablation</h3><div id="ablation-list" class="ablation-list"></div></section></div>
+          </section>
+        </div>
+
+        <aside class="inspector-panel" aria-labelledby="inspector-title">
+          <header class="panel-title"><div><p>SELECTED RECORD</p><h2 id="inspector-title">Evidence Inspector</h2></div><span id="inspector-layer">...</span></header>
+          <div class="inspector-body">
+            <h3 id="inspector-name">Loading...</h3>
+            <dl class="inspector-facts"><div><dt>Kind</dt><dd id="inspector-kind">...</dd></div><div><dt>Evidence class</dt><dd id="inspector-class">...</dd></div><div><dt>Status</dt><dd id="inspector-status">...</dd></div><div><dt>Source</dt><dd id="inspector-source">...</dd></div><div><dt>Derived by</dt><dd id="inspector-method">...</dd></div></dl>
+            <section><h4>Claim / interpretation</h4><p id="inspector-claim">Select an event, entity, edge, root, or path.</p></section>
+            <details open><summary>Exact record</summary><pre id="inspector-record">...</pre></details>
+          </div>
+        </aside>
+      </section>
+    </main>
+
+    <div id="fatal-error" class="fatal-error" role="alert" hidden></div>
+  </body>
+</html>

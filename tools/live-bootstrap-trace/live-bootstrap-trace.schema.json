@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/live-bootstrap-resolved-trace.schema.json",
+  "title": "live-bootstrap resolved trace",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["format", "formatVersion", "source", "configuration", "events", "statistics", "traceIdentity"],
+  "properties": {
+    "format": { "const": "live-bootstrap-resolved-trace" },
+    "formatVersion": { "const": "1" },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repository", "revision", "manifestPath", "manifestSha256"],
+      "properties": {
+        "repository": { "type": "string", "minLength": 1 },
+        "revision": { "type": "string", "minLength": 1 },
+        "manifestPath": { "type": "string", "minLength": 1 },
+        "manifestSha256": { "$ref": "#/$defs/hash" }
+      }
+    },
+    "configuration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["format", "formatVersion", "id", "variables"],
+      "properties": {
+        "format": { "const": "live-bootstrap-trace-configuration" },
+        "formatVersion": { "const": "1" },
+        "id": { "type": "string", "minLength": 1 },
+        "variables": { "type": "object", "additionalProperties": { "type": "string" } }
+      }
+    },
+    "events": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["eventId", "ordinal", "directive", "target", "targets", "definition", "predicate", "source", "resolution"],
+        "properties": {
+          "eventId": { "type": "string", "pattern": "^event:[0-9]{6}$" },
+          "ordinal": { "type": "integer", "minimum": 0 },
+          "directive": { "enum": ["build", "improve", "define", "jump", "uninstall"] },
+          "target": { "type": ["string", "null"] },
+          "targets": { "type": "array", "items": { "type": "string" } },
+          "definition": { "type": ["object", "null"] },
+          "predicate": { "type": ["object", "null"] },
+          "source": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["path", "line", "raw", "comment"],
+            "properties": {
+              "path": { "type": "string", "minLength": 1 },
+              "line": { "type": "integer", "minimum": 1 },
+              "raw": { "type": "string" },
+              "comment": { "type": ["string", "null"] }
+            }
+          },
+          "resolution": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["active", "reason", "inputs"],
+            "properties": {
+              "active": { "type": "boolean" },
+              "reason": { "enum": ["no-predicate", "predicate-true", "predicate-false"] },
+              "inputs": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["name", "value", "origin"],
+                  "properties": {
+                    "name": { "type": "string" },
+                    "value": { "type": "string" },
+                    "origin": { "enum": ["configuration", "manifest-define", "unset"] }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "statistics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["eventCount", "activeEventCount", "inactiveEventCount", "directiveCounts"],
+      "properties": {
+        "eventCount": { "type": "integer", "minimum": 0 },
+        "activeEventCount": { "type": "integer", "minimum": 0 },
+        "inactiveEventCount": { "type": "integer", "minimum": 0 },
+        "directiveCounts": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["build", "improve", "define", "jump", "uninstall"],
+          "properties": {
+            "build": { "type": "integer", "minimum": 0 },
+            "improve": { "type": "integer", "minimum": 0 },
+            "define": { "type": "integer", "minimum": 0 },
+            "jump": { "type": "integer", "minimum": 0 },
+            "uninstall": { "type": "integer", "minimum": 0 }
+          }
+        }
+      }
+    },
+    "traceIdentity": { "$ref": "#/$defs/hash" }
+  },
+  "$defs": {
+    "hash": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" }
+  }
+}

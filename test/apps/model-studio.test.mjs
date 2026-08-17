@@ -63,7 +63,7 @@ test("dense real neighborhoods stay bounded and preserve the selected focus", as
   assert.ok(layout.edges.every((edge) => !/NaN|Infinity/.test(edge.path)));
 });
 
-test("every real depth-2 Studio layout keeps node circles separated", async () => {
+test("every real depth-2 Studio layout keeps bounded node cards separated", async () => {
   const nodes = await json("model/nodes.json");
   const view = createModelView({ nodes, edges: await json("model/edges.json") });
   for (const focus of nodes) {
@@ -77,16 +77,18 @@ test("every real depth-2 Studio layout keeps node circles separated", async () =
     const layout = layoutNeighborhood(projection, {
       width: 1040,
       height: 680,
-      padding: 62,
-      nodeRadius: 25
+      padding: 42,
+      nodeWidth: 148,
+      nodeHeight: 54
     });
     for (let left = 0; left < layout.nodes.length; left += 1) {
       for (let right = left + 1; right < layout.nodes.length; right += 1) {
-        const distance = Math.hypot(
-          layout.nodes[left].x - layout.nodes[right].x,
-          layout.nodes[left].y - layout.nodes[right].y
+        const horizontalDistance = Math.abs(layout.nodes[left].x - layout.nodes[right].x);
+        const verticalDistance = Math.abs(layout.nodes[left].y - layout.nodes[right].y);
+        assert.ok(
+          horizontalDistance >= layout.nodeWidth + 12 || verticalDistance >= layout.nodeHeight + 18,
+          `${focus.id}: ${layout.nodes[left].id} overlaps ${layout.nodes[right].id}`
         );
-        assert.ok(distance >= 68, `${focus.id}: ${layout.nodes[left].id} overlaps ${layout.nodes[right].id}`);
       }
     }
   }

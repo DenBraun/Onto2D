@@ -19,8 +19,9 @@ Those claims require explicit external evidence through the scientific-adapter
 boundary.
 
 The repository also contains a private engine preview: a deterministic Model
-Pack contract, a frozen Causal Emergence source snapshot, and a headless API
-for exact model queries and traversal. It is not yet a published npm package.
+Pack contract, separate frozen Causal Emergence and live-bootstrap provenance
+releases, and a headless API for exact model queries and traversal. It is not
+yet a published npm package.
 
 ## Engine preview
 
@@ -58,11 +59,19 @@ sequence, interactive branch comparison, and asymmetric complex search
 ([source notes](apps/level-zero-validation/README.md)).
 
 The [Model Studio](https://denbraun.github.io/Onto2D/apps/model-studio/)
-bounds and fully verifies the exact bundled Model Pack in the browser before
-exposing lazy catalogue pages, directed neighborhoods, and explicit source-record inspection.
+bounds and fully verifies its hash-pinned registry and selected exact Model
+Pack in the browser before exposing lazy catalogue pages, directed
+neighborhoods, and explicit source-record inspection. It can switch between
+the separate Causal Emergence and Live Bootstrap Provenance releases without
+reusing incompatible workspace selection.
 Its `+` action also opens an exact local `data.nt` + `shapes.nt` +
 `mapping-policy.json` set after replaying the complete RDF verification chain
 ([source notes](apps/model-studio/README.md)).
+
+The [Bootstrap Provenance Explorer](https://denbraun.github.io/Onto2D/apps/bootstrap-provenance-explorer/)
+reads the pinned live-bootstrap trace, evidence classes, trust roots, and
+separately disclosed finite counterfactual analysis
+([method](docs/LIVE_BOOTSTRAP_PROVENANCE_METHOD.md)).
 
 Run the static site:
 
@@ -125,7 +134,11 @@ preregistered asymmetric/complex extension; the
 frozen empirical reproduction. The
 [RDF mapping reference](cases/rdf-mapping-reference/README.md) replays a
 W3C-derived conforming graph through import, SHACL validation, explicit mapping,
-and complete Model Pack verification.
+and complete Model Pack verification. The
+[live-bootstrap provenance case](cases/live-bootstrap-provenance/README.md)
+pins exact upstream bytes, preserves 205 manifest events and 442 classified
+evidence records, builds a separate content-addressed Model Pack, and keeps its
+finite counterfactual analysis outside extracted upstream facts.
 
 ## Documentation
 
@@ -143,6 +156,9 @@ and complete Model Pack verification.
   rules.
 - [Foundational Paper Analysis](docs/FOUNDATIONAL_PAPER_ANALYSIS.md) records
   theory traceability and scientific limitations.
+- [Live Bootstrap Provenance Method](docs/LIVE_BOOTSTRAP_PROVENANCE_METHOD.md)
+  defines the pinned source, evidence classes, finite analysis, and trust
+  boundary for the external bootstrap case.
 - [Review Guide](docs/REVIEW_GUIDE.md) defines the independent golden review
   required for release.
 - [ADRs](docs/adr) preserve decisions that affect identity, evidence, or package

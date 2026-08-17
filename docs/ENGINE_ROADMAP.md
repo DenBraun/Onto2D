@@ -1,6 +1,6 @@
 # Engine Roadmap
 
-Updated: 2026-08-16.
+Updated: 2026-08-17.
 
 ## Completed foundation
 
@@ -36,6 +36,11 @@ Updated: 2026-08-16.
 - a browser-safe read-only Model Pack registry with explicit model/version
   selection, content-hash pinning, exact release resolution, same-origin
   relative pack locations, and verified Studio composition;
+- a bounded registry snapshot API and generic Model Studio selector that opens
+  both registered models, preserves exact identity in the URL and UI, and
+  resets incompatible workspace state at model boundaries;
+- a separate content-addressed `live-bootstrap-provenance` Model Pack with
+  source provenance on every entity and evidence-classified relation;
 - exact-identity lazy presentation sessions with bounded lightweight catalogue
   pages, graph projections, explicit full-record inspection, and verified
   Model Studio composition;
@@ -68,9 +73,8 @@ Before publishing the root facade:
    are reviewed.
 2. Keep `@onto2d/view` limited to deterministic presentation projections;
    Model Pack verification and scientific interpretation stay upstream.
-3. Extend Studio with model selection, comparison, and artifact inspection
-   when a second real release, reviewed lineage, and further registered
-   analysis artifacts exist.
+3. Keep completed cross-model selection separate from version comparison;
+   comparison still requires reviewed lineage and compatible artifacts.
 
 ## External models
 
@@ -87,6 +91,12 @@ mapping claim. A second mapping must begin with a concrete independently
 reviewed dataset and domain policy; only then should the profile be generalized
 or a dedicated OWL, OntoUML, SysML, ASAM, or SAMM adapter be considered. Their
 semantics must not enter the generic importer, validator, mapper, or engine.
+
+The live-bootstrap provenance case is a second registered external model with
+a different schema vocabulary. It validates generic selection and presentation
+boundaries without mixing external entities into Causal Emergence. Its focused
+Explorer and finite analysis remain application/case concerns rather than
+generic engine semantics.
 
 ## Operations
 

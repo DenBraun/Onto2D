@@ -45,6 +45,7 @@ Emergence snapshot.
 | `src` | Private root facade that composes the engine with bundled releases |
 | `scr` | Preserved source catalogue and reference material |
 | `scripts` | Repository checks and independent conformance tooling |
+| `tools` | Standalone local prototypes that remain independent of case interpretation |
 | `test` | Behavioral, schema, integration, case, and golden evidence |
 | `docs/adr` | Accepted architectural decisions |
 
@@ -57,6 +58,11 @@ Emergence snapshot.
   changes Model Pack semantic identity.
 - Registry selection is explicit and its paths remain below the registry
   origin; registry metadata never changes Model Pack semantic identity.
+- A registry-backed application may list releases only from a validated,
+  hash-pinned snapshot and must re-verify the selected pack before activation.
+- External source facts, deterministic derivations, and project analysis use
+  distinct records and identities; counterfactual edges never enter extracted
+  upstream evidence or an upstream/derived-only Model Pack.
 - Cases may call the kernel but must not add case-specific branches to it.
 - Scientific solvers may implement adapter contracts but must not import the kernel.
 - Applications do not become authorities for scientific values or canonical
@@ -82,6 +88,8 @@ Emergence snapshot.
   semantic hashes.
 - Generated run output belongs in ignored `runs/`; only reviewed fixtures are
   committed.
+- A neutral tool must not import the engine or acquire case-specific analysis
+  vocabulary merely because one case is its first consumer.
 
 Use an ADR when a change affects canonical identity, evidence semantics,
 scientific trust boundaries, or dependency direction.

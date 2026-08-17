@@ -1,49 +1,59 @@
 import {
   loadModelPackBundle,
   loadModelPackHttpDirectory
-} from "../../packages/model-pack/src/browser.js?v=20260816.18";
+} from "../../packages/model-pack/src/browser.js?v=20260817.3";
 import {
   createIndexedDbModelPackCacheStorage,
   createVerifiedModelPackCache
-} from "../../packages/model-pack/src/cache.js?v=20260816.18";
+} from "../../packages/model-pack/src/cache.js?v=20260817.3";
 import {
+  loadModelPackRegistryHttp,
   matchModelPackRegistryResolution,
-  resolveModelPackRegistryHttp
-} from "../../packages/model-pack/src/registry.js?v=20260816.18";
-import { createModelPackWorkerClient } from "../../packages/model-pack/src/worker.js?v=20260816.18";
-import { RDF_IMPORT_LIMITS, importNTriples } from "../../packages/rdf-import/src/index.js?v=20260816.18";
+  resolveModelPackRegistry
+} from "../../packages/model-pack/src/registry.js?v=20260817.3";
+import { createModelPackWorkerClient } from "../../packages/model-pack/src/worker.js?v=20260817.3";
+import { RDF_IMPORT_LIMITS, importNTriples } from "../../packages/rdf-import/src/index.js?v=20260817.3";
 import {
   buildRdfMappedModelPack,
   verifyRdfMappingPolicy
-} from "../../packages/rdf-mapping/src/index.js?v=20260816.18";
-import { validateShacl } from "../../packages/shacl-validation/src/index.js?v=20260816.18";
-import { createVerifiedModelPresentation } from "../../packages/engine/src/presentation.js?v=20260816.18";
-import { layoutNeighborhood } from "../../packages/view/src/index.js?v=20260816.18";
-import { graphHighlight } from "./graph-interactions.js?v=20260816.18";
+} from "../../packages/rdf-mapping/src/index.js?v=20260817.3";
+import { validateShacl } from "../../packages/shacl-validation/src/index.js?v=20260817.3";
+import { createVerifiedModelPresentation } from "../../packages/engine/src/presentation.js?v=20260817.3";
+import { layoutNeighborhood, wrapGraphNodeLabel } from "../../packages/view/src/index.js?v=20260817.3";
+import { graphHighlight } from "./graph-interactions.js?v=20260817.3";
+import {
+  modelSelectionKey,
+  modelSelectionLabel,
+  registryEntryForKey,
+  requestedRegistryEntry,
+  requestedWorkspaceState
+} from "./model-selection.js?v=20260817.3";
 
 const MODEL_REGISTRY_URL = new URL("../../models/registry.json", import.meta.url);
 const MODEL_PACK_WORKER_URL = new URL(
-  "../../assets/js/model-pack-worker.js?v=20260816.18",
+  "../../assets/js/model-pack-worker.js?v=20260817.3",
   import.meta.url
 );
-const MODEL_SELECTION = Object.freeze({
-  modelId: "causal-emergence",
-  version: "2026.08.15"
-});
-const EXPECTED_REGISTRY_HASH = "sha256:11a8245635b36395d814f37ca35d2a35e28ce8d78eb19fa89c6b3da8d73759a6";
+const EXPECTED_REGISTRY_HASH = "sha256:f09c3178260bfbbcca2b498cd08061b4be1dc18bef8c9a00d2baa2934d41b94b";
 const MODEL_CACHE_OPTIONS = Object.freeze({
   databaseName: "onto2d-model-studio-cache-v1",
   maxEntries: 4,
   maxTotalBytes: 128 * 1024 * 1024
 });
 const SVG_NAMESPACE = "http://www.w3.org/2000/svg";
-const DEFAULT_FOCUS = "0.0";
 const GRAPH_LIMITS = Object.freeze({ maxNodes: 48, maxEdges: 180 });
+const GRAPH_NODE = Object.freeze({ width: 148, height: 54, radius: 8, maxCharacters: 21, maxLines: 3, lineHeight: 13 });
 const CATALOG_PAGE_SIZE = 60;
 const MAX_POLICY_BYTES = 512 * 1024;
+const LOCAL_MODEL_OPTION = "local-rdf";
+const PRESENTATION_FIELDS = new Set([
+  "id", "name", "level", "phase", "typeRole", "scientificStatus",
+  "shortDescription", "parentCount", "childCount", "incomingEdgeCount",
+  "outgoingEdgeCount", "degree"
+]);
 
 const ids = [
-  "model-name", "model-version", "node-count", "edge-count", "root-hash", "load-state",
+  "model-selector", "model-name", "model-version", "node-count", "edge-count", "root-hash", "load-state",
   "catalog-count", "catalog-search", "level-filter", "role-filter", "phase-filter",
   "status-filter", "catalog-sort", "catalog-list", "catalog-empty", "graph-title", "editor-tab-label",
   "catalog-more", "window-model-id", "rdf-import-open", "rdf-import-dialog", "rdf-import-form",
@@ -54,7 +64,9 @@ const ids = [
   "selected-name", "selected-tags", "selected-summary", "parent-count", "child-count",
   "degree-count", "parents-total", "children-total", "parent-list", "child-list",
   "selected-description", "selected-record", "model-boundary-title", "model-boundary-summary",
-  "model-boundary-note"
+  "model-boundary-note", "records-title-label", "parents-title-label", "children-title-label",
+  "level-filter-control", "role-filter-control", "phase-filter-control", "status-filter-control",
+  "level-filter-label", "role-filter-label", "phase-filter-label", "status-filter-label"
 ];
 const elements = Object.fromEntries(ids.map((id) => [id, document.getElementById(id)]));
 for (const [id, element] of Object.entries(elements)) {
@@ -62,10 +74,14 @@ for (const [id, element] of Object.entries(elements)) {
 }
 
 const state = {
+  registrySnapshot: null,
+  selection: null,
+  modelSource: null,
   presentation: null,
+  presentationMetadata: null,
   manifest: null,
-  focusId: DEFAULT_FOCUS,
-  selectedId: DEFAULT_FOCUS,
+  focusId: null,
+  selectedId: null,
   direction: "both",
   depth: 1,
   catalog: {
@@ -77,6 +93,7 @@ const state = {
   }
 };
 let activeGraphProjection = null;
+let modelLoadSequence = 0;
 
 function svgElement(name, attributes = {}) {
   const element = document.createElementNS(SVG_NAMESPACE, name);
@@ -97,22 +114,93 @@ function shortenedHash(value) {
     : String(value ?? "not available");
 }
 
-function compactNodeId(value) {
-  const id = String(value);
-  const fragment = id.match(/[#/]([^#/]+)$/)?.[1] ?? id;
-  return fragment.length > 9 ? `${fragment.slice(0, 8)}.` : fragment;
-}
-
 function scalarLabel(value, fallback = "not declared") {
   return value === null || value === undefined || value === "" ? fallback : String(value);
 }
 
-function selectValue(element) {
-  return element.value === "" ? [] : [element.value];
+function boundedLabel(value, fallback) {
+  return typeof value === "string" && value.length > 0 && value.length <= 240
+    ? value
+    : fallback;
 }
 
-function selectNumericValue(element) {
-  return element.value === "" ? [] : [Number(element.value)];
+function presentationMetadata(pack, { localRdf = false } = {}) {
+  const dictionaries = pack.files["model/dictionaries.json"];
+  const supplied = dictionaries?.presentation;
+  const labels = supplied?.labels;
+  const boundary = supplied?.boundary;
+  const suppliedCoordinates = Array.isArray(supplied?.coordinates)
+    ? supplied.coordinates.slice(0, 4).filter((coordinate) => (
+        coordinate !== null
+        && typeof coordinate === "object"
+        && !Array.isArray(coordinate)
+        && PRESENTATION_FIELDS.has(coordinate.field)
+        && typeof coordinate.label === "string"
+        && coordinate.label.length > 0
+        && coordinate.label.length <= 40
+      ))
+    : [];
+  const metadata = {
+    labels: {
+      catalogTitle: boundedLabel(labels?.catalogTitle, "Records"),
+      searchPlaceholder: boundedLabel(labels?.searchPlaceholder, "Search records"),
+      levelFilter: boundedLabel(labels?.levelFilter, "Level"),
+      typeFilter: boundedLabel(labels?.typeFilter, "Type"),
+      phaseFilter: boundedLabel(labels?.phaseFilter, "Phase"),
+      statusFilter: boundedLabel(labels?.statusFilter, "Status"),
+      parents: boundedLabel(labels?.parents, "Direct parents"),
+      children: boundedLabel(labels?.children, "Direct children")
+    },
+    coordinates: suppliedCoordinates.length > 0
+      ? suppliedCoordinates.map(({ field, label }) => Object.freeze({ field, label }))
+      : [
+          Object.freeze({ field: "level", label: "Level" }),
+          Object.freeze({ field: "phase", label: "Phase" })
+        ],
+    boundary: {
+      title: boundedLabel(boundary?.title, "Verified model boundary"),
+      summary: boundedLabel(
+        boundary?.summary,
+        "Record and relation semantics are those declared by this exact verified release."
+      ),
+      note: boundedLabel(
+        boundary?.note,
+        "The Studio does not add dependency or causal meaning beyond the selected Model Pack."
+      )
+    }
+  };
+  if (localRdf) {
+    metadata.boundary = {
+      title: "Local RDF boundary",
+      summary: "Reviewed mapping projection. Nodes and edges are admitted only by the exact local policy after SHACL conformance.",
+      note: "This in-memory model is not a registry release, is not uploaded, and disappears when the page reloads."
+    };
+  }
+  return Object.freeze(metadata);
+}
+
+function coordinateText(node, fallback = "No coordinate") {
+  const parts = state.presentationMetadata.coordinates
+    .filter(({ field }) => node[field] !== null && node[field] !== undefined && node[field] !== "")
+    .map(({ field, label }) => `${label} ${String(node[field])}`);
+  return parts.length > 0 ? parts.join(" / ") : fallback;
+}
+
+function compactCoordinateText(node, fallback = "--") {
+  const values = state.presentationMetadata.coordinates
+    .map(({ field }) => node[field])
+    .filter((value) => value !== null && value !== undefined && value !== "")
+    .map(String);
+  return values.length > 0 ? values.join(" / ") : fallback;
+}
+
+function selectFacetValue(element) {
+  if (element.value === "") return [];
+  try {
+    return [JSON.parse(element.value)];
+  } catch {
+    return [];
+  }
 }
 
 function populateSelect(element, entries, allLabel) {
@@ -120,7 +208,7 @@ function populateSelect(element, entries, allLabel) {
   first.value = "";
   const options = entries.map(({ value, count }) => {
     const option = createElement("option", "", `${value} (${count})`);
-    option.value = String(value);
+    option.value = JSON.stringify(value);
     return option;
   });
   element.replaceChildren(first, ...options);
@@ -130,10 +218,10 @@ function currentCatalogQuery() {
   const [sort, order] = elements["catalog-sort"].value.split(":");
   return {
     search: elements["catalog-search"].value,
-    levels: selectNumericValue(elements["level-filter"]),
-    phases: selectValue(elements["phase-filter"]),
-    typeRoles: selectValue(elements["role-filter"]),
-    scientificStatuses: selectValue(elements["status-filter"]),
+    levels: selectFacetValue(elements["level-filter"]),
+    phases: selectFacetValue(elements["phase-filter"]),
+    typeRoles: selectFacetValue(elements["role-filter"]),
+    scientificStatuses: selectFacetValue(elements["status-filter"]),
     sort,
     order
   };
@@ -193,7 +281,8 @@ function renderCatalog({ reset = false, loadMore = false } = {}) {
     button.dataset.nodeId = node.id;
     button.dataset.focus = String(node.id === state.focusId);
     button.title = "Click to inspect; double-click to focus the graph";
-    const coordinate = createElement("span", "catalog-coordinate", `L${scalarLabel(node.level, "-")} / ${scalarLabel(node.phase, "-")}`);
+    const coordinate = createElement("span", "catalog-coordinate", compactCoordinateText(node));
+    coordinate.title = coordinateText(node);
     const title = createElement("strong", "", node.name);
     const metadata = createElement("small", "", `${node.id} | ${scalarLabel(node.typeRole)} | ${node.degree} edges`);
     button.append(coordinate, title, metadata);
@@ -260,8 +349,9 @@ function renderGraph() {
   const layout = layoutNeighborhood(projection, {
     width: 1040,
     height: 680,
-    padding: 62,
-    nodeRadius: 25
+    padding: 42,
+    nodeWidth: GRAPH_NODE.width,
+    nodeHeight: GRAPH_NODE.height
   });
   activeGraphProjection = projection;
   elements["graph-title"].textContent = projection.focus.name;
@@ -312,12 +402,32 @@ function renderGraph() {
       "data-focus": node.id === state.focusId ? "true" : "false",
       "data-selected": node.id === state.selectedId ? "true" : "false"
     });
-    const circle = svgElement("circle", { r: layout.nodeRadius });
-    const label = svgElement("text", { x: 0, y: 5 });
-    label.textContent = compactNodeId(node.id);
+    const box = svgElement("rect", {
+      x: -layout.nodeWidth / 2,
+      y: -layout.nodeHeight / 2,
+      width: layout.nodeWidth,
+      height: layout.nodeHeight,
+      rx: GRAPH_NODE.radius,
+      ry: GRAPH_NODE.radius
+    });
+    const label = svgElement("text", { "aria-hidden": "true" });
+    const wrapped = wrapGraphNodeLabel(node.name, {
+      maxCharacters: Math.max(8, Math.min(
+        GRAPH_NODE.maxCharacters,
+        Math.floor((layout.nodeWidth - 24) / 7.25)
+      )),
+      maxLines: GRAPH_NODE.maxLines
+    });
+    const firstLineY = -((wrapped.lines.length - 1) * GRAPH_NODE.lineHeight) / 2 + 4;
+    label.append(...wrapped.lines.map((line, index) => {
+      const span = svgElement("tspan", { x: 0, y: firstLineY + index * GRAPH_NODE.lineHeight });
+      span.textContent = line;
+      return span;
+    }));
+    group.dataset.truncated = String(wrapped.truncated);
     const title = svgElement("title");
     title.textContent = `${node.id} | ${node.name}`;
-    group.append(circle, label, title);
+    group.append(box, label, title);
     group.addEventListener("click", () => inspectNode(node.id));
     group.addEventListener("dblclick", () => focusNode(node.id));
     group.addEventListener("keydown", (event) => {
@@ -357,8 +467,13 @@ function renderRelationList(container, nodes, emptyText) {
   const buttons = nodes.map((node) => {
     const button = createElement("button", "relation-item");
     button.type = "button";
-    button.title = "Click to inspect";
-    button.append(createElement("code", "", node.id), createElement("span", "", node.name));
+    button.title = `${node.id} | ${node.name}`;
+    button.setAttribute("aria-label", `${node.name}, node ${node.id}. Click to inspect.`);
+    const identifier = createElement("code", "", node.id);
+    const name = createElement("span", "", node.name);
+    identifier.title = node.id;
+    name.title = node.name;
+    button.append(identifier, name);
     button.addEventListener("click", () => inspectNode(node.id));
     return button;
   });
@@ -370,7 +485,7 @@ function renderInspector() {
   const node = detail.node;
   const record = detail.record;
   elements["selected-id"].textContent = node.id;
-  elements["selected-coordinate"].textContent = `Level ${scalarLabel(node.level)} / Phase ${scalarLabel(node.phase)}`;
+  elements["selected-coordinate"].textContent = coordinateText(node);
   elements["selected-name"].textContent = node.name;
   elements["selected-tags"].replaceChildren(
     tag(scalarLabel(node.typeRole), "role"),
@@ -380,17 +495,7 @@ function renderInspector() {
   elements["selected-description"].textContent = typeof record.description === "string"
     ? record.description
     : "No full description is declared for this record.";
-  elements["selected-record"].textContent = JSON.stringify({
-    evidence: record.evidence ?? [],
-    requirements: record.requirements ?? {},
-    scienceIds: record.scienceIds ?? [],
-    localId: record.localId ?? null,
-    phaseId: record.phaseId ?? null,
-    phaseName: record.phaseName ?? null,
-    typeRoleId: record.typeRoleId ?? null,
-    levelMeaning: record.levelMeaning ?? null,
-    rdfSource: record.rdfSource ?? null
-  }, null, 2);
+  elements["selected-record"].textContent = JSON.stringify(record, null, 2);
   elements["parent-count"].textContent = String(node.parentCount);
   elements["child-count"].textContent = String(node.childCount);
   elements["degree-count"].textContent = String(node.degree);
@@ -417,6 +522,39 @@ function render() {
   updateControls();
 }
 
+function populateRegistrySelector(snapshot) {
+  const options = snapshot.registry.entries.map((entry) => {
+    const option = createElement("option", "", modelSelectionLabel(entry));
+    option.value = modelSelectionKey(entry);
+    return option;
+  });
+  elements["model-selector"].replaceChildren(...options);
+}
+
+function selectRegisteredOption(selection) {
+  const local = elements["model-selector"].querySelector(`option[value="${LOCAL_MODEL_OPTION}"]`);
+  if (local) local.remove();
+  elements["model-selector"].value = modelSelectionKey(selection);
+}
+
+function selectLocalOption(manifest) {
+  let option = elements["model-selector"].querySelector(`option[value="${LOCAL_MODEL_OPTION}"]`);
+  if (!option) {
+    option = createElement("option");
+    option.value = LOCAL_MODEL_OPTION;
+    elements["model-selector"].append(option);
+  }
+  option.textContent = `${manifest.model.name} - ${manifest.model.version} (local)`;
+  elements["model-selector"].value = LOCAL_MODEL_OPTION;
+}
+
+function configureFacet(filterId, entries, allLabel, label) {
+  populateSelect(elements[filterId], entries, allLabel);
+  const prefix = filterId.replace("-filter", "");
+  elements[`${prefix}-filter-label`].textContent = label;
+  elements[`${prefix}-filter-control`].hidden = entries.length === 0;
+}
+
 function activateModelPack(pack, options = {}) {
   const presentationOptions = options.resolution
     ? { resolution: options.resolution, defaultCatalogPageSize: CATALOG_PAGE_SIZE }
@@ -424,8 +562,16 @@ function activateModelPack(pack, options = {}) {
   const presentation = createVerifiedModelPresentation(pack, presentationOptions);
   const manifest = pack.manifest;
   const descriptor = presentation.descriptor;
+  const localRdf = options.modelSource === "local-rdf";
+  const metadata = presentationMetadata(pack, { localRdf });
+  const previousPresentation = state.presentation;
   state.manifest = manifest;
   state.presentation = presentation;
+  state.presentationMetadata = metadata;
+  state.selection = options.resolution === undefined
+    ? null
+    : Object.freeze({ modelId: options.resolution.modelId, version: options.resolution.version });
+  state.modelSource = options.modelSource ?? "registry";
   state.catalog = { key: null, items: [], total: 0, matching: 0, nextOffset: null };
   elements["catalog-search"].value = "";
   for (const id of ["level-filter", "role-filter", "phase-filter", "status-filter"]) {
@@ -433,7 +579,7 @@ function activateModelPack(pack, options = {}) {
   }
   elements["catalog-sort"].value = "id:asc";
   const requested = options.useLocation === true
-    ? requestedGraphState(presentation)
+    ? requestedGraphState(presentation, state.selection)
     : { focusId: defaultFocusId(presentation), depth: 1, direction: "both" };
   state.focusId = requested.focusId;
   state.selectedId = requested.focusId;
@@ -446,25 +592,28 @@ function activateModelPack(pack, options = {}) {
   elements["edge-count"].textContent = String(descriptor.statistics.edgeCount);
   elements["root-hash"].textContent = shortenedHash(manifest.rootHash);
   elements["root-hash"].title = manifest.rootHash;
-  const localRdf = options.modelSource === "local-rdf";
-  elements["model-boundary-title"].textContent = localRdf ? "Local RDF boundary" : "Model boundary";
-  elements["model-boundary-summary"].textContent = localRdf
-    ? "Reviewed mapping projection. Nodes and edges are admitted only by the exact local policy after SHACL conformance."
-    : "Transparent source snapshot. Links are preserved source-parent records, not reviewed generative causation.";
-  elements["model-boundary-note"].textContent = localRdf
-    ? "This in-memory model is not a registry release, is not uploaded, and disappears when the page reloads."
-    : "There is only one real Model Pack release. Version comparison remains disabled until reviewed lineage exists.";
-  populateSelect(elements["level-filter"], descriptor.facets.levels, "All levels");
-  populateSelect(elements["role-filter"], descriptor.facets.typeRoles, "All types");
-  populateSelect(elements["phase-filter"], descriptor.facets.phases, "All phases");
-  populateSelect(elements["status-filter"], descriptor.facets.scientificStatuses, "All statuses");
+  elements["records-title-label"].textContent = metadata.labels.catalogTitle;
+  elements["catalog-search"].placeholder = metadata.labels.searchPlaceholder;
+  elements["parents-title-label"].textContent = metadata.labels.parents;
+  elements["children-title-label"].textContent = metadata.labels.children;
+  elements["model-boundary-title"].textContent = metadata.boundary.title;
+  elements["model-boundary-summary"].textContent = metadata.boundary.summary;
+  elements["model-boundary-note"].textContent = metadata.boundary.note;
+  configureFacet("level-filter", descriptor.facets.levels, "All levels", metadata.labels.levelFilter);
+  configureFacet("role-filter", descriptor.facets.typeRoles, "All types", metadata.labels.typeFilter);
+  configureFacet("phase-filter", descriptor.facets.phases, "All phases", metadata.labels.phaseFilter);
+  configureFacet("status-filter", descriptor.facets.scientificStatuses, "All statuses", metadata.labels.statusFilter);
+  if (state.selection === null) selectLocalOption(manifest);
+  else selectRegisteredOption(state.selection);
   render();
-  if (options.useLocation !== true) replaceLocationState();
+  previousPresentation?.close();
+  replaceLocationState();
   document.body.dataset.presentation = "lazy";
   document.body.dataset.modelSource = options.modelSource ?? "registry";
   document.body.dataset.state = "ready";
   elements["load-state"].textContent = options.loadMessage ?? "Model verified";
   elements["rdf-import-open"].disabled = false;
+  elements["model-selector"].disabled = false;
 }
 
 function selectedFile(id, label) {
@@ -524,6 +673,7 @@ async function importRdfMapping() {
     description: policy.provenance.adaptation,
     status: "local-import"
   });
+  modelLoadSequence += 1;
   activateModelPack(pack, {
     modelSource: "local-rdf",
     loadMessage: "Local RDF model verified"
@@ -535,26 +685,33 @@ async function importRdfMapping() {
 }
 
 function defaultFocusId(presentation = state.presentation) {
-  if (presentation?.has(DEFAULT_FOCUS)) return DEFAULT_FOCUS;
   const first = presentation?.catalog({ offset: 0, limit: 1 }).items[0];
   if (!first) throw new Error("The verified Model Pack does not contain a graph node.");
   return first.id;
 }
 
-function requestedGraphState(presentation = state.presentation) {
+function requestedGraphState(presentation = state.presentation, selection = state.selection) {
   const parameters = new URLSearchParams(location.hash.slice(1));
-  const candidate = parameters.get("node");
-  const depth = Number(parameters.get("depth"));
-  const direction = parameters.get("direction");
-  return {
-    focusId: candidate && presentation.has(candidate) ? candidate : defaultFocusId(presentation),
-    depth: [1, 2].includes(depth) ? depth : 1,
-    direction: ["parents", "both", "children"].includes(direction) ? direction : "both"
+  const identity = selection ?? {
+    modelId: state.manifest.model.id,
+    version: state.manifest.model.version
   };
+  return requestedWorkspaceState(
+    parameters,
+    identity,
+    (id) => presentation.has(id),
+    defaultFocusId(presentation)
+  );
 }
 
 function replaceLocationState() {
+  const identity = state.selection ?? {
+    modelId: state.manifest.model.id,
+    version: state.manifest.model.version
+  };
   const parameters = new URLSearchParams({
+    model: identity.modelId,
+    version: identity.version,
     node: state.focusId,
     depth: String(state.depth),
     direction: state.direction
@@ -563,7 +720,20 @@ function replaceLocationState() {
   if (location.hash.slice(1) !== nextHash) history.replaceState(null, "", `#${nextHash}`);
 }
 
-function restoreLocationState() {
+async function restoreLocationState() {
+  if (state.registrySnapshot === null) return;
+  const parameters = new URLSearchParams(location.hash.slice(1));
+  const requestedEntry = requestedRegistryEntry(
+    state.registrySnapshot.registry.entries,
+    parameters
+  );
+  if (
+    state.selection === null
+    || modelSelectionKey(requestedEntry) !== modelSelectionKey(state.selection)
+  ) {
+    await openRegisteredModel(requestedEntry, { useLocation: true });
+    return;
+  }
   const requested = requestedGraphState();
   state.depth = requested.depth;
   state.direction = requested.direction;
@@ -620,7 +790,26 @@ function bindEvents() {
       elements["rdf-import-submit"].disabled = false;
     }
   });
-  window.addEventListener("hashchange", restoreLocationState);
+  elements["model-selector"].addEventListener("change", async () => {
+    const previousKey = state.selection === null ? LOCAL_MODEL_OPTION : modelSelectionKey(state.selection);
+    const selection = registryEntryForKey(
+      state.registrySnapshot.registry.entries,
+      elements["model-selector"].value
+    );
+    if (selection === null) {
+      elements["model-selector"].value = previousKey;
+      return;
+    }
+    try {
+      await openRegisteredModel(selection);
+    } catch (error) {
+      elements["model-selector"].value = previousKey;
+      displaySwitchError(error);
+    }
+  });
+  window.addEventListener("hashchange", () => {
+    restoreLocationState().catch(displaySwitchError);
+  });
 }
 
 function displayError(error) {
@@ -629,6 +818,19 @@ function displayError(error) {
   elements["graph-title"].textContent = "Could not load the model";
   elements["graph-message"].hidden = false;
   elements["graph-message"].textContent = error instanceof Error ? error.message : String(error);
+  console.error(error);
+}
+
+function displaySwitchError(error) {
+  if (state.presentation === null) {
+    displayError(error);
+    return;
+  }
+  document.body.dataset.state = "ready";
+  elements["load-state"].textContent = "Model switch failed";
+  elements["graph-message"].hidden = false;
+  elements["graph-message"].textContent = error instanceof Error ? error.message : String(error);
+  elements["model-selector"].disabled = false;
   console.error(error);
 }
 
@@ -732,29 +934,47 @@ async function loadVerifiedModelPack(resolution) {
   }
 }
 
-async function start() {
-  const resolution = await resolveModelPackRegistryHttp(
-    MODEL_REGISTRY_URL,
-    MODEL_SELECTION,
+async function openRegisteredModel(selection, { useLocation = false } = {}) {
+  if (state.registrySnapshot === null) {
+    throw new Error("The verified Model Pack registry is not loaded.");
+  }
+  const sequence = ++modelLoadSequence;
+  elements["model-selector"].disabled = true;
+  elements["load-state"].textContent = "Verifying selected model";
+  if (state.presentation === null) document.body.dataset.state = "loading";
+  const resolution = resolveModelPackRegistry(
+    state.registrySnapshot.registry,
+    state.registrySnapshot.registryUrl,
+    { modelId: selection.modelId, version: selection.version },
     { expectedRegistryHash: EXPECTED_REGISTRY_HASH }
   );
-  document.body.dataset.registry = resolution.registryTrust;
   const pack = await loadVerifiedModelPack(resolution);
-  const manifest = pack.manifest;
-  if (
-    manifest?.model?.id !== MODEL_SELECTION.modelId
-    || manifest?.model?.version !== MODEL_SELECTION.version
-  ) {
-    throw new Error("The verified Model Pack is not the release expected by Model Studio.");
-  }
+  if (sequence !== modelLoadSequence) return false;
+  document.body.dataset.registry = resolution.registryTrust;
   activateModelPack(pack, {
     resolution,
-    useLocation: true,
+    useLocation,
     modelSource: "registry",
     loadMessage: document.body.dataset.cache === "hit"
       ? "Cached model verified"
       : "Model verified"
   });
+  return true;
+}
+
+async function start() {
+  const snapshot = await loadModelPackRegistryHttp(
+    MODEL_REGISTRY_URL,
+    { expectedRegistryHash: EXPECTED_REGISTRY_HASH }
+  );
+  state.registrySnapshot = snapshot;
+  document.body.dataset.registry = snapshot.registryTrust;
+  populateRegistrySelector(snapshot);
+  const selection = requestedRegistryEntry(
+    snapshot.registry.entries,
+    new URLSearchParams(location.hash.slice(1))
+  );
+  await openRegisteredModel(selection, { useLocation: true });
   bindEvents();
 }
 

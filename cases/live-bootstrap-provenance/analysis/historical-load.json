@@ -1,0 +1,2411 @@
+{
+  "format": "onto2d-live-bootstrap-historical-load-bundle",
+  "formatVersion": "1",
+  "analysisVersion": "live-bootstrap-construction-v1",
+  "upstreamRevision": "9a268c4c39cae952b268bc86da342be2175f03d4",
+  "traceIdentity": "sha256:fcce7128defd56664257b2f7abab77e6f1d9bdbca670c7c604335aaa7d10fd85",
+  "sourceIdentity": "sha256:0abb57acc580995cc91b68f4b41888e658259adfca8485bc3eae30522564e622",
+  "pathSpaceIdentity": "sha256:9e482bd916c137965fb9f6eef023f888155a4e58d9a56e943a777cb76c9c6580",
+  "regimesIdentity": "sha256:3f91ce39ed9245da45eaff9b610148284815fc14156ad66c016cd5cc9e879b2a",
+  "analysisProfile": {
+    "format": "onto2d-live-bootstrap-analysis-profile",
+    "formatVersion": "1",
+    "analysisVersion": "live-bootstrap-construction-v1",
+    "upstreamRevision": "9a268c4c39cae952b268bc86da342be2175f03d4",
+    "traceIdentity": "sha256:fcce7128defd56664257b2f7abab77e6f1d9bdbca670c7c604335aaa7d10fd85",
+    "pathSpaceId": "sha256:9e482bd916c137965fb9f6eef023f888155a4e58d9a56e943a777cb76c9c6580",
+    "bounded": true,
+    "targets": [
+      {
+        "id": "target:first-gcc-toolchain",
+        "label": "First reached GCC 4.0.4 toolchain milestone",
+        "selector": {
+          "directive": "build",
+          "target": "gcc-4.0.4",
+          "occurrence": 1
+        }
+      }
+    ],
+    "costFunctions": [
+      "event-count",
+      "build-event-count",
+      "distinct-tool-count",
+      "trust-root-count"
+    ],
+    "regimes": [
+      {
+        "id": "observed",
+        "label": "Observed",
+        "description": "The factual pinned trace path; this is a reference regime, not an optimization regime.",
+        "optimization": false,
+        "constraints": [
+          "constraint:actual-pinned-trace-only"
+        ]
+      },
+      {
+        "id": "free",
+        "label": "Free",
+        "description": "Admits every path explicitly declared in this finite construction space.",
+        "optimization": true,
+        "constraints": []
+      },
+      {
+        "id": "source-derived",
+        "label": "Source-derived",
+        "description": "Requires the final GCC target to be built from source but permits a pre-existing binary toolchain.",
+        "optimization": true,
+        "constraints": [
+          "constraint:target-source-derived"
+        ]
+      },
+      {
+        "id": "bootstrappable",
+        "label": "Bootstrappable",
+        "description": "Rejects paths that violate the bounded bootstrap-ancestry policy.",
+        "optimization": true,
+        "constraints": [
+          "constraint:bootstrap-ancestry"
+        ]
+      },
+      {
+        "id": "auditable-bootstrap",
+        "label": "Auditable bootstrap",
+        "description": "Adds the bounded model's stricter auditable-root policy to bootstrap ancestry.",
+        "optimization": true,
+        "constraints": [
+          "constraint:bootstrap-ancestry",
+          "constraint:auditable-bootstrap-root"
+        ]
+      }
+    ],
+    "counterfactualEdges": [
+      {
+        "id": "counterfactual:obtain-opaque-prebuilt-gcc",
+        "from": "initial-state",
+        "to": "target:first-gcc-toolchain",
+        "label": "Obtain an opaque prebuilt GCC 4.0.4 toolchain",
+        "introducedBy": "Onto2D",
+        "upstreamFact": false
+      },
+      {
+        "id": "counterfactual:obtain-prebuilt-c-toolchain",
+        "from": "initial-state",
+        "to": "state:prebuilt-c-toolchain",
+        "label": "Obtain a larger pre-existing binary C toolchain",
+        "introducedBy": "Onto2D",
+        "upstreamFact": false
+      },
+      {
+        "id": "counterfactual:build-gcc-from-source",
+        "from": "state:prebuilt-c-toolchain",
+        "to": "target:first-gcc-toolchain",
+        "label": "Build GCC 4.0.4 from source with the pre-existing toolchain",
+        "introducedBy": "Onto2D",
+        "upstreamFact": false
+      }
+    ]
+  },
+  "analysisProfileIdentity": "sha256:ea1be70b4863152fbdc129e7a6e60d006bce4946577f82cd9732b30ad672fdc8",
+  "pathSpace": {
+    "format": "onto2d-live-bootstrap-finite-path-space",
+    "formatVersion": "1",
+    "analysisVersion": "live-bootstrap-construction-v1",
+    "upstreamRevision": "9a268c4c39cae952b268bc86da342be2175f03d4",
+    "traceIdentity": "sha256:fcce7128defd56664257b2f7abab77e6f1d9bdbca670c7c604335aaa7d10fd85",
+    "bounded": true,
+    "target": {
+      "id": "target:first-gcc-toolchain",
+      "label": "First reached GCC 4.0.4 toolchain milestone",
+      "selector": {
+        "directive": "build",
+        "target": "gcc-4.0.4",
+        "occurrence": 1
+      }
+    },
+    "counterfactualEdges": [
+      {
+        "id": "counterfactual:obtain-opaque-prebuilt-gcc",
+        "from": "initial-state",
+        "to": "target:first-gcc-toolchain",
+        "label": "Obtain an opaque prebuilt GCC 4.0.4 toolchain",
+        "introducedBy": "Onto2D",
+        "upstreamFact": false
+      },
+      {
+        "id": "counterfactual:obtain-prebuilt-c-toolchain",
+        "from": "initial-state",
+        "to": "state:prebuilt-c-toolchain",
+        "label": "Obtain a larger pre-existing binary C toolchain",
+        "introducedBy": "Onto2D",
+        "upstreamFact": false
+      },
+      {
+        "id": "counterfactual:build-gcc-from-source",
+        "from": "state:prebuilt-c-toolchain",
+        "to": "target:first-gcc-toolchain",
+        "label": "Build GCC 4.0.4 from source with the pre-existing toolchain",
+        "introducedBy": "Onto2D",
+        "upstreamFact": false
+      }
+    ],
+    "paths": [
+      {
+        "id": "path:observed-prefix-to-first-gcc",
+        "label": "Pinned manifest prefix through the first GCC 4.0.4 build event",
+        "target": "target:first-gcc-toolchain",
+        "properties": {
+          "actual": true,
+          "sourceDerived": true,
+          "bootstrapAncestry": true,
+          "auditableBootstrap": true
+        },
+        "steps": [
+          {
+            "stepId": "step:pre-manifest-environment",
+            "edgeId": null,
+            "kind": "external-root-marker",
+            "label": "Pre-manifest environment boundary",
+            "toolId": null,
+            "trustRoots": [
+              "external-root:pre-manifest-environment"
+            ],
+            "cost": {
+              "event": 0,
+              "build": 0
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000000",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build checksum-transcriber-1.0",
+            "toolId": "tool:checksum-transcriber-1.0",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000001",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build simple-patch-1.0",
+            "toolId": "tool:simple-patch-1.0",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000002",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build mes-0.27.1",
+            "toolId": "tool:mes-0.27.1",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000003",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build tcc-0.9.26",
+            "toolId": "tool:tcc-0.9.26",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000004",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build tcc-0.9.27",
+            "toolId": "tool:tcc-0.9.27",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000005",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "define BUILD_FIWIX",
+            "toolId": null,
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 0
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000006",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build fiwix-1.5.0-lb1",
+            "toolId": "tool:fiwix-1.5.0-lb1",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000007",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build lwext4-1.0.0-lb1",
+            "toolId": "tool:lwext4-1.0.0-lb1",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000008",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build kexec-fiwix-1.0",
+            "toolId": "tool:kexec-fiwix-1.0",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000009",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "jump fiwix",
+            "toolId": null,
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 0
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000010",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "improve reconfigure",
+            "toolId": null,
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 0
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000011",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "define JOBS",
+            "toolId": null,
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 0
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000012",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build make-3.82",
+            "toolId": "tool:make-3.82",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000013",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build patch-2.5.9",
+            "toolId": "tool:patch-2.5.9",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000014",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build gzip-1.2.4",
+            "toolId": "tool:gzip-1.2.4",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000015",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build tar-1.12",
+            "toolId": "tool:tar-1.12",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000016",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build sed-4.0.9",
+            "toolId": "tool:sed-4.0.9",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000017",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build bzip2-1.0.8",
+            "toolId": "tool:bzip2-1.0.8",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000018",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build coreutils-5.0",
+            "toolId": "tool:coreutils-5.0",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000019",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build oyacc-6.6",
+            "toolId": "tool:oyacc-6.6",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000020",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build bash-2.05b",
+            "toolId": "tool:bash-2.05b",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000021",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "improve setup_repo",
+            "toolId": null,
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 0
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000022",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "improve update_env",
+            "toolId": null,
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 0
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000023",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "improve merged_usr",
+            "toolId": null,
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 0
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000024",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "improve populate_device_nodes",
+            "toolId": null,
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 0
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000025",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "define CONSOLES",
+            "toolId": null,
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 0
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000026",
+            "edgeId": null,
+            "kind": "manifest-event-inactive",
+            "label": "improve open_console",
+            "toolId": null,
+            "trustRoots": [],
+            "cost": {
+              "event": 0,
+              "build": 0
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000027",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build tcc-0.9.27",
+            "toolId": "tool:tcc-0.9.27",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000028",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "improve musl_target",
+            "toolId": null,
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 0
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000029",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build musl-1.1.24",
+            "toolId": "tool:musl-1.1.24",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000030",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build tcc-0.9.27",
+            "toolId": "tool:tcc-0.9.27",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000031",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build musl-1.1.24",
+            "toolId": "tool:musl-1.1.24",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000032",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build tcc-0.9.27",
+            "toolId": "tool:tcc-0.9.27",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000033",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build grep-2.4",
+            "toolId": "tool:grep-2.4",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000034",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build musl-1.1.24",
+            "toolId": "tool:musl-1.1.24",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000035",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build sed-4.0.9",
+            "toolId": "tool:sed-4.0.9",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000036",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build bzip2-1.0.8",
+            "toolId": "tool:bzip2-1.0.8",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000037",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build m4-1.4.7",
+            "toolId": "tool:m4-1.4.7",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000038",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build heirloom-devtools-070527",
+            "toolId": "tool:heirloom-devtools-070527",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000039",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build flex-2.5.11",
+            "toolId": "tool:flex-2.5.11",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000040",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build flex-2.6.4",
+            "toolId": "tool:flex-2.6.4",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000041",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "uninstall heirloom-devtools-070527",
+            "toolId": null,
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 0
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000042",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build bison-3.4.1",
+            "toolId": "tool:bison-3.4.1",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000043",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build bison-3.4.1",
+            "toolId": "tool:bison-3.4.1",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000044",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build bison-3.4.1",
+            "toolId": "tool:bison-3.4.1",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000045",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build diffutils-2.7",
+            "toolId": "tool:diffutils-2.7",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000046",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build coreutils-5.0",
+            "toolId": "tool:coreutils-5.0",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000047",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build coreutils-6.10",
+            "toolId": "tool:coreutils-6.10",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000048",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build gawk-3.0.4",
+            "toolId": "tool:gawk-3.0.4",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000049",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build perl-5.000",
+            "toolId": "tool:perl-5.000",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000050",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build perl-5.003",
+            "toolId": "tool:perl-5.003",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000051",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build perl5.004-05",
+            "toolId": "tool:perl5.004-05",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000052",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build perl5.005-03",
+            "toolId": "tool:perl5.005-03",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000053",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build perl-5.6.2",
+            "toolId": "tool:perl-5.6.2",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000054",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "uninstall perl-5.000 perl-5.003 perl5.004-05 perl5.005-03",
+            "toolId": null,
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 0
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000055",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build autoconf-2.52",
+            "toolId": "tool:autoconf-2.52",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000056",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build automake-1.6.3",
+            "toolId": "tool:automake-1.6.3",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000057",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build automake-1.6.3",
+            "toolId": "tool:automake-1.6.3",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000058",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build autoconf-2.53",
+            "toolId": "tool:autoconf-2.53",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000059",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build automake-1.7",
+            "toolId": "tool:automake-1.7",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000060",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build autoconf-2.54",
+            "toolId": "tool:autoconf-2.54",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000061",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build autoconf-2.55",
+            "toolId": "tool:autoconf-2.55",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000062",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build automake-1.7.8",
+            "toolId": "tool:automake-1.7.8",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000063",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build autoconf-2.57",
+            "toolId": "tool:autoconf-2.57",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000064",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build autoconf-2.59",
+            "toolId": "tool:autoconf-2.59",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000065",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build automake-1.8.5",
+            "toolId": "tool:automake-1.8.5",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000066",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build help2man-1.36.4",
+            "toolId": "tool:help2man-1.36.4",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000067",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build autoconf-2.61",
+            "toolId": "tool:autoconf-2.61",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000068",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build automake-1.9.6",
+            "toolId": "tool:automake-1.9.6",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000069",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build automake-1.10.3",
+            "toolId": "tool:automake-1.10.3",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000070",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build autoconf-2.64",
+            "toolId": "tool:autoconf-2.64",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000071",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build automake-1.11.2",
+            "toolId": "tool:automake-1.11.2",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000072",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build autoconf-2.69",
+            "toolId": "tool:autoconf-2.69",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000073",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build libtool-2.2.4",
+            "toolId": "tool:libtool-2.2.4",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000074",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build automake-1.15.1",
+            "toolId": "tool:automake-1.15.1",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000075",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build binutils-2.30",
+            "toolId": "tool:binutils-2.30",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000076",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build musl-1.1.24",
+            "toolId": "tool:musl-1.1.24",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000077",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build tcc-0.9.27",
+            "toolId": "tool:tcc-0.9.27",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000078",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "improve populate_device_nodes",
+            "toolId": null,
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 0
+            }
+          },
+          {
+            "stepId": "step:event:0abb57acc580:000079",
+            "edgeId": null,
+            "kind": "manifest-event-active",
+            "label": "build gcc-4.0.4",
+            "toolId": "tool:gcc-4.0.4",
+            "trustRoots": [],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          }
+        ],
+        "provenance": {
+          "layer": "onto2d-analysis",
+          "basis": "pinned-manifest-prefix",
+          "targetEvent": "event:0abb57acc580:000079",
+          "interpretationNote": "These properties are Onto2D classifications inside this bounded construction space, not claims made by live-bootstrap."
+        }
+      },
+      {
+        "id": "path:opaque-prebuilt-gcc",
+        "label": "Opaque prebuilt GCC shortcut",
+        "target": "target:first-gcc-toolchain",
+        "properties": {
+          "actual": false,
+          "sourceDerived": false,
+          "bootstrapAncestry": false,
+          "auditableBootstrap": false
+        },
+        "steps": [
+          {
+            "stepId": "step:obtain-opaque-prebuilt-gcc",
+            "edgeId": "counterfactual:obtain-opaque-prebuilt-gcc",
+            "kind": "counterfactual-obtain",
+            "label": "Obtain opaque prebuilt GCC",
+            "toolId": "tool:gcc-4.0.4",
+            "trustRoots": [
+              "trust-root:opaque-prebuilt-gcc"
+            ],
+            "cost": {
+              "event": 1,
+              "build": 0
+            }
+          }
+        ],
+        "provenance": {
+          "layer": "onto2d-analysis",
+          "basis": "explicit-counterfactual-declaration",
+          "targetEvent": null,
+          "interpretationNote": "This path is declared by Onto2D and is not an upstream execution trace."
+        }
+      },
+      {
+        "id": "path:source-from-prebuilt-toolchain",
+        "label": "Source build using a pre-existing binary toolchain",
+        "target": "target:first-gcc-toolchain",
+        "properties": {
+          "actual": false,
+          "sourceDerived": true,
+          "bootstrapAncestry": false,
+          "auditableBootstrap": false
+        },
+        "steps": [
+          {
+            "stepId": "step:obtain-prebuilt-c-toolchain",
+            "edgeId": "counterfactual:obtain-prebuilt-c-toolchain",
+            "kind": "counterfactual-obtain",
+            "label": "Obtain prebuilt C toolchain",
+            "toolId": "tool:prebuilt-c-toolchain",
+            "trustRoots": [
+              "trust-root:prebuilt-c-toolchain"
+            ],
+            "cost": {
+              "event": 1,
+              "build": 0
+            }
+          },
+          {
+            "stepId": "step:build-gcc-from-source",
+            "edgeId": "counterfactual:build-gcc-from-source",
+            "kind": "counterfactual-build",
+            "label": "Build GCC 4.0.4 from source",
+            "toolId": "tool:gcc-4.0.4",
+            "trustRoots": [
+              "trust-root:prebuilt-c-toolchain"
+            ],
+            "cost": {
+              "event": 1,
+              "build": 1
+            }
+          }
+        ],
+        "provenance": {
+          "layer": "onto2d-analysis",
+          "basis": "explicit-counterfactual-declaration",
+          "targetEvent": null,
+          "interpretationNote": "This path is declared by Onto2D and is not an upstream execution trace."
+        }
+      }
+    ],
+    "costFunctions": [
+      {
+        "id": "event-count",
+        "label": "Event count",
+        "description": "Sum of declared event cost units; the initial external-root marker has zero event cost."
+      },
+      {
+        "id": "build-event-count",
+        "label": "Build-event count",
+        "description": "Sum of declared build cost units."
+      },
+      {
+        "id": "distinct-tool-count",
+        "label": "Distinct tool count",
+        "description": "Cardinality of non-null tool identifiers on the declared path."
+      },
+      {
+        "id": "trust-root-count",
+        "label": "Trust-root count",
+        "description": "Cardinality of distinct declared trust-root identifiers on the path."
+      }
+    ],
+    "pathSpaceIdentity": "sha256:9e482bd916c137965fb9f6eef023f888155a4e58d9a56e943a777cb76c9c6580",
+    "regimesIdentity": "sha256:3f91ce39ed9245da45eaff9b610148284815fc14156ad66c016cd5cc9e879b2a"
+  },
+  "results": [
+    {
+      "target": {
+        "id": "target:first-gcc-toolchain",
+        "label": "First reached GCC 4.0.4 toolchain milestone",
+        "selector": {
+          "directive": "build",
+          "target": "gcc-4.0.4",
+          "occurrence": 1
+        }
+      },
+      "pathSpace": {
+        "identity": "sha256:9e482bd916c137965fb9f6eef023f888155a4e58d9a56e943a777cb76c9c6580",
+        "size": 3,
+        "bounded": true
+      },
+      "costFunction": {
+        "id": "event-count",
+        "label": "Event count",
+        "description": "Sum of declared event cost units; the initial external-root marker has zero event cost."
+      },
+      "regime": {
+        "id": "free",
+        "label": "Free",
+        "constraints": [],
+        "regimesIdentity": "sha256:3f91ce39ed9245da45eaff9b610148284815fc14156ad66c016cd5cc9e879b2a"
+      },
+      "upstreamRevision": "9a268c4c39cae952b268bc86da342be2175f03d4",
+      "traceIdentity": "sha256:fcce7128defd56664257b2f7abab77e6f1d9bdbca670c7c604335aaa7d10fd85",
+      "analysisVersion": "live-bootstrap-construction-v1",
+      "interpretation": {
+        "layer": "onto2d-analysis",
+        "disclaimer": "live-bootstrap does not define or claim this metric. Onto2D applies Historical Load to a pinned and explicitly bounded construction model."
+      },
+      "status": "resolved",
+      "reason": null,
+      "a0": 1,
+      "aF": 1,
+      "dH": 0,
+      "freePath": "path:opaque-prebuilt-gcc",
+      "freeOptima": [
+        "path:opaque-prebuilt-gcc"
+      ],
+      "admissiblePath": "path:opaque-prebuilt-gcc",
+      "admissibleOptima": [
+        "path:opaque-prebuilt-gcc"
+      ],
+      "eliminatedFreeOptima": [],
+      "eliminatedFreeOptimumBy": [],
+      "firstDivergence": null,
+      "constraintAblation": [],
+      "resultIdentity": "sha256:36f00ea6f0c4ba3bb15742817357ecd49a560a631fca912dce415c3fdd1cff6a"
+    },
+    {
+      "target": {
+        "id": "target:first-gcc-toolchain",
+        "label": "First reached GCC 4.0.4 toolchain milestone",
+        "selector": {
+          "directive": "build",
+          "target": "gcc-4.0.4",
+          "occurrence": 1
+        }
+      },
+      "pathSpace": {
+        "identity": "sha256:9e482bd916c137965fb9f6eef023f888155a4e58d9a56e943a777cb76c9c6580",
+        "size": 3,
+        "bounded": true
+      },
+      "costFunction": {
+        "id": "event-count",
+        "label": "Event count",
+        "description": "Sum of declared event cost units; the initial external-root marker has zero event cost."
+      },
+      "regime": {
+        "id": "source-derived",
+        "label": "Source-derived",
+        "constraints": [
+          "constraint:target-source-derived"
+        ],
+        "regimesIdentity": "sha256:3f91ce39ed9245da45eaff9b610148284815fc14156ad66c016cd5cc9e879b2a"
+      },
+      "upstreamRevision": "9a268c4c39cae952b268bc86da342be2175f03d4",
+      "traceIdentity": "sha256:fcce7128defd56664257b2f7abab77e6f1d9bdbca670c7c604335aaa7d10fd85",
+      "analysisVersion": "live-bootstrap-construction-v1",
+      "interpretation": {
+        "layer": "onto2d-analysis",
+        "disclaimer": "live-bootstrap does not define or claim this metric. Onto2D applies Historical Load to a pinned and explicitly bounded construction model."
+      },
+      "status": "resolved",
+      "reason": null,
+      "a0": 1,
+      "aF": 2,
+      "dH": 1,
+      "freePath": "path:opaque-prebuilt-gcc",
+      "freeOptima": [
+        "path:opaque-prebuilt-gcc"
+      ],
+      "admissiblePath": "path:source-from-prebuilt-toolchain",
+      "admissibleOptima": [
+        "path:source-from-prebuilt-toolchain"
+      ],
+      "eliminatedFreeOptima": [
+        {
+          "pathId": "path:opaque-prebuilt-gcc",
+          "constraintIds": [
+            "constraint:target-source-derived"
+          ]
+        }
+      ],
+      "eliminatedFreeOptimumBy": [
+        "constraint:target-source-derived"
+      ],
+      "firstDivergence": {
+        "index": 0,
+        "freeStep": "step:obtain-opaque-prebuilt-gcc",
+        "admissibleStep": "step:obtain-prebuilt-c-toolchain"
+      },
+      "constraintAblation": [
+        {
+          "constraintId": "constraint:target-source-derived",
+          "ablatedPath": "path:opaque-prebuilt-gcc",
+          "ablatedCost": 1,
+          "costReduction": 1
+        }
+      ],
+      "resultIdentity": "sha256:05241d5d06fdfb958ef2b776d357eeed17586e81d4f51fff25db450adc2f7cf1"
+    },
+    {
+      "target": {
+        "id": "target:first-gcc-toolchain",
+        "label": "First reached GCC 4.0.4 toolchain milestone",
+        "selector": {
+          "directive": "build",
+          "target": "gcc-4.0.4",
+          "occurrence": 1
+        }
+      },
+      "pathSpace": {
+        "identity": "sha256:9e482bd916c137965fb9f6eef023f888155a4e58d9a56e943a777cb76c9c6580",
+        "size": 3,
+        "bounded": true
+      },
+      "costFunction": {
+        "id": "event-count",
+        "label": "Event count",
+        "description": "Sum of declared event cost units; the initial external-root marker has zero event cost."
+      },
+      "regime": {
+        "id": "bootstrappable",
+        "label": "Bootstrappable",
+        "constraints": [
+          "constraint:bootstrap-ancestry"
+        ],
+        "regimesIdentity": "sha256:3f91ce39ed9245da45eaff9b610148284815fc14156ad66c016cd5cc9e879b2a"
+      },
+      "upstreamRevision": "9a268c4c39cae952b268bc86da342be2175f03d4",
+      "traceIdentity": "sha256:fcce7128defd56664257b2f7abab77e6f1d9bdbca670c7c604335aaa7d10fd85",
+      "analysisVersion": "live-bootstrap-construction-v1",
+      "interpretation": {
+        "layer": "onto2d-analysis",
+        "disclaimer": "live-bootstrap does not define or claim this metric. Onto2D applies Historical Load to a pinned and explicitly bounded construction model."
+      },
+      "status": "resolved",
+      "reason": null,
+      "a0": 1,
+      "aF": 79,
+      "dH": 78,
+      "freePath": "path:opaque-prebuilt-gcc",
+      "freeOptima": [
+        "path:opaque-prebuilt-gcc"
+      ],
+      "admissiblePath": "path:observed-prefix-to-first-gcc",
+      "admissibleOptima": [
+        "path:observed-prefix-to-first-gcc"
+      ],
+      "eliminatedFreeOptima": [
+        {
+          "pathId": "path:opaque-prebuilt-gcc",
+          "constraintIds": [
+            "constraint:bootstrap-ancestry"
+          ]
+        }
+      ],
+      "eliminatedFreeOptimumBy": [
+        "constraint:bootstrap-ancestry"
+      ],
+      "firstDivergence": {
+        "index": 0,
+        "freeStep": "step:obtain-opaque-prebuilt-gcc",
+        "admissibleStep": "step:pre-manifest-environment"
+      },
+      "constraintAblation": [
+        {
+          "constraintId": "constraint:bootstrap-ancestry",
+          "ablatedPath": "path:opaque-prebuilt-gcc",
+          "ablatedCost": 1,
+          "costReduction": 78
+        }
+      ],
+      "resultIdentity": "sha256:786f63cf77636b646375ce4713b0b54b180c52201f2bee745779ac44304a8f20"
+    },
+    {
+      "target": {
+        "id": "target:first-gcc-toolchain",
+        "label": "First reached GCC 4.0.4 toolchain milestone",
+        "selector": {
+          "directive": "build",
+          "target": "gcc-4.0.4",
+          "occurrence": 1
+        }
+      },
+      "pathSpace": {
+        "identity": "sha256:9e482bd916c137965fb9f6eef023f888155a4e58d9a56e943a777cb76c9c6580",
+        "size": 3,
+        "bounded": true
+      },
+      "costFunction": {
+        "id": "event-count",
+        "label": "Event count",
+        "description": "Sum of declared event cost units; the initial external-root marker has zero event cost."
+      },
+      "regime": {
+        "id": "auditable-bootstrap",
+        "label": "Auditable bootstrap",
+        "constraints": [
+          "constraint:bootstrap-ancestry",
+          "constraint:auditable-bootstrap-root"
+        ],
+        "regimesIdentity": "sha256:3f91ce39ed9245da45eaff9b610148284815fc14156ad66c016cd5cc9e879b2a"
+      },
+      "upstreamRevision": "9a268c4c39cae952b268bc86da342be2175f03d4",
+      "traceIdentity": "sha256:fcce7128defd56664257b2f7abab77e6f1d9bdbca670c7c604335aaa7d10fd85",
+      "analysisVersion": "live-bootstrap-construction-v1",
+      "interpretation": {
+        "layer": "onto2d-analysis",
+        "disclaimer": "live-bootstrap does not define or claim this metric. Onto2D applies Historical Load to a pinned and explicitly bounded construction model."
+      },
+      "status": "resolved",
+      "reason": null,
+      "a0": 1,
+      "aF": 79,
+      "dH": 78,
+      "freePath": "path:opaque-prebuilt-gcc",
+      "freeOptima": [
+        "path:opaque-prebuilt-gcc"
+      ],
+      "admissiblePath": "path:observed-prefix-to-first-gcc",
+      "admissibleOptima": [
+        "path:observed-prefix-to-first-gcc"
+      ],
+      "eliminatedFreeOptima": [
+        {
+          "pathId": "path:opaque-prebuilt-gcc",
+          "constraintIds": [
+            "constraint:bootstrap-ancestry",
+            "constraint:auditable-bootstrap-root"
+          ]
+        }
+      ],
+      "eliminatedFreeOptimumBy": [
+        "constraint:auditable-bootstrap-root",
+        "constraint:bootstrap-ancestry"
+      ],
+      "firstDivergence": {
+        "index": 0,
+        "freeStep": "step:obtain-opaque-prebuilt-gcc",
+        "admissibleStep": "step:pre-manifest-environment"
+      },
+      "constraintAblation": [
+        {
+          "constraintId": "constraint:bootstrap-ancestry",
+          "ablatedPath": "path:observed-prefix-to-first-gcc",
+          "ablatedCost": 79,
+          "costReduction": 0
+        },
+        {
+          "constraintId": "constraint:auditable-bootstrap-root",
+          "ablatedPath": "path:observed-prefix-to-first-gcc",
+          "ablatedCost": 79,
+          "costReduction": 0
+        }
+      ],
+      "resultIdentity": "sha256:a8edc27edde7c9685d0b440d29b1c4847d230921031e5cd2f249f2350ec6ca17"
+    },
+    {
+      "target": {
+        "id": "target:first-gcc-toolchain",
+        "label": "First reached GCC 4.0.4 toolchain milestone",
+        "selector": {
+          "directive": "build",
+          "target": "gcc-4.0.4",
+          "occurrence": 1
+        }
+      },
+      "pathSpace": {
+        "identity": "sha256:9e482bd916c137965fb9f6eef023f888155a4e58d9a56e943a777cb76c9c6580",
+        "size": 3,
+        "bounded": true
+      },
+      "costFunction": {
+        "id": "build-event-count",
+        "label": "Build-event count",
+        "description": "Sum of declared build cost units."
+      },
+      "regime": {
+        "id": "free",
+        "label": "Free",
+        "constraints": [],
+        "regimesIdentity": "sha256:3f91ce39ed9245da45eaff9b610148284815fc14156ad66c016cd5cc9e879b2a"
+      },
+      "upstreamRevision": "9a268c4c39cae952b268bc86da342be2175f03d4",
+      "traceIdentity": "sha256:fcce7128defd56664257b2f7abab77e6f1d9bdbca670c7c604335aaa7d10fd85",
+      "analysisVersion": "live-bootstrap-construction-v1",
+      "interpretation": {
+        "layer": "onto2d-analysis",
+        "disclaimer": "live-bootstrap does not define or claim this metric. Onto2D applies Historical Load to a pinned and explicitly bounded construction model."
+      },
+      "status": "resolved",
+      "reason": null,
+      "a0": 0,
+      "aF": 0,
+      "dH": 0,
+      "freePath": "path:opaque-prebuilt-gcc",
+      "freeOptima": [
+        "path:opaque-prebuilt-gcc"
+      ],
+      "admissiblePath": "path:opaque-prebuilt-gcc",
+      "admissibleOptima": [
+        "path:opaque-prebuilt-gcc"
+      ],
+      "eliminatedFreeOptima": [],
+      "eliminatedFreeOptimumBy": [],
+      "firstDivergence": null,
+      "constraintAblation": [],
+      "resultIdentity": "sha256:7a4f62173984e5f95ba1289727ae66f2e58985536d3ceed1d716a326ce2de4aa"
+    },
+    {
+      "target": {
+        "id": "target:first-gcc-toolchain",
+        "label": "First reached GCC 4.0.4 toolchain milestone",
+        "selector": {
+          "directive": "build",
+          "target": "gcc-4.0.4",
+          "occurrence": 1
+        }
+      },
+      "pathSpace": {
+        "identity": "sha256:9e482bd916c137965fb9f6eef023f888155a4e58d9a56e943a777cb76c9c6580",
+        "size": 3,
+        "bounded": true
+      },
+      "costFunction": {
+        "id": "build-event-count",
+        "label": "Build-event count",
+        "description": "Sum of declared build cost units."
+      },
+      "regime": {
+        "id": "source-derived",
+        "label": "Source-derived",
+        "constraints": [
+          "constraint:target-source-derived"
+        ],
+        "regimesIdentity": "sha256:3f91ce39ed9245da45eaff9b610148284815fc14156ad66c016cd5cc9e879b2a"
+      },
+      "upstreamRevision": "9a268c4c39cae952b268bc86da342be2175f03d4",
+      "traceIdentity": "sha256:fcce7128defd56664257b2f7abab77e6f1d9bdbca670c7c604335aaa7d10fd85",
+      "analysisVersion": "live-bootstrap-construction-v1",
+      "interpretation": {
+        "layer": "onto2d-analysis",
+        "disclaimer": "live-bootstrap does not define or claim this metric. Onto2D applies Historical Load to a pinned and explicitly bounded construction model."
+      },
+      "status": "resolved",
+      "reason": null,
+      "a0": 0,
+      "aF": 1,
+      "dH": 1,
+      "freePath": "path:opaque-prebuilt-gcc",
+      "freeOptima": [
+        "path:opaque-prebuilt-gcc"
+      ],
+      "admissiblePath": "path:source-from-prebuilt-toolchain",
+      "admissibleOptima": [
+        "path:source-from-prebuilt-toolchain"
+      ],
+      "eliminatedFreeOptima": [
+        {
+          "pathId": "path:opaque-prebuilt-gcc",
+          "constraintIds": [
+            "constraint:target-source-derived"
+          ]
+        }
+      ],
+      "eliminatedFreeOptimumBy": [
+        "constraint:target-source-derived"
+      ],
+      "firstDivergence": {
+        "index": 0,
+        "freeStep": "step:obtain-opaque-prebuilt-gcc",
+        "admissibleStep": "step:obtain-prebuilt-c-toolchain"
+      },
+      "constraintAblation": [
+        {
+          "constraintId": "constraint:target-source-derived",
+          "ablatedPath": "path:opaque-prebuilt-gcc",
+          "ablatedCost": 0,
+          "costReduction": 1
+        }
+      ],
+      "resultIdentity": "sha256:a16b3015d03bc60f235d586988f293889af0368be249c0c339f02c27e3590dce"
+    },
+    {
+      "target": {
+        "id": "target:first-gcc-toolchain",
+        "label": "First reached GCC 4.0.4 toolchain milestone",
+        "selector": {
+          "directive": "build",
+          "target": "gcc-4.0.4",
+          "occurrence": 1
+        }
+      },
+      "pathSpace": {
+        "identity": "sha256:9e482bd916c137965fb9f6eef023f888155a4e58d9a56e943a777cb76c9c6580",
+        "size": 3,
+        "bounded": true
+      },
+      "costFunction": {
+        "id": "build-event-count",
+        "label": "Build-event count",
+        "description": "Sum of declared build cost units."
+      },
+      "regime": {
+        "id": "bootstrappable",
+        "label": "Bootstrappable",
+        "constraints": [
+          "constraint:bootstrap-ancestry"
+        ],
+        "regimesIdentity": "sha256:3f91ce39ed9245da45eaff9b610148284815fc14156ad66c016cd5cc9e879b2a"
+      },
+      "upstreamRevision": "9a268c4c39cae952b268bc86da342be2175f03d4",
+      "traceIdentity": "sha256:fcce7128defd56664257b2f7abab77e6f1d9bdbca670c7c604335aaa7d10fd85",
+      "analysisVersion": "live-bootstrap-construction-v1",
+      "interpretation": {
+        "layer": "onto2d-analysis",
+        "disclaimer": "live-bootstrap does not define or claim this metric. Onto2D applies Historical Load to a pinned and explicitly bounded construction model."
+      },
+      "status": "resolved",
+      "reason": null,
+      "a0": 0,
+      "aF": 66,
+      "dH": 66,
+      "freePath": "path:opaque-prebuilt-gcc",
+      "freeOptima": [
+        "path:opaque-prebuilt-gcc"
+      ],
+      "admissiblePath": "path:observed-prefix-to-first-gcc",
+      "admissibleOptima": [
+        "path:observed-prefix-to-first-gcc"
+      ],
+      "eliminatedFreeOptima": [
+        {
+          "pathId": "path:opaque-prebuilt-gcc",
+          "constraintIds": [
+            "constraint:bootstrap-ancestry"
+          ]
+        }
+      ],
+      "eliminatedFreeOptimumBy": [
+        "constraint:bootstrap-ancestry"
+      ],
+      "firstDivergence": {
+        "index": 0,
+        "freeStep": "step:obtain-opaque-prebuilt-gcc",
+        "admissibleStep": "step:pre-manifest-environment"
+      },
+      "constraintAblation": [
+        {
+          "constraintId": "constraint:bootstrap-ancestry",
+          "ablatedPath": "path:opaque-prebuilt-gcc",
+          "ablatedCost": 0,
+          "costReduction": 66
+        }
+      ],
+      "resultIdentity": "sha256:82cad9d4e6dda064eb5f424912813a659328275a7111e4333653dae90bb2357f"
+    },
+    {
+      "target": {
+        "id": "target:first-gcc-toolchain",
+        "label": "First reached GCC 4.0.4 toolchain milestone",
+        "selector": {
+          "directive": "build",
+          "target": "gcc-4.0.4",
+          "occurrence": 1
+        }
+      },
+      "pathSpace": {
+        "identity": "sha256:9e482bd916c137965fb9f6eef023f888155a4e58d9a56e943a777cb76c9c6580",
+        "size": 3,
+        "bounded": true
+      },
+      "costFunction": {
+        "id": "build-event-count",
+        "label": "Build-event count",
+        "description": "Sum of declared build cost units."
+      },
+      "regime": {
+        "id": "auditable-bootstrap",
+        "label": "Auditable bootstrap",
+        "constraints": [
+          "constraint:bootstrap-ancestry",
+          "constraint:auditable-bootstrap-root"
+        ],
+        "regimesIdentity": "sha256:3f91ce39ed9245da45eaff9b610148284815fc14156ad66c016cd5cc9e879b2a"
+      },
+      "upstreamRevision": "9a268c4c39cae952b268bc86da342be2175f03d4",
+      "traceIdentity": "sha256:fcce7128defd56664257b2f7abab77e6f1d9bdbca670c7c604335aaa7d10fd85",
+      "analysisVersion": "live-bootstrap-construction-v1",
+      "interpretation": {
+        "layer": "onto2d-analysis",
+        "disclaimer": "live-bootstrap does not define or claim this metric. Onto2D applies Historical Load to a pinned and explicitly bounded construction model."
+      },
+      "status": "resolved",
+      "reason": null,
+      "a0": 0,
+      "aF": 66,
+      "dH": 66,
+      "freePath": "path:opaque-prebuilt-gcc",
+      "freeOptima": [
+        "path:opaque-prebuilt-gcc"
+      ],
+      "admissiblePath": "path:observed-prefix-to-first-gcc",
+      "admissibleOptima": [
+        "path:observed-prefix-to-first-gcc"
+      ],
+      "eliminatedFreeOptima": [
+        {
+          "pathId": "path:opaque-prebuilt-gcc",
+          "constraintIds": [
+            "constraint:bootstrap-ancestry",
+            "constraint:auditable-bootstrap-root"
+          ]
+        }
+      ],
+      "eliminatedFreeOptimumBy": [
+        "constraint:auditable-bootstrap-root",
+        "constraint:bootstrap-ancestry"
+      ],
+      "firstDivergence": {
+        "index": 0,
+        "freeStep": "step:obtain-opaque-prebuilt-gcc",
+        "admissibleStep": "step:pre-manifest-environment"
+      },
+      "constraintAblation": [
+        {
+          "constraintId": "constraint:bootstrap-ancestry",
+          "ablatedPath": "path:observed-prefix-to-first-gcc",
+          "ablatedCost": 66,
+          "costReduction": 0
+        },
+        {
+          "constraintId": "constraint:auditable-bootstrap-root",
+          "ablatedPath": "path:observed-prefix-to-first-gcc",
+          "ablatedCost": 66,
+          "costReduction": 0
+        }
+      ],
+      "resultIdentity": "sha256:c85489386ec802a414798248b931a12520479cf7dcc12908f1479e5090f4b44c"
+    },
+    {
+      "target": {
+        "id": "target:first-gcc-toolchain",
+        "label": "First reached GCC 4.0.4 toolchain milestone",
+        "selector": {
+          "directive": "build",
+          "target": "gcc-4.0.4",
+          "occurrence": 1
+        }
+      },
+      "pathSpace": {
+        "identity": "sha256:9e482bd916c137965fb9f6eef023f888155a4e58d9a56e943a777cb76c9c6580",
+        "size": 3,
+        "bounded": true
+      },
+      "costFunction": {
+        "id": "distinct-tool-count",
+        "label": "Distinct tool count",
+        "description": "Cardinality of non-null tool identifiers on the declared path."
+      },
+      "regime": {
+        "id": "free",
+        "label": "Free",
+        "constraints": [],
+        "regimesIdentity": "sha256:3f91ce39ed9245da45eaff9b610148284815fc14156ad66c016cd5cc9e879b2a"
+      },
+      "upstreamRevision": "9a268c4c39cae952b268bc86da342be2175f03d4",
+      "traceIdentity": "sha256:fcce7128defd56664257b2f7abab77e6f1d9bdbca670c7c604335aaa7d10fd85",
+      "analysisVersion": "live-bootstrap-construction-v1",
+      "interpretation": {
+        "layer": "onto2d-analysis",
+        "disclaimer": "live-bootstrap does not define or claim this metric. Onto2D applies Historical Load to a pinned and explicitly bounded construction model."
+      },
+      "status": "resolved",
+      "reason": null,
+      "a0": 1,
+      "aF": 1,
+      "dH": 0,
+      "freePath": "path:opaque-prebuilt-gcc",
+      "freeOptima": [
+        "path:opaque-prebuilt-gcc"
+      ],
+      "admissiblePath": "path:opaque-prebuilt-gcc",
+      "admissibleOptima": [
+        "path:opaque-prebuilt-gcc"
+      ],
+      "eliminatedFreeOptima": [],
+      "eliminatedFreeOptimumBy": [],
+      "firstDivergence": null,
+      "constraintAblation": [],
+      "resultIdentity": "sha256:12d58d6d178b9ed75fe478fd2561c34484c44f2a0a106af6d53bd893f991396e"
+    },
+    {
+      "target": {
+        "id": "target:first-gcc-toolchain",
+        "label": "First reached GCC 4.0.4 toolchain milestone",
+        "selector": {
+          "directive": "build",
+          "target": "gcc-4.0.4",
+          "occurrence": 1
+        }
+      },
+      "pathSpace": {
+        "identity": "sha256:9e482bd916c137965fb9f6eef023f888155a4e58d9a56e943a777cb76c9c6580",
+        "size": 3,
+        "bounded": true
+      },
+      "costFunction": {
+        "id": "distinct-tool-count",
+        "label": "Distinct tool count",
+        "description": "Cardinality of non-null tool identifiers on the declared path."
+      },
+      "regime": {
+        "id": "source-derived",
+        "label": "Source-derived",
+        "constraints": [
+          "constraint:target-source-derived"
+        ],
+        "regimesIdentity": "sha256:3f91ce39ed9245da45eaff9b610148284815fc14156ad66c016cd5cc9e879b2a"
+      },
+      "upstreamRevision": "9a268c4c39cae952b268bc86da342be2175f03d4",
+      "traceIdentity": "sha256:fcce7128defd56664257b2f7abab77e6f1d9bdbca670c7c604335aaa7d10fd85",
+      "analysisVersion": "live-bootstrap-construction-v1",
+      "interpretation": {
+        "layer": "onto2d-analysis",
+        "disclaimer": "live-bootstrap does not define or claim this metric. Onto2D applies Historical Load to a pinned and explicitly bounded construction model."
+      },
+      "status": "resolved",
+      "reason": null,
+      "a0": 1,
+      "aF": 2,
+      "dH": 1,
+      "freePath": "path:opaque-prebuilt-gcc",
+      "freeOptima": [
+        "path:opaque-prebuilt-gcc"
+      ],
+      "admissiblePath": "path:source-from-prebuilt-toolchain",
+      "admissibleOptima": [
+        "path:source-from-prebuilt-toolchain"
+      ],
+      "eliminatedFreeOptima": [
+        {
+          "pathId": "path:opaque-prebuilt-gcc",
+          "constraintIds": [
+            "constraint:target-source-derived"
+          ]
+        }
+      ],
+      "eliminatedFreeOptimumBy": [
+        "constraint:target-source-derived"
+      ],
+      "firstDivergence": {
+        "index": 0,
+        "freeStep": "step:obtain-opaque-prebuilt-gcc",
+        "admissibleStep": "step:obtain-prebuilt-c-toolchain"
+      },
+      "constraintAblation": [
+        {
+          "constraintId": "constraint:target-source-derived",
+          "ablatedPath": "path:opaque-prebuilt-gcc",
+          "ablatedCost": 1,
+          "costReduction": 1
+        }
+      ],
+      "resultIdentity": "sha256:c30814dd9d61bffc676595cb189b22b6a9539ef6e757406e8aceea95a8f89730"
+    },
+    {
+      "target": {
+        "id": "target:first-gcc-toolchain",
+        "label": "First reached GCC 4.0.4 toolchain milestone",
+        "selector": {
+          "directive": "build",
+          "target": "gcc-4.0.4",
+          "occurrence": 1
+        }
+      },
+      "pathSpace": {
+        "identity": "sha256:9e482bd916c137965fb9f6eef023f888155a4e58d9a56e943a777cb76c9c6580",
+        "size": 3,
+        "bounded": true
+      },
+      "costFunction": {
+        "id": "distinct-tool-count",
+        "label": "Distinct tool count",
+        "description": "Cardinality of non-null tool identifiers on the declared path."
+      },
+      "regime": {
+        "id": "bootstrappable",
+        "label": "Bootstrappable",
+        "constraints": [
+          "constraint:bootstrap-ancestry"
+        ],
+        "regimesIdentity": "sha256:3f91ce39ed9245da45eaff9b610148284815fc14156ad66c016cd5cc9e879b2a"
+      },
+      "upstreamRevision": "9a268c4c39cae952b268bc86da342be2175f03d4",
+      "traceIdentity": "sha256:fcce7128defd56664257b2f7abab77e6f1d9bdbca670c7c604335aaa7d10fd85",
+      "analysisVersion": "live-bootstrap-construction-v1",
+      "interpretation": {
+        "layer": "onto2d-analysis",
+        "disclaimer": "live-bootstrap does not define or claim this metric. Onto2D applies Historical Load to a pinned and explicitly bounded construction model."
+      },
+      "status": "resolved",
+      "reason": null,
+      "a0": 1,
+      "aF": 53,
+      "dH": 52,
+      "freePath": "path:opaque-prebuilt-gcc",
+      "freeOptima": [
+        "path:opaque-prebuilt-gcc"
+      ],
+      "admissiblePath": "path:observed-prefix-to-first-gcc",
+      "admissibleOptima": [
+        "path:observed-prefix-to-first-gcc"
+      ],
+      "eliminatedFreeOptima": [
+        {
+          "pathId": "path:opaque-prebuilt-gcc",
+          "constraintIds": [
+            "constraint:bootstrap-ancestry"
+          ]
+        }
+      ],
+      "eliminatedFreeOptimumBy": [
+        "constraint:bootstrap-ancestry"
+      ],
+      "firstDivergence": {
+        "index": 0,
+        "freeStep": "step:obtain-opaque-prebuilt-gcc",
+        "admissibleStep": "step:pre-manifest-environment"
+      },
+      "constraintAblation": [
+        {
+          "constraintId": "constraint:bootstrap-ancestry",
+          "ablatedPath": "path:opaque-prebuilt-gcc",
+          "ablatedCost": 1,
+          "costReduction": 52
+        }
+      ],
+      "resultIdentity": "sha256:38a46d2179e23b4f05c091135a5d3c59c36602b7d12541e952732f42a2d15f36"
+    },
+    {
+      "target": {
+        "id": "target:first-gcc-toolchain",
+        "label": "First reached GCC 4.0.4 toolchain milestone",
+        "selector": {
+          "directive": "build",
+          "target": "gcc-4.0.4",
+          "occurrence": 1
+        }
+      },
+      "pathSpace": {
+        "identity": "sha256:9e482bd916c137965fb9f6eef023f888155a4e58d9a56e943a777cb76c9c6580",
+        "size": 3,
+        "bounded": true
+      },
+      "costFunction": {
+        "id": "distinct-tool-count",
+        "label": "Distinct tool count",
+        "description": "Cardinality of non-null tool identifiers on the declared path."
+      },
+      "regime": {
+        "id": "auditable-bootstrap",
+        "label": "Auditable bootstrap",
+        "constraints": [
+          "constraint:bootstrap-ancestry",
+          "constraint:auditable-bootstrap-root"
+        ],
+        "regimesIdentity": "sha256:3f91ce39ed9245da45eaff9b610148284815fc14156ad66c016cd5cc9e879b2a"
+      },
+      "upstreamRevision": "9a268c4c39cae952b268bc86da342be2175f03d4",
+      "traceIdentity": "sha256:fcce7128defd56664257b2f7abab77e6f1d9bdbca670c7c604335aaa7d10fd85",
+      "analysisVersion": "live-bootstrap-construction-v1",
+      "interpretation": {
+        "layer": "onto2d-analysis",
+        "disclaimer": "live-bootstrap does not define or claim this metric. Onto2D applies Historical Load to a pinned and explicitly bounded construction model."
+      },
+      "status": "resolved",
+      "reason": null,
+      "a0": 1,
+      "aF": 53,
+      "dH": 52,
+      "freePath": "path:opaque-prebuilt-gcc",
+      "freeOptima": [
+        "path:opaque-prebuilt-gcc"
+      ],
+      "admissiblePath": "path:observed-prefix-to-first-gcc",
+      "admissibleOptima": [
+        "path:observed-prefix-to-first-gcc"
+      ],
+      "eliminatedFreeOptima": [
+        {
+          "pathId": "path:opaque-prebuilt-gcc",
+          "constraintIds": [
+            "constraint:bootstrap-ancestry",
+            "constraint:auditable-bootstrap-root"
+          ]
+        }
+      ],
+      "eliminatedFreeOptimumBy": [
+        "constraint:auditable-bootstrap-root",
+        "constraint:bootstrap-ancestry"
+      ],
+      "firstDivergence": {
+        "index": 0,
+        "freeStep": "step:obtain-opaque-prebuilt-gcc",
+        "admissibleStep": "step:pre-manifest-environment"
+      },
+      "constraintAblation": [
+        {
+          "constraintId": "constraint:bootstrap-ancestry",
+          "ablatedPath": "path:observed-prefix-to-first-gcc",
+          "ablatedCost": 53,
+          "costReduction": 0
+        },
+        {
+          "constraintId": "constraint:auditable-bootstrap-root",
+          "ablatedPath": "path:observed-prefix-to-first-gcc",
+          "ablatedCost": 53,
+          "costReduction": 0
+        }
+      ],
+      "resultIdentity": "sha256:54a6e759e02ea3efddec3e99343549b9d77d159ace7116fe670cce69b245ae3a"
+    },
+    {
+      "target": {
+        "id": "target:first-gcc-toolchain",
+        "label": "First reached GCC 4.0.4 toolchain milestone",
+        "selector": {
+          "directive": "build",
+          "target": "gcc-4.0.4",
+          "occurrence": 1
+        }
+      },
+      "pathSpace": {
+        "identity": "sha256:9e482bd916c137965fb9f6eef023f888155a4e58d9a56e943a777cb76c9c6580",
+        "size": 3,
+        "bounded": true
+      },
+      "costFunction": {
+        "id": "trust-root-count",
+        "label": "Trust-root count",
+        "description": "Cardinality of distinct declared trust-root identifiers on the path."
+      },
+      "regime": {
+        "id": "free",
+        "label": "Free",
+        "constraints": [],
+        "regimesIdentity": "sha256:3f91ce39ed9245da45eaff9b610148284815fc14156ad66c016cd5cc9e879b2a"
+      },
+      "upstreamRevision": "9a268c4c39cae952b268bc86da342be2175f03d4",
+      "traceIdentity": "sha256:fcce7128defd56664257b2f7abab77e6f1d9bdbca670c7c604335aaa7d10fd85",
+      "analysisVersion": "live-bootstrap-construction-v1",
+      "interpretation": {
+        "layer": "onto2d-analysis",
+        "disclaimer": "live-bootstrap does not define or claim this metric. Onto2D applies Historical Load to a pinned and explicitly bounded construction model."
+      },
+      "status": "resolved",
+      "reason": null,
+      "a0": 1,
+      "aF": 1,
+      "dH": 0,
+      "freePath": "path:observed-prefix-to-first-gcc",
+      "freeOptima": [
+        "path:observed-prefix-to-first-gcc",
+        "path:opaque-prebuilt-gcc",
+        "path:source-from-prebuilt-toolchain"
+      ],
+      "admissiblePath": "path:observed-prefix-to-first-gcc",
+      "admissibleOptima": [
+        "path:observed-prefix-to-first-gcc",
+        "path:opaque-prebuilt-gcc",
+        "path:source-from-prebuilt-toolchain"
+      ],
+      "eliminatedFreeOptima": [],
+      "eliminatedFreeOptimumBy": [],
+      "firstDivergence": null,
+      "constraintAblation": [],
+      "resultIdentity": "sha256:04670cfc5147abe180853380ce133b32ec6ddcd3a26a06d3d0f060055aba85f0"
+    },
+    {
+      "target": {
+        "id": "target:first-gcc-toolchain",
+        "label": "First reached GCC 4.0.4 toolchain milestone",
+        "selector": {
+          "directive": "build",
+          "target": "gcc-4.0.4",
+          "occurrence": 1
+        }
+      },
+      "pathSpace": {
+        "identity": "sha256:9e482bd916c137965fb9f6eef023f888155a4e58d9a56e943a777cb76c9c6580",
+        "size": 3,
+        "bounded": true
+      },
+      "costFunction": {
+        "id": "trust-root-count",
+        "label": "Trust-root count",
+        "description": "Cardinality of distinct declared trust-root identifiers on the path."
+      },
+      "regime": {
+        "id": "source-derived",
+        "label": "Source-derived",
+        "constraints": [
+          "constraint:target-source-derived"
+        ],
+        "regimesIdentity": "sha256:3f91ce39ed9245da45eaff9b610148284815fc14156ad66c016cd5cc9e879b2a"
+      },
+      "upstreamRevision": "9a268c4c39cae952b268bc86da342be2175f03d4",
+      "traceIdentity": "sha256:fcce7128defd56664257b2f7abab77e6f1d9bdbca670c7c604335aaa7d10fd85",
+      "analysisVersion": "live-bootstrap-construction-v1",
+      "interpretation": {
+        "layer": "onto2d-analysis",
+        "disclaimer": "live-bootstrap does not define or claim this metric. Onto2D applies Historical Load to a pinned and explicitly bounded construction model."
+      },
+      "status": "resolved",
+      "reason": null,
+      "a0": 1,
+      "aF": 1,
+      "dH": 0,
+      "freePath": "path:opaque-prebuilt-gcc",
+      "freeOptima": [
+        "path:observed-prefix-to-first-gcc",
+        "path:opaque-prebuilt-gcc",
+        "path:source-from-prebuilt-toolchain"
+      ],
+      "admissiblePath": "path:observed-prefix-to-first-gcc",
+      "admissibleOptima": [
+        "path:observed-prefix-to-first-gcc",
+        "path:source-from-prebuilt-toolchain"
+      ],
+      "eliminatedFreeOptima": [
+        {
+          "pathId": "path:opaque-prebuilt-gcc",
+          "constraintIds": [
+            "constraint:target-source-derived"
+          ]
+        }
+      ],
+      "eliminatedFreeOptimumBy": [
+        "constraint:target-source-derived"
+      ],
+      "firstDivergence": {
+        "index": 0,
+        "freeStep": "step:obtain-opaque-prebuilt-gcc",
+        "admissibleStep": "step:pre-manifest-environment"
+      },
+      "constraintAblation": [
+        {
+          "constraintId": "constraint:target-source-derived",
+          "ablatedPath": "path:observed-prefix-to-first-gcc",
+          "ablatedCost": 1,
+          "costReduction": 0
+        }
+      ],
+      "resultIdentity": "sha256:4c780df56e7f2f4d3e17ff79dbb6575183725f59c318075cb7da243a33fd1d2a"
+    },
+    {
+      "target": {
+        "id": "target:first-gcc-toolchain",
+        "label": "First reached GCC 4.0.4 toolchain milestone",
+        "selector": {
+          "directive": "build",
+          "target": "gcc-4.0.4",
+          "occurrence": 1
+        }
+      },
+      "pathSpace": {
+        "identity": "sha256:9e482bd916c137965fb9f6eef023f888155a4e58d9a56e943a777cb76c9c6580",
+        "size": 3,
+        "bounded": true
+      },
+      "costFunction": {
+        "id": "trust-root-count",
+        "label": "Trust-root count",
+        "description": "Cardinality of distinct declared trust-root identifiers on the path."
+      },
+      "regime": {
+        "id": "bootstrappable",
+        "label": "Bootstrappable",
+        "constraints": [
+          "constraint:bootstrap-ancestry"
+        ],
+        "regimesIdentity": "sha256:3f91ce39ed9245da45eaff9b610148284815fc14156ad66c016cd5cc9e879b2a"
+      },
+      "upstreamRevision": "9a268c4c39cae952b268bc86da342be2175f03d4",
+      "traceIdentity": "sha256:fcce7128defd56664257b2f7abab77e6f1d9bdbca670c7c604335aaa7d10fd85",
+      "analysisVersion": "live-bootstrap-construction-v1",
+      "interpretation": {
+        "layer": "onto2d-analysis",
+        "disclaimer": "live-bootstrap does not define or claim this metric. Onto2D applies Historical Load to a pinned and explicitly bounded construction model."
+      },
+      "status": "resolved",
+      "reason": null,
+      "a0": 1,
+      "aF": 1,
+      "dH": 0,
+      "freePath": "path:opaque-prebuilt-gcc",
+      "freeOptima": [
+        "path:observed-prefix-to-first-gcc",
+        "path:opaque-prebuilt-gcc",
+        "path:source-from-prebuilt-toolchain"
+      ],
+      "admissiblePath": "path:observed-prefix-to-first-gcc",
+      "admissibleOptima": [
+        "path:observed-prefix-to-first-gcc"
+      ],
+      "eliminatedFreeOptima": [
+        {
+          "pathId": "path:opaque-prebuilt-gcc",
+          "constraintIds": [
+            "constraint:bootstrap-ancestry"
+          ]
+        },
+        {
+          "pathId": "path:source-from-prebuilt-toolchain",
+          "constraintIds": [
+            "constraint:bootstrap-ancestry"
+          ]
+        }
+      ],
+      "eliminatedFreeOptimumBy": [
+        "constraint:bootstrap-ancestry"
+      ],
+      "firstDivergence": {
+        "index": 0,
+        "freeStep": "step:obtain-opaque-prebuilt-gcc",
+        "admissibleStep": "step:pre-manifest-environment"
+      },
+      "constraintAblation": [
+        {
+          "constraintId": "constraint:bootstrap-ancestry",
+          "ablatedPath": "path:observed-prefix-to-first-gcc",
+          "ablatedCost": 1,
+          "costReduction": 0
+        }
+      ],
+      "resultIdentity": "sha256:656bc3267597a7c3a54603596438ff6160e47c326d019cfb08842cf7087e7639"
+    },
+    {
+      "target": {
+        "id": "target:first-gcc-toolchain",
+        "label": "First reached GCC 4.0.4 toolchain milestone",
+        "selector": {
+          "directive": "build",
+          "target": "gcc-4.0.4",
+          "occurrence": 1
+        }
+      },
+      "pathSpace": {
+        "identity": "sha256:9e482bd916c137965fb9f6eef023f888155a4e58d9a56e943a777cb76c9c6580",
+        "size": 3,
+        "bounded": true
+      },
+      "costFunction": {
+        "id": "trust-root-count",
+        "label": "Trust-root count",
+        "description": "Cardinality of distinct declared trust-root identifiers on the path."
+      },
+      "regime": {
+        "id": "auditable-bootstrap",
+        "label": "Auditable bootstrap",
+        "constraints": [
+          "constraint:bootstrap-ancestry",
+          "constraint:auditable-bootstrap-root"
+        ],
+        "regimesIdentity": "sha256:3f91ce39ed9245da45eaff9b610148284815fc14156ad66c016cd5cc9e879b2a"
+      },
+      "upstreamRevision": "9a268c4c39cae952b268bc86da342be2175f03d4",
+      "traceIdentity": "sha256:fcce7128defd56664257b2f7abab77e6f1d9bdbca670c7c604335aaa7d10fd85",
+      "analysisVersion": "live-bootstrap-construction-v1",
+      "interpretation": {
+        "layer": "onto2d-analysis",
+        "disclaimer": "live-bootstrap does not define or claim this metric. Onto2D applies Historical Load to a pinned and explicitly bounded construction model."
+      },
+      "status": "resolved",
+      "reason": null,
+      "a0": 1,
+      "aF": 1,
+      "dH": 0,
+      "freePath": "path:opaque-prebuilt-gcc",
+      "freeOptima": [
+        "path:observed-prefix-to-first-gcc",
+        "path:opaque-prebuilt-gcc",
+        "path:source-from-prebuilt-toolchain"
+      ],
+      "admissiblePath": "path:observed-prefix-to-first-gcc",
+      "admissibleOptima": [
+        "path:observed-prefix-to-first-gcc"
+      ],
+      "eliminatedFreeOptima": [
+        {
+          "pathId": "path:opaque-prebuilt-gcc",
+          "constraintIds": [
+            "constraint:bootstrap-ancestry",
+            "constraint:auditable-bootstrap-root"
+          ]
+        },
+        {
+          "pathId": "path:source-from-prebuilt-toolchain",
+          "constraintIds": [
+            "constraint:bootstrap-ancestry",
+            "constraint:auditable-bootstrap-root"
+          ]
+        }
+      ],
+      "eliminatedFreeOptimumBy": [
+        "constraint:auditable-bootstrap-root",
+        "constraint:bootstrap-ancestry"
+      ],
+      "firstDivergence": {
+        "index": 0,
+        "freeStep": "step:obtain-opaque-prebuilt-gcc",
+        "admissibleStep": "step:pre-manifest-environment"
+      },
+      "constraintAblation": [
+        {
+          "constraintId": "constraint:bootstrap-ancestry",
+          "ablatedPath": "path:observed-prefix-to-first-gcc",
+          "ablatedCost": 1,
+          "costReduction": 0
+        },
+        {
+          "constraintId": "constraint:auditable-bootstrap-root",
+          "ablatedPath": "path:observed-prefix-to-first-gcc",
+          "ablatedCost": 1,
+          "costReduction": 0
+        }
+      ],
+      "resultIdentity": "sha256:c2f7276f7734607313e1b9b2a875fb26090dfae296e79394244dd51dbbcffff9"
+    }
+  ],
+  "disclaimer": "live-bootstrap does not define or claim Historical Load. Every value below belongs to Onto2D's finite declared construction model.",
+  "analysisIdentity": "sha256:421102cfe4d01d907b83a08fb81baef9d49b786b1be9ac16ce662817ef54a66b"
+}

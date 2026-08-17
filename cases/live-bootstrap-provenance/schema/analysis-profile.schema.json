@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schema/live-bootstrap/analysis-profile-v1.json",
+  "title": "Onto2D live-bootstrap bounded analysis profile",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "format",
+    "formatVersion",
+    "analysisVersion",
+    "upstreamRevision",
+    "traceIdentity",
+    "pathSpaceId",
+    "bounded",
+    "targets",
+    "costFunctions",
+    "regimes",
+    "counterfactualEdges"
+  ],
+  "properties": {
+    "format": { "const": "onto2d-live-bootstrap-analysis-profile" },
+    "formatVersion": { "const": "1" },
+    "analysisVersion": { "type": "string", "minLength": 1 },
+    "upstreamRevision": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+    "traceIdentity": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "pathSpaceId": { "type": "string", "minLength": 1 },
+    "bounded": { "const": true },
+    "targets": { "type": "array", "minItems": 1, "items": { "type": "object" } },
+    "costFunctions": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "enum": ["event-count", "build-event-count", "distinct-tool-count", "trust-root-count"] },
+      "uniqueItems": true
+    },
+    "regimes": { "type": "array", "minItems": 1, "items": { "type": "object" } },
+    "counterfactualEdges": { "type": "array", "items": { "type": "object" } }
+  }
+}

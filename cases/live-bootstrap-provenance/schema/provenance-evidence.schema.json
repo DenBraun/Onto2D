@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schema/live-bootstrap/provenance-evidence-v1.json",
+  "title": "Onto2D live-bootstrap provenance evidence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["format", "formatVersion", "traceIdentity", "evidenceProfile", "records", "evidenceIdentity"],
+  "properties": {
+    "format": { "const": "onto2d-live-bootstrap-provenance-evidence" },
+    "formatVersion": { "const": "1" },
+    "traceIdentity": { "$ref": "#/$defs/hash" },
+    "evidenceProfile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "method", "scope", "profileIdentity"],
+      "properties": {
+        "id": { "type": "string" },
+        "method": { "const": "reviewed-line-assertion-v1" },
+        "scope": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["description", "doesNotClaim"],
+          "properties": {
+            "description": { "type": "string" },
+            "doesNotClaim": { "type": "array", "items": { "type": "string" }, "minItems": 1 }
+          }
+        },
+        "profileIdentity": { "$ref": "#/$defs/hash" }
+      }
+    },
+    "records": { "type": "array", "items": { "$ref": "#/$defs/record" } },
+    "evidenceIdentity": { "$ref": "#/$defs/hash" }
+  },
+  "$defs": {
+    "hash": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["evidenceId", "subject", "relation", "object", "claim", "evidenceClass", "layer", "source", "status", "method"],
+      "properties": {
+        "evidenceId": { "type": "string" },
+        "subject": { "type": "string" },
+        "relation": { "type": "string" },
+        "object": { "type": "string" },
+        "claim": { "type": "string", "minLength": 1 },
+        "evidenceClass": {
+          "enum": [
+            "observed-order",
+            "declared-input",
+            "script-reference",
+            "produced-artifact",
+            "derived-state",
+            "inferred-dependency",
+            "external-root",
+            "unknown"
+          ]
+        },
+        "layer": { "enum": ["upstream-fact", "derived-fact", "onto2d-analysis"] },
+        "source": {
+          "oneOf": [
+            { "type": "null" },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["path", "line"],
+              "properties": {
+                "path": { "type": "string" },
+                "line": { "type": "integer", "minimum": 1 }
+              }
+            }
+          ]
+        },
+        "status": { "enum": ["observed", "derived", "inferred", "unknown"] },
+        "method": {
+          "enum": [
+            "manifest-order-v1",
+            "manifest-state-projection-v1",
+            "reviewed-line-assertion-v1"
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "format": "onto2d-live-bootstrap-admissibility-regimes",
+  "formatVersion": "1",
+  "analysisVersion": "live-bootstrap-construction-v1",
+  "constraints": [
+    {
+      "id": "constraint:actual-pinned-trace-only",
+      "description": "Admit only the actual pinned manifest-prefix path.",
+      "origin": "onto2d-defined",
+      "predicate": { "field": "actual", "equals": true }
+    },
+    {
+      "id": "constraint:target-source-derived",
+      "description": "Require the target toolchain to be built from source in the declared path.",
+      "origin": "onto2d-defined",
+      "predicate": { "field": "sourceDerived", "equals": true }
+    },
+    {
+      "id": "constraint:bootstrap-ancestry",
+      "description": "Require the declared path to satisfy the bounded bootstrap-ancestry policy.",
+      "origin": "onto2d-defined",
+      "predicate": { "field": "bootstrapAncestry", "equals": true }
+    },
+    {
+      "id": "constraint:auditable-bootstrap-root",
+      "description": "Require the path to use the bounded model's declared auditable bootstrap root policy.",
+      "origin": "onto2d-defined",
+      "predicate": { "field": "auditableBootstrap", "equals": true }
+    }
+  ],
+  "regimes": [
+    {
+      "id": "observed",
+      "label": "Observed",
+      "description": "The factual pinned trace path; this is a reference regime, not an optimization regime.",
+      "optimization": false,
+      "constraints": ["constraint:actual-pinned-trace-only"]
+    },
+    {
+      "id": "free",
+      "label": "Free",
+      "description": "Admits every path explicitly declared in this finite construction space.",
+      "optimization": true,
+      "constraints": []
+    },
+    {
+      "id": "source-derived",
+      "label": "Source-derived",
+      "description": "Requires the final GCC target to be built from source but permits a pre-existing binary toolchain.",
+      "optimization": true,
+      "constraints": ["constraint:target-source-derived"]
+    },
+    {
+      "id": "bootstrappable",
+      "label": "Bootstrappable",
+      "description": "Rejects paths that violate the bounded bootstrap-ancestry policy.",
+      "optimization": true,
+      "constraints": ["constraint:bootstrap-ancestry"]
+    },
+    {
+      "id": "auditable-bootstrap",
+      "label": "Auditable bootstrap",
+      "description": "Adds the bounded model's stricter auditable-root policy to bootstrap ancestry.",
+      "optimization": true,
+      "constraints": [
+        "constraint:bootstrap-ancestry",
+        "constraint:auditable-bootstrap-root"
+      ]
+    }
+  ]
+}

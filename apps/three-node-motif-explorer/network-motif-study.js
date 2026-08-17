@@ -1,5 +1,5 @@
-import { THREE_NODE_MOTIF_EXPLORER_DATA as DATA } from "./network-motif-data.js?v=20260816.10";
-import { analyzeFflConstruction, deriveEcoliReading } from "./motif-reading.js?v=20260816.10";
+import { THREE_NODE_MOTIF_EXPLORER_DATA as DATA } from "./network-motif-data.js?v=20260817.2";
+import { analyzeFflConstruction, deriveEcoliReading } from "./motif-reading.js?v=20260817.2";
 
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
@@ -131,8 +131,8 @@ function renderSelected() {
     ${motifSvg(motif, "selected", true)}
     <h4>${motif.name}</h4><p>${motif.description}</p>
     <dl><div><dt>Observed</dt><dd>${number(motif.observed, 0)}</dd></div><div><dt>Null mu +/- sigma</dt><dd>${motif.nullStandardDeviation === 0 ? `${number(motif.nullMean)} +/- 0` : `${number(motif.nullMean)} +/- ${number(motif.nullStandardDeviation)}`}</dd></div><div><dt>Z-score</dt><dd>${signed(motif.zScore, 3)}</dd></div><div><dt>Z rank</dt><dd>${Number.isFinite(motif.zScore) ? motif.rank : "-"}</dd></div></dl>
-    <div class="edge-list"><span>Edge list</span><code>${edges}</code></div>
-    <div class="identity"><span>Onto2D canonical ID</span><code>${motif.canonicalId}</code></div>`;
+    <div class="edge-list"><span>Edge list</span><code title="${edges}">${edges}</code></div>
+    <div class="identity"><span>Onto2D canonical ID</span><code title="${motif.canonicalId}">${motif.canonicalId}</code></div>`;
 }
 
 function renderGrid() {

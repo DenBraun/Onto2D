@@ -493,6 +493,22 @@ function pointToward(origin, target, distance) {
   };
 }
 
+function boundaryDistance(origin, target, geometry, gap = 0) {
+  const dx = target.x - origin.x;
+  const dy = target.y - origin.y;
+  const length = Math.hypot(dx, dy);
+  if (geometry.shape === "circle") return geometry.radius + gap;
+  const unitX = Math.abs(dx / length);
+  const unitY = Math.abs(dy / length);
+  const horizontal = unitX === 0 ? Number.POSITIVE_INFINITY : geometry.halfWidth / unitX;
+  const vertical = unitY === 0 ? Number.POSITIVE_INFINITY : geometry.halfHeight / unitY;
+  return Math.min(horizontal, vertical) + gap;
+}
+
+function pointFromBoundary(origin, target, geometry, gap = 0) {
+  return pointToward(origin, target, boundaryDistance(origin, target, geometry, gap));
+}
+
 function quadraticPoint(start, control, end, t) {
   const inverse = 1 - t;
   return {
@@ -501,40 +517,44 @@ function quadraticPoint(start, control, end, t) {
   };
 }
 
-function edgeRoute(edge, positions, radius, offset, detourLane = 0) {
+function edgeRoute(edge, positions, geometry, offset, detourLane = 0) {
   const source = positions.get(edge.source);
   const target = positions.get(edge.target);
   if (edge.source === edge.target) {
     const x = source.x;
     const y = source.y;
-    const spread = radius * 1.65 + Math.abs(offset);
+    const anchorX = geometry.shape === "circle" ? geometry.radius * 0.55 : geometry.halfWidth * 0.62;
+    const anchorY = geometry.shape === "circle" ? geometry.radius * 0.78 : geometry.halfHeight;
+    const spread = Math.max(geometry.halfWidth, geometry.halfHeight) * 1.65 + Math.abs(offset);
     return {
-      path: `M ${pointText(x + radius * 0.55)} ${pointText(y - radius * 0.78)} C ${pointText(x + spread)} ${pointText(y - spread * 1.6)} ${pointText(x - spread)} ${pointText(y - spread * 1.6)} ${pointText(x - radius * 0.55)} ${pointText(y - radius * 0.78)}`,
+      path: `M ${pointText(x + anchorX)} ${pointText(y - anchorY)} C ${pointText(x + spread)} ${pointText(y - anchorY - spread)} ${pointText(x - spread)} ${pointText(y - anchorY - spread)} ${pointText(x - anchorX)} ${pointText(y - anchorY)}`,
       labelX: round(x),
-      labelY: round(y - spread * 1.55)
+      labelY: round(y - anchorY - spread * 0.96)
     };
   }
   const obstructions = [];
+  const obstructionRadius = geometry.shape === "circle"
+    ? geometry.radius * 1.45
+    : Math.hypot(geometry.halfWidth, geometry.halfHeight) * 1.08;
   for (const node of positions.values()) {
     if (node.id === edge.source || node.id === edge.target) continue;
     const proximity = pointToSegmentDistance(node, source, target);
-    if (proximity.t > 0.04 && proximity.t < 0.96 && proximity.distance < radius * 1.45) {
+    if (proximity.t > 0.04 && proximity.t < 0.96 && proximity.distance < obstructionRadius) {
       obstructions.push(node);
     }
   }
   if (obstructions.length > 0) {
-    const endpointInset = radius + 3;
-    const arrowInset = radius + 8;
     const dx = target.x - source.x;
     const dy = target.y - source.y;
     const mostlyVertical = Math.abs(dy) >= Math.abs(dx);
-    const bend = radius * 2.05 + Math.abs(offset) + detourLane * radius * 0.28;
+    const bendBasis = mostlyVertical ? geometry.halfWidth : geometry.halfHeight;
+    const bend = bendBasis * 1.55 + 12 + Math.abs(offset) + detourLane * bendBasis * 0.28;
     const control = {
       x: (source.x + target.x) / 2 + (mostlyVertical ? bend : 0),
       y: (source.y + target.y) / 2 + (mostlyVertical ? 0 : Math.sign(dx || 1) * bend)
     };
-    const start = pointToward(source, control, endpointInset);
-    const end = pointToward(target, control, arrowInset);
+    const start = pointFromBoundary(source, control, geometry, 3);
+    const end = pointFromBoundary(target, control, geometry, 8);
     const label = quadraticPoint(start, control, end, 0.5);
     return {
       path: `M ${pointText(start.x)} ${pointText(start.y)} Q ${pointText(control.x)} ${pointText(control.y)} ${pointText(end.x)} ${pointText(end.y)}`,
@@ -549,11 +569,12 @@ function edgeRoute(edge, positions, radius, offset, detourLane = 0) {
   const unitY = dy / length;
   const perpendicularX = -unitY;
   const perpendicularY = unitX;
-  const endpointInset = radius + 3;
-  const startX = source.x + unitX * endpointInset;
-  const startY = source.y + unitY * endpointInset;
-  const endX = target.x - unitX * (endpointInset + 5);
-  const endY = target.y - unitY * (endpointInset + 5);
+  const start = pointFromBoundary(source, target, geometry, 3);
+  const end = pointFromBoundary(target, source, geometry, 8);
+  const startX = start.x;
+  const startY = start.y;
+  const endX = end.x;
+  const endY = end.y;
   const controlX = (startX + endX) / 2 + perpendicularX * offset;
   const controlY = (startY + endY) / 2 + perpendicularY * offset;
   return {
@@ -629,8 +650,15 @@ export function layoutNeighborhood(projection, options = {}) {
   const height = requireBoundedInteger(value.height, "options.height", 240, 4096, 620);
   const padding = requireBoundedInteger(value.padding, "options.padding", 16, 256, 54);
   const nodeRadius = requireBoundedInteger(value.nodeRadius, "options.nodeRadius", 12, 64, 23);
-  if (padding * 2 + nodeRadius * 2 >= width || padding * 2 + nodeRadius * 2 >= height) {
-    fail("VIEW_OPTION_INVALID", "Layout padding and node radius leave no drawable area.");
+  const rectangularNodes = value.nodeWidth !== undefined || value.nodeHeight !== undefined;
+  const maximumNodeWidth = rectangularNodes
+    ? requireBoundedInteger(value.nodeWidth, "options.nodeWidth", 40, 320, Math.max(40, nodeRadius * 2))
+    : nodeRadius * 2;
+  const nodeHeight = rectangularNodes
+    ? requireBoundedInteger(value.nodeHeight, "options.nodeHeight", 24, 160, Math.max(24, nodeRadius * 2))
+    : nodeRadius * 2;
+  if (padding * 2 + maximumNodeWidth >= width || padding * 2 + nodeHeight >= height) {
+    fail("VIEW_OPTION_INVALID", "Layout padding and node dimensions leave no drawable area.");
   }
   const layerById = assignLayers(graph.nodes);
   const columns = new Map();
@@ -640,9 +668,8 @@ export function layoutNeighborhood(projection, options = {}) {
     columns.get(layer).push(node);
   }
   for (const column of columns.values()) column.sort((left, right) => compareText(left.id, right.id));
-  const drawableWidth = width - padding * 2 - nodeRadius * 2;
-  const drawableHeight = height - padding * 2 - nodeRadius * 2;
-  const minimumNodeGap = nodeRadius * 2 + 18;
+  const drawableHeight = height - padding * 2 - nodeHeight;
+  const minimumNodeGap = nodeHeight + 18;
   const maximumRows = Math.max(1, Math.floor(drawableHeight / minimumNodeGap) + 1);
   const layerPlans = [...columns].sort((left, right) => left[0] - right[0]).map(([layer, column]) => ({
     layer,
@@ -650,6 +677,17 @@ export function layoutNeighborhood(projection, options = {}) {
     laneCount: Math.max(1, Math.ceil(column.length / maximumRows))
   }));
   const totalLanes = layerPlans.reduce((sum, plan) => sum + plan.laneCount, 0);
+  const horizontalGap = rectangularNodes ? 12 : 18;
+  const laneBoundedWidth = totalLanes === 1
+    ? maximumNodeWidth
+    : Math.floor((width - padding * 2 - (totalLanes - 1) * horizontalGap) / totalLanes);
+  const nodeWidth = rectangularNodes
+    ? Math.max(40, Math.min(maximumNodeWidth, laneBoundedWidth))
+    : maximumNodeWidth;
+  const drawableWidth = width - padding * 2 - nodeWidth;
+  const geometry = rectangularNodes
+    ? { shape: "rectangle", radius: nodeRadius, halfWidth: nodeWidth / 2, halfHeight: nodeHeight / 2 }
+    : { shape: "circle", radius: nodeRadius, halfWidth: nodeRadius, halfHeight: nodeRadius };
   let laneCursor = 0;
   const positioned = [];
   for (const plan of layerPlans) {
@@ -660,10 +698,10 @@ export function layoutNeighborhood(projection, options = {}) {
       const globalLane = laneCursor + lane;
       const x = totalLanes === 1
         ? width / 2
-        : padding + nodeRadius + (globalLane / (totalLanes - 1)) * drawableWidth;
+        : padding + nodeWidth / 2 + (globalLane / (totalLanes - 1)) * drawableWidth;
       const y = rowCount === 1
         ? height / 2
-        : padding + nodeRadius + (row / (rowCount - 1)) * drawableHeight;
+        : padding + nodeHeight / 2 + (row / (rowCount - 1)) * drawableHeight;
       positioned.push({
         ...plan.column[index],
         layer: plan.layer,
@@ -685,7 +723,7 @@ export function layoutNeighborhood(projection, options = {}) {
     group.sort((left, right) => compareText(left.id, right.id));
     group.forEach((edge, index) => {
       const offset = (index - (group.length - 1) / 2) * 15;
-      edges.push({ ...edge, ...edgeRoute(edge, positions, nodeRadius, offset, index) });
+      edges.push({ ...edge, ...edgeRoute(edge, positions, geometry, offset, index) });
     });
   }
   edges.sort((left, right) => compareText(left.id, right.id));
@@ -694,8 +732,52 @@ export function layoutNeighborhood(projection, options = {}) {
     width,
     height,
     nodeRadius,
+    nodeWidth,
+    nodeHeight,
     focusId,
     nodes: positioned,
     edges
   });
+}
+
+function labelBreakIndex(text, maximum) {
+  const minimumNaturalBreak = Math.max(1, Math.floor(maximum * 0.45));
+  for (let index = maximum; index >= minimumNaturalBreak; index -= 1) {
+    if (/\s/u.test(text[index])) return { index, consume: index + 1 };
+  }
+  for (let index = maximum; index >= minimumNaturalBreak; index -= 1) {
+    if (/[-/_.:]/u.test(text[index - 1])) return { index, consume: index };
+  }
+  return { index: maximum, consume: maximum };
+}
+
+export function wrapGraphNodeLabel(value, options = {}) {
+  if (typeof value !== "string") {
+    fail("VIEW_LABEL_INVALID", "Graph node label must be a string.");
+  }
+  const settings = requirePlainObject(options, "options");
+  const maxLines = requireBoundedInteger(settings.maxLines, "options.maxLines", 1, 5, 3);
+  const maxCharacters = requireBoundedInteger(
+    settings.maxCharacters,
+    "options.maxCharacters",
+    8,
+    80,
+    22
+  );
+  let remaining = value.replace(/\s+/gu, " ").trim();
+  if (remaining === "") return deepFreeze({ lines: [""], truncated: false });
+  const allLines = [];
+  while (remaining.length > maxCharacters) {
+    const boundary = labelBreakIndex(remaining, maxCharacters);
+    allLines.push(remaining.slice(0, boundary.index).trim());
+    remaining = remaining.slice(boundary.consume).trimStart();
+  }
+  if (remaining !== "") allLines.push(remaining);
+  const truncated = allLines.length > maxLines;
+  const lines = allLines.slice(0, maxLines);
+  if (truncated) {
+    const last = lines.at(-1).slice(0, maxCharacters - 1).trimEnd();
+    lines[lines.length - 1] = `${last}\u2026`;
+  }
+  return deepFreeze({ lines, truncated });
 }

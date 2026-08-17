@@ -1,6 +1,6 @@
 # Scientific Roadmap
 
-Status date: 2026-08-16
+Status date: 2026-08-17
 
 ## Scope
 
@@ -182,6 +182,13 @@ The *E. coli* network is a useful candidate only if its available evidence can
 support the chosen formation-history definition. A directed interaction graph
 and its motif counts alone are not sufficient evidence of historical load.
 
+The live-bootstrap provenance case is also not an empirical Historical Load
+result. It is a reproducible methods case over one pinned manifest and a
+complete, explicitly finite three-path construction space. Its results test
+source/evidence separation, cost sensitivity, admissibility, and ablation, but
+they do not estimate a naturally observed distribution or validate the metric
+against an external outcome.
+
 Completion criteria:
 
 - a clean run reproduces the analysis table and Explorer data from the frozen
@@ -206,6 +213,11 @@ The four workstreams can overlap, but their evidence dependencies are:
 4. Define historical load before selecting a convenient dataset; use the
    catalogue migration or another dataset only when its evidence matches that
    definition.
+
+The local live-bootstrap trace exporter and focused Explorer satisfy the
+engineering prerequisites for a possible upstream-neutral trace discussion.
+No upstream contact should occur until stable public output, a public demo or
+screenshots, and a small analysis-independent proposal are ready.
 
 Each completed study should add a source lock, case README, machine-readable
 inputs, reproducible commands, expected artifacts, limitations, and an

@@ -11,6 +11,7 @@ import {
   MODEL_PACK_REGISTRY_FORMAT_VERSION,
   MODEL_PACK_REGISTRY_LIMITS,
   MODEL_PACK_RESOLUTION_FORMAT,
+  loadModelPackRegistryHttp,
   matchModelPackRegistryResolution,
   resolveModelPackRegistry,
   resolveModelPackRegistryHttp
@@ -142,6 +143,39 @@ test("the HTTP resolver fetches one bounded public registry without credentials"
     referrerPolicy: "no-referrer",
     headers: { Accept: "application/json" }
   });
+});
+
+test("the HTTP catalogue exposes only a normalized hash-pinned registry snapshot", async () => {
+  const first = fixture("1");
+  const second = fixture("2");
+  const document = registry([entry(second), entry(first)]);
+  const expected = resolveModelPackRegistry(document, REGISTRY_URL, selection(first));
+  const snapshot = await loadModelPackRegistryHttp(REGISTRY_URL, {
+    expectedRegistryHash: expected.registryHash,
+    async fetch() {
+      return makeResponse(document);
+    }
+  });
+
+  assert.equal(snapshot.registryHash, expected.registryHash);
+  assert.equal(snapshot.registryTrust, "hash-pinned");
+  assert.equal(snapshot.registryUrl, REGISTRY_URL);
+  assert.deepEqual(
+    snapshot.registry.entries.map(({ modelId, version }) => ({ modelId, version })),
+    [selection(first), selection(second)]
+  );
+  assert.ok(Object.isFrozen(snapshot));
+  assert.ok(Object.isFrozen(snapshot.registry));
+  assert.ok(Object.isFrozen(snapshot.registry.entries));
+  assert.equal(
+    resolveModelPackRegistry(
+      snapshot.registry,
+      snapshot.registryUrl,
+      selection(second),
+      { expectedRegistryHash: snapshot.registryHash }
+    ).rootHash,
+    second.manifest.rootHash
+  );
 });
 
 test("registry shape, identity, uniqueness, path, and selection fail closed", async () => {

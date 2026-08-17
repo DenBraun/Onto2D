@@ -4,7 +4,8 @@ import {
   ModelView,
   ViewError,
   createModelView,
-  layoutNeighborhood
+  layoutNeighborhood,
+  wrapGraphNodeLabel
 } from "../src/index.js";
 
 const nodes = [
@@ -72,6 +73,39 @@ test("layout is repeatable, bounded, directed, and keeps labels attached to node
   assert.ok(first.nodes.every((node) => node.x >= 77 && node.x <= 723));
   assert.ok(first.nodes.every((node) => node.y >= 77 && node.y <= 403));
   assert.ok(first.edges.every((edge) => /^M [-\d.]+ [-\d.]+ (?:Q|C) /.test(edge.path)));
+});
+
+test("rectangular layouts route edges outside fixed node bounds", () => {
+  const view = createModelView({
+    nodes: [{ id: "left" }, { id: "right" }],
+    edges: [{ id: "left-right", source: "left", target: "right" }]
+  });
+  const layout = layoutNeighborhood(view.neighborhood({ focusId: "left", depth: 1 }), {
+    width: 800,
+    height: 480,
+    nodeWidth: 156,
+    nodeHeight: 58
+  });
+  const [edge] = layout.edges;
+  const source = layout.nodes.find((node) => node.id === edge.source);
+  const target = layout.nodes.find((node) => node.id === edge.target);
+  const numbers = edge.path.match(/-?\d+(?:\.\d+)?/g).map(Number);
+  assert.equal(layout.nodeWidth, 156);
+  assert.equal(layout.nodeHeight, 58);
+  assert.ok(numbers[0] > source.x + layout.nodeWidth / 2);
+  assert.ok(numbers.at(-2) < target.x - layout.nodeWidth / 2);
+});
+
+test("graph labels wrap at natural boundaries and ellipsize only the last visible line", () => {
+  assert.deepEqual(
+    wrapGraphNodeLabel("build checksum-transcriber-1.0", { maxCharacters: 12, maxLines: 3 }),
+    { lines: ["build", "checksum-", "transcriber\u2026"], truncated: true }
+  );
+  assert.deepEqual(
+    wrapGraphNodeLabel("short label", { maxCharacters: 20, maxLines: 2 }),
+    { lines: ["short label"], truncated: false }
+  );
+  assert.throws(() => wrapGraphNodeLabel("label", { maxLines: 0 }), /maxLines/);
 });
 
 test("parallel and self-loop routes remain finite and distinct", () => {

@@ -150,8 +150,8 @@ button { cursor:pointer; }
 .selected-panel dt,.selected-panel .edge-list span,.selected-panel .identity span { color:var(--faint); font-family:var(--mono); font-size:12px; letter-spacing:.05em; text-transform:uppercase; }
 .selected-panel dd { margin:3px 0 0; font-family:var(--mono); font-size:13px; font-weight:650; }
 .edge-list,.identity { display:flex; flex-direction:column; padding:10px 16px; border-top:1px solid var(--line); }
-.edge-list code { margin-top:4px; font-family:var(--mono); font-size:12px; }
-.identity code { margin-top:4px; overflow-wrap:anywhere; color:var(--soft); font-family:var(--mono); font-size:12px; line-height:1.5; }
+.edge-list code,.identity code { min-width:0; display:block; margin-top:4px; overflow:hidden; font-family:var(--mono); font-size:12px; text-overflow:ellipsis; white-space:nowrap; }
+.identity code { color:var(--soft); }
 .motif-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); border-top:1px solid var(--line-dark); border-left:1px solid var(--line-dark); }
 .motif-card { min-width:0; display:flex; flex-direction:column; padding:0; border:0; border-right:1px solid var(--line-dark); border-bottom:1px solid var(--line-dark); background:var(--bright); text-align:left; transition:background .18s ease,box-shadow .18s ease; }
 .motif-card:hover { background:#fffef9; }

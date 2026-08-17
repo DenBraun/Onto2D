@@ -17,6 +17,10 @@ const levelZeroStyles = read("assets/css/study-level-zero.css");
 const studioMarkup = read("apps/model-studio/index.html");
 const studioApp = read("apps/model-studio/model-studio.js");
 const studioStyles = read("assets/css/model-studio-workbench.css");
+const bootstrapMarkup = read("apps/bootstrap-provenance-explorer/index.html");
+const bootstrapApp = read("apps/bootstrap-provenance-explorer/bootstrap-provenance-explorer.js");
+const bootstrapModel = read("apps/bootstrap-provenance-explorer/bootstrap-provenance-model.js");
+const bootstrapStyles = read("assets/css/study-bootstrap-provenance.css");
 const modelPackWorker = read("assets/js/model-pack-worker.js");
 const siteServer = read("apps/historical-load-explorer/serve.mjs");
 const documentLifecycle = read("assets/js/document-state-reset.js");
@@ -26,7 +30,8 @@ const publicDirectories = [
   "apps/three-node-motif-explorer",
   "apps/canonical-identity-lab",
   "apps/level-zero-validation",
-  "apps/model-studio"
+  "apps/model-studio",
+  "apps/bootstrap-provenance-explorer"
 ];
 const publicFiles = [
   "index.html",
@@ -37,6 +42,7 @@ const publicFiles = [
   "assets/css/study-canonical-identity.css",
   "assets/css/study-level-zero.css",
   "assets/css/model-studio-workbench.css",
+  "assets/css/study-bootstrap-provenance.css",
   "assets/js/document-state-reset.js",
   "assets/js/model-pack-worker.js",
   "assets/icons/ui-symbols.svg",
@@ -66,7 +72,63 @@ test("the root is a no-scroll project landing page with exactly three study entr
   ]);
   assert.match(landing, /href="\.\/apps\/level-zero-validation\/(?:\?v=[^"]+)?"/);
   assert.match(landing, /href="\.\/apps\/model-studio\/(?:\?v=[^"]+)?"/);
+  assert.match(landing, /href="\.\/apps\/bootstrap-provenance-explorer\/(?:\?v=[^"]+)?"/);
   assert.match(landing, /Make complex-system claims/);
+});
+
+test("Bootstrap Provenance Explorer keeps evidence and analysis visibly separate", () => {
+  assert.match(bootstrapApp, /generated\/upstream-trace\.json/);
+  assert.match(bootstrapApp, /generated\/state-transitions\.json/);
+  assert.match(bootstrapApp, /generated\/evidence\.json/);
+  assert.match(bootstrapApp, /generated\/graph\.json/);
+  assert.match(bootstrapApp, /analysis\/construction-space\.json/);
+  assert.match(bootstrapApp, /analysis\/regimes\.json/);
+  assert.match(bootstrapApp, /analysis\/historical-load\.json/);
+  assert.match(bootstrapApp, /createBootstrapProvenanceModel/);
+  assert.match(bootstrapApp, /createModelView/);
+  assert.match(bootstrapApp, /layoutNeighborhood/);
+  assert.match(bootstrapApp, /wrapGraphNodeLabel/);
+  assert.match(bootstrapApp, /svgElement\("rect"/);
+  assert.match(bootstrapStyles, /\.empty-state\[hidden\]\s*\{\s*display:none/);
+  assert.match(bootstrapStyles, /\.evidence-node rect/);
+  assert.match(bootstrapMarkup, /id=["']evidence-arrow-derived["']/);
+  assert.match(bootstrapMarkup, /markerUnits=["']userSpaceOnUse["']/);
+  assert.match(bootstrapStyles, /#evidence-arrow path\s*\{\s*fill:#8da3ae/);
+  assert.match(bootstrapStyles, /marker-end:url\(#evidence-arrow-derived\)/);
+  assert.match(bootstrapStyles, /marker-end:url\(#evidence-arrow-focus\)/);
+  assert.match(bootstrapStyles, /\.load-readout\s*\{[^}]*grid-template-columns:minmax\(0,1fr\)[^}]*grid-template-rows:auto minmax\(0,1fr\) auto[^}]*overflow:hidden/s);
+  assert.match(bootstrapStyles, /\.load-readout strong\s*\{[^}]*white-space:nowrap/s);
+  assert.match(bootstrapModel, /counterfactual edge .* leaked into extracted evidence/);
+  assert.match(bootstrapModel, /edge\.layer === "upstream-fact"/);
+  assert.match(bootstrapMarkup, /Bootstrap Trace/);
+  assert.match(bootstrapMarkup, /Provenance Graph/);
+  assert.match(bootstrapMarkup, /Trust Boundary/);
+  assert.match(bootstrapMarkup, /Counterfactual Paths/);
+  assert.match(bootstrapMarkup, /Historical Load/);
+  assert.match(bootstrapMarkup, /What this number says here/);
+  assert.match(bootstrapMarkup, /Evidence Inspector/);
+  assert.match(bootstrapMarkup, /Counterfactual construction edges are never merged/i);
+  assert.match(bootstrapMarkup, /No "zero trust" claim is made/i);
+  for (const id of [
+    "trace-list",
+    "directive-filter",
+    "activity-filter",
+    "evidence-mode",
+    "provenance-graph",
+    "trust-roots",
+    "path-cards",
+    "cost-function",
+    "regime-select",
+    "path-comparison",
+    "inspector-record"
+  ]) {
+    assert.match(bootstrapMarkup, new RegExp(`id=["']${id}["']`), `missing #${id}`);
+  }
+  const appRevision = bootstrapMarkup.match(/bootstrap-provenance-explorer\.js\?v=([^"']+)/)?.[1];
+  const modelRevision = bootstrapApp.match(/bootstrap-provenance-model\.js\?v=([^"']+)/)?.[1];
+  const viewRevision = bootstrapMarkup.match(/packages\/view\/src\/index\.js\?v=([^"']+)/)?.[1];
+  assert.equal(modelRevision, appRevision);
+  assert.equal(viewRevision, appRevision);
 });
 
 test("Model Studio fully verifies the real pack before using the shared view layer", () => {
@@ -80,7 +142,8 @@ test("Model Studio fully verifies the real pack before using the shared view lay
   assert.match(studioApp, /packages\/rdf-mapping\/src\/index\.js/);
   assert.match(studioApp, /packages\/shacl-validation\/src\/index\.js/);
   assert.match(studioApp, /packages\/view\/src\/index\.js/);
-  assert.match(studioApp, /resolveModelPackRegistryHttp/);
+  assert.match(studioApp, /loadModelPackRegistryHttp/);
+  assert.match(studioApp, /resolveModelPackRegistry/);
   assert.match(studioApp, /expectedRegistryHash: EXPECTED_REGISTRY_HASH/);
   assert.match(studioApp, /matchModelPackRegistryResolution/);
   assert.match(studioApp, /client\.loadHttpDirectory\(resolution\.baseUrl\)/);
@@ -91,7 +154,7 @@ test("Model Studio fully verifies the real pack before using the shared view lay
   assert.match(studioApp, /MODEL_PACK_CACHE_STORAGE_/);
   assert.match(studioApp, /dataset\.cache = "unavailable"/);
   assert.match(studioApp, /"Cached model verified"/);
-  assert.match(studioApp, /sha256:11a8245635b36395d814f37ca35d2a35e28ce8d78eb19fa89c6b3da8d73759a6/);
+  assert.match(studioApp, /sha256:f09c3178260bfbbcca2b498cd08061b4be1dc18bef8c9a00d2baa2934d41b94b/);
   assert.match(studioApp, /new Worker\(MODEL_PACK_WORKER_URL, \{/);
   assert.match(studioApp, /type: "module"/);
   assert.match(studioApp, /ownsWorker: true/);
@@ -107,23 +170,28 @@ test("Model Studio fully verifies the real pack before using the shared view lay
   assert.match(studioApp, /dataset\.presentation = "lazy"/);
   assert.doesNotMatch(studioApp, /pack\.files\["model\/(?:nodes|edges)\.json"\]/);
   assert.doesNotMatch(studioApp, /function fetchJson/);
+  assert.doesNotMatch(studioApp, /if\s*\([^)]*modelId\s*===\s*["']/);
   assert.match(studioApp, /Model verified/);
   assert.match(studioMarkup, /"@onto2d\/kernel\/canonical":"\.\.\/\.\.\/packages\/kernel\/src\/canonical-entry\.js\?v=/);
   assert.match(studioMarkup, /"@onto2d\/view\/lazy":"\.\.\/\.\.\/packages\/view\/src\/lazy\.js\?v=/);
   assert.match(studioApp, /layoutNeighborhood\(projection/);
+  assert.match(studioApp, /wrapGraphNodeLabel/);
+  assert.match(studioApp, /svgElement\("rect"/);
+  assert.match(studioStyles, /\.graph-node rect/);
   assert.match(studioApp, /addEventListener\("click", \(\) => inspectNode\(node\.id\)\)/);
   assert.match(studioApp, /addEventListener\("dblclick", \(\) => focusNode\(node\.id\)\)/);
   assert.match(studioApp, /graphHighlight\(activeGraphProjection, target\)/);
   assert.match(studioApp, /policy\.inputs\.dataSourceId/);
   assert.match(studioApp, /policy\.inputs\.shapesSourceId/);
   assert.match(studioApp, /buildRdfMappedModelPack\(data, shapes, report, policy/);
-  assert.match(studioMarkup, /not reviewed generative causation/i);
-  assert.match(studioMarkup, /There is only one real Model Pack release/i);
+  assert.match(studioMarkup, /Registered release/i);
+  assert.match(studioMarkup, /does not add dependency or causal meaning/i);
   assert.doesNotMatch(studioMarkup, /class="activity-bar"/);
   assert.doesNotMatch(studioMarkup, /class="breadcrumbs"/);
   assert.doesNotMatch(studioMarkup, /class="statusbar"/);
   for (const id of [
     "catalog-search",
+    "model-selector",
     "catalog-list",
     "catalog-more",
     "rdf-import-open",
@@ -152,6 +220,7 @@ test("Model Studio fully verifies the real pack before using the shared view lay
   const shaclRevision = studioApp.match(/packages\/shacl-validation\/src\/index\.js\?v=([^"']+)/)?.[1];
   const viewRevision = studioApp.match(/packages\/view\/src\/index\.js\?v=([^"']+)/)?.[1];
   const interactionRevision = studioApp.match(/graph-interactions\.js\?v=([^"']+)/)?.[1];
+  const selectionRevision = studioApp.match(/model-selection\.js\?v=([^"']+)/)?.[1];
   const kernelRevision = studioMarkup.match(/packages\/kernel\/src\/canonical-entry\.js\?v=([^"']+)/)?.[1];
   assert.equal(browserRevision, appRevision);
   assert.equal(cacheRevision, appRevision);
@@ -164,6 +233,7 @@ test("Model Studio fully verifies the real pack before using the shared view lay
   assert.equal(shaclRevision, appRevision);
   assert.equal(viewRevision, appRevision);
   assert.equal(interactionRevision, appRevision);
+  assert.equal(selectionRevision, appRevision);
   assert.equal(kernelRevision, appRevision);
 });
 
@@ -305,4 +375,20 @@ test("the Level-0 view text never drops below the readable interface minimum", (
 
 test("Model Studio text never drops below the readable interface minimum", () => {
   assert.doesNotMatch(studioStyles, /font-size:\s*(?:[1-9]|1[01])px/);
+});
+
+test("Bootstrap Provenance Explorer text never drops below the readable interface minimum", () => {
+  assert.doesNotMatch(bootstrapStyles, /font-size:\s*(?:[1-9]|1[01])px/);
+});
+
+test("graph sidebars keep machine fields on bounded single lines", () => {
+  assert.match(studioApp, /compactCoordinateText/);
+  assert.match(studioStyles, /\.catalog-coordinate\s*\{[^}]*overflow:hidden[^}]*text-overflow:ellipsis[^}]*white-space:nowrap/s);
+  assert.match(studioStyles, /\.relation-list\s*\{[^}]*overflow-x:hidden[^}]*overflow-y:auto/s);
+  assert.match(studioStyles, /\.relation-item\s*\{[^}]*grid-template-columns:minmax\(0,1fr\)[^}]*overflow:hidden/s);
+  assert.match(studioStyles, /\.relation-item code,\.relation-item span\s*\{[^}]*overflow:hidden[^}]*text-overflow:ellipsis[^}]*white-space:nowrap/s);
+  assert.match(studioApp, /button\.title = `\$\{node\.id\} \| \$\{node\.name\}`/);
+  assert.match(bootstrapStyles, /\.trace-item code\s*\{[^}]*overflow:hidden[^}]*text-overflow:ellipsis[^}]*white-space:nowrap/s);
+  assert.match(read("assets/css/study-historical-load.css"), /\.constraint-copy small\s*\{[^}]*overflow:\s*hidden[^}]*text-overflow:\s*ellipsis[^}]*white-space:\s*nowrap/s);
+  assert.match(motifStyles, /\.edge-list code,\.identity code\s*\{[^}]*overflow:hidden[^}]*text-overflow:ellipsis[^}]*white-space:nowrap/s);
 });

@@ -6,7 +6,7 @@ projections from explicit node and edge arrays. It has no DOM, filesystem, or
 package dependencies.
 
 ```js
-import { createModelView, layoutNeighborhood } from "@onto2d/view";
+import { createModelView, layoutNeighborhood, wrapGraphNodeLabel } from "@onto2d/view";
 
 const view = createModelView({ nodes, edges });
 const catalogue = view.catalog({ search: "field", levels: [0] });
@@ -15,8 +15,23 @@ const neighborhood = view.neighborhood({
   depth: 1,
   direction: "both"
 });
-const layout = layoutNeighborhood(neighborhood, { width: 960, height: 620 });
+const layout = layoutNeighborhood(neighborhood, {
+  width: 960,
+  height: 620,
+  nodeWidth: 156,
+  nodeHeight: 58
+});
+const label = wrapGraphNodeLabel(neighborhood.focus.name, {
+  maxCharacters: 22,
+  maxLines: 3
+});
 ```
+
+`nodeWidth` and `nodeHeight` are maximum card dimensions. Dense layouts may
+reduce card width deterministically to keep lanes separated. The returned
+dimensions are the exact values to render and route against.
+`wrapGraphNodeLabel()` returns bounded text lines and ellipsizes only the last
+visible line when the complete label does not fit.
 
 The package validates only the presentation input and graph references. It
 does not authenticate a Model Pack, assign scientific meaning to relations,

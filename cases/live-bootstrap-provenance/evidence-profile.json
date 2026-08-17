@@ -1,0 +1,385 @@
+{
+  "format": "onto2d-live-bootstrap-evidence-profile",
+  "formatVersion": "1",
+  "profileId": "selected-bootstrap-milestones-v1",
+  "method": "reviewed-line-assertion-v1",
+  "scope": {
+    "description": "Bounded direct-source audit of selected early toolchain, libc, compiler, kernel, shell, and build-tool scripts.",
+    "doesNotClaim": [
+      "complete dependency coverage",
+      "transitive necessity",
+      "successful execution",
+      "absence of unrecorded dependencies",
+      "submodule content verification"
+    ]
+  },
+  "assertions": [
+    {
+      "id": "stage0-posix-external-root",
+      "subject": { "type": "entity", "id": "source:seed/stage0-posix" },
+      "relation": "declares-repository",
+      "object": "external-root:stage0-posix:45d90f5955b6907dc6cdea9ebafce558359edcd3",
+      "evidenceClass": "external-root",
+      "layer": "upstream-fact",
+      "status": "observed",
+      "claim": "The pinned superproject declares stage0-posix as an external submodule repository; its content is not consumed by this case revision.",
+      "source": {
+        "path": ".gitmodules",
+        "line": 7,
+        "expected": "\turl = https://github.com/oriansj/stage0-posix"
+      }
+    },
+    {
+      "id": "after-invokes-kaem",
+      "subject": { "type": "entity", "id": "source:seed/after.kaem" },
+      "relation": "invokes",
+      "object": "tool:kaem",
+      "evidenceClass": "script-reference",
+      "layer": "upstream-fact",
+      "status": "observed",
+      "claim": "The early bootstrap handoff script directly invokes kaem.",
+      "source": { "path": "seed/after.kaem", "line": 15, "expected": "kaem --file seed-full.kaem" }
+    },
+    {
+      "id": "mes-invokes-kaem",
+      "subject": { "type": "event", "directive": "build", "target": "mes-0.27.1", "occurrence": 1 },
+      "relation": "invokes",
+      "object": "tool:kaem",
+      "evidenceClass": "script-reference",
+      "layer": "upstream-fact",
+      "status": "observed",
+      "claim": "The selected Mes build script directly invokes kaem.",
+      "source": { "path": "steps/mes-0.27.1/pass1.kaem", "line": 66, "expected": "kaem --verbose --strict --file kaem.${MES_ARCH}" }
+    },
+    {
+      "id": "mes-produces-mes-m2",
+      "subject": { "type": "event", "directive": "build", "target": "mes-0.27.1", "occurrence": 1 },
+      "relation": "produces",
+      "object": "artifact:mes-m2",
+      "evidenceClass": "produced-artifact",
+      "layer": "upstream-fact",
+      "status": "observed",
+      "claim": "The selected Mes build script copies mes-m2 into the binary directory.",
+      "source": { "path": "steps/mes-0.27.1/pass1.kaem", "line": 67, "expected": "cp bin/mes-m2 ${BINDIR}/mes-m2" }
+    },
+    {
+      "id": "mes-produces-mescc-script",
+      "subject": { "type": "event", "directive": "build", "target": "mes-0.27.1", "occurrence": 1 },
+      "relation": "produces",
+      "object": "artifact:mescc.scm",
+      "evidenceClass": "produced-artifact",
+      "layer": "upstream-fact",
+      "status": "observed",
+      "claim": "The selected Mes build script copies the generated mescc script to its configured output.",
+      "source": { "path": "steps/mes-0.27.1/pass1.kaem", "line": 92, "expected": "cp ${mescc_in} ${mescc_scm}" }
+    },
+    {
+      "id": "tcc-0926-invokes-mes-m2",
+      "subject": { "type": "event", "directive": "build", "target": "tcc-0.9.26", "occurrence": 1 },
+      "relation": "invokes",
+      "object": "artifact:mes-m2",
+      "evidenceClass": "script-reference",
+      "layer": "upstream-fact",
+      "status": "observed",
+      "claim": "The first TCC 0.9.26 compilation command directly invokes the configured Mes executable.",
+      "source": { "path": "steps/tcc-0.9.26/pass1.kaem", "line": 60, "expected": "${MES} --no-auto-compile -e main ${BINDIR}/mescc.scm -- \\" }
+    },
+    {
+      "id": "tcc-0926-references-mescc-script",
+      "subject": { "type": "event", "directive": "build", "target": "tcc-0.9.26", "occurrence": 1 },
+      "relation": "references",
+      "object": "artifact:mescc.scm",
+      "evidenceClass": "script-reference",
+      "layer": "upstream-fact",
+      "status": "observed",
+      "claim": "The same TCC 0.9.26 command directly references mescc.scm.",
+      "source": { "path": "steps/tcc-0.9.26/pass1.kaem", "line": 60, "expected": "${MES} --no-auto-compile -e main ${BINDIR}/mescc.scm -- \\" }
+    },
+    {
+      "id": "tcc-0926-produces-tcc",
+      "subject": { "type": "event", "directive": "build", "target": "tcc-0.9.26", "occurrence": 1 },
+      "relation": "produces",
+      "object": "artifact:tcc-0.9.26",
+      "evidenceClass": "produced-artifact",
+      "layer": "upstream-fact",
+      "status": "observed",
+      "claim": "The build promotes tcc-boot2 to the final tcc path.",
+      "source": { "path": "steps/tcc-0.9.26/pass1.kaem", "line": 296, "expected": "cp ${BINDIR}/tcc-boot2 ${BINDIR}/tcc" }
+    },
+    {
+      "id": "tcc-0927-pass1-invokes-0926",
+      "subject": { "type": "event", "directive": "build", "target": "tcc-0.9.27", "occurrence": 1 },
+      "relation": "invokes",
+      "object": "artifact:tcc-0.9.26",
+      "evidenceClass": "script-reference",
+      "layer": "upstream-fact",
+      "status": "observed",
+      "claim": "TCC 0.9.27 pass 1 directly invokes tcc-0.9.26.",
+      "source": { "path": "steps/tcc-0.9.27/pass1.kaem", "line": 36, "expected": "tcc-0.9.26 \\" }
+    },
+    {
+      "id": "tcc-0927-pass1-produces-tcc",
+      "subject": { "type": "event", "directive": "build", "target": "tcc-0.9.27", "occurrence": 1 },
+      "relation": "produces",
+      "object": "artifact:tcc-0.9.27:pass1",
+      "evidenceClass": "produced-artifact",
+      "layer": "upstream-fact",
+      "status": "observed",
+      "claim": "TCC 0.9.27 pass 1 declares the tcc output path.",
+      "source": { "path": "steps/tcc-0.9.27/pass1.kaem", "line": 39, "expected": "    -o ${BINDIR}/tcc \\" }
+    },
+    {
+      "id": "make-382-invokes-tcc",
+      "subject": { "type": "event", "directive": "build", "target": "make-3.82", "occurrence": 1 },
+      "relation": "invokes",
+      "object": "tool:tcc",
+      "evidenceClass": "script-reference",
+      "layer": "upstream-fact",
+      "status": "observed",
+      "claim": "The early Make build directly invokes tcc for compilation.",
+      "source": { "path": "steps/make-3.82/pass1.kaem", "line": 26, "expected": "tcc -c getopt.c" }
+    },
+    {
+      "id": "make-382-produces-make",
+      "subject": { "type": "event", "directive": "build", "target": "make-3.82", "occurrence": 1 },
+      "relation": "produces",
+      "object": "artifact:make-3.82",
+      "evidenceClass": "produced-artifact",
+      "layer": "upstream-fact",
+      "status": "observed",
+      "claim": "The early Make build links the make executable into the binary directory.",
+      "source": { "path": "steps/make-3.82/pass1.kaem", "line": 55, "expected": "tcc -static -o ${BINDIR}/make getopt.o getopt1.o ar.o arscan.o commands.o default.o dir.o expand.o file.o function.o implicit.o job.o main.o misc.o read.o remake.o rule.o signame.o strcache.o variable.o version.o vpath.o hash.o remote-stub.o getloadavg.o fnmatch.o glob.o" }
+    },
+    {
+      "id": "bash-205b-invokes-make",
+      "subject": { "type": "event", "directive": "build", "target": "bash-2.05b", "occurrence": 1 },
+      "relation": "invokes",
+      "object": "artifact:make-3.82",
+      "evidenceClass": "script-reference",
+      "layer": "upstream-fact",
+      "status": "observed",
+      "claim": "The early Bash build directly invokes make.",
+      "source": { "path": "steps/bash-2.05b/pass1.kaem", "line": 42, "expected": "make mkbuiltins" }
+    },
+    {
+      "id": "bash-205b-produces-bash",
+      "subject": { "type": "event", "directive": "build", "target": "bash-2.05b", "occurrence": 1 },
+      "relation": "produces",
+      "object": "artifact:bash-2.05b",
+      "evidenceClass": "produced-artifact",
+      "layer": "upstream-fact",
+      "status": "observed",
+      "claim": "The early Bash build installs bash into the prefix binary directory.",
+      "source": { "path": "steps/bash-2.05b/pass1.kaem", "line": 49, "expected": "install bash ${PREFIX}/bin/" }
+    },
+    {
+      "id": "tcc-0927-pass2-invokes-0926",
+      "subject": { "type": "event", "directive": "build", "target": "tcc-0.9.27", "occurrence": 2 },
+      "relation": "invokes",
+      "object": "artifact:tcc-0.9.26",
+      "evidenceClass": "script-reference",
+      "layer": "upstream-fact",
+      "status": "observed",
+      "claim": "TCC 0.9.27 pass 2 directly invokes tcc-0.9.26.",
+      "source": { "path": "steps/tcc-0.9.27/pass2.sh", "line": 14, "expected": "    tcc-0.9.26 \\" }
+    },
+    {
+      "id": "tcc-0927-pass2-produces-tcc",
+      "subject": { "type": "event", "directive": "build", "target": "tcc-0.9.27", "occurrence": 2 },
+      "relation": "produces",
+      "object": "artifact:tcc-0.9.27:pass2",
+      "evidenceClass": "produced-artifact",
+      "layer": "upstream-fact",
+      "status": "observed",
+      "claim": "TCC 0.9.27 pass 2 installs its tcc output.",
+      "source": { "path": "steps/tcc-0.9.27/pass2.sh", "line": 38, "expected": "    install -D tcc \"${DESTDIR}${PREFIX}/bin/tcc\"" }
+    },
+    {
+      "id": "musl-1124-declares-tcc-compiler",
+      "subject": { "type": "event", "directive": "build", "target": "musl-1.1.24", "occurrence": 1 },
+      "relation": "uses-compiler",
+      "object": "tool:tcc",
+      "evidenceClass": "declared-input",
+      "layer": "upstream-fact",
+      "status": "observed",
+      "claim": "The selected musl configure command explicitly sets CC=tcc.",
+      "source": { "path": "steps/musl-1.1.24/pass1.sh", "line": 23, "expected": "    CC=tcc ./configure \\" }
+    },
+    {
+      "id": "tcc-0927-pass3-declares-compiler-loop",
+      "subject": { "type": "event", "directive": "build", "target": "tcc-0.9.27", "occurrence": 3 },
+      "relation": "declares-compiler-candidates",
+      "object": "tool-set:tcc-0.9.26,tcc-musl",
+      "evidenceClass": "declared-input",
+      "layer": "upstream-fact",
+      "status": "observed",
+      "claim": "TCC 0.9.27 pass 3 explicitly iterates over tcc-0.9.26 and its newly built tcc-musl.",
+      "source": { "path": "steps/tcc-0.9.27/pass3.sh", "line": 17, "expected": "    for TCC in tcc-0.9.26 ./tcc-musl; do" }
+    },
+    {
+      "id": "tcc-0927-pass3-produces-tcc-musl",
+      "subject": { "type": "event", "directive": "build", "target": "tcc-0.9.27", "occurrence": 3 },
+      "relation": "produces",
+      "object": "artifact:tcc-musl",
+      "evidenceClass": "produced-artifact",
+      "layer": "upstream-fact",
+      "status": "observed",
+      "claim": "TCC 0.9.27 pass 3 installs tcc-musl.",
+      "source": { "path": "steps/tcc-0.9.27/pass3.sh", "line": 44, "expected": "    install -D tcc-musl \"${DESTDIR}${PREFIX}/bin/tcc-musl\"" }
+    },
+    {
+      "id": "binutils-230-declares-tcc",
+      "subject": { "type": "event", "directive": "build", "target": "binutils-2.30", "occurrence": 1 },
+      "relation": "uses-toolchain",
+      "object": "tool:tcc",
+      "evidenceClass": "declared-input",
+      "layer": "upstream-fact",
+      "status": "observed",
+      "claim": "The selected binutils configure loop explicitly sets both CC and AR to tcc commands.",
+      "source": { "path": "steps/binutils-2.30/pass1.sh", "line": 118, "expected": "        LD=\"true\" AR=\"tcc -ar\" CC=\"tcc\" \\" }
+    },
+    {
+      "id": "binutils-230-installs",
+      "subject": { "type": "event", "directive": "build", "target": "binutils-2.30", "occurrence": 1 },
+      "relation": "produces",
+      "object": "milestone:binutils-2.30-installed",
+      "evidenceClass": "produced-artifact",
+      "layer": "upstream-fact",
+      "status": "observed",
+      "claim": "The selected binutils build runs install for its enumerated component directories.",
+      "source": { "path": "steps/binutils-2.30/pass1.sh", "line": 147, "expected": "        make -C $dir tooldir=${PREFIX} DESTDIR=\"${DESTDIR}\" install MAKEINFO=true" }
+    },
+    {
+      "id": "gcc-404-pass1-declares-tcc",
+      "subject": { "type": "event", "directive": "build", "target": "gcc-4.0.4", "occurrence": 1 },
+      "relation": "uses-compiler",
+      "object": "tool:tcc",
+      "evidenceClass": "declared-input",
+      "layer": "upstream-fact",
+      "status": "observed",
+      "claim": "GCC 4.0.4 pass 1 explicitly sets CC=tcc for the selected configure loop.",
+      "source": { "path": "steps/gcc-4.0.4/pass1.sh", "line": 82, "expected": "        CC=tcc CFLAGS=\"-D HAVE_ALLOCA_H\" ../../$dir/configure \\" }
+    },
+    {
+      "id": "gcc-404-pass1-installs",
+      "subject": { "type": "event", "directive": "build", "target": "gcc-4.0.4", "occurrence": 1 },
+      "relation": "produces",
+      "object": "milestone:gcc-4.0.4-pass1-installed",
+      "evidenceClass": "produced-artifact",
+      "layer": "upstream-fact",
+      "status": "observed",
+      "claim": "GCC 4.0.4 pass 1 runs the GCC install target.",
+      "source": { "path": "steps/gcc-4.0.4/pass1.sh", "line": 110, "expected": "    make -C build/gcc install STMP_FIXINC= DESTDIR=\"${DESTDIR}\"" }
+    },
+    {
+      "id": "gcc-404-pass2-compiler-unresolved",
+      "subject": { "type": "event", "directive": "build", "target": "gcc-4.0.4", "occurrence": 2 },
+      "relation": "compiler-selection-unresolved",
+      "object": "unknown:compiler",
+      "evidenceClass": "unknown",
+      "layer": "derived-fact",
+      "status": "unknown",
+      "claim": "The bounded line audit does not resolve an explicit compiler assignment for GCC 4.0.4 pass 2; it does not infer one from order.",
+      "source": { "path": "steps/gcc-4.0.4/pass2.sh", "line": 83, "expected": "        ../../$dir/configure \\" }
+    },
+    {
+      "id": "linux-invokes-make",
+      "subject": { "type": "event", "directive": "build", "target": "linux-4.14.341-openela", "occurrence": 1 },
+      "relation": "invokes",
+      "object": "tool:make",
+      "evidenceClass": "script-reference",
+      "layer": "upstream-fact",
+      "status": "observed",
+      "claim": "The selected Linux build directly invokes make for vmlinux.",
+      "source": { "path": "steps/linux-4.14.341-openela/pass1.sh", "line": 51, "expected": "    PATH=\"${PWD}/usr:${PATH}\" make \"${MAKEJOBS}\" ARCH=i386 vmlinux" }
+    },
+    {
+      "id": "linux-produces-vmlinuz",
+      "subject": { "type": "event", "directive": "build", "target": "linux-4.14.341-openela", "occurrence": 1 },
+      "relation": "produces",
+      "object": "artifact:vmlinuz",
+      "evidenceClass": "produced-artifact",
+      "layer": "upstream-fact",
+      "status": "observed",
+      "claim": "The selected Linux build installs bzImage as /boot/vmlinuz.",
+      "source": { "path": "steps/linux-4.14.341-openela/pass1.sh", "line": 65, "expected": "    install -D -m 644 arch/i386/boot/bzImage \"${DESTDIR}/boot/vmlinuz\"" }
+    },
+    {
+      "id": "bash-5215-invokes-make",
+      "subject": { "type": "event", "directive": "build", "target": "bash-5.2.15", "occurrence": 1 },
+      "relation": "invokes",
+      "object": "tool:make",
+      "evidenceClass": "script-reference",
+      "layer": "upstream-fact",
+      "status": "observed",
+      "claim": "The Bash 5.2.15 build directly invokes make.",
+      "source": { "path": "steps/bash-5.2.15/pass1.sh", "line": 51, "expected": "    make -j1 PREFIX=\"${PREFIX}\"" }
+    },
+    {
+      "id": "bash-5215-produces-bash",
+      "subject": { "type": "event", "directive": "build", "target": "bash-5.2.15", "occurrence": 1 },
+      "relation": "produces",
+      "object": "artifact:bash-5.2.15",
+      "evidenceClass": "produced-artifact",
+      "layer": "upstream-fact",
+      "status": "observed",
+      "claim": "The Bash 5.2.15 build installs the bash executable.",
+      "source": { "path": "steps/bash-5.2.15/pass1.sh", "line": 55, "expected": "    install -D bash \"${DESTDIR}${PREFIX}/bin/bash\"" }
+    },
+    {
+      "id": "make-421-invokes-make",
+      "subject": { "type": "event", "directive": "build", "target": "make-4.2.1", "occurrence": 1 },
+      "relation": "invokes",
+      "object": "tool:make",
+      "evidenceClass": "script-reference",
+      "layer": "upstream-fact",
+      "status": "observed",
+      "claim": "The Make 4.2.1 build directly invokes the available make executable.",
+      "source": { "path": "steps/make-4.2.1/pass1.sh", "line": 23, "expected": "    make \"${MAKEJOBS}\" MAKEINFO=\"true\"" }
+    },
+    {
+      "id": "make-421-installs",
+      "subject": { "type": "event", "directive": "build", "target": "make-4.2.1", "occurrence": 1 },
+      "relation": "produces",
+      "object": "milestone:make-4.2.1-installed",
+      "evidenceClass": "produced-artifact",
+      "layer": "upstream-fact",
+      "status": "observed",
+      "claim": "The Make 4.2.1 build invokes its install target.",
+      "source": { "path": "steps/make-4.2.1/pass1.sh", "line": 27, "expected": "    make install MAKEINFO=\"true\" DESTDIR=\"${DESTDIR}\"" }
+    },
+    {
+      "id": "gcc-474-invokes-make",
+      "subject": { "type": "event", "directive": "build", "target": "gcc-4.7.4", "occurrence": 1 },
+      "relation": "invokes",
+      "object": "tool:make",
+      "evidenceClass": "script-reference",
+      "layer": "upstream-fact",
+      "status": "observed",
+      "claim": "The selected GCC 4.7.4 build directly invokes make for its component build.",
+      "source": { "path": "steps/gcc-4.7.4/pass1.sh", "line": 200, "expected": "        make \"${MAKEJOBS}\" -C build/$dir LIBGCC2_INCLUDES=-I\"${PREFIX}/include\" \\" }
+    },
+    {
+      "id": "gcc-474-declares-xgcc",
+      "subject": { "type": "event", "directive": "build", "target": "gcc-4.7.4", "occurrence": 1 },
+      "relation": "uses-compiler",
+      "object": "artifact:gcc-4.7.4:xgcc",
+      "evidenceClass": "declared-input",
+      "layer": "upstream-fact",
+      "status": "observed",
+      "claim": "The libgcc build explicitly sets CC to the just-built xgcc path.",
+      "source": { "path": "steps/gcc-4.7.4/pass1.sh", "line": 205, "expected": "    make \"${MAKEJOBS}\" -C build/libgcc PATH=\"${PATH}:../gcc\" CC=../gcc/xgcc \\" }
+    },
+    {
+      "id": "gcc-474-produces-cc-link",
+      "subject": { "type": "event", "directive": "build", "target": "gcc-4.7.4", "occurrence": 1 },
+      "relation": "produces",
+      "object": "artifact:gcc-4.7.4:cc-link",
+      "evidenceClass": "produced-artifact",
+      "layer": "upstream-fact",
+      "status": "observed",
+      "claim": "The GCC 4.7.4 install creates cc as a symlink to gcc.",
+      "source": { "path": "steps/gcc-4.7.4/pass1.sh", "line": 216, "expected": "    ln -s gcc \"${DESTDIR}${PREFIX}/bin/cc\"" }
+    }
+  ]
+}

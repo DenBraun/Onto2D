@@ -1,21 +1,29 @@
 # Model Studio
 
-Model Studio is a static browser projection of the frozen Causal Emergence
-Model Pack release `2026.08.15`. It loads every required split file through
+Model Studio is a static browser projection of exact releases in the
+hash-pinned Model Pack registry. It loads the registry through a bounded
+read-only snapshot, resolves the selected model and version, and loads every
+required split file through
 the bounded `@onto2d/model-pack/browser` transport, reconstructs the pack, and
 verifies its semantic hashes and derived indexes before creating an
 exact-identity lazy presentation through `@onto2d/engine/presentation`.
 
-The browser verifies the exact bytes it receives; it does not reinterpret
-`source-parent` relations as reviewed causation or replace scientific review
-of the release. Version comparison is intentionally absent until a second
-real release and reviewed lineage record exist.
+The browser verifies the exact bytes it receives and binds all workspace URL
+state to the exact model and version. Switching releases resets an incompatible
+node selection. It does not reinterpret relations or replace scientific review
+of either release. Model-specific labels and evidence-boundary copy come only
+from explicit presentation metadata in the verified pack; generic Studio code
+does not branch on a model ID. Version comparison remains distinct from model
+selection and requires reviewed lineage.
 
 The interface uses a compact IDE workbench with a catalogue Explorer, graph
 editor, and node Inspector. A click inspects a node without changing the
 layout; a double-click makes it the graph focus. Hovering a node or edge
 highlights its immediate graph context. Every interface label remains at least
-12 pixels, and the stacked narrow layout preserves the same controls. Explorer
+12 pixels, and the stacked narrow layout preserves the same controls. Graph
+nodes are rounded cards with bounded dimensions; dense layouts reduce their
+width deterministically, labels wrap to three lines, and only the last visible
+line is ellipsized. Explorer
 loads lightweight records in 60-row pages. Graph projections omit full source
 records; selecting a node requests its complete Inspector record explicitly.
 This UI paging never becomes partial semantic execution.

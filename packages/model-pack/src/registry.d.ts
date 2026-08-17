@@ -53,6 +53,13 @@ export interface ModelPackRegistryResolution {
   baseUrl: string;
 }
 
+export interface ModelPackRegistrySnapshot {
+  registry: Readonly<ModelPackRegistry>;
+  registryHash: ContentHash;
+  registryUrl: string;
+  registryTrust: "hash-pinned" | "transport-only";
+}
+
 export const MODEL_PACK_REGISTRY_FORMAT: "onto2d-model-pack-registry";
 export const MODEL_PACK_REGISTRY_FORMAT_VERSION: "1";
 export const MODEL_PACK_RESOLUTION_FORMAT: "onto2d-model-pack-resolution";
@@ -71,6 +78,11 @@ export function resolveModelPackRegistryHttp(
   selection: ModelPackRegistrySelection,
   options?: ModelPackRegistryHttpOptions
 ): Promise<Readonly<ModelPackRegistryResolution>>;
+
+export function loadModelPackRegistryHttp(
+  registryUrl: string | URL,
+  options?: ModelPackRegistryHttpOptions
+): Promise<Readonly<ModelPackRegistrySnapshot>>;
 
 export function matchModelPackRegistryResolution(
   pack: Readonly<ModelPack>,

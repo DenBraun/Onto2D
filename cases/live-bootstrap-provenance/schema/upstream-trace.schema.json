@@ -1,0 +1,243 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schema/live-bootstrap/upstream-trace-v1.json",
+  "title": "Onto2D live-bootstrap upstream trace",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "format",
+    "formatVersion",
+    "extractionProfile",
+    "source",
+    "profile",
+    "events",
+    "statistics",
+    "traceIdentity"
+  ],
+  "properties": {
+    "format": { "const": "onto2d-live-bootstrap-upstream-trace" },
+    "formatVersion": { "const": "1" },
+    "extractionProfile": { "const": "live-bootstrap-provenance-v1" },
+    "source": { "$ref": "#/$defs/source" },
+    "profile": { "$ref": "#/$defs/profile" },
+    "events": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/event" }
+    },
+    "statistics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["eventCount", "activeEventCount", "inactiveEventCount", "directiveCounts"],
+      "properties": {
+        "eventCount": { "type": "integer", "minimum": 0 },
+        "activeEventCount": { "type": "integer", "minimum": 0 },
+        "inactiveEventCount": { "type": "integer", "minimum": 0 },
+        "directiveCounts": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["build", "improve", "define", "jump", "uninstall"],
+          "properties": {
+            "build": { "type": "integer", "minimum": 0 },
+            "improve": { "type": "integer", "minimum": 0 },
+            "define": { "type": "integer", "minimum": 0 },
+            "jump": { "type": "integer", "minimum": 0 },
+            "uninstall": { "type": "integer", "minimum": 0 }
+          }
+        }
+      }
+    },
+    "traceIdentity": { "$ref": "#/$defs/hash" }
+  },
+  "$defs": {
+    "hash": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "sourceLocation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "line", "raw", "comment"],
+      "properties": {
+        "path": { "const": "steps/manifest" },
+        "line": { "type": "integer", "minimum": 1 },
+        "raw": { "type": "string" },
+        "comment": { "type": ["string", "null"] }
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repository", "revision", "revisionTree", "submodules", "files", "sourceIdentity"],
+      "properties": {
+        "repository": { "type": "string" },
+        "revision": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+        "revisionTree": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+        "submodules": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["path", "repository", "revision", "contentStatus"],
+            "properties": {
+              "path": { "type": "string" },
+              "repository": { "type": "string" },
+              "revision": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+              "contentStatus": { "const": "not-consumed" }
+            }
+          }
+        },
+        "files": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["path", "role", "sha256"],
+            "properties": {
+              "path": { "type": "string" },
+              "role": { "type": "string" },
+              "sha256": { "$ref": "#/$defs/hash" }
+            }
+          }
+        },
+        "sourceIdentity": { "$ref": "#/$defs/hash" }
+      }
+    },
+    "profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "description", "upstreamSupportStatus", "upstreamSupportNote", "variables"],
+      "properties": {
+        "id": { "const": "default-amd64" },
+        "description": { "type": "string" },
+        "upstreamSupportStatus": { "enum": ["supported", "development-only", "unknown"] },
+        "upstreamSupportNote": { "type": "string" },
+        "variables": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        }
+      }
+    },
+    "expression": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "name", "operator", "value"],
+          "properties": {
+            "kind": { "const": "comparison" },
+            "name": { "type": "string" },
+            "operator": { "enum": ["==", "!="] },
+            "value": { "type": "string" }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "value"],
+          "properties": {
+            "kind": { "const": "literal" },
+            "value": { "type": "string" }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "operator", "left", "right"],
+          "properties": {
+            "kind": { "const": "logical" },
+            "operator": { "enum": ["&&", "||"] },
+            "left": { "$ref": "#/$defs/expression" },
+            "right": { "$ref": "#/$defs/expression" }
+          }
+        }
+      ]
+    },
+    "definition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "value"],
+      "properties": {
+        "name": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]*$" },
+        "value": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["kind", "value"],
+              "properties": {
+                "kind": { "const": "constant" },
+                "value": { "type": "string" }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["kind", "expression"],
+              "properties": {
+                "kind": { "const": "predicate" },
+                "expression": { "$ref": "#/$defs/expression" }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "profileStatus": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["layer", "active", "reason", "inputs"],
+      "properties": {
+        "layer": { "const": "derived-fact" },
+        "active": { "type": "boolean" },
+        "reason": { "enum": ["no-predicate", "predicate-true", "predicate-false"] },
+        "inputs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["name", "value", "origin"],
+            "properties": {
+              "name": { "type": "string" },
+              "value": { "type": "string" },
+              "origin": { "enum": ["profile", "manifest-define", "unset"] }
+            }
+          }
+        }
+      }
+    },
+    "event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "eventId",
+        "ordinal",
+        "directive",
+        "target",
+        "targets",
+        "definition",
+        "predicate",
+        "source",
+        "provenance",
+        "profileStatus"
+      ],
+      "properties": {
+        "eventId": { "type": "string" },
+        "ordinal": { "type": "integer", "minimum": 0 },
+        "directive": { "enum": ["build", "improve", "define", "jump", "uninstall"] },
+        "target": { "type": ["string", "null"] },
+        "targets": { "type": "array", "items": { "type": "string" } },
+        "definition": { "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/definition" }] },
+        "predicate": { "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/expression" }] },
+        "source": { "$ref": "#/$defs/sourceLocation" },
+        "provenance": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["layer", "method"],
+          "properties": {
+            "layer": { "const": "upstream-fact" },
+            "method": { "const": "deterministic-parse" }
+          }
+        },
+        "profileStatus": { "$ref": "#/$defs/profileStatus" }
+      }
+    }
+  }
+}

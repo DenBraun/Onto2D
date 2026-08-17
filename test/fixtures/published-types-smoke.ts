@@ -37,13 +37,15 @@ import {
   type ModelPackPathOptions
 } from "@onto2d/model-pack/node";
 import {
+  loadModelPackRegistryHttp,
   matchModelPackRegistryResolution,
   resolveModelPackRegistry,
   resolveModelPackRegistryHttp,
   type ModelPackRegistry,
   type ModelPackRegistryHttpOptions,
   type ModelPackRegistryResolution,
-  type ModelPackRegistrySelection
+  type ModelPackRegistrySelection,
+  type ModelPackRegistrySnapshot
 } from "@onto2d/model-pack/registry";
 import {
   createModelPackWorkerClient,
@@ -70,7 +72,7 @@ import {
   type VerifiedModelPresentationOptions
 } from "@onto2d/engine/presentation";
 import { Onto2D as DefaultOnto2D } from "onto2d";
-import { createModelView, layoutNeighborhood, type NeighborhoodLayout } from "@onto2d/view";
+import { createModelView, layoutNeighborhood, wrapGraphNodeLabel, type NeighborhoodLayout } from "@onto2d/view";
 import {
   createLazyModelPresentation,
   type ModelPresentationCatalogPage,
@@ -212,6 +214,11 @@ const registryHttpOptions: ModelPackRegistryHttpOptions = {
   expectedRegistryHash: registryResolution.registryHash,
   maxRegistryBytes: 8192
 };
+const registrySnapshot: Promise<ModelPackRegistrySnapshot> = loadModelPackRegistryHttp(
+  "https://example.test/models/registry.json",
+  registryHttpOptions
+);
+void registrySnapshot;
 void resolveModelPackRegistryHttp;
 void matchModelPackRegistryResolution(modelPack, registryResolution);
 void registryHttpOptions;
@@ -237,7 +244,9 @@ const modelView = createModelView({ nodes: [{ id: "a" }], edges: [] });
 const modelLayout: NeighborhoodLayout = layoutNeighborhood(
   modelView.neighborhood({ focusId: "a" })
 );
+const wrappedGraphLabel: readonly string[] = wrapGraphNodeLabel("A bounded graph label").lines;
 void modelLayout;
+void wrappedGraphLabel;
 const verifiedPresentationOptions: VerifiedModelPresentationOptions = {
   resolution: registryResolution,
   defaultCatalogPageSize: 25

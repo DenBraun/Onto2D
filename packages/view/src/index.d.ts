@@ -112,6 +112,8 @@ export interface LayoutOptions {
   height?: number;
   padding?: number;
   nodeRadius?: number;
+  nodeWidth?: number;
+  nodeHeight?: number;
 }
 
 export interface NeighborhoodLayoutNodeInput extends Omit<NeighborhoodNode, "data"> {
@@ -144,6 +146,8 @@ export interface NeighborhoodLayout {
   width: number;
   height: number;
   nodeRadius: number;
+  nodeWidth: number;
+  nodeHeight: number;
   focusId: string;
   nodes: readonly Readonly<PositionedNeighborhoodNode>[];
   edges: readonly Readonly<RoutedNeighborhoodEdge>[];
@@ -173,6 +177,10 @@ export class ModelView {
 }
 
 export function createModelView(input: ViewInput): ModelView;
+export function wrapGraphNodeLabel(
+  value: string,
+  options?: { maxLines?: number; maxCharacters?: number }
+): Readonly<{ lines: readonly string[]; truncated: boolean }>;
 export function layoutNeighborhood(
   projection: NeighborhoodProjection | NeighborhoodLayoutProjection,
   options?: LayoutOptions

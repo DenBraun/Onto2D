@@ -374,15 +374,7 @@ function normalizeHttpOptions(value) {
 function resolveNormalized(registryValue, registryUrl, selectionValue, options) {
   const selection = normalizeSelection(selectionValue);
   const normalized = normalizeRegistry(registryValue, options.maxEntries);
-  if (
-    options.expectedRegistryHash !== null
-    && normalized.registryHash !== options.expectedRegistryHash
-  ) {
-    fail("MODEL_PACK_REGISTRY_HASH_MISMATCH", "The registry hash differs from the expected hash.", {
-      expectedRegistryHash: options.expectedRegistryHash,
-      actualRegistryHash: normalized.registryHash
-    });
-  }
+  assertExpectedRegistryHash(normalized.registryHash, options.expectedRegistryHash);
   const entry = normalized.registry.entries.find((candidate) => (
     candidate.modelId === selection.modelId && candidate.version === selection.version
   ));
@@ -407,12 +399,37 @@ function resolveNormalized(registryValue, registryUrl, selectionValue, options) 
     formatVersion: MODEL_PACK_RESOLUTION_FORMAT_VERSION,
     registryHash: normalized.registryHash,
     registryUrl: registryUrl.href,
-    registryTrust: options.expectedRegistryHash === null ? "transport-only" : "hash-pinned",
+    registryTrust: registryTrust(options.expectedRegistryHash),
     modelId: entry.modelId,
     version: entry.version,
     rootHash: entry.rootHash,
     manifestHash: entry.manifestHash,
     baseUrl: baseUrl.href
+  });
+}
+
+function assertExpectedRegistryHash(actualRegistryHash, expectedRegistryHash) {
+  if (
+    expectedRegistryHash !== null
+    && actualRegistryHash !== expectedRegistryHash
+  ) {
+    fail("MODEL_PACK_REGISTRY_HASH_MISMATCH", "The registry hash differs from the expected hash.", {
+      expectedRegistryHash,
+      actualRegistryHash
+    });
+  }
+}
+
+function registryTrust(expectedRegistryHash) {
+  return expectedRegistryHash === null ? "transport-only" : "hash-pinned";
+}
+
+function createRegistrySnapshot(normalized, registryUrl, expectedRegistryHash) {
+  return Object.freeze({
+    registry: normalized.registry,
+    registryHash: normalized.registryHash,
+    registryUrl: registryUrl.href,
+    registryTrust: registryTrust(expectedRegistryHash)
   });
 }
 
@@ -571,9 +588,9 @@ function parseRegistryJson(bytes) {
   }
 }
 
-export async function resolveModelPackRegistryHttp(registryUrl, selection, options = {}) {
-  const normalized = normalizeHttpOptions(options);
-  const requestedUrl = normalizeRegistryUrl(registryUrl, normalized.maxUrlLength);
+async function loadNormalizedRegistryHttp(registryUrl, options) {
+  const normalizedOptions = normalizeHttpOptions(options);
+  const requestedUrl = normalizeRegistryUrl(registryUrl, normalizedOptions.maxUrlLength);
   const request = {
     method: "GET",
     cache: "no-store",
@@ -582,18 +599,49 @@ export async function resolveModelPackRegistryHttp(registryUrl, selection, optio
     referrerPolicy: "no-referrer",
     headers: { Accept: "application/json" }
   };
-  if (normalized.signal !== null) request.signal = normalized.signal;
+  if (normalizedOptions.signal !== null) request.signal = normalizedOptions.signal;
   let response;
   try {
-    response = await normalized.fetch(requestedUrl.href, request);
+    response = await normalizedOptions.fetch(requestedUrl.href, request);
   } catch (error) {
     fail("MODEL_PACK_REGISTRY_FETCH_FAILED", "The registry HTTP request failed.", {
       cause: error instanceof Error ? error.name : typeof error
     });
   }
-  const inspected = inspectResponse(response, requestedUrl, normalized.maxRegistryBytes);
-  const bytes = await readBoundedRegistry(inspected.stream, normalized.maxRegistryBytes);
-  return resolveNormalized(parseRegistryJson(bytes), requestedUrl, selection, normalized);
+  const inspected = inspectResponse(response, requestedUrl, normalizedOptions.maxRegistryBytes);
+  const bytes = await readBoundedRegistry(inspected.stream, normalizedOptions.maxRegistryBytes);
+  const normalizedRegistry = normalizeRegistry(
+    parseRegistryJson(bytes),
+    normalizedOptions.maxEntries
+  );
+  assertExpectedRegistryHash(
+    normalizedRegistry.registryHash,
+    normalizedOptions.expectedRegistryHash
+  );
+  return Object.freeze({
+    normalizedOptions,
+    normalizedRegistry,
+    requestedUrl
+  });
+}
+
+export async function loadModelPackRegistryHttp(registryUrl, options = {}) {
+  const loaded = await loadNormalizedRegistryHttp(registryUrl, options);
+  return createRegistrySnapshot(
+    loaded.normalizedRegistry,
+    loaded.requestedUrl,
+    loaded.normalizedOptions.expectedRegistryHash
+  );
+}
+
+export async function resolveModelPackRegistryHttp(registryUrl, selection, options = {}) {
+  const loaded = await loadNormalizedRegistryHttp(registryUrl, options);
+  return resolveNormalized(
+    loaded.normalizedRegistry.registry,
+    loaded.requestedUrl,
+    selection,
+    loaded.normalizedOptions
+  );
 }
 
 function normalizeResolution(value) {
