@@ -3,6 +3,7 @@ import { mkdtemp, readFile, rm } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import test from "node:test";
+import { fileURLToPath } from "node:url";
 import Ajv2020 from "ajv/dist/2020.js";
 import {
   ManifestTraceSyntaxError,
@@ -101,8 +102,8 @@ test("the command writes stable JSON and the prototype carries no project-analys
   try {
     const output = path.join(temporary, "trace.json");
     const trace = await run([
-      "--manifest", MANIFEST.pathname,
-      "--config", CONFIGURATION.pathname,
+      "--manifest", fileURLToPath(MANIFEST),
+      "--config", fileURLToPath(CONFIGURATION),
       "--repository", REPOSITORY,
       "--revision", REVISION,
       "--output", output

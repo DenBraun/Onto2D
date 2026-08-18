@@ -1,0 +1,188 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.invalid/schema/git-history-identity-v1.json",
+  "title": "Onto2D Git History Identity case artifact",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["format", "formatVersion", "caseVersion", "generatedBy", "source", "git", "regimes", "objects", "histories", "comparisons", "caseIdentity"],
+  "properties": {
+    "format": { "const": "onto2d-git-history-identity-case" },
+    "formatVersion": { "const": "1" },
+    "caseVersion": { "const": "git-history-identity-v1" },
+    "generatedBy": { "const": "cases/git-history-identity/build-fixture.mjs" },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fixture", "fixtureBytes", "fixtureSha256", "sourceIdentity"],
+      "properties": {
+        "fixture": { "const": "cases/git-history-identity/fixture-spec.json" },
+        "fixtureBytes": { "type": "integer", "minimum": 1 },
+        "fixtureSha256": { "$ref": "#/$defs/sha256" },
+        "sourceIdentity": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "git": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["objectFormat", "objectIdentityVerifiedIndependently", "environmentFieldsInIdentity"],
+      "properties": {
+        "objectFormat": { "const": "sha1" },
+        "objectIdentityVerifiedIndependently": { "const": true },
+        "environmentFieldsInIdentity": {
+          "type": "array",
+          "prefixItems": [
+            { "const": "tree" }, { "const": "parents" }, { "const": "author" },
+            { "const": "committer" }, { "const": "timestamp" }, { "const": "timezone" },
+            { "const": "message" }
+          ],
+          "items": false
+        }
+      }
+    },
+    "regimes": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": { "$ref": "#/$defs/regime" }
+    },
+    "objects": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["blobs", "trees", "commits"],
+      "properties": {
+        "blobs": { "type": "array", "minItems": 1, "maxItems": 64, "items": { "$ref": "#/$defs/blob" } },
+        "trees": { "type": "array", "minItems": 1, "maxItems": 64, "items": { "$ref": "#/$defs/tree" } },
+        "commits": { "type": "array", "minItems": 2, "maxItems": 128, "items": { "$ref": "#/$defs/commit" } }
+      }
+    },
+    "histories": { "type": "array", "minItems": 2, "maxItems": 32, "items": { "$ref": "#/$defs/history" } },
+    "comparisons": { "type": "array", "minItems": 1, "maxItems": 32, "items": { "$ref": "#/$defs/comparison" } },
+    "caseIdentity": { "$ref": "#/$defs/sha256" }
+  },
+  "$defs": {
+    "identifier": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$" },
+    "oid": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+    "sha256": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "nonEmpty": { "type": "string", "minLength": 1 },
+    "regime": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "label", "compares"],
+      "properties": {
+        "id": { "enum": ["tree", "commit", "ancestry", "history-class"] },
+        "label": { "$ref": "#/$defs/nonEmpty" },
+        "compares": { "$ref": "#/$defs/nonEmpty" }
+      }
+    },
+    "blob": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fixtureId", "oid", "bytes", "contentSha256", "contentUtf8"],
+      "properties": {
+        "fixtureId": { "$ref": "#/$defs/identifier" },
+        "oid": { "$ref": "#/$defs/oid" },
+        "bytes": { "type": "integer", "minimum": 1 },
+        "contentSha256": { "$ref": "#/$defs/sha256" },
+        "contentUtf8": { "$ref": "#/$defs/nonEmpty" }
+      }
+    },
+    "treeEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode", "path", "blobFixtureId", "oid"],
+      "properties": {
+        "mode": { "const": "100644" },
+        "path": { "type": "string", "maxLength": 240, "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*(/[A-Za-z0-9][A-Za-z0-9._-]*)*$" },
+        "blobFixtureId": { "$ref": "#/$defs/identifier" },
+        "oid": { "$ref": "#/$defs/oid" }
+      }
+    },
+    "tree": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fixtureId", "oid", "rawSha256", "entries"],
+      "properties": {
+        "fixtureId": { "$ref": "#/$defs/identifier" },
+        "oid": { "$ref": "#/$defs/oid" },
+        "rawSha256": { "$ref": "#/$defs/sha256" },
+        "entries": { "type": "array", "minItems": 1, "maxItems": 64, "items": { "$ref": "#/$defs/treeEntry" } }
+      }
+    },
+    "actor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "email"],
+      "properties": {
+        "id": { "$ref": "#/$defs/identifier" },
+        "name": { "$ref": "#/$defs/nonEmpty" },
+        "email": { "type": "string", "format": "email" }
+      }
+    },
+    "commit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fixtureId", "oid", "treeFixtureId", "tree", "parents", "parentOids", "actor", "timestamp", "timezone", "message", "rawSha256"],
+      "properties": {
+        "fixtureId": { "$ref": "#/$defs/identifier" },
+        "oid": { "$ref": "#/$defs/oid" },
+        "treeFixtureId": { "$ref": "#/$defs/identifier" },
+        "tree": { "$ref": "#/$defs/oid" },
+        "parents": { "type": "array", "maxItems": 2, "items": { "$ref": "#/$defs/identifier" } },
+        "parentOids": { "type": "array", "maxItems": 2, "items": { "$ref": "#/$defs/oid" } },
+        "actor": { "$ref": "#/$defs/actor" },
+        "timestamp": { "type": "integer", "minimum": 1 },
+        "timezone": { "const": "+0000" },
+        "message": { "$ref": "#/$defs/nonEmpty" },
+        "rawSha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "history": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "label", "head", "commits", "commitCount", "ancestryIdentity"],
+      "properties": {
+        "id": { "$ref": "#/$defs/identifier" },
+        "label": { "$ref": "#/$defs/nonEmpty" },
+        "head": { "$ref": "#/$defs/identifier" },
+        "commits": { "type": "array", "minItems": 1, "maxItems": 128, "uniqueItems": true, "items": { "$ref": "#/$defs/identifier" } },
+        "commitCount": { "type": "integer", "minimum": 1, "maximum": 128 },
+        "ancestryIdentity": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "comparisonResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["left", "right", "equal"],
+      "properties": {
+        "left": { "type": "string", "minLength": 40, "maxLength": 71 },
+        "right": { "type": "string", "minLength": 40, "maxLength": 71 },
+        "equal": { "type": "boolean" }
+      }
+    },
+    "comparison": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "label", "claim", "leftHistory", "rightHistory", "leftHead", "rightHead", "results"],
+      "properties": {
+        "id": { "$ref": "#/$defs/identifier" },
+        "label": { "$ref": "#/$defs/nonEmpty" },
+        "claim": { "$ref": "#/$defs/nonEmpty" },
+        "leftHistory": { "$ref": "#/$defs/identifier" },
+        "rightHistory": { "$ref": "#/$defs/identifier" },
+        "leftHead": { "$ref": "#/$defs/identifier" },
+        "rightHead": { "$ref": "#/$defs/identifier" },
+        "results": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["tree", "commit", "ancestry", "history-class"],
+          "properties": {
+            "tree": { "$ref": "#/$defs/comparisonResult" },
+            "commit": { "$ref": "#/$defs/comparisonResult" },
+            "ancestry": { "$ref": "#/$defs/comparisonResult" },
+            "history-class": { "$ref": "#/$defs/comparisonResult" }
+          }
+        }
+      }
+    }
+  }
+}

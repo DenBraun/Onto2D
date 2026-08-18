@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="../../assets/js/document-state-reset.js" defer></script>
+    <meta name="description" content="Compare deterministic Git histories that share an exact final tree but differ in commit identity, ancestry, topology, or metadata.">
+    <title>Git History Identity Lab - Onto2D</title>
+    <link rel="icon" href="../../assets/icons/favicon.ico?v=20260818.2" type="image/x-icon">
+    <link rel="stylesheet" href="../../assets/css/ui-icons.css?v=20260818.2">
+    <link rel="stylesheet" href="../../assets/css/study-git-history.css?v=20260818.4">
+    <script type="module" src="./git-history-lab.js?v=20260818.3"></script>
+  </head>
+  <body data-state="loading">
+    <a class="skip-link" href="#lab">Skip to history comparison</a>
+    <header class="history-case-header">
+      <a class="history-case-brand" href="../../" aria-label="Onto2D home"><svg viewBox="0 0 34 34" aria-hidden="true"><circle cx="7" cy="17" r="3"></circle><circle cx="27" cy="8" r="3"></circle><circle cx="27" cy="26" r="3"></circle><path d="M10 17h7m2-3 5-4m-5 10 5 4"></path></svg><span><strong>Onto2D</strong><small>History model</small></span></a>
+      <nav class="history-case-nav" aria-label="History navigation"><a href="../history-atlas/">History Atlas</a><a href="../model-studio/">Model Studio</a><a href="https://github.com/DenBraun/Onto2D/blob/main/docs/history/README.md" target="_blank" rel="noopener noreferrer">History model <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#external-link"></use></svg></a><a href="https://github.com/DenBraun/Onto2D" target="_blank" rel="noopener noreferrer">GitHub <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#external-link"></use></svg></a></nav>
+      <div class="history-case-context"><span>Git History Identity</span><strong class="history-case-state"><i></i><span id="load-state" role="status" aria-live="polite">Verifying artifact</span></strong></div>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="page-title">
+        <div><p class="overline">Native Git objects / exact local fixture / four identity regimes</p><h1 id="page-title">Same tree.<br><em>Different past.</em></h1><p class="hero-deck">A final filesystem state does not uniquely identify the commit that carries it or the ancestry that produced it. Change the comparison rule without changing a single Git object.</p></div>
+        <div class="hero-proof"><span>Canonical result</span><code>tree(A2) == tree(B2)</code><code>commit(A2) != commit(B2)</code><code>ancestry(A2) != ancestry(B2)</code></div>
+      </section>
+
+      <section class="artifact-strip" aria-label="Verified fixture summary"><div><span>Fixture</span><strong id="fixture-identity">...</strong></div><div><span>Git objects</span><strong id="object-count">...</strong></div><div><span>Histories</span><strong id="history-count">...</strong></div><div><span>Experiments</span><strong id="comparison-count">...</strong></div><div><span>Object format</span><strong>sha1 / independently checked</strong></div></section>
+
+      <section class="lab" id="lab" aria-labelledby="lab-title">
+        <header class="lab-heading"><div><p class="overline">Interactive comparison</p><h2 id="lab-title">One fixture, multiple legitimate identities</h2></div><p>Experiment and regime controls select a frozen result. They never rewrite the underlying object IDs.</p></header>
+        <div class="lab-grid">
+          <aside class="controls" aria-label="Comparison controls">
+            <section><h3>Experiment</h3><p>Choose two histories that converge.</p><div id="experiment-list" class="control-list"></div></section>
+            <section><h3>Compare by</h3><p>No regime is globally correct.</p><div id="regime-list" class="control-list regime-controls"></div></section>
+          </aside>
+
+          <div class="comparison-stage">
+            <section class="history-panel" aria-labelledby="left-history-title"><header><div><span>LEFT HISTORY</span><h3 id="left-history-title">...</h3></div><code id="left-head">...</code></header><div id="left-timeline" class="history-timeline"></div></section>
+            <section class="identity-result" id="identity-result" data-equal="true" aria-live="polite"><header><span id="active-regime">Tree identity</span><strong id="identity-verdict">SAME</strong></header><div class="identity-pair"><p><span>Left identity</span><code id="left-identity">...</code></p><b id="identity-symbol">=</b><p><span>Right identity</span><code id="right-identity">...</code></p></div><p id="identity-explanation">...</p><small id="experiment-claim">...</small></section>
+            <section class="history-panel" aria-labelledby="right-history-title"><header><div><span>RIGHT HISTORY</span><h3 id="right-history-title">...</h3></div><code id="right-head">...</code></header><div id="right-timeline" class="history-timeline"></div></section>
+          </div>
+
+          <aside class="inspector" aria-labelledby="inspector-title"><header><p class="overline">Selected native object</p><h3 id="inspector-title">Commit inspector</h3></header><dl class="inspector-facts"><div><dt>Fixture ID</dt><dd id="inspector-id">...</dd></div><div><dt>Commit OID</dt><dd id="inspector-oid">...</dd></div><div><dt>Tree OID</dt><dd id="inspector-tree">...</dd></div><div><dt>Parent OID(s)</dt><dd id="inspector-parents">...</dd></div><div><dt>Actor</dt><dd id="inspector-actor">...</dd></div><div><dt>Timestamp</dt><dd id="inspector-time">...</dd></div><div><dt>Message</dt><dd id="inspector-message">...</dd></div></dl><section><h4>Final tree entries</h4><div id="tree-entries" class="tree-entries"></div></section></aside>
+        </div>
+
+        <section class="matrix-section" aria-labelledby="matrix-title"><header><div><p class="overline">Regime matrix</p><h3 id="matrix-title">The answer changes because the question changes</h3></div><p>Every row compares the same selected pair.</p></header><div id="regime-matrix" class="regime-matrix"></div></section>
+      </section>
+
+      <section class="boundary" aria-labelledby="boundary-title"><div><p class="overline">Evidence boundary</p><h2 id="boundary-title">What this case establishes</h2><p>The fixture uses real Git object construction and native IDs. It establishes state/history separation inside a bounded deterministic repository. It does not claim that commit ancestry is causality, and it introduces no Historical Load value.</p></div><ul><li>Fixture code fixes actors, messages, timestamps, trees, and parent order.</li><li>Git writes every blob, tree, and commit through plumbing commands.</li><li>An independent implementation recomputes the SHA-1 object framing.</li><li>The browser verifies the exact committed artifact SHA-256 before rendering.</li></ul></section>
+    </main>
+    <footer class="site-footer"><a href="../external-cases/git-history-identity/"><svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#arrow-left"></use></svg> Case overview</a><p>State identity is a declared regime, not a universal fact.</p><a href="#lab">Return to comparison <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#chevron-up"></use></svg></a></footer>
+    <div id="fatal-error" class="fatal-error" role="alert" hidden></div>
+  </body>
+</html>

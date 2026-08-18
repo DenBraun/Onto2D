@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 import { readFileSync, readdirSync } from "node:fs";
 import test from "node:test";
 
@@ -21,9 +22,30 @@ const bootstrapMarkup = read("apps/bootstrap-provenance-explorer/index.html");
 const bootstrapApp = read("apps/bootstrap-provenance-explorer/bootstrap-provenance-explorer.js");
 const bootstrapModel = read("apps/bootstrap-provenance-explorer/bootstrap-provenance-model.js");
 const bootstrapStyles = read("assets/css/study-bootstrap-provenance.css");
+const externalCasesMarkup = read("apps/external-cases/index.html");
+const externalCasesApp = read("apps/external-cases/external-cases.js");
+const externalCasesCatalog = read("apps/external-cases/external-cases-catalog.js");
+const externalCasesStyles = read("assets/css/external-cases.css");
+const historyCaseHeaderStyles = read("assets/css/history-case-header.css");
+const historyAtlasMarkup = read("apps/history-atlas/index.html");
+const historyAtlasApp = read("apps/history-atlas/history-atlas.js");
+const historyAtlasStyles = read("assets/css/history-atlas.css");
+const historyCaseRegistry = JSON.parse(read("cases/history-case-registry.json"));
+const gitHistoryMarkup = read("apps/git-history-identity-lab/index.html");
+const gitHistoryApp = read("apps/git-history-identity-lab/git-history-lab.js");
+const gitHistoryModel = read("apps/git-history-identity-lab/git-history-model.js");
+const gitHistoryStyles = read("assets/css/study-git-history.css");
+const gitHistoryArtifact = read("cases/git-history-identity/artifacts/history-identity.json");
+const nixMarkup = read("apps/nix-derivation-explorer/index.html");
+const nixApp = read("apps/nix-derivation-explorer/nix-derivation-lab.js");
+const nixModel = read("apps/nix-derivation-explorer/nix-derivation-model.js");
+const nixStyles = read("assets/css/study-nix-derivation.css");
+const nixArtifact = read("cases/nix-derivation-identity/artifacts/nix-derivation-identity.json");
+const historyCasePageMarkups = historyCaseRegistry.cases.map((entry) => read(`${entry.casePagePath}index.html`));
 const modelPackWorker = read("assets/js/model-pack-worker.js");
 const siteServer = read("apps/historical-load-explorer/serve.mjs");
 const documentLifecycle = read("assets/js/document-state-reset.js");
+const caseMenuScript = read("assets/js/case-menu.js");
 const iconSprite = read("assets/icons/ui-symbols.svg");
 const publicDirectories = [
   "apps/historical-load-explorer",
@@ -31,7 +53,12 @@ const publicDirectories = [
   "apps/canonical-identity-lab",
   "apps/level-zero-validation",
   "apps/model-studio",
-  "apps/bootstrap-provenance-explorer"
+  "apps/bootstrap-provenance-explorer",
+  "apps/git-history-identity-lab",
+  "apps/nix-derivation-explorer",
+  "apps/history-atlas",
+  "apps/external-cases",
+  ...historyCaseRegistry.cases.map((entry) => entry.casePagePath.replace(/\/$/, ""))
 ];
 const publicFiles = [
   "index.html",
@@ -43,11 +70,20 @@ const publicFiles = [
   "assets/css/study-level-zero.css",
   "assets/css/model-studio-workbench.css",
   "assets/css/study-bootstrap-provenance.css",
+  "assets/css/study-git-history.css",
+  "assets/css/study-nix-derivation.css",
+  "assets/css/external-cases.css",
+  "assets/css/history-case-header.css",
+  "assets/css/history-atlas.css",
   "assets/js/document-state-reset.js",
+  "assets/js/case-menu.js",
   "assets/js/model-pack-worker.js",
   "assets/icons/ui-symbols.svg",
   "assets/icons/onto2d-mark.svg",
   "models/registry.json",
+  "cases/history-case-registry.json",
+  "cases/history-case-registry.schema.json",
+  "cases/nix-derivation-identity/artifacts/nix-derivation-identity.json",
   ...publicDirectories.flatMap((directory) => readdirSync(
     new URL(`../../${directory}/`, import.meta.url)
   ).filter((name) => /\.(?:css|html|js|json|md|mjs)$/.test(name)).map((name) => `${directory}/${name}`))
@@ -60,7 +96,7 @@ function assertScriptIdsExist(script, markup) {
   }
 }
 
-test("the root is a no-scroll project landing page with exactly three study entries", () => {
+test("the root keeps three study lenses and exposes the registry-backed Case Studies menu", () => {
   assert.doesNotMatch(landing, /http-equiv="refresh"/i);
   assert.match(landingStyles, /html,body\s*\{[^}]*overflow:hidden/s);
   const studyLinks = [...landing.matchAll(/class="study-card[^"']*" href="([^"]+)"/g)]
@@ -72,8 +108,165 @@ test("the root is a no-scroll project landing page with exactly three study entr
   ]);
   assert.match(landing, /href="\.\/apps\/level-zero-validation\/(?:\?v=[^"]+)?"/);
   assert.match(landing, /href="\.\/apps\/model-studio\/(?:\?v=[^"]+)?"/);
-  assert.match(landing, /href="\.\/apps\/bootstrap-provenance-explorer\/(?:\?v=[^"]+)?"/);
+  assert.match(landing, /<details class="cases-menu">/);
+  assert.match(landing, /type="module" src="\.\/assets\/js\/case-menu\.js\?v=20260818\.2"/);
+  assert.match(landing, /href="\.\/apps\/history-atlas\/"/);
+  assert.match(landing, /id="history-case-menu-groups"/);
+  assert.match(landing, />Case Studies <svg/);
+  assert.match(landingStyles, /\.cases-menu-panel>\.cases-menu-overview\s*\{[^}]*padding:15px 18px/s);
   assert.match(landing, /Make complex-system claims/);
+  assert.match(caseMenuScript, /loadHistoryRegistry\(\)/);
+  assert.match(caseMenuScript, /createHistoryCases/);
+  assert.match(caseMenuScript, /entry\.primaryHistoryMode === mode\.id/);
+  assert.match(caseMenuScript, /!caseMenu\.contains\(event\.target\)/);
+  assert.match(caseMenuScript, /event\.key !== "Escape"/);
+});
+
+test("the History Atlas exposes the validated 3 x 3 portfolio and honest availability", () => {
+  assert.equal(historyCaseRegistry.cases.length, 22);
+  assert.deepEqual(historyCaseRegistry.historyModes, ["recorded", "embodied", "reconstructed"]);
+  assert.deepEqual(historyCaseRegistry.effects, ["identity", "present-state", "future"]);
+  assert.match(historyAtlasMarkup, /id="history-matrix"/);
+  assert.match(historyAtlasMarkup, /id="history-portfolio"/);
+  assert.match(historyAtlasMarkup, /id="filter-evidence"/);
+  assert.match(historyAtlasMarkup, /id="filter-load"/);
+  assert.match(historyAtlasMarkup, /id="filter-model"/);
+  assert.match(historyAtlasApp, /HISTORY_MODES\.map/);
+  assert.match(historyAtlasApp, /HISTORY_EFFECTS/);
+  assert.match(historyAtlasApp, /entry\.modelPackPath !== null/);
+  assert.match(historyAtlasApp, /Explicit research gap/);
+  assert.match(externalCasesMarkup, /rel="canonical" href="\.\.\/history-atlas\/"/);
+  assert.match(externalCasesApp, /loadHistoryRegistry\(\)/);
+  assert.match(externalCasesApp, /This page describes a bounded research design/);
+  assert.match(externalCasesCatalog, /MAX_REGISTRY_BYTES/);
+  assert.match(externalCasesStyles, /\.case-sequence/);
+  assert.match(externalCasesStyles, /\.taxonomy-panel/);
+  assert.match(externalCasesStyles, /max-height:calc\(100vh - 108px\)/);
+  assert.match(historyAtlasStyles, /\.history-matrix/);
+  assert.match(historyAtlasStyles, /\.history-portfolio/);
+  assert.doesNotMatch(historyAtlasStyles, /font(?:-size)?:\s*(?:[0-9]|1[01])px/);
+  assert.match(externalCasesStyles, /@media \(max-width:760px\)/);
+});
+
+test("all History case surfaces share one header component and navigation layout", () => {
+  const surfaces = [
+    historyAtlasMarkup,
+    externalCasesMarkup,
+    bootstrapMarkup,
+    gitHistoryMarkup,
+    nixMarkup,
+    ...historyCasePageMarkups
+  ];
+  for (const markup of surfaces) {
+    assert.match(markup, /<header class="history-case-header">/);
+    assert.match(markup, /class="history-case-brand"/);
+    assert.match(markup, /class="history-case-nav" aria-label="History navigation"/);
+    assert.match(markup, /class="history-case-context"/);
+    assert.match(markup, />History Atlas<\/a>/);
+    assert.match(markup, />Model Studio<\/a>/);
+    assert.match(markup, />History model <svg class="ui-icon" aria-hidden="true">/);
+    assert.doesNotMatch(markup, /<header class="(?:case-site-header|site-header)">/);
+  }
+  assert.match(historyCaseHeaderStyles, /grid-template-columns:\s*minmax\(190px, 1fr\) auto minmax\(190px, 1fr\)/);
+  assert.match(historyCaseHeaderStyles, /@media \(max-width: 700px\)/);
+  for (const styles of [externalCasesStyles, bootstrapStyles, gitHistoryStyles, nixStyles]) {
+    assert.match(styles, /@import url\("\.\/history-case-header\.css\?v=20260818\.2"\);/);
+  }
+});
+
+test("public Markdown actions open rendered GitHub documents instead of local downloads", () => {
+  for (const file of publicFiles.filter((entry) => entry.endsWith(".html"))) {
+    const markup = read(file);
+    for (const match of markup.matchAll(/<a\b[^>]*href="([^"]+\.md)"[^>]*>[\s\S]*?<\/a>/g)) {
+      assert.match(match[1], /^https:\/\/github\.com\/DenBraun\/Onto2D\/blob\/main\//, `${file} keeps a local Markdown link`);
+      assert.match(match[0], /target="_blank"/);
+      assert.match(match[0], /rel="noopener noreferrer"/);
+      assert.match(match[0], /ui-symbols\.svg#external-link/);
+    }
+  }
+  assert.match(externalCasesApp, /GITHUB_BLOB_ROOT/);
+  assert.match(externalCasesApp, /documentLink\.target = "_blank"/);
+  assert.match(externalCasesApp, /documentLink\.append\(externalLinkIcon\(\)\)/);
+  assert.match(siteServer, /"\.md": "text\/markdown; charset=utf-8"/);
+});
+
+test("case navigation switches content without resetting page or sidebar scroll", () => {
+  assert.match(externalCasesApp, /link\.dataset\.caseId = entry\.caseId/);
+  assert.match(externalCasesApp, /if \(!navigation\.hasChildNodes\(\)\) renderNavigation\(cases, entry\)/);
+  assert.match(externalCasesApp, /x: window\.scrollX, y: window\.scrollY, navigation: navigation\.scrollTop/);
+  assert.match(externalCasesApp, /navigation\.scrollTop = viewport\.navigation/);
+  assert.match(externalCasesApp, /window\.scrollTo\(viewport\.x, viewport\.y\)/);
+  assert.match(externalCasesApp, /history\.pushState\(\{ historyCaseId: entry\.caseId \}, "", link\.href\)/);
+  assert.match(externalCasesApp, /addEventListener\("popstate"/);
+  assert.doesNotMatch(externalCasesApp, /location\.(?:assign|replace)\(link\.href\)/);
+});
+
+test("Nix Derivation Identity Lab preserves content, construction, and evidence boundaries", () => {
+  assert.match(nixApp, /cases\/nix-derivation-identity\/artifacts\/nix-derivation-identity\.json/);
+  assert.match(nixApp, /createNixDerivationModel/);
+  assert.match(nixApp, /crypto\.subtle\.digest\("SHA-256"/);
+  assert.match(nixApp, /cache: "no-store"/);
+  assert.match(nixApp, /redirect: "error"/);
+  assert.match(nixApp, /MAX_ARTIFACT_BYTES/);
+  assert.match(nixModel, /direct graph contains a non-native/);
+  assert.match(nixModel, /closure graph contains a non-derived/);
+  assert.match(nixModel, /unresolved result is contradictory/);
+  assert.match(nixMarkup, /Same bytes\./);
+  assert.match(nixMarkup, /Different recipe\./);
+  assert.match(nixMarkup, /Builders were not executed/);
+  assert.match(nixMarkup, /Historical Load is intentionally undefined/);
+  assert.match(nixStyles, /\.path\s*\{[^}]*overflow:\s*hidden[^}]*text-overflow:\s*ellipsis[^}]*white-space:\s*nowrap/s);
+  assert.match(nixStyles, /\.map-arrow\.declared i\s*\{[^}]*border-top:\s*2px dashed/s);
+  for (const id of [
+    "experiment-list",
+    "regime-list",
+    "construction-lanes",
+    "identity-result",
+    "regime-matrix",
+    "inspector-drv",
+    "environment-entries"
+  ]) {
+    assert.match(nixMarkup, new RegExp(`id=["']${id}["']`), `missing #${id}`);
+  }
+  const pinnedDigest = nixApp.match(/EXPECTED_ARTIFACT_SHA256 = "([a-f0-9]{64})"/)?.[1];
+  assert.equal(pinnedDigest, createHash("sha256").update(nixArtifact).digest("hex"));
+  const appRevision = nixMarkup.match(/nix-derivation-lab\.js\?v=([^"']+)/)?.[1];
+  const modelRevision = nixApp.match(/nix-derivation-model\.js\?v=([^"']+)/)?.[1];
+  assert.equal(modelRevision, appRevision);
+});
+
+test("Git History Identity Lab verifies one immutable artifact across four regimes", () => {
+  assert.match(gitHistoryApp, /cases\/git-history-identity\/artifacts\/history-identity\.json/);
+  assert.match(gitHistoryApp, /createGitHistoryModel/);
+  assert.match(gitHistoryApp, /crypto\.subtle\.digest\("SHA-256"/);
+  assert.match(gitHistoryApp, /cache: "no-store"/);
+  assert.match(gitHistoryApp, /redirect: "error"/);
+  assert.match(gitHistoryApp, /MAX_ARTIFACT_BYTES/);
+  assert.match(gitHistoryModel, /Object\.freeze/);
+  assert.match(gitHistoryModel, /identities are inconsistent/);
+  assert.match(gitHistoryModel, /history class is not bound to tree-state-v1/);
+  assert.match(gitHistoryMarkup, /Same tree\./);
+  assert.match(gitHistoryMarkup, /Different past\./);
+  assert.match(gitHistoryMarkup, /does not claim that commit ancestry is causality/i);
+  assert.match(gitHistoryMarkup, /introduces no Historical Load value/i);
+  for (const id of [
+    "experiment-list",
+    "regime-list",
+    "left-timeline",
+    "right-timeline",
+    "identity-result",
+    "regime-matrix",
+    "inspector-oid",
+    "tree-entries"
+  ]) {
+    assert.match(gitHistoryMarkup, new RegExp(`id=["']${id}["']`), `missing #${id}`);
+  }
+  const pinnedDigest = gitHistoryApp.match(/EXPECTED_ARTIFACT_SHA256 = "([a-f0-9]{64})"/)?.[1];
+  assert.equal(pinnedDigest, createHash("sha256").update(gitHistoryArtifact).digest("hex"));
+  assertScriptIdsExist(gitHistoryApp, gitHistoryMarkup);
+  const appRevision = gitHistoryMarkup.match(/git-history-lab\.js\?v=([^"']+)/)?.[1];
+  const modelRevision = gitHistoryApp.match(/git-history-model\.js\?v=([^"']+)/)?.[1];
+  assert.equal(modelRevision, appRevision);
 });
 
 test("Bootstrap Provenance Explorer keeps evidence and analysis visibly separate", () => {
@@ -93,7 +286,8 @@ test("Bootstrap Provenance Explorer keeps evidence and analysis visibly separate
   assert.match(bootstrapStyles, /\.evidence-node rect/);
   assert.match(bootstrapMarkup, /id=["']evidence-arrow-derived["']/);
   assert.match(bootstrapMarkup, /markerUnits=["']userSpaceOnUse["']/);
-  assert.match(bootstrapStyles, /#evidence-arrow path\s*\{\s*fill:#8da3ae/);
+  assert.match(bootstrapStyles, /--edge:\s*#647873/);
+  assert.match(bootstrapStyles, /#evidence-arrow path\s*\{\s*fill:var\(--edge\)/);
   assert.match(bootstrapStyles, /marker-end:url\(#evidence-arrow-derived\)/);
   assert.match(bootstrapStyles, /marker-end:url\(#evidence-arrow-focus\)/);
   assert.match(bootstrapStyles, /\.load-readout\s*\{[^}]*grid-template-columns:minmax\(0,1fr\)[^}]*grid-template-rows:auto minmax\(0,1fr\) auto[^}]*overflow:hidden/s);
@@ -154,7 +348,7 @@ test("Model Studio fully verifies the real pack before using the shared view lay
   assert.match(studioApp, /MODEL_PACK_CACHE_STORAGE_/);
   assert.match(studioApp, /dataset\.cache = "unavailable"/);
   assert.match(studioApp, /"Cached model verified"/);
-  assert.match(studioApp, /sha256:f09c3178260bfbbcca2b498cd08061b4be1dc18bef8c9a00d2baa2934d41b94b/);
+  assert.match(studioApp, /sha256:01e4c64e8e7decb05edaf937d715b3fe514fefdfa681d69d9459e300c5fdc8c2/);
   assert.match(studioApp, /new Worker\(MODEL_PACK_WORKER_URL, \{/);
   assert.match(studioApp, /type: "module"/);
   assert.match(studioApp, /ownsWorker: true/);
@@ -315,6 +509,8 @@ test("document navigation has one canonical URL and rejects stale bfcache restor
     identityMarkup,
     levelZeroMarkup,
     studioMarkup,
+    gitHistoryMarkup,
+    nixMarkup,
     read("apps/historical-load-explorer/index.html")
   ];
   for (const markup of pages) {
@@ -379,6 +575,22 @@ test("Model Studio text never drops below the readable interface minimum", () =>
 
 test("Bootstrap Provenance Explorer text never drops below the readable interface minimum", () => {
   assert.doesNotMatch(bootstrapStyles, /font-size:\s*(?:[1-9]|1[01])px/);
+});
+
+test("External case pages keep interface text at the readable minimum", () => {
+  assert.doesNotMatch(externalCasesStyles, /font-size:\s*(?:[1-9]|1[01])px/);
+});
+
+test("Git History Identity Lab keeps interface text at the readable minimum", () => {
+  assert.doesNotMatch(gitHistoryStyles, /font-size:\s*(?:[1-9]|1[01])px/);
+});
+
+test("Nix Derivation Identity Lab keeps interface text at the readable minimum", () => {
+  assert.doesNotMatch(nixStyles, /font-size:\s*(?:[1-9]|1[01])px/);
+  const remSizes = [...nixStyles.matchAll(/font-size:\s*([0-9]*\.?[0-9]+)rem/g)]
+    .map((match) => Number(match[1]));
+  assert.equal(remSizes.every((size) => size >= 0.75), true);
+  assert.doesNotMatch(nixStyles, /https?:\/\//);
 });
 
 test("graph sidebars keep machine fields on bounded single lines", () => {

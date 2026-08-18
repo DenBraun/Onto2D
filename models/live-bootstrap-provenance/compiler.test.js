@@ -3,6 +3,7 @@ import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import test from "node:test";
+import { fileURLToPath } from "node:url";
 import { hashArtifactBytes } from "@onto2d/kernel/canonical";
 import { verifyModelPack } from "@onto2d/model-pack";
 import {
@@ -15,7 +16,7 @@ import {
 } from "./build.mjs";
 import { compileLiveBootstrapModelPack } from "./compiler.mjs";
 
-const REPOSITORY_ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), "../..");
+const REPOSITORY_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const CASE_ROOT = path.join(REPOSITORY_ROOT, "cases/live-bootstrap-provenance");
 
 async function readJson(file) {

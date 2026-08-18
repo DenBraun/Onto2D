@@ -1,0 +1,1142 @@
+{
+  "schemaVersion": "1.0.0",
+  "taxonomyVersion": "2026-08-18",
+  "historyModes": [
+    "recorded",
+    "embodied",
+    "reconstructed"
+  ],
+  "effects": [
+    "identity",
+    "present-state",
+    "future"
+  ],
+  "maturityLevels": [
+    "DISCOVERED",
+    "PLANNED",
+    "SOURCE_PINNED",
+    "EXTRACTABLE",
+    "REPRODUCIBLE",
+    "MODEL_PACK",
+    "EXPLORER",
+    "ANALYSIS_READY",
+    "REVIEWED"
+  ],
+  "cases": [
+    {
+      "caseId": "live-bootstrap-provenance",
+      "portfolioOrder": 0,
+      "title": "Live Bootstrap Provenance",
+      "shortTitle": "live-bootstrap",
+      "domain": "software-bootstrap",
+      "domainLabel": "Software bootstrap",
+      "status": "ANALYSIS_READY",
+      "priority": "active",
+      "primaryHistoryMode": "recorded",
+      "historyModes": [
+        "recorded",
+        "reconstructed"
+      ],
+      "primaryEffects": [
+        "identity"
+      ],
+      "secondaryEffects": [],
+      "evidenceProfile": [
+        "direct-record",
+        "derived",
+        "inferred",
+        "counterfactual",
+        "unknown"
+      ],
+      "analyses": {
+        "historicalLoad": "primary",
+        "historyEquivalence": "possible",
+        "reachability": "not-primary",
+        "reconstruction": "secondary"
+      },
+      "modelId": "live-bootstrap-provenance",
+      "modelPackPath": "models/live-bootstrap-provenance/",
+      "explorerId": "bootstrap-provenance-explorer",
+      "explorerPath": "apps/bootstrap-provenance-explorer/",
+      "casePagePath": "apps/external-cases/live-bootstrap-provenance/",
+      "implementationDoc": "docs/cases/LIVE_BOOTSTRAP_PROVENANCE_IMPLEMENTATION.md",
+      "matrixPlacements": [
+        {
+          "mode": "recorded",
+          "effect": "identity",
+          "role": "primary"
+        },
+        {
+          "mode": "reconstructed",
+          "effect": "identity",
+          "role": "secondary"
+        }
+      ]
+    },
+    {
+      "caseId": "git-history-identity",
+      "portfolioOrder": 1,
+      "title": "Git History Identity",
+      "shortTitle": "Git",
+      "domain": "version-control",
+      "domainLabel": "Version control",
+      "status": "EXPLORER",
+      "priority": "active",
+      "primaryHistoryMode": "recorded",
+      "historyModes": [
+        "recorded"
+      ],
+      "primaryEffects": [
+        "identity"
+      ],
+      "secondaryEffects": [],
+      "evidenceProfile": [
+        "direct-record",
+        "derived",
+        "counterfactual"
+      ],
+      "analyses": {
+        "historicalLoad": "not-primary",
+        "historyEquivalence": "primary",
+        "reachability": "not-primary",
+        "reconstruction": "not-primary"
+      },
+      "modelId": null,
+      "modelPackPath": null,
+      "explorerId": "git-history-identity-lab",
+      "explorerPath": "apps/git-history-identity-lab/",
+      "casePagePath": "apps/external-cases/git-history-identity/",
+      "implementationDoc": "docs/cases/GIT_HISTORY_IDENTITY_IMPLEMENTATION.md",
+      "matrixPlacements": [
+        {
+          "mode": "recorded",
+          "effect": "identity",
+          "role": "primary"
+        }
+      ]
+    },
+    {
+      "caseId": "nix-derivation-identity",
+      "portfolioOrder": 2,
+      "title": "Nix Derivation Identity",
+      "shortTitle": "Nix",
+      "domain": "functional-package-management",
+      "domainLabel": "Package management",
+      "status": "EXPLORER",
+      "priority": "active",
+      "primaryHistoryMode": "recorded",
+      "historyModes": [
+        "recorded"
+      ],
+      "primaryEffects": [
+        "identity"
+      ],
+      "secondaryEffects": [],
+      "evidenceProfile": [
+        "direct-record",
+        "cryptographically-verified",
+        "derived",
+        "unknown"
+      ],
+      "analyses": {
+        "historicalLoad": "not-primary",
+        "historyEquivalence": "primary",
+        "reachability": "not-primary",
+        "reconstruction": "not-primary"
+      },
+      "modelId": "nix-derivations",
+      "modelPackPath": "models/nix-derivations/",
+      "explorerId": "nix-derivation-explorer",
+      "explorerPath": "apps/nix-derivation-explorer/",
+      "casePagePath": "apps/external-cases/nix-derivation-identity/",
+      "implementationDoc": "docs/cases/NIX_DERIVATION_IDENTITY_IMPLEMENTATION.md",
+      "matrixPlacements": [
+        {
+          "mode": "recorded",
+          "effect": "identity",
+          "role": "primary"
+        }
+      ]
+    },
+    {
+      "caseId": "oci-layer-history",
+      "portfolioOrder": 3,
+      "title": "OCI Layer History",
+      "shortTitle": "OCI",
+      "domain": "container-images",
+      "domainLabel": "Container images",
+      "status": "PLANNED",
+      "priority": "next",
+      "primaryHistoryMode": "recorded",
+      "historyModes": [
+        "recorded"
+      ],
+      "primaryEffects": [
+        "identity"
+      ],
+      "secondaryEffects": [
+        "present-state"
+      ],
+      "evidenceProfile": [
+        "direct-record",
+        "cryptographically-verified",
+        "derived",
+        "counterfactual"
+      ],
+      "analyses": {
+        "historicalLoad": "candidate",
+        "historyEquivalence": "primary",
+        "reachability": "not-primary",
+        "reconstruction": "not-primary"
+      },
+      "modelId": "oci-layer-provenance",
+      "modelPackPath": null,
+      "explorerId": "oci-layer-history-lab",
+      "explorerPath": null,
+      "casePagePath": "apps/external-cases/oci-layer-history/",
+      "implementationDoc": "docs/cases/OCI_LAYER_HISTORY_IMPLEMENTATION.md",
+      "matrixPlacements": [
+        {
+          "mode": "recorded",
+          "effect": "identity",
+          "role": "primary"
+        },
+        {
+          "mode": "recorded",
+          "effect": "present-state",
+          "role": "secondary"
+        }
+      ]
+    },
+    {
+      "caseId": "in-toto-admissibility",
+      "portfolioOrder": 4,
+      "title": "in-toto Admissibility",
+      "shortTitle": "in-toto",
+      "domain": "software-supply-chain",
+      "domainLabel": "Software supply chain",
+      "status": "PLANNED",
+      "priority": "normal",
+      "primaryHistoryMode": "recorded",
+      "historyModes": [
+        "recorded"
+      ],
+      "primaryEffects": [
+        "identity"
+      ],
+      "secondaryEffects": [],
+      "evidenceProfile": [
+        "direct-record",
+        "attested",
+        "cryptographically-verified",
+        "counterfactual",
+        "unknown"
+      ],
+      "analyses": {
+        "historicalLoad": "candidate",
+        "historyEquivalence": "possible",
+        "reachability": "not-primary",
+        "reconstruction": "not-primary"
+      },
+      "modelId": "in-toto-provenance",
+      "modelPackPath": null,
+      "explorerId": "in-toto-admissibility-explorer",
+      "explorerPath": null,
+      "casePagePath": "apps/external-cases/in-toto-admissibility/",
+      "implementationDoc": "docs/cases/IN_TOTO_ADMISSIBILITY_IMPLEMENTATION.md",
+      "matrixPlacements": [
+        {
+          "mode": "recorded",
+          "effect": "identity",
+          "role": "primary"
+        }
+      ]
+    },
+    {
+      "caseId": "reproducible-build-equivalence",
+      "portfolioOrder": 5,
+      "title": "Reproducible Build Equivalence",
+      "shortTitle": "Reproducible Builds",
+      "domain": "build-reproducibility",
+      "domainLabel": "Build reproducibility",
+      "status": "PLANNED",
+      "priority": "normal",
+      "primaryHistoryMode": "recorded",
+      "historyModes": [
+        "recorded"
+      ],
+      "primaryEffects": [
+        "identity"
+      ],
+      "secondaryEffects": [],
+      "evidenceProfile": [
+        "direct-record",
+        "derived",
+        "counterfactual"
+      ],
+      "analyses": {
+        "historicalLoad": "not-primary",
+        "historyEquivalence": "primary",
+        "reachability": "not-primary",
+        "reconstruction": "not-primary"
+      },
+      "modelId": null,
+      "modelPackPath": null,
+      "explorerId": "history-equivalence-lab",
+      "explorerPath": null,
+      "casePagePath": "apps/external-cases/reproducible-build-equivalence/",
+      "implementationDoc": "docs/cases/REPRODUCIBLE_BUILD_EQUIVALENCE_IMPLEMENTATION.md",
+      "matrixPlacements": [
+        {
+          "mode": "recorded",
+          "effect": "identity",
+          "role": "primary"
+        }
+      ]
+    },
+    {
+      "caseId": "slsa-provenance-evidence",
+      "portfolioOrder": 6,
+      "title": "SLSA Provenance Evidence",
+      "shortTitle": "SLSA",
+      "domain": "software-supply-chain",
+      "domainLabel": "Software supply chain",
+      "status": "PLANNED",
+      "priority": "normal",
+      "primaryHistoryMode": "recorded",
+      "historyModes": [
+        "recorded"
+      ],
+      "primaryEffects": [
+        "identity"
+      ],
+      "secondaryEffects": [],
+      "evidenceProfile": [
+        "direct-record",
+        "attested",
+        "cryptographically-verified",
+        "unknown"
+      ],
+      "analyses": {
+        "historicalLoad": "not-primary",
+        "historyEquivalence": "possible",
+        "reachability": "not-primary",
+        "reconstruction": "not-primary"
+      },
+      "modelId": "slsa-provenance",
+      "modelPackPath": null,
+      "explorerId": "provenance-evidence-lab",
+      "explorerPath": null,
+      "casePagePath": "apps/external-cases/slsa-provenance-evidence/",
+      "implementationDoc": "docs/cases/SLSA_PROVENANCE_IMPLEMENTATION.md",
+      "matrixPlacements": [
+        {
+          "mode": "recorded",
+          "effect": "identity",
+          "role": "primary"
+        }
+      ]
+    },
+    {
+      "caseId": "software-heritage-lineage",
+      "portfolioOrder": 7,
+      "title": "Software Heritage Lineage",
+      "shortTitle": "Software Heritage",
+      "domain": "software-archival",
+      "domainLabel": "Software archival",
+      "status": "PLANNED",
+      "priority": "normal",
+      "primaryHistoryMode": "recorded",
+      "historyModes": [
+        "recorded"
+      ],
+      "primaryEffects": [
+        "identity"
+      ],
+      "secondaryEffects": [],
+      "evidenceProfile": [
+        "direct-record",
+        "derived",
+        "unknown"
+      ],
+      "analyses": {
+        "historicalLoad": "not-primary",
+        "historyEquivalence": "possible",
+        "reachability": "not-primary",
+        "reconstruction": "not-primary"
+      },
+      "modelId": null,
+      "modelPackPath": null,
+      "explorerId": "software-lineage-explorer",
+      "explorerPath": null,
+      "casePagePath": "apps/external-cases/software-heritage-lineage/",
+      "implementationDoc": "docs/cases/SOFTWARE_HERITAGE_LINEAGE_IMPLEMENTATION.md",
+      "matrixPlacements": [
+        {
+          "mode": "recorded",
+          "effect": "identity",
+          "role": "primary"
+        }
+      ]
+    },
+    {
+      "caseId": "chemical-synthesis-history",
+      "portfolioOrder": 8,
+      "title": "Chemical Synthesis History",
+      "shortTitle": "Chemical Synthesis",
+      "domain": "chemistry",
+      "domainLabel": "Chemistry",
+      "status": "PLANNED",
+      "priority": "priority-a",
+      "primaryHistoryMode": "recorded",
+      "historyModes": [
+        "recorded"
+      ],
+      "primaryEffects": [
+        "identity"
+      ],
+      "secondaryEffects": [],
+      "evidenceProfile": [
+        "direct-record",
+        "derived",
+        "inferred",
+        "counterfactual",
+        "unknown"
+      ],
+      "analyses": {
+        "historicalLoad": "candidate",
+        "historyEquivalence": "primary",
+        "reachability": "not-primary",
+        "reconstruction": "not-primary"
+      },
+      "modelId": "chemical-reaction-provenance",
+      "modelPackPath": null,
+      "explorerId": "synthesis-route-explorer",
+      "explorerPath": null,
+      "casePagePath": "apps/external-cases/chemical-synthesis-history/",
+      "implementationDoc": "docs/cases/CHEMICAL_SYNTHESIS_HISTORY_IMPLEMENTATION.md",
+      "matrixPlacements": [
+        {
+          "mode": "recorded",
+          "effect": "identity",
+          "role": "primary"
+        }
+      ]
+    },
+    {
+      "caseId": "mineral-formation-history",
+      "portfolioOrder": 9,
+      "title": "Mineral Formation History",
+      "shortTitle": "Mineral Formation",
+      "domain": "mineralogy",
+      "domainLabel": "Mineralogy",
+      "status": "PLANNED",
+      "priority": "priority-d",
+      "primaryHistoryMode": "reconstructed",
+      "historyModes": [
+        "reconstructed",
+        "embodied"
+      ],
+      "primaryEffects": [
+        "identity"
+      ],
+      "secondaryEffects": [
+        "present-state"
+      ],
+      "evidenceProfile": [
+        "direct-measurement",
+        "sample-identity",
+        "published-interpretation",
+        "reconstructed",
+        "unknown",
+        "contested"
+      ],
+      "analyses": {
+        "historicalLoad": "not-primary",
+        "historyEquivalence": "possible",
+        "reachability": "not-primary",
+        "reconstruction": "primary"
+      },
+      "modelId": "mineral-formation-history",
+      "modelPackPath": null,
+      "explorerId": "mineral-history-explorer",
+      "explorerPath": null,
+      "casePagePath": "apps/external-cases/mineral-formation-history/",
+      "implementationDoc": "docs/cases/MINERAL_FORMATION_HISTORY_IMPLEMENTATION.md",
+      "matrixPlacements": [
+        {
+          "mode": "reconstructed",
+          "effect": "identity",
+          "role": "primary"
+        },
+        {
+          "mode": "embodied",
+          "effect": "present-state",
+          "role": "secondary"
+        }
+      ]
+    },
+    {
+      "caseId": "ltee-evolutionary-contingency",
+      "portfolioOrder": 10,
+      "title": "LTEE Evolutionary Contingency",
+      "shortTitle": "LTEE",
+      "domain": "experimental-evolution",
+      "domainLabel": "Experimental evolution",
+      "status": "PLANNED",
+      "priority": "priority-c",
+      "primaryHistoryMode": "embodied",
+      "historyModes": [
+        "embodied",
+        "recorded",
+        "reconstructed"
+      ],
+      "primaryEffects": [
+        "future"
+      ],
+      "secondaryEffects": [
+        "present-state",
+        "identity"
+      ],
+      "evidenceProfile": [
+        "experimental-observation",
+        "sample-identity",
+        "direct-record",
+        "published-interpretation",
+        "reconstructed",
+        "unknown"
+      ],
+      "analyses": {
+        "historicalLoad": "not-primary",
+        "historyEquivalence": "possible",
+        "reachability": "primary",
+        "reconstruction": "secondary"
+      },
+      "modelId": "ltee-lineage-history",
+      "modelPackPath": null,
+      "explorerId": "evolutionary-contingency-lab",
+      "explorerPath": null,
+      "casePagePath": "apps/external-cases/ltee-evolutionary-contingency/",
+      "implementationDoc": "docs/cases/LTEE_EVOLUTIONARY_CONTINGENCY_IMPLEMENTATION.md",
+      "matrixPlacements": [
+        {
+          "mode": "embodied",
+          "effect": "future",
+          "role": "primary"
+        },
+        {
+          "mode": "embodied",
+          "effect": "present-state",
+          "role": "secondary"
+        },
+        {
+          "mode": "embodied",
+          "effect": "identity",
+          "role": "secondary"
+        },
+        {
+          "mode": "recorded",
+          "effect": "future",
+          "role": "secondary"
+        },
+        {
+          "mode": "recorded",
+          "effect": "present-state",
+          "role": "secondary"
+        },
+        {
+          "mode": "reconstructed",
+          "effect": "identity",
+          "role": "secondary"
+        }
+      ]
+    },
+    {
+      "caseId": "material-process-history",
+      "portfolioOrder": 11,
+      "title": "Material Process History",
+      "shortTitle": "AM-Bench",
+      "domain": "materials-science",
+      "domainLabel": "Materials science",
+      "status": "PLANNED",
+      "priority": "priority-b",
+      "primaryHistoryMode": "embodied",
+      "historyModes": [
+        "embodied",
+        "recorded"
+      ],
+      "primaryEffects": [
+        "present-state"
+      ],
+      "secondaryEffects": [],
+      "evidenceProfile": [
+        "direct-record",
+        "direct-measurement",
+        "published-interpretation",
+        "derived",
+        "unknown"
+      ],
+      "analyses": {
+        "historicalLoad": "candidate",
+        "historyEquivalence": "possible",
+        "reachability": "not-primary",
+        "reconstruction": "not-primary"
+      },
+      "modelId": "material-process-history",
+      "modelPackPath": null,
+      "explorerId": "material-process-history-lab",
+      "explorerPath": null,
+      "casePagePath": "apps/external-cases/material-process-history/",
+      "implementationDoc": "docs/cases/MATERIAL_PROCESS_HISTORY_IMPLEMENTATION.md",
+      "matrixPlacements": [
+        {
+          "mode": "embodied",
+          "effect": "present-state",
+          "role": "primary"
+        },
+        {
+          "mode": "recorded",
+          "effect": "present-state",
+          "role": "secondary"
+        }
+      ]
+    },
+    {
+      "caseId": "cell-lineage-identity",
+      "portfolioOrder": 12,
+      "title": "Cell Lineage Identity",
+      "shortTitle": "Cell Lineage",
+      "domain": "developmental-biology",
+      "domainLabel": "Developmental biology",
+      "status": "PLANNED",
+      "priority": "priority-d",
+      "primaryHistoryMode": "reconstructed",
+      "historyModes": [
+        "reconstructed",
+        "embodied"
+      ],
+      "primaryEffects": [
+        "identity"
+      ],
+      "secondaryEffects": [
+        "present-state"
+      ],
+      "evidenceProfile": [
+        "direct-measurement",
+        "sample-identity",
+        "reconstructed",
+        "published-interpretation",
+        "unknown"
+      ],
+      "analyses": {
+        "historicalLoad": "not-primary",
+        "historyEquivalence": "possible",
+        "reachability": "not-primary",
+        "reconstruction": "primary"
+      },
+      "modelId": "cell-lineage-history",
+      "modelPackPath": null,
+      "explorerId": "cell-lineage-identity-lab",
+      "explorerPath": null,
+      "casePagePath": "apps/external-cases/cell-lineage-identity/",
+      "implementationDoc": "docs/cases/CELL_LINEAGE_IDENTITY_IMPLEMENTATION.md",
+      "matrixPlacements": [
+        {
+          "mode": "reconstructed",
+          "effect": "identity",
+          "role": "primary"
+        },
+        {
+          "mode": "embodied",
+          "effect": "identity",
+          "role": "secondary"
+        },
+        {
+          "mode": "embodied",
+          "effect": "present-state",
+          "role": "secondary"
+        }
+      ]
+    },
+    {
+      "caseId": "lithic-operational-history",
+      "portfolioOrder": 13,
+      "title": "Lithic Operational History",
+      "shortTitle": "Lithic History",
+      "domain": "archaeology",
+      "domainLabel": "Archaeology",
+      "status": "PLANNED",
+      "priority": "priority-e",
+      "primaryHistoryMode": "reconstructed",
+      "historyModes": [
+        "reconstructed"
+      ],
+      "primaryEffects": [
+        "present-state"
+      ],
+      "secondaryEffects": [],
+      "evidenceProfile": [
+        "direct-measurement",
+        "published-interpretation",
+        "reconstructed",
+        "counterfactual",
+        "unknown"
+      ],
+      "analyses": {
+        "historicalLoad": "not-primary",
+        "historyEquivalence": "possible",
+        "reachability": "not-primary",
+        "reconstruction": "primary"
+      },
+      "modelId": "lithic-refit-history",
+      "modelPackPath": null,
+      "explorerId": "lithic-operational-history-explorer",
+      "explorerPath": null,
+      "casePagePath": "apps/external-cases/lithic-operational-history/",
+      "implementationDoc": "docs/cases/LITHIC_OPERATIONAL_HISTORY_IMPLEMENTATION.md",
+      "matrixPlacements": [
+        {
+          "mode": "reconstructed",
+          "effect": "present-state",
+          "role": "primary"
+        }
+      ]
+    },
+    {
+      "caseId": "artwork-provenance",
+      "portfolioOrder": 14,
+      "title": "Artwork Provenance",
+      "shortTitle": "Artwork Provenance",
+      "domain": "cultural-heritage",
+      "domainLabel": "Cultural heritage",
+      "status": "PLANNED",
+      "priority": "priority-a",
+      "primaryHistoryMode": "recorded",
+      "historyModes": [
+        "recorded",
+        "reconstructed"
+      ],
+      "primaryEffects": [
+        "identity"
+      ],
+      "secondaryEffects": [],
+      "evidenceProfile": [
+        "direct-record",
+        "published-interpretation",
+        "reconstructed",
+        "unknown",
+        "contested"
+      ],
+      "analyses": {
+        "historicalLoad": "not-primary",
+        "historyEquivalence": "primary",
+        "reachability": "not-primary",
+        "reconstruction": "secondary"
+      },
+      "modelId": "artwork-provenance",
+      "modelPackPath": null,
+      "explorerId": "artwork-provenance-identity-lab",
+      "explorerPath": null,
+      "casePagePath": "apps/external-cases/artwork-provenance/",
+      "implementationDoc": "docs/cases/GETTY_ARTWORK_PROVENANCE_IMPLEMENTATION.md",
+      "matrixPlacements": [
+        {
+          "mode": "recorded",
+          "effect": "identity",
+          "role": "primary"
+        },
+        {
+          "mode": "reconstructed",
+          "effect": "identity",
+          "role": "secondary"
+        }
+      ]
+    },
+    {
+      "caseId": "manuscript-stemmatics",
+      "portfolioOrder": 15,
+      "title": "Manuscript Stemmatics",
+      "shortTitle": "Manuscripts",
+      "domain": "textual-scholarship",
+      "domainLabel": "Textual scholarship",
+      "status": "PLANNED",
+      "priority": "priority-d",
+      "primaryHistoryMode": "reconstructed",
+      "historyModes": [
+        "reconstructed",
+        "recorded"
+      ],
+      "primaryEffects": [
+        "identity"
+      ],
+      "secondaryEffects": [],
+      "evidenceProfile": [
+        "direct-record",
+        "published-interpretation",
+        "reconstructed",
+        "unknown",
+        "contested"
+      ],
+      "analyses": {
+        "historicalLoad": "not-primary",
+        "historyEquivalence": "relevant",
+        "reachability": "not-primary",
+        "reconstruction": "primary"
+      },
+      "modelId": "manuscript-transmission",
+      "modelPackPath": null,
+      "explorerId": "textual-transmission-lab",
+      "explorerPath": null,
+      "casePagePath": "apps/external-cases/manuscript-stemmatics/",
+      "implementationDoc": "docs/cases/MANUSCRIPT_STEMMATICS_IMPLEMENTATION.md",
+      "matrixPlacements": [
+        {
+          "mode": "reconstructed",
+          "effect": "identity",
+          "role": "primary"
+        },
+        {
+          "mode": "recorded",
+          "effect": "identity",
+          "role": "secondary"
+        }
+      ]
+    },
+    {
+      "caseId": "operational-aging",
+      "portfolioOrder": 16,
+      "title": "Operational Aging",
+      "shortTitle": "Operational Aging",
+      "domain": "mechanical-prognostics",
+      "domainLabel": "Mechanical prognostics",
+      "status": "PLANNED",
+      "priority": "priority-b",
+      "primaryHistoryMode": "embodied",
+      "historyModes": [
+        "embodied",
+        "recorded"
+      ],
+      "primaryEffects": [
+        "present-state",
+        "future"
+      ],
+      "secondaryEffects": [],
+      "evidenceProfile": [
+        "experimental-observation",
+        "direct-measurement",
+        "direct-record",
+        "derived"
+      ],
+      "analyses": {
+        "historicalLoad": "not-primary",
+        "historyEquivalence": "possible",
+        "reachability": "primary",
+        "reconstruction": "secondary"
+      },
+      "modelId": "operational-aging",
+      "modelPackPath": null,
+      "explorerId": "operational-aging-lab",
+      "explorerPath": null,
+      "casePagePath": "apps/external-cases/operational-aging/",
+      "implementationDoc": "docs/cases/NASA_OPERATIONAL_AGING_IMPLEMENTATION.md",
+      "matrixPlacements": [
+        {
+          "mode": "embodied",
+          "effect": "present-state",
+          "role": "primary"
+        },
+        {
+          "mode": "embodied",
+          "effect": "future",
+          "role": "primary"
+        },
+        {
+          "mode": "recorded",
+          "effect": "present-state",
+          "role": "secondary"
+        },
+        {
+          "mode": "recorded",
+          "effect": "future",
+          "role": "secondary"
+        }
+      ]
+    },
+    {
+      "caseId": "ecological-memory",
+      "portfolioOrder": 17,
+      "title": "Ecological Memory",
+      "shortTitle": "Ecological Memory",
+      "domain": "ecology",
+      "domainLabel": "Ecology",
+      "status": "PLANNED",
+      "priority": "priority-b",
+      "primaryHistoryMode": "embodied",
+      "historyModes": [
+        "embodied",
+        "recorded"
+      ],
+      "primaryEffects": [
+        "present-state",
+        "future"
+      ],
+      "secondaryEffects": [],
+      "evidenceProfile": [
+        "direct-record",
+        "direct-measurement",
+        "published-interpretation",
+        "unknown"
+      ],
+      "analyses": {
+        "historicalLoad": "not-primary",
+        "historyEquivalence": "possible",
+        "reachability": "primary",
+        "reconstruction": "secondary"
+      },
+      "modelId": "ecological-memory",
+      "modelPackPath": null,
+      "explorerId": "ecological-memory-lab",
+      "explorerPath": null,
+      "casePagePath": "apps/external-cases/ecological-memory/",
+      "implementationDoc": "docs/cases/NEON_ECOLOGICAL_MEMORY_IMPLEMENTATION.md",
+      "matrixPlacements": [
+        {
+          "mode": "embodied",
+          "effect": "present-state",
+          "role": "primary"
+        },
+        {
+          "mode": "embodied",
+          "effect": "future",
+          "role": "primary"
+        },
+        {
+          "mode": "recorded",
+          "effect": "present-state",
+          "role": "secondary"
+        },
+        {
+          "mode": "recorded",
+          "effect": "future",
+          "role": "secondary"
+        }
+      ]
+    },
+    {
+      "caseId": "historical-linguistics",
+      "portfolioOrder": 18,
+      "title": "Historical Linguistics",
+      "shortTitle": "Linguistics",
+      "domain": "historical-linguistics",
+      "domainLabel": "Historical linguistics",
+      "status": "PLANNED",
+      "priority": "priority-d",
+      "primaryHistoryMode": "reconstructed",
+      "historyModes": [
+        "reconstructed",
+        "recorded"
+      ],
+      "primaryEffects": [
+        "identity"
+      ],
+      "secondaryEffects": [],
+      "evidenceProfile": [
+        "direct-record",
+        "published-interpretation",
+        "reconstructed",
+        "contested"
+      ],
+      "analyses": {
+        "historicalLoad": "not-primary",
+        "historyEquivalence": "relevant",
+        "reachability": "not-primary",
+        "reconstruction": "primary"
+      },
+      "modelId": "language-transmission",
+      "modelPackPath": null,
+      "explorerId": "language-lineage-borrowing-lab",
+      "explorerPath": null,
+      "casePagePath": "apps/external-cases/historical-linguistics/",
+      "implementationDoc": "docs/cases/HISTORICAL_LINGUISTICS_IMPLEMENTATION.md",
+      "matrixPlacements": [
+        {
+          "mode": "reconstructed",
+          "effect": "identity",
+          "role": "primary"
+        },
+        {
+          "mode": "recorded",
+          "effect": "identity",
+          "role": "secondary"
+        }
+      ]
+    },
+    {
+      "caseId": "legal-precedent-history",
+      "portfolioOrder": 19,
+      "title": "Legal Precedent",
+      "shortTitle": "Legal Precedent",
+      "domain": "law",
+      "domainLabel": "Law",
+      "status": "PLANNED",
+      "priority": "normal",
+      "primaryHistoryMode": "recorded",
+      "historyModes": [
+        "recorded",
+        "reconstructed"
+      ],
+      "primaryEffects": [
+        "future"
+      ],
+      "secondaryEffects": [
+        "identity"
+      ],
+      "evidenceProfile": [
+        "direct-record",
+        "published-interpretation",
+        "reconstructed",
+        "unknown",
+        "contested"
+      ],
+      "analyses": {
+        "historicalLoad": "not-primary",
+        "historyEquivalence": "possible",
+        "reachability": "primary",
+        "reconstruction": "secondary"
+      },
+      "modelId": "legal-precedent-history",
+      "modelPackPath": null,
+      "explorerId": "legal-precedent-history-lab",
+      "explorerPath": null,
+      "casePagePath": "apps/external-cases/legal-precedent-history/",
+      "implementationDoc": "docs/cases/LEGAL_PRECEDENT_IMPLEMENTATION.md",
+      "matrixPlacements": [
+        {
+          "mode": "recorded",
+          "effect": "future",
+          "role": "primary"
+        },
+        {
+          "mode": "recorded",
+          "effect": "identity",
+          "role": "secondary"
+        },
+        {
+          "mode": "reconstructed",
+          "effect": "identity",
+          "role": "secondary"
+        }
+      ]
+    },
+    {
+      "caseId": "clinical-trajectories",
+      "portfolioOrder": 20,
+      "title": "Clinical Trajectories",
+      "shortTitle": "Clinical Trajectories",
+      "domain": "clinical-medicine",
+      "domainLabel": "Clinical medicine",
+      "status": "PLANNED",
+      "priority": "normal",
+      "primaryHistoryMode": "embodied",
+      "historyModes": [
+        "embodied",
+        "recorded"
+      ],
+      "primaryEffects": [
+        "present-state",
+        "future"
+      ],
+      "secondaryEffects": [],
+      "evidenceProfile": [
+        "direct-record",
+        "direct-measurement",
+        "derived",
+        "unknown"
+      ],
+      "analyses": {
+        "historicalLoad": "not-primary",
+        "historyEquivalence": "possible",
+        "reachability": "descriptive-only",
+        "reconstruction": "secondary"
+      },
+      "modelId": "clinical-trajectories",
+      "modelPackPath": null,
+      "explorerId": "clinical-trajectory-lab",
+      "explorerPath": null,
+      "casePagePath": "apps/external-cases/clinical-trajectories/",
+      "implementationDoc": "docs/cases/CLINICAL_TRAJECTORIES_IMPLEMENTATION.md",
+      "matrixPlacements": [
+        {
+          "mode": "embodied",
+          "effect": "present-state",
+          "role": "primary"
+        },
+        {
+          "mode": "embodied",
+          "effect": "future",
+          "role": "primary"
+        },
+        {
+          "mode": "recorded",
+          "effect": "present-state",
+          "role": "secondary"
+        },
+        {
+          "mode": "recorded",
+          "effect": "future",
+          "role": "secondary"
+        }
+      ]
+    },
+    {
+      "caseId": "galactic-archaeology",
+      "portfolioOrder": 21,
+      "title": "Galactic Archaeology",
+      "shortTitle": "Galactic Archaeology",
+      "domain": "galactic-astronomy",
+      "domainLabel": "Galactic astronomy",
+      "status": "PLANNED",
+      "priority": "priority-e",
+      "primaryHistoryMode": "reconstructed",
+      "historyModes": [
+        "reconstructed",
+        "recorded"
+      ],
+      "primaryEffects": [
+        "present-state"
+      ],
+      "secondaryEffects": [],
+      "evidenceProfile": [
+        "direct-measurement",
+        "derived",
+        "published-interpretation",
+        "reconstructed",
+        "unknown"
+      ],
+      "analyses": {
+        "historicalLoad": "not-primary",
+        "historyEquivalence": "possible",
+        "reachability": "not-primary",
+        "reconstruction": "primary"
+      },
+      "modelId": "galactic-archaeology",
+      "modelPackPath": null,
+      "explorerId": "galactic-archaeology-lab",
+      "explorerPath": null,
+      "casePagePath": "apps/external-cases/galactic-archaeology/",
+      "implementationDoc": "docs/cases/GAIA_GALACTIC_ARCHAEOLOGY_IMPLEMENTATION.md",
+      "matrixPlacements": [
+        {
+          "mode": "reconstructed",
+          "effect": "present-state",
+          "role": "primary"
+        },
+        {
+          "mode": "recorded",
+          "effect": "present-state",
+          "role": "secondary"
+        }
+      ]
+    }
+  ]
+}

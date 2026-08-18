@@ -82,7 +82,7 @@ test("switching models cannot reuse a node selection from another model", () => 
   });
 });
 
-test("both exact registry releases open through the same verified presentation boundary", async () => {
+test("all exact registry releases open through the same verified presentation boundary", async () => {
   const registry = await json("models/registry.json");
   for (const entry of registry.entries) {
     const resolution = resolveModelPackRegistry(

@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="../../assets/js/document-state-reset.js" defer></script>
+    <meta name="description" content="Compare native Nix derivations under output-content, derivation, input-closure, builder-environment, and history-equivalence identity regimes.">
+    <title>Nix Derivation Identity Lab - Onto2D</title>
+    <link rel="icon" href="../../assets/icons/favicon.ico?v=20260818.3" type="image/x-icon">
+    <link rel="stylesheet" href="../../assets/css/ui-icons.css?v=20260818.3">
+    <link rel="stylesheet" href="../../assets/css/study-nix-derivation.css?v=20260818.6">
+    <script type="module" src="./nix-derivation-lab.js?v=20260818.4"></script>
+  </head>
+  <body data-state="loading">
+    <a class="skip-link" href="#lab">Skip to derivation comparison</a>
+    <header class="history-case-header">
+      <a class="history-case-brand" href="../../" aria-label="Onto2D home"><svg viewBox="0 0 34 34" aria-hidden="true"><circle cx="7" cy="17" r="3"></circle><circle cx="27" cy="8" r="3"></circle><circle cx="27" cy="26" r="3"></circle><path d="M10 17h7m2-3 5-4m-5 10 5 4"></path></svg><span><strong>Onto2D</strong><small>History model</small></span></a>
+      <nav class="history-case-nav" aria-label="History navigation"><a href="../history-atlas/">History Atlas</a><a href="../model-studio/">Model Studio</a><a href="https://github.com/DenBraun/Onto2D/blob/main/docs/history/README.md" target="_blank" rel="noopener noreferrer">History model <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#external-link"></use></svg></a><a href="https://github.com/DenBraun/Onto2D" target="_blank" rel="noopener noreferrer">GitHub <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#external-link"></use></svg></a></nav>
+      <div class="history-case-context"><span>Nix Derivation Identity</span><strong class="history-case-state"><i></i><span id="load-state" role="status" aria-live="polite">Verifying artifact</span></strong></div>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="page-title">
+        <div><p class="overline">Native Nix 2.31.0 / bounded fixture / five identity regimes</p><h1 id="page-title">Same bytes.<br><em>Different recipe.</em></h1><p class="hero-deck">An output can be byte-for-byte identical while the Nix derivation, dependency closure, and declared build environment remain different. Select what &ldquo;the same&rdquo; means and see the answer change.</p></div>
+        <div class="hero-proof" aria-label="Flagship result"><span>Canonical result</span><code>content(left) = content(right)</code><code>drv(left) &ne; drv(right)</code><code>closure(left) &ne; closure(right)</code></div>
+      </section>
+
+      <section class="artifact-strip" aria-label="Verified fixture summary"><div><span>Case identity</span><strong id="case-identity">...</strong></div><div><span>Derivations</span><strong id="derivation-count">...</strong></div><div><span>Native inputDrvs</span><strong id="direct-edge-count">...</strong></div><div><span>Derived closure edges</span><strong id="closure-edge-count">...</strong></div><div><span>Runtime</span><strong id="nix-runtime">...</strong></div></section>
+
+      <section class="takeaway" aria-labelledby="takeaway-title"><p class="overline">The useful distinction</p><h2 id="takeaway-title">Content answers &ldquo;what did we get?&rdquo; Construction answers &ldquo;what exactly did we ask Nix to build?&rdquo;</h2><p>Use content identity for deduplication and delivery checks. Use derivation, closure, or environment identity when provenance, rebuildability, review scope, or supply-chain differences matter.</p></section>
+
+      <section class="lab" id="lab" aria-labelledby="lab-title">
+        <header class="lab-heading"><div><p class="overline">Interactive comparison</p><h2 id="lab-title">One capture, several honest answers</h2></div><p>The controls select a frozen comparison. Native store paths and relations are never rewritten by the interface.</p></header>
+        <div class="lab-grid">
+          <aside class="controls" aria-label="Comparison controls">
+            <section><h3>Experiment</h3><p>Choose the construction difference.</p><div id="experiment-list" class="control-list"></div></section>
+            <section><h3>Compare by</h3><p>Choose the identity question.</p><div id="regime-list" class="control-list regime-controls"></div></section>
+          </aside>
+
+          <div class="comparison-stage">
+            <div class="derivation-pair">
+              <section class="derivation-card" aria-labelledby="left-title"><header><span>LEFT DERIVATION</span><button id="inspect-left" type="button">Inspect</button></header><h3 id="left-title">...</h3><code class="path" id="left-drv">...</code><dl><div><dt>Addressing</dt><dd id="left-addressing">...</dd></div><div><dt>Output</dt><dd><code class="path" id="left-output">...</code></dd></div><div><dt>Closure</dt><dd id="left-closure">...</dd></div><div><dt>Environment</dt><dd><code class="path" id="left-environment">...</code></dd></div></dl></section>
+              <section class="derivation-card" aria-labelledby="right-title"><header><span>RIGHT DERIVATION</span><button id="inspect-right" type="button">Inspect</button></header><h3 id="right-title">...</h3><code class="path" id="right-drv">...</code><dl><div><dt>Addressing</dt><dd id="right-addressing">...</dd></div><div><dt>Output</dt><dd><code class="path" id="right-output">...</code></dd></div><div><dt>Closure</dt><dd id="right-closure">...</dd></div><div><dt>Environment</dt><dd><code class="path" id="right-environment">...</code></dd></div></dl></section>
+            </div>
+
+            <section class="construction-map" aria-labelledby="map-title"><header><div><p class="overline">Declared construction map</p><h3 id="map-title">Direct input &rarr; derivation &rarr; declared output</h3></div><div class="map-key"><span><i class="native"></i>native relation</span><span><i class="declared"></i>declared output</span></div></header><div id="construction-lanes" class="construction-lanes"></div><p>Only direct <code>inputDrvs</code> are drawn. Transitive closure is computed separately and never relabeled as native.</p></section>
+
+            <section class="identity-result" id="identity-result" data-status="same" aria-live="polite"><header><span id="active-regime">Output content</span><strong id="identity-verdict">SAME</strong></header><div class="identity-pair"><p><span>Left identity</span><code id="left-identity">...</code></p><b id="identity-symbol">=</b><p><span>Right identity</span><code id="right-identity">...</code></p></div><p id="identity-explanation">...</p><small id="experiment-claim">...</small></section>
+          </div>
+
+          <aside class="inspector" aria-labelledby="inspector-title"><header><p class="overline">Selected native record</p><h3 id="inspector-title">Derivation inspector</h3></header><dl class="inspector-facts"><div><dt>Fixture ID</dt><dd id="inspector-id">...</dd></div><div><dt>.drv path</dt><dd><code id="inspector-drv">...</code></dd></div><div><dt>Raw ATerm</dt><dd><code id="inspector-raw">...</code></dd></div><div><dt>Output path</dt><dd><code id="inspector-output">...</code></dd></div><div><dt>System</dt><dd id="inspector-system">...</dd></div><div><dt>Builder</dt><dd><code id="inspector-builder">...</code></dd></div><div><dt>Graph depth</dt><dd id="inspector-depth">...</dd></div><div><dt>Direct / closure</dt><dd id="inspector-inputs">...</dd></div></dl><section><h4>Declared environment</h4><div id="environment-entries" class="environment-entries"></div></section></aside>
+        </div>
+
+        <section class="matrix-section" aria-labelledby="matrix-title"><header><div><p class="overline">Identity matrix</p><h3 id="matrix-title">The artifact does not hide disagreement</h3></div><p>Every row evaluates the same selected pair under a different rule.</p></header><div id="regime-matrix" class="regime-matrix"></div></section>
+      </section>
+
+      <section class="boundary" aria-labelledby="boundary-title"><div><p class="overline">Evidence boundary</p><h2 id="boundary-title">What was observed&mdash;and what was not</h2><p>Nix instantiated every derivation and emitted the captured `.drv` records. Nix also materialized and inspected the fixed content object. Builders were not executed, so the input-addressed control has no observed output content.</p></div><ul><li>Raw ATerm and derivation JSON are cross-checked field by field.</li><li>Direct inputs are native; transitive closure and environment profiles are labeled derived.</li><li>&ldquo;Unresolved&rdquo; means missing realization evidence, never inferred equality.</li><li>Historical Load is intentionally undefined: this case declares no finite admissible path space.</li></ul></section>
+    </main>
+    <footer class="site-footer"><a href="../external-cases/nix-derivation-identity/"><svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#arrow-left"></use></svg> Case overview</a><p>Same output is not automatically the same derivation.</p><a href="#lab">Return to comparison <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#chevron-up"></use></svg></a></footer>
+    <div id="fatal-error" class="fatal-error" role="alert" hidden></div>
+  </body>
+</html>

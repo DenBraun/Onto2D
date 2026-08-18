@@ -1,0 +1,344 @@
+# Gaia Galactic Archaeology — Implementation Plan
+
+Updated: 2026-08-18
+
+## History Model Metadata
+
+```text
+History modes:
+    Reconstructed
+    Recorded
+
+Primary effects:
+    Historical explanation
+    Present State interpretation
+
+Domain:
+    Galactic astronomy
+
+Evidence profile:
+    astrometric observation
+    photometric/spectroscopic observation
+    astrophysical parameter estimate
+    chemical-abundance estimate
+    orbital/kinematic derivation
+    published population interpretation
+
+Historical Load:
+    Not primary
+
+History Equivalence:
+    Possible later
+
+Reachability:
+    Not primary
+
+Reconstruction:
+    Primary
+```
+
+## Purpose
+
+Use Gaia DR3 to test reconstruction of very deep history from present
+observations.
+
+Primary pipeline:
+
+```text
+present stellar observations
+        |
+        v
+derived stellar parameters
+        |
+        v
+chemistry + kinematics + age estimates
+        |
+        v
+population structure
+        |
+        v
+candidate Galactic formation/history interpretation
+```
+
+This is deliberately the most model-dependent case in the extended program.
+
+## Primary External Sources
+
+Gaia ESA Archive:
+
+```text
+https://gea.esac.esa.int/archive/
+```
+
+Gaia DR3 documentation:
+
+```text
+https://gea.esac.esa.int/archive/documentation/GDR3/
+```
+
+Gaia DR3 overview:
+
+```text
+https://www.cosmos.esa.int/web/gaia/data-release-3
+```
+
+Relevant source families include:
+
+- astrometry;
+- radial velocity;
+- astrophysical parameters;
+- stellar ages/masses where available;
+- RVS chemical abundances;
+- kinematic/orbital products.
+
+The initial case should use Gaia DR3 unless a later release is deliberately
+selected and fully re-reviewed.
+
+## Outputs
+
+```text
+cases/galactic-archaeology/
+apps/galactic-archaeology-lab/
+models/galactic-archaeology/
+docs/cases/GAIA_GALACTIC_ARCHAEOLOGY_IMPLEMENTATION.md
+```
+
+## Non-goals
+
+Do not initially:
+
+- reconstruct the Milky Way merger history from scratch;
+- infer stellar birth sites as direct observations;
+- treat point estimates as exact values;
+- treat chemical similarity as common origin automatically;
+- treat age estimates as exact chronology;
+- turn population clustering into historical truth;
+- import billions of Gaia sources.
+
+## Phase 0 — Define a Bounded Scientific Question
+
+Choose one narrow published DR3 use case, for example:
+
+```text
+chemical/kinematic separation of selected disk and halo populations
+```
+
+or another Gaia DR3 result with a published analysis path.
+
+Do not begin with an open-ended "reconstruct the Galaxy" objective.
+
+## Phase 1 — Pin a Bounded Gaia Sample
+
+Create an exact ADQL query.
+
+Persist:
+
+```text
+query text
+Gaia data release
+retrieval timestamp
+result table
+result hash
+selected columns
+quality filters
+known-issues references
+```
+
+Target a manageable cohort, e.g. 1,000–100,000 stars depending on the Explorer.
+
+Canonical tests run from the frozen result, not the live Gaia Archive.
+
+## Phase 2 — Observation Layer
+
+Represent native/near-native source values separately:
+
+```text
+GaiaSource
+position
+parallax
+proper motion
+radial velocity
+photometry
+spectroscopic values
+quality flags
+```
+
+Preserve uncertainties and quality indicators.
+
+## Phase 3 — Derived Parameter Layer
+
+Represent:
+
+```text
+stellar age estimate
+mass estimate
+metallicity
+chemical abundance
+orbital parameter
+action / kinematic quantity
+```
+
+with explicit provenance:
+
+```text
+Gaia-provided estimate
+Onto2D-derived value
+published external estimate
+```
+
+These are not equivalent evidence classes.
+
+## Phase 4 — Population Interpretation
+
+Represent:
+
+```text
+PopulationAssignment
+SelectionFunction
+Clustering/RuleProfile
+PublishedInterpretation
+EvidenceReference
+```
+
+A population label is an analysis result.
+
+It must not overwrite the star's observational identity.
+
+## Phase 5 — Canonical Experiments
+
+### Experiment A — Present Observation to Historical Proxy
+
+For selected stars, show:
+
+```text
+observations
+    -> age/chemistry/kinematics
+```
+
+with uncertainty.
+
+### Experiment B — Chemical / Kinematic Cohorts
+
+Reproduce a bounded published cohort selection.
+
+### Experiment C — Competing Interpretations
+
+If the literature/source analysis supports ambiguity, allow more than one
+population/history interpretation.
+
+### Experiment D — Quality Ablation
+
+Tighten/relax selected quality filters and show which historical inference
+survives.
+
+### Experiment E — Evidence Layer Toggle
+
+Display separately:
+
+```text
+measured
+Gaia-derived
+Onto2D-derived
+published historical interpretation
+```
+
+## Phase 6 — Reconstruction Analysis
+
+Primary form:
+
+```text
+SupportedHistoricalInterpretations(
+    observed_sample,
+    derived_parameters,
+    interpretation_profile
+)
+```
+
+Outputs may be:
+
+```text
+assigned cohort
+candidate cohorts
+ambiguous
+excluded by quality
+unresolved
+```
+
+Do not produce a single "true formation history" node.
+
+## Phase 7 — Model Pack
+
+Potential:
+
+```text
+modelId: galactic-archaeology
+```
+
+Entities:
+
+```text
+stellar source
+observation
+parameter estimate
+chemical abundance
+kinematic/orbital projection
+population assignment
+historical interpretation
+evidence record
+```
+
+Large numeric tables may remain verified external artifacts with bounded
+semantic projections.
+
+## Phase 8 — Explorer
+
+Views:
+
+1. Frozen Gaia Cohort
+2. Observation Space
+3. Chemistry
+4. Kinematics / Orbit
+5. Age / Parameter Estimates
+6. Population Assignment
+7. Historical Interpretation
+8. Evidence / Uncertainty
+
+Core visual:
+
+```text
+OBSERVED
+    ↓
+DERIVED
+    ↓
+CLASSIFIED
+    ↓
+HISTORICALLY INTERPRETED
+```
+
+Each arrow must be inspectable.
+
+## Phase 9 — Negative Tests
+
+Required:
+
+- missing radial velocity cannot become zero;
+- uncertainty cannot be discarded silently;
+- quality-filtered sources cannot remain in analysis;
+- derived orbital quantity cannot become direct Gaia observation;
+- population label cannot become birth origin automatically;
+- chemical similarity cannot become common ancestry automatically;
+- live Archive updates cannot change frozen canonical output;
+- alternative interpretations may coexist.
+
+## Falsification Criterion
+
+The case fails if Onto2D cannot represent a long model-dependent chain from
+observation to historical interpretation without collapsing intermediate
+epistemic levels.
+
+## Definition of Done
+
+A frozen bounded Gaia DR3 sample can be reproduced from an exact query,
+observational and derived quantities kept separate, one published-style
+population analysis replayed, and the resulting historical interpretation
+shown with explicit uncertainty and provenance.

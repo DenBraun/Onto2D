@@ -189,6 +189,13 @@ source/evidence separation, cost sensitivity, admissibility, and ablation, but
 they do not estimate a naturally observed distribution or validate the metric
 against an external outcome.
 
+The [History Case Portfolio](history/HISTORY_CASE_PORTFOLIO.md) extends that
+methods work across 22 registered cases. The portfolio is organized by history
+access (Recorded, Embodied, Reconstructed) and history effect (Identity,
+Present State, Future), with domain retained as secondary metadata. Each case
+has a separate falsification criterion and implementation plan; `PLANNED`
+pages are navigation and documentation, not scientific evidence.
+
 Completion criteria:
 
 - a clean run reproduces the analysis table and Explorer data from the frozen

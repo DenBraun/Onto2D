@@ -48,6 +48,9 @@ Emergence snapshot.
 | `tools` | Standalone local prototypes that remain independent of case interpretation |
 | `test` | Behavioral, schema, integration, case, and golden evidence |
 | `docs/adr` | Accepted architectural decisions |
+| `docs/history` | Authoritative History Model taxonomy, portfolio, evidence, identity, reachability, and reconstruction documentation |
+| `docs/cases` | Canonical case-specific implementation plans |
+| `docs/external-cases` | Compatibility pointers for the superseded software-first program paths |
 
 ## Boundary rules
 
@@ -63,6 +66,9 @@ Emergence snapshot.
 - External source facts, deterministic derivations, and project analysis use
   distinct records and identities; counterfactual edges never enter extracted
   upstream evidence or an upstream/derived-only Model Pack.
+- External case overview pages may describe planned work, but must expose its
+  status and must not present a plan, expected output, or flagship experiment
+  as a completed result.
 - Cases may call the kernel but must not add case-specific branches to it.
 - Scientific solvers may implement adapter contracts but must not import the kernel.
 - Applications do not become authorities for scientific values or canonical

@@ -1,0 +1,852 @@
+[
+  {
+    "addressing": "input-addressed",
+    "builderEnvironmentIdentity": "sha256:d8f9d6d1ae70a7cd857c3b142ef60305ffedd74981588871732270d34a89111e",
+    "depth": 0,
+    "description": "Native Nix derivation onto2d-shared-leaf; the builder was not executed in this capture.",
+    "entityKind": "nix-derivation",
+    "fixtureId": "sharedLeaf",
+    "id": "/nix/store/5b1gk8bc8bsf8ai3phb065ibc8s4q2m1-onto2d-shared-leaf.drv",
+    "inputClosureIdentity": "sha256:5b00a0a0d289ebeaf01a4ecd14155cd279c2a1b778b07204c610a48f0e9dd0c5",
+    "name": "sharedLeaf",
+    "nativeIdentity": "/nix/store/5b1gk8bc8bsf8ai3phb065ibc8s4q2m1-onto2d-shared-leaf.drv",
+    "phase": "native-capture",
+    "rawIdentity": "sha256:0bff5fa7c42fb96b1104a2fd70946b4a8300f66ec0b30eeee7850567b3ca84ce",
+    "scientificStatus": "native-instantiated-unrealized",
+    "shortDescription": "input-addressed; 0 direct inputDrv relation(s).",
+    "sourceRecord": {
+      "args": [
+        "-c",
+        "printf '%s\\n' shared-leaf > \"$out\""
+      ],
+      "builder": "/bin/sh",
+      "env": {
+        "builder": "/bin/sh",
+        "fixtureRole": "shared-leaf",
+        "name": "onto2d-shared-leaf",
+        "out": "/nix/store/h5zfwjdxg9afcacvrw4yad39lk60s7wg-onto2d-shared-leaf",
+        "system": "aarch64-darwin"
+      },
+      "inputDrvs": {},
+      "inputSrcs": [],
+      "name": "onto2d-shared-leaf",
+      "outputs": {
+        "out": {
+          "path": "/nix/store/h5zfwjdxg9afcacvrw4yad39lk60s7wg-onto2d-shared-leaf"
+        }
+      },
+      "system": "aarch64-darwin"
+    },
+    "typeRole": "derivation"
+  },
+  {
+    "addressing": "input-addressed",
+    "contentIdentity": null,
+    "description": "Output path declared by a native input-addressed derivation; content was not realized in this capture.",
+    "entityKind": "nix-output",
+    "evidenceStatus": "unrealized",
+    "id": "/nix/store/5r1mm4y5a86iqx5jr65w96qnkdpz1yj0-onto2d-shared-input",
+    "name": "onto2d-shared-input",
+    "nativeIdentity": "/nix/store/5r1mm4y5a86iqx5jr65w96qnkdpz1yj0-onto2d-shared-input",
+    "phase": "native-capture",
+    "scientificStatus": "declared-unrealized",
+    "shortDescription": "input-addressed; unrealized.",
+    "typeRole": "output"
+  },
+  {
+    "addressing": "fixed-content:flat:sha256",
+    "builderEnvironmentIdentity": "sha256:f5749e6b719f285bc271a4548a72029f0254ab68b7591826a50f2fa0bf95a2f0",
+    "depth": 2,
+    "description": "Native Nix derivation onto2d-identical-output; the builder was not executed in this capture.",
+    "entityKind": "nix-derivation",
+    "fixtureId": "environmentMutated",
+    "id": "/nix/store/7spg5qxr8smifgjadvq1xlsjrqmnx0wy-onto2d-identical-output.drv",
+    "inputClosureIdentity": "sha256:c1728f8ed7940b2cb387548846ac2e8441a0c29bd87783e8b3bffa35cbc9de26",
+    "name": "environmentMutated",
+    "nativeIdentity": "/nix/store/7spg5qxr8smifgjadvq1xlsjrqmnx0wy-onto2d-identical-output.drv",
+    "phase": "native-capture",
+    "rawIdentity": "sha256:69362b3de745415b8efcff2eacea04b0c07aa12afd68a1b1db700b6d8f24db59",
+    "scientificStatus": "native-instantiated-unrealized",
+    "shortDescription": "fixed-content:flat:sha256; 1 direct inputDrv relation(s).",
+    "sourceRecord": {
+      "args": [
+        "-c",
+        "printf '%s\\n' 'Onto2D Nix identity fixture' 'same bytes, distinct derivations' > \"$out\""
+      ],
+      "builder": "/bin/sh",
+      "env": {
+        "builder": "/bin/sh",
+        "fixtureVariant": "environment-mutated",
+        "name": "onto2d-identical-output",
+        "normalizationProbe": "mutated",
+        "out": "/nix/store/a257mzf98qsbkp8p9wxm2l99z6gg6sdz-onto2d-identical-output",
+        "outputHash": "4a958ba7aa27996b7bee723e819f7871a02733985f2c4088c0484c061340ee45",
+        "outputHashAlgo": "sha256",
+        "outputHashMode": "flat",
+        "shared": "/nix/store/5r1mm4y5a86iqx5jr65w96qnkdpz1yj0-onto2d-shared-input",
+        "system": "aarch64-darwin"
+      },
+      "inputDrvs": {
+        "/nix/store/yd8kip6kvasbc9s681v7ba0r5j7d48x0-onto2d-shared-input.drv": {
+          "dynamicOutputs": {},
+          "outputs": [
+            "out"
+          ]
+        }
+      },
+      "inputSrcs": [],
+      "name": "onto2d-identical-output",
+      "outputs": {
+        "out": {
+          "hash": "4a958ba7aa27996b7bee723e819f7871a02733985f2c4088c0484c061340ee45",
+          "hashAlgo": "sha256",
+          "method": "flat",
+          "path": "/nix/store/a257mzf98qsbkp8p9wxm2l99z6gg6sdz-onto2d-identical-output"
+        }
+      },
+      "system": "aarch64-darwin"
+    },
+    "typeRole": "derivation"
+  },
+  {
+    "addressing": "fixed-content:flat:sha256",
+    "contentIdentity": "sha256:4a958ba7aa27996b7bee723e819f7871a02733985f2c4088c0484c061340ee45",
+    "description": "Content-addressed store object materialized by nix store add-file; no derivation realization is claimed.",
+    "entityKind": "nix-output",
+    "evidenceStatus": "materialized-fixed-output",
+    "id": "/nix/store/a257mzf98qsbkp8p9wxm2l99z6gg6sdz-onto2d-identical-output",
+    "name": "onto2d-identical-output",
+    "nativeIdentity": "/nix/store/a257mzf98qsbkp8p9wxm2l99z6gg6sdz-onto2d-identical-output",
+    "phase": "native-capture",
+    "scientificStatus": "materialized-content-addressed",
+    "shortDescription": "fixed-content:flat:sha256; materialized-fixed-output.",
+    "typeRole": "output"
+  },
+  {
+    "addressing": "fixed-content:flat:sha256",
+    "builderEnvironmentIdentity": "sha256:4dad45df267f3414260bbfc96b1445790e4a678d95a959fbf190849bda91a6eb",
+    "depth": 2,
+    "description": "Native Nix derivation onto2d-identical-output; the builder was not executed in this capture.",
+    "entityKind": "nix-derivation",
+    "fixtureId": "flagshipRight",
+    "id": "/nix/store/aicszibp40v8xgs2jkigpp7rqw82zaz9-onto2d-identical-output.drv",
+    "inputClosureIdentity": "sha256:a08d3bdf955e0781caa6ed0ee5b3ffc9caf79f4d3d9ce9dab35fd6767f1e85af",
+    "name": "flagshipRight",
+    "nativeIdentity": "/nix/store/aicszibp40v8xgs2jkigpp7rqw82zaz9-onto2d-identical-output.drv",
+    "phase": "native-capture",
+    "rawIdentity": "sha256:6af75df470f5a74eb3c6339e2ec91df55e0264e9540fc0d91d6c1c08e61e43c0",
+    "scientificStatus": "native-instantiated-unrealized",
+    "shortDescription": "fixed-content:flat:sha256; 2 direct inputDrv relation(s).",
+    "sourceRecord": {
+      "args": [
+        "-c",
+        "printf '%s\\n' 'Onto2D Nix identity fixture' 'same bytes, distinct derivations' > \"$out\""
+      ],
+      "builder": "/bin/sh",
+      "env": {
+        "builder": "/bin/sh",
+        "fixtureVariant": "flagship-right",
+        "name": "onto2d-identical-output",
+        "out": "/nix/store/a257mzf98qsbkp8p9wxm2l99z6gg6sdz-onto2d-identical-output",
+        "outputHash": "4a958ba7aa27996b7bee723e819f7871a02733985f2c4088c0484c061340ee45",
+        "outputHashAlgo": "sha256",
+        "outputHashMode": "flat",
+        "route": "/nix/store/fajgcnb27rg4lpian2sh5b3fa8x3jsic-onto2d-right-input",
+        "shared": "/nix/store/5r1mm4y5a86iqx5jr65w96qnkdpz1yj0-onto2d-shared-input",
+        "sourceUri": "https://mirror-b.invalid/onto2d-output.txt",
+        "system": "aarch64-darwin"
+      },
+      "inputDrvs": {
+        "/nix/store/iv5xi9z1yy12smsa36m86vz5lfym3dh3-onto2d-right-input.drv": {
+          "dynamicOutputs": {},
+          "outputs": [
+            "out"
+          ]
+        },
+        "/nix/store/yd8kip6kvasbc9s681v7ba0r5j7d48x0-onto2d-shared-input.drv": {
+          "dynamicOutputs": {},
+          "outputs": [
+            "out"
+          ]
+        }
+      },
+      "inputSrcs": [],
+      "name": "onto2d-identical-output",
+      "outputs": {
+        "out": {
+          "hash": "4a958ba7aa27996b7bee723e819f7871a02733985f2c4088c0484c061340ee45",
+          "hashAlgo": "sha256",
+          "method": "flat",
+          "path": "/nix/store/a257mzf98qsbkp8p9wxm2l99z6gg6sdz-onto2d-identical-output"
+        }
+      },
+      "system": "aarch64-darwin"
+    },
+    "typeRole": "derivation"
+  },
+  {
+    "addressing": "input-addressed",
+    "contentIdentity": null,
+    "description": "Output path declared by a native input-addressed derivation; content was not realized in this capture.",
+    "entityKind": "nix-output",
+    "evidenceStatus": "unrealized",
+    "id": "/nix/store/c56y60qndjd55rndw01qwh3m6zj2vl88-onto2d-left-input",
+    "name": "onto2d-left-input",
+    "nativeIdentity": "/nix/store/c56y60qndjd55rndw01qwh3m6zj2vl88-onto2d-left-input",
+    "phase": "native-capture",
+    "scientificStatus": "declared-unrealized",
+    "shortDescription": "input-addressed; unrealized.",
+    "typeRole": "output"
+  },
+  {
+    "addressing": "input-addressed",
+    "contentIdentity": null,
+    "description": "Output path declared by a native input-addressed derivation; content was not realized in this capture.",
+    "entityKind": "nix-output",
+    "evidenceStatus": "unrealized",
+    "id": "/nix/store/fajgcnb27rg4lpian2sh5b3fa8x3jsic-onto2d-right-input",
+    "name": "onto2d-right-input",
+    "nativeIdentity": "/nix/store/fajgcnb27rg4lpian2sh5b3fa8x3jsic-onto2d-right-input",
+    "phase": "native-capture",
+    "scientificStatus": "declared-unrealized",
+    "shortDescription": "input-addressed; unrealized.",
+    "typeRole": "output"
+  },
+  {
+    "addressing": "input-addressed",
+    "contentIdentity": null,
+    "description": "Output path declared by a native input-addressed derivation; content was not realized in this capture.",
+    "entityKind": "nix-output",
+    "evidenceStatus": "unrealized",
+    "id": "/nix/store/h5zfwjdxg9afcacvrw4yad39lk60s7wg-onto2d-shared-leaf",
+    "name": "onto2d-shared-leaf",
+    "nativeIdentity": "/nix/store/h5zfwjdxg9afcacvrw4yad39lk60s7wg-onto2d-shared-leaf",
+    "phase": "native-capture",
+    "scientificStatus": "declared-unrealized",
+    "shortDescription": "input-addressed; unrealized.",
+    "typeRole": "output"
+  },
+  {
+    "addressing": "input-addressed",
+    "builderEnvironmentIdentity": "sha256:b6a91dd46b241a53506a0562ba67b38150664d1f1d2d57de6c734b96b3dfd19d",
+    "depth": 0,
+    "description": "Native Nix derivation onto2d-right-input; the builder was not executed in this capture.",
+    "entityKind": "nix-derivation",
+    "fixtureId": "rightInput",
+    "id": "/nix/store/iv5xi9z1yy12smsa36m86vz5lfym3dh3-onto2d-right-input.drv",
+    "inputClosureIdentity": "sha256:5b00a0a0d289ebeaf01a4ecd14155cd279c2a1b778b07204c610a48f0e9dd0c5",
+    "name": "rightInput",
+    "nativeIdentity": "/nix/store/iv5xi9z1yy12smsa36m86vz5lfym3dh3-onto2d-right-input.drv",
+    "phase": "native-capture",
+    "rawIdentity": "sha256:ef2c55ef54f8276e490b90bb308c7ce183cba032b0d928fa7b37ed7e01845f4d",
+    "scientificStatus": "native-instantiated-unrealized",
+    "shortDescription": "input-addressed; 0 direct inputDrv relation(s).",
+    "sourceRecord": {
+      "args": [
+        "-c",
+        "printf '%s\\n' right-only > \"$out\""
+      ],
+      "builder": "/bin/sh",
+      "env": {
+        "builder": "/bin/sh",
+        "fixtureRole": "right-only",
+        "name": "onto2d-right-input",
+        "out": "/nix/store/fajgcnb27rg4lpian2sh5b3fa8x3jsic-onto2d-right-input",
+        "system": "aarch64-darwin"
+      },
+      "inputDrvs": {},
+      "inputSrcs": [],
+      "name": "onto2d-right-input",
+      "outputs": {
+        "out": {
+          "path": "/nix/store/fajgcnb27rg4lpian2sh5b3fa8x3jsic-onto2d-right-input"
+        }
+      },
+      "system": "aarch64-darwin"
+    },
+    "typeRole": "derivation"
+  },
+  {
+    "addressing": "input-addressed",
+    "contentIdentity": null,
+    "description": "Output path declared by a native input-addressed derivation; content was not realized in this capture.",
+    "entityKind": "nix-output",
+    "evidenceStatus": "unrealized",
+    "id": "/nix/store/jfn98gpl6l17g9p1b8d9qib066agf3va-onto2d-identical-output",
+    "name": "onto2d-identical-output",
+    "nativeIdentity": "/nix/store/jfn98gpl6l17g9p1b8d9qib066agf3va-onto2d-identical-output",
+    "phase": "native-capture",
+    "scientificStatus": "declared-unrealized",
+    "shortDescription": "input-addressed; unrealized.",
+    "typeRole": "output"
+  },
+  {
+    "addressing": "input-addressed",
+    "builderEnvironmentIdentity": "sha256:ce1ff0adff0000268f426710112093a9db557501b3e7de315b9f11b814cbb8df",
+    "depth": 0,
+    "description": "Native Nix derivation onto2d-left-input; the builder was not executed in this capture.",
+    "entityKind": "nix-derivation",
+    "fixtureId": "leftInput",
+    "id": "/nix/store/k3gya6xkz57dcnm71784b6fcvncqg3c1-onto2d-left-input.drv",
+    "inputClosureIdentity": "sha256:5b00a0a0d289ebeaf01a4ecd14155cd279c2a1b778b07204c610a48f0e9dd0c5",
+    "name": "leftInput",
+    "nativeIdentity": "/nix/store/k3gya6xkz57dcnm71784b6fcvncqg3c1-onto2d-left-input.drv",
+    "phase": "native-capture",
+    "rawIdentity": "sha256:1cfcbda7542f78cc0266ee0253dd47468b7916ffb49cfc3000e092676f565b72",
+    "scientificStatus": "native-instantiated-unrealized",
+    "shortDescription": "input-addressed; 0 direct inputDrv relation(s).",
+    "sourceRecord": {
+      "args": [
+        "-c",
+        "printf '%s\\n' left-only > \"$out\""
+      ],
+      "builder": "/bin/sh",
+      "env": {
+        "builder": "/bin/sh",
+        "fixtureRole": "left-only",
+        "name": "onto2d-left-input",
+        "out": "/nix/store/c56y60qndjd55rndw01qwh3m6zj2vl88-onto2d-left-input",
+        "system": "aarch64-darwin"
+      },
+      "inputDrvs": {},
+      "inputSrcs": [],
+      "name": "onto2d-left-input",
+      "outputs": {
+        "out": {
+          "path": "/nix/store/c56y60qndjd55rndw01qwh3m6zj2vl88-onto2d-left-input"
+        }
+      },
+      "system": "aarch64-darwin"
+    },
+    "typeRole": "derivation"
+  },
+  {
+    "addressing": "fixed-content:flat:sha256",
+    "builderEnvironmentIdentity": "sha256:4bfb98d0b595888ec77dc0aa079a3fb41d5d9aed8aa9e2bd148cddf087cdc854",
+    "depth": 2,
+    "description": "Native Nix derivation onto2d-identical-output; the builder was not executed in this capture.",
+    "entityKind": "nix-derivation",
+    "fixtureId": "environmentBase",
+    "id": "/nix/store/ldq0bwnzwn9j81rf4splvclcas04sj5b-onto2d-identical-output.drv",
+    "inputClosureIdentity": "sha256:c1728f8ed7940b2cb387548846ac2e8441a0c29bd87783e8b3bffa35cbc9de26",
+    "name": "environmentBase",
+    "nativeIdentity": "/nix/store/ldq0bwnzwn9j81rf4splvclcas04sj5b-onto2d-identical-output.drv",
+    "phase": "native-capture",
+    "rawIdentity": "sha256:a0eb8d6f8115ed9ed8c28e2b68b84606c1f9ccd52bd6658457e98910198667c8",
+    "scientificStatus": "native-instantiated-unrealized",
+    "shortDescription": "fixed-content:flat:sha256; 1 direct inputDrv relation(s).",
+    "sourceRecord": {
+      "args": [
+        "-c",
+        "printf '%s\\n' 'Onto2D Nix identity fixture' 'same bytes, distinct derivations' > \"$out\""
+      ],
+      "builder": "/bin/sh",
+      "env": {
+        "builder": "/bin/sh",
+        "fixtureVariant": "environment-base",
+        "name": "onto2d-identical-output",
+        "normalizationProbe": "baseline",
+        "out": "/nix/store/a257mzf98qsbkp8p9wxm2l99z6gg6sdz-onto2d-identical-output",
+        "outputHash": "4a958ba7aa27996b7bee723e819f7871a02733985f2c4088c0484c061340ee45",
+        "outputHashAlgo": "sha256",
+        "outputHashMode": "flat",
+        "shared": "/nix/store/5r1mm4y5a86iqx5jr65w96qnkdpz1yj0-onto2d-shared-input",
+        "system": "aarch64-darwin"
+      },
+      "inputDrvs": {
+        "/nix/store/yd8kip6kvasbc9s681v7ba0r5j7d48x0-onto2d-shared-input.drv": {
+          "dynamicOutputs": {},
+          "outputs": [
+            "out"
+          ]
+        }
+      },
+      "inputSrcs": [],
+      "name": "onto2d-identical-output",
+      "outputs": {
+        "out": {
+          "hash": "4a958ba7aa27996b7bee723e819f7871a02733985f2c4088c0484c061340ee45",
+          "hashAlgo": "sha256",
+          "method": "flat",
+          "path": "/nix/store/a257mzf98qsbkp8p9wxm2l99z6gg6sdz-onto2d-identical-output"
+        }
+      },
+      "system": "aarch64-darwin"
+    },
+    "typeRole": "derivation"
+  },
+  {
+    "addressing": "fixed-content:flat:sha256",
+    "builderEnvironmentIdentity": "sha256:442007acc6c89838ed6b61c9f793a864fe9e36336e433ac98e9bb363a42fed69",
+    "depth": 2,
+    "description": "Native Nix derivation onto2d-identical-output; the builder was not executed in this capture.",
+    "entityKind": "nix-derivation",
+    "fixtureId": "flagshipLeft",
+    "id": "/nix/store/xpwvg6b02hq13sjbr0jf4qp2z98qj2l0-onto2d-identical-output.drv",
+    "inputClosureIdentity": "sha256:6a521d1547c24ea59e3ca0b57a4a59ca6e1976712e9f2b0fee1367c10f0a0abf",
+    "name": "flagshipLeft",
+    "nativeIdentity": "/nix/store/xpwvg6b02hq13sjbr0jf4qp2z98qj2l0-onto2d-identical-output.drv",
+    "phase": "native-capture",
+    "rawIdentity": "sha256:e8ada27fe097ae472eb070d35372eb99aec18077c68ecad0f0d8d32b603b4464",
+    "scientificStatus": "native-instantiated-unrealized",
+    "shortDescription": "fixed-content:flat:sha256; 2 direct inputDrv relation(s).",
+    "sourceRecord": {
+      "args": [
+        "-c",
+        "printf '%s\\n' 'Onto2D Nix identity fixture' 'same bytes, distinct derivations' > \"$out\""
+      ],
+      "builder": "/bin/sh",
+      "env": {
+        "builder": "/bin/sh",
+        "fixtureVariant": "flagship-left",
+        "name": "onto2d-identical-output",
+        "out": "/nix/store/a257mzf98qsbkp8p9wxm2l99z6gg6sdz-onto2d-identical-output",
+        "outputHash": "4a958ba7aa27996b7bee723e819f7871a02733985f2c4088c0484c061340ee45",
+        "outputHashAlgo": "sha256",
+        "outputHashMode": "flat",
+        "route": "/nix/store/c56y60qndjd55rndw01qwh3m6zj2vl88-onto2d-left-input",
+        "shared": "/nix/store/5r1mm4y5a86iqx5jr65w96qnkdpz1yj0-onto2d-shared-input",
+        "sourceUri": "https://mirror-a.invalid/onto2d-output.txt",
+        "system": "aarch64-darwin"
+      },
+      "inputDrvs": {
+        "/nix/store/k3gya6xkz57dcnm71784b6fcvncqg3c1-onto2d-left-input.drv": {
+          "dynamicOutputs": {},
+          "outputs": [
+            "out"
+          ]
+        },
+        "/nix/store/yd8kip6kvasbc9s681v7ba0r5j7d48x0-onto2d-shared-input.drv": {
+          "dynamicOutputs": {},
+          "outputs": [
+            "out"
+          ]
+        }
+      },
+      "inputSrcs": [],
+      "name": "onto2d-identical-output",
+      "outputs": {
+        "out": {
+          "hash": "4a958ba7aa27996b7bee723e819f7871a02733985f2c4088c0484c061340ee45",
+          "hashAlgo": "sha256",
+          "method": "flat",
+          "path": "/nix/store/a257mzf98qsbkp8p9wxm2l99z6gg6sdz-onto2d-identical-output"
+        }
+      },
+      "system": "aarch64-darwin"
+    },
+    "typeRole": "derivation"
+  },
+  {
+    "addressing": "input-addressed",
+    "builderEnvironmentIdentity": "sha256:a904019ca7b7b94e1ccbd84312ece2814e1fd85235398a2d96439ae23b6a15aa",
+    "depth": 1,
+    "description": "Native Nix derivation onto2d-shared-input; the builder was not executed in this capture.",
+    "entityKind": "nix-derivation",
+    "fixtureId": "sharedInput",
+    "id": "/nix/store/yd8kip6kvasbc9s681v7ba0r5j7d48x0-onto2d-shared-input.drv",
+    "inputClosureIdentity": "sha256:6d59c4d1d4881a84ae120d1a9cce0790a8d1075ef4cf57471154aeb59673b993",
+    "name": "sharedInput",
+    "nativeIdentity": "/nix/store/yd8kip6kvasbc9s681v7ba0r5j7d48x0-onto2d-shared-input.drv",
+    "phase": "native-capture",
+    "rawIdentity": "sha256:544292caff0a06770ebae73b2bdc8b63a41abf032e674910c007b8fe8ea5be83",
+    "scientificStatus": "native-instantiated-unrealized",
+    "shortDescription": "input-addressed; 1 direct inputDrv relation(s).",
+    "sourceRecord": {
+      "args": [
+        "-c",
+        "printf '%s\\n' shared > \"$out\""
+      ],
+      "builder": "/bin/sh",
+      "env": {
+        "builder": "/bin/sh",
+        "fixtureRole": "shared",
+        "leaf": "/nix/store/h5zfwjdxg9afcacvrw4yad39lk60s7wg-onto2d-shared-leaf",
+        "name": "onto2d-shared-input",
+        "out": "/nix/store/5r1mm4y5a86iqx5jr65w96qnkdpz1yj0-onto2d-shared-input",
+        "system": "aarch64-darwin"
+      },
+      "inputDrvs": {
+        "/nix/store/5b1gk8bc8bsf8ai3phb065ibc8s4q2m1-onto2d-shared-leaf.drv": {
+          "dynamicOutputs": {},
+          "outputs": [
+            "out"
+          ]
+        }
+      },
+      "inputSrcs": [],
+      "name": "onto2d-shared-input",
+      "outputs": {
+        "out": {
+          "path": "/nix/store/5r1mm4y5a86iqx5jr65w96qnkdpz1yj0-onto2d-shared-input"
+        }
+      },
+      "system": "aarch64-darwin"
+    },
+    "typeRole": "derivation"
+  },
+  {
+    "addressing": "input-addressed",
+    "builderEnvironmentIdentity": "sha256:33d33543a5a902d9d4853c53d3ec2bdcb340703aeeab313af8e42bb1580adda4",
+    "depth": 2,
+    "description": "Native Nix derivation onto2d-identical-output; the builder was not executed in this capture.",
+    "entityKind": "nix-derivation",
+    "fixtureId": "inputAddressed",
+    "id": "/nix/store/zdc0zxixc2wg5l0c9bw4wqv5ja34fkap-onto2d-identical-output.drv",
+    "inputClosureIdentity": "sha256:c1728f8ed7940b2cb387548846ac2e8441a0c29bd87783e8b3bffa35cbc9de26",
+    "name": "inputAddressed",
+    "nativeIdentity": "/nix/store/zdc0zxixc2wg5l0c9bw4wqv5ja34fkap-onto2d-identical-output.drv",
+    "phase": "native-capture",
+    "rawIdentity": "sha256:c3c759dfd1b7080f80910fb02f6b51d0431e0d8524a9fde93c0909240521ffe0",
+    "scientificStatus": "native-instantiated-unrealized",
+    "shortDescription": "input-addressed; 1 direct inputDrv relation(s).",
+    "sourceRecord": {
+      "args": [
+        "-c",
+        "printf '%s\\n' 'Onto2D Nix identity fixture' 'same bytes, distinct derivations' > \"$out\""
+      ],
+      "builder": "/bin/sh",
+      "env": {
+        "builder": "/bin/sh",
+        "expectedContentSha256": "4a958ba7aa27996b7bee723e819f7871a02733985f2c4088c0484c061340ee45",
+        "fixtureVariant": "input-addressed-unrealized",
+        "name": "onto2d-identical-output",
+        "out": "/nix/store/jfn98gpl6l17g9p1b8d9qib066agf3va-onto2d-identical-output",
+        "shared": "/nix/store/5r1mm4y5a86iqx5jr65w96qnkdpz1yj0-onto2d-shared-input",
+        "system": "aarch64-darwin"
+      },
+      "inputDrvs": {
+        "/nix/store/yd8kip6kvasbc9s681v7ba0r5j7d48x0-onto2d-shared-input.drv": {
+          "dynamicOutputs": {},
+          "outputs": [
+            "out"
+          ]
+        }
+      },
+      "inputSrcs": [],
+      "name": "onto2d-identical-output",
+      "outputs": {
+        "out": {
+          "path": "/nix/store/jfn98gpl6l17g9p1b8d9qib066agf3va-onto2d-identical-output"
+        }
+      },
+      "system": "aarch64-darwin"
+    },
+    "typeRole": "derivation"
+  },
+  {
+    "description": "Builder path declared by native Nix derivation records; execution is outside this capture.",
+    "entityKind": "nix-builder",
+    "id": "builder:/bin/sh",
+    "name": "/bin/sh",
+    "nativeIdentity": "/bin/sh",
+    "phase": "native-capture",
+    "scientificStatus": "declared-unexecuted",
+    "shortDescription": "Declared native builder path.",
+    "typeRole": "builder"
+  },
+  {
+    "description": "Deterministic builder-env-v1 projection over system, builder, arguments, and declared environment.",
+    "entityKind": "nix-environment-profile",
+    "id": "environment:sha256:33d33543a5a902d9d4853c53d3ec2bdcb340703aeeab313af8e42bb1580adda4",
+    "name": "sha256:33d33543a5a902d",
+    "phase": "derived-projection",
+    "profile": "builder-env-v1",
+    "projectionIdentity": "sha256:33d33543a5a902d9d4853c53d3ec2bdcb340703aeeab313af8e42bb1580adda4",
+    "scientificStatus": "deterministically-derived",
+    "shortDescription": "aarch64-darwin; 7 declared environment fields.",
+    "sourceRecord": {
+      "args": [
+        "-c",
+        "printf '%s\\n' 'Onto2D Nix identity fixture' 'same bytes, distinct derivations' > \"$out\""
+      ],
+      "builder": "/bin/sh",
+      "env": {
+        "builder": "/bin/sh",
+        "expectedContentSha256": "4a958ba7aa27996b7bee723e819f7871a02733985f2c4088c0484c061340ee45",
+        "fixtureVariant": "input-addressed-unrealized",
+        "name": "onto2d-identical-output",
+        "out": "/nix/store/jfn98gpl6l17g9p1b8d9qib066agf3va-onto2d-identical-output",
+        "shared": "/nix/store/5r1mm4y5a86iqx5jr65w96qnkdpz1yj0-onto2d-shared-input",
+        "system": "aarch64-darwin"
+      },
+      "format": "onto2d-nix-builder-environment",
+      "formatVersion": "1",
+      "identity": "sha256:33d33543a5a902d9d4853c53d3ec2bdcb340703aeeab313af8e42bb1580adda4",
+      "profile": "builder-env-v1",
+      "system": "aarch64-darwin"
+    },
+    "typeRole": "environment"
+  },
+  {
+    "description": "Deterministic builder-env-v1 projection over system, builder, arguments, and declared environment.",
+    "entityKind": "nix-environment-profile",
+    "id": "environment:sha256:442007acc6c89838ed6b61c9f793a864fe9e36336e433ac98e9bb363a42fed69",
+    "name": "sha256:442007acc6c8983",
+    "phase": "derived-projection",
+    "profile": "builder-env-v1",
+    "projectionIdentity": "sha256:442007acc6c89838ed6b61c9f793a864fe9e36336e433ac98e9bb363a42fed69",
+    "scientificStatus": "deterministically-derived",
+    "shortDescription": "aarch64-darwin; 11 declared environment fields.",
+    "sourceRecord": {
+      "args": [
+        "-c",
+        "printf '%s\\n' 'Onto2D Nix identity fixture' 'same bytes, distinct derivations' > \"$out\""
+      ],
+      "builder": "/bin/sh",
+      "env": {
+        "builder": "/bin/sh",
+        "fixtureVariant": "flagship-left",
+        "name": "onto2d-identical-output",
+        "out": "/nix/store/a257mzf98qsbkp8p9wxm2l99z6gg6sdz-onto2d-identical-output",
+        "outputHash": "4a958ba7aa27996b7bee723e819f7871a02733985f2c4088c0484c061340ee45",
+        "outputHashAlgo": "sha256",
+        "outputHashMode": "flat",
+        "route": "/nix/store/c56y60qndjd55rndw01qwh3m6zj2vl88-onto2d-left-input",
+        "shared": "/nix/store/5r1mm4y5a86iqx5jr65w96qnkdpz1yj0-onto2d-shared-input",
+        "sourceUri": "https://mirror-a.invalid/onto2d-output.txt",
+        "system": "aarch64-darwin"
+      },
+      "format": "onto2d-nix-builder-environment",
+      "formatVersion": "1",
+      "identity": "sha256:442007acc6c89838ed6b61c9f793a864fe9e36336e433ac98e9bb363a42fed69",
+      "profile": "builder-env-v1",
+      "system": "aarch64-darwin"
+    },
+    "typeRole": "environment"
+  },
+  {
+    "description": "Deterministic builder-env-v1 projection over system, builder, arguments, and declared environment.",
+    "entityKind": "nix-environment-profile",
+    "id": "environment:sha256:4bfb98d0b595888ec77dc0aa079a3fb41d5d9aed8aa9e2bd148cddf087cdc854",
+    "name": "sha256:4bfb98d0b595888",
+    "phase": "derived-projection",
+    "profile": "builder-env-v1",
+    "projectionIdentity": "sha256:4bfb98d0b595888ec77dc0aa079a3fb41d5d9aed8aa9e2bd148cddf087cdc854",
+    "scientificStatus": "deterministically-derived",
+    "shortDescription": "aarch64-darwin; 10 declared environment fields.",
+    "sourceRecord": {
+      "args": [
+        "-c",
+        "printf '%s\\n' 'Onto2D Nix identity fixture' 'same bytes, distinct derivations' > \"$out\""
+      ],
+      "builder": "/bin/sh",
+      "env": {
+        "builder": "/bin/sh",
+        "fixtureVariant": "environment-base",
+        "name": "onto2d-identical-output",
+        "normalizationProbe": "baseline",
+        "out": "/nix/store/a257mzf98qsbkp8p9wxm2l99z6gg6sdz-onto2d-identical-output",
+        "outputHash": "4a958ba7aa27996b7bee723e819f7871a02733985f2c4088c0484c061340ee45",
+        "outputHashAlgo": "sha256",
+        "outputHashMode": "flat",
+        "shared": "/nix/store/5r1mm4y5a86iqx5jr65w96qnkdpz1yj0-onto2d-shared-input",
+        "system": "aarch64-darwin"
+      },
+      "format": "onto2d-nix-builder-environment",
+      "formatVersion": "1",
+      "identity": "sha256:4bfb98d0b595888ec77dc0aa079a3fb41d5d9aed8aa9e2bd148cddf087cdc854",
+      "profile": "builder-env-v1",
+      "system": "aarch64-darwin"
+    },
+    "typeRole": "environment"
+  },
+  {
+    "description": "Deterministic builder-env-v1 projection over system, builder, arguments, and declared environment.",
+    "entityKind": "nix-environment-profile",
+    "id": "environment:sha256:4dad45df267f3414260bbfc96b1445790e4a678d95a959fbf190849bda91a6eb",
+    "name": "sha256:4dad45df267f341",
+    "phase": "derived-projection",
+    "profile": "builder-env-v1",
+    "projectionIdentity": "sha256:4dad45df267f3414260bbfc96b1445790e4a678d95a959fbf190849bda91a6eb",
+    "scientificStatus": "deterministically-derived",
+    "shortDescription": "aarch64-darwin; 11 declared environment fields.",
+    "sourceRecord": {
+      "args": [
+        "-c",
+        "printf '%s\\n' 'Onto2D Nix identity fixture' 'same bytes, distinct derivations' > \"$out\""
+      ],
+      "builder": "/bin/sh",
+      "env": {
+        "builder": "/bin/sh",
+        "fixtureVariant": "flagship-right",
+        "name": "onto2d-identical-output",
+        "out": "/nix/store/a257mzf98qsbkp8p9wxm2l99z6gg6sdz-onto2d-identical-output",
+        "outputHash": "4a958ba7aa27996b7bee723e819f7871a02733985f2c4088c0484c061340ee45",
+        "outputHashAlgo": "sha256",
+        "outputHashMode": "flat",
+        "route": "/nix/store/fajgcnb27rg4lpian2sh5b3fa8x3jsic-onto2d-right-input",
+        "shared": "/nix/store/5r1mm4y5a86iqx5jr65w96qnkdpz1yj0-onto2d-shared-input",
+        "sourceUri": "https://mirror-b.invalid/onto2d-output.txt",
+        "system": "aarch64-darwin"
+      },
+      "format": "onto2d-nix-builder-environment",
+      "formatVersion": "1",
+      "identity": "sha256:4dad45df267f3414260bbfc96b1445790e4a678d95a959fbf190849bda91a6eb",
+      "profile": "builder-env-v1",
+      "system": "aarch64-darwin"
+    },
+    "typeRole": "environment"
+  },
+  {
+    "description": "Deterministic builder-env-v1 projection over system, builder, arguments, and declared environment.",
+    "entityKind": "nix-environment-profile",
+    "id": "environment:sha256:a904019ca7b7b94e1ccbd84312ece2814e1fd85235398a2d96439ae23b6a15aa",
+    "name": "sha256:a904019ca7b7b94",
+    "phase": "derived-projection",
+    "profile": "builder-env-v1",
+    "projectionIdentity": "sha256:a904019ca7b7b94e1ccbd84312ece2814e1fd85235398a2d96439ae23b6a15aa",
+    "scientificStatus": "deterministically-derived",
+    "shortDescription": "aarch64-darwin; 6 declared environment fields.",
+    "sourceRecord": {
+      "args": [
+        "-c",
+        "printf '%s\\n' shared > \"$out\""
+      ],
+      "builder": "/bin/sh",
+      "env": {
+        "builder": "/bin/sh",
+        "fixtureRole": "shared",
+        "leaf": "/nix/store/h5zfwjdxg9afcacvrw4yad39lk60s7wg-onto2d-shared-leaf",
+        "name": "onto2d-shared-input",
+        "out": "/nix/store/5r1mm4y5a86iqx5jr65w96qnkdpz1yj0-onto2d-shared-input",
+        "system": "aarch64-darwin"
+      },
+      "format": "onto2d-nix-builder-environment",
+      "formatVersion": "1",
+      "identity": "sha256:a904019ca7b7b94e1ccbd84312ece2814e1fd85235398a2d96439ae23b6a15aa",
+      "profile": "builder-env-v1",
+      "system": "aarch64-darwin"
+    },
+    "typeRole": "environment"
+  },
+  {
+    "description": "Deterministic builder-env-v1 projection over system, builder, arguments, and declared environment.",
+    "entityKind": "nix-environment-profile",
+    "id": "environment:sha256:b6a91dd46b241a53506a0562ba67b38150664d1f1d2d57de6c734b96b3dfd19d",
+    "name": "sha256:b6a91dd46b241a5",
+    "phase": "derived-projection",
+    "profile": "builder-env-v1",
+    "projectionIdentity": "sha256:b6a91dd46b241a53506a0562ba67b38150664d1f1d2d57de6c734b96b3dfd19d",
+    "scientificStatus": "deterministically-derived",
+    "shortDescription": "aarch64-darwin; 5 declared environment fields.",
+    "sourceRecord": {
+      "args": [
+        "-c",
+        "printf '%s\\n' right-only > \"$out\""
+      ],
+      "builder": "/bin/sh",
+      "env": {
+        "builder": "/bin/sh",
+        "fixtureRole": "right-only",
+        "name": "onto2d-right-input",
+        "out": "/nix/store/fajgcnb27rg4lpian2sh5b3fa8x3jsic-onto2d-right-input",
+        "system": "aarch64-darwin"
+      },
+      "format": "onto2d-nix-builder-environment",
+      "formatVersion": "1",
+      "identity": "sha256:b6a91dd46b241a53506a0562ba67b38150664d1f1d2d57de6c734b96b3dfd19d",
+      "profile": "builder-env-v1",
+      "system": "aarch64-darwin"
+    },
+    "typeRole": "environment"
+  },
+  {
+    "description": "Deterministic builder-env-v1 projection over system, builder, arguments, and declared environment.",
+    "entityKind": "nix-environment-profile",
+    "id": "environment:sha256:ce1ff0adff0000268f426710112093a9db557501b3e7de315b9f11b814cbb8df",
+    "name": "sha256:ce1ff0adff00002",
+    "phase": "derived-projection",
+    "profile": "builder-env-v1",
+    "projectionIdentity": "sha256:ce1ff0adff0000268f426710112093a9db557501b3e7de315b9f11b814cbb8df",
+    "scientificStatus": "deterministically-derived",
+    "shortDescription": "aarch64-darwin; 5 declared environment fields.",
+    "sourceRecord": {
+      "args": [
+        "-c",
+        "printf '%s\\n' left-only > \"$out\""
+      ],
+      "builder": "/bin/sh",
+      "env": {
+        "builder": "/bin/sh",
+        "fixtureRole": "left-only",
+        "name": "onto2d-left-input",
+        "out": "/nix/store/c56y60qndjd55rndw01qwh3m6zj2vl88-onto2d-left-input",
+        "system": "aarch64-darwin"
+      },
+      "format": "onto2d-nix-builder-environment",
+      "formatVersion": "1",
+      "identity": "sha256:ce1ff0adff0000268f426710112093a9db557501b3e7de315b9f11b814cbb8df",
+      "profile": "builder-env-v1",
+      "system": "aarch64-darwin"
+    },
+    "typeRole": "environment"
+  },
+  {
+    "description": "Deterministic builder-env-v1 projection over system, builder, arguments, and declared environment.",
+    "entityKind": "nix-environment-profile",
+    "id": "environment:sha256:d8f9d6d1ae70a7cd857c3b142ef60305ffedd74981588871732270d34a89111e",
+    "name": "sha256:d8f9d6d1ae70a7c",
+    "phase": "derived-projection",
+    "profile": "builder-env-v1",
+    "projectionIdentity": "sha256:d8f9d6d1ae70a7cd857c3b142ef60305ffedd74981588871732270d34a89111e",
+    "scientificStatus": "deterministically-derived",
+    "shortDescription": "aarch64-darwin; 5 declared environment fields.",
+    "sourceRecord": {
+      "args": [
+        "-c",
+        "printf '%s\\n' shared-leaf > \"$out\""
+      ],
+      "builder": "/bin/sh",
+      "env": {
+        "builder": "/bin/sh",
+        "fixtureRole": "shared-leaf",
+        "name": "onto2d-shared-leaf",
+        "out": "/nix/store/h5zfwjdxg9afcacvrw4yad39lk60s7wg-onto2d-shared-leaf",
+        "system": "aarch64-darwin"
+      },
+      "format": "onto2d-nix-builder-environment",
+      "formatVersion": "1",
+      "identity": "sha256:d8f9d6d1ae70a7cd857c3b142ef60305ffedd74981588871732270d34a89111e",
+      "profile": "builder-env-v1",
+      "system": "aarch64-darwin"
+    },
+    "typeRole": "environment"
+  },
+  {
+    "description": "Deterministic builder-env-v1 projection over system, builder, arguments, and declared environment.",
+    "entityKind": "nix-environment-profile",
+    "id": "environment:sha256:f5749e6b719f285bc271a4548a72029f0254ab68b7591826a50f2fa0bf95a2f0",
+    "name": "sha256:f5749e6b719f285",
+    "phase": "derived-projection",
+    "profile": "builder-env-v1",
+    "projectionIdentity": "sha256:f5749e6b719f285bc271a4548a72029f0254ab68b7591826a50f2fa0bf95a2f0",
+    "scientificStatus": "deterministically-derived",
+    "shortDescription": "aarch64-darwin; 10 declared environment fields.",
+    "sourceRecord": {
+      "args": [
+        "-c",
+        "printf '%s\\n' 'Onto2D Nix identity fixture' 'same bytes, distinct derivations' > \"$out\""
+      ],
+      "builder": "/bin/sh",
+      "env": {
+        "builder": "/bin/sh",
+        "fixtureVariant": "environment-mutated",
+        "name": "onto2d-identical-output",
+        "normalizationProbe": "mutated",
+        "out": "/nix/store/a257mzf98qsbkp8p9wxm2l99z6gg6sdz-onto2d-identical-output",
+        "outputHash": "4a958ba7aa27996b7bee723e819f7871a02733985f2c4088c0484c061340ee45",
+        "outputHashAlgo": "sha256",
+        "outputHashMode": "flat",
+        "shared": "/nix/store/5r1mm4y5a86iqx5jr65w96qnkdpz1yj0-onto2d-shared-input",
+        "system": "aarch64-darwin"
+      },
+      "format": "onto2d-nix-builder-environment",
+      "formatVersion": "1",
+      "identity": "sha256:f5749e6b719f285bc271a4548a72029f0254ab68b7591826a50f2fa0bf95a2f0",
+      "profile": "builder-env-v1",
+      "system": "aarch64-darwin"
+    },
+    "typeRole": "environment"
+  }
+]

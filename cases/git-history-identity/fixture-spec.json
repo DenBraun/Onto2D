@@ -1,0 +1,115 @@
+{
+  "format": "onto2d-git-history-fixture-spec",
+  "formatVersion": "1",
+  "caseVersion": "git-history-identity-v1",
+  "objectFormat": "sha1",
+  "actors": [
+    {
+      "id": "fixture-default",
+      "name": "Onto2D Fixture",
+      "email": "fixture@onto2d.invalid"
+    },
+    {
+      "id": "metadata-variant",
+      "name": "Onto2D Metadata Variant",
+      "email": "variant@onto2d.invalid"
+    }
+  ],
+  "blobs": [
+    { "id": "readme", "content": "# Git History Identity Fixture\n" },
+    { "id": "route-a", "content": "route A intermediate\n" },
+    { "id": "route-b", "content": "route B intermediate\n" },
+    { "id": "route-c", "content": "route C second intermediate\n" },
+    { "id": "converged", "content": "same final state\n" },
+    { "id": "merge-left", "content": "left branch\n" },
+    { "id": "merge-right", "content": "right branch\n" }
+  ],
+  "trees": [
+    {
+      "id": "base",
+      "entries": [
+        { "mode": "100644", "path": "README.md", "blob": "readme" }
+      ]
+    },
+    {
+      "id": "route-a",
+      "entries": [
+        { "mode": "100644", "path": "README.md", "blob": "readme" },
+        { "mode": "100644", "path": "state.txt", "blob": "route-a" }
+      ]
+    },
+    {
+      "id": "route-b",
+      "entries": [
+        { "mode": "100644", "path": "README.md", "blob": "readme" },
+        { "mode": "100644", "path": "state.txt", "blob": "route-b" }
+      ]
+    },
+    {
+      "id": "route-c",
+      "entries": [
+        { "mode": "100644", "path": "README.md", "blob": "readme" },
+        { "mode": "100644", "path": "state.txt", "blob": "route-c" }
+      ]
+    },
+    {
+      "id": "converged",
+      "entries": [
+        { "mode": "100644", "path": "README.md", "blob": "readme" },
+        { "mode": "100644", "path": "state.txt", "blob": "converged" }
+      ]
+    },
+    {
+      "id": "merge-left",
+      "entries": [
+        { "mode": "100644", "path": "README.md", "blob": "readme" },
+        { "mode": "100644", "path": "left.txt", "blob": "merge-left" }
+      ]
+    },
+    {
+      "id": "merge-right",
+      "entries": [
+        { "mode": "100644", "path": "README.md", "blob": "readme" },
+        { "mode": "100644", "path": "right.txt", "blob": "merge-right" }
+      ]
+    },
+    {
+      "id": "merge-final",
+      "entries": [
+        { "mode": "100644", "path": "README.md", "blob": "readme" },
+        { "mode": "100644", "path": "left.txt", "blob": "merge-left" },
+        { "mode": "100644", "path": "right.txt", "blob": "merge-right" }
+      ]
+    }
+  ],
+  "commits": [
+    { "id": "A0", "tree": "base", "parents": [], "actor": "fixture-default", "timestamp": 946684800, "message": "history A root" },
+    { "id": "A1", "tree": "route-a", "parents": ["A0"], "actor": "fixture-default", "timestamp": 946684860, "message": "history A intermediate" },
+    { "id": "A2", "tree": "converged", "parents": ["A1"], "actor": "fixture-default", "timestamp": 946684920, "message": "history A converges" },
+    { "id": "B0", "tree": "base", "parents": [], "actor": "fixture-default", "timestamp": 946685000, "message": "history B root" },
+    { "id": "B1", "tree": "route-b", "parents": ["B0"], "actor": "fixture-default", "timestamp": 946685060, "message": "history B intermediate" },
+    { "id": "B2", "tree": "converged", "parents": ["B1"], "actor": "fixture-default", "timestamp": 946685120, "message": "history B converges" },
+    { "id": "C1", "tree": "route-b", "parents": ["A0"], "actor": "fixture-default", "timestamp": 946685200, "message": "history C first intermediate" },
+    { "id": "C2", "tree": "route-c", "parents": ["C1"], "actor": "fixture-default", "timestamp": 946685260, "message": "history C second intermediate" },
+    { "id": "C3", "tree": "converged", "parents": ["C2"], "actor": "fixture-default", "timestamp": 946685320, "message": "history C converges" },
+    { "id": "M1L", "tree": "merge-left", "parents": ["A0"], "actor": "fixture-default", "timestamp": 946685400, "message": "left branch" },
+    { "id": "M1R", "tree": "merge-right", "parents": ["A0"], "actor": "fixture-default", "timestamp": 946685460, "message": "right branch" },
+    { "id": "M2", "tree": "merge-final", "parents": ["M1L", "M1R"], "actor": "fixture-default", "timestamp": 946685520, "message": "merge topology final" },
+    { "id": "L2", "tree": "merge-final", "parents": ["M1L"], "actor": "fixture-default", "timestamp": 946685580, "message": "linear topology final" },
+    { "id": "A2M", "tree": "converged", "parents": ["A1"], "actor": "metadata-variant", "timestamp": 946684920, "message": "history A converges" }
+  ],
+  "histories": [
+    { "id": "history-a", "label": "History A", "head": "A2" },
+    { "id": "history-b", "label": "History B", "head": "B2" },
+    { "id": "history-c", "label": "Longer History C", "head": "C3" },
+    { "id": "history-merge", "label": "Merge history", "head": "M2" },
+    { "id": "history-linear", "label": "Linearized history", "head": "L2" },
+    { "id": "history-metadata", "label": "Metadata variant", "head": "A2M" }
+  ],
+  "experiments": [
+    { "id": "same-tree-different-ancestry", "label": "Same tree, different ancestry", "left": "history-a", "right": "history-b", "claim": "Independent histories converge to one exact Git tree." },
+    { "id": "different-intermediate-length", "label": "Different intermediates and length", "left": "history-a", "right": "history-c", "claim": "A longer route converges to the same exact Git tree." },
+    { "id": "merge-vs-linear", "label": "Merge topology vs linear", "left": "history-merge", "right": "history-linear", "claim": "A merge DAG and a linear history converge to one exact Git tree." },
+    { "id": "metadata-only", "label": "Metadata-only commit change", "left": "history-a", "right": "history-metadata", "claim": "Commit metadata changes identity without changing tree or parent closure." }
+  ]
+}

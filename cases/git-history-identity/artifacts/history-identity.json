@@ -1,0 +1,747 @@
+{
+  "format": "onto2d-git-history-identity-case",
+  "formatVersion": "1",
+  "caseVersion": "git-history-identity-v1",
+  "generatedBy": "cases/git-history-identity/build-fixture.mjs",
+  "source": {
+    "fixture": "cases/git-history-identity/fixture-spec.json",
+    "fixtureBytes": 5839,
+    "fixtureSha256": "sha256:1672ca03384d310f0ebc5cbfed89c4c3c504dccd8e82ab0fc6479daca1c791cf",
+    "sourceIdentity": "sha256:be0a0314782369aa0f2b4e7b01675488caf26a9ad5aefe39a2a9109516eea61d"
+  },
+  "git": {
+    "objectFormat": "sha1",
+    "objectIdentityVerifiedIndependently": true,
+    "environmentFieldsInIdentity": [
+      "tree",
+      "parents",
+      "author",
+      "committer",
+      "timestamp",
+      "timezone",
+      "message"
+    ]
+  },
+  "regimes": [
+    {
+      "id": "tree",
+      "label": "Tree identity",
+      "compares": "Native Git tree object ID"
+    },
+    {
+      "id": "commit",
+      "label": "Commit identity",
+      "compares": "Native Git commit object ID"
+    },
+    {
+      "id": "ancestry",
+      "label": "Ancestry identity",
+      "compares": "Exact parent closure and topology below the selected head"
+    },
+    {
+      "id": "history-class",
+      "label": "History equivalence",
+      "compares": "Final tree under tree-state-v1 equivalence"
+    }
+  ],
+  "objects": {
+    "blobs": [
+      {
+        "fixtureId": "readme",
+        "oid": "0f010b71e0be284760f1b9d735a6e6077ffee6d9",
+        "bytes": 31,
+        "contentSha256": "sha256:34255938bfb8e6bdb91e991d6698d384e161a04ece98e96be232fc369f857a73",
+        "contentUtf8": "# Git History Identity Fixture\n"
+      },
+      {
+        "fixtureId": "route-a",
+        "oid": "8d4fa153a4340ed596b7b6d8d9b4c7b08f9ad624",
+        "bytes": 21,
+        "contentSha256": "sha256:62b955057c800c8fa45836835828cfd9efd3db47a8368c6a19130cf0176455a8",
+        "contentUtf8": "route A intermediate\n"
+      },
+      {
+        "fixtureId": "route-b",
+        "oid": "6c6fce089365ec3c15b4f6d8e3a78d2503bbeb38",
+        "bytes": 21,
+        "contentSha256": "sha256:fcdad85273cc411b1f446769332302ffd1000d2e3ddf11ff04857a0005985b2e",
+        "contentUtf8": "route B intermediate\n"
+      },
+      {
+        "fixtureId": "route-c",
+        "oid": "bf03147ea54ad68fb0bbe53084874227f42a7146",
+        "bytes": 28,
+        "contentSha256": "sha256:020855ef62eb8da6ee68b514e7ced7343fc5d3351ccee816e39a878aac83ff25",
+        "contentUtf8": "route C second intermediate\n"
+      },
+      {
+        "fixtureId": "converged",
+        "oid": "dfbecf2dae140b0ca2c37528bfb2aa9e9557447f",
+        "bytes": 17,
+        "contentSha256": "sha256:8aa6623a83ad879635bed8eae9fc167ce6acc3825a2bc9f6bbcce03610e99b7a",
+        "contentUtf8": "same final state\n"
+      },
+      {
+        "fixtureId": "merge-left",
+        "oid": "c07ceabf23bc3de64fcf718a9ff33e50c38427a8",
+        "bytes": 12,
+        "contentSha256": "sha256:6053af3e3a10e6bae4e7fc9c76ffabceaee467d5ed0c49982a298b77f59a556b",
+        "contentUtf8": "left branch\n"
+      },
+      {
+        "fixtureId": "merge-right",
+        "oid": "2d7bd5d6efa5d1396aa1a5cb2364ef5eee89b172",
+        "bytes": 13,
+        "contentSha256": "sha256:5867956ac5ae269809e126ee3a6d45e96291d2072d47a669b7f7f0615383b0fc",
+        "contentUtf8": "right branch\n"
+      }
+    ],
+    "trees": [
+      {
+        "fixtureId": "base",
+        "oid": "1dfe15c87eb86ebb21fdc73472305aee08942aa4",
+        "rawSha256": "sha256:8868807e3e8b6d00fd9c7a32ae048337830b0400a93c239b1b11de04c8c07c22",
+        "entries": [
+          {
+            "mode": "100644",
+            "path": "README.md",
+            "blobFixtureId": "readme",
+            "oid": "0f010b71e0be284760f1b9d735a6e6077ffee6d9"
+          }
+        ]
+      },
+      {
+        "fixtureId": "route-a",
+        "oid": "a6ec4323b20d63fe3d3402f34d45c29967a645f5",
+        "rawSha256": "sha256:ffa7fd10a3d938aaa011ff780fdede44fb77a7093a7c633d5facdb9089142011",
+        "entries": [
+          {
+            "mode": "100644",
+            "path": "README.md",
+            "blobFixtureId": "readme",
+            "oid": "0f010b71e0be284760f1b9d735a6e6077ffee6d9"
+          },
+          {
+            "mode": "100644",
+            "path": "state.txt",
+            "blobFixtureId": "route-a",
+            "oid": "8d4fa153a4340ed596b7b6d8d9b4c7b08f9ad624"
+          }
+        ]
+      },
+      {
+        "fixtureId": "route-b",
+        "oid": "1b2a075278250856fb7540f65f5350b8a513c33d",
+        "rawSha256": "sha256:c6a8ac07b89e913e8fa6846ff771c52606edacbccab3396bc9280605793ee346",
+        "entries": [
+          {
+            "mode": "100644",
+            "path": "README.md",
+            "blobFixtureId": "readme",
+            "oid": "0f010b71e0be284760f1b9d735a6e6077ffee6d9"
+          },
+          {
+            "mode": "100644",
+            "path": "state.txt",
+            "blobFixtureId": "route-b",
+            "oid": "6c6fce089365ec3c15b4f6d8e3a78d2503bbeb38"
+          }
+        ]
+      },
+      {
+        "fixtureId": "route-c",
+        "oid": "82b2efd9922c7e9718168f94d39a8cf133f67e6d",
+        "rawSha256": "sha256:e8a478cc93729397d4c3c0e4e54c0822505ebb5b1239c6290b19a98b3db1f961",
+        "entries": [
+          {
+            "mode": "100644",
+            "path": "README.md",
+            "blobFixtureId": "readme",
+            "oid": "0f010b71e0be284760f1b9d735a6e6077ffee6d9"
+          },
+          {
+            "mode": "100644",
+            "path": "state.txt",
+            "blobFixtureId": "route-c",
+            "oid": "bf03147ea54ad68fb0bbe53084874227f42a7146"
+          }
+        ]
+      },
+      {
+        "fixtureId": "converged",
+        "oid": "b15c9eed95984c6a5585bd251d095c9c1d7ffa83",
+        "rawSha256": "sha256:13c6cb324e22f727e17c887093d7917962a23da87e743f8dfb0089d235f9a487",
+        "entries": [
+          {
+            "mode": "100644",
+            "path": "README.md",
+            "blobFixtureId": "readme",
+            "oid": "0f010b71e0be284760f1b9d735a6e6077ffee6d9"
+          },
+          {
+            "mode": "100644",
+            "path": "state.txt",
+            "blobFixtureId": "converged",
+            "oid": "dfbecf2dae140b0ca2c37528bfb2aa9e9557447f"
+          }
+        ]
+      },
+      {
+        "fixtureId": "merge-left",
+        "oid": "2f22bdfa5b0678a835141233ec2a5d7f9efbb524",
+        "rawSha256": "sha256:c3f9035f50719d4a8bbafb294b58577102490008c73a29b2b77d2cf4cbeb6a6c",
+        "entries": [
+          {
+            "mode": "100644",
+            "path": "README.md",
+            "blobFixtureId": "readme",
+            "oid": "0f010b71e0be284760f1b9d735a6e6077ffee6d9"
+          },
+          {
+            "mode": "100644",
+            "path": "left.txt",
+            "blobFixtureId": "merge-left",
+            "oid": "c07ceabf23bc3de64fcf718a9ff33e50c38427a8"
+          }
+        ]
+      },
+      {
+        "fixtureId": "merge-right",
+        "oid": "161b4d0fedb94d30521cc8b4596ad5f1b00a4e13",
+        "rawSha256": "sha256:2fb085e6e953e44c9390a1a9d43cc4d15912472beea2ad4ccee29b82aeccade6",
+        "entries": [
+          {
+            "mode": "100644",
+            "path": "README.md",
+            "blobFixtureId": "readme",
+            "oid": "0f010b71e0be284760f1b9d735a6e6077ffee6d9"
+          },
+          {
+            "mode": "100644",
+            "path": "right.txt",
+            "blobFixtureId": "merge-right",
+            "oid": "2d7bd5d6efa5d1396aa1a5cb2364ef5eee89b172"
+          }
+        ]
+      },
+      {
+        "fixtureId": "merge-final",
+        "oid": "0f0cb666af7c990d771e360cee654d14c1602495",
+        "rawSha256": "sha256:659888b3f099cb507db4abe26df542b5dab07e753bc7d992453526ac083a61b2",
+        "entries": [
+          {
+            "mode": "100644",
+            "path": "README.md",
+            "blobFixtureId": "readme",
+            "oid": "0f010b71e0be284760f1b9d735a6e6077ffee6d9"
+          },
+          {
+            "mode": "100644",
+            "path": "left.txt",
+            "blobFixtureId": "merge-left",
+            "oid": "c07ceabf23bc3de64fcf718a9ff33e50c38427a8"
+          },
+          {
+            "mode": "100644",
+            "path": "right.txt",
+            "blobFixtureId": "merge-right",
+            "oid": "2d7bd5d6efa5d1396aa1a5cb2364ef5eee89b172"
+          }
+        ]
+      }
+    ],
+    "commits": [
+      {
+        "fixtureId": "A0",
+        "oid": "a97c3b6c4cf2eb42ed931917446b0dcf61afbc8d",
+        "treeFixtureId": "base",
+        "tree": "1dfe15c87eb86ebb21fdc73472305aee08942aa4",
+        "parents": [],
+        "parentOids": [],
+        "actor": {
+          "id": "fixture-default",
+          "name": "Onto2D Fixture",
+          "email": "fixture@onto2d.invalid"
+        },
+        "timestamp": 946684800,
+        "timezone": "+0000",
+        "message": "history A root",
+        "rawSha256": "sha256:75d20e72846d2e9e406f8a9752ad7273a183cb6e824b18822d07fb27ffc86560"
+      },
+      {
+        "fixtureId": "A1",
+        "oid": "b970c7437b945bb9af6f0569b09f562f282b5f31",
+        "treeFixtureId": "route-a",
+        "tree": "a6ec4323b20d63fe3d3402f34d45c29967a645f5",
+        "parents": [
+          "A0"
+        ],
+        "parentOids": [
+          "a97c3b6c4cf2eb42ed931917446b0dcf61afbc8d"
+        ],
+        "actor": {
+          "id": "fixture-default",
+          "name": "Onto2D Fixture",
+          "email": "fixture@onto2d.invalid"
+        },
+        "timestamp": 946684860,
+        "timezone": "+0000",
+        "message": "history A intermediate",
+        "rawSha256": "sha256:994c6bade0a75fa9fe2580391cc7e0b436cbd4422678f972542557e03e55a19a"
+      },
+      {
+        "fixtureId": "A2",
+        "oid": "a823bf15716c09ab8d47cbbc55012ed90a97052a",
+        "treeFixtureId": "converged",
+        "tree": "b15c9eed95984c6a5585bd251d095c9c1d7ffa83",
+        "parents": [
+          "A1"
+        ],
+        "parentOids": [
+          "b970c7437b945bb9af6f0569b09f562f282b5f31"
+        ],
+        "actor": {
+          "id": "fixture-default",
+          "name": "Onto2D Fixture",
+          "email": "fixture@onto2d.invalid"
+        },
+        "timestamp": 946684920,
+        "timezone": "+0000",
+        "message": "history A converges",
+        "rawSha256": "sha256:21f8518f72ed9833a97c3f719db8222f3a5dbd28996bc1aa5f4e355945adb5fd"
+      },
+      {
+        "fixtureId": "B0",
+        "oid": "15195716cfbd2d27aeaa9fdfa6b960627cde9036",
+        "treeFixtureId": "base",
+        "tree": "1dfe15c87eb86ebb21fdc73472305aee08942aa4",
+        "parents": [],
+        "parentOids": [],
+        "actor": {
+          "id": "fixture-default",
+          "name": "Onto2D Fixture",
+          "email": "fixture@onto2d.invalid"
+        },
+        "timestamp": 946685000,
+        "timezone": "+0000",
+        "message": "history B root",
+        "rawSha256": "sha256:2e826e44546c719ba50556b0f57989dc3a8d4947158149a5c78f815a26f30c21"
+      },
+      {
+        "fixtureId": "B1",
+        "oid": "01bb1af009bf8b0259a17b12e28ea0369c3bfdd3",
+        "treeFixtureId": "route-b",
+        "tree": "1b2a075278250856fb7540f65f5350b8a513c33d",
+        "parents": [
+          "B0"
+        ],
+        "parentOids": [
+          "15195716cfbd2d27aeaa9fdfa6b960627cde9036"
+        ],
+        "actor": {
+          "id": "fixture-default",
+          "name": "Onto2D Fixture",
+          "email": "fixture@onto2d.invalid"
+        },
+        "timestamp": 946685060,
+        "timezone": "+0000",
+        "message": "history B intermediate",
+        "rawSha256": "sha256:c1b6d3b284a919393902b062d71974d2c08b188a5dd20f8c660206088218e3b3"
+      },
+      {
+        "fixtureId": "B2",
+        "oid": "f5db40b4d645cf1fdab734dba074aae62fca5144",
+        "treeFixtureId": "converged",
+        "tree": "b15c9eed95984c6a5585bd251d095c9c1d7ffa83",
+        "parents": [
+          "B1"
+        ],
+        "parentOids": [
+          "01bb1af009bf8b0259a17b12e28ea0369c3bfdd3"
+        ],
+        "actor": {
+          "id": "fixture-default",
+          "name": "Onto2D Fixture",
+          "email": "fixture@onto2d.invalid"
+        },
+        "timestamp": 946685120,
+        "timezone": "+0000",
+        "message": "history B converges",
+        "rawSha256": "sha256:5633269e906f76d63519db8ab50bb774e957ad37800cf358f9aaf768941f9540"
+      },
+      {
+        "fixtureId": "C1",
+        "oid": "9f050f8023667f8f4b7e6c017811ee0bceae9a39",
+        "treeFixtureId": "route-b",
+        "tree": "1b2a075278250856fb7540f65f5350b8a513c33d",
+        "parents": [
+          "A0"
+        ],
+        "parentOids": [
+          "a97c3b6c4cf2eb42ed931917446b0dcf61afbc8d"
+        ],
+        "actor": {
+          "id": "fixture-default",
+          "name": "Onto2D Fixture",
+          "email": "fixture@onto2d.invalid"
+        },
+        "timestamp": 946685200,
+        "timezone": "+0000",
+        "message": "history C first intermediate",
+        "rawSha256": "sha256:23934771de95c96b750a2fd5313e1628117a0bdee816e70f0ecad93368f354c3"
+      },
+      {
+        "fixtureId": "C2",
+        "oid": "096ff95f00916c4d3262d202441d482d9a249bae",
+        "treeFixtureId": "route-c",
+        "tree": "82b2efd9922c7e9718168f94d39a8cf133f67e6d",
+        "parents": [
+          "C1"
+        ],
+        "parentOids": [
+          "9f050f8023667f8f4b7e6c017811ee0bceae9a39"
+        ],
+        "actor": {
+          "id": "fixture-default",
+          "name": "Onto2D Fixture",
+          "email": "fixture@onto2d.invalid"
+        },
+        "timestamp": 946685260,
+        "timezone": "+0000",
+        "message": "history C second intermediate",
+        "rawSha256": "sha256:82c5c56e918d34d95394439de57878ebb0e8a3074de2bc485869947b88fb42d7"
+      },
+      {
+        "fixtureId": "C3",
+        "oid": "e2ebbaa0855843f780f2d988a5d7a9bb5e7e98a1",
+        "treeFixtureId": "converged",
+        "tree": "b15c9eed95984c6a5585bd251d095c9c1d7ffa83",
+        "parents": [
+          "C2"
+        ],
+        "parentOids": [
+          "096ff95f00916c4d3262d202441d482d9a249bae"
+        ],
+        "actor": {
+          "id": "fixture-default",
+          "name": "Onto2D Fixture",
+          "email": "fixture@onto2d.invalid"
+        },
+        "timestamp": 946685320,
+        "timezone": "+0000",
+        "message": "history C converges",
+        "rawSha256": "sha256:846c2c883bef6f88d09af062e1b87934f0e2f1e49e407ae41079122ec295aebe"
+      },
+      {
+        "fixtureId": "M1L",
+        "oid": "d6b34a38665ef7fcbd80c58cbbe95f1aa9f45f28",
+        "treeFixtureId": "merge-left",
+        "tree": "2f22bdfa5b0678a835141233ec2a5d7f9efbb524",
+        "parents": [
+          "A0"
+        ],
+        "parentOids": [
+          "a97c3b6c4cf2eb42ed931917446b0dcf61afbc8d"
+        ],
+        "actor": {
+          "id": "fixture-default",
+          "name": "Onto2D Fixture",
+          "email": "fixture@onto2d.invalid"
+        },
+        "timestamp": 946685400,
+        "timezone": "+0000",
+        "message": "left branch",
+        "rawSha256": "sha256:7c0f66fefa509cb25d263ef150ad70281aa01c0b6e0c3d1ea6dbbed9120bab31"
+      },
+      {
+        "fixtureId": "M1R",
+        "oid": "59347e74b816dfe9ec6ce1d18f42d840b08e7e97",
+        "treeFixtureId": "merge-right",
+        "tree": "161b4d0fedb94d30521cc8b4596ad5f1b00a4e13",
+        "parents": [
+          "A0"
+        ],
+        "parentOids": [
+          "a97c3b6c4cf2eb42ed931917446b0dcf61afbc8d"
+        ],
+        "actor": {
+          "id": "fixture-default",
+          "name": "Onto2D Fixture",
+          "email": "fixture@onto2d.invalid"
+        },
+        "timestamp": 946685460,
+        "timezone": "+0000",
+        "message": "right branch",
+        "rawSha256": "sha256:ef826e3db6eef06373ad9de09cc5dcdac2006fbe54bfe327f9c8213031748efd"
+      },
+      {
+        "fixtureId": "M2",
+        "oid": "1d58c9e340d4d401845480cde669b77b2f6f3105",
+        "treeFixtureId": "merge-final",
+        "tree": "0f0cb666af7c990d771e360cee654d14c1602495",
+        "parents": [
+          "M1L",
+          "M1R"
+        ],
+        "parentOids": [
+          "d6b34a38665ef7fcbd80c58cbbe95f1aa9f45f28",
+          "59347e74b816dfe9ec6ce1d18f42d840b08e7e97"
+        ],
+        "actor": {
+          "id": "fixture-default",
+          "name": "Onto2D Fixture",
+          "email": "fixture@onto2d.invalid"
+        },
+        "timestamp": 946685520,
+        "timezone": "+0000",
+        "message": "merge topology final",
+        "rawSha256": "sha256:776fe4c08d7c2a2c31c374bd9efab34c0e1639d40fdab6db775935002e15d78a"
+      },
+      {
+        "fixtureId": "L2",
+        "oid": "f96e2827bc26feca72087e7eb03c6c98b571af5c",
+        "treeFixtureId": "merge-final",
+        "tree": "0f0cb666af7c990d771e360cee654d14c1602495",
+        "parents": [
+          "M1L"
+        ],
+        "parentOids": [
+          "d6b34a38665ef7fcbd80c58cbbe95f1aa9f45f28"
+        ],
+        "actor": {
+          "id": "fixture-default",
+          "name": "Onto2D Fixture",
+          "email": "fixture@onto2d.invalid"
+        },
+        "timestamp": 946685580,
+        "timezone": "+0000",
+        "message": "linear topology final",
+        "rawSha256": "sha256:f26fa9accd48ba2685eb4ea7674143fb0cf195c9f4c61f644b6b55951fd29882"
+      },
+      {
+        "fixtureId": "A2M",
+        "oid": "4335a7e223160cfb050ad246b8487d48ca3cfb15",
+        "treeFixtureId": "converged",
+        "tree": "b15c9eed95984c6a5585bd251d095c9c1d7ffa83",
+        "parents": [
+          "A1"
+        ],
+        "parentOids": [
+          "b970c7437b945bb9af6f0569b09f562f282b5f31"
+        ],
+        "actor": {
+          "id": "metadata-variant",
+          "name": "Onto2D Metadata Variant",
+          "email": "variant@onto2d.invalid"
+        },
+        "timestamp": 946684920,
+        "timezone": "+0000",
+        "message": "history A converges",
+        "rawSha256": "sha256:cbbe649118277734cc5a71435e4c1b6641167d44b7494e4b15d3cf25523dc9fe"
+      }
+    ]
+  },
+  "histories": [
+    {
+      "id": "history-a",
+      "label": "History A",
+      "head": "A2",
+      "commits": [
+        "A0",
+        "A1",
+        "A2"
+      ],
+      "commitCount": 3,
+      "ancestryIdentity": "sha256:f9452c9c5e49afe245baaa3f5fbf7f2190f82053d8ba6654324a1f8fc237d946"
+    },
+    {
+      "id": "history-b",
+      "label": "History B",
+      "head": "B2",
+      "commits": [
+        "B0",
+        "B1",
+        "B2"
+      ],
+      "commitCount": 3,
+      "ancestryIdentity": "sha256:62644de97be352d1e25beb650abd8fddeb578ef63355b48223025d92914c1a50"
+    },
+    {
+      "id": "history-c",
+      "label": "Longer History C",
+      "head": "C3",
+      "commits": [
+        "A0",
+        "C1",
+        "C2",
+        "C3"
+      ],
+      "commitCount": 4,
+      "ancestryIdentity": "sha256:0b04458b85379c3d2612602a16c5f13a297501b609b279ca26b8ab396e9f7934"
+    },
+    {
+      "id": "history-merge",
+      "label": "Merge history",
+      "head": "M2",
+      "commits": [
+        "A0",
+        "M1L",
+        "M1R",
+        "M2"
+      ],
+      "commitCount": 4,
+      "ancestryIdentity": "sha256:e8ae58efe547c05a86bc9a6c7687a1fa4973bdc489e9538f5c3075818ec9a23f"
+    },
+    {
+      "id": "history-linear",
+      "label": "Linearized history",
+      "head": "L2",
+      "commits": [
+        "A0",
+        "M1L",
+        "L2"
+      ],
+      "commitCount": 3,
+      "ancestryIdentity": "sha256:e3f80b252bcb46f0ac0be7b8d9b1bcfcf41b69e3b9c37fa3d10812b2e8bd633c"
+    },
+    {
+      "id": "history-metadata",
+      "label": "Metadata variant",
+      "head": "A2M",
+      "commits": [
+        "A0",
+        "A1",
+        "A2M"
+      ],
+      "commitCount": 3,
+      "ancestryIdentity": "sha256:f9452c9c5e49afe245baaa3f5fbf7f2190f82053d8ba6654324a1f8fc237d946"
+    }
+  ],
+  "comparisons": [
+    {
+      "id": "same-tree-different-ancestry",
+      "label": "Same tree, different ancestry",
+      "claim": "Independent histories converge to one exact Git tree.",
+      "leftHistory": "history-a",
+      "rightHistory": "history-b",
+      "leftHead": "A2",
+      "rightHead": "B2",
+      "results": {
+        "tree": {
+          "left": "b15c9eed95984c6a5585bd251d095c9c1d7ffa83",
+          "right": "b15c9eed95984c6a5585bd251d095c9c1d7ffa83",
+          "equal": true
+        },
+        "commit": {
+          "left": "a823bf15716c09ab8d47cbbc55012ed90a97052a",
+          "right": "f5db40b4d645cf1fdab734dba074aae62fca5144",
+          "equal": false
+        },
+        "ancestry": {
+          "left": "sha256:f9452c9c5e49afe245baaa3f5fbf7f2190f82053d8ba6654324a1f8fc237d946",
+          "right": "sha256:62644de97be352d1e25beb650abd8fddeb578ef63355b48223025d92914c1a50",
+          "equal": false
+        },
+        "history-class": {
+          "left": "sha256:49a3d6ae1a5e65fc9e1b38c1b2301fac32066fddf0e32bb945b42afda67fef46",
+          "right": "sha256:49a3d6ae1a5e65fc9e1b38c1b2301fac32066fddf0e32bb945b42afda67fef46",
+          "equal": true
+        }
+      }
+    },
+    {
+      "id": "different-intermediate-length",
+      "label": "Different intermediates and length",
+      "claim": "A longer route converges to the same exact Git tree.",
+      "leftHistory": "history-a",
+      "rightHistory": "history-c",
+      "leftHead": "A2",
+      "rightHead": "C3",
+      "results": {
+        "tree": {
+          "left": "b15c9eed95984c6a5585bd251d095c9c1d7ffa83",
+          "right": "b15c9eed95984c6a5585bd251d095c9c1d7ffa83",
+          "equal": true
+        },
+        "commit": {
+          "left": "a823bf15716c09ab8d47cbbc55012ed90a97052a",
+          "right": "e2ebbaa0855843f780f2d988a5d7a9bb5e7e98a1",
+          "equal": false
+        },
+        "ancestry": {
+          "left": "sha256:f9452c9c5e49afe245baaa3f5fbf7f2190f82053d8ba6654324a1f8fc237d946",
+          "right": "sha256:0b04458b85379c3d2612602a16c5f13a297501b609b279ca26b8ab396e9f7934",
+          "equal": false
+        },
+        "history-class": {
+          "left": "sha256:49a3d6ae1a5e65fc9e1b38c1b2301fac32066fddf0e32bb945b42afda67fef46",
+          "right": "sha256:49a3d6ae1a5e65fc9e1b38c1b2301fac32066fddf0e32bb945b42afda67fef46",
+          "equal": true
+        }
+      }
+    },
+    {
+      "id": "merge-vs-linear",
+      "label": "Merge topology vs linear",
+      "claim": "A merge DAG and a linear history converge to one exact Git tree.",
+      "leftHistory": "history-merge",
+      "rightHistory": "history-linear",
+      "leftHead": "M2",
+      "rightHead": "L2",
+      "results": {
+        "tree": {
+          "left": "0f0cb666af7c990d771e360cee654d14c1602495",
+          "right": "0f0cb666af7c990d771e360cee654d14c1602495",
+          "equal": true
+        },
+        "commit": {
+          "left": "1d58c9e340d4d401845480cde669b77b2f6f3105",
+          "right": "f96e2827bc26feca72087e7eb03c6c98b571af5c",
+          "equal": false
+        },
+        "ancestry": {
+          "left": "sha256:e8ae58efe547c05a86bc9a6c7687a1fa4973bdc489e9538f5c3075818ec9a23f",
+          "right": "sha256:e3f80b252bcb46f0ac0be7b8d9b1bcfcf41b69e3b9c37fa3d10812b2e8bd633c",
+          "equal": false
+        },
+        "history-class": {
+          "left": "sha256:bfe6bc664786e1f2cf41a7130e4c12ca97a9a9dad746d15e42c94e7c89865089",
+          "right": "sha256:bfe6bc664786e1f2cf41a7130e4c12ca97a9a9dad746d15e42c94e7c89865089",
+          "equal": true
+        }
+      }
+    },
+    {
+      "id": "metadata-only",
+      "label": "Metadata-only commit change",
+      "claim": "Commit metadata changes identity without changing tree or parent closure.",
+      "leftHistory": "history-a",
+      "rightHistory": "history-metadata",
+      "leftHead": "A2",
+      "rightHead": "A2M",
+      "results": {
+        "tree": {
+          "left": "b15c9eed95984c6a5585bd251d095c9c1d7ffa83",
+          "right": "b15c9eed95984c6a5585bd251d095c9c1d7ffa83",
+          "equal": true
+        },
+        "commit": {
+          "left": "a823bf15716c09ab8d47cbbc55012ed90a97052a",
+          "right": "4335a7e223160cfb050ad246b8487d48ca3cfb15",
+          "equal": false
+        },
+        "ancestry": {
+          "left": "sha256:f9452c9c5e49afe245baaa3f5fbf7f2190f82053d8ba6654324a1f8fc237d946",
+          "right": "sha256:f9452c9c5e49afe245baaa3f5fbf7f2190f82053d8ba6654324a1f8fc237d946",
+          "equal": true
+        },
+        "history-class": {
+          "left": "sha256:49a3d6ae1a5e65fc9e1b38c1b2301fac32066fddf0e32bb945b42afda67fef46",
+          "right": "sha256:49a3d6ae1a5e65fc9e1b38c1b2301fac32066fddf0e32bb945b42afda67fef46",
+          "equal": true
+        }
+      }
+    }
+  ],
+  "caseIdentity": "sha256:1d7b42112a2c2eff88352288bc89bac2d0646202cf7a5c54cdfdf719606d0414"
+}

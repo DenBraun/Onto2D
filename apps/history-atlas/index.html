@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="../../assets/js/document-state-reset.js" defer></script>
+    <meta name="description" content="Explore Onto2D history cases by how history is available and what it changes.">
+    <title>History Atlas - Onto2D</title>
+    <link rel="icon" href="../../assets/icons/favicon.ico?v=20260818.1" type="image/x-icon">
+    <link rel="stylesheet" href="../../assets/css/ui-icons.css?v=20260818.1">
+    <link rel="stylesheet" href="../../assets/css/external-cases.css?v=20260818.7">
+    <link rel="stylesheet" href="../../assets/css/history-atlas.css?v=20260818.1">
+    <script type="module" src="./history-atlas.js?v=20260818.1"></script>
+  </head>
+  <body data-page="history-atlas">
+    <header class="history-case-header">
+      <a class="history-case-brand" href="../../" aria-label="Onto2D home"><svg viewBox="0 0 34 34" aria-hidden="true"><circle cx="7" cy="17" r="3"></circle><circle cx="27" cy="8" r="3"></circle><circle cx="27" cy="26" r="3"></circle><path d="M10 17h7m2-3 5-4m-5 10 5 4"></path></svg><span><strong>Onto2D</strong><small>History model</small></span></a>
+      <nav class="history-case-nav" aria-label="History navigation"><a href="./" aria-current="page">History Atlas</a><a href="../model-studio/">Model Studio</a><a href="https://github.com/DenBraun/Onto2D/blob/main/docs/history/README.md" target="_blank" rel="noopener noreferrer">History model <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#external-link"></use></svg></a><a href="https://github.com/DenBraun/Onto2D" target="_blank" rel="noopener noreferrer">GitHub <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#external-link"></use></svg></a></nav>
+      <div class="history-case-context"><span>History portfolio</span><strong>22 registered cases</strong></div>
+    </header>
+    <main>
+      <section class="atlas-hero" aria-labelledby="atlas-title">
+        <div class="atlas-hero-inner">
+          <div>
+            <p class="overline">History access x history effect</p>
+            <h1 id="atlas-title">A map of what the past <em>leaves behind.</em></h1>
+            <p class="hero-deck">Domains are test environments. The scientific structure is how history reaches us - as records, embodied traces, or reconstruction - and whether it changes identity, present state, or future possibility.</p>
+          </div>
+          <dl class="atlas-facts">
+            <div><dt>Portfolio</dt><dd id="atlas-case-count">Loading...</dd></div>
+            <div><dt>Repository results</dt><dd id="atlas-result-count">-</dd></div>
+            <div><dt>Matrix</dt><dd>3 access modes x 3 effects</dd></div>
+            <div><dt>Rule</dt><dd>Effect is not evidence</dd></div>
+          </dl>
+        </div>
+      </section>
+
+      <div class="atlas-content">
+        <section class="axis-intro" aria-labelledby="axes-title">
+          <header class="section-heading"><div><p class="overline">Two independent axes</p><h2 id="axes-title">Read the map without collapsing it</h2></div><p>A case can occupy several cells. Primary placement is emphasized; secondary modes and effects remain visible rather than being forced into one bucket.</p></header>
+          <div class="axis-grid">
+            <article><span>A / access</span><h3>Recorded / Embodied / Reconstructed</h3><p>How historical information is available to the case.</p></article>
+            <article><span>B / effect</span><h3>Identity / Present State / Future</h3><p>What the historical information changes in the model.</p></article>
+            <article><span>C / evidence</span><h3>Measured / Attested / Derived / Unknown</h3><p>Why a claim is supported remains a separate dimension.</p></article>
+          </div>
+        </section>
+
+        <section class="atlas-filter-shell" aria-labelledby="filter-title">
+          <header><div><p class="overline">Portfolio controls</p><h2 id="filter-title">Filter without changing classification</h2></div><button id="atlas-filter-reset" type="button">Reset filters</button></header>
+          <div class="atlas-filters">
+            <label><span>History mode</span><select id="filter-mode"><option value="">All modes</option></select></label>
+            <label><span>Effect</span><select id="filter-effect"><option value="">All effects</option></select></label>
+            <label><span>Domain</span><select id="filter-domain"><option value="">All domains</option></select></label>
+            <label><span>Evidence</span><select id="filter-evidence"><option value="">All evidence</option></select></label>
+            <label><span>Maturity</span><select id="filter-status"><option value="">All maturity</option></select></label>
+            <label><span>Historical Load</span><select id="filter-load"><option value="">Any support</option><option value="primary">Primary</option><option value="candidate">Candidate</option><option value="not-primary">Not primary</option></select></label>
+            <label><span>Model Pack</span><select id="filter-model"><option value="">Any availability</option><option value="available">Available</option><option value="planned">Not yet available</option></select></label>
+          </div>
+          <p id="atlas-filter-summary" class="filter-summary" aria-live="polite">Loading registry...</p>
+        </section>
+
+        <section class="matrix-section" aria-labelledby="matrix-title">
+          <header class="section-heading"><div><p class="overline">Primary view</p><h2 id="matrix-title">History Model matrix</h2></div><p>The outlined marker denotes a case's primary mode and primary effect. The same case may also appear as a secondary reference elsewhere.</p></header>
+          <div class="matrix-scroll" tabindex="0" aria-label="Scrollable history model matrix">
+            <div id="history-matrix" class="history-matrix"></div>
+          </div>
+        </section>
+
+        <section class="portfolio-section" aria-labelledby="portfolio-title">
+          <header class="section-heading"><div><p class="overline">One card per case</p><h2 id="portfolio-title">Filtered portfolio</h2></div><p>Availability badges describe repository artifacts. Planned Model Packs and Explorers are never displayed as if they already exist.</p></header>
+          <div id="history-portfolio" class="history-portfolio"></div>
+        </section>
+
+        <p id="atlas-load-error" class="atlas-error" hidden></p>
+      </div>
+    </main>
+    <footer class="case-footer">Recorded is not verified. Embodied is not automatically causal. Reconstructed is not declared actual.</footer>
+  </body>
+</html>

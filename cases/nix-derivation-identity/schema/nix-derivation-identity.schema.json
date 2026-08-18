@@ -1,0 +1,371 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.invalid/schema/nix-derivation-identity-v1.json",
+  "title": "Onto2D Nix Derivation Identity case artifact",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["format", "formatVersion", "caseVersion", "generatedBy", "source", "captureBoundary", "nix", "regimes", "nativeOutput", "derivations", "dependencyGraph", "comparisons", "limitations", "caseIdentity"],
+  "properties": {
+    "format": { "const": "onto2d-nix-derivation-identity-case" },
+    "formatVersion": { "const": "1" },
+    "caseVersion": { "const": "nix-derivation-identity-v1" },
+    "generatedBy": { "const": "cases/nix-derivation-identity/extract.mjs" },
+    "source": { "$ref": "#/$defs/source" },
+    "captureBoundary": { "$ref": "#/$defs/captureBoundary" },
+    "nix": { "$ref": "#/$defs/nix" },
+    "regimes": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": { "$ref": "#/$defs/regime" }
+    },
+    "nativeOutput": { "$ref": "#/$defs/nativeOutput" },
+    "derivations": {
+      "type": "array",
+      "minItems": 9,
+      "maxItems": 9,
+      "items": { "$ref": "#/$defs/derivation" }
+    },
+    "dependencyGraph": { "$ref": "#/$defs/dependencyGraph" },
+    "comparisons": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": { "$ref": "#/$defs/comparison" }
+    },
+    "limitations": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": { "$ref": "#/$defs/nonEmpty" }
+    },
+    "caseIdentity": { "$ref": "#/$defs/sha256" }
+  },
+  "$defs": {
+    "nonEmpty": { "type": "string", "minLength": 1 },
+    "identifier": { "type": "string", "pattern": "^[A-Za-z][A-Za-z0-9.-]*$" },
+    "hexSha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "sha256": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "drvPath": { "type": "string", "pattern": "^/nix/store/[0-9a-df-np-sv-z]{32}-[A-Za-z0-9+._?=-]+\\.drv$" },
+    "storePath": { "type": "string", "pattern": "^/nix/store/[0-9a-df-np-sv-z]{32}-[A-Za-z0-9+._?=-]+$" },
+    "runtime": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["archiveSha256", "releaseUrl"],
+      "properties": {
+        "archiveSha256": { "$ref": "#/$defs/hexSha256" },
+        "releaseUrl": { "const": "https://releases.nixos.org/nix/nix-2.31.0/nix-2.31.0-aarch64-darwin.tar.xz" }
+      }
+    },
+    "sourceFile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["bytes", "file", "sha256", "identity"],
+      "properties": {
+        "bytes": { "type": "integer", "minimum": 1, "maximum": 1048576 },
+        "file": { "enum": ["fixtures/fixture.nix", "fixtures/output.txt"] },
+        "sha256": { "$ref": "#/$defs/hexSha256" },
+        "identity": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "captureFile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["file", "bytes", "identity"],
+      "properties": {
+        "file": { "enum": ["capture/metadata.json", "capture/evaluation.json", "capture/derivations.json", "capture/native-output.json"] },
+        "bytes": { "type": "integer", "minimum": 1, "maximum": 1048576 },
+        "identity": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "rawDerivation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fixtureId", "drvPath", "file", "bytes", "identity"],
+      "properties": {
+        "fixtureId": { "$ref": "#/$defs/identifier" },
+        "drvPath": { "$ref": "#/$defs/drvPath" },
+        "file": { "type": "string", "pattern": "^capture/drv/[0-9a-df-np-sv-z]{32}-[A-Za-z0-9+._?=-]+\\.drv$" },
+        "bytes": { "type": "integer", "minimum": 1, "maximum": 65536 },
+        "identity": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["format", "formatVersion", "runtime", "sourceFiles", "captureFiles", "rawDerivations", "identity"],
+      "properties": {
+        "format": { "const": "onto2d-nix-source-basis" },
+        "formatVersion": { "const": "1" },
+        "runtime": { "$ref": "#/$defs/runtime" },
+        "sourceFiles": { "type": "array", "minItems": 2, "maxItems": 2, "uniqueItems": true, "items": { "$ref": "#/$defs/sourceFile" } },
+        "captureFiles": { "type": "array", "minItems": 4, "maxItems": 4, "uniqueItems": true, "items": { "$ref": "#/$defs/captureFile" } },
+        "rawDerivations": { "type": "array", "minItems": 9, "maxItems": 9, "uniqueItems": true, "items": { "$ref": "#/$defs/rawDerivation" } },
+        "identity": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "captureBoundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["derivationBuildersExecuted", "derivationsInstantiatedByNix", "fixedOutputAddedByNix", "inputAddressedOutputRealized"],
+      "properties": {
+        "derivationBuildersExecuted": { "const": false },
+        "derivationsInstantiatedByNix": { "const": true },
+        "fixedOutputAddedByNix": { "const": true },
+        "inputAddressedOutputRealized": { "const": false }
+      }
+    },
+    "nix": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["version", "platform", "storeDirectory", "storeBackend", "derivationJsonStatus"],
+      "properties": {
+        "version": { "const": "2.31.0" },
+        "platform": { "const": "aarch64-darwin" },
+        "storeDirectory": { "const": "/nix/store" },
+        "storeBackend": { "const": "local-root-remapped" },
+        "derivationJsonStatus": { "const": "experimental-in-nix-2.31.0" }
+      }
+    },
+    "regime": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "label", "compares"],
+      "properties": {
+        "id": { "enum": ["output-content", "derivation", "input-closure", "builder-environment", "history-class"] },
+        "label": { "$ref": "#/$defs/nonEmpty" },
+        "compares": { "$ref": "#/$defs/nonEmpty" }
+      }
+    },
+    "nativeOutput": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ca", "contentBytes", "contentSha256", "contentUtf8", "materialization", "narHash", "narSize", "path", "references"],
+      "properties": {
+        "ca": { "type": "string", "pattern": "^fixed:sha256:[0-9a-df-np-sv-z]{52}$" },
+        "contentBytes": { "type": "integer", "minimum": 1, "maximum": 1048576 },
+        "contentSha256": { "$ref": "#/$defs/hexSha256" },
+        "contentUtf8": { "$ref": "#/$defs/nonEmpty" },
+        "materialization": { "const": "nix-store-add-file" },
+        "narHash": { "type": "string", "pattern": "^sha256-[A-Za-z0-9+/]{43}=$" },
+        "narSize": { "type": "integer", "minimum": 1, "maximum": 1048576 },
+        "path": { "$ref": "#/$defs/storePath" },
+        "references": { "type": "array", "maxItems": 0 }
+      }
+    },
+    "directInputDrv": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fixtureId", "drvPath", "outputs"],
+      "properties": {
+        "fixtureId": { "$ref": "#/$defs/identifier" },
+        "drvPath": { "$ref": "#/$defs/drvPath" },
+        "outputs": { "type": "array", "minItems": 1, "maxItems": 8, "uniqueItems": true, "items": { "$ref": "#/$defs/nonEmpty" } }
+      }
+    },
+    "nativeInputDrvValue": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["dynamicOutputs", "outputs"],
+      "properties": {
+        "dynamicOutputs": { "type": "object", "maxProperties": 0 },
+        "outputs": { "type": "array", "minItems": 1, "maxItems": 8, "uniqueItems": true, "items": { "$ref": "#/$defs/nonEmpty" } }
+      }
+    },
+    "fixedOutputSpec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["hash", "hashAlgo", "method", "path"],
+      "properties": {
+        "hash": { "$ref": "#/$defs/hexSha256" },
+        "hashAlgo": { "const": "sha256" },
+        "method": { "const": "flat" },
+        "path": { "$ref": "#/$defs/storePath" }
+      }
+    },
+    "inputAddressedOutputSpec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path"],
+      "properties": { "path": { "$ref": "#/$defs/storePath" } }
+    },
+    "nativeDerivation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["args", "builder", "env", "inputDrvs", "inputSrcs", "name", "outputs", "system"],
+      "properties": {
+        "args": { "type": "array", "minItems": 1, "maxItems": 32, "items": { "type": "string" } },
+        "builder": { "type": "string", "pattern": "^/" },
+        "env": { "type": "object", "minProperties": 1, "maxProperties": 64, "additionalProperties": { "type": "string" } },
+        "inputDrvs": { "type": "object", "maxProperties": 32, "propertyNames": { "$ref": "#/$defs/drvPath" }, "additionalProperties": { "$ref": "#/$defs/nativeInputDrvValue" } },
+        "inputSrcs": { "type": "array", "maxItems": 32, "uniqueItems": true, "items": { "$ref": "#/$defs/storePath" } },
+        "name": { "$ref": "#/$defs/nonEmpty" },
+        "outputs": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["out"],
+          "properties": { "out": { "oneOf": [{ "$ref": "#/$defs/fixedOutputSpec" }, { "$ref": "#/$defs/inputAddressedOutputSpec" }] } }
+        },
+        "system": { "const": "aarch64-darwin" }
+      }
+    },
+    "closureEdge": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["from", "to"],
+      "properties": {
+        "from": { "oneOf": [{ "const": "$head" }, { "$ref": "#/$defs/drvPath" }] },
+        "to": { "$ref": "#/$defs/drvPath" }
+      }
+    },
+    "inputClosure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["format", "formatVersion", "members", "edges", "identity"],
+      "properties": {
+        "format": { "const": "onto2d-nix-input-closure" },
+        "formatVersion": { "const": "1" },
+        "members": { "type": "array", "maxItems": 64, "uniqueItems": true, "items": { "$ref": "#/$defs/drvPath" } },
+        "edges": { "type": "array", "maxItems": 128, "uniqueItems": true, "items": { "$ref": "#/$defs/closureEdge" } },
+        "identity": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "builderEnvironment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["format", "formatVersion", "profile", "system", "builder", "args", "env", "identity"],
+      "properties": {
+        "format": { "const": "onto2d-nix-builder-environment" },
+        "formatVersion": { "const": "1" },
+        "profile": { "const": "builder-env-v1" },
+        "system": { "const": "aarch64-darwin" },
+        "builder": { "type": "string", "pattern": "^/" },
+        "args": { "type": "array", "minItems": 1, "maxItems": 32, "items": { "type": "string" } },
+        "env": { "type": "object", "minProperties": 1, "maxProperties": 64, "additionalProperties": { "type": "string" } },
+        "identity": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "derivation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fixtureId", "drvPath", "drvName", "rawIdentity", "outputPath", "outputAddressing", "outputContentIdentity", "outputEvidence", "directInputDrvs", "inputSrcs", "system", "builder", "args", "env", "native", "inputClosure", "builderEnvironment", "depth"],
+      "properties": {
+        "fixtureId": { "$ref": "#/$defs/identifier" },
+        "drvPath": { "$ref": "#/$defs/drvPath" },
+        "drvName": { "$ref": "#/$defs/nonEmpty" },
+        "rawIdentity": { "$ref": "#/$defs/sha256" },
+        "outputPath": { "$ref": "#/$defs/storePath" },
+        "outputAddressing": { "enum": ["fixed-content:flat:sha256", "input-addressed"] },
+        "outputContentIdentity": { "oneOf": [{ "$ref": "#/$defs/sha256" }, { "type": "null" }] },
+        "outputEvidence": { "enum": ["materialized-fixed-output", "unrealized"] },
+        "directInputDrvs": { "type": "array", "maxItems": 32, "uniqueItems": true, "items": { "$ref": "#/$defs/directInputDrv" } },
+        "inputSrcs": { "type": "array", "maxItems": 32, "uniqueItems": true, "items": { "$ref": "#/$defs/storePath" } },
+        "system": { "const": "aarch64-darwin" },
+        "builder": { "type": "string", "pattern": "^/" },
+        "args": { "type": "array", "minItems": 1, "maxItems": 32, "items": { "type": "string" } },
+        "env": { "type": "object", "minProperties": 1, "maxProperties": 64, "additionalProperties": { "type": "string" } },
+        "native": { "$ref": "#/$defs/nativeDerivation" },
+        "inputClosure": { "$ref": "#/$defs/inputClosure" },
+        "builderEnvironment": { "$ref": "#/$defs/builderEnvironment" },
+        "depth": { "type": "integer", "minimum": 0, "maximum": 64 }
+      }
+    },
+    "directEdge": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["from", "to", "outputs", "relation", "evidence"],
+      "properties": {
+        "from": { "$ref": "#/$defs/drvPath" },
+        "to": { "$ref": "#/$defs/drvPath" },
+        "outputs": { "type": "array", "minItems": 1, "maxItems": 8, "uniqueItems": true, "items": { "$ref": "#/$defs/nonEmpty" } },
+        "relation": { "const": "inputDrv" },
+        "evidence": { "const": "native" }
+      }
+    },
+    "derivedEdge": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["from", "to", "relation", "evidence"],
+      "properties": {
+        "from": { "$ref": "#/$defs/drvPath" },
+        "to": { "$ref": "#/$defs/drvPath" },
+        "relation": { "const": "transitive-inputDrv" },
+        "evidence": { "const": "derived" }
+      }
+    },
+    "outputMapping": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["derivation", "output", "path", "addressing", "contentIdentity", "evidence"],
+      "properties": {
+        "derivation": { "$ref": "#/$defs/drvPath" },
+        "output": { "const": "out" },
+        "path": { "$ref": "#/$defs/storePath" },
+        "addressing": { "enum": ["fixed-content:flat:sha256", "input-addressed"] },
+        "contentIdentity": { "oneOf": [{ "$ref": "#/$defs/sha256" }, { "type": "null" }] },
+        "evidence": { "enum": ["materialized-fixed-output", "unrealized"] }
+      }
+    },
+    "dependencyGraph": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["directEdges", "closureEdges", "outputMappings"],
+      "properties": {
+        "directEdges": { "type": "array", "minItems": 8, "maxItems": 8, "uniqueItems": true, "items": { "$ref": "#/$defs/directEdge" } },
+        "closureEdges": { "type": "array", "minItems": 5, "maxItems": 5, "uniqueItems": true, "items": { "$ref": "#/$defs/derivedEdge" } },
+        "outputMappings": { "type": "array", "minItems": 9, "maxItems": 9, "uniqueItems": true, "items": { "$ref": "#/$defs/outputMapping" } }
+      }
+    },
+    "comparisonResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["left", "right", "equal", "status"],
+      "properties": {
+        "left": { "type": ["string", "null"] },
+        "right": { "type": ["string", "null"] },
+        "equal": { "type": ["boolean", "null"] },
+        "status": { "enum": ["resolved", "unresolved"] }
+      },
+      "allOf": [
+        { "if": { "properties": { "status": { "const": "resolved" } } }, "then": { "properties": { "left": { "type": "string", "minLength": 1 }, "right": { "type": "string", "minLength": 1 }, "equal": { "type": "boolean" } } } },
+        { "if": { "properties": { "status": { "const": "unresolved" } } }, "then": { "properties": { "equal": { "type": "null" } }, "anyOf": [{ "properties": { "left": { "type": "null" } } }, { "properties": { "right": { "type": "null" } } }] } }
+      ]
+    },
+    "addressingComparison": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["left", "right", "equal"],
+      "properties": {
+        "left": { "enum": ["fixed-content:flat:sha256", "input-addressed"] },
+        "right": { "enum": ["fixed-content:flat:sha256", "input-addressed"] },
+        "equal": { "type": "boolean" }
+      }
+    },
+    "comparison": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "label", "claim", "leftFixtureId", "rightFixtureId", "sharedInputDrvs", "addressing", "results"],
+      "properties": {
+        "id": { "$ref": "#/$defs/identifier" },
+        "label": { "$ref": "#/$defs/nonEmpty" },
+        "claim": { "$ref": "#/$defs/nonEmpty" },
+        "leftFixtureId": { "$ref": "#/$defs/identifier" },
+        "rightFixtureId": { "$ref": "#/$defs/identifier" },
+        "sharedInputDrvs": { "type": "array", "maxItems": 64, "uniqueItems": true, "items": { "$ref": "#/$defs/drvPath" } },
+        "addressing": { "$ref": "#/$defs/addressingComparison" },
+        "results": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["output-content", "derivation", "input-closure", "builder-environment", "history-class"],
+          "properties": {
+            "output-content": { "$ref": "#/$defs/comparisonResult" },
+            "derivation": { "$ref": "#/$defs/comparisonResult" },
+            "input-closure": { "$ref": "#/$defs/comparisonResult" },
+            "builder-environment": { "$ref": "#/$defs/comparisonResult" },
+            "history-class": { "$ref": "#/$defs/comparisonResult" }
+          }
+        }
+      }
+    }
+  }
+}

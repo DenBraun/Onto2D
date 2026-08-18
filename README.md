@@ -19,9 +19,9 @@ Those claims require explicit external evidence through the scientific-adapter
 boundary.
 
 The repository also contains a private engine preview: a deterministic Model
-Pack contract, separate frozen Causal Emergence and live-bootstrap provenance
-releases, and a headless API for exact model queries and traversal. It is not
-yet a published npm package.
+Pack contract, separate frozen Causal Emergence, live-bootstrap provenance, and
+Nix derivation releases, and a headless API for exact model queries and
+traversal. It is not yet a published npm package.
 
 ## Engine preview
 
@@ -72,6 +72,24 @@ The [Bootstrap Provenance Explorer](https://denbraun.github.io/Onto2D/apps/boots
 reads the pinned live-bootstrap trace, evidence classes, trust roots, and
 separately disclosed finite counterfactual analysis
 ([method](docs/LIVE_BOOTSTRAP_PROVENANCE_METHOD.md)).
+
+The [Git History Identity Lab](https://denbraun.github.io/Onto2D/apps/git-history-identity-lab/)
+compares six deterministic native Git histories under tree, commit, ancestry,
+and declared history-class identity without rewriting their object IDs
+([method](cases/git-history-identity/README.md)).
+
+The [Nix Derivation Identity Lab](https://denbraun.github.io/Onto2D/apps/nix-derivation-explorer/)
+compares native Nix derivations under output-content, derivation, input-closure,
+builder-environment, and output-relative history regimes
+([method](cases/nix-derivation-identity/README.md)).
+
+The [History Atlas](https://denbraun.github.io/Onto2D/apps/history-atlas/)
+organizes 22 registered cases by two independent axes: how history is available
+(Recorded, Embodied, or Reconstructed) and what it changes (Identity, Present
+State, or Future). Domain is a filter rather than the primary taxonomy. Every
+case has a stable page and explicit maturity, evidence, analysis, Model Pack,
+and Explorer metadata
+([portfolio](docs/history/HISTORY_CASE_PORTFOLIO.md)).
 
 Run the static site:
 
@@ -138,7 +156,11 @@ and complete Model Pack verification. The
 [live-bootstrap provenance case](cases/live-bootstrap-provenance/README.md)
 pins exact upstream bytes, preserves 205 manifest events and 442 classified
 evidence records, builds a separate content-addressed Model Pack, and keeps its
-finite counterfactual analysis outside extracted upstream facts.
+finite counterfactual analysis outside extracted upstream facts. The
+[Nix derivation identity case](cases/nix-derivation-identity/README.md)
+cross-checks nine native derivations, separates direct inputs from derived
+closure, and preserves equal output content without collapsing construction
+identity.
 
 ## Documentation
 
@@ -159,6 +181,10 @@ finite counterfactual analysis outside extracted upstream facts.
 - [Live Bootstrap Provenance Method](docs/LIVE_BOOTSTRAP_PROVENANCE_METHOD.md)
   defines the pinned source, evidence classes, finite analysis, and trust
   boundary for the external bootstrap case.
+- [History Model Documentation](docs/history/README.md) defines the taxonomy,
+  evidence boundaries, analysis families, and 22-case portfolio.
+- [History Case Implementation Plans](docs/cases/README.md) preserve one
+  status-honest plan per registered case.
 - [Review Guide](docs/REVIEW_GUIDE.md) defines the independent golden review
   required for release.
 - [ADRs](docs/adr) preserve decisions that affect identity, evidence, or package

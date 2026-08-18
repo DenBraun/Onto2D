@@ -4,11 +4,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="./assets/js/document-state-reset.js" defer></script>
+    <script type="module" src="./assets/js/case-menu.js?v=20260818.2"></script>
     <meta name="description" content="Onto2D turns ontology-backed graph rules into deterministic, replayable closure experiments.">
     <title>Onto2D - Executable structure, history and closure</title>
     <link rel="icon" href="./assets/icons/favicon.ico?v=20260816.10" type="image/x-icon">
     <link rel="stylesheet" href="./assets/css/ui-icons.css?v=20260816.10">
-    <link rel="stylesheet" href="./assets/css/project-home.css?v=20260816.10">
+    <link rel="stylesheet" href="./assets/css/project-home.css?v=20260818.3">
   </head>
   <body>
     <div class="landing-shell">
@@ -23,7 +24,13 @@
           <span class="kernel-state"><i></i>Schema-v1 kernel closed</span>
           <a href="./apps/level-zero-validation/">Level-0 result</a>
           <a href="./apps/model-studio/">Model Studio</a>
-          <a href="./apps/bootstrap-provenance-explorer/">Bootstrap case</a>
+          <details class="cases-menu">
+            <summary>Case Studies <svg class="ui-icon" aria-hidden="true"><use href="./assets/icons/ui-symbols.svg#chevron-down"></use></svg></summary>
+            <div class="cases-menu-panel">
+              <a class="cases-menu-overview" href="./apps/history-atlas/"><span><strong>History Atlas</strong><small>22 cases mapped by history access and effect</small></span><b>View map</b></a>
+              <div id="history-case-menu-groups" class="cases-menu-groups" aria-live="polite"><p>Loading case registry...</p></div>
+            </div>
+          </details>
           <a href="https://github.com/DenBraun/Onto2D" target="_blank" rel="noopener noreferrer">GitHub <b aria-hidden="true"><svg class="ui-icon"><use href="./assets/icons/ui-symbols.svg#external-link"></use></svg></b></a>
         </nav>
       </header>
