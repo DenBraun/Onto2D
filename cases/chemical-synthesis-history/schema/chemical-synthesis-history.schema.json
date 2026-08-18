@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/chemical-synthesis-history.schema.json",
+  "title": "Onto2D Chemical Synthesis History artifact",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["format", "formatVersion", "caseVersion", "generatedBy", "ord", "source", "identityProfiles", "cohorts", "experiments", "pathSpace", "historicalLoad", "evidenceBoundary", "caseIdentity"],
+  "properties": {
+    "format": { "const": "onto2d-chemical-synthesis-history-case" },
+    "formatVersion": { "const": "1" },
+    "caseVersion": { "const": "chemical-synthesis-history-v1" },
+    "generatedBy": { "const": "cases/chemical-synthesis-history/extract.mjs" },
+    "ord": { "$ref": "#/$defs/object" },
+    "source": { "$ref": "#/$defs/object" },
+    "identityProfiles": { "$ref": "#/$defs/object" },
+    "cohorts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["conditionSweep", "linkedCascade"],
+      "properties": {
+        "conditionSweep": { "$ref": "#/$defs/object" },
+        "linkedCascade": { "$ref": "#/$defs/object" }
+      }
+    },
+    "experiments": { "type": "array", "minItems": 6, "items": { "$ref": "#/$defs/object" } },
+    "pathSpace": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "routes"],
+      "properties": {
+        "status": { "const": "finite-declared-analysis-space" },
+        "routes": { "type": "array", "minItems": 4, "maxItems": 4, "items": { "$ref": "#/$defs/object" } }
+      }
+    },
+    "historicalLoad": { "$ref": "#/$defs/object" },
+    "evidenceBoundary": { "$ref": "#/$defs/object" },
+    "caseIdentity": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" }
+  },
+  "$defs": {
+    "object": { "type": "object" }
+  }
+}

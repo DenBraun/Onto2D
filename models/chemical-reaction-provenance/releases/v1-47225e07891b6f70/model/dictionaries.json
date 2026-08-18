@@ -1,0 +1,91 @@
+{
+  "audit": {
+    "analysisInventory": {
+      "identityProfiles": 2,
+      "results": 2,
+      "routes": 4
+    },
+    "caseIdentity": "sha256:34791c260e0ab0f98a6aa84b6cae3bcd9f417946339d03d9446041f1b523bba0",
+    "historicalLoad": [
+      {
+        "costFunction": "reaction-record-count",
+        "unit": "reaction records",
+        "value": 2
+      },
+      {
+        "costFunction": "recorded-intermediate-count",
+        "unit": "recorded intermediate states",
+        "value": 2
+      }
+    ],
+    "mappingVersion": "chemical-reaction-provenance-mapping-v1",
+    "nativeInventory": {
+      "datasets": 2,
+      "identifierRecords": 34,
+      "nativeContinuityEdges": 2,
+      "selectedReactions": 13
+    },
+    "releaseIdentity": "sha256:47225e07891b6f70f2874b802a3ea9b7e410cec8dd42f5a8dd0da2b30f0f2172",
+    "sourceIdentity": "sha256:2b5669bb9b14a187e7ebf488020d37523ae6805191a8ca762010f82a671a4cfb"
+  },
+  "evidenceClasses": {
+    "bounded-cost-evaluation": "Deterministic result over the four enumerated routes and named cost profile.",
+    "declared-counterfactual": "Onto2D route-space declaration with no claim of chemical feasibility.",
+    "exact-source-string-equality": "Derived equality over byte-exact native identifier strings; not physical-batch continuity.",
+    "ord-dataset-membership": "Reaction membership in the pinned ORD Dataset protobuf.",
+    "ord-reaction-field": "Identifier, condition, or role retained from a selected native ORD reaction field.",
+    "ord-reaction-id-cross-reference": "Native ORD reaction_id reference from a later input to an earlier reaction record.",
+    "ord-reaction-outcome": "Desired product or measurement retained from a selected native ORD outcome."
+  },
+  "identityRegimes": {
+    "same-native-record": "Are these the same ORD reaction record?",
+    "same-route-fragment": "Do reactants, catalyst, base, additive, conditions, workup, and record identity all match?",
+    "same-target-identifier": "Do these records carry the exact same source product SMILES?"
+  },
+  "presentation": {
+    "boundary": {
+      "note": "Exact SMILES string equality is not canonical molecular identity or physical-batch continuity; +2 is limited to the declared islatravir route space.",
+      "summary": "Native ORD identifiers and reaction_id continuity remain separate from derived equivalence, counterfactual routes, and Historical Load.",
+      "title": "Chemical evidence boundary"
+    },
+    "coordinates": [
+      {
+        "field": "typeRole",
+        "label": "Kind"
+      },
+      {
+        "field": "scientificStatus",
+        "label": "Evidence"
+      }
+    ],
+    "evidenceClassField": "evidenceClass",
+    "labels": {
+      "catalogTitle": "Chemical history records",
+      "children": "Outgoing evidence or synthesis relations",
+      "parents": "Incoming evidence or synthesis relations",
+      "phaseFilter": "Evidence phase",
+      "searchPlaceholder": "Search reactions, targets, conditions, and routes",
+      "statusFilter": "Evidence status",
+      "typeFilter": "Record kind"
+    },
+    "layerField": "scientificStatus",
+    "nodeKindField": "entityKind",
+    "profile": "chemical-reaction-provenance-presentation-v1",
+    "relationField": "relation"
+  },
+  "provenance": {
+    "caseIdentity": "sha256:34791c260e0ab0f98a6aa84b6cae3bcd9f417946339d03d9446041f1b523bba0",
+    "license": {
+      "sha256": "5e436ff8ffbb77d8607220e9bce20c8915d860010feeb6c1ebef5a85688e9b39",
+      "spdx": "Apache-2.0",
+      "url": "https://github.com/open-reaction-database/ord-data/blob/v0.1.0/LICENSE"
+    },
+    "mappingVersion": "chemical-reaction-provenance-mapping-v1",
+    "nonEndorsement": "The Open Reaction Database and cited authors do not endorse Onto2D or this bounded interpretation.",
+    "ordCommit": "8b83754b865c8a9f30667fbea4dfdc892d4dad60",
+    "ordRelease": "v0.1.0",
+    "ordSchemaVersion": "v0.3.10",
+    "releaseIdentity": "sha256:47225e07891b6f70f2874b802a3ea9b7e410cec8dd42f5a8dd0da2b30f0f2172",
+    "sourceIdentity": "sha256:2b5669bb9b14a187e7ebf488020d37523ae6805191a8ca762010f82a671a4cfb"
+  }
+}

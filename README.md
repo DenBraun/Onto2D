@@ -20,8 +20,10 @@ boundary.
 
 The repository also contains a private engine preview: a deterministic Model
 Pack contract, separate frozen Causal Emergence, live-bootstrap provenance,
-Nix derivation, and OCI layer-provenance releases, and a headless API for exact
-model queries and traversal. It is not yet a published npm package.
+Nix derivation, OCI layer-provenance, in-toto, chemical-reaction, reproducible-build,
+and artwork-provenance releases,
+and a headless API for exact model queries and traversal. It is not yet a
+published npm package.
 
 ## Engine preview
 
@@ -93,6 +95,24 @@ The [in-toto Admissibility Explorer](https://denbraun.github.io/Onto2D/apps/in-t
 compares five signed executions with identical final bytes, preserves native
 warning semantics, and explains four bounded `+1` Historical Load results
 ([method](cases/in-toto-admissibility/README.md)).
+
+The [Chemical Synthesis History Explorer](https://denbraun.github.io/Onto2D/apps/synthesis-route-explorer/)
+compares source-locked ORD records that share exact product identifiers,
+preserves native cross-reaction continuity in the islatravir cascade, and
+explains two bounded `+2` Historical Load results
+([method](cases/chemical-synthesis-history/README.md)).
+
+The [History Equivalence Lab](https://denbraun.github.io/Onto2D/apps/history-equivalence-lab/)
+compares four captured builds under five explicit regimes. The same Node.js 22
+and 24 outputs are byte-equivalent while their toolchain and provenance
+histories remain distinct
+([method](cases/reproducible-build-equivalence/README.md)).
+
+The [Artwork Provenance Identity Lab](https://denbraun.github.io/Onto2D/apps/artwork-provenance-identity-lab/)
+follows a source-locked Getty record through two recorded activities, preserves
+the later evidence gap without inventing a chain, and compares two history views
+under five explicit identity regimes
+([method](cases/getty-artwork-provenance/README.md)).
 
 The [History Atlas](https://denbraun.github.io/Onto2D/apps/history-atlas/)
 organizes 22 registered cases by two independent axes: how history is available

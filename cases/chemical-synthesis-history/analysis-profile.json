@@ -1,0 +1,32 @@
+{
+  "format": "onto2d-chemical-synthesis-analysis-profile",
+  "formatVersion": "1",
+  "profileVersion": "chemical-synthesis-bounded-analysis-v1",
+  "candidateRoutes": [
+    "direct-unrecorded-shortcut",
+    "two-record-shortcut",
+    "three-records-without-continuity",
+    "ord-cross-referenced-cascade"
+  ],
+  "admissibility": {
+    "id": "exact-ord-cross-reference-continuity-v1",
+    "origin": "onto2d-defined-on-native-evidence",
+    "rule": "A route is admissible only when every construction transition is represented by an exact reaction record and each inter-record material transfer is supported by the native ORD reaction_id cross-reference chain."
+  },
+  "costFunctions": [
+    {
+      "id": "reaction-record-count",
+      "field": "reactionRecords",
+      "unit": "reaction records",
+      "definition": "Number of reaction-record transitions in the declared route."
+    },
+    {
+      "id": "recorded-intermediate-count",
+      "field": "recordedIntermediates",
+      "unit": "recorded intermediate states",
+      "definition": "Number of distinct intermediate material states explicitly represented between start and target."
+    }
+  ],
+  "scope": "A four-route Onto2D analysis space around the pinned three-record islatravir cascade.",
+  "nonClaim": "Candidate shortcuts are analytical counterfactuals, not claims of chemical feasibility. Historical Load is not an ORD metric, a yield score, a safety score, or a universal property of islatravir synthesis."
+}

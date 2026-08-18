@@ -1,0 +1,64 @@
+{
+  "format": "onto2d-ord-native-field-projection",
+  "formatVersion": "1",
+  "projectionVersion": "islatravir-cross-reference-v1",
+  "datasetId": "ord_dataset-6a0bfcdf53a64c07987822162ae591e2",
+  "datasetName": "synthesis of islatravir by biocatalytic cascade",
+  "records": [
+    {
+      "ordinal": 0,
+      "reactionId": "ord-9b830b3dea9b4c68b349f901df69e119",
+      "nativeRecordSha256": "sha256:eeaf60e910611f5a7ef7d9b1cbe65e853a84e8a4a841f6e91e4016ebdc8e2a66",
+      "name": "Synthesis of (R)-2-ethynylglyceraldehyde (7) using immobilized galactose oxidase",
+      "primaryInput": { "name": "2-ethynylglycerol", "smiles": "C#CC(O)(CO)CO" },
+      "catalysts": ["evolved galactose oxidase GOase-Rd13BB", "bovine catalase", "horseradish peroxidase"],
+      "crossReferencedReactionIds": [],
+      "conditions": { "temperature": { "value": 25, "unit": "CELSIUS" }, "ph": 7.5 },
+      "workups": [],
+      "outcomes": [
+        { "time": { "value": 22, "unit": "HOUR" }, "conversionPercentage": null, "yieldPercentage": 68, "selectivityPercentage": 97 }
+      ],
+      "desiredProduct": { "name": "(R)-2-ethynylglyceraldehyde", "nameStatus": "derived-from-native-reaction-name", "smiles": "OC[C@@](C#C)(O)C=O" },
+      "provenance": { "doi": "10.1126/science.aay8484", "publicationUrl": "https://science.sciencemag.org/content/366/6470/1255" }
+    },
+    {
+      "ordinal": 1,
+      "reactionId": "ord-7c920412f21b4b8195d3bf450f022cbd",
+      "nativeRecordSha256": "sha256:554460dd723b440b002d069de947b0658c15235ca9f087e5bab91ff9eb44a5c9",
+      "name": "Synthesis of (R)-2-ethynylglyceraldehyde 3-phosphate (5) using co-immobilized PanK-Rd4BB and AcK kinases.",
+      "primaryInput": { "name": "2-ethynylglyceraldehyde in water", "smiles": null },
+      "catalysts": ["evolved pantothenate kinase PanK-Rd4BB", "acetate kinase AcK"],
+      "crossReferencedReactionIds": ["ord-9b830b3dea9b4c68b349f901df69e119", "ord-9b830b3dea9b4c68b349f901df69e119"],
+      "conditions": { "temperature": null, "ph": 6.4 },
+      "workups": ["FILTRATION", "STIRRING", "FILTRATION", "STIRRING", "FILTRATION"],
+      "outcomes": [
+        { "time": { "value": 18, "unit": "HOUR" }, "conversionPercentage": 93, "yieldPercentage": null, "selectivityPercentage": null },
+        { "time": { "value": 42, "unit": "HOUR" }, "conversionPercentage": 97, "yieldPercentage": 66, "selectivityPercentage": null }
+      ],
+      "desiredProduct": { "name": "(R)-2-ethynylglyceraldehyde 3-phosphate", "nameStatus": "derived-from-native-reaction-name", "smiles": "O=C[C@](C#C)(O)COP([O-])(=O)=O.[H][N+]([H])([H])[H]" },
+      "provenance": { "doi": "10.1126/science.aay8484", "publicationUrl": "https://science.sciencemag.org/content/366/6470/1255" }
+    },
+    {
+      "ordinal": 2,
+      "reactionId": "ord-80ea7d29d01a42beae0627f615b2f314",
+      "nativeRecordSha256": "sha256:6381c761c3899b8497ade99872087f02dabb49bd0a7bc259365e154f5cd512ec",
+      "name": "4-Enzyme cascade from (R)-2-ethynylglyceraldehyde 3-phosphate to islatravir (1).",
+      "primaryInput": { "name": "(R)-2-ethynylglyceraldehyde 3-phosphate in water", "smiles": null },
+      "catalysts": ["Evolved DERA-Rd3BB", "Evolved PPM-Rd3BB", "Evolved PNP-Rd5BB", "wild type sucrose phosphorylase"],
+      "crossReferencedReactionIds": ["ord-7c920412f21b4b8195d3bf450f022cbd"],
+      "conditions": { "temperature": { "value": 35, "unit": "CELSIUS" }, "ph": 7.5 },
+      "workups": ["FILTRATION", "WASH", "DRY_IN_VACUUM"],
+      "outcomes": [
+        { "time": { "value": 26, "unit": "HOUR" }, "conversionPercentage": null, "yieldPercentage": 76, "selectivityPercentage": null }
+      ],
+      "desiredProduct": { "name": "islatravir", "nameStatus": "native-ord-name", "smiles": "C#C[C@]1([C@H](C[C@@H](O1)n2cnc3c2nc(nc3N)F)O)CO" },
+      "provenance": { "doi": "10.1126/science.aay8484", "publicationUrl": "https://science.sciencemag.org/content/366/6470/1255" }
+    }
+  ],
+  "projectionBoundary": {
+    "included": ["reaction_id", "reaction name", "primary material identifier or native cross-reference", "catalyst names", "temperature", "pH", "workup sequence", "outcome time", "conversion", "yield", "selectivity", "desired product identifiers", "provenance", "deterministic native protobuf record hash"],
+    "omitted": ["amino-acid sequences", "amounts", "vessel and attachment details", "spectral peak data", "record creator contact fields"],
+    "nativeMultiplicity": "The duplicated first reaction_id reference in ordinal 1 is retained exactly rather than deduplicated.",
+    "claim": "This file is a bounded native-field projection, not a replacement serialization of the complete ORD Dataset protobuf."
+  }
+}

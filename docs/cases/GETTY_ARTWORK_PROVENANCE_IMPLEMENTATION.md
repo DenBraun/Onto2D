@@ -1,4 +1,4 @@
-# Getty Artwork Provenance — Implementation Plan
+# Getty Artwork Provenance — Implementation
 
 Updated: 2026-08-18
 
@@ -11,313 +11,80 @@ History modes:
 
 Primary effects:
     Identity
-    Relational/legal status
 
 Domain:
-    Cultural heritage / artwork provenance
+    Cultural heritage
 
 Evidence profile:
-    archival record
-    linked-data record
-    source catalogue/inventory
-    published provenance interpretation
+    direct-record
+    derived
+    reconstructed
+    unknown
 
 Historical Load:
     Not primary
 
 History Equivalence:
-    Primary candidate
+    Primary
 
 Reachability:
     Not primary
 
 Reconstruction:
-    Secondary, especially for provenance gaps
+    Secondary
 ```
 
-## Purpose
+## Result
 
-Use the Getty Provenance Index to test historical identity that is neither
-physical construction history nor biological lineage.
+Artwork Provenance is an analysis-ready Recorded + Reconstructed History → Identity case built from the Getty Provenance Index Linked.Art API. It is intentionally a bounded identity and evidence experiment, not a complete provenance, legal-title, authenticity, or restitution analysis.
 
-Primary distinction:
+The frozen cohort contains four exact `HumanMadeObject` responses, A1981–A1984, connected by one Getty purchase Activity. A1983 (`James Christie`) is the flagship because the bounded source also includes a later sale Activity, two stock-book `LinguisticObject` records, and current-owner/current-location relations. Every external response, the exact SPARQL label query, and its response are committed with byte counts and SHA-256 locks. Reproduction is offline.
 
-```text
-same physical artwork
-    !=
-same provenance history
-    !=
-same relational/provenance status
-```
+## Primary result
 
-The case should demonstrate that history may exist primarily as relations among
-objects, people, transactions, institutions, and archival records.
+Two views of A1983 are compared:
 
-## Primary External Source
+- `evidence-only`: purchase, sale, current context;
+- `gap-explicit`: purchase, sale, an explicit unknown interval, current context.
 
-Getty Provenance Index API:
+They are equal by exact Getty artwork URI, directly encoded activity sequence, and role-insensitive actor set. They are distinct when explicit missingness is part of history. They are unresolved under a complete-evidence-chain rule because neither view is complete. Equality is therefore local to a named regime, not a global claim.
 
-```text
-https://data.getty.edu/provenance/docs/
-```
+Historical Load is not evaluated. No finite candidate-chain space, admissibility predicate, or defensible cost has been declared. The stored value is `null`, meaning undefined—not zero.
 
-The API uses Linked.Art / JSON-LD and provides REST and SPARQL access.
+## Evidence boundary
 
-The data are made available under CC0, but exact API responses used by the case
-must still be pinned and hashed for reproducibility.
+- Getty `transferred_title_of`, `transferred_title_from`, and `transferred_title_to` relations remain native source statements. Onto2D does not treat them as a legal-title determination.
+- `current_owner` and `current_location` remain separate current-context relations with unknown start dates.
+- A source record referring to an object does not infer ownership.
+- Getty time spans remain bounded. `1938-09-00` is month-bounded; no approximate label becomes an exact instant.
+- The interval after the sale has `contents: null`, `assertedTransfer: false`, and `evidenceState: unknown`.
+- No alternative history is invented merely to populate the interface.
 
-Optional complementary source:
+## Source and license
 
-```text
-https://data.getty.edu/museum/collection/docs/
-```
+Primary documentation:
 
-Do not assume that a Getty Museum object record and Provenance Index record
-refer to the same historical object without a supported identifier/mapping.
+- <https://data.getty.edu/provenance/docs/>
+- <https://www.getty.edu/databases-tools-and-technologies/provenance/gpi-user-guide/>
+- <https://www.getty.edu/databases-tools-and-technologies/provenance/whats-covered/>
+
+The frozen source data is published under CC0. Attribution is retained as requested: Getty Provenance Index®, J. Paul Getty Trust. Getty does not endorse Onto2D or this interpretation.
 
 ## Outputs
 
 ```text
-cases/artwork-provenance/
-apps/artwork-provenance-identity-lab/
+cases/getty-artwork-provenance/
 models/artwork-provenance/
-docs/cases/GETTY_ARTWORK_PROVENANCE_IMPLEMENTATION.md
+apps/artwork-provenance-identity-lab/
+docs/adr/0114-artwork-provenance-evidence-boundary.md
 ```
 
-Suggested registry identity:
+Run:
 
-```text
-caseId: artwork-provenance
-modelId: artwork-provenance
-explorerId: artwork-provenance-identity-lab
+```sh
+npm run case:artwork-provenance:verify
+npm run model:artwork-provenance:verify
+node --test cases/getty-artwork-provenance/tests/getty-artwork-provenance.test.mjs
+node --test models/artwork-provenance/compiler.test.mjs
+node --test apps/artwork-provenance-identity-lab/artwork-provenance-model.test.mjs
 ```
-
-## Non-goals
-
-Do not initially:
-
-- determine legal ownership;
-- determine authenticity;
-- adjudicate restitution claims;
-- infer transaction validity;
-- infer acquisition from mere co-occurrence;
-- infer one continuous chain from incomplete archival evidence;
-- create market-value claims.
-
-This is a provenance representation case, not a legal-opinion engine.
-
-## Phase 0 — Select a Bounded Artwork Cohort
-
-Select approximately 5–20 artwork/object histories with:
-
-- stable Getty records;
-- multiple documented provenance events;
-- at least one history with a meaningful gap or uncertainty if available;
-- sufficiently clear archival sources;
-- no need for speculative identity matching.
-
-Prefer a small manually reviewable corpus.
-
-## Phase 1 — Pin Source Records
-
-Create:
-
-```text
-cases/artwork-provenance/upstream.json
-cases/artwork-provenance/source/
-```
-
-Record:
-
-- exact REST/SPARQL queries;
-- retrieval timestamp;
-- returned entity IDs;
-- JSON-LD response hashes;
-- Linked.Art interpretation version;
-- selection criteria;
-- any manual identity mappings.
-
-Persist bounded source responses where permitted.
-
-Do not re-query live data during canonical tests.
-
-## Phase 2 — Native Record Model
-
-Preserve native distinctions such as:
-
-```text
-HumanMadeObject
-Person
-Group
-Place
-Activity
-Encounter
-Acquisition/Transfer-like activity
-Source record
-Identifier
-TimeSpan
-```
-
-Use the actual Linked.Art classifications in the source snapshot instead of
-inventing simplified types before extraction.
-
-## Phase 3 — Provenance Event Projection
-
-Create a deterministic case projection:
-
-```text
-Artwork
-   |
-   +-- Event 1 -- Actor / Place / Time
-   |
-   +-- Event 2 -- Actor / Place / Time
-   |
-   +-- Event 3 -- ...
-```
-
-Classify each projected edge by evidence:
-
-```text
-upstream-declared
-derived-order
-identity-mapped
-published-interpretation
-unknown
-```
-
-## Phase 4 — Identity Separation
-
-Represent independently:
-
-```text
-physical/canonical object identity
-source-record identity
-provenance-history identity
-provenance-chain hypothesis
-```
-
-Do not duplicate the artwork object merely because two provenance histories are
-being compared.
-
-## Phase 5 — Canonical Experiments
-
-### Experiment A — Same Artwork, Multiple Historical Contexts
-
-Show one artwork object with several successive ownership/market/inventory
-contexts.
-
-### Experiment B — Provenance Gap
-
-Where source data support it, represent:
-
-```text
-known event
-    |
-unknown interval
-    |
-known event
-```
-
-The gap is a first-class state.
-
-### Experiment C — Competing Chain Interpretation
-
-Only if the source corpus genuinely supports alternative mappings.
-
-Represent multiple candidate chains rather than selecting one silently.
-
-### Experiment D — History Equivalence
-
-Define explicit comparison profiles such as:
-
-```text
-same artwork only
-same ordered known provenance events
-same actors ignoring exact dates
-same complete evidence-backed chain
-```
-
-The purpose is to show that provenance identity is regime-relative.
-
-## Phase 6 — Evidence Inspector
-
-Every provenance event must answer:
-
-```text
-What record supports this?
-Is the relation directly encoded or derived?
-Is the object identity exact or manually mapped?
-Is the time exact, bounded, approximate, or unknown?
-```
-
-## Phase 7 — Model Pack
-
-Create:
-
-```text
-modelId: artwork-provenance
-```
-
-Candidate entities:
-
-```text
-artwork
-actor
-organization
-place
-historical event
-source record
-provenance assertion
-time interval
-evidence link
-```
-
-Keep Getty entity IDs intact in source metadata.
-
-## Phase 8 — Explorer
-
-Views:
-
-1. Artwork Identity
-2. Provenance Timeline
-3. Actor / Place Network
-4. Source Records
-5. Gaps and Uncertainty
-6. Alternative Chains
-7. Identity Regime Comparison
-
-Central visual:
-
-```text
-same Artwork X
-      |
-      +-- known provenance history
-      |
-      +-- unresolved interval
-      |
-      +-- current context
-```
-
-## Phase 9 — Negative Tests
-
-Required:
-
-- source-record co-occurrence cannot become ownership automatically;
-- unknown intervals remain unknown;
-- approximate dates cannot become exact;
-- different source records cannot be merged without identity evidence;
-- provenance status cannot become legal title;
-- a missing earlier record cannot be interpreted as first ownership;
-- manual mapping must cite its evidence artifact.
-
-## Falsification Criterion
-
-The case fails if Onto2D cannot preserve one physical object identity while
-representing multiple historical relational states, uncertainty, and gaps
-without inventing a complete chain.
-
-## Definition of Done
-
-A pinned Getty cohort can be reproduced from exact source records, visualized as
-a provenance timeline/network, and inspected at the evidence level while
-keeping object identity, provenance history, and legal interpretation separate.

@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/getty-artwork-provenance.schema.json",
+  "title": "Onto2D Getty Artwork Provenance case artifact",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["format", "formatVersion", "caseVersion", "generatedBy", "getty", "source", "cohort", "actors", "places", "sourceRecords", "events", "eventOrder", "flagship", "historyEquivalence", "historicalLoad", "evidenceBoundary", "caseIdentity"],
+  "properties": {
+    "format": { "const": "onto2d-getty-artwork-provenance-case" },
+    "formatVersion": { "const": "1" },
+    "caseVersion": { "const": "getty-artwork-provenance-v1" },
+    "generatedBy": { "const": "cases/getty-artwork-provenance/extract.mjs" },
+    "getty": { "$ref": "#/$defs/object" },
+    "source": {
+      "type": "object", "additionalProperties": false,
+      "required": ["identity", "authoredFiles", "externalFiles", "queryFiles", "retrievedAt", "liveNetworkRequiredByBuild"],
+      "properties": {
+        "identity": { "$ref": "#/$defs/identity" },
+        "authoredFiles": { "type": "array", "minItems": 2, "maxItems": 2, "items": { "$ref": "#/$defs/object" } },
+        "externalFiles": { "type": "array", "minItems": 8, "maxItems": 8, "items": { "$ref": "#/$defs/object" } },
+        "queryFiles": { "type": "array", "minItems": 2, "maxItems": 2, "items": { "$ref": "#/$defs/object" } },
+        "retrievedAt": { "type": "string", "minLength": 1 },
+        "liveNetworkRequiredByBuild": { "const": false }
+      }
+    },
+    "cohort": {
+      "type": "object", "additionalProperties": false, "required": ["id", "objects"],
+      "properties": { "id": { "const": "getty-knoedler-a1981-a1984-v1" }, "objects": { "type": "array", "minItems": 4, "maxItems": 4, "items": { "$ref": "#/$defs/artwork" } } }
+    },
+    "actors": { "type": "array", "minItems": 3, "maxItems": 3, "items": { "$ref": "#/$defs/entity" } },
+    "places": { "type": "array", "minItems": 1, "maxItems": 1, "items": { "$ref": "#/$defs/entity" } },
+    "sourceRecords": { "type": "array", "minItems": 2, "maxItems": 2, "items": { "$ref": "#/$defs/sourceRecord" } },
+    "events": { "type": "array", "minItems": 2, "maxItems": 2, "items": { "$ref": "#/$defs/event" } },
+    "eventOrder": { "type": "array", "minItems": 1, "maxItems": 1, "items": { "$ref": "#/$defs/object" } },
+    "flagship": { "$ref": "#/$defs/flagship" },
+    "historyEquivalence": {
+      "type": "object", "additionalProperties": false, "required": ["profileVersion", "regimes", "histories", "comparison"],
+      "properties": {
+        "profileVersion": { "const": "artwork-provenance-identity-v1" },
+        "regimes": { "type": "array", "minItems": 5, "maxItems": 5, "items": { "$ref": "#/$defs/regime" } },
+        "histories": { "type": "array", "minItems": 2, "maxItems": 2, "items": { "$ref": "#/$defs/history" } },
+        "comparison": { "$ref": "#/$defs/comparison" }
+      }
+    },
+    "historicalLoad": {
+      "type": "object", "additionalProperties": false, "required": ["status", "value", "reason"],
+      "properties": { "status": { "const": "not-evaluated" }, "value": { "type": "null" }, "reason": { "type": "string", "minLength": 1 } }
+    },
+    "evidenceBoundary": { "$ref": "#/$defs/evidenceBoundary" },
+    "caseIdentity": { "$ref": "#/$defs/identity" }
+  },
+  "$defs": {
+    "object": { "type": "object" },
+    "identity": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "gettyId": { "type": "string", "pattern": "^https://data\\.getty\\.edu/provenance/[0-9a-f-]{36}$" },
+    "stringArray": { "type": "array", "items": { "type": "string" } },
+    "entity": {
+      "type": "object", "additionalProperties": false, "required": ["id", "label", "nativeType", "evidenceState"],
+      "properties": { "id": { "$ref": "#/$defs/gettyId" }, "label": { "type": "string", "minLength": 1 }, "nativeType": { "enum": ["Group", "Place"] }, "evidenceState": { "const": "direct-record" } }
+    },
+    "time": {
+      "type": "object", "additionalProperties": false, "required": ["label", "begin", "end", "precision", "exact"],
+      "properties": { "label": { "type": "string" }, "begin": { "type": "string" }, "end": { "type": "string" }, "precision": { "enum": ["day-bounded", "month-bounded"] }, "exact": { "const": false } }
+    },
+    "artwork": {
+      "type": "object", "additionalProperties": false, "required": ["id", "label", "nativeType", "stockNumber", "identifiers", "currentOwnerIds", "currentLocationId", "sourceRecordIds", "artworkRecordIdentity", "evidenceState"],
+      "properties": {
+        "id": { "$ref": "#/$defs/gettyId" }, "label": { "type": "string", "minLength": 1 }, "nativeType": { "const": "HumanMadeObject" }, "stockNumber": { "enum": ["A1981", "A1982", "A1983", "A1984"] },
+        "identifiers": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/object" } }, "currentOwnerIds": { "$ref": "#/$defs/stringArray" }, "currentLocationId": { "anyOf": [{ "$ref": "#/$defs/gettyId" }, { "type": "null" }] },
+        "sourceRecordIds": { "$ref": "#/$defs/stringArray" }, "artworkRecordIdentity": { "$ref": "#/$defs/identity" }, "evidenceState": { "const": "direct-record" }
+      }
+    },
+    "transfer": {
+      "type": "object", "additionalProperties": false, "required": ["sourceOrdinal", "objectId", "label", "nativeType", "fromActorIds", "toActorIds", "evidenceState", "legalTitleDetermination"],
+      "properties": { "sourceOrdinal": { "type": "integer", "minimum": 0 }, "objectId": { "$ref": "#/$defs/gettyId" }, "label": { "type": "string" }, "nativeType": { "const": "Acquisition" }, "fromActorIds": { "$ref": "#/$defs/stringArray" }, "toActorIds": { "$ref": "#/$defs/stringArray" }, "evidenceState": { "const": "upstream-declared" }, "legalTitleDetermination": { "const": false } }
+    },
+    "event": {
+      "type": "object", "additionalProperties": false, "required": ["id", "label", "nativeType", "kind", "classifications", "time", "transfers", "includedSourceRecordIds", "evidenceState"],
+      "properties": { "id": { "$ref": "#/$defs/gettyId" }, "label": { "type": "string" }, "nativeType": { "const": "Activity" }, "kind": { "enum": ["purchase-1938", "sale-1938"] }, "classifications": { "type": "array", "items": { "$ref": "#/$defs/object" } }, "time": { "$ref": "#/$defs/time" }, "transfers": { "type": "array", "minItems": 1, "maxItems": 4, "items": { "$ref": "#/$defs/transfer" } }, "includedSourceRecordIds": { "$ref": "#/$defs/stringArray" }, "evidenceState": { "const": "direct-record" } }
+    },
+    "sourceRecord": {
+      "type": "object", "additionalProperties": false, "required": ["id", "label", "nativeType", "about", "createdByActorIds", "creationTime", "transcription", "evidenceState", "ownershipInference"],
+      "properties": { "id": { "$ref": "#/$defs/gettyId" }, "label": { "type": "string" }, "nativeType": { "const": "LinguisticObject" }, "about": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/object" } }, "createdByActorIds": { "$ref": "#/$defs/stringArray" }, "creationTime": { "$ref": "#/$defs/time" }, "transcription": { "$ref": "#/$defs/object" }, "evidenceState": { "const": "direct-record" }, "ownershipInference": { "type": "null" } }
+    },
+    "flagship": {
+      "type": "object", "additionalProperties": false, "required": ["objectId", "stockNumber", "currentContext", "gap", "alternativeChains"],
+      "properties": { "objectId": { "$ref": "#/$defs/gettyId" }, "stockNumber": { "const": "A1983" }, "currentContext": { "$ref": "#/$defs/object" }, "gap": { "$ref": "#/$defs/gap" }, "alternativeChains": { "$ref": "#/$defs/object" } }
+    },
+    "gap": {
+      "type": "object", "additionalProperties": false, "required": ["id", "label", "afterEventId", "earliestAfter", "beforeContext", "latestBefore", "observedAt", "contents", "evidenceState", "assertedTransfer", "legalTitleDetermination", "interpretation"],
+      "properties": { "id": { "const": "post-sale-to-current-context" }, "label": { "type": "string" }, "afterEventId": { "$ref": "#/$defs/gettyId" }, "earliestAfter": { "type": "string" }, "beforeContext": { "const": "current-owner-relation-observed-in-object-snapshot" }, "latestBefore": { "type": "null" }, "observedAt": { "type": "string" }, "contents": { "type": "null" }, "evidenceState": { "const": "unknown" }, "assertedTransfer": { "const": false }, "legalTitleDetermination": { "const": false }, "interpretation": { "type": "string", "minLength": 1 } }
+    },
+    "regime": { "type": "object", "additionalProperties": false, "required": ["id", "label", "question", "kind", "fields", "normalization"], "properties": { "id": { "type": "string" }, "label": { "type": "string" }, "question": { "type": "string" }, "kind": { "enum": ["projection", "completeness-guard"] }, "fields": { "$ref": "#/$defs/stringArray" }, "normalization": { "type": "string" } } },
+    "history": { "type": "object", "additionalProperties": false, "required": ["id", "label", "objectId", "directEventIds", "actorIds", "segments", "includesUnknownInterval", "complete", "evidenceState", "historyIdentity"], "properties": { "id": { "enum": ["evidence-only", "gap-explicit"] }, "label": { "type": "string" }, "objectId": { "$ref": "#/$defs/gettyId" }, "directEventIds": { "$ref": "#/$defs/stringArray" }, "actorIds": { "$ref": "#/$defs/stringArray" }, "segments": { "$ref": "#/$defs/stringArray" }, "includesUnknownInterval": { "type": "boolean" }, "complete": { "const": false }, "evidenceState": { "enum": ["derived", "reconstructed"] }, "historyIdentity": { "$ref": "#/$defs/identity" } } },
+    "comparison": { "type": "object", "additionalProperties": false, "required": ["id", "leftHistoryId", "rightHistoryId", "historiesDistinct", "results"], "properties": { "id": { "const": "evidence-only-vs-gap-explicit" }, "leftHistoryId": { "const": "evidence-only" }, "rightHistoryId": { "const": "gap-explicit" }, "historiesDistinct": { "const": true }, "results": { "type": "array", "minItems": 5, "maxItems": 5, "items": { "$ref": "#/$defs/result" } } } },
+    "result": { "type": "object", "additionalProperties": false, "required": ["regimeId", "label", "question", "kind", "comparedFields", "normalization", "leftProjectionIdentity", "rightProjectionIdentity", "differingFields", "verdict"], "properties": { "regimeId": { "type": "string" }, "label": { "type": "string" }, "question": { "type": "string" }, "kind": { "enum": ["projection", "completeness-guard"] }, "comparedFields": { "$ref": "#/$defs/stringArray" }, "normalization": { "type": "string" }, "leftProjectionIdentity": { "$ref": "#/$defs/identity" }, "rightProjectionIdentity": { "$ref": "#/$defs/identity" }, "differingFields": { "$ref": "#/$defs/stringArray" }, "verdict": { "enum": ["equal", "distinct", "unresolved"] } } },
+    "evidenceBoundary": { "type": "object", "additionalProperties": false, "required": ["directRecords", "derived", "reconstructed", "unknown", "contested", "nonClaims", "attribution"], "properties": { "directRecords": { "$ref": "#/$defs/stringArray" }, "derived": { "$ref": "#/$defs/stringArray" }, "reconstructed": { "$ref": "#/$defs/stringArray" }, "unknown": { "$ref": "#/$defs/stringArray" }, "contested": { "$ref": "#/$defs/stringArray" }, "nonClaims": { "$ref": "#/$defs/stringArray" }, "attribution": { "type": "string", "minLength": 1 } } }
+  }
+}

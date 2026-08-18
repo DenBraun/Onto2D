@@ -1,0 +1,705 @@
+[
+  {
+    "artifactPath": "dist/history-equivalence.txt",
+    "bytes": 205,
+    "description": "A specified primary build output compared byte-for-byte by SHA-256; capture logs and provenance remain separate records.",
+    "entityKind": "build-artifact",
+    "id": "artifact:sha256:6207334e1eea21837e2f7b8c0ce734e43abcdd41ea2bac2a38c7a3b54aaa6b57",
+    "name": "Stable output",
+    "phase": "actual-output",
+    "scientificStatus": "byte-verified",
+    "sha256": "sha256:6207334e1eea21837e2f7b8c0ce734e43abcdd41ea2bac2a38c7a3b54aaa6b57",
+    "shortDescription": "205 bytes; sha256:6207334e1ee....",
+    "typeRole": "specified-output",
+    "utf8": "ONTO2D HISTORY EQUIVALENCE FIXTURE\nname=onto2d-history-equivalence-fixture\nversion=1.0.0\nchannel=stable\nsource-date=2026-08-17T00:00:00.000Z\nmessage=Different build histories can preserve the same output.\n"
+  },
+  {
+    "artifactPath": "dist/history-equivalence.txt",
+    "bytes": 206,
+    "description": "A specified primary build output compared byte-for-byte by SHA-256; capture logs and provenance remain separate records.",
+    "entityKind": "build-artifact",
+    "id": "artifact:sha256:6434045fcb7e36e6479127d9d308119b4a36e0ae50e56b61f426a1b358f0129a",
+    "name": "Preview output",
+    "phase": "actual-output",
+    "scientificStatus": "byte-verified",
+    "sha256": "sha256:6434045fcb7e36e6479127d9d308119b4a36e0ae50e56b61f426a1b358f0129a",
+    "shortDescription": "206 bytes; sha256:6434045fcb7....",
+    "typeRole": "specified-output",
+    "utf8": "ONTO2D HISTORY EQUIVALENCE FIXTURE\nname=onto2d-history-equivalence-fixture\nversion=1.0.0\nchannel=preview\nsource-date=2026-08-17T00:00:00.000Z\nmessage=Different build histories can preserve the same output.\n"
+  },
+  {
+    "description": "This case compares whether two histories are equivalent under a declared regime. It does not define candidate routes, an admissibility predicate, or a cost function, so Historical Load would be undefined rather than zero.",
+    "entityKind": "analysis-boundary",
+    "id": "boundary:historical-load-not-evaluated",
+    "name": "Historical Load is undefined here",
+    "phase": "evidence-boundary",
+    "scientificStatus": "explicitly-not-evaluated",
+    "shortDescription": "No route space, admissibility rule, or cost function.",
+    "typeRole": "historical-load-boundary",
+    "value": null
+  },
+  {
+    "comparisonId": "cross-toolchain-rebuild",
+    "description": "A declared pair of distinct recorded build histories evaluated independently under every versioned equivalence regime.",
+    "entityKind": "history-comparison",
+    "historiesDistinct": true,
+    "id": "comparison:cross-toolchain-rebuild",
+    "leftHistory": "baseline-node24",
+    "name": "Same inputs, different Node toolchain",
+    "phase": "derived-analysis",
+    "rightHistory": "baseline-node22",
+    "scientificStatus": "deterministically-derived",
+    "shortDescription": "3/5 regimes equal.",
+    "typeRole": "comparison"
+  },
+  {
+    "comparisonId": "irrelevant-environment-variation",
+    "description": "A declared pair of distinct recorded build histories evaluated independently under every versioned equivalence regime.",
+    "entityKind": "history-comparison",
+    "historiesDistinct": true,
+    "id": "comparison:irrelevant-environment-variation",
+    "leftHistory": "baseline-node24",
+    "name": "Irrelevant ambient value changed",
+    "phase": "derived-analysis",
+    "rightHistory": "ambient-variation-node24",
+    "scientificStatus": "deterministically-derived",
+    "shortDescription": "4/5 regimes equal.",
+    "typeRole": "comparison"
+  },
+  {
+    "comparisonId": "relevant-input-mutation",
+    "description": "A declared pair of distinct recorded build histories evaluated independently under every versioned equivalence regime.",
+    "entityKind": "history-comparison",
+    "historiesDistinct": true,
+    "id": "comparison:relevant-input-mutation",
+    "leftHistory": "baseline-node24",
+    "name": "Declared release channel changed",
+    "phase": "derived-analysis",
+    "rightHistory": "relevant-input-node24",
+    "scientificStatus": "deterministically-derived",
+    "shortDescription": "2/5 regimes equal.",
+    "typeRole": "comparison"
+  },
+  {
+    "description": "The three environment fields declared identity-relevant for this fixture. ONTO2D_SESSION_LABEL is recorded separately and explicitly excluded.",
+    "entityKind": "environment-profile",
+    "excludedFields": [
+      "environment.observedIrrelevant.ONTO2D_SESSION_LABEL"
+    ],
+    "id": "environment:normalized-build-v1",
+    "name": "Normalized build environment",
+    "normalized": {
+      "LANG": "C",
+      "SOURCE_DATE_EPOCH": "1786924800",
+      "TZ": "UTC"
+    },
+    "phase": "declared-input",
+    "scientificStatus": "declared-profile",
+    "shortDescription": "LANG=C; TZ=UTC; fixed source date.",
+    "typeRole": "normalized-environment"
+  },
+  {
+    "capturedAt": "2026-08-18T17:16:51.885Z",
+    "declaredInputs": {
+      "identity": "sha256:40d2216e97a82fdcc54f887c7b258c3c5f43e34ff007ed20659c610bdc0bdde4",
+      "instructionsIdentity": "sha256:d9eba7b2cd87fd64887d07dfcdeacc59ab1ecdc942150e950185d333f3be3a27",
+      "parameters": {
+        "releaseChannel": "stable"
+      },
+      "sourceIdentity": "sha256:8ec066ab855340e1c9efd3f91c8fcc193857f0cecdc9f0c5979fd2a476bef9cc"
+    },
+    "description": "A distinct captured build execution. Its historical identity never collapses merely because another execution produced equal bytes under one regime.",
+    "entityKind": "build-execution-record",
+    "environment": {
+      "normalized": {
+        "LANG": "C",
+        "SOURCE_DATE_EPOCH": "1786924800",
+        "TZ": "UTC"
+      },
+      "observedIrrelevant": {
+        "ONTO2D_SESSION_LABEL": "gamma"
+      }
+    },
+    "executionId": "ambient-variation-node24",
+    "historyIdentity": "sha256:1f44dd319a55a8e963de1a52a97639f6323fb9b0b1487a09c97fc91498ce0a09",
+    "id": "history:ambient-variation-node24",
+    "name": "ambient variation node24",
+    "outputSha256": "sha256:6207334e1eea21837e2f7b8c0ce734e43abcdd41ea2bac2a38c7a3b54aaa6b57",
+    "phase": "actual-execution",
+    "runtime": {
+      "architecture": "arm64",
+      "major": 24,
+      "name": "Node.js",
+      "platform": "darwin",
+      "version": "24.19.0"
+    },
+    "scientificStatus": "captured-record",
+    "shortDescription": "Node.js 24.19.0; stable; 205 bytes.",
+    "typeRole": "execution-history"
+  },
+  {
+    "capturedAt": "2026-08-18T17:16:46.853Z",
+    "declaredInputs": {
+      "identity": "sha256:40d2216e97a82fdcc54f887c7b258c3c5f43e34ff007ed20659c610bdc0bdde4",
+      "instructionsIdentity": "sha256:d9eba7b2cd87fd64887d07dfcdeacc59ab1ecdc942150e950185d333f3be3a27",
+      "parameters": {
+        "releaseChannel": "stable"
+      },
+      "sourceIdentity": "sha256:8ec066ab855340e1c9efd3f91c8fcc193857f0cecdc9f0c5979fd2a476bef9cc"
+    },
+    "description": "A distinct captured build execution. Its historical identity never collapses merely because another execution produced equal bytes under one regime.",
+    "entityKind": "build-execution-record",
+    "environment": {
+      "normalized": {
+        "LANG": "C",
+        "SOURCE_DATE_EPOCH": "1786924800",
+        "TZ": "UTC"
+      },
+      "observedIrrelevant": {
+        "ONTO2D_SESSION_LABEL": "beta"
+      }
+    },
+    "executionId": "baseline-node22",
+    "historyIdentity": "sha256:efc77efd16d70e833da3e36e7ef21d71b180c980ecb8cc610cb2abb5ab4810dd",
+    "id": "history:baseline-node22",
+    "name": "baseline node22",
+    "outputSha256": "sha256:6207334e1eea21837e2f7b8c0ce734e43abcdd41ea2bac2a38c7a3b54aaa6b57",
+    "phase": "actual-execution",
+    "runtime": {
+      "architecture": "arm64",
+      "major": 22,
+      "name": "Node.js",
+      "platform": "darwin",
+      "version": "22.23.2"
+    },
+    "scientificStatus": "captured-record",
+    "shortDescription": "Node.js 22.23.2; stable; 205 bytes.",
+    "typeRole": "execution-history"
+  },
+  {
+    "capturedAt": "2026-08-18T17:16:34.823Z",
+    "declaredInputs": {
+      "identity": "sha256:40d2216e97a82fdcc54f887c7b258c3c5f43e34ff007ed20659c610bdc0bdde4",
+      "instructionsIdentity": "sha256:d9eba7b2cd87fd64887d07dfcdeacc59ab1ecdc942150e950185d333f3be3a27",
+      "parameters": {
+        "releaseChannel": "stable"
+      },
+      "sourceIdentity": "sha256:8ec066ab855340e1c9efd3f91c8fcc193857f0cecdc9f0c5979fd2a476bef9cc"
+    },
+    "description": "A distinct captured build execution. Its historical identity never collapses merely because another execution produced equal bytes under one regime.",
+    "entityKind": "build-execution-record",
+    "environment": {
+      "normalized": {
+        "LANG": "C",
+        "SOURCE_DATE_EPOCH": "1786924800",
+        "TZ": "UTC"
+      },
+      "observedIrrelevant": {
+        "ONTO2D_SESSION_LABEL": "alpha"
+      }
+    },
+    "executionId": "baseline-node24",
+    "historyIdentity": "sha256:a1fd7d3aa55210381ac39b605f3e5104f3b0c1d465c1daf42b2f316faf501552",
+    "id": "history:baseline-node24",
+    "name": "baseline node24",
+    "outputSha256": "sha256:6207334e1eea21837e2f7b8c0ce734e43abcdd41ea2bac2a38c7a3b54aaa6b57",
+    "phase": "actual-execution",
+    "runtime": {
+      "architecture": "arm64",
+      "major": 24,
+      "name": "Node.js",
+      "platform": "darwin",
+      "version": "24.19.0"
+    },
+    "scientificStatus": "captured-record",
+    "shortDescription": "Node.js 24.19.0; stable; 205 bytes.",
+    "typeRole": "execution-history"
+  },
+  {
+    "capturedAt": "2026-08-18T17:16:56.202Z",
+    "declaredInputs": {
+      "identity": "sha256:cf205c98728b962755fbc1ed446e751a0830f8d9be813bcb73c5cf52f7f3231c",
+      "instructionsIdentity": "sha256:d9eba7b2cd87fd64887d07dfcdeacc59ab1ecdc942150e950185d333f3be3a27",
+      "parameters": {
+        "releaseChannel": "preview"
+      },
+      "sourceIdentity": "sha256:8ec066ab855340e1c9efd3f91c8fcc193857f0cecdc9f0c5979fd2a476bef9cc"
+    },
+    "description": "A distinct captured build execution. Its historical identity never collapses merely because another execution produced equal bytes under one regime.",
+    "entityKind": "build-execution-record",
+    "environment": {
+      "normalized": {
+        "LANG": "C",
+        "SOURCE_DATE_EPOCH": "1786924800",
+        "TZ": "UTC"
+      },
+      "observedIrrelevant": {
+        "ONTO2D_SESSION_LABEL": "delta"
+      }
+    },
+    "executionId": "relevant-input-node24",
+    "historyIdentity": "sha256:4a9126e2c9c1d87fda600f414e9cd80216b70f62a1180097121b00a9f29cfe91",
+    "id": "history:relevant-input-node24",
+    "name": "relevant input node24",
+    "outputSha256": "sha256:6434045fcb7e36e6479127d9d308119b4a36e0ae50e56b61f426a1b358f0129a",
+    "phase": "actual-execution",
+    "runtime": {
+      "architecture": "arm64",
+      "major": 24,
+      "name": "Node.js",
+      "platform": "darwin",
+      "version": "24.19.0"
+    },
+    "scientificStatus": "captured-record",
+    "shortDescription": "Node.js 24.19.0; preview; 206 bytes.",
+    "typeRole": "execution-history"
+  },
+  {
+    "description": "Versioned build instructions defining the specified artifact, pinned source date, normalized environment, and intentionally excluded ambient field.",
+    "entityKind": "build-instruction-profile",
+    "id": "instructions:sha256:d9eba7b2cd87fd64887d07dfcdeacc59ab1ecdc942150e950185d333f3be3a27",
+    "instructions": {
+      "builder": "src/build-fixture.mjs",
+      "declaredEnvironment": {
+        "LANG": "C",
+        "SOURCE_DATE_EPOCH": "1786924800",
+        "TZ": "UTC"
+      },
+      "excludedAmbientFields": [
+        "ONTO2D_SESSION_LABEL"
+      ],
+      "format": "onto2d-deterministic-text-bundle-v1",
+      "sourceDateEpoch": 1786924800
+    },
+    "instructionsIdentity": "sha256:d9eba7b2cd87fd64887d07dfcdeacc59ab1ecdc942150e950185d333f3be3a27",
+    "name": "Deterministic text-bundle instructions",
+    "phase": "declared-input",
+    "scientificStatus": "source-locked",
+    "shortDescription": "onto2d-deterministic-text-bundle-v1; SOURCE_DATE_EPOCH 1786924800.",
+    "typeRole": "build-instructions"
+  },
+  {
+    "comparedFields": [
+      "artifact.sha256",
+      "artifact.bytes"
+    ],
+    "description": "Are the specified artifact bytes identical?",
+    "entityKind": "equivalence-regime",
+    "excludedFields": [],
+    "id": "regime:byte-output",
+    "name": "Byte output",
+    "normalization": "none",
+    "phase": "derived-analysis",
+    "regimeId": "byte-output",
+    "scientificStatus": "declared-profile",
+    "shortDescription": "2 compared field(s); none.",
+    "typeRole": "equivalence-regime"
+  },
+  {
+    "comparedFields": [
+      "declaredInputs.sourceIdentity",
+      "declaredInputs.instructionsIdentity",
+      "declaredInputs.parameters"
+    ],
+    "description": "Are the source, build instructions, and declared parameters identical?",
+    "entityKind": "equivalence-regime",
+    "excludedFields": [],
+    "id": "regime:declared-input",
+    "name": "Declared inputs",
+    "normalization": "canonical JSON field order",
+    "phase": "derived-analysis",
+    "regimeId": "declared-input",
+    "scientificStatus": "declared-profile",
+    "shortDescription": "3 compared field(s); canonical JSON field order.",
+    "typeRole": "equivalence-regime"
+  },
+  {
+    "comparedFields": [
+      "environment.normalized.LANG",
+      "environment.normalized.TZ",
+      "environment.normalized.SOURCE_DATE_EPOCH"
+    ],
+    "description": "Are all fields in the declared normalized environment profile identical?",
+    "entityKind": "equivalence-regime",
+    "excludedFields": [
+      "environment.observedIrrelevant.ONTO2D_SESSION_LABEL"
+    ],
+    "id": "regime:environment",
+    "name": "Environment",
+    "normalization": "exact values for the three declared fields; all other ambient fields excluded",
+    "phase": "derived-analysis",
+    "regimeId": "environment",
+    "scientificStatus": "declared-profile",
+    "shortDescription": "3 compared field(s); exact values for the three declared fields; all other ambient fields excluded.",
+    "typeRole": "equivalence-regime"
+  },
+  {
+    "comparedFields": [
+      "executionId",
+      "capturedAt",
+      "runtime",
+      "environment.observedIrrelevant"
+    ],
+    "description": "Are these the same recorded execution event?",
+    "entityKind": "equivalence-regime",
+    "excludedFields": [],
+    "id": "regime:provenance",
+    "name": "Provenance",
+    "normalization": "none",
+    "phase": "derived-analysis",
+    "regimeId": "provenance",
+    "scientificStatus": "declared-profile",
+    "shortDescription": "4 compared field(s); none.",
+    "typeRole": "equivalence-regime"
+  },
+  {
+    "comparedFields": [
+      "runtime.name",
+      "runtime.version"
+    ],
+    "description": "Did both executions use the same declared toolchain identity?",
+    "entityKind": "equivalence-regime",
+    "excludedFields": [],
+    "id": "regime:toolchain",
+    "name": "Toolchain",
+    "normalization": "exact runtime name and semantic version",
+    "phase": "derived-analysis",
+    "regimeId": "toolchain",
+    "scientificStatus": "declared-profile",
+    "shortDescription": "2 compared field(s); exact runtime name and semantic version.",
+    "typeRole": "equivalence-regime"
+  },
+  {
+    "bytes": 73,
+    "description": "Exact source file used by every captured fixture build; bytes and SHA-256 are verified before rebuilding.",
+    "entityKind": "build-source-file",
+    "id": "source:sha256:7610da1494b4786d5136b4d04acc6310ee644747df3012998b9c1caf9d4a6945",
+    "name": "manifest.json",
+    "phase": "declared-input",
+    "scientificStatus": "byte-verified",
+    "shortDescription": "73 bytes; sha256:7610da1494b....",
+    "sourcePath": "fixture/source/manifest.json",
+    "sourceSha256": "sha256:7610da1494b4786d5136b4d04acc6310ee644747df3012998b9c1caf9d4a6945",
+    "typeRole": "source-input"
+  },
+  {
+    "bytes": 10717,
+    "description": "Exact source file used by every captured fixture build; bytes and SHA-256 are verified before rebuilding.",
+    "entityKind": "build-source-file",
+    "id": "source:sha256:b10229aa81426f8b077d212320ba8c64e666eefb7e4ed8a2bbf2c906dcb34543",
+    "name": "build-fixture.mjs",
+    "phase": "declared-input",
+    "scientificStatus": "byte-verified",
+    "shortDescription": "10717 bytes; sha256:b10229aa814....",
+    "sourcePath": "src/build-fixture.mjs",
+    "sourceSha256": "sha256:b10229aa81426f8b077d212320ba8c64e666eefb7e4ed8a2bbf2c906dcb34543",
+    "typeRole": "source-input"
+  },
+  {
+    "bytes": 56,
+    "description": "Exact source file used by every captured fixture build; bytes and SHA-256 are verified before rebuilding.",
+    "entityKind": "build-source-file",
+    "id": "source:sha256:df0752701fa34076bbf6d6686dff3753b7baf3cb45c33e067ca08609f8d51943",
+    "name": "message.txt",
+    "phase": "declared-input",
+    "scientificStatus": "byte-verified",
+    "shortDescription": "56 bytes; sha256:df0752701fa....",
+    "sourcePath": "fixture/source/message.txt",
+    "sourceSha256": "sha256:df0752701fa34076bbf6d6686dff3753b7baf3cb45c33e067ca08609f8d51943",
+    "typeRole": "source-input"
+  },
+  {
+    "description": "Runtime identity reported by an actual capture process. Platform and architecture remain part of provenance, not the toolchain equivalence projection.",
+    "entityKind": "build-toolchain",
+    "id": "toolchain:Node.js@22.23.2",
+    "name": "Node.js@22.23.2",
+    "phase": "actual-execution",
+    "runtime": {
+      "architecture": "arm64",
+      "major": 22,
+      "name": "Node.js",
+      "platform": "darwin",
+      "version": "22.23.2"
+    },
+    "scientificStatus": "captured-record",
+    "shortDescription": "darwin/arm64.",
+    "typeRole": "toolchain"
+  },
+  {
+    "description": "Runtime identity reported by an actual capture process. Platform and architecture remain part of provenance, not the toolchain equivalence projection.",
+    "entityKind": "build-toolchain",
+    "id": "toolchain:Node.js@24.19.0",
+    "name": "Node.js@24.19.0",
+    "phase": "actual-execution",
+    "runtime": {
+      "architecture": "arm64",
+      "major": 24,
+      "name": "Node.js",
+      "platform": "darwin",
+      "version": "24.19.0"
+    },
+    "scientificStatus": "captured-record",
+    "shortDescription": "darwin/arm64.",
+    "typeRole": "toolchain"
+  },
+  {
+    "comparisonId": "cross-toolchain-rebuild",
+    "description": "The two regime projections are exactly equal.",
+    "differingFields": [],
+    "entityKind": "equivalence-verdict",
+    "equal": true,
+    "id": "verdict:cross-toolchain-rebuild:byte-output",
+    "leftProjectionIdentity": "sha256:a3bfbb5f04410086ac0b05288b6320b7b6bc9ae9d77d7036e68284ac707c62fc",
+    "name": "cross-toolchain-rebuild / Byte output",
+    "phase": "derived-analysis",
+    "regimeId": "byte-output",
+    "rightProjectionIdentity": "sha256:a3bfbb5f04410086ac0b05288b6320b7b6bc9ae9d77d7036e68284ac707c62fc",
+    "scientificStatus": "deterministically-derived",
+    "shortDescription": "EQUIVALENT under this regime.",
+    "typeRole": "regime-verdict"
+  },
+  {
+    "comparisonId": "cross-toolchain-rebuild",
+    "description": "The two regime projections are exactly equal.",
+    "differingFields": [],
+    "entityKind": "equivalence-verdict",
+    "equal": true,
+    "id": "verdict:cross-toolchain-rebuild:declared-input",
+    "leftProjectionIdentity": "sha256:595218a9e85fe446643277c6f0075b97bb6a1308a429d02267c3903b68d310d2",
+    "name": "cross-toolchain-rebuild / Declared inputs",
+    "phase": "derived-analysis",
+    "regimeId": "declared-input",
+    "rightProjectionIdentity": "sha256:595218a9e85fe446643277c6f0075b97bb6a1308a429d02267c3903b68d310d2",
+    "scientificStatus": "deterministically-derived",
+    "shortDescription": "EQUIVALENT under this regime.",
+    "typeRole": "regime-verdict"
+  },
+  {
+    "comparisonId": "cross-toolchain-rebuild",
+    "description": "The two regime projections are exactly equal.",
+    "differingFields": [],
+    "entityKind": "equivalence-verdict",
+    "equal": true,
+    "id": "verdict:cross-toolchain-rebuild:environment",
+    "leftProjectionIdentity": "sha256:8c917f58c4ed4172d05d08d0515a2fb7147eafed4431c035ea5ad8bb50a7ddbd",
+    "name": "cross-toolchain-rebuild / Environment",
+    "phase": "derived-analysis",
+    "regimeId": "environment",
+    "rightProjectionIdentity": "sha256:8c917f58c4ed4172d05d08d0515a2fb7147eafed4431c035ea5ad8bb50a7ddbd",
+    "scientificStatus": "deterministically-derived",
+    "shortDescription": "EQUIVALENT under this regime.",
+    "typeRole": "regime-verdict"
+  },
+  {
+    "comparisonId": "cross-toolchain-rebuild",
+    "description": "The histories differ in: executionId, capturedAt, runtime, environment.observedIrrelevant.",
+    "differingFields": [
+      "executionId",
+      "capturedAt",
+      "runtime",
+      "environment.observedIrrelevant"
+    ],
+    "entityKind": "equivalence-verdict",
+    "equal": false,
+    "id": "verdict:cross-toolchain-rebuild:provenance",
+    "leftProjectionIdentity": "sha256:55180dbbc727bf8ae41871bb16a5e720ead1f5ef8d5e42096126bded248c24c2",
+    "name": "cross-toolchain-rebuild / Provenance",
+    "phase": "derived-analysis",
+    "regimeId": "provenance",
+    "rightProjectionIdentity": "sha256:f76b75f4858cf8618e2c8d5cf96a50a9cbfe7c1779358e8a591114512817c72a",
+    "scientificStatus": "deterministically-derived",
+    "shortDescription": "DISTINCT; 4 field(s) differ.",
+    "typeRole": "regime-verdict"
+  },
+  {
+    "comparisonId": "cross-toolchain-rebuild",
+    "description": "The histories differ in: runtime.version.",
+    "differingFields": [
+      "runtime.version"
+    ],
+    "entityKind": "equivalence-verdict",
+    "equal": false,
+    "id": "verdict:cross-toolchain-rebuild:toolchain",
+    "leftProjectionIdentity": "sha256:d5719f28e20143f9504a328bf283580fc75aebf17b4b0177503eb8dab591d2fd",
+    "name": "cross-toolchain-rebuild / Toolchain",
+    "phase": "derived-analysis",
+    "regimeId": "toolchain",
+    "rightProjectionIdentity": "sha256:0d6b649d68c5a87eec964b4d5280993dd2fc481d13530076387bad70b160efb3",
+    "scientificStatus": "deterministically-derived",
+    "shortDescription": "DISTINCT; 1 field(s) differ.",
+    "typeRole": "regime-verdict"
+  },
+  {
+    "comparisonId": "irrelevant-environment-variation",
+    "description": "The two regime projections are exactly equal.",
+    "differingFields": [],
+    "entityKind": "equivalence-verdict",
+    "equal": true,
+    "id": "verdict:irrelevant-environment-variation:byte-output",
+    "leftProjectionIdentity": "sha256:a3bfbb5f04410086ac0b05288b6320b7b6bc9ae9d77d7036e68284ac707c62fc",
+    "name": "irrelevant-environment-variation / Byte output",
+    "phase": "derived-analysis",
+    "regimeId": "byte-output",
+    "rightProjectionIdentity": "sha256:a3bfbb5f04410086ac0b05288b6320b7b6bc9ae9d77d7036e68284ac707c62fc",
+    "scientificStatus": "deterministically-derived",
+    "shortDescription": "EQUIVALENT under this regime.",
+    "typeRole": "regime-verdict"
+  },
+  {
+    "comparisonId": "irrelevant-environment-variation",
+    "description": "The two regime projections are exactly equal.",
+    "differingFields": [],
+    "entityKind": "equivalence-verdict",
+    "equal": true,
+    "id": "verdict:irrelevant-environment-variation:declared-input",
+    "leftProjectionIdentity": "sha256:595218a9e85fe446643277c6f0075b97bb6a1308a429d02267c3903b68d310d2",
+    "name": "irrelevant-environment-variation / Declared inputs",
+    "phase": "derived-analysis",
+    "regimeId": "declared-input",
+    "rightProjectionIdentity": "sha256:595218a9e85fe446643277c6f0075b97bb6a1308a429d02267c3903b68d310d2",
+    "scientificStatus": "deterministically-derived",
+    "shortDescription": "EQUIVALENT under this regime.",
+    "typeRole": "regime-verdict"
+  },
+  {
+    "comparisonId": "irrelevant-environment-variation",
+    "description": "The two regime projections are exactly equal.",
+    "differingFields": [],
+    "entityKind": "equivalence-verdict",
+    "equal": true,
+    "id": "verdict:irrelevant-environment-variation:environment",
+    "leftProjectionIdentity": "sha256:8c917f58c4ed4172d05d08d0515a2fb7147eafed4431c035ea5ad8bb50a7ddbd",
+    "name": "irrelevant-environment-variation / Environment",
+    "phase": "derived-analysis",
+    "regimeId": "environment",
+    "rightProjectionIdentity": "sha256:8c917f58c4ed4172d05d08d0515a2fb7147eafed4431c035ea5ad8bb50a7ddbd",
+    "scientificStatus": "deterministically-derived",
+    "shortDescription": "EQUIVALENT under this regime.",
+    "typeRole": "regime-verdict"
+  },
+  {
+    "comparisonId": "irrelevant-environment-variation",
+    "description": "The histories differ in: executionId, capturedAt, environment.observedIrrelevant.",
+    "differingFields": [
+      "executionId",
+      "capturedAt",
+      "environment.observedIrrelevant"
+    ],
+    "entityKind": "equivalence-verdict",
+    "equal": false,
+    "id": "verdict:irrelevant-environment-variation:provenance",
+    "leftProjectionIdentity": "sha256:55180dbbc727bf8ae41871bb16a5e720ead1f5ef8d5e42096126bded248c24c2",
+    "name": "irrelevant-environment-variation / Provenance",
+    "phase": "derived-analysis",
+    "regimeId": "provenance",
+    "rightProjectionIdentity": "sha256:996c40d7084b2ac38ff8ba3c9d237e6a18d6576d744a918657f929094e68c821",
+    "scientificStatus": "deterministically-derived",
+    "shortDescription": "DISTINCT; 3 field(s) differ.",
+    "typeRole": "regime-verdict"
+  },
+  {
+    "comparisonId": "irrelevant-environment-variation",
+    "description": "The two regime projections are exactly equal.",
+    "differingFields": [],
+    "entityKind": "equivalence-verdict",
+    "equal": true,
+    "id": "verdict:irrelevant-environment-variation:toolchain",
+    "leftProjectionIdentity": "sha256:d5719f28e20143f9504a328bf283580fc75aebf17b4b0177503eb8dab591d2fd",
+    "name": "irrelevant-environment-variation / Toolchain",
+    "phase": "derived-analysis",
+    "regimeId": "toolchain",
+    "rightProjectionIdentity": "sha256:d5719f28e20143f9504a328bf283580fc75aebf17b4b0177503eb8dab591d2fd",
+    "scientificStatus": "deterministically-derived",
+    "shortDescription": "EQUIVALENT under this regime.",
+    "typeRole": "regime-verdict"
+  },
+  {
+    "comparisonId": "relevant-input-mutation",
+    "description": "The histories differ in: artifact.sha256, artifact.bytes.",
+    "differingFields": [
+      "artifact.sha256",
+      "artifact.bytes"
+    ],
+    "entityKind": "equivalence-verdict",
+    "equal": false,
+    "id": "verdict:relevant-input-mutation:byte-output",
+    "leftProjectionIdentity": "sha256:a3bfbb5f04410086ac0b05288b6320b7b6bc9ae9d77d7036e68284ac707c62fc",
+    "name": "relevant-input-mutation / Byte output",
+    "phase": "derived-analysis",
+    "regimeId": "byte-output",
+    "rightProjectionIdentity": "sha256:5451626c1fb42b8f669a1660e473c08cdd22833d8e8d4c818920584b6e84b276",
+    "scientificStatus": "deterministically-derived",
+    "shortDescription": "DISTINCT; 2 field(s) differ.",
+    "typeRole": "regime-verdict"
+  },
+  {
+    "comparisonId": "relevant-input-mutation",
+    "description": "The histories differ in: declaredInputs.parameters.",
+    "differingFields": [
+      "declaredInputs.parameters"
+    ],
+    "entityKind": "equivalence-verdict",
+    "equal": false,
+    "id": "verdict:relevant-input-mutation:declared-input",
+    "leftProjectionIdentity": "sha256:595218a9e85fe446643277c6f0075b97bb6a1308a429d02267c3903b68d310d2",
+    "name": "relevant-input-mutation / Declared inputs",
+    "phase": "derived-analysis",
+    "regimeId": "declared-input",
+    "rightProjectionIdentity": "sha256:c58949c3e5fd6c25fa603e03d54d3a00627092bb5e2da08db8fc6633a25bb51f",
+    "scientificStatus": "deterministically-derived",
+    "shortDescription": "DISTINCT; 1 field(s) differ.",
+    "typeRole": "regime-verdict"
+  },
+  {
+    "comparisonId": "relevant-input-mutation",
+    "description": "The two regime projections are exactly equal.",
+    "differingFields": [],
+    "entityKind": "equivalence-verdict",
+    "equal": true,
+    "id": "verdict:relevant-input-mutation:environment",
+    "leftProjectionIdentity": "sha256:8c917f58c4ed4172d05d08d0515a2fb7147eafed4431c035ea5ad8bb50a7ddbd",
+    "name": "relevant-input-mutation / Environment",
+    "phase": "derived-analysis",
+    "regimeId": "environment",
+    "rightProjectionIdentity": "sha256:8c917f58c4ed4172d05d08d0515a2fb7147eafed4431c035ea5ad8bb50a7ddbd",
+    "scientificStatus": "deterministically-derived",
+    "shortDescription": "EQUIVALENT under this regime.",
+    "typeRole": "regime-verdict"
+  },
+  {
+    "comparisonId": "relevant-input-mutation",
+    "description": "The histories differ in: executionId, capturedAt, environment.observedIrrelevant.",
+    "differingFields": [
+      "executionId",
+      "capturedAt",
+      "environment.observedIrrelevant"
+    ],
+    "entityKind": "equivalence-verdict",
+    "equal": false,
+    "id": "verdict:relevant-input-mutation:provenance",
+    "leftProjectionIdentity": "sha256:55180dbbc727bf8ae41871bb16a5e720ead1f5ef8d5e42096126bded248c24c2",
+    "name": "relevant-input-mutation / Provenance",
+    "phase": "derived-analysis",
+    "regimeId": "provenance",
+    "rightProjectionIdentity": "sha256:a393d07b19644805faed01c53b595a1594b4a6c61ae99788e6c3f386f732c83d",
+    "scientificStatus": "deterministically-derived",
+    "shortDescription": "DISTINCT; 3 field(s) differ.",
+    "typeRole": "regime-verdict"
+  },
+  {
+    "comparisonId": "relevant-input-mutation",
+    "description": "The two regime projections are exactly equal.",
+    "differingFields": [],
+    "entityKind": "equivalence-verdict",
+    "equal": true,
+    "id": "verdict:relevant-input-mutation:toolchain",
+    "leftProjectionIdentity": "sha256:d5719f28e20143f9504a328bf283580fc75aebf17b4b0177503eb8dab591d2fd",
+    "name": "relevant-input-mutation / Toolchain",
+    "phase": "derived-analysis",
+    "regimeId": "toolchain",
+    "rightProjectionIdentity": "sha256:d5719f28e20143f9504a328bf283580fc75aebf17b4b0177503eb8dab591d2fd",
+    "scientificStatus": "deterministically-derived",
+    "shortDescription": "EQUIVALENT under this regime.",
+    "typeRole": "regime-verdict"
+  }
+]

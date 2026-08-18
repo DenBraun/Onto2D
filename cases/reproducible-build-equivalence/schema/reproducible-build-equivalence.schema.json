@@ -1,0 +1,261 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.example/schema/reproducible-build-equivalence/v1",
+  "title": "Onto2D Reproducible Build Equivalence Case",
+  "type": "object",
+  "required": ["format", "formatVersion", "caseVersion", "generatedBy", "source", "methodology", "build", "regimes", "histories", "comparisons", "conclusion", "historicalLoad", "evidenceBoundary", "caseIdentity"],
+  "properties": {
+    "format": { "const": "onto2d-reproducible-build-equivalence-case" },
+    "formatVersion": { "const": "1" },
+    "caseVersion": { "const": "reproducible-build-equivalence-v1" },
+    "generatedBy": { "const": "cases/reproducible-build-equivalence/extract.mjs" },
+    "source": {
+      "type": "object",
+      "required": ["identity", "authoredFiles", "sourceFiles", "liveNetworkRequiredByBuild"],
+      "properties": {
+        "identity": { "$ref": "#/$defs/hash" },
+        "authoredFiles": { "type": "array", "minItems": 3, "maxItems": 3, "items": { "$ref": "#/$defs/file" } },
+        "sourceFiles": { "type": "array", "minItems": 3, "maxItems": 3, "items": { "$ref": "#/$defs/sourceFile" } },
+        "liveNetworkRequiredByBuild": { "const": false }
+      },
+      "additionalProperties": false
+    },
+    "methodology": {
+      "type": "object",
+      "required": ["definitionUrl", "environmentUrl", "sourceDateEpochUrl", "retrievedAt"],
+      "properties": {
+        "definitionUrl": { "type": "string", "format": "uri" },
+        "environmentUrl": { "type": "string", "format": "uri" },
+        "sourceDateEpochUrl": { "type": "string", "format": "uri" },
+        "retrievedAt": { "type": "string", "format": "date-time" }
+      },
+      "additionalProperties": false
+    },
+    "build": {
+      "type": "object",
+      "required": ["artifact", "instructions", "sourceIdentity", "instructionsIdentity", "specifiedOutputs"],
+      "properties": {
+        "artifact": { "$ref": "#/$defs/artifactContract" },
+        "instructions": { "$ref": "#/$defs/instructions" },
+        "sourceIdentity": { "$ref": "#/$defs/hash" },
+        "instructionsIdentity": { "$ref": "#/$defs/hash" },
+        "specifiedOutputs": { "type": "array", "minItems": 2, "maxItems": 2, "items": { "$ref": "#/$defs/artifact" } }
+      },
+      "additionalProperties": false
+    },
+    "regimes": { "type": "array", "minItems": 5, "maxItems": 5, "items": { "$ref": "#/$defs/regime" } },
+    "histories": { "type": "array", "minItems": 4, "maxItems": 4, "items": { "$ref": "#/$defs/history" } },
+    "comparisons": { "type": "array", "minItems": 3, "maxItems": 3, "items": { "$ref": "#/$defs/comparison" } },
+    "conclusion": {
+      "type": "object",
+      "required": ["status", "flagship", "ambientControl", "relevantControl"],
+      "properties": {
+        "status": { "const": "regime-relative-equivalence-demonstrated" },
+        "flagship": { "type": "string", "minLength": 1 },
+        "ambientControl": { "type": "string", "minLength": 1 },
+        "relevantControl": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": false
+    },
+    "historicalLoad": {
+      "type": "object",
+      "required": ["status", "value", "reason"],
+      "properties": {
+        "status": { "const": "not-evaluated" },
+        "value": { "type": "null" },
+        "reason": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": false
+    },
+    "evidenceBoundary": {
+      "type": "object",
+      "required": ["directRecords", "derived", "excluded", "unknown", "nonClaims"],
+      "properties": {
+        "directRecords": { "$ref": "#/$defs/nonEmptyStrings" },
+        "derived": { "$ref": "#/$defs/nonEmptyStrings" },
+        "excluded": { "$ref": "#/$defs/nonEmptyStrings" },
+        "unknown": { "$ref": "#/$defs/nonEmptyStrings" },
+        "nonClaims": { "$ref": "#/$defs/nonEmptyStrings" }
+      },
+      "additionalProperties": false
+    },
+    "caseIdentity": { "$ref": "#/$defs/hash" }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "hash": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "nonEmptyStrings": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+    "file": {
+      "type": "object",
+      "required": ["path", "bytes", "identity"],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "bytes": { "type": "integer", "minimum": 1 },
+        "identity": { "$ref": "#/$defs/hash" }
+      },
+      "additionalProperties": false
+    },
+    "sourceFile": {
+      "type": "object",
+      "required": ["path", "sha256", "bytes", "identity"],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "bytes": { "type": "integer", "minimum": 1 },
+        "identity": { "$ref": "#/$defs/hash" }
+      },
+      "additionalProperties": false
+    },
+    "artifactContract": {
+      "type": "object",
+      "required": ["path", "mediaType", "encoding", "lineEnding"],
+      "properties": {
+        "path": { "const": "dist/history-equivalence.txt" },
+        "mediaType": { "const": "text/plain" },
+        "encoding": { "const": "utf-8" },
+        "lineEnding": { "const": "LF" }
+      },
+      "additionalProperties": false
+    },
+    "instructions": {
+      "type": "object",
+      "required": ["builder", "format", "sourceDateEpoch", "declaredEnvironment", "excludedAmbientFields"],
+      "properties": {
+        "builder": { "const": "src/build-fixture.mjs" },
+        "format": { "const": "onto2d-deterministic-text-bundle-v1" },
+        "sourceDateEpoch": { "const": 1786924800 },
+        "declaredEnvironment": {
+          "type": "object",
+          "required": ["LANG", "TZ", "SOURCE_DATE_EPOCH"],
+          "properties": { "LANG": { "const": "C" }, "TZ": { "const": "UTC" }, "SOURCE_DATE_EPOCH": { "const": "1786924800" } },
+          "additionalProperties": false
+        },
+        "excludedAmbientFields": { "const": ["ONTO2D_SESSION_LABEL"] }
+      },
+      "additionalProperties": false
+    },
+    "artifact": {
+      "type": "object",
+      "required": ["path", "mediaType", "encoding", "bytes", "sha256", "utf8"],
+      "properties": {
+        "path": { "const": "dist/history-equivalence.txt" },
+        "mediaType": { "const": "text/plain" },
+        "encoding": { "const": "utf-8" },
+        "bytes": { "type": "integer", "minimum": 1 },
+        "sha256": { "$ref": "#/$defs/hash" },
+        "utf8": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": false
+    },
+    "runtime": {
+      "type": "object",
+      "required": ["name", "version", "major", "platform", "architecture"],
+      "properties": {
+        "name": { "const": "Node.js" },
+        "version": { "enum": ["22.23.2", "24.19.0"] },
+        "major": { "enum": [22, 24] },
+        "platform": { "const": "darwin" },
+        "architecture": { "const": "arm64" }
+      },
+      "oneOf": [
+        { "properties": { "version": { "const": "22.23.2" }, "major": { "const": 22 } } },
+        { "properties": { "version": { "const": "24.19.0" }, "major": { "const": 24 } } }
+      ],
+      "additionalProperties": false
+    },
+    "declaredInputs": {
+      "type": "object",
+      "required": ["sourceIdentity", "instructionsIdentity", "parameters", "identity"],
+      "properties": {
+        "sourceIdentity": { "$ref": "#/$defs/hash" },
+        "instructionsIdentity": { "$ref": "#/$defs/hash" },
+        "parameters": {
+          "type": "object",
+          "required": ["releaseChannel"],
+          "properties": { "releaseChannel": { "enum": ["stable", "preview"] } },
+          "additionalProperties": false
+        },
+        "identity": { "$ref": "#/$defs/hash" }
+      },
+      "additionalProperties": false
+    },
+    "environment": {
+      "type": "object",
+      "required": ["normalized", "observedIrrelevant"],
+      "properties": {
+        "normalized": {
+          "type": "object",
+          "required": ["LANG", "TZ", "SOURCE_DATE_EPOCH"],
+          "properties": { "LANG": { "const": "C" }, "TZ": { "const": "UTC" }, "SOURCE_DATE_EPOCH": { "const": "1786924800" } },
+          "additionalProperties": false
+        },
+        "observedIrrelevant": {
+          "type": "object",
+          "required": ["ONTO2D_SESSION_LABEL"],
+          "properties": { "ONTO2D_SESSION_LABEL": { "enum": ["alpha", "beta", "gamma", "delta"] } },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "history": {
+      "type": "object",
+      "required": ["format", "formatVersion", "executionId", "capturedAt", "runtime", "declaredInputs", "environment", "artifact", "historyIdentity"],
+      "properties": {
+        "format": { "const": "onto2d-build-execution-record" },
+        "formatVersion": { "const": "1" },
+        "executionId": { "type": "string", "minLength": 1 },
+        "capturedAt": { "type": "string", "format": "date-time" },
+        "runtime": { "$ref": "#/$defs/runtime" },
+        "declaredInputs": { "$ref": "#/$defs/declaredInputs" },
+        "environment": { "$ref": "#/$defs/environment" },
+        "artifact": { "$ref": "#/$defs/artifact" },
+        "historyIdentity": { "$ref": "#/$defs/hash" }
+      },
+      "additionalProperties": false
+    },
+    "regime": {
+      "type": "object",
+      "required": ["id", "label", "question", "fields", "normalization"],
+      "properties": {
+        "id": { "enum": ["byte-output", "declared-input", "toolchain", "environment", "provenance"] },
+        "label": { "type": "string", "minLength": 1 },
+        "question": { "type": "string", "minLength": 1 },
+        "fields": { "$ref": "#/$defs/nonEmptyStrings" },
+        "excludedFields": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+        "normalization": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": false
+    },
+    "regimeResult": {
+      "type": "object",
+      "required": ["regimeId", "label", "question", "comparedFields", "excludedFields", "normalization", "leftProjectionIdentity", "rightProjectionIdentity", "differingFields", "equal"],
+      "properties": {
+        "regimeId": { "enum": ["byte-output", "declared-input", "toolchain", "environment", "provenance"] },
+        "label": { "type": "string", "minLength": 1 },
+        "question": { "type": "string", "minLength": 1 },
+        "comparedFields": { "$ref": "#/$defs/nonEmptyStrings" },
+        "excludedFields": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+        "normalization": { "type": "string", "minLength": 1 },
+        "leftProjectionIdentity": { "$ref": "#/$defs/hash" },
+        "rightProjectionIdentity": { "$ref": "#/$defs/hash" },
+        "differingFields": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+        "equal": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    },
+    "comparison": {
+      "type": "object",
+      "required": ["id", "label", "leftHistory", "rightHistory", "historiesDistinct", "regimes"],
+      "properties": {
+        "id": { "enum": ["cross-toolchain-rebuild", "irrelevant-environment-variation", "relevant-input-mutation"] },
+        "label": { "type": "string", "minLength": 1 },
+        "leftHistory": { "type": "string", "minLength": 1 },
+        "rightHistory": { "type": "string", "minLength": 1 },
+        "historiesDistinct": { "const": true },
+        "regimes": { "type": "array", "minItems": 5, "maxItems": 5, "items": { "$ref": "#/$defs/regimeResult" } }
+      },
+      "additionalProperties": false
+    }
+  }
+}

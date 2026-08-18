@@ -1,0 +1,79 @@
+{
+  "audit": {
+    "caseIdentity": "sha256:496019fc155ac6d78d74f89b6bc4c48e22b5650fb83a36109dc9fc54dd67e726",
+    "distinctVerdicts": 6,
+    "equalVerdicts": 9,
+    "historicalLoadStatus": "not-evaluated",
+    "inventory": {
+      "comparisons": 3,
+      "histories": 4,
+      "outputs": 2,
+      "regimes": 5,
+      "sources": 3,
+      "toolchains": 2,
+      "verdicts": 15
+    },
+    "mappingVersion": "reproducible-build-equivalence-mapping-v1",
+    "releaseIdentity": "sha256:78148e4e627d2c9f2be931e906aaace0e305dc5ec79740e13a7b38233ee9974f",
+    "sourceIdentity": "sha256:f65c9a8e5e6fd64a395a7af480029d09ac0bb9d7871b7a05529a4da0f11246b3"
+  },
+  "evidenceClasses": {
+    "analysis-scope": "Explicit boundary separating equivalence from undefined Historical Load.",
+    "captured-runtime": "Runtime fields reported by the actual capture process.",
+    "declared-input-identity": "Canonical identity over source, instructions, and declared parameters.",
+    "exact-output-bytes": "Specified output bytes verified by SHA-256.",
+    "exact-projection-comparison": "Equality over two deterministic regime projections.",
+    "source-lock": "Exact authored source bytes and SHA-256.",
+    "versioned-equivalence-profile": "Explicit regime field selection and normalization."
+  },
+  "identityRegimes": {
+    "byte-output": "Are the specified artifact bytes identical?",
+    "declared-input": "Are the source, build instructions, and declared parameters identical?",
+    "environment": "Are all fields in the declared normalized environment profile identical?",
+    "provenance": "Are these the same recorded execution event?",
+    "toolchain": "Did both executions use the same declared toolchain identity?"
+  },
+  "presentation": {
+    "boundary": {
+      "note": "An equal verdict is local to one pair and one regime. Historical Load is not evaluated because this case declares no route cost problem.",
+      "summary": "Execution identity, output equality, declared inputs, toolchain, environment, and provenance remain independently queryable.",
+      "title": "History equivalence boundary"
+    },
+    "coordinates": [
+      {
+        "field": "typeRole",
+        "label": "Kind"
+      },
+      {
+        "field": "scientificStatus",
+        "label": "Evidence"
+      }
+    ],
+    "evidenceClassField": "evidenceClass",
+    "labels": {
+      "catalogTitle": "Build histories and equivalence",
+      "children": "Outgoing build or analysis relations",
+      "parents": "Incoming build or analysis relations",
+      "phaseFilter": "Evidence phase",
+      "searchPlaceholder": "Search executions, outputs, regimes, and verdicts",
+      "statusFilter": "Evidence status",
+      "typeFilter": "Record kind"
+    },
+    "layerField": "scientificStatus",
+    "nodeKindField": "entityKind",
+    "profile": "reproducible-build-equivalence-presentation-v1",
+    "relationField": "relation"
+  },
+  "provenance": {
+    "caseIdentity": "sha256:496019fc155ac6d78d74f89b6bc4c48e22b5650fb83a36109dc9fc54dd67e726",
+    "mappingVersion": "reproducible-build-equivalence-mapping-v1",
+    "methodology": {
+      "definitionUrl": "https://reproducible-builds.org/docs/definition/",
+      "environmentUrl": "https://reproducible-builds.org/docs/perimeter/",
+      "retrievedAt": "2026-08-18T17:13:41Z",
+      "sourceDateEpochUrl": "https://reproducible-builds.org/specs/source-date-epoch/"
+    },
+    "releaseIdentity": "sha256:78148e4e627d2c9f2be931e906aaace0e305dc5ec79740e13a7b38233ee9974f",
+    "sourceIdentity": "sha256:f65c9a8e5e6fd64a395a7af480029d09ac0bb9d7871b7a05529a4da0f11246b3"
+  }
+}

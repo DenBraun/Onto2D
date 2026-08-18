@@ -4,6 +4,10 @@ import { readFileSync, readdirSync } from "node:fs";
 import test from "node:test";
 
 const read = (relative) => readFileSync(new URL(`../../${relative}`, import.meta.url), "utf8");
+const assertReadableInterfaceText = (styles, label) => {
+  assert.doesNotMatch(styles, /font-size:\s*(?:[1-9]|1[01])px/, `${label} contains text below 12px`);
+  assert.doesNotMatch(styles, /font\s*:[^;{}]*\b(?:[1-9]|1[01])px(?:\/|\s|;)/, `${label} contains shorthand text below 12px`);
+};
 const landing = read("index.html");
 const landingStyles = read("assets/css/project-home.css");
 const iconStyles = read("assets/css/ui-icons.css");
@@ -51,6 +55,21 @@ const inTotoApp = read("apps/in-toto-admissibility-explorer/in-toto-admissibilit
 const inTotoModel = read("apps/in-toto-admissibility-explorer/in-toto-admissibility-model.js");
 const inTotoStyles = read("assets/css/study-in-toto-admissibility.css");
 const inTotoArtifact = read("cases/in-toto-admissibility/artifacts/in-toto-admissibility.json");
+const chemicalMarkup = read("apps/synthesis-route-explorer/index.html");
+const chemicalApp = read("apps/synthesis-route-explorer/synthesis-route-explorer.js");
+const chemicalModel = read("apps/synthesis-route-explorer/chemical-synthesis-model.js");
+const chemicalStyles = read("assets/css/study-chemical-synthesis.css");
+const chemicalArtifact = read("cases/chemical-synthesis-history/artifacts/chemical-synthesis-history.json");
+const buildEquivalenceMarkup = read("apps/history-equivalence-lab/index.html");
+const buildEquivalenceApp = read("apps/history-equivalence-lab/history-equivalence-lab.js");
+const buildEquivalenceModel = read("apps/history-equivalence-lab/history-equivalence-model.js");
+const buildEquivalenceStyles = read("assets/css/study-history-equivalence.css");
+const buildEquivalenceArtifact = read("cases/reproducible-build-equivalence/artifacts/reproducible-build-equivalence.json");
+const artworkMarkup = read("apps/artwork-provenance-identity-lab/index.html");
+const artworkApp = read("apps/artwork-provenance-identity-lab/artwork-provenance-explorer.js");
+const artworkModel = read("apps/artwork-provenance-identity-lab/artwork-provenance-model.js");
+const artworkStyles = read("assets/css/study-artwork-provenance.css");
+const artworkArtifact = read("cases/getty-artwork-provenance/artifacts/getty-artwork-provenance.json");
 const historyCasePageMarkups = historyCaseRegistry.cases.map((entry) => read(`${entry.casePagePath}index.html`));
 const modelPackWorker = read("assets/js/model-pack-worker.js");
 const siteServer = read("apps/historical-load-explorer/serve.mjs");
@@ -68,6 +87,9 @@ const publicDirectories = [
   "apps/nix-derivation-explorer",
   "apps/oci-layer-history-lab",
   "apps/in-toto-admissibility-explorer",
+  "apps/synthesis-route-explorer",
+  "apps/history-equivalence-lab",
+  "apps/artwork-provenance-identity-lab",
   "apps/history-atlas",
   "apps/external-cases",
   ...historyCaseRegistry.cases.map((entry) => entry.casePagePath.replace(/\/$/, ""))
@@ -86,6 +108,9 @@ const publicFiles = [
   "assets/css/study-nix-derivation.css",
   "assets/css/study-oci-layer-history.css",
   "assets/css/study-in-toto-admissibility.css",
+  "assets/css/study-chemical-synthesis.css",
+  "assets/css/study-history-equivalence.css",
+  "assets/css/study-artwork-provenance.css",
   "assets/css/external-cases.css",
   "assets/css/history-case-header.css",
   "assets/css/history-atlas.css",
@@ -100,6 +125,9 @@ const publicFiles = [
   "cases/nix-derivation-identity/artifacts/nix-derivation-identity.json",
   "cases/oci-layer-history/artifacts/oci-layer-history.json",
   "cases/in-toto-admissibility/artifacts/in-toto-admissibility.json",
+  "cases/chemical-synthesis-history/artifacts/chemical-synthesis-history.json",
+  "cases/reproducible-build-equivalence/artifacts/reproducible-build-equivalence.json",
+  "cases/getty-artwork-provenance/artifacts/getty-artwork-provenance.json",
   ...publicDirectories.flatMap((directory) => readdirSync(
     new URL(`../../${directory}/`, import.meta.url)
   ).filter((name) => /\.(?:css|html|js|json|md|mjs)$/.test(name)).map((name) => `${directory}/${name}`))
@@ -173,6 +201,9 @@ test("all History case surfaces share one header component and navigation layout
     nixMarkup,
     ociMarkup,
     inTotoMarkup,
+    chemicalMarkup,
+    buildEquivalenceMarkup,
+    artworkMarkup,
     ...historyCasePageMarkups
   ];
   for (const markup of surfaces) {
@@ -187,8 +218,11 @@ test("all History case surfaces share one header component and navigation layout
   }
   assert.match(historyCaseHeaderStyles, /grid-template-columns:\s*minmax\(190px, 1fr\) auto minmax\(190px, 1fr\)/);
   assert.match(historyCaseHeaderStyles, /@media \(max-width: 700px\)/);
-  for (const styles of [externalCasesStyles, bootstrapStyles, gitHistoryStyles, nixStyles, ociStyles, inTotoStyles]) {
+  for (const styles of [externalCasesStyles, bootstrapStyles, gitHistoryStyles, nixStyles, ociStyles, inTotoStyles, chemicalStyles, buildEquivalenceStyles, artworkStyles]) {
     assert.match(styles, /@import url\("\.\/history-case-header\.css\?v=20260818\.2"\);/);
+  }
+  for (const markup of [chemicalMarkup, buildEquivalenceMarkup, artworkMarkup]) {
+    assert.match(markup, /<div class="history-case-context"><span>[^<]+<\/span><strong class="history-case-state"><i><\/i><span id="load-state" role="status" aria-live="polite">Verifying artifact<\/span><\/strong><\/div>/);
   }
 });
 
@@ -197,6 +231,9 @@ test("case-aware Model Studio links select the exact registered release", () => 
   assert.match(nixMarkup, /model-studio\/#model=nix-derivations&amp;version=v1-2d5b844afa08e0ed/);
   assert.match(ociMarkup, /model-studio\/#model=oci-layer-provenance&amp;version=v1-5a869be659e73799/);
   assert.match(inTotoMarkup, /model-studio\/#model=in-toto-provenance&amp;version=v1-647b20b320a109cc/);
+  assert.match(chemicalMarkup, /model-studio\/#model=chemical-reaction-provenance&amp;version=v1-47225e07891b6f70/);
+  assert.match(buildEquivalenceMarkup, /model-studio\/#model=reproducible-build-equivalence&amp;version=v1-78148e4e627d2c9f/);
+  assert.match(artworkMarkup, /model-studio\/#model=artwork-provenance&amp;version=v1-ca697f7318c611a9/);
   assert.match(externalCasesApp, /studio\.href = modelStudioHref\(entry, PROJECT_ROOT\)/);
   assert.match(externalCasesApp, /studioNavigation\.href = modelStudioHref\(entry, PROJECT_ROOT\)/);
   assert.match(externalCasesCatalog, /url\.hash = new URLSearchParams\(\{ model: entry\.modelId, version: entry\.modelVersion \}\)\.toString\(\)/);
@@ -318,6 +355,70 @@ test("in-toto Admissibility Explorer separates native verdicts, optional policy,
   assert.equal(modelRevision, appRevision);
 });
 
+test("Chemical Synthesis History separates target identity, route identity, and native continuity", () => {
+  assert.match(chemicalApp, /cases\/chemical-synthesis-history\/artifacts\/chemical-synthesis-history\.json/);
+  assert.match(chemicalApp, /createChemicalSynthesisModel/);
+  assert.match(chemicalApp, /crypto\.subtle\.digest\("SHA-256"/);
+  assert.match(chemicalApp, /cache: "no-store"/);
+  assert.match(chemicalApp, /redirect: "error"/);
+  assert.match(chemicalModel, /exact product identifier/);
+  assert.match(chemicalModel, /native cascade continuity is missing/);
+  assert.match(chemicalModel, /counterfactual && route\.actual/);
+  assert.match(chemicalMarkup, /Same molecule\./);
+  assert.match(chemicalMarkup, /Different history\./);
+  assert.match(chemicalMarkup, /matching compound text alone does not/);
+  assert.match(chemicalApp, /says nothing about yield, safety, cost, difficulty, or shortcut feasibility/);
+  for (const id of ["target-controls", "target-smiles", "route-left", "route-right", "cascade-flow", "route-space", "cost-controls", "load-equation"]) assert.match(chemicalMarkup, new RegExp(`id=["']${id}["']`), `missing #${id}`);
+  const pinnedDigest = chemicalApp.match(/EXPECTED_SHA256 = "([a-f0-9]{64})"/)?.[1];
+  assert.equal(pinnedDigest, createHash("sha256").update(chemicalArtifact).digest("hex"));
+  const appRevision = chemicalMarkup.match(/synthesis-route-explorer\.js\?v=([^"']+)/)?.[1];
+  const modelRevision = chemicalApp.match(/chemical-synthesis-model\.js\?v=([^"']+)/)?.[1];
+  assert.equal(modelRevision, appRevision);
+});
+
+test("History Equivalence Lab keeps execution identity separate from regime verdicts", () => {
+  assert.match(buildEquivalenceApp, /cases\/reproducible-build-equivalence\/artifacts\/reproducible-build-equivalence\.json/);
+  assert.match(buildEquivalenceApp, /createHistoryEquivalenceModel/);
+  assert.match(buildEquivalenceApp, /crypto\.subtle\.digest\("SHA-256"/);
+  assert.match(buildEquivalenceApp, /cache: "no-store"/);
+  assert.match(buildEquivalenceApp, /redirect: "error"/);
+  assert.match(buildEquivalenceModel, /distinct histories collapsed/);
+  assert.match(buildEquivalenceModel, /Historical Load boundary differs/);
+  assert.match(buildEquivalenceMarkup, /Same bytes\./);
+  assert.match(buildEquivalenceMarkup, /Different histories\./);
+  assert.match(buildEquivalenceMarkup, /undefined <span>!=<\/span> zero/);
+  for (const id of ["pair-controls", "history-left", "history-right", "regime-controls", "verdict-word", "differing-fields", "matrix-body", "historical-load-reason"]) assert.match(buildEquivalenceMarkup, new RegExp(`id=["']${id}["']`), `missing #${id}`);
+  const pinnedDigest = buildEquivalenceApp.match(/EXPECTED_SHA256 = "([a-f0-9]{64})"/)?.[1];
+  assert.equal(pinnedDigest, createHash("sha256").update(buildEquivalenceArtifact).digest("hex"));
+  const appRevision = buildEquivalenceMarkup.match(/history-equivalence-lab\.js\?v=([^"']+)/)?.[1];
+  const modelRevision = buildEquivalenceApp.match(/history-equivalence-model\.js\?v=([^"']+)/)?.[1];
+  assert.equal(modelRevision, appRevision);
+});
+
+test("Artwork Provenance Identity Lab keeps source relations, gaps, and identity regimes separate", () => {
+  assert.match(artworkApp, /cases\/getty-artwork-provenance\/artifacts\/getty-artwork-provenance\.json/);
+  assert.match(artworkApp, /createArtworkProvenanceModel/);
+  assert.match(artworkApp, /crypto\.subtle\.digest\("SHA-256"/);
+  assert.match(artworkApp, /cache: "no-store"/);
+  assert.match(artworkApp, /redirect: "error"/);
+  assert.match(artworkApp, /const ARTIFACT_URL = new URL\(/);
+  assert.doesNotMatch(artworkApp, /const URL = new URL\(/);
+  assert.doesNotMatch(artworkApp, /\["load-state"\]\.lastChild/);
+  assert.match(artworkModel, /legal-title boundary differs/);
+  assert.match(artworkModel, /unknown interval was promoted/);
+  assert.match(artworkModel, /Historical Load boundary differs/);
+  assert.match(artworkMarkup, /A record can name a transfer\./);
+  assert.match(artworkMarkup, /It cannot close every gap\./);
+  assert.match(artworkMarkup, /SOURCE RELATION &ne; LEGAL TITLE FINDING/);
+  assert.match(artworkMarkup, /No honest number yet/);
+  for (const id of ["object-controls", "object-detail", "timeline", "event-list", "source-records", "regime-controls", "regime-result", "load-reason"]) assert.match(artworkMarkup, new RegExp(`id=["']${id}["']`), `missing #${id}`);
+  const pinnedDigest = artworkApp.match(/SHA256 = "([a-f0-9]{64})"/)?.[1];
+  assert.equal(pinnedDigest, createHash("sha256").update(artworkArtifact).digest("hex"));
+  const appRevision = artworkMarkup.match(/artwork-provenance-explorer\.js\?v=([^"']+)/)?.[1];
+  const modelRevision = artworkApp.match(/artwork-provenance-model\.js\?v=([^"']+)/)?.[1];
+  assert.equal(modelRevision, appRevision);
+});
+
 test("Git History Identity Lab verifies one immutable artifact across four regimes", () => {
   assert.match(gitHistoryApp, /cases\/git-history-identity\/artifacts\/history-identity\.json/);
   assert.match(gitHistoryApp, /createGitHistoryModel/);
@@ -431,7 +532,7 @@ test("Model Studio fully verifies the real pack before using the shared view lay
   assert.match(studioApp, /MODEL_PACK_CACHE_STORAGE_/);
   assert.match(studioApp, /dataset\.cache = "unavailable"/);
   assert.match(studioApp, /"Cached model verified"/);
-  assert.match(studioApp, /sha256:2c1f365983523eb9a782eea16af7c9d3408055fd07255ace87796427979fe79d/);
+  assert.match(studioApp, /sha256:1230e66488c7ef4fa9a00d6b121c7721d810731306aee0ec86c5c9f6ddd9b948/);
   assert.match(studioApp, /new Worker\(MODEL_PACK_WORKER_URL, \{/);
   assert.match(studioApp, /type: "module"/);
   assert.match(studioApp, /ownsWorker: true/);
@@ -681,6 +782,18 @@ test("Nix Derivation Identity Lab keeps interface text at the readable minimum",
 test("OCI Layer History Lab keeps interface text at the readable minimum", () => {
   assert.doesNotMatch(ociStyles, /font-size:\s*(?:[1-9]|1[01])px/);
   assert.doesNotMatch(ociStyles, /https?:\/\//);
+});
+
+test("History Equivalence Lab keeps interface text at the readable minimum", () => {
+  assertReadableInterfaceText(buildEquivalenceStyles, "History Equivalence Lab");
+  assert.doesNotMatch(buildEquivalenceStyles, /https?:\/\//);
+});
+
+test("Chemical Synthesis and Artwork Provenance keep interface text at the readable minimum", () => {
+  assertReadableInterfaceText(chemicalStyles, "Chemical Synthesis History");
+  assertReadableInterfaceText(artworkStyles, "Artwork Provenance Identity Lab");
+  assert.doesNotMatch(chemicalStyles, /https?:\/\//);
+  assert.doesNotMatch(artworkStyles, /https?:\/\//);
 });
 
 test("graph sidebars keep machine fields on bounded single lines", () => {

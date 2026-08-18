@@ -1,0 +1,649 @@
+{
+  "format": "onto2d-reproducible-build-equivalence-case",
+  "formatVersion": "1",
+  "caseVersion": "reproducible-build-equivalence-v1",
+  "generatedBy": "cases/reproducible-build-equivalence/extract.mjs",
+  "source": {
+    "identity": "sha256:f65c9a8e5e6fd64a395a7af480029d09ac0bb9d7871b7a05529a4da0f11246b3",
+    "authoredFiles": [
+      {
+        "path": "build-spec.json",
+        "bytes": 2234,
+        "identity": "sha256:c6d09311a5259be81a69af042324868f74235c69026dc1c63d8f2db95fd4bbfe"
+      },
+      {
+        "path": "equivalence-profile.json",
+        "bytes": 2229,
+        "identity": "sha256:8eeb6f5819518c5ed196ec751cdd64058142d19d4f20df8791c561d9f97291c3"
+      },
+      {
+        "path": "fixture/executions.json",
+        "bytes": 6028,
+        "identity": "sha256:efb5406226dce09d52c9b031df6c96d7ecbc3ec1fd000466c39c7d301763ebf3"
+      }
+    ],
+    "sourceFiles": [
+      {
+        "path": "fixture/source/manifest.json",
+        "sha256": "7610da1494b4786d5136b4d04acc6310ee644747df3012998b9c1caf9d4a6945",
+        "bytes": 73,
+        "identity": "sha256:7610da1494b4786d5136b4d04acc6310ee644747df3012998b9c1caf9d4a6945"
+      },
+      {
+        "path": "fixture/source/message.txt",
+        "sha256": "df0752701fa34076bbf6d6686dff3753b7baf3cb45c33e067ca08609f8d51943",
+        "bytes": 56,
+        "identity": "sha256:df0752701fa34076bbf6d6686dff3753b7baf3cb45c33e067ca08609f8d51943"
+      },
+      {
+        "path": "src/build-fixture.mjs",
+        "sha256": "b10229aa81426f8b077d212320ba8c64e666eefb7e4ed8a2bbf2c906dcb34543",
+        "bytes": 10717,
+        "identity": "sha256:b10229aa81426f8b077d212320ba8c64e666eefb7e4ed8a2bbf2c906dcb34543"
+      }
+    ],
+    "liveNetworkRequiredByBuild": false
+  },
+  "methodology": {
+    "definitionUrl": "https://reproducible-builds.org/docs/definition/",
+    "environmentUrl": "https://reproducible-builds.org/docs/perimeter/",
+    "sourceDateEpochUrl": "https://reproducible-builds.org/specs/source-date-epoch/",
+    "retrievedAt": "2026-08-18T17:13:41Z"
+  },
+  "build": {
+    "artifact": {
+      "path": "dist/history-equivalence.txt",
+      "mediaType": "text/plain",
+      "encoding": "utf-8",
+      "lineEnding": "LF"
+    },
+    "instructions": {
+      "builder": "src/build-fixture.mjs",
+      "format": "onto2d-deterministic-text-bundle-v1",
+      "sourceDateEpoch": 1786924800,
+      "declaredEnvironment": {
+        "LANG": "C",
+        "TZ": "UTC",
+        "SOURCE_DATE_EPOCH": "1786924800"
+      },
+      "excludedAmbientFields": [
+        "ONTO2D_SESSION_LABEL"
+      ]
+    },
+    "sourceIdentity": "sha256:8ec066ab855340e1c9efd3f91c8fcc193857f0cecdc9f0c5979fd2a476bef9cc",
+    "instructionsIdentity": "sha256:d9eba7b2cd87fd64887d07dfcdeacc59ab1ecdc942150e950185d333f3be3a27",
+    "specifiedOutputs": [
+      {
+        "path": "dist/history-equivalence.txt",
+        "mediaType": "text/plain",
+        "encoding": "utf-8",
+        "bytes": 205,
+        "sha256": "sha256:6207334e1eea21837e2f7b8c0ce734e43abcdd41ea2bac2a38c7a3b54aaa6b57",
+        "utf8": "ONTO2D HISTORY EQUIVALENCE FIXTURE\nname=onto2d-history-equivalence-fixture\nversion=1.0.0\nchannel=stable\nsource-date=2026-08-17T00:00:00.000Z\nmessage=Different build histories can preserve the same output.\n"
+      },
+      {
+        "path": "dist/history-equivalence.txt",
+        "mediaType": "text/plain",
+        "encoding": "utf-8",
+        "bytes": 206,
+        "sha256": "sha256:6434045fcb7e36e6479127d9d308119b4a36e0ae50e56b61f426a1b358f0129a",
+        "utf8": "ONTO2D HISTORY EQUIVALENCE FIXTURE\nname=onto2d-history-equivalence-fixture\nversion=1.0.0\nchannel=preview\nsource-date=2026-08-17T00:00:00.000Z\nmessage=Different build histories can preserve the same output.\n"
+      }
+    ]
+  },
+  "regimes": [
+    {
+      "id": "byte-output",
+      "label": "Byte output",
+      "question": "Are the specified artifact bytes identical?",
+      "fields": [
+        "artifact.sha256",
+        "artifact.bytes"
+      ],
+      "normalization": "none"
+    },
+    {
+      "id": "declared-input",
+      "label": "Declared inputs",
+      "question": "Are the source, build instructions, and declared parameters identical?",
+      "fields": [
+        "declaredInputs.sourceIdentity",
+        "declaredInputs.instructionsIdentity",
+        "declaredInputs.parameters"
+      ],
+      "normalization": "canonical JSON field order"
+    },
+    {
+      "id": "toolchain",
+      "label": "Toolchain",
+      "question": "Did both executions use the same declared toolchain identity?",
+      "fields": [
+        "runtime.name",
+        "runtime.version"
+      ],
+      "normalization": "exact runtime name and semantic version"
+    },
+    {
+      "id": "environment",
+      "label": "Environment",
+      "question": "Are all fields in the declared normalized environment profile identical?",
+      "fields": [
+        "environment.normalized.LANG",
+        "environment.normalized.TZ",
+        "environment.normalized.SOURCE_DATE_EPOCH"
+      ],
+      "excludedFields": [
+        "environment.observedIrrelevant.ONTO2D_SESSION_LABEL"
+      ],
+      "normalization": "exact values for the three declared fields; all other ambient fields excluded"
+    },
+    {
+      "id": "provenance",
+      "label": "Provenance",
+      "question": "Are these the same recorded execution event?",
+      "fields": [
+        "executionId",
+        "capturedAt",
+        "runtime",
+        "environment.observedIrrelevant"
+      ],
+      "normalization": "none"
+    }
+  ],
+  "histories": [
+    {
+      "format": "onto2d-build-execution-record",
+      "formatVersion": "1",
+      "executionId": "baseline-node24",
+      "capturedAt": "2026-08-18T17:16:34.823Z",
+      "runtime": {
+        "name": "Node.js",
+        "version": "24.19.0",
+        "major": 24,
+        "platform": "darwin",
+        "architecture": "arm64"
+      },
+      "declaredInputs": {
+        "sourceIdentity": "sha256:8ec066ab855340e1c9efd3f91c8fcc193857f0cecdc9f0c5979fd2a476bef9cc",
+        "instructionsIdentity": "sha256:d9eba7b2cd87fd64887d07dfcdeacc59ab1ecdc942150e950185d333f3be3a27",
+        "parameters": {
+          "releaseChannel": "stable"
+        },
+        "identity": "sha256:40d2216e97a82fdcc54f887c7b258c3c5f43e34ff007ed20659c610bdc0bdde4"
+      },
+      "environment": {
+        "normalized": {
+          "LANG": "C",
+          "TZ": "UTC",
+          "SOURCE_DATE_EPOCH": "1786924800"
+        },
+        "observedIrrelevant": {
+          "ONTO2D_SESSION_LABEL": "alpha"
+        }
+      },
+      "artifact": {
+        "path": "dist/history-equivalence.txt",
+        "mediaType": "text/plain",
+        "encoding": "utf-8",
+        "bytes": 205,
+        "sha256": "sha256:6207334e1eea21837e2f7b8c0ce734e43abcdd41ea2bac2a38c7a3b54aaa6b57",
+        "utf8": "ONTO2D HISTORY EQUIVALENCE FIXTURE\nname=onto2d-history-equivalence-fixture\nversion=1.0.0\nchannel=stable\nsource-date=2026-08-17T00:00:00.000Z\nmessage=Different build histories can preserve the same output.\n"
+      },
+      "historyIdentity": "sha256:a1fd7d3aa55210381ac39b605f3e5104f3b0c1d465c1daf42b2f316faf501552"
+    },
+    {
+      "format": "onto2d-build-execution-record",
+      "formatVersion": "1",
+      "executionId": "baseline-node22",
+      "capturedAt": "2026-08-18T17:16:46.853Z",
+      "runtime": {
+        "name": "Node.js",
+        "version": "22.23.2",
+        "major": 22,
+        "platform": "darwin",
+        "architecture": "arm64"
+      },
+      "declaredInputs": {
+        "sourceIdentity": "sha256:8ec066ab855340e1c9efd3f91c8fcc193857f0cecdc9f0c5979fd2a476bef9cc",
+        "instructionsIdentity": "sha256:d9eba7b2cd87fd64887d07dfcdeacc59ab1ecdc942150e950185d333f3be3a27",
+        "parameters": {
+          "releaseChannel": "stable"
+        },
+        "identity": "sha256:40d2216e97a82fdcc54f887c7b258c3c5f43e34ff007ed20659c610bdc0bdde4"
+      },
+      "environment": {
+        "normalized": {
+          "LANG": "C",
+          "TZ": "UTC",
+          "SOURCE_DATE_EPOCH": "1786924800"
+        },
+        "observedIrrelevant": {
+          "ONTO2D_SESSION_LABEL": "beta"
+        }
+      },
+      "artifact": {
+        "path": "dist/history-equivalence.txt",
+        "mediaType": "text/plain",
+        "encoding": "utf-8",
+        "bytes": 205,
+        "sha256": "sha256:6207334e1eea21837e2f7b8c0ce734e43abcdd41ea2bac2a38c7a3b54aaa6b57",
+        "utf8": "ONTO2D HISTORY EQUIVALENCE FIXTURE\nname=onto2d-history-equivalence-fixture\nversion=1.0.0\nchannel=stable\nsource-date=2026-08-17T00:00:00.000Z\nmessage=Different build histories can preserve the same output.\n"
+      },
+      "historyIdentity": "sha256:efc77efd16d70e833da3e36e7ef21d71b180c980ecb8cc610cb2abb5ab4810dd"
+    },
+    {
+      "format": "onto2d-build-execution-record",
+      "formatVersion": "1",
+      "executionId": "ambient-variation-node24",
+      "capturedAt": "2026-08-18T17:16:51.885Z",
+      "runtime": {
+        "name": "Node.js",
+        "version": "24.19.0",
+        "major": 24,
+        "platform": "darwin",
+        "architecture": "arm64"
+      },
+      "declaredInputs": {
+        "sourceIdentity": "sha256:8ec066ab855340e1c9efd3f91c8fcc193857f0cecdc9f0c5979fd2a476bef9cc",
+        "instructionsIdentity": "sha256:d9eba7b2cd87fd64887d07dfcdeacc59ab1ecdc942150e950185d333f3be3a27",
+        "parameters": {
+          "releaseChannel": "stable"
+        },
+        "identity": "sha256:40d2216e97a82fdcc54f887c7b258c3c5f43e34ff007ed20659c610bdc0bdde4"
+      },
+      "environment": {
+        "normalized": {
+          "LANG": "C",
+          "TZ": "UTC",
+          "SOURCE_DATE_EPOCH": "1786924800"
+        },
+        "observedIrrelevant": {
+          "ONTO2D_SESSION_LABEL": "gamma"
+        }
+      },
+      "artifact": {
+        "path": "dist/history-equivalence.txt",
+        "mediaType": "text/plain",
+        "encoding": "utf-8",
+        "bytes": 205,
+        "sha256": "sha256:6207334e1eea21837e2f7b8c0ce734e43abcdd41ea2bac2a38c7a3b54aaa6b57",
+        "utf8": "ONTO2D HISTORY EQUIVALENCE FIXTURE\nname=onto2d-history-equivalence-fixture\nversion=1.0.0\nchannel=stable\nsource-date=2026-08-17T00:00:00.000Z\nmessage=Different build histories can preserve the same output.\n"
+      },
+      "historyIdentity": "sha256:1f44dd319a55a8e963de1a52a97639f6323fb9b0b1487a09c97fc91498ce0a09"
+    },
+    {
+      "format": "onto2d-build-execution-record",
+      "formatVersion": "1",
+      "executionId": "relevant-input-node24",
+      "capturedAt": "2026-08-18T17:16:56.202Z",
+      "runtime": {
+        "name": "Node.js",
+        "version": "24.19.0",
+        "major": 24,
+        "platform": "darwin",
+        "architecture": "arm64"
+      },
+      "declaredInputs": {
+        "sourceIdentity": "sha256:8ec066ab855340e1c9efd3f91c8fcc193857f0cecdc9f0c5979fd2a476bef9cc",
+        "instructionsIdentity": "sha256:d9eba7b2cd87fd64887d07dfcdeacc59ab1ecdc942150e950185d333f3be3a27",
+        "parameters": {
+          "releaseChannel": "preview"
+        },
+        "identity": "sha256:cf205c98728b962755fbc1ed446e751a0830f8d9be813bcb73c5cf52f7f3231c"
+      },
+      "environment": {
+        "normalized": {
+          "LANG": "C",
+          "TZ": "UTC",
+          "SOURCE_DATE_EPOCH": "1786924800"
+        },
+        "observedIrrelevant": {
+          "ONTO2D_SESSION_LABEL": "delta"
+        }
+      },
+      "artifact": {
+        "path": "dist/history-equivalence.txt",
+        "mediaType": "text/plain",
+        "encoding": "utf-8",
+        "bytes": 206,
+        "sha256": "sha256:6434045fcb7e36e6479127d9d308119b4a36e0ae50e56b61f426a1b358f0129a",
+        "utf8": "ONTO2D HISTORY EQUIVALENCE FIXTURE\nname=onto2d-history-equivalence-fixture\nversion=1.0.0\nchannel=preview\nsource-date=2026-08-17T00:00:00.000Z\nmessage=Different build histories can preserve the same output.\n"
+      },
+      "historyIdentity": "sha256:4a9126e2c9c1d87fda600f414e9cd80216b70f62a1180097121b00a9f29cfe91"
+    }
+  ],
+  "comparisons": [
+    {
+      "id": "cross-toolchain-rebuild",
+      "label": "Same inputs, different Node toolchain",
+      "leftHistory": "baseline-node24",
+      "rightHistory": "baseline-node22",
+      "historiesDistinct": true,
+      "regimes": [
+        {
+          "regimeId": "byte-output",
+          "label": "Byte output",
+          "question": "Are the specified artifact bytes identical?",
+          "comparedFields": [
+            "artifact.sha256",
+            "artifact.bytes"
+          ],
+          "excludedFields": [],
+          "normalization": "none",
+          "leftProjectionIdentity": "sha256:a3bfbb5f04410086ac0b05288b6320b7b6bc9ae9d77d7036e68284ac707c62fc",
+          "rightProjectionIdentity": "sha256:a3bfbb5f04410086ac0b05288b6320b7b6bc9ae9d77d7036e68284ac707c62fc",
+          "differingFields": [],
+          "equal": true
+        },
+        {
+          "regimeId": "declared-input",
+          "label": "Declared inputs",
+          "question": "Are the source, build instructions, and declared parameters identical?",
+          "comparedFields": [
+            "declaredInputs.sourceIdentity",
+            "declaredInputs.instructionsIdentity",
+            "declaredInputs.parameters"
+          ],
+          "excludedFields": [],
+          "normalization": "canonical JSON field order",
+          "leftProjectionIdentity": "sha256:595218a9e85fe446643277c6f0075b97bb6a1308a429d02267c3903b68d310d2",
+          "rightProjectionIdentity": "sha256:595218a9e85fe446643277c6f0075b97bb6a1308a429d02267c3903b68d310d2",
+          "differingFields": [],
+          "equal": true
+        },
+        {
+          "regimeId": "toolchain",
+          "label": "Toolchain",
+          "question": "Did both executions use the same declared toolchain identity?",
+          "comparedFields": [
+            "runtime.name",
+            "runtime.version"
+          ],
+          "excludedFields": [],
+          "normalization": "exact runtime name and semantic version",
+          "leftProjectionIdentity": "sha256:d5719f28e20143f9504a328bf283580fc75aebf17b4b0177503eb8dab591d2fd",
+          "rightProjectionIdentity": "sha256:0d6b649d68c5a87eec964b4d5280993dd2fc481d13530076387bad70b160efb3",
+          "differingFields": [
+            "runtime.version"
+          ],
+          "equal": false
+        },
+        {
+          "regimeId": "environment",
+          "label": "Environment",
+          "question": "Are all fields in the declared normalized environment profile identical?",
+          "comparedFields": [
+            "environment.normalized.LANG",
+            "environment.normalized.TZ",
+            "environment.normalized.SOURCE_DATE_EPOCH"
+          ],
+          "excludedFields": [
+            "environment.observedIrrelevant.ONTO2D_SESSION_LABEL"
+          ],
+          "normalization": "exact values for the three declared fields; all other ambient fields excluded",
+          "leftProjectionIdentity": "sha256:8c917f58c4ed4172d05d08d0515a2fb7147eafed4431c035ea5ad8bb50a7ddbd",
+          "rightProjectionIdentity": "sha256:8c917f58c4ed4172d05d08d0515a2fb7147eafed4431c035ea5ad8bb50a7ddbd",
+          "differingFields": [],
+          "equal": true
+        },
+        {
+          "regimeId": "provenance",
+          "label": "Provenance",
+          "question": "Are these the same recorded execution event?",
+          "comparedFields": [
+            "executionId",
+            "capturedAt",
+            "runtime",
+            "environment.observedIrrelevant"
+          ],
+          "excludedFields": [],
+          "normalization": "none",
+          "leftProjectionIdentity": "sha256:55180dbbc727bf8ae41871bb16a5e720ead1f5ef8d5e42096126bded248c24c2",
+          "rightProjectionIdentity": "sha256:f76b75f4858cf8618e2c8d5cf96a50a9cbfe7c1779358e8a591114512817c72a",
+          "differingFields": [
+            "executionId",
+            "capturedAt",
+            "runtime",
+            "environment.observedIrrelevant"
+          ],
+          "equal": false
+        }
+      ]
+    },
+    {
+      "id": "irrelevant-environment-variation",
+      "label": "Irrelevant ambient value changed",
+      "leftHistory": "baseline-node24",
+      "rightHistory": "ambient-variation-node24",
+      "historiesDistinct": true,
+      "regimes": [
+        {
+          "regimeId": "byte-output",
+          "label": "Byte output",
+          "question": "Are the specified artifact bytes identical?",
+          "comparedFields": [
+            "artifact.sha256",
+            "artifact.bytes"
+          ],
+          "excludedFields": [],
+          "normalization": "none",
+          "leftProjectionIdentity": "sha256:a3bfbb5f04410086ac0b05288b6320b7b6bc9ae9d77d7036e68284ac707c62fc",
+          "rightProjectionIdentity": "sha256:a3bfbb5f04410086ac0b05288b6320b7b6bc9ae9d77d7036e68284ac707c62fc",
+          "differingFields": [],
+          "equal": true
+        },
+        {
+          "regimeId": "declared-input",
+          "label": "Declared inputs",
+          "question": "Are the source, build instructions, and declared parameters identical?",
+          "comparedFields": [
+            "declaredInputs.sourceIdentity",
+            "declaredInputs.instructionsIdentity",
+            "declaredInputs.parameters"
+          ],
+          "excludedFields": [],
+          "normalization": "canonical JSON field order",
+          "leftProjectionIdentity": "sha256:595218a9e85fe446643277c6f0075b97bb6a1308a429d02267c3903b68d310d2",
+          "rightProjectionIdentity": "sha256:595218a9e85fe446643277c6f0075b97bb6a1308a429d02267c3903b68d310d2",
+          "differingFields": [],
+          "equal": true
+        },
+        {
+          "regimeId": "toolchain",
+          "label": "Toolchain",
+          "question": "Did both executions use the same declared toolchain identity?",
+          "comparedFields": [
+            "runtime.name",
+            "runtime.version"
+          ],
+          "excludedFields": [],
+          "normalization": "exact runtime name and semantic version",
+          "leftProjectionIdentity": "sha256:d5719f28e20143f9504a328bf283580fc75aebf17b4b0177503eb8dab591d2fd",
+          "rightProjectionIdentity": "sha256:d5719f28e20143f9504a328bf283580fc75aebf17b4b0177503eb8dab591d2fd",
+          "differingFields": [],
+          "equal": true
+        },
+        {
+          "regimeId": "environment",
+          "label": "Environment",
+          "question": "Are all fields in the declared normalized environment profile identical?",
+          "comparedFields": [
+            "environment.normalized.LANG",
+            "environment.normalized.TZ",
+            "environment.normalized.SOURCE_DATE_EPOCH"
+          ],
+          "excludedFields": [
+            "environment.observedIrrelevant.ONTO2D_SESSION_LABEL"
+          ],
+          "normalization": "exact values for the three declared fields; all other ambient fields excluded",
+          "leftProjectionIdentity": "sha256:8c917f58c4ed4172d05d08d0515a2fb7147eafed4431c035ea5ad8bb50a7ddbd",
+          "rightProjectionIdentity": "sha256:8c917f58c4ed4172d05d08d0515a2fb7147eafed4431c035ea5ad8bb50a7ddbd",
+          "differingFields": [],
+          "equal": true
+        },
+        {
+          "regimeId": "provenance",
+          "label": "Provenance",
+          "question": "Are these the same recorded execution event?",
+          "comparedFields": [
+            "executionId",
+            "capturedAt",
+            "runtime",
+            "environment.observedIrrelevant"
+          ],
+          "excludedFields": [],
+          "normalization": "none",
+          "leftProjectionIdentity": "sha256:55180dbbc727bf8ae41871bb16a5e720ead1f5ef8d5e42096126bded248c24c2",
+          "rightProjectionIdentity": "sha256:996c40d7084b2ac38ff8ba3c9d237e6a18d6576d744a918657f929094e68c821",
+          "differingFields": [
+            "executionId",
+            "capturedAt",
+            "environment.observedIrrelevant"
+          ],
+          "equal": false
+        }
+      ]
+    },
+    {
+      "id": "relevant-input-mutation",
+      "label": "Declared release channel changed",
+      "leftHistory": "baseline-node24",
+      "rightHistory": "relevant-input-node24",
+      "historiesDistinct": true,
+      "regimes": [
+        {
+          "regimeId": "byte-output",
+          "label": "Byte output",
+          "question": "Are the specified artifact bytes identical?",
+          "comparedFields": [
+            "artifact.sha256",
+            "artifact.bytes"
+          ],
+          "excludedFields": [],
+          "normalization": "none",
+          "leftProjectionIdentity": "sha256:a3bfbb5f04410086ac0b05288b6320b7b6bc9ae9d77d7036e68284ac707c62fc",
+          "rightProjectionIdentity": "sha256:5451626c1fb42b8f669a1660e473c08cdd22833d8e8d4c818920584b6e84b276",
+          "differingFields": [
+            "artifact.sha256",
+            "artifact.bytes"
+          ],
+          "equal": false
+        },
+        {
+          "regimeId": "declared-input",
+          "label": "Declared inputs",
+          "question": "Are the source, build instructions, and declared parameters identical?",
+          "comparedFields": [
+            "declaredInputs.sourceIdentity",
+            "declaredInputs.instructionsIdentity",
+            "declaredInputs.parameters"
+          ],
+          "excludedFields": [],
+          "normalization": "canonical JSON field order",
+          "leftProjectionIdentity": "sha256:595218a9e85fe446643277c6f0075b97bb6a1308a429d02267c3903b68d310d2",
+          "rightProjectionIdentity": "sha256:c58949c3e5fd6c25fa603e03d54d3a00627092bb5e2da08db8fc6633a25bb51f",
+          "differingFields": [
+            "declaredInputs.parameters"
+          ],
+          "equal": false
+        },
+        {
+          "regimeId": "toolchain",
+          "label": "Toolchain",
+          "question": "Did both executions use the same declared toolchain identity?",
+          "comparedFields": [
+            "runtime.name",
+            "runtime.version"
+          ],
+          "excludedFields": [],
+          "normalization": "exact runtime name and semantic version",
+          "leftProjectionIdentity": "sha256:d5719f28e20143f9504a328bf283580fc75aebf17b4b0177503eb8dab591d2fd",
+          "rightProjectionIdentity": "sha256:d5719f28e20143f9504a328bf283580fc75aebf17b4b0177503eb8dab591d2fd",
+          "differingFields": [],
+          "equal": true
+        },
+        {
+          "regimeId": "environment",
+          "label": "Environment",
+          "question": "Are all fields in the declared normalized environment profile identical?",
+          "comparedFields": [
+            "environment.normalized.LANG",
+            "environment.normalized.TZ",
+            "environment.normalized.SOURCE_DATE_EPOCH"
+          ],
+          "excludedFields": [
+            "environment.observedIrrelevant.ONTO2D_SESSION_LABEL"
+          ],
+          "normalization": "exact values for the three declared fields; all other ambient fields excluded",
+          "leftProjectionIdentity": "sha256:8c917f58c4ed4172d05d08d0515a2fb7147eafed4431c035ea5ad8bb50a7ddbd",
+          "rightProjectionIdentity": "sha256:8c917f58c4ed4172d05d08d0515a2fb7147eafed4431c035ea5ad8bb50a7ddbd",
+          "differingFields": [],
+          "equal": true
+        },
+        {
+          "regimeId": "provenance",
+          "label": "Provenance",
+          "question": "Are these the same recorded execution event?",
+          "comparedFields": [
+            "executionId",
+            "capturedAt",
+            "runtime",
+            "environment.observedIrrelevant"
+          ],
+          "excludedFields": [],
+          "normalization": "none",
+          "leftProjectionIdentity": "sha256:55180dbbc727bf8ae41871bb16a5e720ead1f5ef8d5e42096126bded248c24c2",
+          "rightProjectionIdentity": "sha256:a393d07b19644805faed01c53b595a1594b4a6c61ae99788e6c3f386f732c83d",
+          "differingFields": [
+            "executionId",
+            "capturedAt",
+            "environment.observedIrrelevant"
+          ],
+          "equal": false
+        }
+      ]
+    }
+  ],
+  "conclusion": {
+    "status": "regime-relative-equivalence-demonstrated",
+    "flagship": "The Node.js 24 and Node.js 22 executions are byte-output and declared-input equivalent while remaining toolchain- and provenance-distinct.",
+    "ambientControl": "Changing ONTO2D_SESSION_LABEL leaves byte, declared-input, toolchain, and normalized-environment equivalence unchanged because the profile explicitly excludes it.",
+    "relevantControl": "Changing the declared releaseChannel changes declared-input identity and output bytes while leaving toolchain and normalized-environment equivalence unchanged."
+  },
+  "historicalLoad": {
+    "status": "not-evaluated",
+    "value": null,
+    "reason": "This case compares whether two histories are equivalent under a declared regime. It does not define candidate routes, an admissibility predicate, or a cost function, so Historical Load would be undefined rather than zero."
+  },
+  "evidenceBoundary": {
+    "directRecords": [
+      "four captured local execution records",
+      "exact source bytes",
+      "exact produced artifact bytes",
+      "runtime version and platform reported by each capture process"
+    ],
+    "derived": [
+      "source, instruction, input, history, and regime projection identities",
+      "pairwise equivalence verdicts",
+      "differing-field lists"
+    ],
+    "excluded": [
+      "ONTO2D_SESSION_LABEL from normalized environment identity"
+    ],
+    "unknown": [
+      "cross-machine reproducibility",
+      "non-Darwin reproducibility",
+      "builder trustworthiness",
+      "behavior outside Node.js 22.23.2 and 24.19.0",
+      "transitive equivalence across different regimes"
+    ],
+    "nonClaims": [
+      "byte equality proves that either builder was trustworthy",
+      "byte equality makes two execution records the same historical event",
+      "this fixture establishes reproducibility for arbitrary Node.js programs or platforms",
+      "history equivalence is a global or transitive relation across different regimes",
+      "History Equivalence is a Historical Load measurement"
+    ]
+  },
+  "caseIdentity": "sha256:496019fc155ac6d78d74f89b6bc4c48e22b5650fb83a36109dc9fc54dd67e726"
+}

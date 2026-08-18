@@ -1,0 +1,11 @@
+SELECT ?entity ?label WHERE {
+  VALUES ?entity {
+    <https://data.getty.edu/provenance/29246664-db2b-3f62-8ba6-5e82ad675c77>
+    <https://data.getty.edu/provenance/7bb5fa98-782e-35c6-a107-888780023622>
+    <https://data.getty.edu/provenance/d480c3e8-4b42-3bc9-af1b-621d57a40608>
+    <https://data.getty.edu/provenance/e58f4290-9160-3b64-9006-ed136dbd8d2a>
+  }
+  ?entity <http://www.w3.org/2000/01/rdf-schema#label> ?label .
+}
+ORDER BY ?entity ?label
+LIMIT 40

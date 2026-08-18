@@ -1,0 +1,1280 @@
+{
+  "format": "onto2d-chemical-synthesis-history-case",
+  "formatVersion": "1",
+  "caseVersion": "chemical-synthesis-history-v1",
+  "generatedBy": "cases/chemical-synthesis-history/extract.mjs",
+  "ord": {
+    "name": "Open Reaction Database",
+    "release": "v0.1.0",
+    "commit": "8b83754b865c8a9f30667fbea4dfdc892d4dad60",
+    "schemaVersion": "v0.3.10",
+    "license": {
+      "spdx": "Apache-2.0",
+      "url": "https://github.com/open-reaction-database/ord-data/blob/v0.1.0/LICENSE",
+      "sha256": "5e436ff8ffbb77d8607220e9bce20c8915d860010feeb6c1ebef5a85688e9b39"
+    },
+    "datasets": [
+      {
+        "role": "same-target-condition-sweep",
+        "datasetId": "ord_dataset-46ff9a32d9e04016b9380b1b1ef949c3",
+        "name": "Ahneman",
+        "reactionCount": 4312,
+        "doi": "10.1126/science.aar5169",
+        "path": "data/46/ord_dataset-46ff9a32d9e04016b9380b1b1ef949c3.pb.gz",
+        "sha256": "626a8963ad64bec500859479786a9fa93e41b6533a07ccf904d85ac21f2d9488"
+      },
+      {
+        "role": "cross-referenced-cascade",
+        "datasetId": "ord_dataset-6a0bfcdf53a64c07987822162ae591e2",
+        "name": "synthesis of islatravir by biocatalytic cascade",
+        "reactionCount": 3,
+        "doi": "10.1126/science.aay8484",
+        "path": "data/6a/ord_dataset-6a0bfcdf53a64c07987822162ae591e2.pb.gz",
+        "sha256": "56d7a04e6a8589624405baed096de2f87d87898678401114b05242f2cd4920ca"
+      }
+    ]
+  },
+  "source": {
+    "identity": "sha256:2b5669bb9b14a187e7ebf488020d37523ae6805191a8ca762010f82a671a4cfb",
+    "authoredFiles": [
+      {
+        "role": "upstream",
+        "path": "upstream.json",
+        "identity": "sha256:2558646067a2ef0b9ed73f4e6beddcdd8dc36ba9ef92d15ddd4cbaedd4d9e4f7",
+        "bytes": 2537
+      },
+      {
+        "role": "identity",
+        "path": "identity-profile.json",
+        "identity": "sha256:ba305c44d38ff808a828b1c8d4662a7fb8cf36cf1bc230ee210d0284cef24ca1",
+        "bytes": 1869
+      },
+      {
+        "role": "analysis",
+        "path": "analysis-profile.json",
+        "identity": "sha256:b44600b253bd35ff9dfbb5e8eb07f93f893a35e8ce38b87d060bcd5b1ed0fa54",
+        "bytes": 1476
+      },
+      {
+        "role": "conditionSweep",
+        "path": "fixtures/ahneman-condition-sweep.json",
+        "identity": "sha256:988806f700b5690f51b146b1df60eceb552d44d3801f35acc101cc3eef53fd89",
+        "bytes": 15863
+      },
+      {
+        "role": "cascade",
+        "path": "fixtures/islatravir-cascade.json",
+        "identity": "sha256:051d1badf7cccb994f86eccd2dac7644f947fe651db699c97d4d31bf1bc307e7",
+        "bytes": 4656
+      }
+    ],
+    "externalFiles": [
+      {
+        "path": "data/46/ord_dataset-46ff9a32d9e04016b9380b1b1ef949c3.pb.gz",
+        "identity": "sha256:626a8963ad64bec500859479786a9fa93e41b6533a07ccf904d85ac21f2d9488",
+        "bytes": 314649,
+        "datasetId": "ord_dataset-46ff9a32d9e04016b9380b1b1ef949c3"
+      },
+      {
+        "path": "data/6a/ord_dataset-6a0bfcdf53a64c07987822162ae591e2.pb.gz",
+        "identity": "sha256:56d7a04e6a8589624405baed096de2f87d87898678401114b05242f2cd4920ca",
+        "bytes": 6313,
+        "datasetId": "ord_dataset-6a0bfcdf53a64c07987822162ae591e2"
+      }
+    ],
+    "retrieval": {
+      "retrievedAt": "2026-08-18T18:05:00Z",
+      "transport": "GitHub media endpoint for the pinned tag",
+      "verification": "SHA-256 over exact compressed Git LFS object bytes before protobuf decoding",
+      "liveNetworkRequiredByBuild": false
+    }
+  },
+  "identityProfiles": {
+    "format": "onto2d-chemical-synthesis-identity-profile",
+    "formatVersion": "1",
+    "profileVersion": "chemical-synthesis-identity-v1",
+    "targetIdentity": {
+      "id": "exact-ord-product-smiles-v1",
+      "rule": "Two target records match only when their native ORD product identifier type is SMILES and their source strings are byte-for-byte equal.",
+      "stereochemistry": "preserved exactly as recorded",
+      "normalization": "none",
+      "knownLimitation": "Exact source-string equality may under-merge equivalent structures; it is not a canonical chemistry toolkit result."
+    },
+    "routeIdentity": {
+      "id": "ord-record-and-condition-profile-v1",
+      "fields": [
+        "reactionId",
+        "productSmiles",
+        "arylHalideSmiles",
+        "amineSmiles",
+        "catalystSmiles",
+        "baseSmiles",
+        "additiveSmiles",
+        "temperature",
+        "reactionTime",
+        "workupTypes"
+      ],
+      "rule": "The ordered canonical value of every listed field defines a route-fragment identity; missing values stay null."
+    },
+    "equivalenceRegimes": [
+      {
+        "id": "same-native-record",
+        "question": "Are these the same ORD reaction record?",
+        "fields": [
+          "reactionId"
+        ]
+      },
+      {
+        "id": "same-target-identifier",
+        "question": "Do these records carry the exact same source product SMILES?",
+        "fields": [
+          "productSmiles"
+        ]
+      },
+      {
+        "id": "same-route-fragment",
+        "question": "Do reactants, catalyst, base, additive, conditions, workup, and record identity all match?",
+        "fields": [
+          "routeIdentity"
+        ]
+      }
+    ],
+    "continuityRule": {
+      "id": "native-ord-reaction-cross-reference-v1",
+      "rule": "Physical-batch continuity is represented only when a later ORD input contains a native reaction_id cross-reference. Equal compound identifiers alone produce a derived identifier match, never a physical-batch relation."
+    }
+  },
+  "cohorts": {
+    "conditionSweep": {
+      "format": "onto2d-ord-native-field-projection",
+      "formatVersion": "1",
+      "projectionVersion": "ahneman-extrema-v1",
+      "datasetId": "ord_dataset-46ff9a32d9e04016b9380b1b1ef949c3",
+      "datasetName": "Ahneman",
+      "nativeReactionName": "Buckwald-Hartwig amination",
+      "selection": {
+        "cohortRule": "Group every reaction with a measured desired-product yield by byte-exact native product SMILES.",
+        "recordRule": "For each product group, select the minimum and maximum recorded yield; break ties by lexicographically smallest reaction_id.",
+        "targetOrder": "Lexicographic native product SMILES order.",
+        "selectedTargetCount": 5,
+        "selectedRecordCount": 10,
+        "sourceReactionCount": 4312
+      },
+      "targets": [
+        {
+          "id": "target-ethyl-aryl",
+          "label": "Target A / ethyl aryl",
+          "labelStatus": "onto2d-display-label",
+          "productIdentifier": {
+            "type": "SMILES",
+            "value": "CCc1ccc(Nc2ccc(C)cc2)cc1"
+          },
+          "sourceCohortSize": 861,
+          "routes": [
+            {
+              "id": "target-ethyl-aryl:min-yield",
+              "selectionReason": "minimum-recorded-yield",
+              "reactionId": "ord-03e2468f1d8f4ea5bcf8f3df9c1e63f9",
+              "nativeRecordSha256": "sha256:5051b51dcf4fe18bcb17835b3318c0524a5ed04984d069b189e2b70f0a01ab65",
+              "inputs": {
+                "arylHalide": {
+                  "name": null,
+                  "smiles": "CCc1ccc(Br)cc1",
+                  "nativeRole": "REACTANT"
+                },
+                "amine": {
+                  "name": null,
+                  "smiles": "Cc1ccc(N)cc1",
+                  "nativeRole": "REACTANT"
+                },
+                "catalyst": {
+                  "name": "XPhos",
+                  "smiles": "CC(C)c1cc(C(C)C)c(-c2ccccc2P(C2CCCCC2)(C2CCCCC2)->[Pd]2(OS(=O)(=O)C(F)(F)F)<-Nc3ccccc3-c3ccccc32)c(C(C)C)c1",
+                  "nativeRole": "CATALYST"
+                },
+                "base": {
+                  "name": "BTMG",
+                  "smiles": "CN(C)C(=NC(C)(C)C)N(C)C",
+                  "nativeRole": "REAGENT"
+                },
+                "additive": {
+                  "name": null,
+                  "smiles": "c1ccc(-c2ncno2)cc1",
+                  "nativeRole": "REAGENT"
+                }
+              },
+              "conditions": {
+                "temperature": {
+                  "value": 60,
+                  "unit": "CELSIUS"
+                },
+                "reactionTime": {
+                  "value": 16,
+                  "unit": "HOUR"
+                }
+              },
+              "workups": [
+                "ADDITION"
+              ],
+              "outcome": {
+                "productSmiles": "CCc1ccc(Nc2ccc(C)cc2)cc1",
+                "yield": {
+                  "value": 0,
+                  "unit": "PERCENTAGE",
+                  "analysisKey": "UPLC",
+                  "usesInternalStandard": true
+                }
+              },
+              "provenance": {
+                "doi": "10.1126/science.aar5169"
+              },
+              "routeIdentity": "sha256:6774c0649c0a5ad3c56b3a3f56c5a79589e7e9df360055ec5ac52b0255c16309"
+            },
+            {
+              "id": "target-ethyl-aryl:max-yield",
+              "selectionReason": "maximum-recorded-yield",
+              "reactionId": "ord-09f72c76de55495ca8988a901ceed276",
+              "nativeRecordSha256": "sha256:71d3a9f7fa2c363dbd0097a56ecf16415a2b7c67b7ab187fd7c2ae450d5ef60a",
+              "inputs": {
+                "arylHalide": {
+                  "name": null,
+                  "smiles": "CCc1ccc(Br)cc1",
+                  "nativeRole": "REACTANT"
+                },
+                "amine": {
+                  "name": null,
+                  "smiles": "Cc1ccc(N)cc1",
+                  "nativeRole": "REACTANT"
+                },
+                "catalyst": {
+                  "name": "t-BuXPhos",
+                  "smiles": "CC(C)c1cc(C(C)C)c(-c2ccccc2P(C(C)(C)C)(C(C)(C)C)->[Pd]2(OS(=O)(=O)C(F)(F)F)<-Nc3ccccc3-c3ccccc32)c(C(C)C)c1",
+                  "nativeRole": "CATALYST"
+                },
+                "base": {
+                  "name": "MTBD",
+                  "smiles": "CN1CCCN2CCCN=C12",
+                  "nativeRole": "REAGENT"
+                },
+                "additive": {
+                  "name": null,
+                  "smiles": "CCOC(=O)c1cc(C)no1",
+                  "nativeRole": "REAGENT"
+                }
+              },
+              "conditions": {
+                "temperature": {
+                  "value": 60,
+                  "unit": "CELSIUS"
+                },
+                "reactionTime": {
+                  "value": 16,
+                  "unit": "HOUR"
+                }
+              },
+              "workups": [
+                "ADDITION"
+              ],
+              "outcome": {
+                "productSmiles": "CCc1ccc(Nc2ccc(C)cc2)cc1",
+                "yield": {
+                  "value": 86.59757995605469,
+                  "unit": "PERCENTAGE",
+                  "analysisKey": "UPLC",
+                  "usesInternalStandard": true
+                }
+              },
+              "provenance": {
+                "doi": "10.1126/science.aar5169"
+              },
+              "routeIdentity": "sha256:295ed6dda1b787b798873ec481519f308d86247a02f64a443d1b9e7fc8195cf3"
+            }
+          ]
+        },
+        {
+          "id": "target-methoxy-aryl",
+          "label": "Target B / methoxy aryl",
+          "labelStatus": "onto2d-display-label",
+          "productIdentifier": {
+            "type": "SMILES",
+            "value": "COc1ccc(Nc2ccc(C)cc2)cc1"
+          },
+          "sourceCohortSize": 864,
+          "routes": [
+            {
+              "id": "target-methoxy-aryl:min-yield",
+              "selectionReason": "minimum-recorded-yield",
+              "reactionId": "ord-00d0f9896cb84a2b8725d93b1c9e11f9",
+              "nativeRecordSha256": "sha256:157db00a95f04c7311ee614a71da2241e958442fddf0be9c8bad62de472520dd",
+              "inputs": {
+                "arylHalide": {
+                  "name": null,
+                  "smiles": "COc1ccc(Cl)cc1",
+                  "nativeRole": "REACTANT"
+                },
+                "amine": {
+                  "name": null,
+                  "smiles": "Cc1ccc(N)cc1",
+                  "nativeRole": "REACTANT"
+                },
+                "catalyst": {
+                  "name": "XPhos",
+                  "smiles": "CC(C)c1cc(C(C)C)c(-c2ccccc2P(C2CCCCC2)(C2CCCCC2)->[Pd]2(OS(=O)(=O)C(F)(F)F)<-Nc3ccccc3-c3ccccc32)c(C(C)C)c1",
+                  "nativeRole": "CATALYST"
+                },
+                "base": {
+                  "name": "MTBD",
+                  "smiles": "CN1CCCN2CCCN=C12",
+                  "nativeRole": "REAGENT"
+                },
+                "additive": {
+                  "name": null,
+                  "smiles": "COC(=O)c1cc(-c2ccco2)on1",
+                  "nativeRole": "REAGENT"
+                }
+              },
+              "conditions": {
+                "temperature": {
+                  "value": 60,
+                  "unit": "CELSIUS"
+                },
+                "reactionTime": {
+                  "value": 16,
+                  "unit": "HOUR"
+                }
+              },
+              "workups": [
+                "ADDITION"
+              ],
+              "outcome": {
+                "productSmiles": "COc1ccc(Nc2ccc(C)cc2)cc1",
+                "yield": {
+                  "value": 0,
+                  "unit": "PERCENTAGE",
+                  "analysisKey": "UPLC",
+                  "usesInternalStandard": true
+                }
+              },
+              "provenance": {
+                "doi": "10.1126/science.aar5169"
+              },
+              "routeIdentity": "sha256:c7b29643adcd1c1f82e8e5fb05ad8c645c021cf1955c872498f8e9f2e385dba1"
+            },
+            {
+              "id": "target-methoxy-aryl:max-yield",
+              "selectionReason": "maximum-recorded-yield",
+              "reactionId": "ord-be9a66e246a044b3935ca032fc8cc7b9",
+              "nativeRecordSha256": "sha256:6221badaac8255444aa915fed2f7f6d7524436746919de9715056a298f471965",
+              "inputs": {
+                "arylHalide": {
+                  "name": null,
+                  "smiles": "COc1ccc(I)cc1",
+                  "nativeRole": "REACTANT"
+                },
+                "amine": {
+                  "name": null,
+                  "smiles": "Cc1ccc(N)cc1",
+                  "nativeRole": "REACTANT"
+                },
+                "catalyst": {
+                  "name": "AdBrettPhos",
+                  "smiles": "COc1ccc(OC)c(P(C23CC4CC(CC(C4)C2)C3)(C23CC4CC(CC(C4)C2)C3)->[Pd]2(OS(=O)(=O)C(F)(F)F)<-Nc3ccccc3-c3ccccc32)c1-c1c(C(C)C)cc(C(C)C)cc1C(C)C",
+                  "nativeRole": "CATALYST"
+                },
+                "base": {
+                  "name": "MTBD",
+                  "smiles": "CN1CCCN2CCCN=C12",
+                  "nativeRole": "REAGENT"
+                },
+                "additive": {
+                  "name": null,
+                  "smiles": "c1ccc(CN(Cc2ccccc2)c2ccon2)cc1",
+                  "nativeRole": "REAGENT"
+                }
+              },
+              "conditions": {
+                "temperature": {
+                  "value": 60,
+                  "unit": "CELSIUS"
+                },
+                "reactionTime": {
+                  "value": 16,
+                  "unit": "HOUR"
+                }
+              },
+              "workups": [
+                "ADDITION"
+              ],
+              "outcome": {
+                "productSmiles": "COc1ccc(Nc2ccc(C)cc2)cc1",
+                "yield": {
+                  "value": 68.24813079833984,
+                  "unit": "PERCENTAGE",
+                  "analysisKey": "UPLC",
+                  "usesInternalStandard": true
+                }
+              },
+              "provenance": {
+                "doi": "10.1126/science.aar5169"
+              },
+              "routeIdentity": "sha256:97e1b8c571e7a37c58d06eeb23ec3ff35b3a3a9d032e7046df7e33e100f6dec2"
+            }
+          ]
+        },
+        {
+          "id": "target-trifluoromethyl-aryl",
+          "label": "Target C / trifluoromethyl aryl",
+          "labelStatus": "onto2d-display-label",
+          "productIdentifier": {
+            "type": "SMILES",
+            "value": "Cc1ccc(Nc2ccc(C(F)(F)F)cc2)cc1"
+          },
+          "sourceCohortSize": 862,
+          "routes": [
+            {
+              "id": "target-trifluoromethyl-aryl:min-yield",
+              "selectionReason": "minimum-recorded-yield",
+              "reactionId": "ord-145eb8cc957d425383fa4b8775861106",
+              "nativeRecordSha256": "sha256:226349532ecb8e151c30e2cc2145a2166b0169259a6edba517511f7d6e1d165c",
+              "inputs": {
+                "arylHalide": {
+                  "name": null,
+                  "smiles": "FC(F)(F)c1ccc(Cl)cc1",
+                  "nativeRole": "REACTANT"
+                },
+                "amine": {
+                  "name": null,
+                  "smiles": "Cc1ccc(N)cc1",
+                  "nativeRole": "REACTANT"
+                },
+                "catalyst": {
+                  "name": "XPhos",
+                  "smiles": "CC(C)c1cc(C(C)C)c(-c2ccccc2P(C2CCCCC2)(C2CCCCC2)->[Pd]2(OS(=O)(=O)C(F)(F)F)<-Nc3ccccc3-c3ccccc32)c(C(C)C)c1",
+                  "nativeRole": "CATALYST"
+                },
+                "base": {
+                  "name": "MTBD",
+                  "smiles": "CN1CCCN2CCCN=C12",
+                  "nativeRole": "REAGENT"
+                },
+                "additive": {
+                  "name": null,
+                  "smiles": "c1ccc2nocc2c1",
+                  "nativeRole": "REAGENT"
+                }
+              },
+              "conditions": {
+                "temperature": {
+                  "value": 60,
+                  "unit": "CELSIUS"
+                },
+                "reactionTime": {
+                  "value": 16,
+                  "unit": "HOUR"
+                }
+              },
+              "workups": [
+                "ADDITION"
+              ],
+              "outcome": {
+                "productSmiles": "Cc1ccc(Nc2ccc(C(F)(F)F)cc2)cc1",
+                "yield": {
+                  "value": 0,
+                  "unit": "PERCENTAGE",
+                  "analysisKey": "UPLC",
+                  "usesInternalStandard": true
+                }
+              },
+              "provenance": {
+                "doi": "10.1126/science.aar5169"
+              },
+              "routeIdentity": "sha256:c503f2cdc0508a476d54d0b98746a5f02758a048703c779806d7d212cae3380c"
+            },
+            {
+              "id": "target-trifluoromethyl-aryl:max-yield",
+              "selectionReason": "maximum-recorded-yield",
+              "reactionId": "ord-91ee43b2a5cb4f96a979743df6eabece",
+              "nativeRecordSha256": "sha256:aa02f21310f7bca3bf9abe5c13af4afa0e569de3727e9381c994404389b6c36b",
+              "inputs": {
+                "arylHalide": {
+                  "name": null,
+                  "smiles": "FC(F)(F)c1ccc(I)cc1",
+                  "nativeRole": "REACTANT"
+                },
+                "amine": {
+                  "name": null,
+                  "smiles": "Cc1ccc(N)cc1",
+                  "nativeRole": "REACTANT"
+                },
+                "catalyst": {
+                  "name": "AdBrettPhos",
+                  "smiles": "COc1ccc(OC)c(P(C23CC4CC(CC(C4)C2)C3)(C23CC4CC(CC(C4)C2)C3)->[Pd]2(OS(=O)(=O)C(F)(F)F)<-Nc3ccccc3-c3ccccc32)c1-c1c(C(C)C)cc(C(C)C)cc1C(C)C",
+                  "nativeRole": "CATALYST"
+                },
+                "base": {
+                  "name": "MTBD",
+                  "smiles": "CN1CCCN2CCCN=C12",
+                  "nativeRole": "REAGENT"
+                },
+                "additive": {
+                  "name": null,
+                  "smiles": "Cc1ccon1",
+                  "nativeRole": "REAGENT"
+                }
+              },
+              "conditions": {
+                "temperature": {
+                  "value": 60,
+                  "unit": "CELSIUS"
+                },
+                "reactionTime": {
+                  "value": 16,
+                  "unit": "HOUR"
+                }
+              },
+              "workups": [
+                "ADDITION"
+              ],
+              "outcome": {
+                "productSmiles": "Cc1ccc(Nc2ccc(C(F)(F)F)cc2)cc1",
+                "yield": {
+                  "value": 55.565860748291016,
+                  "unit": "PERCENTAGE",
+                  "analysisKey": "UPLC",
+                  "usesInternalStandard": true
+                }
+              },
+              "provenance": {
+                "doi": "10.1126/science.aar5169"
+              },
+              "routeIdentity": "sha256:dd01b7cccea552fe365b98b21da41acb706372bf6260256f2b27456e615b84a6"
+            }
+          ]
+        },
+        {
+          "id": "target-2-pyridyl",
+          "label": "Target D / 2-pyridyl",
+          "labelStatus": "onto2d-display-label",
+          "productIdentifier": {
+            "type": "SMILES",
+            "value": "Cc1ccc(Nc2ccccn2)cc1"
+          },
+          "sourceCohortSize": 862,
+          "routes": [
+            {
+              "id": "target-2-pyridyl:min-yield",
+              "selectionReason": "minimum-recorded-yield",
+              "reactionId": "ord-00d2ffe2d5cb4625a8439a12f6b1d587",
+              "nativeRecordSha256": "sha256:9947e4d34087f8615ebdd626ff10ccec24bf2222eb66c2b9d2baf908a65ae051",
+              "inputs": {
+                "arylHalide": {
+                  "name": null,
+                  "smiles": "Brc1ccccn1",
+                  "nativeRole": "REACTANT"
+                },
+                "amine": {
+                  "name": null,
+                  "smiles": "Cc1ccc(N)cc1",
+                  "nativeRole": "REACTANT"
+                },
+                "catalyst": {
+                  "name": "AdBrettPhos",
+                  "smiles": "COc1ccc(OC)c(P(C23CC4CC(CC(C4)C2)C3)(C23CC4CC(CC(C4)C2)C3)->[Pd]2(OS(=O)(=O)C(F)(F)F)<-Nc3ccccc3-c3ccccc32)c1-c1c(C(C)C)cc(C(C)C)cc1C(C)C",
+                  "nativeRole": "CATALYST"
+                },
+                "base": {
+                  "name": "BTMG",
+                  "smiles": "CN(C)C(=NC(C)(C)C)N(C)C",
+                  "nativeRole": "REAGENT"
+                },
+                "additive": {
+                  "name": null,
+                  "smiles": "CCOC(=O)c1cnoc1",
+                  "nativeRole": "REAGENT"
+                }
+              },
+              "conditions": {
+                "temperature": {
+                  "value": 60,
+                  "unit": "CELSIUS"
+                },
+                "reactionTime": {
+                  "value": 16,
+                  "unit": "HOUR"
+                }
+              },
+              "workups": [
+                "ADDITION"
+              ],
+              "outcome": {
+                "productSmiles": "Cc1ccc(Nc2ccccn2)cc1",
+                "yield": {
+                  "value": 0,
+                  "unit": "PERCENTAGE",
+                  "analysisKey": "UPLC",
+                  "usesInternalStandard": true
+                }
+              },
+              "provenance": {
+                "doi": "10.1126/science.aar5169"
+              },
+              "routeIdentity": "sha256:204e407d6d756769a30fa2d98e8da093e7ff249d59cca0b69151b028303ad07c"
+            },
+            {
+              "id": "target-2-pyridyl:max-yield",
+              "selectionReason": "maximum-recorded-yield",
+              "reactionId": "ord-7dca030a687947118d728db687c70a82",
+              "nativeRecordSha256": "sha256:43177e9406a94367f5aeca28979e1b906f8bdb0c22757d25b5e829f02b668eac",
+              "inputs": {
+                "arylHalide": {
+                  "name": null,
+                  "smiles": "Ic1ccccn1",
+                  "nativeRole": "REACTANT"
+                },
+                "amine": {
+                  "name": null,
+                  "smiles": "Cc1ccc(N)cc1",
+                  "nativeRole": "REACTANT"
+                },
+                "catalyst": {
+                  "name": "t-BuBrettPhos",
+                  "smiles": "COc1ccc(OC)c(P(C(C)(C)C)(C(C)(C)C)->[Pd]2(OS(=O)(=O)C(F)(F)F)<-Nc3ccccc3-c3ccccc32)c1-c1c(C(C)C)cc(C(C)C)cc1C(C)C",
+                  "nativeRole": "CATALYST"
+                },
+                "base": {
+                  "name": "MTBD",
+                  "smiles": "CN1CCCN2CCCN=C12",
+                  "nativeRole": "REAGENT"
+                },
+                "additive": {
+                  "name": null,
+                  "smiles": "c1ccc(-c2cnoc2)cc1",
+                  "nativeRole": "REAGENT"
+                }
+              },
+              "conditions": {
+                "temperature": {
+                  "value": 60,
+                  "unit": "CELSIUS"
+                },
+                "reactionTime": {
+                  "value": 16,
+                  "unit": "HOUR"
+                }
+              },
+              "workups": [
+                "ADDITION"
+              ],
+              "outcome": {
+                "productSmiles": "Cc1ccc(Nc2ccccn2)cc1",
+                "yield": {
+                  "value": 99.99999237060547,
+                  "unit": "PERCENTAGE",
+                  "analysisKey": "UPLC",
+                  "usesInternalStandard": true
+                }
+              },
+              "provenance": {
+                "doi": "10.1126/science.aar5169"
+              },
+              "routeIdentity": "sha256:9380fdddf7495e50581c03d3c1394c82bf8323c69143796e45cab7828a43acd2"
+            }
+          ]
+        },
+        {
+          "id": "target-3-pyridyl",
+          "label": "Target E / 3-pyridyl",
+          "labelStatus": "onto2d-display-label",
+          "productIdentifier": {
+            "type": "SMILES",
+            "value": "Cc1ccc(Nc2cccnc2)cc1"
+          },
+          "sourceCohortSize": 863,
+          "routes": [
+            {
+              "id": "target-3-pyridyl:min-yield",
+              "selectionReason": "minimum-recorded-yield",
+              "reactionId": "ord-01c93e06e2e546fa9b54e1f0001f7df0",
+              "nativeRecordSha256": "sha256:3bd1fd49181a39d15a8f57ae5c171c2fb84535b46f145795d724b36932d76efc",
+              "inputs": {
+                "arylHalide": {
+                  "name": null,
+                  "smiles": "Clc1cccnc1",
+                  "nativeRole": "REACTANT"
+                },
+                "amine": {
+                  "name": null,
+                  "smiles": "Cc1ccc(N)cc1",
+                  "nativeRole": "REACTANT"
+                },
+                "catalyst": {
+                  "name": "XPhos",
+                  "smiles": "CC(C)c1cc(C(C)C)c(-c2ccccc2P(C2CCCCC2)(C2CCCCC2)->[Pd]2(OS(=O)(=O)C(F)(F)F)<-Nc3ccccc3-c3ccccc32)c(C(C)C)c1",
+                  "nativeRole": "CATALYST"
+                },
+                "base": {
+                  "name": "BTMG",
+                  "smiles": "CN(C)C(=NC(C)(C)C)N(C)C",
+                  "nativeRole": "REAGENT"
+                },
+                "additive": {
+                  "name": null,
+                  "smiles": "c1ccc2nocc2c1",
+                  "nativeRole": "REAGENT"
+                }
+              },
+              "conditions": {
+                "temperature": {
+                  "value": 60,
+                  "unit": "CELSIUS"
+                },
+                "reactionTime": {
+                  "value": 16,
+                  "unit": "HOUR"
+                }
+              },
+              "workups": [
+                "ADDITION"
+              ],
+              "outcome": {
+                "productSmiles": "Cc1ccc(Nc2cccnc2)cc1",
+                "yield": {
+                  "value": 0,
+                  "unit": "PERCENTAGE",
+                  "analysisKey": "UPLC",
+                  "usesInternalStandard": true
+                }
+              },
+              "provenance": {
+                "doi": "10.1126/science.aar5169"
+              },
+              "routeIdentity": "sha256:bdc3af58287d2746bedd0d51d39137e05cdeb497cbe68d6d6d9ab8ac0064eede"
+            },
+            {
+              "id": "target-3-pyridyl:max-yield",
+              "selectionReason": "maximum-recorded-yield",
+              "reactionId": "ord-283c3dc01d564bf692785c0156fc0484",
+              "nativeRecordSha256": "sha256:814fe26d43cc7c3d5b96ec7b5e45c1f5df661eb4433cbe38fe5474d781716fd1",
+              "inputs": {
+                "arylHalide": {
+                  "name": null,
+                  "smiles": "Ic1cccnc1",
+                  "nativeRole": "REACTANT"
+                },
+                "amine": {
+                  "name": null,
+                  "smiles": "Cc1ccc(N)cc1",
+                  "nativeRole": "REACTANT"
+                },
+                "catalyst": {
+                  "name": "t-BuXPhos",
+                  "smiles": "CC(C)c1cc(C(C)C)c(-c2ccccc2P(C(C)(C)C)(C(C)(C)C)->[Pd]2(OS(=O)(=O)C(F)(F)F)<-Nc3ccccc3-c3ccccc32)c(C(C)C)c1",
+                  "nativeRole": "CATALYST"
+                },
+                "base": {
+                  "name": "MTBD",
+                  "smiles": "CN1CCCN2CCCN=C12",
+                  "nativeRole": "REAGENT"
+                },
+                "additive": {
+                  "name": "DMSO",
+                  "smiles": "CS(=O)C",
+                  "nativeRole": "SOLVENT"
+                }
+              },
+              "conditions": {
+                "temperature": {
+                  "value": 60,
+                  "unit": "CELSIUS"
+                },
+                "reactionTime": {
+                  "value": 16,
+                  "unit": "HOUR"
+                }
+              },
+              "workups": [
+                "ADDITION"
+              ],
+              "outcome": {
+                "productSmiles": "Cc1ccc(Nc2cccnc2)cc1",
+                "yield": {
+                  "value": 99.68653106689453,
+                  "unit": "PERCENTAGE",
+                  "analysisKey": "UPLC",
+                  "usesInternalStandard": true
+                }
+              },
+              "provenance": {
+                "doi": "10.1126/science.aar5169"
+              },
+              "routeIdentity": "sha256:b16f8b8f4dfc53741b50b68cea80f0e4241189e3315981c07ac06354fb3f869b"
+            }
+          ]
+        }
+      ],
+      "projectionBoundary": {
+        "included": [
+          "reaction_id",
+          "selected input identifiers and native roles",
+          "temperature",
+          "reaction time",
+          "workup type",
+          "desired product SMILES",
+          "yield measurement",
+          "provenance DOI",
+          "deterministic native protobuf record hash"
+        ],
+        "omitted": [
+          "vessel details",
+          "repeated solvent carrier records",
+          "full analysis instrument description",
+          "record creation and modification people"
+        ],
+        "claim": "This file is a bounded native-field projection, not a replacement serialization of the complete ORD Dataset protobuf."
+      }
+    },
+    "linkedCascade": {
+      "format": "onto2d-ord-native-field-projection",
+      "formatVersion": "1",
+      "projectionVersion": "islatravir-cross-reference-v1",
+      "datasetId": "ord_dataset-6a0bfcdf53a64c07987822162ae591e2",
+      "datasetName": "synthesis of islatravir by biocatalytic cascade",
+      "records": [
+        {
+          "ordinal": 0,
+          "reactionId": "ord-9b830b3dea9b4c68b349f901df69e119",
+          "nativeRecordSha256": "sha256:eeaf60e910611f5a7ef7d9b1cbe65e853a84e8a4a841f6e91e4016ebdc8e2a66",
+          "name": "Synthesis of (R)-2-ethynylglyceraldehyde (7) using immobilized galactose oxidase",
+          "primaryInput": {
+            "name": "2-ethynylglycerol",
+            "smiles": "C#CC(O)(CO)CO"
+          },
+          "catalysts": [
+            "evolved galactose oxidase GOase-Rd13BB",
+            "bovine catalase",
+            "horseradish peroxidase"
+          ],
+          "crossReferencedReactionIds": [],
+          "conditions": {
+            "temperature": {
+              "value": 25,
+              "unit": "CELSIUS"
+            },
+            "ph": 7.5
+          },
+          "workups": [],
+          "outcomes": [
+            {
+              "time": {
+                "value": 22,
+                "unit": "HOUR"
+              },
+              "conversionPercentage": null,
+              "yieldPercentage": 68,
+              "selectivityPercentage": 97
+            }
+          ],
+          "desiredProduct": {
+            "name": "(R)-2-ethynylglyceraldehyde",
+            "nameStatus": "derived-from-native-reaction-name",
+            "smiles": "OC[C@@](C#C)(O)C=O"
+          },
+          "provenance": {
+            "doi": "10.1126/science.aay8484",
+            "publicationUrl": "https://science.sciencemag.org/content/366/6470/1255"
+          }
+        },
+        {
+          "ordinal": 1,
+          "reactionId": "ord-7c920412f21b4b8195d3bf450f022cbd",
+          "nativeRecordSha256": "sha256:554460dd723b440b002d069de947b0658c15235ca9f087e5bab91ff9eb44a5c9",
+          "name": "Synthesis of (R)-2-ethynylglyceraldehyde 3-phosphate (5) using co-immobilized PanK-Rd4BB and AcK kinases.",
+          "primaryInput": {
+            "name": "2-ethynylglyceraldehyde in water",
+            "smiles": null
+          },
+          "catalysts": [
+            "evolved pantothenate kinase PanK-Rd4BB",
+            "acetate kinase AcK"
+          ],
+          "crossReferencedReactionIds": [
+            "ord-9b830b3dea9b4c68b349f901df69e119",
+            "ord-9b830b3dea9b4c68b349f901df69e119"
+          ],
+          "conditions": {
+            "temperature": null,
+            "ph": 6.4
+          },
+          "workups": [
+            "FILTRATION",
+            "STIRRING",
+            "FILTRATION",
+            "STIRRING",
+            "FILTRATION"
+          ],
+          "outcomes": [
+            {
+              "time": {
+                "value": 18,
+                "unit": "HOUR"
+              },
+              "conversionPercentage": 93,
+              "yieldPercentage": null,
+              "selectivityPercentage": null
+            },
+            {
+              "time": {
+                "value": 42,
+                "unit": "HOUR"
+              },
+              "conversionPercentage": 97,
+              "yieldPercentage": 66,
+              "selectivityPercentage": null
+            }
+          ],
+          "desiredProduct": {
+            "name": "(R)-2-ethynylglyceraldehyde 3-phosphate",
+            "nameStatus": "derived-from-native-reaction-name",
+            "smiles": "O=C[C@](C#C)(O)COP([O-])(=O)=O.[H][N+]([H])([H])[H]"
+          },
+          "provenance": {
+            "doi": "10.1126/science.aay8484",
+            "publicationUrl": "https://science.sciencemag.org/content/366/6470/1255"
+          }
+        },
+        {
+          "ordinal": 2,
+          "reactionId": "ord-80ea7d29d01a42beae0627f615b2f314",
+          "nativeRecordSha256": "sha256:6381c761c3899b8497ade99872087f02dabb49bd0a7bc259365e154f5cd512ec",
+          "name": "4-Enzyme cascade from (R)-2-ethynylglyceraldehyde 3-phosphate to islatravir (1).",
+          "primaryInput": {
+            "name": "(R)-2-ethynylglyceraldehyde 3-phosphate in water",
+            "smiles": null
+          },
+          "catalysts": [
+            "Evolved DERA-Rd3BB",
+            "Evolved PPM-Rd3BB",
+            "Evolved PNP-Rd5BB",
+            "wild type sucrose phosphorylase"
+          ],
+          "crossReferencedReactionIds": [
+            "ord-7c920412f21b4b8195d3bf450f022cbd"
+          ],
+          "conditions": {
+            "temperature": {
+              "value": 35,
+              "unit": "CELSIUS"
+            },
+            "ph": 7.5
+          },
+          "workups": [
+            "FILTRATION",
+            "WASH",
+            "DRY_IN_VACUUM"
+          ],
+          "outcomes": [
+            {
+              "time": {
+                "value": 26,
+                "unit": "HOUR"
+              },
+              "conversionPercentage": null,
+              "yieldPercentage": 76,
+              "selectivityPercentage": null
+            }
+          ],
+          "desiredProduct": {
+            "name": "islatravir",
+            "nameStatus": "native-ord-name",
+            "smiles": "C#C[C@]1([C@H](C[C@@H](O1)n2cnc3c2nc(nc3N)F)O)CO"
+          },
+          "provenance": {
+            "doi": "10.1126/science.aay8484",
+            "publicationUrl": "https://science.sciencemag.org/content/366/6470/1255"
+          }
+        }
+      ],
+      "projectionBoundary": {
+        "included": [
+          "reaction_id",
+          "reaction name",
+          "primary material identifier or native cross-reference",
+          "catalyst names",
+          "temperature",
+          "pH",
+          "workup sequence",
+          "outcome time",
+          "conversion",
+          "yield",
+          "selectivity",
+          "desired product identifiers",
+          "provenance",
+          "deterministic native protobuf record hash"
+        ],
+        "omitted": [
+          "amino-acid sequences",
+          "amounts",
+          "vessel and attachment details",
+          "spectral peak data",
+          "record creator contact fields"
+        ],
+        "nativeMultiplicity": "The duplicated first reaction_id reference in ordinal 1 is retained exactly rather than deduplicated.",
+        "claim": "This file is a bounded native-field projection, not a replacement serialization of the complete ORD Dataset protobuf."
+      }
+    }
+  },
+  "experiments": [
+    {
+      "id": "same-target-different-route:target-ethyl-aryl",
+      "targetId": "target-ethyl-aryl",
+      "leftRouteId": "target-ethyl-aryl:min-yield",
+      "rightRouteId": "target-ethyl-aryl:max-yield",
+      "exactProductIdentifierEqual": true,
+      "nativeRecordIdentityEqual": false,
+      "routeIdentityEqual": false,
+      "arylHalideIdentifierEqual": true,
+      "catalystIdentifierEqual": false,
+      "recordedYieldDifferencePercentagePoints": 86.59757995605469,
+      "result": "same exact source product identifier; distinct recorded route fragments"
+    },
+    {
+      "id": "same-target-different-route:target-methoxy-aryl",
+      "targetId": "target-methoxy-aryl",
+      "leftRouteId": "target-methoxy-aryl:min-yield",
+      "rightRouteId": "target-methoxy-aryl:max-yield",
+      "exactProductIdentifierEqual": true,
+      "nativeRecordIdentityEqual": false,
+      "routeIdentityEqual": false,
+      "arylHalideIdentifierEqual": false,
+      "catalystIdentifierEqual": false,
+      "recordedYieldDifferencePercentagePoints": 68.24813079833984,
+      "result": "same exact source product identifier; distinct recorded route fragments"
+    },
+    {
+      "id": "same-target-different-route:target-trifluoromethyl-aryl",
+      "targetId": "target-trifluoromethyl-aryl",
+      "leftRouteId": "target-trifluoromethyl-aryl:min-yield",
+      "rightRouteId": "target-trifluoromethyl-aryl:max-yield",
+      "exactProductIdentifierEqual": true,
+      "nativeRecordIdentityEqual": false,
+      "routeIdentityEqual": false,
+      "arylHalideIdentifierEqual": false,
+      "catalystIdentifierEqual": false,
+      "recordedYieldDifferencePercentagePoints": 55.565860748291016,
+      "result": "same exact source product identifier; distinct recorded route fragments"
+    },
+    {
+      "id": "same-target-different-route:target-2-pyridyl",
+      "targetId": "target-2-pyridyl",
+      "leftRouteId": "target-2-pyridyl:min-yield",
+      "rightRouteId": "target-2-pyridyl:max-yield",
+      "exactProductIdentifierEqual": true,
+      "nativeRecordIdentityEqual": false,
+      "routeIdentityEqual": false,
+      "arylHalideIdentifierEqual": false,
+      "catalystIdentifierEqual": false,
+      "recordedYieldDifferencePercentagePoints": 99.99999237060547,
+      "result": "same exact source product identifier; distinct recorded route fragments"
+    },
+    {
+      "id": "same-target-different-route:target-3-pyridyl",
+      "targetId": "target-3-pyridyl",
+      "leftRouteId": "target-3-pyridyl:min-yield",
+      "rightRouteId": "target-3-pyridyl:max-yield",
+      "exactProductIdentifierEqual": true,
+      "nativeRecordIdentityEqual": false,
+      "routeIdentityEqual": false,
+      "arylHalideIdentifierEqual": false,
+      "catalystIdentifierEqual": false,
+      "recordedYieldDifferencePercentagePoints": 99.68653106689453,
+      "result": "same exact source product identifier; distinct recorded route fragments"
+    },
+    {
+      "id": "native-cross-reference-continuity:islatravir",
+      "records": [
+        "ord-9b830b3dea9b4c68b349f901df69e119",
+        "ord-7c920412f21b4b8195d3bf450f022cbd",
+        "ord-80ea7d29d01a42beae0627f615b2f314"
+      ],
+      "supportedTransitions": [
+        {
+          "fromReactionId": "ord-9b830b3dea9b4c68b349f901df69e119",
+          "toReactionId": "ord-7c920412f21b4b8195d3bf450f022cbd",
+          "nativeReferenceMultiplicity": 2
+        },
+        {
+          "fromReactionId": "ord-7c920412f21b4b8195d3bf450f022cbd",
+          "toReactionId": "ord-80ea7d29d01a42beae0627f615b2f314",
+          "nativeReferenceMultiplicity": 1
+        }
+      ],
+      "result": "two inter-record transitions are directly recorded by native ORD reaction_id references"
+    }
+  ],
+  "pathSpace": {
+    "status": "finite-declared-analysis-space",
+    "routes": [
+      {
+        "id": "direct-unrecorded-shortcut",
+        "label": "Direct shortcut to islatravir",
+        "actual": false,
+        "counterfactual": true,
+        "candidate": true,
+        "admissible": false,
+        "costs": {
+          "reactionRecords": 1,
+          "recordedIntermediates": 0
+        },
+        "rejection": "no ORD reaction record or native material-continuity chain supports the shortcut"
+      },
+      {
+        "id": "two-record-shortcut",
+        "label": "One intermediate, then target",
+        "actual": false,
+        "counterfactual": true,
+        "candidate": true,
+        "admissible": false,
+        "costs": {
+          "reactionRecords": 2,
+          "recordedIntermediates": 1
+        },
+        "rejection": "one construction transition lacks an exact ORD record and cross-reference"
+      },
+      {
+        "id": "three-records-without-continuity",
+        "label": "Three records without material continuity",
+        "actual": false,
+        "counterfactual": true,
+        "candidate": true,
+        "admissible": false,
+        "costs": {
+          "reactionRecords": 3,
+          "recordedIntermediates": 2
+        },
+        "rejection": "record count alone cannot replace native reaction_id continuity"
+      },
+      {
+        "id": "ord-cross-referenced-cascade",
+        "label": "Pinned ORD cross-referenced cascade",
+        "actual": true,
+        "counterfactual": false,
+        "candidate": true,
+        "admissible": true,
+        "costs": {
+          "reactionRecords": 3,
+          "recordedIntermediates": 2
+        },
+        "rejection": null
+      }
+    ]
+  },
+  "historicalLoad": {
+    "status": "resolved-in-declared-space",
+    "definition": "Shortest admissible route cost minus shortest unconstrained candidate cost for the exact pinned islatravir target inside the four-route analysis space.",
+    "profile": {
+      "format": "onto2d-chemical-synthesis-analysis-profile",
+      "formatVersion": "1",
+      "profileVersion": "chemical-synthesis-bounded-analysis-v1",
+      "candidateRoutes": [
+        "direct-unrecorded-shortcut",
+        "two-record-shortcut",
+        "three-records-without-continuity",
+        "ord-cross-referenced-cascade"
+      ],
+      "admissibility": {
+        "id": "exact-ord-cross-reference-continuity-v1",
+        "origin": "onto2d-defined-on-native-evidence",
+        "rule": "A route is admissible only when every construction transition is represented by an exact reaction record and each inter-record material transfer is supported by the native ORD reaction_id cross-reference chain."
+      },
+      "costFunctions": [
+        {
+          "id": "reaction-record-count",
+          "field": "reactionRecords",
+          "unit": "reaction records",
+          "definition": "Number of reaction-record transitions in the declared route."
+        },
+        {
+          "id": "recorded-intermediate-count",
+          "field": "recordedIntermediates",
+          "unit": "recorded intermediate states",
+          "definition": "Number of distinct intermediate material states explicitly represented between start and target."
+        }
+      ],
+      "scope": "A four-route Onto2D analysis space around the pinned three-record islatravir cascade.",
+      "nonClaim": "Candidate shortcuts are analytical counterfactuals, not claims of chemical feasibility. Historical Load is not an ORD metric, a yield score, a safety score, or a universal property of islatravir synthesis."
+    },
+    "results": [
+      {
+        "costFunction": "reaction-record-count",
+        "unit": "reaction records",
+        "definition": "Number of reaction-record transitions in the declared route.",
+        "freeOptimumCost": 1,
+        "freeOptimumRoutes": [
+          "direct-unrecorded-shortcut"
+        ],
+        "admissibleOptimumCost": 3,
+        "admissibleOptimumRoutes": [
+          "ord-cross-referenced-cascade"
+        ],
+        "historicalLoad": 2,
+        "equation": "3 - 1 = +2"
+      },
+      {
+        "costFunction": "recorded-intermediate-count",
+        "unit": "recorded intermediate states",
+        "definition": "Number of distinct intermediate material states explicitly represented between start and target.",
+        "freeOptimumCost": 0,
+        "freeOptimumRoutes": [
+          "direct-unrecorded-shortcut"
+        ],
+        "admissibleOptimumCost": 2,
+        "admissibleOptimumRoutes": [
+          "ord-cross-referenced-cascade"
+        ],
+        "historicalLoad": 2,
+        "equation": "2 - 0 = +2"
+      }
+    ],
+    "interpretation": "A value of +2 means that preserving the pinned ORD record chain requires two additional reaction records, or equivalently two additional explicitly represented intermediate states, compared with the declared direct shortcut.",
+    "nonClaim": "Candidate shortcuts are analytical counterfactuals, not claims of chemical feasibility. Historical Load is not an ORD metric, a yield score, a safety score, or a universal property of islatravir synthesis."
+  },
+  "evidenceBoundary": {
+    "directRecords": [
+      "ORD dataset and reaction identifiers",
+      "selected native compound identifiers",
+      "conditions",
+      "workups",
+      "outcomes",
+      "yield measurements",
+      "provenance DOI",
+      "native reaction_id cross-references"
+    ],
+    "derived": [
+      "exact-string target grouping",
+      "route-fragment identities",
+      "extrema comparisons",
+      "bounded continuity interpretation",
+      "Historical Load"
+    ],
+    "counterfactual": [
+      "direct-unrecorded-shortcut",
+      "two-record-shortcut",
+      "three-records-without-continuity"
+    ],
+    "unknown": [
+      "chemical equivalence beyond exact source-string equality",
+      "physical batch identity without native cross-reference",
+      "feasibility of counterfactual shortcuts",
+      "mechanism",
+      "laboratory safety",
+      "economic cost"
+    ],
+    "nonClaims": [
+      "exact product SMILES equality proves physical-batch continuity",
+      "a zero recorded yield means the reaction is universally impossible",
+      "the selected extrema are globally optimal chemistry",
+      "Historical Load is an ORD metric or universal synthesis score"
+    ]
+  },
+  "caseIdentity": "sha256:34791c260e0ab0f98a6aa84b6cae3bcd9f417946339d03d9446041f1b523bba0"
+}

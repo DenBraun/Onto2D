@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="../../assets/js/document-state-reset.js" defer></script>
+    <meta name="description" content="Explore source-locked Open Reaction Database records where one exact product identifier retains different synthesis histories.">
+    <title>Chemical Synthesis History - Onto2D</title>
+    <link rel="icon" href="../../assets/icons/favicon.ico?v=20260818.1" type="image/x-icon">
+    <link rel="stylesheet" href="../../assets/css/ui-icons.css?v=20260818.1">
+    <link rel="stylesheet" href="../../assets/css/study-chemical-synthesis.css?v=20260818.2">
+    <script type="module" src="./synthesis-route-explorer.js?v=20260818.1"></script>
+  </head>
+  <body data-state="loading">
+    <header class="history-case-header">
+      <a class="history-case-brand" href="../../" aria-label="Onto2D home"><svg viewBox="0 0 34 34" aria-hidden="true"><circle cx="7" cy="17" r="3"></circle><circle cx="27" cy="8" r="3"></circle><circle cx="27" cy="26" r="3"></circle><path d="M10 17h7m2-3 5-4m-5 10 5 4"></path></svg><span><strong>Onto2D</strong><small>History model</small></span></a>
+      <nav class="history-case-nav" aria-label="History navigation"><a href="../history-atlas/">History Atlas</a><a href="../model-studio/#model=chemical-reaction-provenance&amp;version=v1-47225e07891b6f70">Model Studio</a><a href="https://github.com/DenBraun/Onto2D/blob/main/docs/history/README.md" target="_blank" rel="noopener noreferrer">History model <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#external-link"></use></svg></a><a href="https://github.com/DenBraun/Onto2D" target="_blank" rel="noopener noreferrer">GitHub <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#external-link"></use></svg></a></nav>
+      <div class="history-case-context"><span>Chemical Synthesis History</span><strong class="history-case-state"><i></i><span id="load-state" role="status" aria-live="polite">Verifying artifact</span></strong></div>
+    </header>
+    <main>
+      <section class="hero"><div class="hero-grid"><div><p class="eyebrow">Recorded history / identity / chemistry</p><h1>Same molecule.<br>Different history.</h1><p class="hero-copy">An exact product identifier tells us what the record says was obtained. It does not tell us which reactants, catalyst, base, additive, or reaction record got there.</p></div><dl class="hero-meta"><div><dt>Source</dt><dd id="ord-release">loading</dd></div><div><dt>Case identity</dt><dd id="case-identity">loading</dd></div><div><dt>Source identity</dt><dd id="source-identity">loading</dd></div><div><dt>Evidence</dt><dd>13 selected native ORD records</dd></div></dl></div></section>
+      <p id="fatal-error" class="fatal-error" hidden></p>
+      <div class="workspace">
+        <section class="target-section" aria-labelledby="target-title"><div class="section-heading"><p class="section-kicker">01 / Same target, different records</p><h2 id="target-title">Choose an exact product identifier</h2><p>The five controls are the complete product groups in the pinned 4,312-record dataset. Each comparison uses deterministic measured-yield extrema, not hand-picked winners.</p></div><div id="target-controls" class="target-controls"></div><div class="target-identity"><span id="target-label">loading</span><code id="target-smiles">loading</code><p id="target-cohort"></p></div><div class="comparison-grid"><div id="route-left"></div><div class="same-product"><span>EXACT SOURCE SMILES</span><strong>=</strong><small>same recorded product identifier</small></div><div id="route-right"></div></div><dl class="identity-result"><div><dt>Same target identifier?</dt><dd id="same-target">--</dd></div><div><dt>Same ORD record?</dt><dd id="same-record">--</dd></div><div><dt>Same route identity?</dt><dd id="same-route">--</dd></div><div><dt>Recorded yield gap</dt><dd id="yield-gap">--</dd></div></dl></section>
+        <section class="cascade-section" aria-labelledby="cascade-title"><div class="section-heading"><p class="section-kicker">02 / Stronger continuity evidence</p><h2 id="cascade-title">When records actually point to each other</h2><p>The islatravir cohort is different: later ORD inputs carry native <code>reaction_id</code> references to earlier records. That supports material continuity; matching compound text alone does not.</p></div><div id="cascade-flow" class="cascade-flow"></div><p class="continuity-note"><strong>Why the arrows matter.</strong> They represent native source references, not a route inferred from similar chemical strings. The duplicated first reference is preserved exactly.</p></section>
+        <div class="lower-grid">
+          <section class="route-space-section" aria-labelledby="route-space-title"><div class="section-heading"><p class="section-kicker">03 / Declared analysis space</p><h2 id="route-space-title">Four routes, one admissible chain</h2><p>Counterfactual shortcuts make the comparison finite. They are graph hypotheses only; none is promoted to actual chemistry.</p></div><div id="route-space" class="route-space"></div></section>
+          <section class="load-section" aria-labelledby="load-title"><div class="section-heading"><p class="section-kicker">04 / Bounded Onto2D result</p><h2 id="load-title">What Historical Load means here</h2></div><div id="cost-controls" class="cost-controls"></div><div class="load-result"><strong id="load-number">+2</strong><div><code id="load-equation">3 - 1 = +2</code><p id="load-explanation"></p></div></div><p id="load-definition" class="load-definition"></p></section>
+        </div>
+        <section class="boundary" aria-labelledby="boundary-title"><h2 id="boundary-title">Read the result at the right level</h2><div class="boundary-grid"><div><h3>Source record</h3><p>ORD IDs, source strings, inputs, conditions, workups, outcomes, measurements, DOI provenance, and cross-references.</p></div><div><h3>Derived comparison</h3><p>Exact-string groups, route identities, extrema pairs, and the two +2 Historical Load calculations.</p></div><div><h3>Counterfactual</h3><p>Three declared shortcuts used to bound the calculation. Their chemical feasibility is unknown.</p></div><div><h3>Not claimed</h3><p>No canonical chemistry equivalence, mechanism, physical batch without a source reference, safety, economic cost, or universal route score.</p></div></div></section>
+      </div>
+    </main>
+    <footer class="study-footer">Open Reaction Database v0.1.0 | exact source-field projection | no silent structure normalization | Historical Load is an Onto2D bounded analysis, not an ORD metric.</footer>
+  </body>
+</html>

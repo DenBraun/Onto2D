@@ -1,0 +1,55 @@
+{
+  "format": "onto2d-build-history-equivalence-profile",
+  "formatVersion": "1",
+  "profileVersion": "build-history-equivalence-v1",
+  "regimes": [
+    {
+      "id": "byte-output",
+      "label": "Byte output",
+      "question": "Are the specified artifact bytes identical?",
+      "fields": ["artifact.sha256", "artifact.bytes"],
+      "normalization": "none"
+    },
+    {
+      "id": "declared-input",
+      "label": "Declared inputs",
+      "question": "Are the source, build instructions, and declared parameters identical?",
+      "fields": ["declaredInputs.sourceIdentity", "declaredInputs.instructionsIdentity", "declaredInputs.parameters"],
+      "normalization": "canonical JSON field order"
+    },
+    {
+      "id": "toolchain",
+      "label": "Toolchain",
+      "question": "Did both executions use the same declared toolchain identity?",
+      "fields": ["runtime.name", "runtime.version"],
+      "normalization": "exact runtime name and semantic version"
+    },
+    {
+      "id": "environment",
+      "label": "Environment",
+      "question": "Are all fields in the declared normalized environment profile identical?",
+      "fields": ["environment.normalized.LANG", "environment.normalized.TZ", "environment.normalized.SOURCE_DATE_EPOCH"],
+      "excludedFields": ["environment.observedIrrelevant.ONTO2D_SESSION_LABEL"],
+      "normalization": "exact values for the three declared fields; all other ambient fields excluded"
+    },
+    {
+      "id": "provenance",
+      "label": "Provenance",
+      "question": "Are these the same recorded execution event?",
+      "fields": ["executionId", "capturedAt", "runtime", "environment.observedIrrelevant"],
+      "normalization": "none"
+    }
+  ],
+  "pairOrder": [
+    "cross-toolchain-rebuild",
+    "irrelevant-environment-variation",
+    "relevant-input-mutation"
+  ],
+  "nonClaims": [
+    "byte equality proves that either builder was trustworthy",
+    "byte equality makes two execution records the same historical event",
+    "this fixture establishes reproducibility for arbitrary Node.js programs or platforms",
+    "history equivalence is a global or transitive relation across different regimes",
+    "History Equivalence is a Historical Load measurement"
+  ]
+}

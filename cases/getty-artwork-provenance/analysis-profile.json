@@ -1,0 +1,89 @@
+{
+  "format": "onto2d-artwork-provenance-analysis-profile",
+  "formatVersion": "1",
+  "profileVersion": "artwork-provenance-identity-v1",
+  "flagshipObjectId": "https://data.getty.edu/provenance/09539ab1-416d-3870-810b-8a6b3b604368",
+  "historyViews": [
+    {
+      "id": "evidence-only",
+      "label": "Evidence-only projection",
+      "includesUnknownInterval": false,
+      "complete": false,
+      "segments": [
+        "activity:purchase-1938",
+        "activity:sale-1938",
+        "context:current-owner"
+      ]
+    },
+    {
+      "id": "gap-explicit",
+      "label": "Gap-explicit reconstruction",
+      "includesUnknownInterval": true,
+      "complete": false,
+      "segments": [
+        "activity:purchase-1938",
+        "activity:sale-1938",
+        "gap:post-sale-to-current-context",
+        "context:current-owner"
+      ]
+    }
+  ],
+  "regimes": [
+    {
+      "id": "physical-object",
+      "label": "Artwork record",
+      "question": "Do both views refer to the same exact Getty HumanMadeObject URI?",
+      "kind": "projection",
+      "fields": ["objectId"],
+      "normalization": "exact URI"
+    },
+    {
+      "id": "direct-records",
+      "label": "Known events",
+      "question": "Do both views preserve the same ordered directly encoded activities?",
+      "kind": "projection",
+      "fields": ["directEventIds"],
+      "normalization": "upstream before/after order"
+    },
+    {
+      "id": "actors-unordered",
+      "label": "Actors, roles ignored",
+      "question": "Do both views mention the same actors when role and time are deliberately ignored?",
+      "kind": "projection",
+      "fields": ["actorIds"],
+      "normalization": "unique URI set sorted lexicographically"
+    },
+    {
+      "id": "gap-explicit-chain",
+      "label": "Gap-explicit chain",
+      "question": "Do both views contain the same ordered sequence including explicit unknown intervals?",
+      "kind": "projection",
+      "fields": ["segments"],
+      "normalization": "exact ordered segment identifiers"
+    },
+    {
+      "id": "complete-evidence-chain",
+      "label": "Complete evidence chain",
+      "question": "Can the records establish the same complete, evidence-backed chain?",
+      "kind": "completeness-guard",
+      "fields": ["complete"],
+      "normalization": "unresolved whenever either view is incomplete"
+    }
+  ],
+  "expectedVerdicts": ["equal", "equal", "equal", "distinct", "unresolved"],
+  "historicalLoad": {
+    "status": "not-evaluated",
+    "value": null,
+    "reason": "No finite candidate-chain space, admissibility predicate, or defensible chain cost is declared, so Historical Load is undefined rather than zero."
+  },
+  "nonClaims": [
+    "a Getty provenance record establishes present legal title",
+    "co-occurrence in a source record establishes ownership",
+    "the gap contains a specific unrecorded transfer",
+    "the first available record identifies the first owner",
+    "the two views are two physical artworks",
+    "the bounded cohort is a complete provenance study",
+    "an accession-number year is an acquisition date",
+    "current location and current owner are equivalent relations"
+  ]
+}

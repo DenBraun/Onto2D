@@ -1,0 +1,238 @@
+{
+  "format": "onto2d-ord-native-field-projection",
+  "formatVersion": "1",
+  "projectionVersion": "ahneman-extrema-v1",
+  "datasetId": "ord_dataset-46ff9a32d9e04016b9380b1b1ef949c3",
+  "datasetName": "Ahneman",
+  "nativeReactionName": "Buckwald-Hartwig amination",
+  "selection": {
+    "cohortRule": "Group every reaction with a measured desired-product yield by byte-exact native product SMILES.",
+    "recordRule": "For each product group, select the minimum and maximum recorded yield; break ties by lexicographically smallest reaction_id.",
+    "targetOrder": "Lexicographic native product SMILES order.",
+    "selectedTargetCount": 5,
+    "selectedRecordCount": 10,
+    "sourceReactionCount": 4312
+  },
+  "targets": [
+    {
+      "id": "target-ethyl-aryl",
+      "label": "Target A / ethyl aryl",
+      "labelStatus": "onto2d-display-label",
+      "productIdentifier": { "type": "SMILES", "value": "CCc1ccc(Nc2ccc(C)cc2)cc1" },
+      "sourceCohortSize": 861,
+      "routes": [
+        {
+          "id": "target-ethyl-aryl:min-yield",
+          "selectionReason": "minimum-recorded-yield",
+          "reactionId": "ord-03e2468f1d8f4ea5bcf8f3df9c1e63f9",
+          "nativeRecordSha256": "sha256:5051b51dcf4fe18bcb17835b3318c0524a5ed04984d069b189e2b70f0a01ab65",
+          "inputs": {
+            "arylHalide": { "name": null, "smiles": "CCc1ccc(Br)cc1", "nativeRole": "REACTANT" },
+            "amine": { "name": null, "smiles": "Cc1ccc(N)cc1", "nativeRole": "REACTANT" },
+            "catalyst": { "name": "XPhos", "smiles": "CC(C)c1cc(C(C)C)c(-c2ccccc2P(C2CCCCC2)(C2CCCCC2)->[Pd]2(OS(=O)(=O)C(F)(F)F)<-Nc3ccccc3-c3ccccc32)c(C(C)C)c1", "nativeRole": "CATALYST" },
+            "base": { "name": "BTMG", "smiles": "CN(C)C(=NC(C)(C)C)N(C)C", "nativeRole": "REAGENT" },
+            "additive": { "name": null, "smiles": "c1ccc(-c2ncno2)cc1", "nativeRole": "REAGENT" }
+          },
+          "conditions": { "temperature": { "value": 60, "unit": "CELSIUS" }, "reactionTime": { "value": 16, "unit": "HOUR" } },
+          "workups": ["ADDITION"],
+          "outcome": { "productSmiles": "CCc1ccc(Nc2ccc(C)cc2)cc1", "yield": { "value": 0, "unit": "PERCENTAGE", "analysisKey": "UPLC", "usesInternalStandard": true } },
+          "provenance": { "doi": "10.1126/science.aar5169" }
+        },
+        {
+          "id": "target-ethyl-aryl:max-yield",
+          "selectionReason": "maximum-recorded-yield",
+          "reactionId": "ord-09f72c76de55495ca8988a901ceed276",
+          "nativeRecordSha256": "sha256:71d3a9f7fa2c363dbd0097a56ecf16415a2b7c67b7ab187fd7c2ae450d5ef60a",
+          "inputs": {
+            "arylHalide": { "name": null, "smiles": "CCc1ccc(Br)cc1", "nativeRole": "REACTANT" },
+            "amine": { "name": null, "smiles": "Cc1ccc(N)cc1", "nativeRole": "REACTANT" },
+            "catalyst": { "name": "t-BuXPhos", "smiles": "CC(C)c1cc(C(C)C)c(-c2ccccc2P(C(C)(C)C)(C(C)(C)C)->[Pd]2(OS(=O)(=O)C(F)(F)F)<-Nc3ccccc3-c3ccccc32)c(C(C)C)c1", "nativeRole": "CATALYST" },
+            "base": { "name": "MTBD", "smiles": "CN1CCCN2CCCN=C12", "nativeRole": "REAGENT" },
+            "additive": { "name": null, "smiles": "CCOC(=O)c1cc(C)no1", "nativeRole": "REAGENT" }
+          },
+          "conditions": { "temperature": { "value": 60, "unit": "CELSIUS" }, "reactionTime": { "value": 16, "unit": "HOUR" } },
+          "workups": ["ADDITION"],
+          "outcome": { "productSmiles": "CCc1ccc(Nc2ccc(C)cc2)cc1", "yield": { "value": 86.59757995605469, "unit": "PERCENTAGE", "analysisKey": "UPLC", "usesInternalStandard": true } },
+          "provenance": { "doi": "10.1126/science.aar5169" }
+        }
+      ]
+    },
+    {
+      "id": "target-methoxy-aryl",
+      "label": "Target B / methoxy aryl",
+      "labelStatus": "onto2d-display-label",
+      "productIdentifier": { "type": "SMILES", "value": "COc1ccc(Nc2ccc(C)cc2)cc1" },
+      "sourceCohortSize": 864,
+      "routes": [
+        {
+          "id": "target-methoxy-aryl:min-yield",
+          "selectionReason": "minimum-recorded-yield",
+          "reactionId": "ord-00d0f9896cb84a2b8725d93b1c9e11f9",
+          "nativeRecordSha256": "sha256:157db00a95f04c7311ee614a71da2241e958442fddf0be9c8bad62de472520dd",
+          "inputs": {
+            "arylHalide": { "name": null, "smiles": "COc1ccc(Cl)cc1", "nativeRole": "REACTANT" },
+            "amine": { "name": null, "smiles": "Cc1ccc(N)cc1", "nativeRole": "REACTANT" },
+            "catalyst": { "name": "XPhos", "smiles": "CC(C)c1cc(C(C)C)c(-c2ccccc2P(C2CCCCC2)(C2CCCCC2)->[Pd]2(OS(=O)(=O)C(F)(F)F)<-Nc3ccccc3-c3ccccc32)c(C(C)C)c1", "nativeRole": "CATALYST" },
+            "base": { "name": "MTBD", "smiles": "CN1CCCN2CCCN=C12", "nativeRole": "REAGENT" },
+            "additive": { "name": null, "smiles": "COC(=O)c1cc(-c2ccco2)on1", "nativeRole": "REAGENT" }
+          },
+          "conditions": { "temperature": { "value": 60, "unit": "CELSIUS" }, "reactionTime": { "value": 16, "unit": "HOUR" } },
+          "workups": ["ADDITION"],
+          "outcome": { "productSmiles": "COc1ccc(Nc2ccc(C)cc2)cc1", "yield": { "value": 0, "unit": "PERCENTAGE", "analysisKey": "UPLC", "usesInternalStandard": true } },
+          "provenance": { "doi": "10.1126/science.aar5169" }
+        },
+        {
+          "id": "target-methoxy-aryl:max-yield",
+          "selectionReason": "maximum-recorded-yield",
+          "reactionId": "ord-be9a66e246a044b3935ca032fc8cc7b9",
+          "nativeRecordSha256": "sha256:6221badaac8255444aa915fed2f7f6d7524436746919de9715056a298f471965",
+          "inputs": {
+            "arylHalide": { "name": null, "smiles": "COc1ccc(I)cc1", "nativeRole": "REACTANT" },
+            "amine": { "name": null, "smiles": "Cc1ccc(N)cc1", "nativeRole": "REACTANT" },
+            "catalyst": { "name": "AdBrettPhos", "smiles": "COc1ccc(OC)c(P(C23CC4CC(CC(C4)C2)C3)(C23CC4CC(CC(C4)C2)C3)->[Pd]2(OS(=O)(=O)C(F)(F)F)<-Nc3ccccc3-c3ccccc32)c1-c1c(C(C)C)cc(C(C)C)cc1C(C)C", "nativeRole": "CATALYST" },
+            "base": { "name": "MTBD", "smiles": "CN1CCCN2CCCN=C12", "nativeRole": "REAGENT" },
+            "additive": { "name": null, "smiles": "c1ccc(CN(Cc2ccccc2)c2ccon2)cc1", "nativeRole": "REAGENT" }
+          },
+          "conditions": { "temperature": { "value": 60, "unit": "CELSIUS" }, "reactionTime": { "value": 16, "unit": "HOUR" } },
+          "workups": ["ADDITION"],
+          "outcome": { "productSmiles": "COc1ccc(Nc2ccc(C)cc2)cc1", "yield": { "value": 68.24813079833984, "unit": "PERCENTAGE", "analysisKey": "UPLC", "usesInternalStandard": true } },
+          "provenance": { "doi": "10.1126/science.aar5169" }
+        }
+      ]
+    },
+    {
+      "id": "target-trifluoromethyl-aryl",
+      "label": "Target C / trifluoromethyl aryl",
+      "labelStatus": "onto2d-display-label",
+      "productIdentifier": { "type": "SMILES", "value": "Cc1ccc(Nc2ccc(C(F)(F)F)cc2)cc1" },
+      "sourceCohortSize": 862,
+      "routes": [
+        {
+          "id": "target-trifluoromethyl-aryl:min-yield",
+          "selectionReason": "minimum-recorded-yield",
+          "reactionId": "ord-145eb8cc957d425383fa4b8775861106",
+          "nativeRecordSha256": "sha256:226349532ecb8e151c30e2cc2145a2166b0169259a6edba517511f7d6e1d165c",
+          "inputs": {
+            "arylHalide": { "name": null, "smiles": "FC(F)(F)c1ccc(Cl)cc1", "nativeRole": "REACTANT" },
+            "amine": { "name": null, "smiles": "Cc1ccc(N)cc1", "nativeRole": "REACTANT" },
+            "catalyst": { "name": "XPhos", "smiles": "CC(C)c1cc(C(C)C)c(-c2ccccc2P(C2CCCCC2)(C2CCCCC2)->[Pd]2(OS(=O)(=O)C(F)(F)F)<-Nc3ccccc3-c3ccccc32)c(C(C)C)c1", "nativeRole": "CATALYST" },
+            "base": { "name": "MTBD", "smiles": "CN1CCCN2CCCN=C12", "nativeRole": "REAGENT" },
+            "additive": { "name": null, "smiles": "c1ccc2nocc2c1", "nativeRole": "REAGENT" }
+          },
+          "conditions": { "temperature": { "value": 60, "unit": "CELSIUS" }, "reactionTime": { "value": 16, "unit": "HOUR" } },
+          "workups": ["ADDITION"],
+          "outcome": { "productSmiles": "Cc1ccc(Nc2ccc(C(F)(F)F)cc2)cc1", "yield": { "value": 0, "unit": "PERCENTAGE", "analysisKey": "UPLC", "usesInternalStandard": true } },
+          "provenance": { "doi": "10.1126/science.aar5169" }
+        },
+        {
+          "id": "target-trifluoromethyl-aryl:max-yield",
+          "selectionReason": "maximum-recorded-yield",
+          "reactionId": "ord-91ee43b2a5cb4f96a979743df6eabece",
+          "nativeRecordSha256": "sha256:aa02f21310f7bca3bf9abe5c13af4afa0e569de3727e9381c994404389b6c36b",
+          "inputs": {
+            "arylHalide": { "name": null, "smiles": "FC(F)(F)c1ccc(I)cc1", "nativeRole": "REACTANT" },
+            "amine": { "name": null, "smiles": "Cc1ccc(N)cc1", "nativeRole": "REACTANT" },
+            "catalyst": { "name": "AdBrettPhos", "smiles": "COc1ccc(OC)c(P(C23CC4CC(CC(C4)C2)C3)(C23CC4CC(CC(C4)C2)C3)->[Pd]2(OS(=O)(=O)C(F)(F)F)<-Nc3ccccc3-c3ccccc32)c1-c1c(C(C)C)cc(C(C)C)cc1C(C)C", "nativeRole": "CATALYST" },
+            "base": { "name": "MTBD", "smiles": "CN1CCCN2CCCN=C12", "nativeRole": "REAGENT" },
+            "additive": { "name": null, "smiles": "Cc1ccon1", "nativeRole": "REAGENT" }
+          },
+          "conditions": { "temperature": { "value": 60, "unit": "CELSIUS" }, "reactionTime": { "value": 16, "unit": "HOUR" } },
+          "workups": ["ADDITION"],
+          "outcome": { "productSmiles": "Cc1ccc(Nc2ccc(C(F)(F)F)cc2)cc1", "yield": { "value": 55.565860748291016, "unit": "PERCENTAGE", "analysisKey": "UPLC", "usesInternalStandard": true } },
+          "provenance": { "doi": "10.1126/science.aar5169" }
+        }
+      ]
+    },
+    {
+      "id": "target-2-pyridyl",
+      "label": "Target D / 2-pyridyl",
+      "labelStatus": "onto2d-display-label",
+      "productIdentifier": { "type": "SMILES", "value": "Cc1ccc(Nc2ccccn2)cc1" },
+      "sourceCohortSize": 862,
+      "routes": [
+        {
+          "id": "target-2-pyridyl:min-yield",
+          "selectionReason": "minimum-recorded-yield",
+          "reactionId": "ord-00d2ffe2d5cb4625a8439a12f6b1d587",
+          "nativeRecordSha256": "sha256:9947e4d34087f8615ebdd626ff10ccec24bf2222eb66c2b9d2baf908a65ae051",
+          "inputs": {
+            "arylHalide": { "name": null, "smiles": "Brc1ccccn1", "nativeRole": "REACTANT" },
+            "amine": { "name": null, "smiles": "Cc1ccc(N)cc1", "nativeRole": "REACTANT" },
+            "catalyst": { "name": "AdBrettPhos", "smiles": "COc1ccc(OC)c(P(C23CC4CC(CC(C4)C2)C3)(C23CC4CC(CC(C4)C2)C3)->[Pd]2(OS(=O)(=O)C(F)(F)F)<-Nc3ccccc3-c3ccccc32)c1-c1c(C(C)C)cc(C(C)C)cc1C(C)C", "nativeRole": "CATALYST" },
+            "base": { "name": "BTMG", "smiles": "CN(C)C(=NC(C)(C)C)N(C)C", "nativeRole": "REAGENT" },
+            "additive": { "name": null, "smiles": "CCOC(=O)c1cnoc1", "nativeRole": "REAGENT" }
+          },
+          "conditions": { "temperature": { "value": 60, "unit": "CELSIUS" }, "reactionTime": { "value": 16, "unit": "HOUR" } },
+          "workups": ["ADDITION"],
+          "outcome": { "productSmiles": "Cc1ccc(Nc2ccccn2)cc1", "yield": { "value": 0, "unit": "PERCENTAGE", "analysisKey": "UPLC", "usesInternalStandard": true } },
+          "provenance": { "doi": "10.1126/science.aar5169" }
+        },
+        {
+          "id": "target-2-pyridyl:max-yield",
+          "selectionReason": "maximum-recorded-yield",
+          "reactionId": "ord-7dca030a687947118d728db687c70a82",
+          "nativeRecordSha256": "sha256:43177e9406a94367f5aeca28979e1b906f8bdb0c22757d25b5e829f02b668eac",
+          "inputs": {
+            "arylHalide": { "name": null, "smiles": "Ic1ccccn1", "nativeRole": "REACTANT" },
+            "amine": { "name": null, "smiles": "Cc1ccc(N)cc1", "nativeRole": "REACTANT" },
+            "catalyst": { "name": "t-BuBrettPhos", "smiles": "COc1ccc(OC)c(P(C(C)(C)C)(C(C)(C)C)->[Pd]2(OS(=O)(=O)C(F)(F)F)<-Nc3ccccc3-c3ccccc32)c1-c1c(C(C)C)cc(C(C)C)cc1C(C)C", "nativeRole": "CATALYST" },
+            "base": { "name": "MTBD", "smiles": "CN1CCCN2CCCN=C12", "nativeRole": "REAGENT" },
+            "additive": { "name": null, "smiles": "c1ccc(-c2cnoc2)cc1", "nativeRole": "REAGENT" }
+          },
+          "conditions": { "temperature": { "value": 60, "unit": "CELSIUS" }, "reactionTime": { "value": 16, "unit": "HOUR" } },
+          "workups": ["ADDITION"],
+          "outcome": { "productSmiles": "Cc1ccc(Nc2ccccn2)cc1", "yield": { "value": 99.99999237060547, "unit": "PERCENTAGE", "analysisKey": "UPLC", "usesInternalStandard": true } },
+          "provenance": { "doi": "10.1126/science.aar5169" }
+        }
+      ]
+    },
+    {
+      "id": "target-3-pyridyl",
+      "label": "Target E / 3-pyridyl",
+      "labelStatus": "onto2d-display-label",
+      "productIdentifier": { "type": "SMILES", "value": "Cc1ccc(Nc2cccnc2)cc1" },
+      "sourceCohortSize": 863,
+      "routes": [
+        {
+          "id": "target-3-pyridyl:min-yield",
+          "selectionReason": "minimum-recorded-yield",
+          "reactionId": "ord-01c93e06e2e546fa9b54e1f0001f7df0",
+          "nativeRecordSha256": "sha256:3bd1fd49181a39d15a8f57ae5c171c2fb84535b46f145795d724b36932d76efc",
+          "inputs": {
+            "arylHalide": { "name": null, "smiles": "Clc1cccnc1", "nativeRole": "REACTANT" },
+            "amine": { "name": null, "smiles": "Cc1ccc(N)cc1", "nativeRole": "REACTANT" },
+            "catalyst": { "name": "XPhos", "smiles": "CC(C)c1cc(C(C)C)c(-c2ccccc2P(C2CCCCC2)(C2CCCCC2)->[Pd]2(OS(=O)(=O)C(F)(F)F)<-Nc3ccccc3-c3ccccc32)c(C(C)C)c1", "nativeRole": "CATALYST" },
+            "base": { "name": "BTMG", "smiles": "CN(C)C(=NC(C)(C)C)N(C)C", "nativeRole": "REAGENT" },
+            "additive": { "name": null, "smiles": "c1ccc2nocc2c1", "nativeRole": "REAGENT" }
+          },
+          "conditions": { "temperature": { "value": 60, "unit": "CELSIUS" }, "reactionTime": { "value": 16, "unit": "HOUR" } },
+          "workups": ["ADDITION"],
+          "outcome": { "productSmiles": "Cc1ccc(Nc2cccnc2)cc1", "yield": { "value": 0, "unit": "PERCENTAGE", "analysisKey": "UPLC", "usesInternalStandard": true } },
+          "provenance": { "doi": "10.1126/science.aar5169" }
+        },
+        {
+          "id": "target-3-pyridyl:max-yield",
+          "selectionReason": "maximum-recorded-yield",
+          "reactionId": "ord-283c3dc01d564bf692785c0156fc0484",
+          "nativeRecordSha256": "sha256:814fe26d43cc7c3d5b96ec7b5e45c1f5df661eb4433cbe38fe5474d781716fd1",
+          "inputs": {
+            "arylHalide": { "name": null, "smiles": "Ic1cccnc1", "nativeRole": "REACTANT" },
+            "amine": { "name": null, "smiles": "Cc1ccc(N)cc1", "nativeRole": "REACTANT" },
+            "catalyst": { "name": "t-BuXPhos", "smiles": "CC(C)c1cc(C(C)C)c(-c2ccccc2P(C(C)(C)C)(C(C)(C)C)->[Pd]2(OS(=O)(=O)C(F)(F)F)<-Nc3ccccc3-c3ccccc32)c(C(C)C)c1", "nativeRole": "CATALYST" },
+            "base": { "name": "MTBD", "smiles": "CN1CCCN2CCCN=C12", "nativeRole": "REAGENT" },
+            "additive": { "name": "DMSO", "smiles": "CS(=O)C", "nativeRole": "SOLVENT" }
+          },
+          "conditions": { "temperature": { "value": 60, "unit": "CELSIUS" }, "reactionTime": { "value": 16, "unit": "HOUR" } },
+          "workups": ["ADDITION"],
+          "outcome": { "productSmiles": "Cc1ccc(Nc2cccnc2)cc1", "yield": { "value": 99.68653106689453, "unit": "PERCENTAGE", "analysisKey": "UPLC", "usesInternalStandard": true } },
+          "provenance": { "doi": "10.1126/science.aar5169" }
+        }
+      ]
+    }
+  ],
+  "projectionBoundary": {
+    "included": ["reaction_id", "selected input identifiers and native roles", "temperature", "reaction time", "workup type", "desired product SMILES", "yield measurement", "provenance DOI", "deterministic native protobuf record hash"],
+    "omitted": ["vessel details", "repeated solvent carrier records", "full analysis instrument description", "record creation and modification people"],
+    "claim": "This file is a bounded native-field projection, not a replacement serialization of the complete ORD Dataset protobuf."
+  }
+}

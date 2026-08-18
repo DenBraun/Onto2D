@@ -20,11 +20,14 @@ test("the history portfolio is complete, stable, and status-honest", async () =>
   assert.deepEqual(HISTORY_MODES.map((entry) => entry.id), ["recorded", "embodied", "reconstructed"]);
   assert.deepEqual(HISTORY_EFFECTS.map((entry) => entry.id), ["identity", "present-state", "future"]);
   assert.equal(new Set(cases.map((entry) => entry.caseId)).size, cases.length);
-  assert.equal(cases.filter((entry) => entry.statusKind === "implemented").length, 5);
+  assert.equal(cases.filter((entry) => entry.statusKind === "implemented").length, 8);
   assert.equal(cases.filter((entry) => entry.statusKind === "next").length, 1);
   assert.equal(historyCaseById(cases, "oci-layer-history").statusKind, "implemented");
   assert.equal(historyCaseById(cases, "in-toto-admissibility").statusKind, "implemented");
-  assert.equal(historyCaseById(cases, "reproducible-build-equivalence").statusKind, "next");
+  assert.equal(historyCaseById(cases, "chemical-synthesis-history").statusKind, "implemented");
+  assert.equal(historyCaseById(cases, "reproducible-build-equivalence").statusKind, "implemented");
+  assert.equal(historyCaseById(cases, "artwork-provenance").statusKind, "implemented");
+  assert.equal(historyCaseById(cases, "manuscript-stemmatics").statusKind, "next");
   assert.equal(historyCaseById(cases, "slsa-provenance-evidence").caseId, "slsa-provenance-evidence");
   assert.equal(historyCaseById(cases, "missing"), null);
 
@@ -60,7 +63,10 @@ test("implemented case links select one exact registered Model Studio release", 
     ["live-bootstrap-provenance", ["live-bootstrap-provenance", "v2-e4fc1639ab73d7c7"]],
     ["nix-derivation-identity", ["nix-derivations", "v1-2d5b844afa08e0ed"]],
     ["oci-layer-history", ["oci-layer-provenance", "v1-5a869be659e73799"]],
-    ["in-toto-admissibility", ["in-toto-provenance", "v1-647b20b320a109cc"]]
+    ["in-toto-admissibility", ["in-toto-provenance", "v1-647b20b320a109cc"]],
+    ["chemical-synthesis-history", ["chemical-reaction-provenance", "v1-47225e07891b6f70"]],
+    ["reproducible-build-equivalence", ["reproducible-build-equivalence", "v1-78148e4e627d2c9f"]],
+    ["artwork-provenance", ["artwork-provenance", "v1-ca697f7318c611a9"]]
   ]);
   for (const entry of cases) {
     const url = new URL(modelStudioHref(entry, "https://onto2d.dev/project/"));
@@ -125,7 +131,7 @@ test("browser validation enforces the complete render-sensitive registry contrac
   assert.throws(() => validateHistoryRegistry(invalidStatus), /status is invalid/);
 
   const unsupportedMaturityClaim = structuredClone(registry);
-  unsupportedMaturityClaim.cases.find((entry) => entry.caseId === "reproducible-build-equivalence").status = "MODEL_PACK";
+  unsupportedMaturityClaim.cases.find((entry) => entry.caseId === "slsa-provenance-evidence").status = "MODEL_PACK";
   assert.throws(() => validateHistoryRegistry(unsupportedMaturityClaim), /claims MODEL_PACK without modelPackPath/);
 
   const incompleteModelSelection = structuredClone(registry);

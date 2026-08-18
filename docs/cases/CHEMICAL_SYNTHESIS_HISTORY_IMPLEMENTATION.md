@@ -48,6 +48,26 @@ synthesis-route identity
 
 A target molecule may be reached through different sequences of reactions, reagents, intermediates, conditions, workups, and yields.
 
+## Implemented Result
+
+The first release is complete and source-locked to ORD data v0.1.0 at commit
+`8b83754b865c8a9f30667fbea4dfdc892d4dad60` with the release workflow's
+ord-schema v0.3.10 pin.
+
+Two bounded cohorts serve different questions:
+
+- all five exact product-SMILES groups in the 4,312-record Ahneman dataset,
+  represented by deterministic minimum/maximum measured-yield records;
+- the complete three-record islatravir cascade, whose later inputs contain
+  native cross-references to earlier reaction records.
+
+The resulting 13-record projection, case artifact, Model Pack, and light-theme
+Explorer reproduce offline. Exact source-string equality is deliberately
+stricter than canonical chemical equivalence and never creates physical-batch
+continuity. The bounded islatravir analysis resolves Historical Load as +2
+reaction records or +2 recorded intermediates relative to a declared direct
+shortcut; that shortcut is not a chemical-feasibility claim.
+
 ## Primary External Source
 
 Open Reaction Database (ORD).

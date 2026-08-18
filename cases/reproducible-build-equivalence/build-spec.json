@@ -1,0 +1,79 @@
+{
+  "format": "onto2d-reproducible-build-fixture-spec",
+  "formatVersion": "1",
+  "caseVersion": "reproducible-build-equivalence-v1",
+  "artifact": {
+    "path": "dist/history-equivalence.txt",
+    "mediaType": "text/plain",
+    "encoding": "utf-8",
+    "lineEnding": "LF"
+  },
+  "sourceFiles": [
+    {
+      "path": "fixture/source/manifest.json",
+      "sha256": "7610da1494b4786d5136b4d04acc6310ee644747df3012998b9c1caf9d4a6945",
+      "bytes": 73
+    },
+    {
+      "path": "fixture/source/message.txt",
+      "sha256": "df0752701fa34076bbf6d6686dff3753b7baf3cb45c33e067ca08609f8d51943",
+      "bytes": 56
+    },
+    {
+      "path": "src/build-fixture.mjs",
+      "sha256": "b10229aa81426f8b077d212320ba8c64e666eefb7e4ed8a2bbf2c906dcb34543",
+      "bytes": 10717
+    }
+  ],
+  "instructions": {
+    "builder": "src/build-fixture.mjs",
+    "format": "onto2d-deterministic-text-bundle-v1",
+    "sourceDateEpoch": 1786924800,
+    "declaredEnvironment": {
+      "LANG": "C",
+      "TZ": "UTC",
+      "SOURCE_DATE_EPOCH": "1786924800"
+    },
+    "excludedAmbientFields": ["ONTO2D_SESSION_LABEL"]
+  },
+  "parameters": {
+    "baseline": {
+      "releaseChannel": "stable"
+    },
+    "relevant-mutation": {
+      "releaseChannel": "preview"
+    }
+  },
+  "executions": [
+    "baseline-node24",
+    "baseline-node22",
+    "ambient-variation-node24",
+    "relevant-input-node24"
+  ],
+  "comparisons": [
+    {
+      "id": "cross-toolchain-rebuild",
+      "label": "Same inputs, different Node toolchain",
+      "left": "baseline-node24",
+      "right": "baseline-node22"
+    },
+    {
+      "id": "irrelevant-environment-variation",
+      "label": "Irrelevant ambient value changed",
+      "left": "baseline-node24",
+      "right": "ambient-variation-node24"
+    },
+    {
+      "id": "relevant-input-mutation",
+      "label": "Declared release channel changed",
+      "left": "baseline-node24",
+      "right": "relevant-input-node24"
+    }
+  ],
+  "methodology": {
+    "definitionUrl": "https://reproducible-builds.org/docs/definition/",
+    "environmentUrl": "https://reproducible-builds.org/docs/perimeter/",
+    "sourceDateEpochUrl": "https://reproducible-builds.org/specs/source-date-epoch/",
+    "retrievedAt": "2026-08-18T17:13:41Z"
+  }
+}

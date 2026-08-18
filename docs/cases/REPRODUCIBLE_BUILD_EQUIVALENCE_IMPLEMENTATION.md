@@ -17,7 +17,6 @@ Domain:
 Evidence profile:
     direct-record
     derived
-    counterfactual
 
 Historical Load:
     Not primary
@@ -59,6 +58,27 @@ docs/cases/REPRODUCIBLE_BUILD_EQUIVALENCE_IMPLEMENTATION.md
 ```
 
 A dedicated Model Pack is optional until the bounded experiments stabilize.
+
+## Implemented Result
+
+The v1 experiment is complete. Four separate build executions preserve exact
+source bytes, a versioned instruction profile, normalized environment fields,
+runtime provenance, and specified output bytes. The baseline was captured under
+Node.js 24.19.0 and Node.js 22.23.2 on Darwin arm64; both runs produced the same
+205-byte artifact with SHA-256
+`6207334e1eea21837e2f7b8c0ce734e43abcdd41ea2bac2a38c7a3b54aaa6b57`.
+
+Three declared pairs are evaluated under byte-output, declared-input,
+toolchain, normalized-environment, and provenance regimes. The same baseline
+pair is equal under byte and input identity but different under toolchain and
+provenance identity. An excluded ambient-field control remains equal under the
+environment regime, while a declared `releaseChannel` mutation changes both
+input identity and output bytes.
+
+The exact case artifact and dedicated `reproducible-build-equivalence` Model
+Pack reproduce offline. Historical Load is not evaluated: the case defines no
+candidate route space, admissibility predicate, or cost function, so a numeric
+value would be undefined rather than zero.
 
 ## Phase 0 — Select a Tiny Reproducible Fixture
 

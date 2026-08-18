@@ -62,11 +62,11 @@ const PRESENTATION = Object.freeze({
   "reproducible-build-equivalence": Object.freeze({
     question: "When should different build histories count as equivalent?",
     distinction: "different history can still be equivalent under F",
-    summary: "Multiple captured build executions will remain distinct historical records while being compared under byte, input, toolchain, environment, and provenance equivalence regimes.",
-    flagship: "Run two independent builds that produce identical bytes, then show that the same pair can agree under one regime and differ under another.",
-    contribution: "The case will prevent the false global rule that every historical difference must imply a different identity.",
-    boundaries: ["Tiny fully pinned build fixture", "Machine-local incidental fields excluded unless a regime declares them relevant", "Normalization profiles explicit and versioned", "Equivalence kept separate from Historical Load"],
-    outputs: ["Independent captured build histories", "Versioned equivalence artifacts", "Five comparison regimes", "Pairwise History Equivalence Lab"]
+    summary: "Four source-locked execution records compare exact output bytes, declared inputs, Node.js toolchains, normalized environment, and provenance without collapsing the underlying histories.",
+    flagship: "Independent Node.js 24.19.0 and 22.23.2 executions produce the same 205-byte artifact while remaining toolchain- and provenance-distinct.",
+    contribution: "The case demonstrates H1 ~F H2 directly: equality is local to one declared regime, while excluded ambient variation and a relevant input mutation act as controls.",
+    boundaries: ["Two exact fixture source files, exact builder bytes, fixed SOURCE_DATE_EPOCH, and four captured execution records", "ONTO2D_SESSION_LABEL is recorded but explicitly excluded from normalized environment identity", "Cross-machine and non-Darwin reproducibility remain untested", "Historical Load is undefined because no route cost or admissibility problem is declared"],
+    outputs: ["Four independently captured build histories", "Three-pair by five-regime equivalence matrix", "Verified reproducible-build-equivalence Model Pack", "Pairwise History Equivalence Lab"]
   }),
   "slsa-provenance-evidence": Object.freeze({
     question: "Can provenance, a claim about provenance, and evidence for that claim remain distinct?",
@@ -89,11 +89,11 @@ const PRESENTATION = Object.freeze({
   "chemical-synthesis-history": Object.freeze({
     question: "Can one molecular target retain multiple synthesis-route identities?",
     distinction: "same target molecule != same synthesis history",
-    summary: "Pinned Open Reaction Database records will separate molecular identity from ordered reaction routes, intermediates, conditions, workups, and evidence coverage.",
-    flagship: "Compare at least two independently recorded, reviewable routes that converge on the same strictly normalized target compound.",
-    contribution: "The first physical-domain construction case will test route equivalence and a defensible bounded Historical Load without inventing chemistry.",
-    boundaries: ["Exact ORD snapshot and schema version", "Versioned stereochemistry-sensitive identity profile", "Recorded links separated from inferred route connections", "Missing yield or provenance remains missing"],
-    outputs: ["Bounded reaction-record extraction", "Target and route identity regimes", "Synthesis route comparison Explorer", "Declared admissibility experiment"]
+    summary: "Two source-locked ORD v0.1.0 cohorts keep exact product identifiers, reaction records, condition profiles, native cross-reaction continuity, and Onto2D analysis in separate evidence layers.",
+    flagship: "Across five complete product groups, compare deterministic minimum- and maximum-yield records that share one exact source product SMILES while retaining different reaction IDs and route profiles.",
+    contribution: "The first chemistry case proves that target-identifier equality does not erase synthesis history and resolves a bounded +2 Historical Load for the cross-referenced islatravir cascade.",
+    boundaries: ["Exact ORD v0.1.0 tag, commit, schema tag, dataset IDs, LFS hashes, record hashes, and DOI provenance", "Byte-exact source SMILES with no silent structure normalization", "Physical material continuity only from native ORD reaction_id references", "Counterfactual shortcuts make no chemical-feasibility, yield, safety, or cost claim"],
+    outputs: ["Thirteen selected native ORD reaction projections", "Five same-target/different-route experiments", "Verified chemical-reaction-provenance Model Pack", "Route comparison, continuity, counterfactual, and Historical Load Explorer"]
   }),
   "mineral-formation-history": Object.freeze({
     question: "Can one conventional mineral species retain different supported formation histories?",
@@ -141,13 +141,13 @@ const PRESENTATION = Object.freeze({
     outputs: ["Verified 3D artifact references", "Refit and evidence graph", "Candidate-history analysis", "Lithic Operational History Explorer"]
   }),
   "artwork-provenance": Object.freeze({
-    question: "Can one physical artwork retain different provenance and relational status?",
-    distinction: "same artwork != same provenance status",
-    summary: "A small pinned Getty Provenance Index cohort will model actors, places, events, source records, gaps, and alternative chains around stable artwork identity.",
-    flagship: "Show one artwork across known provenance events with an unresolved interval preserved as a first-class gap.",
-    contribution: "This is the flagship Recorded History -> Relational Identity case and a bridge from construction provenance to social provenance.",
-    boundaries: ["Exact JSON-LD queries, responses, hashes, and mappings", "Object identity remains distinct from source-record identity", "Co-occurrence cannot become ownership", "Provenance status cannot become legal title"],
-    outputs: ["Pinned Getty cohort", "Provenance event projection", "Gap and alternative-chain representation", "Artwork Provenance Identity Lab"]
+    question: "Can one exact artwork record support different history views without filling its evidence gaps?",
+    distinction: "same artwork record != same history projection != complete provenance",
+    summary: "Eight exact Getty Linked.Art entity responses and one exact SPARQL snapshot preserve four artwork records, two activities, two stock-book records, current context, and a known missing interval in separate evidence layers.",
+    flagship: "Follow A1983 through a day-bounded purchase and month-bounded sale, then stop at an explicit unknown interval before its frozen current-owner context.",
+    contribution: "The flagship Recorded History -> Identity case demonstrates regime-relative equality while preventing source acquisition and current-owner relations from becoming legal-title findings.",
+    boundaries: ["Exact Getty entity responses, SPARQL query/response, byte counts, hashes, retrieval time, and CC0 source metadata", "Exact HumanMadeObject URI identity remains distinct from labels and source-record identity", "Co-occurrence and referred-to-by relations cannot become ownership", "Current owner and transferred-title source relations cannot become an Onto2D legal-title, authenticity, or restitution finding"],
+    outputs: ["Four-object source-locked Getty cohort", "Two native activities and two hashed stock-book transcriptions", "Verified artwork-provenance Model Pack", "Artwork Provenance Identity Lab with explicit gap and five equivalence regimes"]
   }),
   "manuscript-stemmatics": Object.freeze({
     question: "Can textual ancestry remain non-tree-shaped and evidence-dependent?",

@@ -1,0 +1,49 @@
+{
+  "format": "onto2d-chemical-synthesis-identity-profile",
+  "formatVersion": "1",
+  "profileVersion": "chemical-synthesis-identity-v1",
+  "targetIdentity": {
+    "id": "exact-ord-product-smiles-v1",
+    "rule": "Two target records match only when their native ORD product identifier type is SMILES and their source strings are byte-for-byte equal.",
+    "stereochemistry": "preserved exactly as recorded",
+    "normalization": "none",
+    "knownLimitation": "Exact source-string equality may under-merge equivalent structures; it is not a canonical chemistry toolkit result."
+  },
+  "routeIdentity": {
+    "id": "ord-record-and-condition-profile-v1",
+    "fields": [
+      "reactionId",
+      "productSmiles",
+      "arylHalideSmiles",
+      "amineSmiles",
+      "catalystSmiles",
+      "baseSmiles",
+      "additiveSmiles",
+      "temperature",
+      "reactionTime",
+      "workupTypes"
+    ],
+    "rule": "The ordered canonical value of every listed field defines a route-fragment identity; missing values stay null."
+  },
+  "equivalenceRegimes": [
+    {
+      "id": "same-native-record",
+      "question": "Are these the same ORD reaction record?",
+      "fields": ["reactionId"]
+    },
+    {
+      "id": "same-target-identifier",
+      "question": "Do these records carry the exact same source product SMILES?",
+      "fields": ["productSmiles"]
+    },
+    {
+      "id": "same-route-fragment",
+      "question": "Do reactants, catalyst, base, additive, conditions, workup, and record identity all match?",
+      "fields": ["routeIdentity"]
+    }
+  ],
+  "continuityRule": {
+    "id": "native-ord-reaction-cross-reference-v1",
+    "rule": "Physical-batch continuity is represented only when a later ORD input contains a native reaction_id cross-reference. Equal compound identifiers alone produce a derived identifier match, never a physical-batch relation."
+  }
+}

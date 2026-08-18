@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="../../assets/js/document-state-reset.js" defer></script>
+    <meta name="description" content="Explore source-locked Getty artwork provenance records, explicit evidence gaps, and regime-relative history identity.">
+    <title>Artwork Provenance - Onto2D</title>
+    <link rel="icon" href="../../assets/icons/favicon.ico?v=20260818.1" type="image/x-icon">
+    <link rel="stylesheet" href="../../assets/css/ui-icons.css?v=20260818.1">
+    <link rel="stylesheet" href="../../assets/css/study-artwork-provenance.css?v=20260818.2">
+    <script type="module" src="./artwork-provenance-explorer.js?v=20260818.3"></script>
+  </head>
+  <body data-state="loading">
+    <header class="history-case-header">
+      <a class="history-case-brand" href="../../" aria-label="Onto2D home"><svg viewBox="0 0 34 34" aria-hidden="true"><circle cx="7" cy="17" r="3"></circle><circle cx="27" cy="8" r="3"></circle><circle cx="27" cy="26" r="3"></circle><path d="M10 17h7m2-3 5-4m-5 10 5 4"></path></svg><span><strong>Onto2D</strong><small>History model</small></span></a>
+      <nav class="history-case-nav" aria-label="History navigation"><a href="../history-atlas/">History Atlas</a><a href="../model-studio/#model=artwork-provenance&amp;version=v1-ca697f7318c611a9">Model Studio</a><a href="https://github.com/DenBraun/Onto2D/blob/main/docs/cases/GETTY_ARTWORK_PROVENANCE_IMPLEMENTATION.md" target="_blank" rel="noopener noreferrer">History model <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#external-link"></use></svg></a><a href="https://github.com/DenBraun/Onto2D" target="_blank" rel="noopener noreferrer">GitHub <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#external-link"></use></svg></a></nav>
+      <div class="history-case-context"><span>Artwork Provenance</span><strong class="history-case-state"><i></i><span id="load-state" role="status" aria-live="polite">Verifying artifact</span></strong></div>
+    </header>
+    <main>
+      <section class="hero"><div class="hero-grid"><div><p class="eyebrow">Recorded history / explicit missingness</p><h1>A record can name a transfer.<br>It cannot close every gap.</h1><p class="hero-copy">This bounded Getty case follows one exact artwork record through two recorded 1938 activities, then stops where the included evidence stops.</p></div><dl class="hero-meta"><div><dt>Source</dt><dd>Getty Provenance Index</dd></div><div><dt>Snapshot</dt><dd id="retrieved-at">loading</dd></div><div><dt>Case identity</dt><dd id="case-identity">loading</dd></div><div><dt>Source identity</dt><dd id="source-identity">loading</dd></div></dl></div></section>
+      <p id="fatal-error" class="fatal-error" hidden></p>
+      <div class="workspace">
+        <section class="cohort panel" aria-labelledby="cohort-title"><div class="section-heading"><p class="section-kicker">01 / Bounded source cohort</p><h2 id="cohort-title">Four records are not one artwork</h2><p>The objects occur in the same Getty purchase activity. Exact HumanMadeObject URIs and stock numbers keep them distinct&mdash;even when two labels both read &ldquo;Madonna &amp; Child.&rdquo;</p></div><div id="object-controls" class="object-controls"></div><article id="object-detail" class="object-detail"></article></section>
+        <section class="timeline-panel panel" aria-labelledby="timeline-title"><div class="section-heading"><p class="section-kicker">02 / Flagship A1983</p><h2 id="timeline-title">Evidence-backed timeline</h2><p>Solid connections are native source relations. The hatched interval is known missingness: it shows where we cannot safely join the 1938 sale to the current context.</p></div><div id="timeline" class="timeline"></div><div class="title-warning"><strong>SOURCE RELATION &ne; LEGAL TITLE FINDING</strong><span>Onto2D preserves Getty's <code>transferred_title_*</code> and <code>current_owner</code> fields, but makes no legal determination.</span></div></section>
+        <div class="detail-grid">
+          <section class="panel evidence-panel" aria-labelledby="events-title"><div class="section-heading"><p class="section-kicker">03 / Native records</p><h2 id="events-title">What the records say</h2></div><div id="event-list" class="event-list"></div><div id="source-records" class="source-records"></div></section>
+          <section class="panel regime-panel" aria-labelledby="regime-title"><div class="section-heading"><p class="section-kicker">04 / Identity policy</p><h2 id="regime-title">Are the histories equal?</h2><p>The answer changes only when you change what &ldquo;same history&rdquo; means.</p></div><div id="regime-controls" class="regime-controls"></div><article id="regime-result" class="regime-result"></article></section>
+        </div>
+        <section class="load-boundary panel" aria-labelledby="load-title"><div><p class="section-kicker">05 / Historical Load</p><h2 id="load-title">No honest number yet</h2><p id="load-reason"></p></div><div class="undefined-value"><strong>&mdash;</strong><span>NOT EVALUATED</span><small><code>null</code>, not zero</small></div></section>
+        <section class="boundary panel" aria-labelledby="boundary-title"><div class="section-heading"><p class="section-kicker">06 / Reading discipline</p><h2 id="boundary-title">Evidence layers stay visible</h2></div><div class="boundary-grid"><article><span>DIRECT</span><h3>Getty records</h3><p>Exact objects, activities, acquisition parts, stock-book records, actor and place labels, and current relations.</p></article><article><span>DERIVED</span><h3>Onto2D comparison</h3><p>Stable identities, bounded projections, and verdicts under five named equivalence regimes.</p></article><article><span>RECONSTRUCTED</span><h3>Gap marker</h3><p>The interval is shown because evidence is missing. Its contents remain unknown and no transfer is asserted.</p></article><article><span>NOT CLAIMED</span><h3>Beyond scope</h3><p>Authenticity, complete ownership, present legal title, restitution, transaction validity, or an acquisition date inferred from an accession number.</p></article></div></section>
+      </div>
+    </main>
+    <footer class="study-footer">Getty Provenance Index / J. Paul Getty Trust / CC0 source snapshots / Getty does not endorse Onto2D or this bounded interpretation.</footer>
+  </body>
+</html>
