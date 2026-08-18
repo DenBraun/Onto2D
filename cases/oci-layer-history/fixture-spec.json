@@ -1,0 +1,68 @@
+{
+  "format": "onto2d-oci-layer-fixture-spec",
+  "formatVersion": "1",
+  "ociImageSpec": {
+    "version": "1.1.1",
+    "releaseUrl": "https://github.com/opencontainers/image-spec/releases/tag/v1.1.1",
+    "layoutUrl": "https://github.com/opencontainers/image-spec/blob/v1.1.1/image-layout.md",
+    "manifestUrl": "https://github.com/opencontainers/image-spec/blob/v1.1.1/manifest.md",
+    "configUrl": "https://github.com/opencontainers/image-spec/blob/v1.1.1/config.md",
+    "layerUrl": "https://github.com/opencontainers/image-spec/blob/v1.1.1/layer.md"
+  },
+  "profile": {
+    "layoutVersion": "1.0.0",
+    "architecture": "amd64",
+    "os": "linux",
+    "layerMediaType": "application/vnd.oci.image.layer.v1.tar",
+    "created": "2026-08-18T00:00:00Z",
+    "fileMode": 420,
+    "uid": 0,
+    "gid": 0,
+    "mtime": 0
+  },
+  "histories": [
+    {
+      "id": "history-a",
+      "label": "Add, add, delete, add",
+      "layers": [
+        { "id": "a-add-a", "label": "add /a.txt", "entries": [{ "path": "a.txt", "content": "alpha\n" }] },
+        { "id": "a-add-b", "label": "add /b.txt", "entries": [{ "path": "b.txt", "content": "bravo\n" }] },
+        { "id": "a-delete-a", "label": "delete /a.txt", "entries": [{ "path": ".wh.a.txt", "content": "" }] },
+        { "id": "a-add-c", "label": "add /c.txt", "entries": [{ "path": "c.txt", "content": "charlie\n" }] }
+      ]
+    },
+    {
+      "id": "history-b",
+      "label": "Add only the surviving files",
+      "layers": [
+        { "id": "b-add-b", "label": "add /b.txt", "entries": [{ "path": "b.txt", "content": "bravo\n" }] },
+        { "id": "b-add-c", "label": "add /c.txt", "entries": [{ "path": "c.txt", "content": "charlie\n" }] }
+      ]
+    },
+    {
+      "id": "history-redundant",
+      "label": "Replace and erase temporary work",
+      "layers": [
+        { "id": "r-add-draft-b", "label": "add draft /b.txt", "entries": [{ "path": "b.txt", "content": "draft\n" }] },
+        { "id": "r-replace-b", "label": "replace /b.txt", "entries": [{ "path": "b.txt", "content": "bravo\n" }] },
+        { "id": "r-add-temp", "label": "add /temp.txt", "entries": [{ "path": "temp.txt", "content": "work\n" }] },
+        { "id": "r-delete-temp", "label": "delete /temp.txt", "entries": [{ "path": ".wh.temp.txt", "content": "" }] },
+        { "id": "r-add-c", "label": "add /c.txt", "entries": [{ "path": "c.txt", "content": "charlie\n" }] }
+      ]
+    },
+    {
+      "id": "history-grouped",
+      "label": "Group final changes in one layer",
+      "layers": [
+        {
+          "id": "g-add-b-and-c",
+          "label": "add /b.txt and /c.txt",
+          "entries": [
+            { "path": "b.txt", "content": "bravo\n" },
+            { "path": "c.txt", "content": "charlie\n" }
+          ]
+        }
+      ]
+    }
+  ]
+}

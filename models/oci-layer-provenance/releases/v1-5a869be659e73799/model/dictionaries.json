@@ -1,0 +1,93 @@
+{
+  "audit": {
+    "caseIdentity": "sha256:5f9cf705941fd20a771237be93359a3b05f2282ff8aa024d4a1f30b6eaf6ad93",
+    "derivedInventory": {
+      "operations": 13,
+      "rootfsIdentity": "sha256:f7bd81becc162480b7cf758bd6f2a95bf8620680d48b5a585aed92b86ccac3df",
+      "states": 13
+    },
+    "historicalLoad": [
+      {
+        "costFunction": "layer-count",
+        "unit": "layers",
+        "value": 3
+      },
+      {
+        "costFunction": "operation-count",
+        "unit": "operations",
+        "value": 2
+      },
+      {
+        "costFunction": "changed-byte-count",
+        "unit": "bytes",
+        "value": 12
+      },
+      {
+        "costFunction": "transferred-byte-count",
+        "unit": "bytes",
+        "value": 4608
+      }
+    ],
+    "mappingVersion": "oci-layer-provenance-mapping-v1",
+    "nativeInventory": {
+      "configs": 4,
+      "histories": 4,
+      "manifests": 4,
+      "uniqueLayers": 8
+    },
+    "releaseIdentity": "sha256:5a869be659e73799d4d1a4826ba54bf8a02b47254e4b4788443f5dc73cf2157d",
+    "sourceIdentity": "sha256:ee847a9c8772476333b548f7a6f31292c1ab75fb00eff72c85ecf0d92347fa0d"
+  },
+  "evidenceClasses": {
+    "deterministic-layer-replay": "State or operation derived by the bounded evaluator from verified layer bytes.",
+    "native-oci-index": "Reference recorded directly in the verified OCI image index.",
+    "native-oci-manifest": "Descriptor and order recorded directly in a verified OCI image manifest.",
+    "verified-tar-entry": "File bytes or whiteout marker parsed from a digest-verified native layer blob."
+  },
+  "identityRegimes": {
+    "flattened-rootfs": "Do normalized final filesystem records match?",
+    "history-equivalence": "Are the histories equivalent under flattened-rootfs-v1?",
+    "layer-sequence": "Do ordered uncompressed layer identities match?",
+    "manifest": "Do native OCI manifest digests match?"
+  },
+  "presentation": {
+    "boundary": {
+      "note": "This bounded evaluator is not a general container runtime; the four Historical Load values apply only to the declared finite fixture space.",
+      "summary": "Native descriptors and tar entries remain separate from derived filesystem states, equivalence classes, and cost-relative Historical Load.",
+      "title": "OCI fixture boundary"
+    },
+    "coordinates": [
+      {
+        "field": "typeRole",
+        "label": "Kind"
+      },
+      {
+        "field": "scientificStatus",
+        "label": "Evidence"
+      }
+    ],
+    "evidenceClassField": "evidenceClass",
+    "labels": {
+      "catalogTitle": "OCI history records",
+      "children": "Outgoing native or derived relations",
+      "parents": "Incoming native or derived relations",
+      "phaseFilter": "Evidence phase",
+      "searchPlaceholder": "Search manifests, layers, states, and files",
+      "statusFilter": "Evidence status",
+      "typeFilter": "Record kind"
+    },
+    "layerField": "scientificStatus",
+    "nodeKindField": "entityKind",
+    "profile": "oci-layer-provenance-presentation-v1",
+    "relationField": "relation"
+  },
+  "provenance": {
+    "caseIdentity": "sha256:5f9cf705941fd20a771237be93359a3b05f2282ff8aa024d4a1f30b6eaf6ad93",
+    "layerProfile": "bounded-uncompressed-regular-files-and-whiteouts-v1",
+    "mappingVersion": "oci-layer-provenance-mapping-v1",
+    "nonEndorsement": "The Open Container Initiative does not endorse Onto2D or this interpretation.",
+    "ociImageSpecVersion": "1.1.1",
+    "releaseIdentity": "sha256:5a869be659e73799d4d1a4826ba54bf8a02b47254e4b4788443f5dc73cf2157d",
+    "sourceIdentity": "sha256:ee847a9c8772476333b548f7a6f31292c1ab75fb00eff72c85ecf0d92347fa0d"
+  }
+}

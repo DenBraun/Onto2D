@@ -41,6 +41,16 @@ const nixApp = read("apps/nix-derivation-explorer/nix-derivation-lab.js");
 const nixModel = read("apps/nix-derivation-explorer/nix-derivation-model.js");
 const nixStyles = read("assets/css/study-nix-derivation.css");
 const nixArtifact = read("cases/nix-derivation-identity/artifacts/nix-derivation-identity.json");
+const ociMarkup = read("apps/oci-layer-history-lab/index.html");
+const ociApp = read("apps/oci-layer-history-lab/oci-layer-history-lab.js");
+const ociModel = read("apps/oci-layer-history-lab/oci-layer-history-model.js");
+const ociStyles = read("assets/css/study-oci-layer-history.css");
+const ociArtifact = read("cases/oci-layer-history/artifacts/oci-layer-history.json");
+const inTotoMarkup = read("apps/in-toto-admissibility-explorer/index.html");
+const inTotoApp = read("apps/in-toto-admissibility-explorer/in-toto-admissibility-explorer.js");
+const inTotoModel = read("apps/in-toto-admissibility-explorer/in-toto-admissibility-model.js");
+const inTotoStyles = read("assets/css/study-in-toto-admissibility.css");
+const inTotoArtifact = read("cases/in-toto-admissibility/artifacts/in-toto-admissibility.json");
 const historyCasePageMarkups = historyCaseRegistry.cases.map((entry) => read(`${entry.casePagePath}index.html`));
 const modelPackWorker = read("assets/js/model-pack-worker.js");
 const siteServer = read("apps/historical-load-explorer/serve.mjs");
@@ -56,6 +66,8 @@ const publicDirectories = [
   "apps/bootstrap-provenance-explorer",
   "apps/git-history-identity-lab",
   "apps/nix-derivation-explorer",
+  "apps/oci-layer-history-lab",
+  "apps/in-toto-admissibility-explorer",
   "apps/history-atlas",
   "apps/external-cases",
   ...historyCaseRegistry.cases.map((entry) => entry.casePagePath.replace(/\/$/, ""))
@@ -72,6 +84,8 @@ const publicFiles = [
   "assets/css/study-bootstrap-provenance.css",
   "assets/css/study-git-history.css",
   "assets/css/study-nix-derivation.css",
+  "assets/css/study-oci-layer-history.css",
+  "assets/css/study-in-toto-admissibility.css",
   "assets/css/external-cases.css",
   "assets/css/history-case-header.css",
   "assets/css/history-atlas.css",
@@ -84,6 +98,8 @@ const publicFiles = [
   "cases/history-case-registry.json",
   "cases/history-case-registry.schema.json",
   "cases/nix-derivation-identity/artifacts/nix-derivation-identity.json",
+  "cases/oci-layer-history/artifacts/oci-layer-history.json",
+  "cases/in-toto-admissibility/artifacts/in-toto-admissibility.json",
   ...publicDirectories.flatMap((directory) => readdirSync(
     new URL(`../../${directory}/`, import.meta.url)
   ).filter((name) => /\.(?:css|html|js|json|md|mjs)$/.test(name)).map((name) => `${directory}/${name}`))
@@ -109,7 +125,7 @@ test("the root keeps three study lenses and exposes the registry-backed Case Stu
   assert.match(landing, /href="\.\/apps\/level-zero-validation\/(?:\?v=[^"]+)?"/);
   assert.match(landing, /href="\.\/apps\/model-studio\/(?:\?v=[^"]+)?"/);
   assert.match(landing, /<details class="cases-menu">/);
-  assert.match(landing, /type="module" src="\.\/assets\/js\/case-menu\.js\?v=20260818\.2"/);
+  assert.match(landing, /type="module" src="\.\/assets\/js\/case-menu\.js\?v=20260818\.3"/);
   assert.match(landing, /href="\.\/apps\/history-atlas\/"/);
   assert.match(landing, /id="history-case-menu-groups"/);
   assert.match(landing, />Case Studies <svg/);
@@ -155,6 +171,8 @@ test("all History case surfaces share one header component and navigation layout
     bootstrapMarkup,
     gitHistoryMarkup,
     nixMarkup,
+    ociMarkup,
+    inTotoMarkup,
     ...historyCasePageMarkups
   ];
   for (const markup of surfaces) {
@@ -169,9 +187,19 @@ test("all History case surfaces share one header component and navigation layout
   }
   assert.match(historyCaseHeaderStyles, /grid-template-columns:\s*minmax\(190px, 1fr\) auto minmax\(190px, 1fr\)/);
   assert.match(historyCaseHeaderStyles, /@media \(max-width: 700px\)/);
-  for (const styles of [externalCasesStyles, bootstrapStyles, gitHistoryStyles, nixStyles]) {
+  for (const styles of [externalCasesStyles, bootstrapStyles, gitHistoryStyles, nixStyles, ociStyles, inTotoStyles]) {
     assert.match(styles, /@import url\("\.\/history-case-header\.css\?v=20260818\.2"\);/);
   }
+});
+
+test("case-aware Model Studio links select the exact registered release", () => {
+  assert.match(bootstrapMarkup, /model-studio\/#model=live-bootstrap-provenance&amp;version=v2-e4fc1639ab73d7c7/);
+  assert.match(nixMarkup, /model-studio\/#model=nix-derivations&amp;version=v1-2d5b844afa08e0ed/);
+  assert.match(ociMarkup, /model-studio\/#model=oci-layer-provenance&amp;version=v1-5a869be659e73799/);
+  assert.match(inTotoMarkup, /model-studio\/#model=in-toto-provenance&amp;version=v1-647b20b320a109cc/);
+  assert.match(externalCasesApp, /studio\.href = modelStudioHref\(entry, PROJECT_ROOT\)/);
+  assert.match(externalCasesApp, /studioNavigation\.href = modelStudioHref\(entry, PROJECT_ROOT\)/);
+  assert.match(externalCasesCatalog, /url\.hash = new URLSearchParams\(\{ model: entry\.modelId, version: entry\.modelVersion \}\)\.toString\(\)/);
 });
 
 test("public Markdown actions open rendered GitHub documents instead of local downloads", () => {
@@ -232,6 +260,61 @@ test("Nix Derivation Identity Lab preserves content, construction, and evidence 
   assert.equal(pinnedDigest, createHash("sha256").update(nixArtifact).digest("hex"));
   const appRevision = nixMarkup.match(/nix-derivation-lab\.js\?v=([^"']+)/)?.[1];
   const modelRevision = nixApp.match(/nix-derivation-model\.js\?v=([^"']+)/)?.[1];
+  assert.equal(modelRevision, appRevision);
+});
+
+test("OCI Layer History Lab preserves ancestry behind flattened equality", () => {
+  assert.match(ociApp, /cases\/oci-layer-history\/artifacts\/oci-layer-history\.json/);
+  assert.match(ociApp, /createOciLayerHistoryModel/);
+  assert.match(ociApp, /crypto\.subtle\.digest\("SHA-256"/);
+  assert.match(ociApp, /cache: "no-store"/);
+  assert.match(ociApp, /redirect: "error"/);
+  assert.match(ociModel, /native histories do not converge to one rootfs/);
+  assert.match(ociModel, /native history identities were collapsed/);
+  assert.match(ociModel, /Historical Load is substituted/);
+  assert.match(ociMarkup, /Same filesystem\./);
+  assert.match(ociMarkup, /Different past\./);
+  assert.match(ociMarkup, /Deleted \/ hidden history/);
+  assert.match(ociMarkup, /Historical Load \/ declared finite space/);
+  assert.match(ociMarkup, /not a registry client, image signature verifier, or general container runtime/);
+  for (const id of [
+    "comparison-controls",
+    "left-timeline",
+    "right-timeline",
+    "rootfs-files",
+    "identity-regimes",
+    "hidden-records",
+    "cost-controls",
+    "candidate-costs",
+    "inspector-digest"
+  ]) {
+    assert.match(ociMarkup, new RegExp(`id=["']${id}["']`), `missing #${id}`);
+  }
+  const pinnedDigest = ociApp.match(/EXPECTED_ARTIFACT_SHA256 = "([a-f0-9]{64})"/)?.[1];
+  assert.equal(pinnedDigest, createHash("sha256").update(ociArtifact).digest("hex"));
+  const appRevision = ociMarkup.match(/oci-layer-history-lab\.js\?v=([^"']+)/)?.[1];
+  const modelRevision = ociApp.match(/oci-layer-history-model\.js\?v=([^"']+)/)?.[1];
+  assert.equal(modelRevision, appRevision);
+});
+
+test("in-toto Admissibility Explorer separates native verdicts, optional policy, and counterfactual cost", () => {
+  assert.match(inTotoApp, /cases\/in-toto-admissibility\/artifacts\/in-toto-admissibility\.json/);
+  assert.match(inTotoApp, /createInTotoAdmissibilityModel/);
+  assert.match(inTotoApp, /crypto\.subtle\.digest\("SHA-256"/);
+  assert.match(inTotoApp, /cache: "no-store"/);
+  assert.match(inTotoApp, /redirect: "error"/);
+  assert.match(inTotoModel, /commandMismatchSemantics !== "warning-only"/);
+  assert.match(inTotoModel, /counterfactual && route\.actual/);
+  assert.match(inTotoModel, /load equation is inconsistent/);
+  assert.match(inTotoMarkup, /Same bytes\./);
+  assert.match(inTotoMarkup, /Different permission to trust\./);
+  assert.match(inTotoMarkup, /expected_command.*mismatch produces a warning/);
+  assert.match(inTotoApp, /neither a risk score nor an in-toto metric/);
+  for (const id of ["step-flow", "scenario-controls", "link-list", "check-list", "warning-box", "route-list", "cost-controls", "load-equation"]) assert.match(inTotoMarkup, new RegExp(`id=["']${id}["']`), `missing #${id}`);
+  const pinnedDigest = inTotoApp.match(/EXPECTED_SHA256 = "([a-f0-9]{64})"/)?.[1];
+  assert.equal(pinnedDigest, createHash("sha256").update(inTotoArtifact).digest("hex"));
+  const appRevision = inTotoMarkup.match(/in-toto-admissibility-explorer\.js\?v=([^"']+)/)?.[1];
+  const modelRevision = inTotoApp.match(/in-toto-admissibility-model\.js\?v=([^"']+)/)?.[1];
   assert.equal(modelRevision, appRevision);
 });
 
@@ -348,7 +431,7 @@ test("Model Studio fully verifies the real pack before using the shared view lay
   assert.match(studioApp, /MODEL_PACK_CACHE_STORAGE_/);
   assert.match(studioApp, /dataset\.cache = "unavailable"/);
   assert.match(studioApp, /"Cached model verified"/);
-  assert.match(studioApp, /sha256:01e4c64e8e7decb05edaf937d715b3fe514fefdfa681d69d9459e300c5fdc8c2/);
+  assert.match(studioApp, /sha256:2c1f365983523eb9a782eea16af7c9d3408055fd07255ace87796427979fe79d/);
   assert.match(studioApp, /new Worker\(MODEL_PACK_WORKER_URL, \{/);
   assert.match(studioApp, /type: "module"/);
   assert.match(studioApp, /ownsWorker: true/);
@@ -511,6 +594,8 @@ test("document navigation has one canonical URL and rejects stale bfcache restor
     studioMarkup,
     gitHistoryMarkup,
     nixMarkup,
+    ociMarkup,
+    inTotoMarkup,
     read("apps/historical-load-explorer/index.html")
   ];
   for (const markup of pages) {
@@ -591,6 +676,11 @@ test("Nix Derivation Identity Lab keeps interface text at the readable minimum",
     .map((match) => Number(match[1]));
   assert.equal(remSizes.every((size) => size >= 0.75), true);
   assert.doesNotMatch(nixStyles, /https?:\/\//);
+});
+
+test("OCI Layer History Lab keeps interface text at the readable minimum", () => {
+  assert.doesNotMatch(ociStyles, /font-size:\s*(?:[1-9]|1[01])px/);
+  assert.doesNotMatch(ociStyles, /https?:\/\//);
 });
 
 test("graph sidebars keep machine fields on bounded single lines", () => {

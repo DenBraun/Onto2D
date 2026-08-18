@@ -1,0 +1,40 @@
+{
+  "format": "onto2d-oci-history-analysis-profile",
+  "formatVersion": "1",
+  "targetHistory": "history-a",
+  "targetState": "final-rootfs",
+  "candidateHistories": [
+    "history-a",
+    "history-b",
+    "history-redundant",
+    "history-grouped"
+  ],
+  "allowedOperations": [
+    "add-file",
+    "replace-file",
+    "delete-file"
+  ],
+  "admissibilityRegime": "verified-native-layout-and-equal-final-rootfs-v1",
+  "costFunctions": [
+    {
+      "id": "layer-count",
+      "unit": "layers",
+      "definition": "Number of non-empty filesystem layer descriptors in the native manifest."
+    },
+    {
+      "id": "operation-count",
+      "unit": "operations",
+      "definition": "Number of applied additions, replacements, and whiteout deletions."
+    },
+    {
+      "id": "changed-byte-count",
+      "unit": "bytes",
+      "definition": "Bytes written plus bytes removed from the preceding derived state."
+    },
+    {
+      "id": "transferred-byte-count",
+      "unit": "bytes",
+      "definition": "Sum of exact uncompressed layer blob descriptor sizes."
+    }
+  ]
+}

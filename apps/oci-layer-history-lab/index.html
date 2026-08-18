@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="../../assets/js/document-state-reset.js" defer></script>
+    <meta name="description" content="Explore how distinct verified OCI layer histories can flatten to one filesystem state while retaining different native identities and cost-relative Historical Load.">
+    <title>OCI Layer History Lab - Onto2D</title>
+    <link rel="icon" href="../../assets/icons/favicon.ico?v=20260818.4" type="image/x-icon">
+    <link rel="stylesheet" href="../../assets/css/ui-icons.css?v=20260818.4">
+    <link rel="stylesheet" href="../../assets/css/study-oci-layer-history.css?v=20260818.1">
+    <script type="module" src="./oci-layer-history-lab.js?v=20260818.1"></script>
+  </head>
+  <body data-state="loading">
+    <a class="skip-link" href="#explorer">Skip to OCI history comparison</a>
+    <header class="history-case-header">
+      <a class="history-case-brand" href="../../" aria-label="Onto2D home"><svg viewBox="0 0 34 34" aria-hidden="true"><circle cx="7" cy="17" r="3"></circle><circle cx="27" cy="8" r="3"></circle><circle cx="27" cy="26" r="3"></circle><path d="M10 17h7m2-3 5-4m-5 10 5 4"></path></svg><span><strong>Onto2D</strong><small>History model</small></span></a>
+      <nav class="history-case-nav" aria-label="History navigation"><a href="../history-atlas/">History Atlas</a><a href="../model-studio/#model=oci-layer-provenance&amp;version=v1-5a869be659e73799">Model Studio</a><a href="https://github.com/DenBraun/Onto2D/blob/main/docs/history/README.md" target="_blank" rel="noopener noreferrer">History model <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#external-link"></use></svg></a><a href="https://github.com/DenBraun/Onto2D" target="_blank" rel="noopener noreferrer">GitHub <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#external-link"></use></svg></a></nav>
+      <div class="history-case-context"><span>OCI Layer History</span><strong class="history-case-state"><i></i><span id="load-state" role="status" aria-live="polite">Verifying artifact</span></strong></div>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="page-title">
+        <div><p class="overline">OCI Image Spec v1.1.1 / four native manifests / bounded replay</p><h1 id="page-title">Same filesystem.<br><em>Different past.</em></h1><p class="hero-deck">Flattening tells you what files survive. It does not tell you which layers added, replaced, grouped, or deleted them. This lab keeps both answers available.</p></div>
+        <div class="hero-proof" aria-label="Canonical OCI result"><span>Canonical result</span><code>rootfs(A) = rootfs(B)</code><code>layers(A) &ne; layers(B)</code><code>manifest(A) &ne; manifest(B)</code></div>
+      </section>
+
+      <section class="artifact-strip" aria-label="Verified OCI fixture summary"><div><span>Case identity</span><strong id="case-identity">...</strong></div><div><span>Native images</span><strong id="history-count">...</strong></div><div><span>Layer occurrences</span><strong id="layer-count">...</strong></div><div><span>Final files</span><strong id="file-count">...</strong></div><div><span>Specification</span><strong id="spec-version">...</strong></div></section>
+
+      <section class="takeaway" aria-labelledby="takeaway-title"><p class="overline">What the result is useful for</p><h2 id="takeaway-title">Use rootfs identity for final-state equality. Use manifest and layer identity when provenance, transfer, review scope, or hidden mutations matter.</h2><p>The same flattened bytes can justify deduplication without justifying the claim that two images have the same ancestry.</p></section>
+
+      <section class="explorer" id="explorer" aria-labelledby="explorer-title">
+        <header class="explorer-heading"><div><p class="overline">Interactive evidence</p><h2 id="explorer-title">One final rootfs, several recorded routes</h2></div><p>Select a verified pair. Every view is projected from the immutable, SHA-256-pinned case artifact.</p></header>
+        <div class="explorer-grid">
+          <aside class="comparison-controls" aria-label="OCI comparison controls"><h3>History comparison</h3><p>Choose which construction difference to inspect.</p><div id="comparison-controls" class="control-list"></div><div class="control-note"><strong>Native boundary</strong><span>Only index-referenced manifests appear here. Reversed order remains counterfactual.</span></div></aside>
+
+          <div class="evidence-stage">
+            <section class="convergence" aria-labelledby="timeline-title"><header><div><p class="overline">Layer timeline</p><h3 id="timeline-title">Different ancestry converges after flattening</h3></div><span id="pair-label">...</span></header><div class="history-lanes"><div class="history-lane"><div class="lane-label"><strong id="left-history-label">...</strong><code id="left-manifest">...</code></div><div id="left-timeline" class="timeline"></div></div><div class="history-lane"><div class="lane-label"><strong id="right-history-label">...</strong><code id="right-manifest">...</code></div><div id="right-timeline" class="timeline"></div></div></div><div class="convergence-arrow" aria-hidden="true"><i></i><b>&darr;</b><i></i></div><div class="rootfs-target"><span>SAME NORMALIZED FINAL ROOTFS</span><strong id="rootfs-identity">...</strong><div id="rootfs-files" class="rootfs-files"></div></div></section>
+
+            <section class="identity-section" aria-labelledby="identity-title"><header><div><p class="overline">Identity regime comparison</p><h3 id="identity-title">&ldquo;Same&rdquo; depends on the question</h3></div><p>Green means equal under that exact rule; orange means the native or derived identities differ.</p></header><div id="identity-regimes" class="identity-regimes"></div></section>
+
+            <section class="hidden-section" aria-labelledby="hidden-title"><div><p class="overline">Deleted / hidden history</p><h3 id="hidden-title">Flattening can erase evidence from the present state</h3><p id="hidden-explanation">...</p></div><div id="hidden-records" class="hidden-records"></div></section>
+          </div>
+
+          <aside class="layer-inspector" aria-labelledby="inspector-title"><header><p class="overline">Selected layer</p><h3 id="inspector-title">Native / derived boundary</h3></header><dl><div><dt>History</dt><dd id="inspector-history">...</dd></div><div><dt>Layer</dt><dd id="inspector-layer">...</dd></div><div><dt>Native digest</dt><dd><code id="inspector-digest">...</code></dd></div><div><dt>Blob size</dt><dd id="inspector-size">...</dd></div><div><dt>Tar entries</dt><dd id="inspector-entries">...</dd></div><div><dt>Applied as</dt><dd id="inspector-operations">...</dd></div><div><dt>State after</dt><dd><code id="inspector-state">...</code></dd></div></dl><p>A tar entry is native evidence. Whether it adds or replaces a file depends on the preceding derived state.</p></aside>
+        </div>
+      </section>
+
+      <section class="load-section" aria-labelledby="load-title"><header><div><p class="overline">Historical Load / declared finite space</p><h2 id="load-title">How much extra history did the observed route carry?</h2></div><p>This number is always relative to a target, candidate space, admissibility rule, and cost function. Change the cost function and the honest answer changes.</p></header><div class="load-grid"><aside><h3>Cost function</h3><div id="cost-controls" class="cost-controls"></div></aside><div class="load-result" aria-live="polite"><span>Historical Load</span><div class="load-value"><small>&Delta;H</small><strong id="load-value">...</strong><em id="load-unit">...</em></div><code id="load-equation">...</code><p id="load-definition">...</p><div class="load-scope"><span>Target: exact final rootfs</span><span>Space: 4 verified native histories</span><span>Reference: history-a</span></div></div><div><h3>Candidate costs</h3><div id="candidate-costs" class="candidate-costs"></div><p id="load-interpretation" class="load-interpretation"></p></div></div></section>
+
+      <section class="boundary" aria-labelledby="boundary-title"><div><p class="overline">Evidence boundary</p><h2 id="boundary-title">What was verified - and what was deliberately not claimed</h2><p>Every manifest, config, and uncompressed tar layer is checked against its OCI descriptor. Filesystem states and Historical Load are derived projections over a deliberately tiny fixture profile.</p></div><ul><li>Whiteouts delete lower-layer files and never appear as final files.</li><li>Native descriptor order stays distinct from derived state equality.</li><li>The reversed-order control has no native manifest and remains counterfactual.</li><li>This evaluator is not a registry client, image signature verifier, or general container runtime.</li></ul></section>
+    </main>
+    <footer class="site-footer"><a href="../external-cases/oci-layer-history/"><svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#arrow-left"></use></svg> Case overview</a><p>Same rootfs is not automatically the same image history.</p><a href="#explorer">Return to evidence <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#chevron-up"></use></svg></a></footer>
+    <div id="fatal-error" class="fatal-error" role="alert" hidden></div>
+  </body>
+</html>

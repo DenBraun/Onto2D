@@ -1,0 +1,144 @@
+{
+  "signatures": [
+    {
+      "keyid": "63d00ee3cf4f5c61ad94efa696c68f13b608fe56ecea13fb144a6fd18e9235b9",
+      "sig": "9a55a6260a28d02111da2d2ccf6065044983207e671259fc0509acce4d9605d680eb97b76a0a03acf61dbc68f2fbfc00dfcdb3cef00171a143f825402a102308"
+    }
+  ],
+  "signed": {
+    "_type": "layout",
+    "expires": "2030-01-01T00:00:00Z",
+    "readme": "Onto2D deterministic in-toto v1.0 admissibility fixture; fixture keys are non-secret test material.",
+    "keys": {
+      "75ae790ee58e915231032b31c22a4065135d9e6fde9ab754f20c477df74e0ae2": {
+        "keytype": "ed25519",
+        "scheme": "ed25519",
+        "keyval": {
+          "public": "29acbae141bccaf0b22e1a94d34d0bc7361e526d0bfe12c89794bc9322966dd7"
+        }
+      },
+      "a0a1618f89d92cb75b9db27ca64ee976f3e3d07f9923cc43a81f5fb50273de8a": {
+        "keytype": "ed25519",
+        "scheme": "ed25519",
+        "keyval": {
+          "public": "2543b92ff1095511476adc8369db6ddc933665a11978dda1404ee1066ca9559d"
+        }
+      }
+    },
+    "steps": [
+      {
+        "_type": "step",
+        "name": "build",
+        "expected_materials": [
+          [
+            "REQUIRE",
+            "src/main.txt"
+          ],
+          [
+            "ALLOW",
+            "src/main.txt"
+          ],
+          [
+            "DISALLOW",
+            "*"
+          ]
+        ],
+        "expected_products": [
+          [
+            "REQUIRE",
+            "build/app.bin"
+          ],
+          [
+            "CREATE",
+            "build/app.bin"
+          ],
+          [
+            "DISALLOW",
+            "*"
+          ]
+        ],
+        "pubkeys": [
+          "75ae790ee58e915231032b31c22a4065135d9e6fde9ab754f20c477df74e0ae2"
+        ],
+        "expected_command": [
+          "node",
+          "build.mjs"
+        ],
+        "threshold": 1
+      },
+      {
+        "_type": "step",
+        "name": "package",
+        "expected_materials": [
+          [
+            "REQUIRE",
+            "build/app.bin"
+          ],
+          [
+            "MATCH",
+            "build/app.bin",
+            "WITH",
+            "PRODUCTS",
+            "FROM",
+            "build"
+          ],
+          [
+            "DISALLOW",
+            "*"
+          ]
+        ],
+        "expected_products": [
+          [
+            "REQUIRE",
+            "dist/app.bin"
+          ],
+          [
+            "CREATE",
+            "dist/app.bin"
+          ],
+          [
+            "DISALLOW",
+            "*"
+          ]
+        ],
+        "pubkeys": [
+          "a0a1618f89d92cb75b9db27ca64ee976f3e3d07f9923cc43a81f5fb50273de8a"
+        ],
+        "expected_command": [
+          "node",
+          "package.mjs"
+        ],
+        "threshold": 1
+      }
+    ],
+    "inspect": [
+      {
+        "_type": "inspection",
+        "name": "final-product",
+        "expected_materials": [
+          [
+            "REQUIRE",
+            "dist/app.bin"
+          ],
+          [
+            "MATCH",
+            "dist/app.bin",
+            "WITH",
+            "PRODUCTS",
+            "FROM",
+            "package"
+          ],
+          [
+            "DISALLOW",
+            "*"
+          ]
+        ],
+        "expected_products": [],
+        "run": [
+          "node",
+          "inspect.mjs"
+        ]
+      }
+    ]
+  }
+}

@@ -44,20 +44,20 @@ const PRESENTATION = Object.freeze({
   "oci-layer-history": Object.freeze({
     question: "Can different ordered layer histories produce the same flattened root filesystem?",
     distinction: "final rootfs != layer history",
-    summary: "Tiny deterministic OCI layouts will make erased history visible by comparing native layer sequences with derived flattened filesystem states.",
-    flagship: "Compare a history that adds and later deletes a file with a shorter history that reaches the same normalized final root filesystem.",
-    contribution: "The case will test identity after flattening and a bounded Historical Load candidate under explicit operation and transfer costs.",
-    boundaries: ["Local content-addressed OCI fixtures instead of mutable public tags", "Bounded evaluator for additions, replacements, whiteouts, and fixture directories", "Derived rootfs states kept separate from native OCI records", "Layer count never presented as a universal complexity metric"],
-    outputs: ["Pinned OCI layouts and layer descriptors", "State-after-layer evaluator", "oci-layer-provenance Model Pack", "Timeline, rootfs, history-diff, and load Explorer"]
+    summary: "Four deterministic OCI v1.1.1 manifests preserve distinct native descriptor sequences while the bounded whiteout-aware evaluator reproduces one normalized final rootfs.",
+    flagship: "History A adds and later deletes /a.txt; History B never contains it. Both finish with exactly /b.txt and /c.txt under the declared rootfs identity profile.",
+    contribution: "The case proves flattened equivalence without collapsing ancestry and resolves Historical Load as +3 layers, +2 operations, +12 changed bytes, or +4608 transferred bytes under four explicit costs.",
+    boundaries: ["Local content-addressed OCI fixtures instead of mutable public tags", "Bounded evaluator for regular files and OCI whiteouts, not a container runtime", "Derived rootfs states kept separate from native index, manifest, config, and layer records", "Historical Load applies only to four declared histories and never becomes a universal OCI score"],
+    outputs: ["Four verified OCI manifests and exact content-addressed blobs", "State-after-layer replay with hidden deletion evidence", "Verified oci-layer-provenance Model Pack", "Timeline, rootfs, identity-regime, hidden-history, and Historical Load Explorer"]
   }),
   "in-toto-admissibility": Object.freeze({
     question: "Can identical artifact bytes come from histories with different policy admissibility?",
     distinction: "same artifact != same admissibility",
-    summary: "An offline supply-chain fixture will keep the declared layout, actual execution records, verification evidence, and Onto2D counterfactual paths visibly distinct.",
-    flagship: "Produce byte-identical output through one policy-conforming execution and one execution that violates an explicit native rule.",
-    contribution: "The case will test possible versus admissible history using source-traceable constraints and a bounded policy-conforming load comparison.",
-    boundaries: ["Pinned offline layout, fixture keys, links, materials, products, and commands", "Every Onto2D constraint points to a native in-toto rule", "Missing links are never synthesized", "Counterfactual paths remain distinct from actual execution"],
-    outputs: ["Valid and invalid replayable fixtures", "Native-policy constraint mapping", "in-toto-provenance Model Pack", "Declared-versus-actual supply-chain Explorer"]
+    summary: "Five deterministic, signed in-toto v1.0 execution fixtures keep the declared layout, actual link records, native verification results, an optional Onto2D command policy, and counterfactual routes visibly distinct.",
+    flagship: "The valid and shortcut executions end in the same SHA-256 artifact bytes; the shortcut is rejected because the required build link and product-to-material continuity are absent.",
+    contribution: "The bounded model resolves Historical Load as +1 construction step, distinct actor, signed link, or material transition between the cheapest possible and cheapest natively admissible routes.",
+    boundaries: ["Pinned offline layout, non-secret fixture keys, signed links, materials, products, and exact target bytes", "Native artifact rules retain exact source pointers; the strict command rule is labeled as an Onto2D addition", "Missing links and failed verifier checks are never synthesized or downgraded to unknown", "Counterfactual routes remain distinct from five actual fixture executions"],
+    outputs: ["Five reproducible Ed25519-signed execution fixtures", "Native and optional-policy verification records", "Verified in-toto-provenance Model Pack", "Declared, actual, verification, counterfactual, and Historical Load Explorer"]
   }),
   "reproducible-build-equivalence": Object.freeze({
     question: "When should different build histories count as equivalent?",
@@ -235,12 +235,13 @@ const REGISTRY_FIELDS = Object.freeze([
 const CASE_FIELDS = Object.freeze([
   "caseId", "portfolioOrder", "title", "shortTitle", "domain", "domainLabel", "status", "priority",
   "primaryHistoryMode", "historyModes", "primaryEffects", "secondaryEffects", "evidenceProfile", "analyses",
-  "modelId", "modelPackPath", "explorerId", "explorerPath", "casePagePath", "implementationDoc",
+  "modelId", "modelVersion", "modelPackPath", "explorerId", "explorerPath", "casePagePath", "implementationDoc",
   "matrixPlacements"
 ]);
 const ANALYSIS_FIELDS = Object.freeze(["historicalLoad", "historyEquivalence", "reachability", "reconstruction"]);
 const PLACEMENT_FIELDS = Object.freeze(["mode", "effect", "role"]);
 const ID_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+const VERSION_PATTERN = /^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$/;
 const IMPLEMENTATION_DOC_PATTERN = /^docs\/cases\/[A-Z0-9_]+_IMPLEMENTATION\.md$/;
 
 function registryFailure(message) {
@@ -333,9 +334,19 @@ export function statusPresentation(entry) {
   });
 }
 
+export function modelStudioHref(entry, projectRoot) {
+  const url = new URL("apps/model-studio/", projectRoot);
+  if (!isRecord(entry)) registryFailure("model selection entry must be an object.");
+  if (entry.modelPackPath === null) return url.href;
+  requireString(entry.modelId, "model selection modelId", 1, ID_PATTERN);
+  requireString(entry.modelVersion, "model selection modelVersion", 1, VERSION_PATTERN);
+  url.hash = new URLSearchParams({ model: entry.modelId, version: entry.modelVersion }).toString();
+  return url.href;
+}
+
 export function validateHistoryRegistry(registry) {
   requireExactFields(registry, REGISTRY_FIELDS, "registry");
-  if (registry.schemaVersion !== "1.0.0") registryFailure("schemaVersion is unsupported.");
+  if (registry.schemaVersion !== "1.1.0") registryFailure("schemaVersion is unsupported.");
   requireString(registry.taxonomyVersion, "taxonomyVersion", 1, /^\d{4}-\d{2}-\d{2}$/);
   if (!sameValues(registry.historyModes, HISTORY_MODE_IDS)) registryFailure("historyModes do not match the browser taxonomy.");
   if (!sameValues(registry.effects, HISTORY_EFFECT_IDS)) registryFailure("effects do not match the browser taxonomy.");
@@ -377,10 +388,12 @@ export function validateHistoryRegistry(registry) {
     requireExactFields(entry.analyses, ANALYSIS_FIELDS, `${entry.caseId}.analyses`);
     for (const field of ANALYSIS_FIELDS) requireEnum(entry.analyses[field], ANALYSIS_LEVELS, `${entry.caseId}.analyses.${field}`);
     requireNullableId(entry.modelId, `${entry.caseId}.modelId`);
+    if (entry.modelVersion !== null) requireString(entry.modelVersion, `${entry.caseId}.modelVersion`, 1, VERSION_PATTERN);
     requireNullableId(entry.explorerId, `${entry.caseId}.explorerId`);
     requireRepositoryDirectory(entry.modelPackPath, `${entry.caseId}.modelPackPath`, "models");
     requireRepositoryDirectory(entry.explorerPath, `${entry.caseId}.explorerPath`, "apps");
-    if (entry.modelPackPath !== null && entry.modelId === null) registryFailure(`${entry.caseId} has modelPackPath without modelId.`);
+    if (entry.modelPackPath !== null && (entry.modelId === null || entry.modelVersion === null)) registryFailure(`${entry.caseId} has modelPackPath without an exact model selection.`);
+    if (entry.modelPackPath === null && entry.modelVersion !== null) registryFailure(`${entry.caseId} has modelVersion without modelPackPath.`);
     if (entry.explorerPath !== null && entry.explorerId === null) registryFailure(`${entry.caseId} has explorerPath without explorerId.`);
     if (entry.status === "MODEL_PACK" && entry.modelPackPath === null) {
       registryFailure(`${entry.caseId} claims MODEL_PACK without modelPackPath.`);

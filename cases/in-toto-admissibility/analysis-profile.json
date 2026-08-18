@@ -1,0 +1,14 @@
+{
+  "format": "onto2d-in-toto-admissibility-analysis-profile",
+  "formatVersion": "1",
+  "targetArtifact": "dist/app.bin",
+  "candidateRoutes": ["direct-emit", "package-only", "build-package-single-actor", "declared-build-package"],
+  "admissibilityRegime": "native-in-toto-v1-layout-verification",
+  "strictCommandRegime": "onto2d-exact-command-profile-v1",
+  "costFunctions": [
+    { "id": "step-count", "unit": "construction steps", "definition": "Number of declared or counterfactual construction actions; client inspection is excluded." },
+    { "id": "distinct-actor-count", "unit": "distinct actors", "definition": "Number of distinct construction identities used by the route." },
+    { "id": "attestation-count", "unit": "signed links", "definition": "Number of signed construction link records required by the route." },
+    { "id": "material-transition-count", "unit": "material transitions", "definition": "Number of product-to-material hand-offs between construction actions." }
+  ]
+}

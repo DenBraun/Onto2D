@@ -6,6 +6,7 @@ import {
   HISTORY_MODES,
   createHistoryCases,
   historyCaseById,
+  modelStudioHref,
   validateHistoryRegistry
 } from "./external-cases-catalog.js";
 
@@ -19,9 +20,11 @@ test("the history portfolio is complete, stable, and status-honest", async () =>
   assert.deepEqual(HISTORY_MODES.map((entry) => entry.id), ["recorded", "embodied", "reconstructed"]);
   assert.deepEqual(HISTORY_EFFECTS.map((entry) => entry.id), ["identity", "present-state", "future"]);
   assert.equal(new Set(cases.map((entry) => entry.caseId)).size, cases.length);
-  assert.equal(cases.filter((entry) => entry.statusKind === "implemented").length, 3);
+  assert.equal(cases.filter((entry) => entry.statusKind === "implemented").length, 5);
   assert.equal(cases.filter((entry) => entry.statusKind === "next").length, 1);
-  assert.equal(historyCaseById(cases, "oci-layer-history").statusKind, "next");
+  assert.equal(historyCaseById(cases, "oci-layer-history").statusKind, "implemented");
+  assert.equal(historyCaseById(cases, "in-toto-admissibility").statusKind, "implemented");
+  assert.equal(historyCaseById(cases, "reproducible-build-equivalence").statusKind, "next");
   assert.equal(historyCaseById(cases, "slsa-provenance-evidence").caseId, "slsa-provenance-evidence");
   assert.equal(historyCaseById(cases, "missing"), null);
 
@@ -50,6 +53,26 @@ test("hybrid cases retain multiple modes and effects", () => {
     && entry.matrixPlacements.some((placement) => placement.mode === "reconstructed" && placement.effect === "future"));
   assert.deepEqual(gapMembers, []);
   assert.ok(ltee.historyModes.includes("reconstructed"));
+});
+
+test("implemented case links select one exact registered Model Studio release", () => {
+  const expected = new Map([
+    ["live-bootstrap-provenance", ["live-bootstrap-provenance", "v2-e4fc1639ab73d7c7"]],
+    ["nix-derivation-identity", ["nix-derivations", "v1-2d5b844afa08e0ed"]],
+    ["oci-layer-history", ["oci-layer-provenance", "v1-5a869be659e73799"]],
+    ["in-toto-admissibility", ["in-toto-provenance", "v1-647b20b320a109cc"]]
+  ]);
+  for (const entry of cases) {
+    const url = new URL(modelStudioHref(entry, "https://onto2d.dev/project/"));
+    assert.equal(url.pathname, "/project/apps/model-studio/");
+    const selection = expected.get(entry.caseId);
+    if (selection) {
+      const parameters = new URLSearchParams(url.hash.slice(1));
+      assert.deepEqual([parameters.get("model"), parameters.get("version")], selection);
+    } else {
+      assert.equal(url.hash, "");
+    }
+  }
 });
 
 test("case pages use the shared registry renderer and expose taxonomy hooks", async () => {
@@ -102,8 +125,16 @@ test("browser validation enforces the complete render-sensitive registry contrac
   assert.throws(() => validateHistoryRegistry(invalidStatus), /status is invalid/);
 
   const unsupportedMaturityClaim = structuredClone(registry);
-  unsupportedMaturityClaim.cases[3].status = "MODEL_PACK";
+  unsupportedMaturityClaim.cases.find((entry) => entry.caseId === "reproducible-build-equivalence").status = "MODEL_PACK";
   assert.throws(() => validateHistoryRegistry(unsupportedMaturityClaim), /claims MODEL_PACK without modelPackPath/);
+
+  const incompleteModelSelection = structuredClone(registry);
+  incompleteModelSelection.cases[0].modelVersion = null;
+  assert.throws(() => validateHistoryRegistry(incompleteModelSelection), /without an exact model selection/);
+
+  const detachedModelVersion = structuredClone(registry);
+  detachedModelVersion.cases[1].modelVersion = "v1-unregistered";
+  assert.throws(() => validateHistoryRegistry(detachedModelVersion), /modelVersion without modelPackPath/);
 
   const invalidPlacement = structuredClone(registry);
   invalidPlacement.cases[0].matrixPlacements[0].mode = "not-a-mode";

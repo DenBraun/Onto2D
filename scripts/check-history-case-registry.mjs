@@ -7,6 +7,7 @@ import Ajv2020 from "ajv/dist/2020.js";
 const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const registryPath = path.join(repositoryRoot, "cases", "history-case-registry.json");
 const schemaPath = path.join(repositoryRoot, "cases", "history-case-registry.schema.json");
+const modelRegistryPath = path.join(repositoryRoot, "models", "registry.json");
 const maturityRank = new Map([
   "DISCOVERED",
   "PLANNED",
@@ -40,12 +41,14 @@ async function requirePath(relativePath, caseId, field) {
 }
 
 export async function run() {
-  const [registrySource, schemaSource] = await Promise.all([
+  const [registrySource, schemaSource, modelRegistrySource] = await Promise.all([
     readFile(registryPath, "utf8"),
-    readFile(schemaPath, "utf8")
+    readFile(schemaPath, "utf8"),
+    readFile(modelRegistryPath, "utf8")
   ]);
   const registry = JSON.parse(registrySource);
   const schema = JSON.parse(schemaSource);
+  const modelRegistry = JSON.parse(modelRegistrySource);
   const ajv = new Ajv2020({
     allErrors: true,
     strict: true,
@@ -59,6 +62,7 @@ export async function run() {
   const caseIds = new Set();
   const portfolioOrders = new Set();
   const pagePaths = new Set();
+  const registeredModels = new Map(modelRegistry.entries.map((entry) => [`${entry.modelId}\u0000${entry.version}`, entry]));
   for (const entry of registry.cases) {
     if (caseIds.has(entry.caseId)) fail(`duplicate caseId ${entry.caseId}`);
     if (portfolioOrders.has(entry.portfolioOrder)) fail(`duplicate portfolioOrder ${entry.portfolioOrder}`);
@@ -112,8 +116,15 @@ export async function run() {
     await requirePath(`${entry.casePagePath}index.html`, entry.caseId, "casePagePath index");
     await requirePath(entry.implementationDoc, entry.caseId, "implementationDoc");
     if (entry.modelPackPath !== null) {
-      if (entry.modelId === null) fail(`${entry.caseId} has modelPackPath without modelId`);
+      if (entry.modelId === null || entry.modelVersion === null) fail(`${entry.caseId} has modelPackPath without an exact model selection`);
       await requirePath(entry.modelPackPath, entry.caseId, "modelPackPath");
+      const registered = registeredModels.get(`${entry.modelId}\u0000${entry.modelVersion}`);
+      if (!registered) fail(`${entry.caseId} references an unregistered model release ${entry.modelId}@${entry.modelVersion}`);
+      const exactReleasePath = `models/${registered.packPath}`;
+      if (!exactReleasePath.startsWith(entry.modelPackPath)) fail(`${entry.caseId}.modelPackPath does not contain its registered exact release`);
+      await requirePath(exactReleasePath, entry.caseId, "exact model release");
+    } else if (entry.modelVersion !== null) {
+      fail(`${entry.caseId} has modelVersion without modelPackPath`);
     }
     if (entry.explorerPath !== null) {
       if (entry.explorerId === null) fail(`${entry.caseId} has explorerPath without explorerId`);

@@ -1,0 +1,296 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/cases/oci-layer-history/v1/oci-layer-history.schema.json",
+  "title": "Onto2D OCI Layer History case artifact",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["format", "formatVersion", "caseVersion", "generatedBy", "specification", "source", "identityRegimes", "histories", "experiments", "counterfactuals", "historicalLoad", "limitations", "caseIdentity"],
+  "properties": {
+    "format": { "const": "onto2d-oci-layer-history-case" },
+    "formatVersion": { "const": "1" },
+    "caseVersion": { "const": "oci-layer-history-v1" },
+    "generatedBy": { "const": "cases/oci-layer-history/extract.mjs" },
+    "specification": { "$ref": "#/$defs/specification" },
+    "source": { "$ref": "#/$defs/source" },
+    "identityRegimes": { "type": "array", "minItems": 4, "maxItems": 4, "items": { "$ref": "#/$defs/regime" } },
+    "histories": { "type": "array", "minItems": 4, "maxItems": 4, "items": { "$ref": "#/$defs/history" } },
+    "experiments": {
+      "type": "array",
+      "prefixItems": [
+        { "$ref": "#/$defs/comparisonExperiment" },
+        { "$ref": "#/$defs/deletedHistoryExperiment" },
+        { "$ref": "#/$defs/comparisonExperiment" },
+        { "$ref": "#/$defs/comparisonExperiment" }
+      ],
+      "items": false,
+      "minItems": 4,
+      "maxItems": 4
+    },
+    "counterfactuals": { "type": "array", "minItems": 1, "maxItems": 1, "items": { "$ref": "#/$defs/counterfactual" } },
+    "historicalLoad": { "$ref": "#/$defs/historicalLoad" },
+    "limitations": { "type": "array", "minItems": 4, "maxItems": 4, "items": { "type": "string", "minLength": 1 } },
+    "caseIdentity": { "$ref": "#/$defs/sha256" }
+  },
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "specification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["version", "releaseUrl", "layoutUrl", "manifestUrl", "configUrl", "layerUrl"],
+      "properties": {
+        "version": { "const": "1.1.1" },
+        "releaseUrl": { "type": "string", "format": "uri" },
+        "layoutUrl": { "type": "string", "format": "uri" },
+        "manifestUrl": { "type": "string", "format": "uri" },
+        "configUrl": { "type": "string", "format": "uri" },
+        "layerUrl": { "type": "string", "format": "uri" }
+      }
+    },
+    "fileEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "bytes", "identity"],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "bytes": { "type": "integer", "minimum": 1 },
+        "identity": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["format", "formatVersion", "specification", "authoredFiles", "layoutFiles", "identity"],
+      "properties": {
+        "format": { "const": "onto2d-oci-layout-source" },
+        "formatVersion": { "const": "1" },
+        "specification": { "$ref": "#/$defs/specification" },
+        "authoredFiles": { "type": "array", "minItems": 2, "maxItems": 2, "items": { "$ref": "#/$defs/fileEvidence" } },
+        "layoutFiles": { "type": "array", "minItems": 3, "items": { "$ref": "#/$defs/fileEvidence" } },
+        "identity": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "regime": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "label", "evidence", "question"],
+      "properties": {
+        "id": { "enum": ["flattened-rootfs", "layer-sequence", "manifest", "history-equivalence"] },
+        "label": { "type": "string", "minLength": 1 },
+        "evidence": { "type": "string", "minLength": 1 },
+        "question": { "type": "string", "minLength": 1 }
+      }
+    },
+    "descriptor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mediaType", "digest", "size"],
+      "properties": {
+        "mediaType": { "type": "string", "minLength": 1 },
+        "digest": { "$ref": "#/$defs/sha256" },
+        "size": { "type": "integer", "minimum": 1 },
+        "annotations": { "type": "object", "additionalProperties": { "type": "string" } }
+      }
+    },
+    "file": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "size", "mode", "uid", "gid", "mtime", "contentIdentity", "contentUtf8"],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "size": { "type": "integer", "minimum": 0 },
+        "mode": { "type": "integer", "minimum": 0 },
+        "uid": { "type": "integer", "minimum": 0 },
+        "gid": { "type": "integer", "minimum": 0 },
+        "mtime": { "type": "integer", "minimum": 0 },
+        "contentIdentity": { "$ref": "#/$defs/sha256" },
+        "contentUtf8": { "type": "string" }
+      }
+    },
+    "operation": {
+      "type": "object",
+      "required": ["kind", "target", "changedBytes"],
+      "properties": {
+        "kind": { "enum": ["add-file", "replace-file", "delete-file", "opaque-delete"] },
+        "target": { "type": "string", "minLength": 1 },
+        "marker": { "type": "string", "minLength": 1 },
+        "existed": { "type": "boolean" },
+        "removed": { "type": "array", "items": { "type": "string" } },
+        "contentIdentity": { "$ref": "#/$defs/sha256" },
+        "changedBytes": { "type": "integer", "minimum": 0 }
+      },
+      "additionalProperties": false
+    },
+    "historyRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["created", "created_by", "comment"],
+      "properties": {
+        "created": { "const": "2026-08-18T00:00:00Z" },
+        "created_by": { "type": "string", "minLength": 1 },
+        "comment": { "const": "Onto2D deterministic OCI history fixture" }
+      }
+    },
+    "layer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ordinal", "id", "label", "descriptor", "diffId", "history", "entries", "operations", "stateAfter"],
+      "properties": {
+        "ordinal": { "type": "integer", "minimum": 0 },
+        "id": { "type": "string", "minLength": 1 },
+        "label": { "type": "string", "minLength": 1 },
+        "descriptor": { "$ref": "#/$defs/descriptor" },
+        "diffId": { "$ref": "#/$defs/sha256" },
+        "history": { "$ref": "#/$defs/historyRecord" },
+        "entries": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/file" } },
+        "operations": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/operation" } },
+        "stateAfter": { "$ref": "#/$defs/rootfs" }
+      }
+    },
+    "rootfs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["identity", "files"],
+      "properties": {
+        "identity": { "$ref": "#/$defs/sha256" },
+        "files": { "type": "array", "items": { "$ref": "#/$defs/file" } }
+      }
+    },
+    "history": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "label", "evidenceClass", "manifest", "config", "layerSequenceIdentity", "layers", "finalRootfs"],
+      "properties": {
+        "id": { "enum": ["history-a", "history-b", "history-redundant", "history-grouped"] },
+        "label": { "type": "string", "minLength": 1 },
+        "evidenceClass": { "const": "native-oci-layout" },
+        "manifest": { "$ref": "#/$defs/descriptor" },
+        "config": { "$ref": "#/$defs/descriptor" },
+        "layerSequenceIdentity": { "$ref": "#/$defs/sha256" },
+        "layers": { "type": "array", "minItems": 1, "maxItems": 5, "items": { "$ref": "#/$defs/layer" } },
+        "finalRootfs": { "$ref": "#/$defs/rootfs" }
+      }
+    },
+    "identityComparison": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["left", "right", "equal"],
+      "properties": {
+        "left": { "$ref": "#/$defs/sha256" },
+        "right": { "$ref": "#/$defs/sha256" },
+        "equal": { "type": "boolean" }
+      }
+    },
+    "comparisonExperiment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "label", "left", "right", "results"],
+      "properties": {
+        "id": { "enum": ["flattening", "redundant-mutations", "layer-grouping"] },
+        "label": { "type": "string", "minLength": 1 },
+        "left": { "enum": ["history-a", "history-redundant", "history-grouped"] },
+        "right": { "const": "history-b" },
+        "results": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["flattened-rootfs", "layer-sequence", "manifest", "history-equivalence"],
+          "properties": {
+            "flattened-rootfs": { "$ref": "#/$defs/identityComparison" },
+            "layer-sequence": { "$ref": "#/$defs/identityComparison" },
+            "manifest": { "$ref": "#/$defs/identityComparison" },
+            "history-equivalence": { "$ref": "#/$defs/identityComparison" }
+          }
+        }
+      }
+    },
+    "deletedHistoryExperiment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "label", "history", "hiddenPath", "addedInLayer", "deletedInLayer", "absentFromFinalRootfs"],
+      "properties": {
+        "id": { "const": "deleted-history" },
+        "label": { "type": "string", "minLength": 1 },
+        "history": { "const": "history-a" },
+        "hiddenPath": { "const": "a.txt" },
+        "addedInLayer": { "const": "a-add-a" },
+        "deletedInLayer": { "const": "a-delete-a" },
+        "absentFromFinalRootfs": { "const": true }
+      }
+    },
+    "counterfactual": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "evidenceClass", "sourceHistory", "manifest", "layerOrder", "finalRootfs", "differsFromNativeFinal"],
+      "properties": {
+        "id": { "const": "history-a-reversed" },
+        "evidenceClass": { "const": "counterfactual" },
+        "sourceHistory": { "const": "history-a" },
+        "manifest": { "type": "null" },
+        "layerOrder": { "type": "array", "minItems": 4, "maxItems": 4, "items": { "type": "string" } },
+        "finalRootfs": { "$ref": "#/$defs/rootfs" },
+        "differsFromNativeFinal": { "const": true }
+      }
+    },
+    "costDefinition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "unit", "definition"],
+      "properties": {
+        "id": { "enum": ["layer-count", "operation-count", "changed-byte-count", "transferred-byte-count"] },
+        "unit": { "type": "string", "minLength": 1 },
+        "definition": { "type": "string", "minLength": 1 }
+      }
+    },
+    "analysisProfile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["format", "formatVersion", "targetHistory", "targetState", "candidateHistories", "allowedOperations", "admissibilityRegime", "costFunctions"],
+      "properties": {
+        "format": { "const": "onto2d-oci-history-analysis-profile" },
+        "formatVersion": { "const": "1" },
+        "targetHistory": { "const": "history-a" },
+        "targetState": { "const": "final-rootfs" },
+        "candidateHistories": { "type": "array", "minItems": 4, "maxItems": 4, "uniqueItems": true, "items": { "enum": ["history-a", "history-b", "history-redundant", "history-grouped"] } },
+        "allowedOperations": { "type": "array", "minItems": 3, "maxItems": 3, "uniqueItems": true, "items": { "enum": ["add-file", "replace-file", "delete-file"] } },
+        "admissibilityRegime": { "const": "verified-native-layout-and-equal-final-rootfs-v1" },
+        "costFunctions": { "type": "array", "minItems": 4, "maxItems": 4, "items": { "$ref": "#/$defs/costDefinition" } }
+      }
+    },
+    "loadResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["costFunction", "unit", "definition", "observedHistory", "observedCost", "optimumCost", "optimumHistories", "historicalLoad", "candidateCosts"],
+      "properties": {
+        "costFunction": { "enum": ["layer-count", "operation-count", "changed-byte-count", "transferred-byte-count"] },
+        "unit": { "type": "string" },
+        "definition": { "type": "string" },
+        "observedHistory": { "const": "history-a" },
+        "observedCost": { "type": "integer", "minimum": 0 },
+        "optimumCost": { "type": "integer", "minimum": 0 },
+        "optimumHistories": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+        "historicalLoad": { "type": "integer", "minimum": 0 },
+        "candidateCosts": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["historyId", "cost"],
+            "properties": { "historyId": { "enum": ["history-a", "history-b", "history-redundant", "history-grouped"] }, "cost": { "type": "integer", "minimum": 0 } }
+          }
+        }
+      }
+    },
+    "historicalLoad": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "interpretation", "profile", "results"],
+      "properties": {
+        "status": { "const": "resolved-in-declared-space" },
+        "interpretation": { "type": "string", "minLength": 1 },
+        "profile": { "$ref": "#/$defs/analysisProfile" },
+        "results": { "type": "array", "minItems": 4, "maxItems": 4, "items": { "$ref": "#/$defs/loadResult" } }
+      }
+    }
+  }
+}

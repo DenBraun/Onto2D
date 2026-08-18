@@ -5,7 +5,7 @@ import {
   historyEffectLabel,
   historyModeLabel,
   loadHistoryRegistry
-} from "../external-cases/external-cases-catalog.js?v=20260818.4";
+} from "../external-cases/external-cases-catalog.js?v=20260818.6";
 
 const PROJECT_ROOT = new URL("../../", import.meta.url);
 const filterIds = Object.freeze(["mode", "effect", "domain", "evidence", "status", "load", "model"]);

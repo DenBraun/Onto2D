@@ -2,6 +2,16 @@
 
 Updated: 2026-08-18
 
+Status: implemented · `ANALYSIS_READY`
+
+Exact outputs:
+
+```text
+case artifact: cases/in-toto-admissibility/artifacts/in-toto-admissibility.json
+Model Pack:    in-toto-provenance / v1-647b20b320a109cc
+Explorer:      apps/in-toto-admissibility-explorer/
+```
+
 ## History Model Metadata
 
 ```text
@@ -234,3 +244,31 @@ artifact while assigning different admissibility status to those histories.
 A third party can replay the valid and invalid fixtures, obtain the same final
 artifact in the flagship comparison, and verify that provenance admissibility
 differs for explicit policy reasons.
+
+## Implemented Result
+
+Five deterministic Ed25519-signed execution fixtures reproduce the same final
+artifact SHA-256. `valid` passes native verification. `shortcut` fails because
+the required build link and material chain are absent; `material-break` fails
+the native MATCH rule; and `unauthorized-actor` fails functionary
+authorization while retaining the expected command and artifacts.
+
+The command experiment required one correction to the planning shorthand:
+in-toto v1.0 treats `expected_command` mismatch as warning-only. Accordingly,
+`command-deviation` passes native verification with a warning and fails only
+the separately disclosed `onto2d-exact-command-profile-v1`. This preserves the
+upstream semantics instead of turning an audit hint into an invented native
+constraint.
+
+Historical Load is resolved in the four-route declared space:
+
+```text
+step-count                2 - 1 = +1 construction step
+distinct-actor-count      2 - 1 = +1 distinct actor
+attestation-count         2 - 1 = +1 signed link
+material-transition-count 1 - 0 = +1 material transition
+```
+
+These are cost-relative Onto2D results, not in-toto metrics. The exact evidence
+boundary and its consequences are recorded in
+`docs/adr/0111-in-toto-admissibility-evidence-boundary.md`.

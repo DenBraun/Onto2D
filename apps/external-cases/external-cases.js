@@ -4,8 +4,9 @@ import {
   historyCaseById,
   historyEffectLabel,
   historyModeLabel,
-  loadHistoryRegistry
-} from "./external-cases-catalog.js?v=20260818.4";
+  loadHistoryRegistry,
+  modelStudioHref
+} from "./external-cases-catalog.js?v=20260818.6";
 
 const PROJECT_ROOT = new URL("../../", import.meta.url);
 const GITHUB_BLOB_ROOT = "https://github.com/DenBraun/Onto2D/blob/main/";
@@ -97,7 +98,7 @@ function renderActions(entry) {
   }
   if (entry.modelPackPath !== null) {
     const studio = element("a", "action-link", "Open Model Studio");
-    studio.href = projectUrl("apps/model-studio/");
+    studio.href = modelStudioHref(entry, PROJECT_ROOT);
     links.push(studio);
   }
   const documentLink = element("a", "action-link", "Implementation plan on GitHub");
@@ -135,6 +136,9 @@ function renderCase(cases, caseId = document.body.dataset.caseId) {
   if (description) description.content = `${entry.title}: ${entry.question}`;
   document.getElementById("case-header-title").textContent = entry.shortTitle;
   document.getElementById("case-domain").textContent = entry.domainLabel;
+  const studioNavigation = document.querySelector('.history-case-nav a[href*="model-studio/"]');
+  if (!studioNavigation) throw new Error("History case markup is missing its Model Studio navigation link.");
+  studioNavigation.href = modelStudioHref(entry, PROJECT_ROOT);
   const status = document.getElementById("case-status");
   status.textContent = entry.statusLabel;
   status.dataset.status = entry.statusKind;

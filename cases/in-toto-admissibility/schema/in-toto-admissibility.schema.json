@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schema/cases/in-toto-admissibility-v1.json",
+  "title": "Onto2D in-toto Admissibility Case v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["format", "formatVersion", "caseVersion", "generatedBy", "specification", "source", "layout", "artifacts", "executions", "experiments", "pathSpace", "historicalLoad", "evidenceBoundary", "caseIdentity"],
+  "properties": {
+    "format": { "const": "onto2d-in-toto-admissibility-case" },
+    "formatVersion": { "const": "1" },
+    "caseVersion": { "const": "in-toto-admissibility-v1" },
+    "generatedBy": { "const": "cases/in-toto-admissibility/extract.mjs" },
+    "specification": { "$ref": "#/$defs/specification" },
+    "source": { "$ref": "#/$defs/source" },
+    "layout": { "$ref": "#/$defs/layout" },
+    "artifacts": { "type": "object", "additionalProperties": false, "required": ["source", "final"], "properties": { "source": { "$ref": "#/$defs/artifact" }, "final": { "allOf": [{ "$ref": "#/$defs/artifact" }, { "type": "object", "required": ["utf8"], "properties": { "utf8": { "type": "string" } } }] } } },
+    "executions": { "type": "array", "minItems": 5, "maxItems": 5, "items": { "$ref": "#/$defs/execution" } },
+    "experiments": { "type": "array", "minItems": 4, "maxItems": 4, "items": { "type": "object" } },
+    "pathSpace": { "type": "object", "additionalProperties": false, "required": ["status", "routes"], "properties": { "status": { "const": "finite-declared-space" }, "routes": { "type": "array", "minItems": 4, "maxItems": 4, "items": { "$ref": "#/$defs/route" } } } },
+    "historicalLoad": { "$ref": "#/$defs/historicalLoad" },
+    "evidenceBoundary": { "type": "object", "additionalProperties": false, "required": ["native", "derived", "counterfactual", "unknown", "exclusions"], "properties": { "native": { "$ref": "#/$defs/strings" }, "derived": { "$ref": "#/$defs/strings" }, "counterfactual": { "$ref": "#/$defs/strings" }, "unknown": { "$ref": "#/$defs/strings" }, "exclusions": { "$ref": "#/$defs/strings" } } },
+    "caseIdentity": { "$ref": "#/$defs/sha256Prefixed" }
+  },
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "sha256Prefixed": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "strings": { "type": "array", "items": { "type": "string", "minLength": 1 }, "minItems": 1 },
+    "artifact": { "type": "object", "required": ["path", "sha256", "bytes"], "properties": { "path": { "type": "string", "minLength": 1 }, "sha256": { "$ref": "#/$defs/sha256" }, "bytes": { "type": "integer", "minimum": 0 } } },
+    "specification": { "type": "object", "additionalProperties": false, "required": ["name", "version", "source", "metadataProfile", "commandMismatchSemantics"], "properties": { "name": { "const": "in-toto Specification" }, "version": { "const": "1.0.0" }, "source": { "type": "string", "format": "uri" }, "metadataProfile": { "const": "layout-and-link-json-metablocks-ed25519" }, "commandMismatchSemantics": { "const": "warning-only" } } },
+    "sourceFile": { "type": "object", "additionalProperties": false, "required": ["path", "identity", "bytes"], "properties": { "path": { "type": "string", "minLength": 1 }, "identity": { "$ref": "#/$defs/sha256Prefixed" }, "bytes": { "type": "integer", "minimum": 1 } } },
+    "source": { "type": "object", "additionalProperties": false, "required": ["profile", "authoredFiles", "fixtureFiles", "identity"], "properties": { "profile": { "type": "object" }, "authoredFiles": { "type": "array", "items": { "$ref": "#/$defs/sourceFile" }, "minItems": 2 }, "fixtureFiles": { "type": "array", "items": { "$ref": "#/$defs/sourceFile" }, "minItems": 10 }, "identity": { "$ref": "#/$defs/sha256Prefixed" } } },
+    "layout": { "type": "object", "additionalProperties": false, "required": ["identity", "ownerKeyId", "expires", "keys", "steps", "inspections"], "properties": { "identity": { "$ref": "#/$defs/sha256Prefixed" }, "ownerKeyId": { "$ref": "#/$defs/sha256" }, "expires": { "type": "string" }, "keys": { "type": "object", "minProperties": 2 }, "steps": { "type": "array", "minItems": 2, "maxItems": 2 }, "inspections": { "type": "array", "minItems": 1, "maxItems": 1 } } },
+    "check": { "type": "object", "additionalProperties": false, "required": ["id", "label", "sourcePointer", "status", "detail", "evidenceClass"], "properties": { "id": { "type": "string" }, "label": { "type": "string" }, "sourcePointer": { "type": "string" }, "status": { "enum": ["pass", "fail"] }, "detail": { "type": "string" }, "evidenceClass": { "type": "string" } } },
+    "execution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "label", "evidenceClass", "actual", "finalArtifact", "links", "verification"],
+      "properties": {
+        "id": { "type": "string" },
+        "label": { "type": "string" },
+        "evidenceClass": { "const": "signed-native-link-set" },
+        "actual": { "const": true },
+        "finalArtifact": { "$ref": "#/$defs/artifact" },
+        "links": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 2,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["filename", "identity", "signerKeyId", "record"],
+            "properties": {
+              "filename": { "type": "string" },
+              "identity": { "$ref": "#/$defs/sha256Prefixed" },
+              "signerKeyId": { "$ref": "#/$defs/sha256" },
+              "record": { "type": "object" }
+            }
+          }
+        },
+        "verification": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["native", "strictCommand"],
+          "properties": {
+            "native": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["status", "checks", "warnings"],
+              "properties": {
+                "status": { "enum": ["accepted", "rejected"] },
+                "checks": { "type": "array", "items": { "$ref": "#/$defs/check" }, "minItems": 6 },
+                "warnings": { "type": "array", "items": { "type": "object" } }
+              }
+            },
+            "strictCommand": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["profile", "status", "basis"],
+              "properties": {
+                "profile": { "const": "onto2d-exact-command-profile-v1" },
+                "status": { "enum": ["accepted", "rejected"] },
+                "basis": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "route": { "type": "object", "additionalProperties": false, "required": ["id", "label", "possible", "admissible", "actual", "counterfactual", "costs", "rejection"], "properties": { "id": { "type": "string" }, "label": { "type": "string" }, "possible": { "const": true }, "admissible": { "type": "boolean" }, "actual": { "type": "boolean" }, "counterfactual": { "type": "boolean" }, "costs": { "type": "object", "additionalProperties": false, "required": ["steps", "actors", "attestations", "transitions"], "properties": { "steps": { "type": "integer", "minimum": 0 }, "actors": { "type": "integer", "minimum": 0 }, "attestations": { "type": "integer", "minimum": 0 }, "transitions": { "type": "integer", "minimum": 0 } } }, "rejection": { "type": ["string", "null"] } } },
+    "historicalLoad": { "type": "object", "additionalProperties": false, "required": ["status", "definition", "profile", "results", "nonClaim"], "properties": { "status": { "const": "resolved-in-declared-space" }, "definition": { "type": "string" }, "profile": { "type": "object" }, "results": { "type": "array", "minItems": 4, "maxItems": 4, "items": { "type": "object" } }, "nonClaim": { "type": "string" } } }
+  }
+}

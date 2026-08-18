@@ -1,0 +1,1580 @@
+{
+  "format": "onto2d-in-toto-admissibility-case",
+  "formatVersion": "1",
+  "caseVersion": "in-toto-admissibility-v1",
+  "generatedBy": "cases/in-toto-admissibility/extract.mjs",
+  "specification": {
+    "name": "in-toto Specification",
+    "version": "1.0.0",
+    "source": "https://github.com/in-toto/specification/blob/v1.0/in-toto-spec.md",
+    "metadataProfile": "layout-and-link-json-metablocks-ed25519",
+    "commandMismatchSemantics": "warning-only"
+  },
+  "source": {
+    "profile": {
+      "specification": "in-toto Specification v1.0.0",
+      "specificationUrl": "https://github.com/in-toto/specification/blob/v1.0/in-toto-spec.md",
+      "signatureEnvelope": "legacy-json-metablock",
+      "canonicalization": "sorted-key-utf8-json-v1",
+      "evaluationTime": "2026-08-18T12:00:00Z",
+      "layoutExpires": "2030-01-01T00:00:00Z"
+    },
+    "authoredFiles": [
+      {
+        "path": "fixture-spec.json",
+        "identity": "sha256:5997a2ebcee45b19653395bde460b1e9527cdcb919d132c160dc318f12669014",
+        "bytes": 1362
+      },
+      {
+        "path": "analysis-profile.json",
+        "identity": "sha256:68de4a045634a57514312d2331ec3ee07b96db88b77680fdbe5d40e05cc20278",
+        "bytes": 998
+      }
+    ],
+    "fixtureFiles": [
+      {
+        "path": "fixtures/root.layout",
+        "identity": "sha256:935b6dd5dfcdc0af756519b972a6ebf2af6ff143f0216c31cc724c4b82c3cd3a",
+        "bytes": 3246
+      },
+      {
+        "path": "fixtures/scenarios/command-deviation/build.75ae790ee58e.link",
+        "identity": "sha256:fcbc67580a55d98aee4d23eb38f2f0b74c93effe868ca268a4b8d9fd7c13ccec",
+        "bytes": 854
+      },
+      {
+        "path": "fixtures/scenarios/command-deviation/package.a0a1618f89d9.link",
+        "identity": "sha256:2404beb888f31fdaf5ac4e5771509c8364b87827526175ccdfa9d03bf89f400b",
+        "bytes": 880
+      },
+      {
+        "path": "fixtures/scenarios/material-break/build.75ae790ee58e.link",
+        "identity": "sha256:fcbc67580a55d98aee4d23eb38f2f0b74c93effe868ca268a4b8d9fd7c13ccec",
+        "bytes": 854
+      },
+      {
+        "path": "fixtures/scenarios/material-break/package.a0a1618f89d9.link",
+        "identity": "sha256:19e8eb46f28edaeb58c637c2929f248bfe93b9194054e55b7ab86389eace3158",
+        "bytes": 858
+      },
+      {
+        "path": "fixtures/scenarios/shortcut/package.a0a1618f89d9.link",
+        "identity": "sha256:0b096fd9378e13618189cc60aedf24472d5c05a92b026ac604e9ab682214d60f",
+        "bytes": 858
+      },
+      {
+        "path": "fixtures/scenarios/unauthorized-actor/build.75ae790ee58e.link",
+        "identity": "sha256:fcbc67580a55d98aee4d23eb38f2f0b74c93effe868ca268a4b8d9fd7c13ccec",
+        "bytes": 854
+      },
+      {
+        "path": "fixtures/scenarios/unauthorized-actor/package.b1df5c3a65c2.link",
+        "identity": "sha256:ec8e28508926bd2d7e4b46737df58cfec8e5c3e39634fe136e04948e070344a5",
+        "bytes": 858
+      },
+      {
+        "path": "fixtures/scenarios/valid/build.75ae790ee58e.link",
+        "identity": "sha256:fcbc67580a55d98aee4d23eb38f2f0b74c93effe868ca268a4b8d9fd7c13ccec",
+        "bytes": 854
+      },
+      {
+        "path": "fixtures/scenarios/valid/package.a0a1618f89d9.link",
+        "identity": "sha256:d0a4f366c03a169a839d830564fc6d5f2aeb0b1016288d889112dcb252694a61",
+        "bytes": 858
+      },
+      {
+        "path": "fixtures/target/dist/app.bin",
+        "identity": "sha256:bd909d18a2936d4468ff0618266007b1deef5e78804170af9c1b8ad8fdb5e5b3",
+        "bytes": 20
+      },
+      {
+        "path": "fixtures/target/src/main.txt",
+        "identity": "sha256:629889494837d6d6702f0817e1826f42e9f83486003dcbef5c87bbceb38bf76d",
+        "bytes": 30
+      },
+      {
+        "path": "fixtures/trusted-owner-key.json",
+        "identity": "sha256:7b8d60260fedb88c77768cf8204c7341e46f2bc9089ebca083e0aee02043d4f7",
+        "bytes": 229
+      }
+    ],
+    "identity": "sha256:add0ca72781e4d187439d4a33527a94ed7518a8aebe2c9bdc22c1a61a98012fd"
+  },
+  "layout": {
+    "identity": "sha256:febe42e57440a233b332cf437d88a55d81d8e14d7462df6bacc6a0b18088ec09",
+    "ownerKeyId": "63d00ee3cf4f5c61ad94efa696c68f13b608fe56ecea13fb144a6fd18e9235b9",
+    "expires": "2030-01-01T00:00:00Z",
+    "keys": {
+      "75ae790ee58e915231032b31c22a4065135d9e6fde9ab754f20c477df74e0ae2": {
+        "keytype": "ed25519",
+        "scheme": "ed25519",
+        "keyval": {
+          "public": "29acbae141bccaf0b22e1a94d34d0bc7361e526d0bfe12c89794bc9322966dd7"
+        }
+      },
+      "a0a1618f89d92cb75b9db27ca64ee976f3e3d07f9923cc43a81f5fb50273de8a": {
+        "keytype": "ed25519",
+        "scheme": "ed25519",
+        "keyval": {
+          "public": "2543b92ff1095511476adc8369db6ddc933665a11978dda1404ee1066ca9559d"
+        }
+      }
+    },
+    "steps": [
+      {
+        "_type": "step",
+        "name": "build",
+        "expected_materials": [
+          [
+            "REQUIRE",
+            "src/main.txt"
+          ],
+          [
+            "ALLOW",
+            "src/main.txt"
+          ],
+          [
+            "DISALLOW",
+            "*"
+          ]
+        ],
+        "expected_products": [
+          [
+            "REQUIRE",
+            "build/app.bin"
+          ],
+          [
+            "CREATE",
+            "build/app.bin"
+          ],
+          [
+            "DISALLOW",
+            "*"
+          ]
+        ],
+        "pubkeys": [
+          "75ae790ee58e915231032b31c22a4065135d9e6fde9ab754f20c477df74e0ae2"
+        ],
+        "expected_command": [
+          "node",
+          "build.mjs"
+        ],
+        "threshold": 1
+      },
+      {
+        "_type": "step",
+        "name": "package",
+        "expected_materials": [
+          [
+            "REQUIRE",
+            "build/app.bin"
+          ],
+          [
+            "MATCH",
+            "build/app.bin",
+            "WITH",
+            "PRODUCTS",
+            "FROM",
+            "build"
+          ],
+          [
+            "DISALLOW",
+            "*"
+          ]
+        ],
+        "expected_products": [
+          [
+            "REQUIRE",
+            "dist/app.bin"
+          ],
+          [
+            "CREATE",
+            "dist/app.bin"
+          ],
+          [
+            "DISALLOW",
+            "*"
+          ]
+        ],
+        "pubkeys": [
+          "a0a1618f89d92cb75b9db27ca64ee976f3e3d07f9923cc43a81f5fb50273de8a"
+        ],
+        "expected_command": [
+          "node",
+          "package.mjs"
+        ],
+        "threshold": 1
+      }
+    ],
+    "inspections": [
+      {
+        "_type": "inspection",
+        "name": "final-product",
+        "expected_materials": [
+          [
+            "REQUIRE",
+            "dist/app.bin"
+          ],
+          [
+            "MATCH",
+            "dist/app.bin",
+            "WITH",
+            "PRODUCTS",
+            "FROM",
+            "package"
+          ],
+          [
+            "DISALLOW",
+            "*"
+          ]
+        ],
+        "expected_products": [],
+        "run": [
+          "node",
+          "inspect.mjs"
+        ]
+      }
+    ]
+  },
+  "artifacts": {
+    "source": {
+      "path": "src/main.txt",
+      "sha256": "629889494837d6d6702f0817e1826f42e9f83486003dcbef5c87bbceb38bf76d",
+      "bytes": 30
+    },
+    "final": {
+      "path": "dist/app.bin",
+      "sha256": "bd909d18a2936d4468ff0618266007b1deef5e78804170af9c1b8ad8fdb5e5b3",
+      "bytes": 20,
+      "utf8": "onto2d-in-toto-demo\n"
+    }
+  },
+  "executions": [
+    {
+      "id": "valid",
+      "label": "Valid declared execution",
+      "evidenceClass": "signed-native-link-set",
+      "actual": true,
+      "finalArtifact": {
+        "path": "dist/app.bin",
+        "sha256": "bd909d18a2936d4468ff0618266007b1deef5e78804170af9c1b8ad8fdb5e5b3",
+        "bytes": 20
+      },
+      "links": [
+        {
+          "filename": "build.75ae790ee58e.link",
+          "identity": "sha256:999c536c502e88db4b06194b5ce7949f8747a1f0b679889c86b4b00194f5b7db",
+          "signerKeyId": "75ae790ee58e915231032b31c22a4065135d9e6fde9ab754f20c477df74e0ae2",
+          "record": {
+            "signatures": [
+              {
+                "keyid": "75ae790ee58e915231032b31c22a4065135d9e6fde9ab754f20c477df74e0ae2",
+                "sig": "3d8aed70ebda683b72acfb1acc0d1957d4c7c316a70edc74176bb48b72720229ec63920dbcc78f44b9a4da40cb8a4ee1e428b6924b597cb0eda0fc60ef03c20e"
+              }
+            ],
+            "signed": {
+              "_type": "link",
+              "name": "build",
+              "materials": {
+                "src/main.txt": {
+                  "sha256": "629889494837d6d6702f0817e1826f42e9f83486003dcbef5c87bbceb38bf76d"
+                }
+              },
+              "products": {
+                "build/app.bin": {
+                  "sha256": "bd909d18a2936d4468ff0618266007b1deef5e78804170af9c1b8ad8fdb5e5b3"
+                }
+              },
+              "command": [
+                "node",
+                "build.mjs"
+              ],
+              "byproducts": {
+                "stderr": "",
+                "stdout": "",
+                "return-value": 0
+              },
+              "environment": {
+                "variables": {},
+                "filesystem": {},
+                "workdir": "."
+              }
+            }
+          }
+        },
+        {
+          "filename": "package.a0a1618f89d9.link",
+          "identity": "sha256:d6e14885c87e9889759d11bce0ceb34b885bd92598a2a97f85537d07c608732e",
+          "signerKeyId": "a0a1618f89d92cb75b9db27ca64ee976f3e3d07f9923cc43a81f5fb50273de8a",
+          "record": {
+            "signatures": [
+              {
+                "keyid": "a0a1618f89d92cb75b9db27ca64ee976f3e3d07f9923cc43a81f5fb50273de8a",
+                "sig": "f860847537114cb9b5ef5bfdc446722ffaaa2a3b7183efd24bab337e96b256208f2a106d5a472fc17b653bda5b52a6059211131534ffc38cd37024126d2f180b"
+              }
+            ],
+            "signed": {
+              "_type": "link",
+              "name": "package",
+              "materials": {
+                "build/app.bin": {
+                  "sha256": "bd909d18a2936d4468ff0618266007b1deef5e78804170af9c1b8ad8fdb5e5b3"
+                }
+              },
+              "products": {
+                "dist/app.bin": {
+                  "sha256": "bd909d18a2936d4468ff0618266007b1deef5e78804170af9c1b8ad8fdb5e5b3"
+                }
+              },
+              "command": [
+                "node",
+                "package.mjs"
+              ],
+              "byproducts": {
+                "stderr": "",
+                "stdout": "",
+                "return-value": 0
+              },
+              "environment": {
+                "variables": {},
+                "filesystem": {},
+                "workdir": "."
+              }
+            }
+          }
+        }
+      ],
+      "verification": {
+        "native": {
+          "status": "accepted",
+          "checks": [
+            {
+              "id": "layout-signature",
+              "label": "Trusted owner signed the layout",
+              "sourcePointer": "root.layout.signatures[0]",
+              "status": "pass",
+              "detail": "The frozen project-owner key verifies the exact layout bytes.",
+              "evidenceClass": "cryptographically-verified"
+            },
+            {
+              "id": "layout-expiration",
+              "label": "Layout is fresh at the pinned evaluation time",
+              "sourcePointer": "root.layout.signed.expires",
+              "status": "pass",
+              "detail": "2026-08-18T12:00:00Z is evaluated against 2030-01-01T00:00:00Z.",
+              "evidenceClass": "direct-record"
+            },
+            {
+              "id": "build-required",
+              "label": "build link is present",
+              "sourcePointer": "root.layout.signed.steps[0]",
+              "status": "pass",
+              "detail": "One matching signed link record is present.",
+              "evidenceClass": "direct-record"
+            },
+            {
+              "id": "build-record-signature",
+              "label": "build record signature is valid",
+              "sourcePointer": "build.link.signatures[0]",
+              "status": "pass",
+              "detail": "The signature authenticates the exact link body.",
+              "evidenceClass": "cryptographically-verified"
+            },
+            {
+              "id": "build-authorized",
+              "label": "build actor is authorized",
+              "sourcePointer": "root.layout.signed.steps[0].pubkeys",
+              "status": "pass",
+              "detail": "The signing key is authorized by the layout.",
+              "evidenceClass": "cryptographically-verified"
+            },
+            {
+              "id": "build-threshold",
+              "label": "build signature threshold is met",
+              "sourcePointer": "root.layout.signed.steps[0].threshold",
+              "status": "pass",
+              "detail": "One authorized signature satisfies threshold 1.",
+              "evidenceClass": "cryptographically-verified"
+            },
+            {
+              "id": "package-required",
+              "label": "package link is present",
+              "sourcePointer": "root.layout.signed.steps[1]",
+              "status": "pass",
+              "detail": "One matching signed link record is present.",
+              "evidenceClass": "direct-record"
+            },
+            {
+              "id": "package-record-signature",
+              "label": "package record signature is valid",
+              "sourcePointer": "package.link.signatures[0]",
+              "status": "pass",
+              "detail": "The signature authenticates the exact link body.",
+              "evidenceClass": "cryptographically-verified"
+            },
+            {
+              "id": "package-authorized",
+              "label": "package actor is authorized",
+              "sourcePointer": "root.layout.signed.steps[1].pubkeys",
+              "status": "pass",
+              "detail": "The signing key is authorized by the layout.",
+              "evidenceClass": "cryptographically-verified"
+            },
+            {
+              "id": "package-threshold",
+              "label": "package signature threshold is met",
+              "sourcePointer": "root.layout.signed.steps[1].threshold",
+              "status": "pass",
+              "detail": "One authorized signature satisfies threshold 1.",
+              "evidenceClass": "cryptographically-verified"
+            },
+            {
+              "id": "build-material-rules",
+              "label": "Build materials satisfy REQUIRE / ALLOW / DISALLOW",
+              "sourcePointer": "root.layout.signed.steps[0].expected_materials",
+              "status": "pass",
+              "detail": "The exact source artifact is the only recorded build material.",
+              "evidenceClass": "native-rule-evaluation"
+            },
+            {
+              "id": "build-product-rules",
+              "label": "Build products satisfy REQUIRE / CREATE / DISALLOW",
+              "sourcePointer": "root.layout.signed.steps[0].expected_products",
+              "status": "pass",
+              "detail": "The expected intermediate is created with the final content hash.",
+              "evidenceClass": "native-rule-evaluation"
+            },
+            {
+              "id": "package-material-match",
+              "label": "Package material MATCHes the build product",
+              "sourcePointer": "root.layout.signed.steps[1].expected_materials",
+              "status": "pass",
+              "detail": "The native SHA-256 hash crosses the step boundary unchanged.",
+              "evidenceClass": "native-rule-evaluation"
+            },
+            {
+              "id": "package-product-rules",
+              "label": "Package products satisfy REQUIRE / CREATE / DISALLOW",
+              "sourcePointer": "root.layout.signed.steps[1].expected_products",
+              "status": "pass",
+              "detail": "The expected final artifact is the only package product.",
+              "evidenceClass": "native-rule-evaluation"
+            },
+            {
+              "id": "final-inspection",
+              "label": "Final product MATCHes the package product",
+              "sourcePointer": "root.layout.signed.inspect[0].expected_materials",
+              "status": "pass",
+              "detail": "The client-side target hash matches the signed package product.",
+              "evidenceClass": "native-rule-evaluation"
+            }
+          ],
+          "warnings": []
+        },
+        "strictCommand": {
+          "profile": "onto2d-exact-command-profile-v1",
+          "status": "accepted",
+          "basis": "native verification and exact commands pass"
+        }
+      }
+    },
+    {
+      "id": "shortcut",
+      "label": "Same output through a missing build step",
+      "evidenceClass": "signed-native-link-set",
+      "actual": true,
+      "finalArtifact": {
+        "path": "dist/app.bin",
+        "sha256": "bd909d18a2936d4468ff0618266007b1deef5e78804170af9c1b8ad8fdb5e5b3",
+        "bytes": 20
+      },
+      "links": [
+        {
+          "filename": "package.a0a1618f89d9.link",
+          "identity": "sha256:e9930c35c07db888a1c0724ea9e56bbc7042d90f1af1b923f28c8b1891ac5ccb",
+          "signerKeyId": "a0a1618f89d92cb75b9db27ca64ee976f3e3d07f9923cc43a81f5fb50273de8a",
+          "record": {
+            "signatures": [
+              {
+                "keyid": "a0a1618f89d92cb75b9db27ca64ee976f3e3d07f9923cc43a81f5fb50273de8a",
+                "sig": "66fe00189ddf4b554096b1eb71b3e4377143531487cee77776b83035ba1e4ad28550aabe70762fc32b2e42f55368aa94017dea5ee759d54f9df18c8215cac80b"
+              }
+            ],
+            "signed": {
+              "_type": "link",
+              "name": "package",
+              "materials": {
+                "src/main.txt": {
+                  "sha256": "629889494837d6d6702f0817e1826f42e9f83486003dcbef5c87bbceb38bf76d"
+                }
+              },
+              "products": {
+                "dist/app.bin": {
+                  "sha256": "bd909d18a2936d4468ff0618266007b1deef5e78804170af9c1b8ad8fdb5e5b3"
+                }
+              },
+              "command": [
+                "node",
+                "shortcut.mjs"
+              ],
+              "byproducts": {
+                "stderr": "",
+                "stdout": "",
+                "return-value": 0
+              },
+              "environment": {
+                "variables": {},
+                "filesystem": {},
+                "workdir": "."
+              }
+            }
+          }
+        }
+      ],
+      "verification": {
+        "native": {
+          "status": "rejected",
+          "checks": [
+            {
+              "id": "layout-signature",
+              "label": "Trusted owner signed the layout",
+              "sourcePointer": "root.layout.signatures[0]",
+              "status": "pass",
+              "detail": "The frozen project-owner key verifies the exact layout bytes.",
+              "evidenceClass": "cryptographically-verified"
+            },
+            {
+              "id": "layout-expiration",
+              "label": "Layout is fresh at the pinned evaluation time",
+              "sourcePointer": "root.layout.signed.expires",
+              "status": "pass",
+              "detail": "2026-08-18T12:00:00Z is evaluated against 2030-01-01T00:00:00Z.",
+              "evidenceClass": "direct-record"
+            },
+            {
+              "id": "build-required",
+              "label": "build link is present",
+              "sourcePointer": "root.layout.signed.steps[0]",
+              "status": "fail",
+              "detail": "No matching link record is present.",
+              "evidenceClass": "direct-record"
+            },
+            {
+              "id": "package-required",
+              "label": "package link is present",
+              "sourcePointer": "root.layout.signed.steps[1]",
+              "status": "pass",
+              "detail": "One matching signed link record is present.",
+              "evidenceClass": "direct-record"
+            },
+            {
+              "id": "package-record-signature",
+              "label": "package record signature is valid",
+              "sourcePointer": "package.link.signatures[0]",
+              "status": "pass",
+              "detail": "The signature authenticates the exact link body.",
+              "evidenceClass": "cryptographically-verified"
+            },
+            {
+              "id": "package-authorized",
+              "label": "package actor is authorized",
+              "sourcePointer": "root.layout.signed.steps[1].pubkeys",
+              "status": "pass",
+              "detail": "The signing key is authorized by the layout.",
+              "evidenceClass": "cryptographically-verified"
+            },
+            {
+              "id": "package-threshold",
+              "label": "package signature threshold is met",
+              "sourcePointer": "root.layout.signed.steps[1].threshold",
+              "status": "pass",
+              "detail": "One authorized signature satisfies threshold 1.",
+              "evidenceClass": "cryptographically-verified"
+            },
+            {
+              "id": "build-material-rules",
+              "label": "Build materials satisfy REQUIRE / ALLOW / DISALLOW",
+              "sourcePointer": "root.layout.signed.steps[0].expected_materials",
+              "status": "fail",
+              "detail": "The required source is absent or an undeclared material is present.",
+              "evidenceClass": "native-rule-evaluation"
+            },
+            {
+              "id": "build-product-rules",
+              "label": "Build products satisfy REQUIRE / CREATE / DISALLOW",
+              "sourcePointer": "root.layout.signed.steps[0].expected_products",
+              "status": "fail",
+              "detail": "The expected build product is absent, changed, or not a creation.",
+              "evidenceClass": "native-rule-evaluation"
+            },
+            {
+              "id": "package-material-match",
+              "label": "Package material MATCHes the build product",
+              "sourcePointer": "root.layout.signed.steps[1].expected_materials",
+              "status": "fail",
+              "detail": "The required intermediate is absent or does not match the build product.",
+              "evidenceClass": "native-rule-evaluation"
+            },
+            {
+              "id": "package-product-rules",
+              "label": "Package products satisfy REQUIRE / CREATE / DISALLOW",
+              "sourcePointer": "root.layout.signed.steps[1].expected_products",
+              "status": "pass",
+              "detail": "The expected final artifact is the only package product.",
+              "evidenceClass": "native-rule-evaluation"
+            },
+            {
+              "id": "final-inspection",
+              "label": "Final product MATCHes the package product",
+              "sourcePointer": "root.layout.signed.inspect[0].expected_materials",
+              "status": "pass",
+              "detail": "The client-side target hash matches the signed package product.",
+              "evidenceClass": "native-rule-evaluation"
+            }
+          ],
+          "warnings": [
+            {
+              "id": "package-command-mismatch",
+              "label": "package command differs from expected_command",
+              "sourcePointer": "root.layout.signed.steps[1].expected_command",
+              "nativeEffect": "warning-only",
+              "detail": "in-toto v1.0 treats expected_command mismatch as an audit warning, not a verification failure."
+            }
+          ]
+        },
+        "strictCommand": {
+          "profile": "onto2d-exact-command-profile-v1",
+          "status": "rejected",
+          "basis": "native verification already failed"
+        }
+      }
+    },
+    {
+      "id": "material-break",
+      "label": "Broken product-to-material continuity",
+      "evidenceClass": "signed-native-link-set",
+      "actual": true,
+      "finalArtifact": {
+        "path": "dist/app.bin",
+        "sha256": "bd909d18a2936d4468ff0618266007b1deef5e78804170af9c1b8ad8fdb5e5b3",
+        "bytes": 20
+      },
+      "links": [
+        {
+          "filename": "build.75ae790ee58e.link",
+          "identity": "sha256:999c536c502e88db4b06194b5ce7949f8747a1f0b679889c86b4b00194f5b7db",
+          "signerKeyId": "75ae790ee58e915231032b31c22a4065135d9e6fde9ab754f20c477df74e0ae2",
+          "record": {
+            "signatures": [
+              {
+                "keyid": "75ae790ee58e915231032b31c22a4065135d9e6fde9ab754f20c477df74e0ae2",
+                "sig": "3d8aed70ebda683b72acfb1acc0d1957d4c7c316a70edc74176bb48b72720229ec63920dbcc78f44b9a4da40cb8a4ee1e428b6924b597cb0eda0fc60ef03c20e"
+              }
+            ],
+            "signed": {
+              "_type": "link",
+              "name": "build",
+              "materials": {
+                "src/main.txt": {
+                  "sha256": "629889494837d6d6702f0817e1826f42e9f83486003dcbef5c87bbceb38bf76d"
+                }
+              },
+              "products": {
+                "build/app.bin": {
+                  "sha256": "bd909d18a2936d4468ff0618266007b1deef5e78804170af9c1b8ad8fdb5e5b3"
+                }
+              },
+              "command": [
+                "node",
+                "build.mjs"
+              ],
+              "byproducts": {
+                "stderr": "",
+                "stdout": "",
+                "return-value": 0
+              },
+              "environment": {
+                "variables": {},
+                "filesystem": {},
+                "workdir": "."
+              }
+            }
+          }
+        },
+        {
+          "filename": "package.a0a1618f89d9.link",
+          "identity": "sha256:bdf99faaeff5694730130da4d34802b17a3189d5324b9a7b042aee00f4f85ddb",
+          "signerKeyId": "a0a1618f89d92cb75b9db27ca64ee976f3e3d07f9923cc43a81f5fb50273de8a",
+          "record": {
+            "signatures": [
+              {
+                "keyid": "a0a1618f89d92cb75b9db27ca64ee976f3e3d07f9923cc43a81f5fb50273de8a",
+                "sig": "36b816965d1bd5cf62a4e84019eafeb085de1af7fe80aea757def2ba6f4991d31826ecb52008bd203e51523aaac342f84d15cea1758cac5344ce0a6bd01f290c"
+              }
+            ],
+            "signed": {
+              "_type": "link",
+              "name": "package",
+              "materials": {
+                "build/app.bin": {
+                  "sha256": "2087a01adcb0e137d9d998b325452721cdac936256b4b0cd4f861dbb50d06292"
+                }
+              },
+              "products": {
+                "dist/app.bin": {
+                  "sha256": "bd909d18a2936d4468ff0618266007b1deef5e78804170af9c1b8ad8fdb5e5b3"
+                }
+              },
+              "command": [
+                "node",
+                "package.mjs"
+              ],
+              "byproducts": {
+                "stderr": "",
+                "stdout": "",
+                "return-value": 0
+              },
+              "environment": {
+                "variables": {},
+                "filesystem": {},
+                "workdir": "."
+              }
+            }
+          }
+        }
+      ],
+      "verification": {
+        "native": {
+          "status": "rejected",
+          "checks": [
+            {
+              "id": "layout-signature",
+              "label": "Trusted owner signed the layout",
+              "sourcePointer": "root.layout.signatures[0]",
+              "status": "pass",
+              "detail": "The frozen project-owner key verifies the exact layout bytes.",
+              "evidenceClass": "cryptographically-verified"
+            },
+            {
+              "id": "layout-expiration",
+              "label": "Layout is fresh at the pinned evaluation time",
+              "sourcePointer": "root.layout.signed.expires",
+              "status": "pass",
+              "detail": "2026-08-18T12:00:00Z is evaluated against 2030-01-01T00:00:00Z.",
+              "evidenceClass": "direct-record"
+            },
+            {
+              "id": "build-required",
+              "label": "build link is present",
+              "sourcePointer": "root.layout.signed.steps[0]",
+              "status": "pass",
+              "detail": "One matching signed link record is present.",
+              "evidenceClass": "direct-record"
+            },
+            {
+              "id": "build-record-signature",
+              "label": "build record signature is valid",
+              "sourcePointer": "build.link.signatures[0]",
+              "status": "pass",
+              "detail": "The signature authenticates the exact link body.",
+              "evidenceClass": "cryptographically-verified"
+            },
+            {
+              "id": "build-authorized",
+              "label": "build actor is authorized",
+              "sourcePointer": "root.layout.signed.steps[0].pubkeys",
+              "status": "pass",
+              "detail": "The signing key is authorized by the layout.",
+              "evidenceClass": "cryptographically-verified"
+            },
+            {
+              "id": "build-threshold",
+              "label": "build signature threshold is met",
+              "sourcePointer": "root.layout.signed.steps[0].threshold",
+              "status": "pass",
+              "detail": "One authorized signature satisfies threshold 1.",
+              "evidenceClass": "cryptographically-verified"
+            },
+            {
+              "id": "package-required",
+              "label": "package link is present",
+              "sourcePointer": "root.layout.signed.steps[1]",
+              "status": "pass",
+              "detail": "One matching signed link record is present.",
+              "evidenceClass": "direct-record"
+            },
+            {
+              "id": "package-record-signature",
+              "label": "package record signature is valid",
+              "sourcePointer": "package.link.signatures[0]",
+              "status": "pass",
+              "detail": "The signature authenticates the exact link body.",
+              "evidenceClass": "cryptographically-verified"
+            },
+            {
+              "id": "package-authorized",
+              "label": "package actor is authorized",
+              "sourcePointer": "root.layout.signed.steps[1].pubkeys",
+              "status": "pass",
+              "detail": "The signing key is authorized by the layout.",
+              "evidenceClass": "cryptographically-verified"
+            },
+            {
+              "id": "package-threshold",
+              "label": "package signature threshold is met",
+              "sourcePointer": "root.layout.signed.steps[1].threshold",
+              "status": "pass",
+              "detail": "One authorized signature satisfies threshold 1.",
+              "evidenceClass": "cryptographically-verified"
+            },
+            {
+              "id": "build-material-rules",
+              "label": "Build materials satisfy REQUIRE / ALLOW / DISALLOW",
+              "sourcePointer": "root.layout.signed.steps[0].expected_materials",
+              "status": "pass",
+              "detail": "The exact source artifact is the only recorded build material.",
+              "evidenceClass": "native-rule-evaluation"
+            },
+            {
+              "id": "build-product-rules",
+              "label": "Build products satisfy REQUIRE / CREATE / DISALLOW",
+              "sourcePointer": "root.layout.signed.steps[0].expected_products",
+              "status": "pass",
+              "detail": "The expected intermediate is created with the final content hash.",
+              "evidenceClass": "native-rule-evaluation"
+            },
+            {
+              "id": "package-material-match",
+              "label": "Package material MATCHes the build product",
+              "sourcePointer": "root.layout.signed.steps[1].expected_materials",
+              "status": "fail",
+              "detail": "The required intermediate is absent or does not match the build product.",
+              "evidenceClass": "native-rule-evaluation"
+            },
+            {
+              "id": "package-product-rules",
+              "label": "Package products satisfy REQUIRE / CREATE / DISALLOW",
+              "sourcePointer": "root.layout.signed.steps[1].expected_products",
+              "status": "pass",
+              "detail": "The expected final artifact is the only package product.",
+              "evidenceClass": "native-rule-evaluation"
+            },
+            {
+              "id": "final-inspection",
+              "label": "Final product MATCHes the package product",
+              "sourcePointer": "root.layout.signed.inspect[0].expected_materials",
+              "status": "pass",
+              "detail": "The client-side target hash matches the signed package product.",
+              "evidenceClass": "native-rule-evaluation"
+            }
+          ],
+          "warnings": []
+        },
+        "strictCommand": {
+          "profile": "onto2d-exact-command-profile-v1",
+          "status": "rejected",
+          "basis": "native verification already failed"
+        }
+      }
+    },
+    {
+      "id": "unauthorized-actor",
+      "label": "Package link signed by an unauthorized actor",
+      "evidenceClass": "signed-native-link-set",
+      "actual": true,
+      "finalArtifact": {
+        "path": "dist/app.bin",
+        "sha256": "bd909d18a2936d4468ff0618266007b1deef5e78804170af9c1b8ad8fdb5e5b3",
+        "bytes": 20
+      },
+      "links": [
+        {
+          "filename": "build.75ae790ee58e.link",
+          "identity": "sha256:999c536c502e88db4b06194b5ce7949f8747a1f0b679889c86b4b00194f5b7db",
+          "signerKeyId": "75ae790ee58e915231032b31c22a4065135d9e6fde9ab754f20c477df74e0ae2",
+          "record": {
+            "signatures": [
+              {
+                "keyid": "75ae790ee58e915231032b31c22a4065135d9e6fde9ab754f20c477df74e0ae2",
+                "sig": "3d8aed70ebda683b72acfb1acc0d1957d4c7c316a70edc74176bb48b72720229ec63920dbcc78f44b9a4da40cb8a4ee1e428b6924b597cb0eda0fc60ef03c20e"
+              }
+            ],
+            "signed": {
+              "_type": "link",
+              "name": "build",
+              "materials": {
+                "src/main.txt": {
+                  "sha256": "629889494837d6d6702f0817e1826f42e9f83486003dcbef5c87bbceb38bf76d"
+                }
+              },
+              "products": {
+                "build/app.bin": {
+                  "sha256": "bd909d18a2936d4468ff0618266007b1deef5e78804170af9c1b8ad8fdb5e5b3"
+                }
+              },
+              "command": [
+                "node",
+                "build.mjs"
+              ],
+              "byproducts": {
+                "stderr": "",
+                "stdout": "",
+                "return-value": 0
+              },
+              "environment": {
+                "variables": {},
+                "filesystem": {},
+                "workdir": "."
+              }
+            }
+          }
+        },
+        {
+          "filename": "package.b1df5c3a65c2.link",
+          "identity": "sha256:23f0bb67fb0283f51a5997fe49fa5e4c4d2aa2e71c3b6c7d93bd12f79394d43d",
+          "signerKeyId": "b1df5c3a65c20294e06b21122df2648d6b418a943ff548aa5d1619e942df71e0",
+          "record": {
+            "signatures": [
+              {
+                "keyid": "b1df5c3a65c20294e06b21122df2648d6b418a943ff548aa5d1619e942df71e0",
+                "sig": "914eec1612cef0ef40e75bb63c44b6b17c63ebaaec07507904e0695c82a3fe5bfe623f96a309a7d674398d8225ac173810296928cf102064ec07ceef6efe7c04"
+              }
+            ],
+            "signed": {
+              "_type": "link",
+              "name": "package",
+              "materials": {
+                "build/app.bin": {
+                  "sha256": "bd909d18a2936d4468ff0618266007b1deef5e78804170af9c1b8ad8fdb5e5b3"
+                }
+              },
+              "products": {
+                "dist/app.bin": {
+                  "sha256": "bd909d18a2936d4468ff0618266007b1deef5e78804170af9c1b8ad8fdb5e5b3"
+                }
+              },
+              "command": [
+                "node",
+                "package.mjs"
+              ],
+              "byproducts": {
+                "stderr": "",
+                "stdout": "",
+                "return-value": 0
+              },
+              "environment": {
+                "variables": {},
+                "filesystem": {},
+                "workdir": "."
+              }
+            }
+          }
+        }
+      ],
+      "verification": {
+        "native": {
+          "status": "rejected",
+          "checks": [
+            {
+              "id": "layout-signature",
+              "label": "Trusted owner signed the layout",
+              "sourcePointer": "root.layout.signatures[0]",
+              "status": "pass",
+              "detail": "The frozen project-owner key verifies the exact layout bytes.",
+              "evidenceClass": "cryptographically-verified"
+            },
+            {
+              "id": "layout-expiration",
+              "label": "Layout is fresh at the pinned evaluation time",
+              "sourcePointer": "root.layout.signed.expires",
+              "status": "pass",
+              "detail": "2026-08-18T12:00:00Z is evaluated against 2030-01-01T00:00:00Z.",
+              "evidenceClass": "direct-record"
+            },
+            {
+              "id": "build-required",
+              "label": "build link is present",
+              "sourcePointer": "root.layout.signed.steps[0]",
+              "status": "pass",
+              "detail": "One matching signed link record is present.",
+              "evidenceClass": "direct-record"
+            },
+            {
+              "id": "build-record-signature",
+              "label": "build record signature is valid",
+              "sourcePointer": "build.link.signatures[0]",
+              "status": "pass",
+              "detail": "The signature authenticates the exact link body.",
+              "evidenceClass": "cryptographically-verified"
+            },
+            {
+              "id": "build-authorized",
+              "label": "build actor is authorized",
+              "sourcePointer": "root.layout.signed.steps[0].pubkeys",
+              "status": "pass",
+              "detail": "The signing key is authorized by the layout.",
+              "evidenceClass": "cryptographically-verified"
+            },
+            {
+              "id": "build-threshold",
+              "label": "build signature threshold is met",
+              "sourcePointer": "root.layout.signed.steps[0].threshold",
+              "status": "pass",
+              "detail": "One authorized signature satisfies threshold 1.",
+              "evidenceClass": "cryptographically-verified"
+            },
+            {
+              "id": "package-required",
+              "label": "package link is present",
+              "sourcePointer": "root.layout.signed.steps[1]",
+              "status": "pass",
+              "detail": "One matching signed link record is present.",
+              "evidenceClass": "direct-record"
+            },
+            {
+              "id": "package-record-signature",
+              "label": "package record signature is valid",
+              "sourcePointer": "package.link.signatures[0]",
+              "status": "pass",
+              "detail": "The signature authenticates the exact link body.",
+              "evidenceClass": "cryptographically-verified"
+            },
+            {
+              "id": "package-authorized",
+              "label": "package actor is authorized",
+              "sourcePointer": "root.layout.signed.steps[1].pubkeys",
+              "status": "fail",
+              "detail": "The signing key is not an authorized functionary for this step.",
+              "evidenceClass": "cryptographically-verified"
+            },
+            {
+              "id": "package-threshold",
+              "label": "package signature threshold is met",
+              "sourcePointer": "root.layout.signed.steps[1].threshold",
+              "status": "fail",
+              "detail": "Threshold 1 has no authorized valid signature.",
+              "evidenceClass": "cryptographically-verified"
+            },
+            {
+              "id": "build-material-rules",
+              "label": "Build materials satisfy REQUIRE / ALLOW / DISALLOW",
+              "sourcePointer": "root.layout.signed.steps[0].expected_materials",
+              "status": "pass",
+              "detail": "The exact source artifact is the only recorded build material.",
+              "evidenceClass": "native-rule-evaluation"
+            },
+            {
+              "id": "build-product-rules",
+              "label": "Build products satisfy REQUIRE / CREATE / DISALLOW",
+              "sourcePointer": "root.layout.signed.steps[0].expected_products",
+              "status": "pass",
+              "detail": "The expected intermediate is created with the final content hash.",
+              "evidenceClass": "native-rule-evaluation"
+            },
+            {
+              "id": "package-material-match",
+              "label": "Package material MATCHes the build product",
+              "sourcePointer": "root.layout.signed.steps[1].expected_materials",
+              "status": "pass",
+              "detail": "The native SHA-256 hash crosses the step boundary unchanged.",
+              "evidenceClass": "native-rule-evaluation"
+            },
+            {
+              "id": "package-product-rules",
+              "label": "Package products satisfy REQUIRE / CREATE / DISALLOW",
+              "sourcePointer": "root.layout.signed.steps[1].expected_products",
+              "status": "pass",
+              "detail": "The expected final artifact is the only package product.",
+              "evidenceClass": "native-rule-evaluation"
+            },
+            {
+              "id": "final-inspection",
+              "label": "Final product MATCHes the package product",
+              "sourcePointer": "root.layout.signed.inspect[0].expected_materials",
+              "status": "pass",
+              "detail": "The client-side target hash matches the signed package product.",
+              "evidenceClass": "native-rule-evaluation"
+            }
+          ],
+          "warnings": []
+        },
+        "strictCommand": {
+          "profile": "onto2d-exact-command-profile-v1",
+          "status": "rejected",
+          "basis": "native verification already failed"
+        }
+      }
+    },
+    {
+      "id": "command-deviation",
+      "label": "Expected output from a different command",
+      "evidenceClass": "signed-native-link-set",
+      "actual": true,
+      "finalArtifact": {
+        "path": "dist/app.bin",
+        "sha256": "bd909d18a2936d4468ff0618266007b1deef5e78804170af9c1b8ad8fdb5e5b3",
+        "bytes": 20
+      },
+      "links": [
+        {
+          "filename": "build.75ae790ee58e.link",
+          "identity": "sha256:999c536c502e88db4b06194b5ce7949f8747a1f0b679889c86b4b00194f5b7db",
+          "signerKeyId": "75ae790ee58e915231032b31c22a4065135d9e6fde9ab754f20c477df74e0ae2",
+          "record": {
+            "signatures": [
+              {
+                "keyid": "75ae790ee58e915231032b31c22a4065135d9e6fde9ab754f20c477df74e0ae2",
+                "sig": "3d8aed70ebda683b72acfb1acc0d1957d4c7c316a70edc74176bb48b72720229ec63920dbcc78f44b9a4da40cb8a4ee1e428b6924b597cb0eda0fc60ef03c20e"
+              }
+            ],
+            "signed": {
+              "_type": "link",
+              "name": "build",
+              "materials": {
+                "src/main.txt": {
+                  "sha256": "629889494837d6d6702f0817e1826f42e9f83486003dcbef5c87bbceb38bf76d"
+                }
+              },
+              "products": {
+                "build/app.bin": {
+                  "sha256": "bd909d18a2936d4468ff0618266007b1deef5e78804170af9c1b8ad8fdb5e5b3"
+                }
+              },
+              "command": [
+                "node",
+                "build.mjs"
+              ],
+              "byproducts": {
+                "stderr": "",
+                "stdout": "",
+                "return-value": 0
+              },
+              "environment": {
+                "variables": {},
+                "filesystem": {},
+                "workdir": "."
+              }
+            }
+          }
+        },
+        {
+          "filename": "package.a0a1618f89d9.link",
+          "identity": "sha256:3a3e1d54b594d16ec544b671079ba571e89e9b5b96f7f1017deb282e1f0abe95",
+          "signerKeyId": "a0a1618f89d92cb75b9db27ca64ee976f3e3d07f9923cc43a81f5fb50273de8a",
+          "record": {
+            "signatures": [
+              {
+                "keyid": "a0a1618f89d92cb75b9db27ca64ee976f3e3d07f9923cc43a81f5fb50273de8a",
+                "sig": "720d2d219e1fb0a6fc914a1ca40ffeda1d7c3df03e54b4f2599196b5d72f2d052b30295762966797b4b5de8665725a8e79f017586545700c82c4420bdec74a02"
+              }
+            ],
+            "signed": {
+              "_type": "link",
+              "name": "package",
+              "materials": {
+                "build/app.bin": {
+                  "sha256": "bd909d18a2936d4468ff0618266007b1deef5e78804170af9c1b8ad8fdb5e5b3"
+                }
+              },
+              "products": {
+                "dist/app.bin": {
+                  "sha256": "bd909d18a2936d4468ff0618266007b1deef5e78804170af9c1b8ad8fdb5e5b3"
+                }
+              },
+              "command": [
+                "cp",
+                "build/app.bin",
+                "dist/app.bin"
+              ],
+              "byproducts": {
+                "stderr": "",
+                "stdout": "",
+                "return-value": 0
+              },
+              "environment": {
+                "variables": {},
+                "filesystem": {},
+                "workdir": "."
+              }
+            }
+          }
+        }
+      ],
+      "verification": {
+        "native": {
+          "status": "accepted",
+          "checks": [
+            {
+              "id": "layout-signature",
+              "label": "Trusted owner signed the layout",
+              "sourcePointer": "root.layout.signatures[0]",
+              "status": "pass",
+              "detail": "The frozen project-owner key verifies the exact layout bytes.",
+              "evidenceClass": "cryptographically-verified"
+            },
+            {
+              "id": "layout-expiration",
+              "label": "Layout is fresh at the pinned evaluation time",
+              "sourcePointer": "root.layout.signed.expires",
+              "status": "pass",
+              "detail": "2026-08-18T12:00:00Z is evaluated against 2030-01-01T00:00:00Z.",
+              "evidenceClass": "direct-record"
+            },
+            {
+              "id": "build-required",
+              "label": "build link is present",
+              "sourcePointer": "root.layout.signed.steps[0]",
+              "status": "pass",
+              "detail": "One matching signed link record is present.",
+              "evidenceClass": "direct-record"
+            },
+            {
+              "id": "build-record-signature",
+              "label": "build record signature is valid",
+              "sourcePointer": "build.link.signatures[0]",
+              "status": "pass",
+              "detail": "The signature authenticates the exact link body.",
+              "evidenceClass": "cryptographically-verified"
+            },
+            {
+              "id": "build-authorized",
+              "label": "build actor is authorized",
+              "sourcePointer": "root.layout.signed.steps[0].pubkeys",
+              "status": "pass",
+              "detail": "The signing key is authorized by the layout.",
+              "evidenceClass": "cryptographically-verified"
+            },
+            {
+              "id": "build-threshold",
+              "label": "build signature threshold is met",
+              "sourcePointer": "root.layout.signed.steps[0].threshold",
+              "status": "pass",
+              "detail": "One authorized signature satisfies threshold 1.",
+              "evidenceClass": "cryptographically-verified"
+            },
+            {
+              "id": "package-required",
+              "label": "package link is present",
+              "sourcePointer": "root.layout.signed.steps[1]",
+              "status": "pass",
+              "detail": "One matching signed link record is present.",
+              "evidenceClass": "direct-record"
+            },
+            {
+              "id": "package-record-signature",
+              "label": "package record signature is valid",
+              "sourcePointer": "package.link.signatures[0]",
+              "status": "pass",
+              "detail": "The signature authenticates the exact link body.",
+              "evidenceClass": "cryptographically-verified"
+            },
+            {
+              "id": "package-authorized",
+              "label": "package actor is authorized",
+              "sourcePointer": "root.layout.signed.steps[1].pubkeys",
+              "status": "pass",
+              "detail": "The signing key is authorized by the layout.",
+              "evidenceClass": "cryptographically-verified"
+            },
+            {
+              "id": "package-threshold",
+              "label": "package signature threshold is met",
+              "sourcePointer": "root.layout.signed.steps[1].threshold",
+              "status": "pass",
+              "detail": "One authorized signature satisfies threshold 1.",
+              "evidenceClass": "cryptographically-verified"
+            },
+            {
+              "id": "build-material-rules",
+              "label": "Build materials satisfy REQUIRE / ALLOW / DISALLOW",
+              "sourcePointer": "root.layout.signed.steps[0].expected_materials",
+              "status": "pass",
+              "detail": "The exact source artifact is the only recorded build material.",
+              "evidenceClass": "native-rule-evaluation"
+            },
+            {
+              "id": "build-product-rules",
+              "label": "Build products satisfy REQUIRE / CREATE / DISALLOW",
+              "sourcePointer": "root.layout.signed.steps[0].expected_products",
+              "status": "pass",
+              "detail": "The expected intermediate is created with the final content hash.",
+              "evidenceClass": "native-rule-evaluation"
+            },
+            {
+              "id": "package-material-match",
+              "label": "Package material MATCHes the build product",
+              "sourcePointer": "root.layout.signed.steps[1].expected_materials",
+              "status": "pass",
+              "detail": "The native SHA-256 hash crosses the step boundary unchanged.",
+              "evidenceClass": "native-rule-evaluation"
+            },
+            {
+              "id": "package-product-rules",
+              "label": "Package products satisfy REQUIRE / CREATE / DISALLOW",
+              "sourcePointer": "root.layout.signed.steps[1].expected_products",
+              "status": "pass",
+              "detail": "The expected final artifact is the only package product.",
+              "evidenceClass": "native-rule-evaluation"
+            },
+            {
+              "id": "final-inspection",
+              "label": "Final product MATCHes the package product",
+              "sourcePointer": "root.layout.signed.inspect[0].expected_materials",
+              "status": "pass",
+              "detail": "The client-side target hash matches the signed package product.",
+              "evidenceClass": "native-rule-evaluation"
+            }
+          ],
+          "warnings": [
+            {
+              "id": "package-command-mismatch",
+              "label": "package command differs from expected_command",
+              "sourcePointer": "root.layout.signed.steps[1].expected_command",
+              "nativeEffect": "warning-only",
+              "detail": "in-toto v1.0 treats expected_command mismatch as an audit warning, not a verification failure."
+            }
+          ]
+        },
+        "strictCommand": {
+          "profile": "onto2d-exact-command-profile-v1",
+          "status": "rejected",
+          "basis": "native verification passed, but the declared Onto2D exact-command profile rejects the warning"
+        }
+      }
+    }
+  ],
+  "experiments": [
+    {
+      "id": "same-output-wrong-history",
+      "left": "valid",
+      "right": "shortcut",
+      "finalBytesEqual": true,
+      "nativeAdmissibilityEqual": false,
+      "result": "same final artifact; different native provenance admissibility"
+    },
+    {
+      "id": "material-continuity",
+      "execution": "material-break",
+      "failedCheck": "package-material-match",
+      "result": "rejected"
+    },
+    {
+      "id": "actor-authorization",
+      "execution": "unauthorized-actor",
+      "failedCheck": "package-authorized",
+      "commandMatches": true,
+      "result": "rejected"
+    },
+    {
+      "id": "command-semantics",
+      "execution": "command-deviation",
+      "nativeResult": "accepted-with-warning",
+      "strictOnto2dResult": "rejected",
+      "result": "native and optional strict policies remain distinct"
+    }
+  ],
+  "pathSpace": {
+    "status": "finite-declared-space",
+    "routes": [
+      {
+        "id": "direct-emit",
+        "label": "Directly emit final bytes",
+        "possible": true,
+        "admissible": false,
+        "actual": false,
+        "counterfactual": true,
+        "costs": {
+          "steps": 1,
+          "actors": 1,
+          "attestations": 1,
+          "transitions": 0
+        },
+        "rejection": "required build and package links absent"
+      },
+      {
+        "id": "package-only",
+        "label": "Run only the package action",
+        "possible": true,
+        "admissible": false,
+        "actual": false,
+        "counterfactual": true,
+        "costs": {
+          "steps": 1,
+          "actors": 1,
+          "attestations": 1,
+          "transitions": 0
+        },
+        "rejection": "required build link and material continuity absent"
+      },
+      {
+        "id": "build-package-single-actor",
+        "label": "Build and package under one unauthorized role",
+        "possible": true,
+        "admissible": false,
+        "actual": false,
+        "counterfactual": true,
+        "costs": {
+          "steps": 2,
+          "actors": 1,
+          "attestations": 2,
+          "transitions": 1
+        },
+        "rejection": "functionary authorization fails"
+      },
+      {
+        "id": "declared-build-package",
+        "label": "Authorized build then authorized package",
+        "possible": true,
+        "admissible": true,
+        "actual": true,
+        "counterfactual": false,
+        "costs": {
+          "steps": 2,
+          "actors": 2,
+          "attestations": 2,
+          "transitions": 1
+        },
+        "rejection": null
+      }
+    ]
+  },
+  "historicalLoad": {
+    "status": "resolved-in-declared-space",
+    "definition": "Shortest admissible route cost minus shortest technically possible route cost for one exact target artifact.",
+    "profile": {
+      "format": "onto2d-in-toto-admissibility-analysis-profile",
+      "formatVersion": "1",
+      "targetArtifact": "dist/app.bin",
+      "candidateRoutes": [
+        "direct-emit",
+        "package-only",
+        "build-package-single-actor",
+        "declared-build-package"
+      ],
+      "admissibilityRegime": "native-in-toto-v1-layout-verification",
+      "strictCommandRegime": "onto2d-exact-command-profile-v1",
+      "costFunctions": [
+        {
+          "id": "step-count",
+          "unit": "construction steps",
+          "definition": "Number of declared or counterfactual construction actions; client inspection is excluded."
+        },
+        {
+          "id": "distinct-actor-count",
+          "unit": "distinct actors",
+          "definition": "Number of distinct construction identities used by the route."
+        },
+        {
+          "id": "attestation-count",
+          "unit": "signed links",
+          "definition": "Number of signed construction link records required by the route."
+        },
+        {
+          "id": "material-transition-count",
+          "unit": "material transitions",
+          "definition": "Number of product-to-material hand-offs between construction actions."
+        }
+      ]
+    },
+    "results": [
+      {
+        "costFunction": "step-count",
+        "unit": "construction steps",
+        "definition": "Number of declared or counterfactual construction actions; client inspection is excluded.",
+        "freeOptimumCost": 1,
+        "freeOptimumRoutes": [
+          "direct-emit",
+          "package-only"
+        ],
+        "admissibleOptimumCost": 2,
+        "admissibleOptimumRoutes": [
+          "declared-build-package"
+        ],
+        "historicalLoad": 1,
+        "equation": "2 - 1 = +1"
+      },
+      {
+        "costFunction": "distinct-actor-count",
+        "unit": "distinct actors",
+        "definition": "Number of distinct construction identities used by the route.",
+        "freeOptimumCost": 1,
+        "freeOptimumRoutes": [
+          "direct-emit",
+          "package-only",
+          "build-package-single-actor"
+        ],
+        "admissibleOptimumCost": 2,
+        "admissibleOptimumRoutes": [
+          "declared-build-package"
+        ],
+        "historicalLoad": 1,
+        "equation": "2 - 1 = +1"
+      },
+      {
+        "costFunction": "attestation-count",
+        "unit": "signed links",
+        "definition": "Number of signed construction link records required by the route.",
+        "freeOptimumCost": 1,
+        "freeOptimumRoutes": [
+          "direct-emit",
+          "package-only"
+        ],
+        "admissibleOptimumCost": 2,
+        "admissibleOptimumRoutes": [
+          "declared-build-package"
+        ],
+        "historicalLoad": 1,
+        "equation": "2 - 1 = +1"
+      },
+      {
+        "costFunction": "material-transition-count",
+        "unit": "material transitions",
+        "definition": "Number of product-to-material hand-offs between construction actions.",
+        "freeOptimumCost": 0,
+        "freeOptimumRoutes": [
+          "direct-emit",
+          "package-only"
+        ],
+        "admissibleOptimumCost": 1,
+        "admissibleOptimumRoutes": [
+          "declared-build-package"
+        ],
+        "historicalLoad": 1,
+        "equation": "1 - 0 = +1"
+      }
+    ],
+    "nonClaim": "Historical Load is an Onto2D result for this frozen path space, not an in-toto metric or a universal supply-chain score."
+  },
+  "evidenceBoundary": {
+    "native": [
+      "signed layout",
+      "signed link records",
+      "artifact hashes",
+      "functionary authorization",
+      "artifact rules",
+      "verification warnings"
+    ],
+    "derived": [
+      "scenario comparison",
+      "finite path classification",
+      "Historical Load"
+    ],
+    "counterfactual": [
+      "direct-emit",
+      "package-only",
+      "build-package-single-actor"
+    ],
+    "unknown": [
+      "real-world actor intent",
+      "host trust outside signed records",
+      "security quality of the owner-authored layout"
+    ],
+    "exclusions": [
+      "general in-toto verifier compatibility",
+      "network retrieval",
+      "clock-dependent verification",
+      "claim that expected_command is a native rejection rule"
+    ]
+  },
+  "caseIdentity": "sha256:d6ccf2f3ddd7c85e73779b51d739b2026ab6b702c53c5a6e3cb10e918121ef3c"
+}

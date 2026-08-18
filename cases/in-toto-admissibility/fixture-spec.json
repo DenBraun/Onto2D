@@ -1,0 +1,33 @@
+{
+  "format": "onto2d-in-toto-fixture-spec",
+  "formatVersion": "1",
+  "caseVersion": "in-toto-admissibility-v1",
+  "profile": {
+    "specification": "in-toto Specification v1.0.0",
+    "specificationUrl": "https://github.com/in-toto/specification/blob/v1.0/in-toto-spec.md",
+    "signatureEnvelope": "legacy-json-metablock",
+    "canonicalization": "sorted-key-utf8-json-v1",
+    "evaluationTime": "2026-08-18T12:00:00Z",
+    "layoutExpires": "2030-01-01T00:00:00Z"
+  },
+  "fixtureOnlyKeySeeds": {
+    "owner": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
+    "builder": "202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f",
+    "packager": "404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f",
+    "attacker": "606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f"
+  },
+  "artifacts": {
+    "sourcePath": "src/main.txt",
+    "sourceUtf8": "onto2d supply-chain source v1\n",
+    "buildPath": "build/app.bin",
+    "finalPath": "dist/app.bin",
+    "finalUtf8": "onto2d-in-toto-demo\n"
+  },
+  "commands": {
+    "build": ["node", "build.mjs"],
+    "package": ["node", "package.mjs"],
+    "inspection": ["node", "inspect.mjs"],
+    "alternativePackage": ["cp", "build/app.bin", "dist/app.bin"]
+  },
+  "scenarioOrder": ["valid", "shortcut", "material-break", "unauthorized-actor", "command-deviation"]
+}

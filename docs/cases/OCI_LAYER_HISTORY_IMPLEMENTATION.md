@@ -22,7 +22,7 @@ Evidence profile:
     counterfactual
 
 Historical Load:
-    Bounded candidate
+    Primary
 
 History Equivalence:
     Primary
@@ -33,6 +33,39 @@ Reachability:
 Reconstruction:
     Not primary
 ```
+
+## Implementation Result
+
+Status: `ANALYSIS_READY`
+
+The plan is implemented as `oci-layer-history-v1` against the pinned OCI Image
+Specification v1.1.1 profile. One deterministic OCI Image Layout contains four
+native, index-referenced image manifests:
+
+- `history-a`: four layers, including a verified `.wh.a.txt` deletion;
+- `history-b`: two layers containing only the surviving files;
+- `history-redundant`: five layers with replacement and cancelled temporary
+  work;
+- `history-grouped`: one layer containing both final files.
+
+All four replay to rootfs identity
+`sha256:f7bd81becc162480b7cf758bd6f2a95bf8620680d48b5a585aed92b86ccac3df`
+while retaining four different manifest identities and four different ordered
+layer-sequence identities. Reversing History A produces a different rootfs and
+remains counterfactual, with no native manifest assigned to it.
+
+The declared four-history space resolves Historical Load for the History A
+reference as:
+
+| Cost | Observed | Optimum | Load |
+|---|---:|---:|---:|
+| layer-count | 4 | 1 | +3 layers |
+| operation-count | 4 | 2 | +2 operations |
+| changed-byte-count | 26 | 14 | +12 bytes |
+| transferred-byte-count | 7680 | 3072 | +4608 bytes |
+
+The result is deliberately a cost-indexed vector, not one universal OCI
+complexity number.
 
 ## Purpose
 
@@ -250,3 +283,8 @@ to the same final filesystem state.
 Two pinned OCI fixtures can be verified as identical under flattened filesystem
 identity while remaining distinct under layer-history identity, with every
 derived state reproducible from exact layer bytes.
+
+Completed with four native fixtures, a closed case artifact, a separate
+`oci-layer-provenance` Model Pack, a SHA-256-pinned Explorer, and negative tests
+for order, whiteouts, source mutation, counterfactual evidence, and undeclared
+cost functions.

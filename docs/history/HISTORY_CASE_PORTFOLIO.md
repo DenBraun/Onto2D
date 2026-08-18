@@ -13,9 +13,9 @@ Statuses describe repository maturity, not scientific truth.
 | Live Bootstrap Provenance | Recorded | Reconstructed | Identity | Software bootstrap | ANALYSIS_READY |
 | Git History Identity | Recorded | — | Identity | Version control | EXPLORER |
 | Nix Derivation Identity | Recorded | — | Identity | Package management | EXPLORER |
-| OCI Layer History | Recorded | — | Identity | Container images | PLANNED · next |
-| in-toto Admissibility | Recorded | — | Identity | Software supply chain | PLANNED |
-| Reproducible Build Equivalence | Recorded | — | Identity | Build reproducibility | PLANNED |
+| OCI Layer History | Recorded | — | Identity | Container images | ANALYSIS_READY |
+| in-toto Admissibility | Recorded | — | Identity | Software supply chain | ANALYSIS_READY |
+| Reproducible Build Equivalence | Recorded | — | Identity | Build reproducibility | PLANNED · next |
 | SLSA Provenance Evidence | Recorded | — | Identity | Software supply chain | PLANNED |
 | Software Heritage Lineage | Recorded | — | Identity | Software archival | PLANNED |
 | Chemical Synthesis History | Recorded | — | Identity | Chemistry | PLANNED |
@@ -61,7 +61,8 @@ metadata, never physical ownership of a case.
 
 ## Implementation priorities
 
-1. Recorded → Identity: OCI next, then Chemistry and Artwork Provenance.
+1. Recorded → Identity: Reproducible Builds next, then Chemistry and Artwork
+   Provenance; in-toto is now analysis-ready.
 2. Embodied → Present State: Material Process History, Operational Aging, and
    Ecological Memory.
 3. Embodied → Future: LTEE, Operational Aging, and Ecological Memory.

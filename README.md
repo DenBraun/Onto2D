@@ -19,9 +19,9 @@ Those claims require explicit external evidence through the scientific-adapter
 boundary.
 
 The repository also contains a private engine preview: a deterministic Model
-Pack contract, separate frozen Causal Emergence, live-bootstrap provenance, and
-Nix derivation releases, and a headless API for exact model queries and
-traversal. It is not yet a published npm package.
+Pack contract, separate frozen Causal Emergence, live-bootstrap provenance,
+Nix derivation, and OCI layer-provenance releases, and a headless API for exact
+model queries and traversal. It is not yet a published npm package.
 
 ## Engine preview
 
@@ -82,6 +82,17 @@ The [Nix Derivation Identity Lab](https://denbraun.github.io/Onto2D/apps/nix-der
 compares native Nix derivations under output-content, derivation, input-closure,
 builder-environment, and output-relative history regimes
 ([method](cases/nix-derivation-identity/README.md)).
+
+The [OCI Layer History Lab](https://denbraun.github.io/Onto2D/apps/oci-layer-history-lab/)
+shows four verified native OCI layer histories converging to one normalized
+rootfs while retaining different manifests, hidden deletions, and four
+cost-relative Historical Load results
+([method](cases/oci-layer-history/README.md)).
+
+The [in-toto Admissibility Explorer](https://denbraun.github.io/Onto2D/apps/in-toto-admissibility-explorer/)
+compares five signed executions with identical final bytes, preserves native
+warning semantics, and explains four bounded `+1` Historical Load results
+([method](cases/in-toto-admissibility/README.md)).
 
 The [History Atlas](https://denbraun.github.io/Onto2D/apps/history-atlas/)
 organizes 22 registered cases by two independent axes: how history is available

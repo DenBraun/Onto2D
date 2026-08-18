@@ -6,7 +6,7 @@
   "additionalProperties": false,
   "required": ["schemaVersion", "taxonomyVersion", "historyModes", "effects", "maturityLevels", "cases"],
   "properties": {
-    "schemaVersion": { "const": "1.0.0" },
+    "schemaVersion": { "const": "1.1.0" },
     "taxonomyVersion": { "type": "string", "format": "date" },
     "historyModes": {
       "type": "array",
@@ -35,6 +35,10 @@
       "type": ["string", "null"],
       "pattern": "^(?:apps|models)/[A-Za-z0-9._/-]+/$"
     },
+    "nullableVersion": {
+      "type": ["string", "null"],
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+    },
     "analysisLevel": {
       "enum": ["primary", "secondary", "candidate", "relevant", "possible", "descriptive-only", "not-primary"]
     },
@@ -44,7 +48,7 @@
       "required": [
         "caseId", "portfolioOrder", "title", "shortTitle", "domain", "domainLabel",
         "status", "priority", "primaryHistoryMode", "historyModes", "primaryEffects",
-        "secondaryEffects", "matrixPlacements", "evidenceProfile", "analyses", "modelId", "modelPackPath",
+        "secondaryEffects", "matrixPlacements", "evidenceProfile", "analyses", "modelId", "modelVersion", "modelPackPath",
         "explorerId", "explorerPath", "casePagePath", "implementationDoc"
       ],
       "properties": {
@@ -108,6 +112,7 @@
           }
         },
         "modelId": { "$ref": "#/$defs/nullableId" },
+        "modelVersion": { "$ref": "#/$defs/nullableVersion" },
         "modelPackPath": { "$ref": "#/$defs/nullablePath" },
         "explorerId": { "$ref": "#/$defs/nullableId" },
         "explorerPath": { "$ref": "#/$defs/nullablePath" },

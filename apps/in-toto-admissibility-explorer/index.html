@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="../../assets/js/document-state-reset.js" defer></script>
+    <meta name="description" content="Explore signed in-toto execution histories that produce identical artifact bytes but differ in provenance admissibility.">
+    <title>in-toto Admissibility Explorer - Onto2D</title>
+    <link rel="icon" href="../../assets/icons/favicon.ico?v=20260818.1" type="image/x-icon">
+    <link rel="stylesheet" href="../../assets/css/ui-icons.css?v=20260818.1">
+    <link rel="stylesheet" href="../../assets/css/study-in-toto-admissibility.css?v=20260818.1">
+    <script type="module" src="./in-toto-admissibility-explorer.js?v=20260818.1"></script>
+  </head>
+  <body data-state="loading">
+    <header class="history-case-header">
+      <a class="history-case-brand" href="../../" aria-label="Onto2D home"><svg viewBox="0 0 34 34" aria-hidden="true"><circle cx="7" cy="17" r="3"></circle><circle cx="27" cy="8" r="3"></circle><circle cx="27" cy="26" r="3"></circle><path d="M10 17h7m2-3 5-4m-5 10 5 4"></path></svg><span><strong>Onto2D</strong><small>History model</small></span></a>
+      <nav class="history-case-nav" aria-label="History navigation"><a href="../history-atlas/">History Atlas</a><a href="../model-studio/#model=in-toto-provenance&amp;version=v1-647b20b320a109cc">Model Studio</a><a href="https://github.com/DenBraun/Onto2D/blob/main/docs/history/README.md" target="_blank" rel="noopener noreferrer">History model <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#external-link"></use></svg></a><a href="https://github.com/DenBraun/Onto2D" target="_blank" rel="noopener noreferrer">GitHub <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#external-link"></use></svg></a></nav>
+      <div class="history-case-context"><span id="load-state">Verifying artifact</span><strong>in-toto / admissibility</strong></div>
+    </header>
+    <main>
+      <section class="hero"><div class="hero-grid"><div><p class="eyebrow">Recorded history / identity</p><h1>Same bytes.<br>Different permission to trust.</h1><p class="hero-copy">A signed layout says which construction history is admissible. Five actual fixture executions produce one byte-identical artifact; signatures, missing steps, and material continuity still distinguish their verification results.</p></div><dl class="hero-meta"><div><dt>Specification</dt><dd id="spec-version">in-toto 1.0.0</dd></div><div><dt>Case identity</dt><dd id="case-identity">loading</dd></div><div><dt>Final SHA-256</dt><dd id="final-identity">loading</dd></div><div><dt>Evidence</dt><dd>signed layout + Ed25519 link records</dd></div></dl></div></section>
+      <p id="fatal-error" class="fatal-error" hidden></p>
+      <div class="workspace">
+        <section class="artifact-proof" aria-label="Flagship comparison"><div class="proof-side"><span>Execution A</span><strong>Valid declared route</strong><code id="left-final-hash">loading</code></div><div class="proof-equals"><strong>BYTE-IDENTICAL</strong><span>final artifact</span></div><div class="proof-side"><span id="right-execution-label">Execution B</span><strong id="right-execution-name">Wrong history</strong><code id="right-final-hash">loading</code><strong id="right-verdict" class="verdict" data-status="rejected">REJECTED</strong></div></section>
+        <div class="pane-grid">
+          <section class="pane" aria-labelledby="declared-title"><p class="section-kicker">01 / Native policy</p><h2 id="declared-title">Declared supply chain</h2><p class="pane-intro">These definitions come from the project-owner-signed layout. Rules remain native records with exact source pointers.</p><div id="step-flow" class="step-flow"></div><p class="policy-note"><strong>Command nuance.</strong> In the pinned in-toto specification, `expected_command` mismatch produces a warning. The optional strict rejection is an Onto2D policy and is displayed separately.</p></section>
+          <section class="pane" aria-labelledby="actual-title"><p class="section-kicker">02 / Signed records</p><h2 id="actual-title">Actual execution</h2><p class="pane-intro">Select a frozen execution. Every option below is an actual signed fixture record, not a generated counterfactual.</p><div id="scenario-controls" class="scenario-controls"></div><div id="link-list" class="link-list"></div></section>
+          <section class="pane" aria-labelledby="verification-title"><p class="section-kicker">03 / Deterministic result</p><h2 id="verification-title">Verification</h2><p id="verification-summary" class="pane-intro"></p><div id="check-list" class="check-list"></div><div id="warning-box" class="warning-box" hidden></div></section>
+          <section class="pane" aria-labelledby="routes-title"><p class="section-kicker">04 / Declared analysis space</p><h2 id="routes-title">Counterfactuals</h2><p class="pane-intro">Only these four routes participate in Historical Load. The actual baseline is marked separately; no counterfactual is promoted to fact.</p><div id="route-list" class="route-list"></div></section>
+        </div>
+        <section class="load-section" aria-labelledby="load-title"><div class="load-heading"><p class="section-kicker">Bounded Onto2D result</p><h2 id="load-title">Historical Load</h2><p>How much more history does the shortest policy-conforming route require than the shortest merely executable route?</p></div><div class="load-body"><div id="cost-controls" class="cost-controls"></div><div class="load-result"><strong id="load-number" class="load-number">+1</strong><div class="load-copy"><strong id="load-equation">2 - 1 = +1</strong><p id="load-unit"></p></div></div><p id="load-definition" class="load-definition"></p></div></section>
+        <section class="boundary" aria-labelledby="boundary-title"><h2 id="boundary-title">What the result does - and does not - say</h2><div class="boundary-grid"><div><h3>Native</h3><p>Signed layout, link bodies, key authorization, SHA-256 artifact records, and native verification warnings.</p></div><div><h3>Derived</h3><p>Verifier checks, scenario comparison, path classification, and four cost-relative load values.</p></div><div><h3>Counterfactual</h3><p>Three declared alternative routes. They bound the analysis but are never labeled actual executions.</p></div><div><h3>Unknown</h3><p>Actor intent, host trust beyond signed records, and whether the owner's policy is a good security policy.</p></div></div></section>
+      </div>
+    </main>
+    <footer class="study-footer">Deterministic offline fixture | in-toto Specification v1.0.0 | command mismatch remains warning-only under native semantics | Historical Load is not an in-toto metric.</footer>
+  </body>
+</html>

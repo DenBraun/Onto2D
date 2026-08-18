@@ -1,0 +1,96 @@
+{
+  "audit": {
+    "analysisInventory": {
+      "executions": 5,
+      "routes": 4,
+      "verificationRecords": 10
+    },
+    "caseIdentity": "sha256:d6ccf2f3ddd7c85e73779b51d739b2026ab6b702c53c5a6e3cb10e918121ef3c",
+    "historicalLoad": [
+      {
+        "costFunction": "step-count",
+        "unit": "construction steps",
+        "value": 1
+      },
+      {
+        "costFunction": "distinct-actor-count",
+        "unit": "distinct actors",
+        "value": 1
+      },
+      {
+        "costFunction": "attestation-count",
+        "unit": "signed links",
+        "value": 1
+      },
+      {
+        "costFunction": "material-transition-count",
+        "unit": "material transitions",
+        "value": 1
+      }
+    ],
+    "mappingVersion": "in-toto-provenance-mapping-v2",
+    "nativeInventory": {
+      "actors": 4,
+      "inspections": 1,
+      "layouts": 1,
+      "rules": 15,
+      "steps": 2,
+      "uniqueLinks": 6
+    },
+    "releaseIdentity": "sha256:647b20b320a109cce3eaa10ed7efd55f60f1b8ac14ba7d5ebc234c48957b518a",
+    "sourceIdentity": "sha256:add0ca72781e4d187439d4a33527a94ed7518a8aebe2c9bdc22c1a61a98012fd"
+  },
+  "evidenceClasses": {
+    "bounded-native-rule-evaluation": "Deterministic result of the documented v1 evaluator subset.",
+    "declared-analysis-profile": "Onto2D-declared route or cost profile, not native in-toto evidence.",
+    "signed-layout": "Rule or authorization recorded in the trusted-owner-signed layout.",
+    "signed-link": "Materials or products attested in a functionary-signed native link.",
+    "valid-ed25519-signature": "Ed25519 verification succeeds over the exact canonicalized metadata body."
+  },
+  "presentation": {
+    "boundary": {
+      "note": "Command mismatch is warning-only under the pinned native specification; Historical Load is resolved only in the four-route declared space.",
+      "summary": "Signed native layout and links remain separate from deterministic verdicts, optional Onto2D policy, counterfactual routes, and Historical Load.",
+      "title": "in-toto evidence boundary"
+    },
+    "coordinates": [
+      {
+        "field": "typeRole",
+        "label": "Kind"
+      },
+      {
+        "field": "scientificStatus",
+        "label": "Evidence"
+      }
+    ],
+    "evidenceClassField": "evidenceClass",
+    "labels": {
+      "catalogTitle": "Supply-chain records",
+      "children": "Outgoing provenance relations",
+      "parents": "Incoming provenance relations",
+      "phaseFilter": "Evidence phase",
+      "searchPlaceholder": "Search layouts, links, actors, rules, and verdicts",
+      "statusFilter": "Evidence status",
+      "typeFilter": "Record kind"
+    },
+    "layerField": "scientificStatus",
+    "nodeKindField": "entityKind",
+    "profile": "in-toto-provenance-presentation-v1",
+    "relationField": "relation"
+  },
+  "provenance": {
+    "caseIdentity": "sha256:d6ccf2f3ddd7c85e73779b51d739b2026ab6b702c53c5a6e3cb10e918121ef3c",
+    "mappingVersion": "in-toto-provenance-mapping-v2",
+    "nativeCommandSemantics": "warning-only",
+    "nonEndorsement": "The in-toto project does not endorse Onto2D or this bounded interpretation.",
+    "releaseIdentity": "sha256:647b20b320a109cce3eaa10ed7efd55f60f1b8ac14ba7d5ebc234c48957b518a",
+    "sourceIdentity": "sha256:add0ca72781e4d187439d4a33527a94ed7518a8aebe2c9bdc22c1a61a98012fd",
+    "specification": {
+      "commandMismatchSemantics": "warning-only",
+      "metadataProfile": "layout-and-link-json-metablocks-ed25519",
+      "name": "in-toto Specification",
+      "source": "https://github.com/in-toto/specification/blob/v1.0/in-toto-spec.md",
+      "version": "1.0.0"
+    }
+  }
+}
