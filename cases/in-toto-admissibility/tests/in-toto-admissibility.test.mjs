@@ -10,6 +10,19 @@ import { buildInTotoAdmissibilityCase, calculateHistoricalLoad, verifyInTotoAdmi
 import { verifyMetadataSignature } from "../src/metadata.mjs";
 
 const CASE_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const REPOSITORY_ROOT = path.resolve(CASE_ROOT, "..", "..");
+
+test("the deterministic final artifact is explicitly retained despite the global dist ignore", async () => {
+  const [ignore, specification, finalArtifact] = await Promise.all([
+    readFile(path.join(REPOSITORY_ROOT, ".gitignore"), "utf8"),
+    readFile(path.join(CASE_ROOT, "fixture-spec.json"), "utf8").then(JSON.parse),
+    readFile(path.join(CASE_ROOT, "fixtures", "target", "dist", "app.bin"), "utf8")
+  ]);
+  const ignoreRules = new Set(ignore.split(/\r?\n/));
+  assert.equal(ignoreRules.has("!cases/in-toto-admissibility/fixtures/target/dist/"), true);
+  assert.equal(ignoreRules.has("!cases/in-toto-admissibility/fixtures/target/dist/app.bin"), true);
+  assert.equal(finalArtifact, specification.artifacts.finalUtf8);
+});
 
 test("the signed fixture and extracted artifact reproduce byte-for-byte", async () => {
   await generateInTotoFixture({ verify: true });

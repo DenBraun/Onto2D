@@ -1,0 +1,436 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.example/schemas/ecological-memory.schema.json",
+  "title": "Onto2D Ecological Memory case artifact",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "format",
+    "formatVersion",
+    "caseVersion",
+    "source",
+    "site",
+    "stateProjection",
+    "eventGroupBasis",
+    "surveys",
+    "eventGroup",
+    "beforeAfter",
+    "similarSnapshot",
+    "historyEquivalence",
+    "timeline",
+    "reachability",
+    "historicalLoad",
+    "analysisIdentity",
+    "cellGrid",
+    "historyWindows",
+    "nonClaims",
+    "evidenceBoundary",
+    "caseIdentity"
+  ],
+  "properties": {
+    "format": {
+      "const": "onto2d-ecological-memory-case"
+    },
+    "formatVersion": {
+      "const": "1"
+    },
+    "caseVersion": {
+      "const": "ecological-memory-soap-v1"
+    },
+    "source": {
+      "type": "object",
+      "required": [
+        "id",
+        "retrievedAt",
+        "publisher",
+        "citation",
+        "license",
+        "landingPage",
+        "tutorialLocks",
+        "externalFiles",
+        "authoredFiles",
+        "snapshotFiles",
+        "selection",
+        "liveNetworkRequiredByBuild",
+        "identity"
+      ],
+      "properties": {
+        "retrievedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "externalFiles": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "liveNetworkRequiredByBuild": {
+          "const": false
+        },
+        "identity": {
+          "$ref": "#/$defs/identity"
+        }
+      },
+      "additionalProperties": true
+    },
+    "site": {
+      "type": "object",
+      "required": [
+        "siteCode",
+        "siteName",
+        "domainId",
+        "tile"
+      ],
+      "properties": {
+        "siteCode": {
+          "const": "SOAP"
+        },
+        "tile": {
+          "const": "293000_4100000"
+        }
+      },
+      "additionalProperties": true
+    },
+    "stateProjection": {
+      "type": "object",
+      "required": [
+        "classificationCode",
+        "classificationLabel",
+        "heightReference",
+        "heightRangeMeters",
+        "cellSizeMeters",
+        "minimumReturnsPerCell",
+        "quantiles",
+        "quantileMethod",
+        "nativeRecordsRetainedExternally",
+        "projectionIsFullEcosystemState",
+        "variableCount",
+        "variables"
+      ],
+      "properties": {
+        "classificationCode": {
+          "const": 5
+        },
+        "cellSizeMeters": {
+          "const": 10
+        },
+        "minimumReturnsPerCell": {
+          "const": 50
+        },
+        "projectionIsFullEcosystemState": {
+          "const": false
+        },
+        "variables": {
+          "const": [
+            "heightP20",
+            "heightP50",
+            "heightP75",
+            "heightP90"
+          ]
+        }
+      },
+      "additionalProperties": true
+    },
+    "eventGroupBasis": {
+      "type": "object"
+    },
+    "surveys": {
+      "type": "array",
+      "prefixItems": [
+        {
+          "$ref": "#/$defs/survey2019"
+        },
+        {
+          "$ref": "#/$defs/survey2021"
+        }
+      ],
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "eventGroup": {
+      "type": "object",
+      "required": [
+        "recordCount",
+        "sourceStatus",
+        "spatialLinkStatus",
+        "causalRole",
+        "identity"
+      ],
+      "properties": {
+        "recordCount": {
+          "const": 4
+        },
+        "causalRole": {
+          "const": "context-only"
+        },
+        "identity": {
+          "$ref": "#/$defs/identity"
+        }
+      },
+      "additionalProperties": true
+    },
+    "beforeAfter": {
+      "type": "object",
+      "required": [
+        "matchedCellCount",
+        "metricChanges",
+        "causalEffectEstimated",
+        "protocolHeldConstant",
+        "interpretation"
+      ],
+      "properties": {
+        "matchedCellCount": {
+          "const": 7275
+        },
+        "metricChanges": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4
+        },
+        "causalEffectEstimated": {
+          "const": false
+        },
+        "protocolHeldConstant": {
+          "const": false
+        }
+      },
+      "additionalProperties": true
+    },
+    "similarSnapshot": {
+      "type": "object",
+      "required": [
+        "cellId",
+        "location",
+        "signaturePrecisionMeters",
+        "displaySignature",
+        "candidateCount",
+        "before",
+        "after",
+        "createsFullEcosystemIdentity",
+        "createsHistoryIdentity",
+        "interpretation"
+      ],
+      "properties": {
+        "cellId": {
+          "const": 7880
+        },
+        "displaySignature": {
+          "const": [
+            3,
+            3.5,
+            3.8,
+            4
+          ]
+        },
+        "candidateCount": {
+          "const": 2
+        },
+        "createsFullEcosystemIdentity": {
+          "const": false
+        },
+        "createsHistoryIdentity": {
+          "const": false
+        }
+      },
+      "additionalProperties": true
+    },
+    "historyEquivalence": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6
+    },
+    "timeline": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3
+    },
+    "reachability": {
+      "type": "object",
+      "required": [
+        "status",
+        "futurePredictionIncluded",
+        "causalEffectEstimated",
+        "recoveryTrajectoryClaim"
+      ],
+      "properties": {
+        "status": {
+          "const": "observed-after-state-only"
+        },
+        "futurePredictionIncluded": {
+          "const": false
+        },
+        "causalEffectEstimated": {
+          "const": false
+        },
+        "recoveryTrajectoryClaim": {
+          "const": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "historicalLoad": {
+      "type": "object",
+      "required": [
+        "status",
+        "value",
+        "reason"
+      ],
+      "properties": {
+        "status": {
+          "const": "not-evaluated"
+        },
+        "value": {
+          "type": "null"
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 20
+        }
+      },
+      "additionalProperties": false
+    },
+    "analysisIdentity": {
+      "$ref": "#/$defs/identity"
+    },
+    "cellGrid": {
+      "type": "object",
+      "required": [
+        "fields",
+        "rows"
+      ],
+      "properties": {
+        "fields": {
+          "const": [
+            "cellId",
+            "row",
+            "column",
+            "beforeHeightP90",
+            "afterHeightP90",
+            "changeHeightP90"
+          ]
+        },
+        "rows": {
+          "type": "array",
+          "minItems": 7275,
+          "maxItems": 7275,
+          "items": {
+            "type": "array",
+            "minItems": 6,
+            "maxItems": 6,
+            "items": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "historyWindows": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3
+    },
+    "nonClaims": {
+      "type": "array",
+      "minItems": 10,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 10
+      }
+    },
+    "evidenceBoundary": {
+      "type": "object"
+    },
+    "caseIdentity": {
+      "$ref": "#/$defs/identity"
+    }
+  },
+  "$defs": {
+    "identity": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "surveyBase": {
+      "type": "object",
+      "required": [
+        "year",
+        "pointCount",
+        "qualifiedCellCount",
+        "retainedHighVegetationReturnCount",
+        "medians",
+        "sensor",
+        "evidenceState",
+        "fullEcosystemState",
+        "identity"
+      ],
+      "properties": {
+        "year": {
+          "type": "integer"
+        },
+        "pointCount": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "qualifiedCellCount": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "retainedHighVegetationReturnCount": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "medians": {
+          "type": "object"
+        },
+        "sensor": {
+          "type": "string"
+        },
+        "evidenceState": {
+          "const": "source-projected-measurement"
+        },
+        "fullEcosystemState": {
+          "const": false
+        },
+        "identity": {
+          "$ref": "#/$defs/identity"
+        }
+      },
+      "additionalProperties": false
+    },
+    "survey2019": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/surveyBase"
+        },
+        {
+          "properties": {
+            "year": {
+              "const": 2019
+            },
+            "qualifiedCellCount": {
+              "const": 7754
+            }
+          }
+        }
+      ]
+    },
+    "survey2021": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/surveyBase"
+        },
+        {
+          "properties": {
+            "year": {
+              "const": 2021
+            },
+            "qualifiedCellCount": {
+              "const": 8800
+            }
+          }
+        }
+      ]
+    }
+  }
+}

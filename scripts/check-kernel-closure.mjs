@@ -241,6 +241,12 @@ export async function run() {
       fail(`CI does not execute required command: ${command}`);
     }
   }
+  for (const command of ci.commands.slice(1)) {
+    const resilientStep = `if: \${{ !cancelled() }}\n        run: ${command}`;
+    if (!workflow.includes(resilientStep)) {
+      fail(`CI does not execute ${command} after an earlier step failure`);
+    }
+  }
   if (ci.evidenceStatus !== "required") {
     fail("cross-platform CI evidence must remain required");
   }

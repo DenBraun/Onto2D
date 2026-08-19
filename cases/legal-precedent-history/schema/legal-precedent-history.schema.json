@@ -1,0 +1,199 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.example/schemas/legal-precedent-history.schema.json",
+  "title": "Onto2D Legal Precedent case artifact",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "format",
+    "formatVersion",
+    "caseVersion",
+    "generatedBy",
+    "source",
+    "cohort",
+    "opinions",
+    "citations",
+    "availability",
+    "normativeClaims",
+    "dateDisagreements",
+    "counterfactual",
+    "citationVsNormativeStatus",
+    "historicalLoad",
+    "audit",
+    "legalDisclaimer",
+    "nonClaims",
+    "caseIdentity"
+  ],
+  "properties": {
+    "format": { "const": "onto2d-legal-precedent-case" },
+    "formatVersion": { "const": "1" },
+    "caseVersion": { "const": "scotus-school-desegregation-green-v1" },
+    "generatedBy": { "const": "cases/legal-precedent-history/extract.mjs" },
+    "source": {
+      "type": "object",
+      "required": ["authoredFiles", "snapshotFiles", "providers", "identity"],
+      "properties": {
+        "authoredFiles": { "type": "array", "minItems": 2, "maxItems": 2, "items": { "$ref": "#/$defs/file" } },
+        "snapshotFiles": { "type": "array", "minItems": 1, "maxItems": 1, "items": { "$ref": "#/$defs/file" } },
+        "providers": { "type": "array", "minItems": 2, "maxItems": 2 },
+        "identity": { "$ref": "#/$defs/identity" }
+      },
+      "additionalProperties": false
+    },
+    "cohort": {
+      "type": "object",
+      "required": ["id", "courtId", "opinionCount", "completeDoctrinalCorpus", "retrievedAt"],
+      "properties": {
+        "id": { "const": "scotus-school-desegregation-1954-1971-v1" },
+        "courtId": { "const": "scotus" },
+        "opinionCount": { "const": 7 },
+        "completeDoctrinalCorpus": { "const": false },
+        "retrievedAt": { "type": "string", "format": "date-time" }
+      },
+      "additionalProperties": true
+    },
+    "opinions": {
+      "type": "array",
+      "minItems": 7,
+      "maxItems": 7,
+      "items": { "$ref": "#/$defs/opinion" }
+    },
+    "citations": {
+      "type": "array",
+      "minItems": 16,
+      "maxItems": 16,
+      "items": { "$ref": "#/$defs/citation" }
+    },
+    "availability": {
+      "type": "object",
+      "required": ["targetOpinionId", "cutoffDate", "dateAuthority", "rule", "priorOpinionIds", "contextCitationEdgeIds", "futureOpinionIds", "identity", "targetDirectCitationIds", "excludedFutureCitationEdgeIds", "futureInputEdgeCount", "legalPredictionIncluded"],
+      "properties": {
+        "targetOpinionId": { "const": "green" },
+        "cutoffDate": { "const": "1968-05-27" },
+        "dateAuthority": { "const": "govinfo-official-decision-date" },
+        "rule": { "const": "official-decision-date-strictly-before-target" },
+        "priorOpinionIds": { "const": ["brown-i", "brown-ii", "cooper", "griffin"] },
+        "contextCitationEdgeIds": { "type": "array", "minItems": 10, "maxItems": 10, "items": { "type": "string" }, "uniqueItems": true },
+        "futureOpinionIds": { "const": ["alexander", "swann"] },
+        "identity": { "$ref": "#/$defs/identity" },
+        "targetDirectCitationIds": { "type": "array", "minItems": 4, "maxItems": 4, "items": { "type": "string" }, "uniqueItems": true },
+        "excludedFutureCitationEdgeIds": { "type": "array", "minItems": 6, "maxItems": 6, "items": { "type": "string" }, "uniqueItems": true },
+        "futureInputEdgeCount": { "const": 0 },
+        "legalPredictionIncluded": { "const": false }
+      },
+      "additionalProperties": false
+    },
+    "normativeClaims": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "required": ["id", "citingOpinionId", "citedOpinionId", "treatment", "attribution", "locator", "bindingStatus", "claimScope", "citationId", "evidenceSourceUrl", "inferredFromCitationCount"],
+        "properties": {
+          "citingOpinionId": { "const": "green" },
+          "bindingStatus": { "const": "not-classified" },
+          "claimScope": { "const": "source-attributed-treatment" },
+          "inferredFromCitationCount": { "const": false }
+        },
+        "additionalProperties": true
+      }
+    },
+    "dateDisagreements": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": { "type": "object", "required": ["opinionId", "officialDecisionDate", "courtListenerDateFiled", "resolution"] }
+    },
+    "counterfactual": {
+      "type": "object",
+      "required": ["removedOpinionId", "legalConclusionAllowed", "sourceHistoryMutable", "removedDerivedEdgeCount", "remainingDerivedEdgeCount", "sourceOpinionCountAfterAnalysis", "sourceCitationCountAfterAnalysis", "sourceGraphMutated"],
+      "properties": {
+        "removedOpinionId": { "const": "brown-ii" },
+        "legalConclusionAllowed": { "const": false },
+        "sourceHistoryMutable": { "const": false },
+        "removedDerivedEdgeCount": { "const": 4 },
+        "remainingDerivedEdgeCount": { "const": 6 },
+        "sourceOpinionCountAfterAnalysis": { "const": 7 },
+        "sourceCitationCountAfterAnalysis": { "const": 16 },
+        "sourceGraphMutated": { "const": false }
+      },
+      "additionalProperties": true
+    },
+    "citationVsNormativeStatus": { "type": "array", "minItems": 4, "maxItems": 4 },
+    "historicalLoad": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "value", "reason"],
+      "properties": {
+        "status": { "const": "not-evaluated" },
+        "value": { "type": "null" },
+        "reason": { "type": "string", "minLength": 60 }
+      }
+    },
+    "audit": {
+      "type": "object",
+      "required": ["nativeCitationEdges", "attributedTreatmentClaims", "bindingClaims", "citationCountsUsedInDerivation", "courtHierarchyGuessed", "futureInputEdges", "duplicateOpinionIdentities", "dateDisagreements", "legalAdviceGenerated"],
+      "properties": {
+        "nativeCitationEdges": { "const": 16 },
+        "attributedTreatmentClaims": { "const": 4 },
+        "bindingClaims": { "const": 0 },
+        "citationCountsUsedInDerivation": { "const": false },
+        "courtHierarchyGuessed": { "const": false },
+        "futureInputEdges": { "const": 0 },
+        "duplicateOpinionIdentities": { "const": 0 },
+        "dateDisagreements": { "const": 2 },
+        "legalAdviceGenerated": { "const": false }
+      },
+      "additionalProperties": false
+    },
+    "legalDisclaimer": { "type": "string", "minLength": 80 },
+    "nonClaims": { "type": "array", "minItems": 12, "items": { "type": "string", "minLength": 20 }, "uniqueItems": true },
+    "caseIdentity": { "$ref": "#/$defs/identity" }
+  },
+  "$defs": {
+    "identity": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "file": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["role", "path", "identity", "bytes"],
+      "properties": {
+        "role": { "type": "string", "minLength": 1 },
+        "path": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._/-]*$" },
+        "identity": { "$ref": "#/$defs/identity" },
+        "bytes": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "opinion": {
+      "type": "object",
+      "required": ["id", "name", "shortName", "reporterCitation", "officialDecisionDate", "courtListenerDateFiled", "dateAgreement", "courtId", "courtName", "courtListener", "officialDocument"],
+      "properties": {
+        "id": { "enum": ["brown-i", "brown-ii", "cooper", "griffin", "green", "alexander", "swann"] },
+        "officialDecisionDate": { "type": "string", "format": "date" },
+        "courtListenerDateFiled": { "type": "string", "format": "date" },
+        "dateAgreement": { "type": "boolean" },
+        "courtId": { "const": "scotus" },
+        "courtListener": { "type": "object", "required": ["clusterId", "opinionId", "opinionSha1", "citeCountAtRetrieval", "publicUrl"] },
+        "officialDocument": { "type": "object", "required": ["publisher", "collection", "packageId", "detailUrl", "pdfUrl", "bytes", "sha256"] }
+      },
+      "additionalProperties": true
+    },
+    "citation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "citingOpinionId", "citedOpinionId", "relation", "evidenceState", "providerField", "citedProviderOpinionId", "causalDependency", "bindingStatus", "createsAuthority"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^citation:[a-z0-9-]+:[a-z0-9-]+$" },
+        "citingOpinionId": { "enum": ["brown-i", "brown-ii", "cooper", "griffin", "green", "alexander", "swann"] },
+        "citedOpinionId": { "enum": ["brown-i", "brown-ii", "cooper", "griffin", "green", "alexander", "swann"] },
+        "relation": { "const": "cites" },
+        "evidenceState": { "const": "courtlistener-native-record" },
+        "providerField": { "const": "opinion.cites" },
+        "citedProviderOpinionId": { "type": "integer", "minimum": 1 },
+        "causalDependency": { "const": "not-inferred" },
+        "bindingStatus": { "const": "unknown" },
+        "createsAuthority": { "const": false }
+      }
+    }
+  }
+}

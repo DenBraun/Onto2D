@@ -1,0 +1,95 @@
+{
+  "format": "onto2d-legal-precedent-analysis-profile",
+  "formatVersion": "1",
+  "profileVersion": "scotus-school-desegregation-green-v1",
+  "cohortId": "scotus-school-desegregation-1954-1971-v1",
+  "targetOpinionId": "green",
+  "decisionDateAuthority": "govinfo-official-decision-date",
+  "availabilityRule": "official-decision-date-strictly-before-target",
+  "expectedPriorOpinionIds": [
+    "brown-i",
+    "brown-ii",
+    "cooper",
+    "griffin"
+  ],
+  "expectedFutureOpinionIds": [
+    "alexander",
+    "swann"
+  ],
+  "normativeClaims": [
+    {
+      "id": "green-treatment-brown-i",
+      "citingOpinionId": "green",
+      "citedOpinionId": "brown-i",
+      "treatment": "described-holding",
+      "label": "Green describes Brown I's holding",
+      "attribution": "Green opinion",
+      "locator": "391 U.S. 432, 435",
+      "basis": "The source opinion describes Brown I as holding the state segregation provisions unconstitutional.",
+      "bindingStatus": "not-classified",
+      "claimScope": "source-attributed-treatment"
+    },
+    {
+      "id": "green-treatment-brown-ii",
+      "citingOpinionId": "green",
+      "citedOpinionId": "brown-ii",
+      "treatment": "applied-command",
+      "label": "Green applies Brown II's command",
+      "attribution": "Green opinion",
+      "locator": "391 U.S. 432, 435-438",
+      "basis": "The source opinion says the challenged plan is measured against the transition required by Brown II.",
+      "bindingStatus": "not-classified",
+      "claimScope": "source-attributed-treatment"
+    },
+    {
+      "id": "green-treatment-cooper",
+      "citingOpinionId": "green",
+      "citedOpinionId": "cooper",
+      "treatment": "supporting-reference",
+      "label": "Green uses Cooper as supporting context",
+      "attribution": "Green opinion",
+      "locator": "391 U.S. 436, 438",
+      "basis": "The source opinion cites Cooper while describing the immediate goal and affirmative duty in the selected doctrinal line.",
+      "bindingStatus": "not-classified",
+      "claimScope": "source-attributed-treatment"
+    },
+    {
+      "id": "green-treatment-griffin",
+      "citingOpinionId": "green",
+      "citedOpinionId": "griffin",
+      "treatment": "quoted-timing-rule",
+      "label": "Green quotes Griffin on timing",
+      "attribution": "Green opinion",
+      "locator": "391 U.S. 438",
+      "basis": "The source opinion quotes Griffin when rejecting further delay under the earlier remedial timetable.",
+      "bindingStatus": "not-classified",
+      "claimScope": "source-attributed-treatment"
+    }
+  ],
+  "counterfactual": {
+    "removedOpinionId": "brown-ii",
+    "operation": "remove-node-and-incident-edges-from-derived-analysis-view",
+    "question": "How does citation-graph reachability change when Brown II is withheld from the analysis view?",
+    "legalConclusionAllowed": false,
+    "sourceHistoryMutable": false
+  },
+  "historicalLoad": {
+    "status": "not-evaluated",
+    "value": null,
+    "reason": "No finite legal route space, route-cost function, or history-free normative baseline is defined; undefined must not be displayed as zero."
+  },
+  "nonClaims": [
+    "The selected seven opinions are not a complete statement of school-desegregation doctrine.",
+    "A CourtListener citation edge is not a finding of causal dependence.",
+    "A citation count does not create authority or binding status.",
+    "No court hierarchy or binding relation is inferred by the extractor.",
+    "A source-attributed treatment claim applies only to its stated opinion and locator.",
+    "Missing treatment status remains unknown.",
+    "The official decision date and the CourtListener dateFiled value remain separate source fields.",
+    "The available-at-time projection uses official GovInfo decision dates and excludes later opinions.",
+    "Counterfactual removal changes only a derived graph view and never rewrites the source record.",
+    "The explorer does not predict a legal outcome.",
+    "The explorer does not provide legal advice.",
+    "Historical Load is undefined rather than zero."
+  ]
+}

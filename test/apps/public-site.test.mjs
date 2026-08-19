@@ -85,6 +85,16 @@ const operationalApp = read("apps/operational-aging-lab/operational-aging-lab.js
 const operationalModel = read("apps/operational-aging-lab/operational-aging-model.js");
 const operationalStyles = read("assets/css/study-operational-aging.css");
 const operationalArtifact = read("cases/operational-aging/artifacts/operational-aging.json");
+const ecologicalMarkup = read("apps/ecological-memory-lab/index.html");
+const ecologicalApp = read("apps/ecological-memory-lab/ecological-memory-lab.js");
+const ecologicalModel = read("apps/ecological-memory-lab/ecological-memory-model.js");
+const ecologicalStyles = read("assets/css/study-ecological-memory.css");
+const ecologicalArtifact = read("cases/ecological-memory/artifacts/ecological-memory.json");
+const legalMarkup = read("apps/legal-precedent-history-lab/index.html");
+const legalApp = read("apps/legal-precedent-history-lab/legal-precedent-history-lab.js");
+const legalModel = read("apps/legal-precedent-history-lab/legal-precedent-model.js");
+const legalStyles = read("assets/css/study-legal-precedent.css");
+const legalArtifact = read("cases/legal-precedent-history/artifacts/legal-precedent-history.json");
 const historyCasePageMarkups = historyCaseRegistry.cases.map((entry) => read(`${entry.casePagePath}index.html`));
 const modelPackWorker = read("assets/js/model-pack-worker.js");
 const siteServer = read("apps/historical-load-explorer/serve.mjs");
@@ -108,6 +118,8 @@ const publicDirectories = [
   "apps/language-lineage-borrowing-lab",
   "apps/textual-transmission-lab",
   "apps/operational-aging-lab",
+  "apps/ecological-memory-lab",
+  "apps/legal-precedent-history-lab",
   "apps/history-atlas",
   "apps/external-cases",
   ...historyCaseRegistry.cases.map((entry) => entry.casePagePath.replace(/\/$/, ""))
@@ -132,6 +144,8 @@ const publicFiles = [
   "assets/css/study-language-transmission.css",
   "assets/css/study-manuscript-transmission.css",
   "assets/css/study-operational-aging.css",
+  "assets/css/study-ecological-memory.css",
+  "assets/css/study-legal-precedent.css",
   "assets/css/external-cases.css",
   "assets/css/history-case-header.css",
   "assets/css/history-atlas.css",
@@ -152,6 +166,8 @@ const publicFiles = [
   "cases/historical-linguistics/artifacts/historical-linguistics.json",
   "cases/manuscript-stemmatics/artifacts/manuscript-stemmatics.json",
   "cases/operational-aging/artifacts/operational-aging.json",
+  "cases/ecological-memory/artifacts/ecological-memory.json",
+  "cases/legal-precedent-history/artifacts/legal-precedent-history.json",
   ...publicDirectories.flatMap((directory) => readdirSync(
     new URL(`../../${directory}/`, import.meta.url)
   ).filter((name) => /\.(?:css|html|js|json|md|mjs)$/.test(name)).map((name) => `${directory}/${name}`))
@@ -231,6 +247,8 @@ test("all History case surfaces share one header component and navigation layout
     languageMarkup,
     manuscriptMarkup,
     operationalMarkup,
+    ecologicalMarkup,
+    legalMarkup,
     ...historyCasePageMarkups
   ];
   for (const markup of surfaces) {
@@ -245,10 +263,10 @@ test("all History case surfaces share one header component and navigation layout
   }
   assert.match(historyCaseHeaderStyles, /grid-template-columns:\s*minmax\(190px, 1fr\) auto minmax\(190px, 1fr\)/);
   assert.match(historyCaseHeaderStyles, /@media \(max-width: 700px\)/);
-  for (const styles of [externalCasesStyles, bootstrapStyles, gitHistoryStyles, nixStyles, ociStyles, inTotoStyles, chemicalStyles, buildEquivalenceStyles, artworkStyles, languageStyles, manuscriptStyles, operationalStyles]) {
+  for (const styles of [externalCasesStyles, bootstrapStyles, gitHistoryStyles, nixStyles, ociStyles, inTotoStyles, chemicalStyles, buildEquivalenceStyles, artworkStyles, languageStyles, manuscriptStyles, operationalStyles, ecologicalStyles, legalStyles]) {
     assert.match(styles, /@import url\("\.\/history-case-header\.css\?v=20260818\.2"\);/);
   }
-  for (const markup of [chemicalMarkup, buildEquivalenceMarkup, artworkMarkup, languageMarkup, manuscriptMarkup, operationalMarkup]) {
+  for (const markup of [chemicalMarkup, buildEquivalenceMarkup, artworkMarkup, languageMarkup, manuscriptMarkup, operationalMarkup, ecologicalMarkup, legalMarkup]) {
     assert.match(markup, /<div class="history-case-context"><span>[^<]+<\/span><strong class="history-case-state"><i><\/i><span id="load-state" role="status" aria-live="polite">Verifying artifact<\/span><\/strong><\/div>/);
   }
 });
@@ -264,6 +282,8 @@ test("case-aware Model Studio links select the exact registered release", () => 
   assert.match(languageMarkup, /model-studio\/#model=language-transmission&amp;version=v1-557580b2872e9d7e/);
   assert.match(manuscriptMarkup, /model-studio\/#model=manuscript-transmission&amp;version=v1-4581c6819fd2ab28/);
   assert.match(operationalMarkup, /model-studio\/#model=operational-aging&amp;version=v1-6b1c3008c8edc901/);
+  assert.match(ecologicalMarkup, /model-studio\/#model=ecological-memory&amp;version=v1-f4d78af8ab98228a/);
+  assert.match(legalMarkup, /model-studio\/#model=legal-precedent-history&amp;version=v1-05958887a4ffef41/);
   assert.match(externalCasesApp, /studio\.href = modelStudioHref\(entry, PROJECT_ROOT\)/);
   assert.match(externalCasesApp, /studioNavigation\.href = modelStudioHref\(entry, PROJECT_ROOT\)/);
   assert.match(externalCasesCatalog, /url\.hash = new URLSearchParams\(\{ model: entry\.modelId, version: entry\.modelVersion \}\)\.toString\(\)/);
@@ -514,6 +534,52 @@ test("Operational Aging Lab separates snapshot, history, latent state, and outco
   assert.equal(modelRevision, appRevision);
 });
 
+test("Ecological Memory Lab separates projected state, event context, and causality", () => {
+  assert.match(ecologicalApp, /cases\/ecological-memory\/artifacts\/ecological-memory\.json/);
+  assert.match(ecologicalApp, /createEcologicalMemoryModel/);
+  assert.match(ecologicalApp, /crypto\.subtle\.digest\("SHA-256"/);
+  assert.match(ecologicalApp, /cache: "no-store"/);
+  assert.match(ecologicalApp, /redirect: "error"/);
+  assert.doesNotMatch(ecologicalApp, /const URL = new URL\(/);
+  assert.match(ecologicalModel, /event boundary differs/);
+  assert.match(ecologicalModel, /flagship snapshot differs/);
+  assert.match(ecologicalModel, /future or Historical Load boundary differs/);
+  assert.match(ecologicalMarkup, /Looks the same at 0\.1 m\.[\s\S]*Carries a different history\./);
+  assert.match(ecologicalMarkup, /Equal after rounding is not equal in full/);
+  assert.match(ecologicalMarkup, /An after-state is observed\. A recovery path is not\./);
+  assert.match(ecologicalMarkup, /Undefined is the result/);
+  for (const id of ["metric-grid", "timeline", "snapshot-comparison", "signature-values", "state-bars", "grid-controls", "grid-canvas", "change-metrics", "equivalence-grid", "history-windows", "load-reason"]) assert.match(ecologicalMarkup, new RegExp(`id=["']${id}["']`), `missing #${id}`);
+  const pinnedDigest = ecologicalApp.match(/ARTIFACT_SHA256 = "([a-f0-9]{64})"/)?.[1];
+  assert.equal(pinnedDigest, createHash("sha256").update(ecologicalArtifact).digest("hex"));
+  const appRevision = ecologicalMarkup.match(/ecological-memory-lab\.js\?v=([^"']+)/)?.[1];
+  const modelRevision = ecologicalApp.match(/ecological-memory-model\.js\?v=([^"']+)/)?.[1];
+  assert.equal(modelRevision, appRevision);
+});
+
+test("Legal Precedent History Lab separates citation, attributed treatment, and authority", () => {
+  assert.match(legalApp, /cases\/legal-precedent-history\/artifacts\/legal-precedent-history\.json/);
+  assert.match(legalApp, /createLegalPrecedentModel/);
+  assert.match(legalApp, /crypto\.subtle\.digest\("SHA-256"/);
+  assert.match(legalApp, /cache: "no-store"/);
+  assert.match(legalApp, /redirect: "error"/);
+  assert.doesNotMatch(legalApp, /const URL = new URL\(/);
+  assert.match(legalStyles, /marker-end:url\(#citation-arrow\)/);
+  assert.match(legalModel, /citation chronology or semantics differ/);
+  assert.match(legalModel, /attributed treatment layer differs/);
+  assert.match(legalModel, /legal safety boundary differs/);
+  assert.match(legalMarkup, /A citation is a record\.[\s\S]*Authority is another claim\./);
+  assert.match(legalMarkup, /Four citations; zero inferred binding claims/);
+  assert.match(legalMarkup, /Withhold Brown II without rewriting history/);
+  assert.match(legalMarkup, /Undefined is the correct result here/);
+  assert.match(legalMarkup, /RESEARCH VIEW \/ NOT LEGAL ADVICE/);
+  for (const id of ["cohort-metrics", "opinion-timeline", "scope-controls", "citation-graph", "graph-readout", "opinion-inspector", "status-matrix", "counterfactual-toggle", "date-disagreements", "load-reason"]) assert.match(legalMarkup, new RegExp(`id=["']${id}["']`), `missing #${id}`);
+  const pinnedDigest = legalApp.match(/ARTIFACT_SHA256 = "([a-f0-9]{64})"/)?.[1];
+  assert.equal(pinnedDigest, createHash("sha256").update(legalArtifact).digest("hex"));
+  const appRevision = legalMarkup.match(/legal-precedent-history-lab\.js\?v=([^"']+)/)?.[1];
+  const modelRevision = legalApp.match(/legal-precedent-model\.js\?v=([^"']+)/)?.[1];
+  assert.equal(modelRevision, appRevision);
+});
+
 test("Git History Identity Lab verifies one immutable artifact across four regimes", () => {
   assert.match(gitHistoryApp, /cases\/git-history-identity\/artifacts\/history-identity\.json/);
   assert.match(gitHistoryApp, /createGitHistoryModel/);
@@ -627,7 +693,7 @@ test("Model Studio fully verifies the real pack before using the shared view lay
   assert.match(studioApp, /MODEL_PACK_CACHE_STORAGE_/);
   assert.match(studioApp, /dataset\.cache = "unavailable"/);
   assert.match(studioApp, /"Cached model verified"/);
-  assert.match(studioApp, /sha256:9f224aed53312a18a4d83364a456a8392632d15bb635b4609e9e4ad062c70986/);
+  assert.match(studioApp, /sha256:9efdefe85d888b4da148d9b95d6fc6706e4f88bd99913e71ba53dc7b5355e45e/);
   assert.match(studioApp, /new Worker\(MODEL_PACK_WORKER_URL, \{/);
   assert.match(studioApp, /type: "module"/);
   assert.match(studioApp, /ownsWorker: true/);
@@ -907,6 +973,16 @@ test("Textual Transmission Lab keeps interface text at the readable minimum", ()
 test("Operational Aging Lab keeps interface text at the readable minimum", () => {
   assertReadableInterfaceText(operationalStyles, "Operational Aging Lab");
   assert.doesNotMatch(operationalStyles, /https?:\/\//);
+});
+
+test("Ecological Memory Lab keeps interface text at the readable minimum", () => {
+  assertReadableInterfaceText(ecologicalStyles, "Ecological Memory Lab");
+  assert.doesNotMatch(ecologicalStyles, /https?:\/\//);
+});
+
+test("Legal Precedent History Lab keeps interface text at the readable minimum", () => {
+  assertReadableInterfaceText(legalStyles, "Legal Precedent History Lab");
+  assert.doesNotMatch(legalStyles, /https?:\/\//);
 });
 
 test("graph sidebars keep machine fields on bounded single lines", () => {

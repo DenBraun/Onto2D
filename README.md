@@ -21,8 +21,8 @@ boundary.
 The repository also contains a private engine preview: a deterministic Model
 Pack contract, separate frozen Causal Emergence, live-bootstrap provenance,
 Nix derivation, OCI layer-provenance, in-toto, chemical-reaction, reproducible-build,
-artwork-provenance, language-transmission, manuscript-transmission, and
-operational-aging releases,
+artwork-provenance, language-transmission, manuscript-transmission,
+operational-aging, ecological-memory, and legal-precedent-history releases,
 and a headless API for exact model queries and traversal. It is not yet a
 published npm package.
 
@@ -134,6 +134,21 @@ compares two source-locked NASA C-MAPSS FD001 endpoints that rank in the nearest
 shows how observed-history windows change that rank without leaking outcomes or
 inventing latent health
 ([method](cases/operational-aging/README.md)).
+
+The [Ecological Memory Lab](https://denbraun.github.io/Onto2D/apps/ecological-memory-lab/)
+compares 7,275 source-locked NEON SOAP LiDAR cells before and after recorded
+Creek Fire context, then shows why one equal rounded vegetation-height signature
+does not establish exact measurement, ecosystem identity, causation, or a
+recovery trajectory
+([method](cases/ecological-memory/README.md)).
+
+The [Legal Precedent History Lab](https://denbraun.github.io/Onto2D/apps/legal-precedent-history-lab/)
+places seven source-locked Supreme Court school-desegregation opinions on one
+official chronology, reconstructs the four selected opinions available at the
+`Green` decision date, and keeps native citation, attributed treatment, unknown
+binding status, provider date conflicts, and counterfactual graph ablation as
+separate layers. It is a research visualization, not legal advice
+([method](cases/legal-precedent-history/README.md)).
 
 The [History Atlas](https://denbraun.github.io/Onto2D/apps/history-atlas/)
 organizes 22 registered cases by two independent axes: how history is available

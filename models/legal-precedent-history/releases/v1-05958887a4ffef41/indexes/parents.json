@@ -1,0 +1,134 @@
+[
+  {
+    "id": "analysis:green-available-context",
+    "nodes": [
+      "analysis:withhold-brown-ii"
+    ]
+  },
+  {
+    "id": "analysis:withhold-brown-ii",
+    "nodes": []
+  },
+  {
+    "id": "boundary:historical-load-not-evaluated",
+    "nodes": [
+      "analysis:green-available-context"
+    ]
+  },
+  {
+    "id": "boundary:not-legal-advice",
+    "nodes": [
+      "analysis:green-available-context"
+    ]
+  },
+  {
+    "id": "court:scotus",
+    "nodes": [
+      "source:school-desegregation-cohort"
+    ]
+  },
+  {
+    "id": "date-disagreement:cooper",
+    "nodes": []
+  },
+  {
+    "id": "date-disagreement:swann",
+    "nodes": []
+  },
+  {
+    "id": "opinion:alexander",
+    "nodes": [
+      "analysis:green-available-context",
+      "source:school-desegregation-cohort"
+    ]
+  },
+  {
+    "id": "opinion:brown-i",
+    "nodes": [
+      "analysis:green-available-context",
+      "opinion:brown-ii",
+      "opinion:cooper",
+      "opinion:green",
+      "opinion:griffin",
+      "opinion:swann",
+      "source:school-desegregation-cohort",
+      "treatment:green-treatment-brown-i"
+    ]
+  },
+  {
+    "id": "opinion:brown-ii",
+    "nodes": [
+      "analysis:green-available-context",
+      "analysis:withhold-brown-ii",
+      "opinion:cooper",
+      "opinion:green",
+      "opinion:griffin",
+      "opinion:swann",
+      "source:school-desegregation-cohort",
+      "treatment:green-treatment-brown-ii"
+    ]
+  },
+  {
+    "id": "opinion:cooper",
+    "nodes": [
+      "analysis:green-available-context",
+      "date-disagreement:cooper",
+      "opinion:green",
+      "opinion:griffin",
+      "source:school-desegregation-cohort",
+      "treatment:green-treatment-cooper"
+    ]
+  },
+  {
+    "id": "opinion:green",
+    "nodes": [
+      "analysis:green-available-context",
+      "opinion:alexander",
+      "opinion:swann",
+      "source:school-desegregation-cohort",
+      "treatment:green-treatment-brown-i",
+      "treatment:green-treatment-brown-ii",
+      "treatment:green-treatment-cooper",
+      "treatment:green-treatment-griffin"
+    ]
+  },
+  {
+    "id": "opinion:griffin",
+    "nodes": [
+      "analysis:green-available-context",
+      "opinion:alexander",
+      "opinion:green",
+      "opinion:swann",
+      "source:school-desegregation-cohort",
+      "treatment:green-treatment-griffin"
+    ]
+  },
+  {
+    "id": "opinion:swann",
+    "nodes": [
+      "analysis:green-available-context",
+      "date-disagreement:swann",
+      "source:school-desegregation-cohort"
+    ]
+  },
+  {
+    "id": "source:school-desegregation-cohort",
+    "nodes": []
+  },
+  {
+    "id": "treatment:green-treatment-brown-i",
+    "nodes": []
+  },
+  {
+    "id": "treatment:green-treatment-brown-ii",
+    "nodes": []
+  },
+  {
+    "id": "treatment:green-treatment-cooper",
+    "nodes": []
+  },
+  {
+    "id": "treatment:green-treatment-griffin",
+    "nodes": []
+  }
+]

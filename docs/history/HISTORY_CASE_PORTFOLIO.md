@@ -1,6 +1,6 @@
 # Onto2D History Case Portfolio
 
-Updated: 2026-08-18
+Updated: 2026-08-19
 
 This is the authoritative human-readable portfolio view. The machine-readable
 source is [`cases/history-case-registry.json`](../../cases/history-case-registry.json).
@@ -27,9 +27,9 @@ Statuses describe repository maturity, not scientific truth.
 | Artwork Provenance | Recorded | Reconstructed | Identity | Cultural heritage | ANALYSIS_READY |
 | Manuscript Stemmatics | Reconstructed | Recorded | Identity | Textual scholarship | ANALYSIS_READY |
 | Operational Aging | Embodied | Recorded | Present State, Future | Mechanical prognostics | ANALYSIS_READY |
-| Ecological Memory | Embodied | Recorded | Present State, Future | Ecology | PLANNED |
+| Ecological Memory | Embodied | Recorded | Present State, Future | Ecology | ANALYSIS_READY |
 | Historical Linguistics | Reconstructed | Recorded | Identity | Historical linguistics | ANALYSIS_READY |
-| Legal Precedent | Recorded | Reconstructed | Future | Law | PLANNED |
+| Legal Precedent | Recorded | Reconstructed | Future | Law | ANALYSIS_READY |
 | Clinical Trajectories | Embodied | Recorded | Present State, Future | Clinical medicine | PLANNED |
 | Galactic Archaeology | Reconstructed | Recorded | Present State | Galactic astronomy | PLANNED |
 
@@ -63,14 +63,19 @@ metadata, never physical ownership of a case.
 
 1. Recorded → Identity: Artwork Provenance, in-toto, Reproducible Builds, and
    Chemistry are analysis-ready.
-2. Embodied → Present State: Operational Aging is analysis-ready; Ecological
-   Memory is next and Material Process History remains planned.
-3. Embodied → Future: Operational Aging is analysis-ready; LTEE and Ecological
-   Memory remain planned.
+2. Embodied → Present State: Operational Aging and Ecological Memory are
+   analysis-ready; Material Process History remains planned.
+3. Embodied → Future: Operational Aging is analysis-ready. Ecological Memory's
+   present-state result is analysis-ready while future reachability remains
+   explicitly descriptive-only; LTEE remains planned.
 4. Reconstructed → Identity: Historical Linguistics and Manuscript Stemmatics
    are analysis-ready; Mineral Formation and Cell Lineage remain planned.
 5. Reconstruction from traces: Lithic Operational History and Galactic
    Archaeology.
+6. Recorded → Future: Legal Precedent is analysis-ready with a bounded
+   official-date context and separately attributed treatment layer.
+7. Embodied → Present State / Future: Clinical Trajectories is the next
+   implementation target.
 
 The priority sequence does not upgrade a `PLANNED` case. Source pinning,
 reproducible extraction, evidence review, and negative tests are still required.

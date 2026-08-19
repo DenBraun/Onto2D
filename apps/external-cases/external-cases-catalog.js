@@ -168,13 +168,13 @@ const PRESENTATION = Object.freeze({
     outputs: ["One-hundred-endpoint source-locked cohort and two complete observed prefixes", "Five exact distance profiles over all 4,950 unordered test-endpoint pairs", "Verified operational-aging Model Pack with observation, history, outcome, and boundary layers", "Operational Aging Lab with trajectory, rank, context-control, and outcome views"]
   }),
   "ecological-memory": Object.freeze({
-    question: "Can similar ecological snapshots retain different disturbance histories and later responses?",
-    distinction: "similar ecosystem snapshot != same disturbance history",
-    summary: "Pinned NEON event and measurement products will connect recorded disturbance context to bounded state projections and recovery trajectories.",
-    flagship: "Compare plot observations around one recorded disturbance, then test similar projected states with different preceding histories.",
-    contribution: "The case will test ecological hysteresis while keeping observational association distinct from causal proof.",
-    boundaries: ["Matching pinned NEON releases and product IDs", "Native observations retained before projection", "Event absence cannot become no disturbance", "Protocols, gaps, and quality flags stay explicit"],
-    outputs: ["Site and disturbance timeline", "Versioned state projection", "Recovery-trajectory comparison", "Ecological Memory Lab"]
+    question: "Can one cell look the same under a bounded ecological projection while its recorded context and exact measurements differ?",
+    distinction: "same rounded projection != same measurement != same ecosystem or history",
+    summary: "Exact public NEON SOAP tutorial files yield a 7,275-cell comparison of four projected vegetation-height quantiles before and after recorded 2020 Creek Fire context.",
+    flagship: "Cell 7880 has the same four-number signature after 0.1 m rounding in 2019 and 2021, while its exact values, return counts, sensor protocol, and event context differ.",
+    contribution: "The case makes projection-relative ecological similarity operational without promoting event precedence to causation or two surveys to a recovery trajectory.",
+    boundaries: ["Exact public file IDs, bytes, hashes, and tutorial Git blobs without inventing a formal release tag", "Four height quantiles remain a bounded projection rather than full ecosystem state", "Recorded fire context and published tile interpretation remain separate from a direct spatial causal join", "Different sensors, absent control design, future response, and Historical Load remain explicit boundaries"],
+    outputs: ["Two source-locked survey projections and four exact event records", "Full 7,275-cell paired grid plus six history-equivalence regimes", "Verified ecological-memory Model Pack with zero causal edges", "Ecological Memory Lab with chronology, map, before/after, window, and boundary views"]
   }),
   "historical-linguistics": Object.freeze({
     question: "Can vertical inheritance and horizontal borrowing coexist without conflation?",
@@ -188,11 +188,11 @@ const PRESENTATION = Object.freeze({
   "legal-precedent-history": Object.freeze({
     question: "How can recorded decisions constrain future legal context without turning citation into authority?",
     distinction: "cites != depends on != binding precedent",
-    summary: "A bounded CourtListener cohort will represent opinions, citation history, availability at decision time, and separately attributed normative claims.",
-    flagship: "Display the exact precedent context available at one decision time while excluding every later opinion.",
-    contribution: "This is the normative Recorded History -> Future case; it models legal records and never supplies legal advice.",
-    boundaries: ["One small jurisdictional and doctrinal cohort", "Citation count cannot create binding status", "Normative relations require explicit external evidence", "Counterfactual graph removal cannot rewrite source history"],
-    outputs: ["Pinned opinion and citation records", "Available-at-time projection", "Citation versus normative-status view", "Legal Precedent History Lab"]
+    summary: "Seven selected Supreme Court school-desegregation opinions are locked to CourtListener identifiers and official GovInfo documents, with citation, time, and attributed treatment kept as separate layers.",
+    flagship: "At Green's official 1968 decision date, Brown I, Brown II, Cooper, and Griffin are admitted as the four selected prior opinions; Alexander and Swann remain recorded but excluded as later.",
+    contribution: "The case makes normative Recorded History -> Future inspectable without manufacturing authority: 16 native citations, four source-attributed treatment claims, and zero inferred binding claims.",
+    boundaries: ["Seven-opinion research cohort is deliberately incomplete and is not a statement of current law", "CourtListener citation counts are display-only and cannot create authority", "Four treatment claims are attributed to exact locators in the official Green opinion", "GovInfo and CourtListener date conflicts remain visible; counterfactual removal mutates no source record"],
+    outputs: ["Seven opinion records with exact provider and official-document identities", "Green available-at-time projection with two later opinions excluded", "Verified Legal Precedent History Model Pack", "Legal Precedent History Lab with citation, treatment, date-conflict, and ablation views"]
   }),
   "clinical-trajectories": Object.freeze({
     question: "What does longitudinal context add beyond a bounded clinical snapshot?",

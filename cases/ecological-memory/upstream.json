@@ -1,0 +1,110 @@
+{
+  "format": "onto2d-ecological-memory-upstream-lock",
+  "formatVersion": "1",
+  "retrievedAt": "2026-08-19T04:44:17Z",
+  "liveNetworkRequiredByBuild": false,
+  "source": {
+    "id": "neon-soap-creek-fire-lidar-tutorial-cohort",
+    "publisher": "National Ecological Observatory Network (NEON)",
+    "landingPage": "https://www.neonscience.org/resources/learning-hub/tutorials/discrete-lidar-wildfires",
+    "license": "CC BY 4.0 for NEON data products; tutorial repository code is AGPL-3.0",
+    "citation": "National Ecological Observatory Network (NEON). Discrete-return LiDAR (DP1.30003.001), Elevation LiDAR (DP3.30024.001), and Site management and event reporting (DP1.10111.001), Soaproot Saddle tutorial cohort."
+  },
+  "tutorials": [
+    {
+      "role": "event-query-output",
+      "repository": "NEONScience/NEON-Data-Skills",
+      "path": "tutorials/R/NEON-general/neon-overview/new-features-2025/new-features-2025.md",
+      "gitBlob": "0cf8394018c63cecb8920e7be450c7c1f77d099e",
+      "sha256": "3b3ea6bb97750a5032361985b72dc745a1b771c7d2d5cec779938cf1dd88d238",
+      "bytes": 25109
+    },
+    {
+      "role": "fire-affected-tile-interpretation-and-analysis-protocol",
+      "repository": "NEONScience/NEON-Data-Skills",
+      "path": "tutorials/Python/AOP/Lidar/lidar-applications/lidar-wildfire/fire-effects-veg-structure-lidar.md",
+      "gitBlob": "e6979cde1f768dfbbed558b511545d83c257ffad",
+      "sha256": "d160df5c258846ffdc508465b732b3e2f7ee5b477c7430f72631d8f866f649fe",
+      "bytes": 51014
+    }
+  ],
+  "externalFiles": [
+    {
+      "role": "pre-fire-lidar",
+      "productId": "DP1.30003.001",
+      "year": 2019,
+      "googleDriveFileId": "1951tNjBljqKllUaghKmbzVegWQ_ixa_I",
+      "name": "NEON_D17_SOAP_DP1_293000_4100000_classified_point_cloud_colorized_2019.laz",
+      "mediaType": "application/vnd.laszip",
+      "bytes": 21403480,
+      "sha256": "62be6c7649625ba20dfc40cc5136f4c31b894319b59abb3117657017025060d9"
+    },
+    {
+      "role": "post-fire-lidar",
+      "productId": "DP1.30003.001",
+      "year": 2021,
+      "googleDriveFileId": "1U9V3a3KJoJP5tDa3WYaMbBl_hjUPwosl",
+      "name": "NEON_D17_SOAP_DP1_293000_4100000_classified_point_cloud_colorized_2021.laz",
+      "mediaType": "application/vnd.laszip",
+      "bytes": 119247766,
+      "sha256": "e0a7a5a6871587c5b36395128bd9fc48a7c50ae72de676c239efc0ca351ae09a"
+    },
+    {
+      "role": "shared-terrain-reference",
+      "productId": "DP3.30024.001",
+      "year": 2021,
+      "googleDriveFileId": "11V8M7VipQN8Tf5Q-SWkYOSjoGbEo5UhF",
+      "name": "NEON_D17_SOAP_DP3_293000_4100000_DTM_2021.tif",
+      "mediaType": "image/tiff",
+      "bytes": 4009492,
+      "sha256": "90ee3b76207542694e8e04d2c6289a5093fd0d8b6ce4b07d25533b2061acc1ab"
+    }
+  ],
+  "projectionGenerator": {
+    "path": "prepare-source.py",
+    "sha256": "7f589ed118eeda7268ed3f6912ed99c8fbe16552382999c3fa0d83a3ffcc651d",
+    "bytes": 9620,
+    "python": "3.9.6",
+    "dependencies": [
+      "numpy==2.0.2",
+      "laspy==2.6.1",
+      "lazrs==0.6.3",
+      "rasterio==1.4.3"
+    ]
+  },
+  "snapshots": [
+    {
+      "role": "lidar-state-projection",
+      "path": "source/soap-lidar-projection.json",
+      "sha256": "1f342fce147ac495f705564f3e6f82f292e908c18bb82cfe2fe3ccb4b7bf1962",
+      "bytes": 5178620,
+      "derivedFrom": [
+        "pre-fire-lidar",
+        "post-fire-lidar",
+        "shared-terrain-reference"
+      ]
+    },
+    {
+      "role": "recorded-event-projection",
+      "path": "source/soap-event-projection.json",
+      "sha256": "1a43795b0d4dc0a31b6ff48fedda428f389d38ba89ae01601bbaae7ae887aa7b",
+      "bytes": 4331,
+      "derivedFrom": [
+        "event-query-output",
+        "fire-affected-tile-interpretation-and-analysis-protocol"
+      ]
+    }
+  ],
+  "selection": {
+    "siteCode": "SOAP",
+    "tile": "293000_4100000",
+    "surveyYears": [
+      2019,
+      2021
+    ],
+    "recordedEvent": "Creek Fire",
+    "profile": "soap-classified-vegetation-height-v1",
+    "formalReleaseTag": null,
+    "releaseBoundary": "The official tutorial bundle is pinned by exact public file IDs and bytes; it is not relabelled as a formal NEON release."
+  }
+}

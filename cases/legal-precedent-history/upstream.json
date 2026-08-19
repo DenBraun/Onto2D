@@ -1,0 +1,48 @@
+{
+  "format": "onto2d-legal-precedent-upstream-lock",
+  "formatVersion": "1",
+  "retrievedAt": "2026-08-19T05:28:51Z",
+  "liveNetworkRequiredByBuild": false,
+  "sources": [
+    {
+      "id": "courtlistener",
+      "publisher": "Free Law Project",
+      "role": "opinion identifiers, provider dates, opinion SHA-1 values, provider citation counts, and native opinion.cites edges",
+      "landingPage": "https://www.courtlistener.com/",
+      "apiDocumentation": "https://wiki.free.law/c/courtlistener/help/api/rest/v4/rest-api-v47",
+      "citationDocumentation": "https://wiki.free.law/c/courtlistener/help/api/rest/v4/citations",
+      "retrievalMethod": "Public REST API v4 search results; exact selected fields retained in the compact source projection.",
+      "authorityBoundary": "CourtListener supplies recorded provider metadata and citation edges; it does not supply a binding-status conclusion in this case."
+    },
+    {
+      "id": "govinfo-us-reports",
+      "publisher": "U.S. Government Publishing Office",
+      "role": "official United States Reports metadata, decision dates, reporter citations, and byte-locked opinion PDFs",
+      "landingPage": "https://www.govinfo.gov/app/collection/USREPORTS",
+      "retrievalMethod": "Public GovInfo content-detail pages and exact PDF downloads.",
+      "authorityBoundary": "GovInfo decision dates drive the temporal projection; differences from CourtListener dateFiled remain explicit."
+    }
+  ],
+  "snapshot": {
+    "role": "bounded-opinion-cohort",
+    "path": "source/school-desegregation-cohort.json",
+    "sha256": "6287938f4268df38712cba2f580dfc4e4157c8017f5fff72b21b0e5d833a36cb",
+    "bytes": 10363,
+    "derivedFrom": [
+      "courtlistener",
+      "govinfo-us-reports"
+    ]
+  },
+  "selection": {
+    "cohortId": "scotus-school-desegregation-1954-1971-v1",
+    "courtId": "scotus",
+    "opinionCount": 7,
+    "targetOpinionId": "green",
+    "officialDateRange": [
+      "1954-05-17",
+      "1971-04-20"
+    ],
+    "scope": "A deliberately incomplete research cohort of seven U.S. Supreme Court public-school desegregation opinions.",
+    "completenessClaim": false
+  }
+}

@@ -1,6 +1,37 @@
-# NEON Ecological Memory — Implementation Plan
+# NEON Ecological Memory — Implementation Record
 
-Updated: 2026-08-18
+Updated: 2026-08-19
+
+Status: `ANALYSIS_READY`
+
+## Implemented Result
+
+The case locks the exact public files used by the official NEON wildfire LiDAR
+tutorial: 2019 and 2021 classified point clouds for SOAP tile
+`293000_4100000`, plus the shared 2021 DTM. It also locks the exact Git blobs
+for the wildfire tutorial and the official rendered site-event query that
+contains four Creek Fire records. File IDs, byte lengths, and SHA-256
+identities are verified; this bundle is not relabelled as a formal NEON
+release.
+
+Under the declared projection, classification-5 high-vegetation returns are
+height-normalized against the shared DTM and summarized as P20, P50, P75, and
+P90 in 10 m cells with at least 50 returns. There are 7,275 cells eligible in
+both years. Their paired median changes from 2019 to 2021 are `-0.311028`,
+`-0.277956`, `-0.189277`, and `-0.104390` m respectively.
+
+Cell 7880 is the deterministic flagship: all four projected values match after
+rounding to 0.1 m, while exact values, retained-return counts, sensor protocols,
+and recorded history remain different. Therefore equality holds only for one
+declared display-signature regime. It does not create exact measurement, full
+ecosystem, or history identity.
+
+The before/after result is descriptive. The two years use different sensors,
+the case includes no exact fire-perimeter intersection or control tile, and no
+causal effect is estimated. Two survey dates do not establish a recovery
+trajectory or future response. Historical Load is explicitly `null` because
+no alternative-history graph, admissibility rule, route cost, or baseline
+route exists in this cohort.
 
 ## History Model Metadata
 
@@ -27,13 +58,13 @@ Historical Load:
     Not primary
 
 History Equivalence:
-    Possible later
+    Relevant; six bounded regimes implemented
 
 Reachability:
-    Primary research direction
+    Descriptive-only in this release; primary research direction
 
 Reconstruction:
-    Secondary where historical records are incomplete
+    Not primary; no unrecorded disturbance is reconstructed
 ```
 
 ## Purpose
@@ -317,6 +348,20 @@ correlation as causation.
 
 ## Definition of Done
 
-A pinned NEON site/plot cohort can be replayed with exact event and observation
-records, one disturbance/recovery history visualized, and at least one
-history-aware state comparison performed under a declared projection.
+A pinned NEON site/tile cohort can be replayed with exact event and observation
+records, one recorded disturbance-context chronology visualized, and at least
+one history-aware state comparison performed under a declared projection. A
+recovery history requires more than the two available survey dates and remains
+an explicit future extension rather than a completed claim.
+
+Completed with:
+
+- exact external-byte, tutorial-blob, projection, and authored-file locks;
+- a deterministic 7,275-cell paired analysis and full committed cell grid;
+- a content-addressed case artifact and JSON Schema;
+- positive and re-signed negative tests for source, projection, protocol,
+  causality, identity, future, and Historical Load boundaries;
+- an approved-release verifier that rejects fully rehashed scientific-result or
+  source-lock substitutions before they reach the Model Pack;
+- the `ecological-memory` Model Pack with zero causal edges;
+- the light-theme Ecological Memory Lab and exact Model Studio registration.

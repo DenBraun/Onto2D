@@ -34,7 +34,9 @@ jobs:
         run: npm test
 
       - name: Run repository checks
+        if: ${{ !cancelled() }}
         run: npm run check
 
       - name: Run validation build
+        if: ${{ !cancelled() }}
         run: npm run build

@@ -20,7 +20,7 @@ test("the history portfolio is complete, stable, and status-honest", async () =>
   assert.deepEqual(HISTORY_MODES.map((entry) => entry.id), ["recorded", "embodied", "reconstructed"]);
   assert.deepEqual(HISTORY_EFFECTS.map((entry) => entry.id), ["identity", "present-state", "future"]);
   assert.equal(new Set(cases.map((entry) => entry.caseId)).size, cases.length);
-  assert.equal(cases.filter((entry) => entry.statusKind === "implemented").length, 11);
+  assert.equal(cases.filter((entry) => entry.statusKind === "implemented").length, 13);
   assert.equal(cases.filter((entry) => entry.statusKind === "next").length, 1);
   assert.equal(historyCaseById(cases, "oci-layer-history").statusKind, "implemented");
   assert.equal(historyCaseById(cases, "in-toto-admissibility").statusKind, "implemented");
@@ -30,7 +30,9 @@ test("the history portfolio is complete, stable, and status-honest", async () =>
   assert.equal(historyCaseById(cases, "historical-linguistics").statusKind, "implemented");
   assert.equal(historyCaseById(cases, "manuscript-stemmatics").statusKind, "implemented");
   assert.equal(historyCaseById(cases, "operational-aging").statusKind, "implemented");
-  assert.equal(historyCaseById(cases, "ecological-memory").statusKind, "next");
+  assert.equal(historyCaseById(cases, "ecological-memory").statusKind, "implemented");
+  assert.equal(historyCaseById(cases, "legal-precedent-history").statusKind, "implemented");
+  assert.equal(historyCaseById(cases, "clinical-trajectories").statusKind, "next");
   assert.equal(historyCaseById(cases, "slsa-provenance-evidence").caseId, "slsa-provenance-evidence");
   assert.equal(historyCaseById(cases, "missing"), null);
 
@@ -72,7 +74,9 @@ test("implemented case links select one exact registered Model Studio release", 
     ["artwork-provenance", ["artwork-provenance", "v1-ca697f7318c611a9"]],
     ["historical-linguistics", ["language-transmission", "v1-557580b2872e9d7e"]],
     ["manuscript-stemmatics", ["manuscript-transmission", "v1-4581c6819fd2ab28"]],
-    ["operational-aging", ["operational-aging", "v1-6b1c3008c8edc901"]]
+    ["operational-aging", ["operational-aging", "v1-6b1c3008c8edc901"]],
+    ["ecological-memory", ["ecological-memory", "v1-f4d78af8ab98228a"]],
+    ["legal-precedent-history", ["legal-precedent-history", "v1-05958887a4ffef41"]]
   ]);
   for (const entry of cases) {
     const url = new URL(modelStudioHref(entry, "https://onto2d.dev/project/"));

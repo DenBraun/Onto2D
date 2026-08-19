@@ -1,0 +1,119 @@
+{
+  "format": "onto2d-ecological-memory-analysis-profile",
+  "formatVersion": "1",
+  "profileVersion": "ecological-memory-soap-v1",
+  "surveyYears": [
+    2019,
+    2021
+  ],
+  "stateProjection": {
+    "fields": [
+      "heightP20",
+      "heightP50",
+      "heightP75",
+      "heightP90"
+    ],
+    "displayPrecisionMeters": 0.1,
+    "equivalenceRule": "same-cell-and-equal-four-field-decimal-signature",
+    "minimumReturnsPerCell": 50,
+    "expectedQualifiedCells": {
+      "2019": 7754,
+      "2021": 8800,
+      "matched": 7275
+    }
+  },
+  "beforeAfter": {
+    "comparison": "same-cell-2021-minus-2019",
+    "expectedSurveyMedians": {
+      "2019": [
+        3.084981,
+        4.125513,
+        5.076358,
+        5.914652
+      ],
+      "2021": [
+        2.663489,
+        3.693247,
+        4.686855,
+        5.565742
+      ]
+    },
+    "expectedMatchedMedianChanges": [
+      -0.311028,
+      -0.277956,
+      -0.189277,
+      -0.10439
+    ],
+    "expectedDecreaseCounts": [
+      5667,
+      5326,
+      4896,
+      4353
+    ]
+  },
+  "similarSnapshot": {
+    "selection": "lowest-cell-id-among-same-cell-equal-signature-pairs",
+    "expectedCandidateCount": 2,
+    "expectedCellId": 7880,
+    "expectedSignature": [
+      3,
+      3.5,
+      3.8,
+      4
+    ],
+    "createsFullEcosystemIdentity": false,
+    "createsHistoryIdentity": false
+  },
+  "historyWindows": [
+    {
+      "id": "current-projection-only",
+      "includes": [
+        "four rounded height quantiles"
+      ],
+      "eventContextVisible": false
+    },
+    {
+      "id": "selected-recorded-event",
+      "includes": [
+        "four rounded height quantiles",
+        "four Creek Fire source records"
+      ],
+      "eventContextVisible": true
+    },
+    {
+      "id": "full-bounded-evidence",
+      "includes": [
+        "native-file identities",
+        "projection protocol",
+        "sensor difference",
+        "four Creek Fire source records",
+        "published spatial interpretation"
+      ],
+      "eventContextVisible": true
+    }
+  ],
+  "reachability": {
+    "status": "observed-after-state-only",
+    "futurePredictionIncluded": false,
+    "causalEffectEstimated": false,
+    "recoveryTrajectoryClaim": false
+  },
+  "historicalLoad": {
+    "status": "not-evaluated",
+    "value": null,
+    "reason": "No finite ecological route space, route-cost function, or history-free baseline is defined; undefined must not be displayed as zero."
+  },
+  "nonClaims": [
+    "The four height quantiles are not the full ecosystem state.",
+    "The recorded Creek Fire is not a causal-effect estimate.",
+    "The event records do not define an exact fire perimeter for the LiDAR tile.",
+    "The two surveys do not form a recovery trajectory.",
+    "A rounded equal state signature is not ecosystem identity.",
+    "A rounded equal state signature is not history identity.",
+    "The 2019 and 2021 sensors are not interchangeable protocols.",
+    "Missing event records do not prove that no disturbance occurred.",
+    "No unrecorded disturbance is reconstructed.",
+    "No future ecological state is predicted.",
+    "Historical Load is undefined rather than zero."
+  ]
+}
