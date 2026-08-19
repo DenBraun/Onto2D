@@ -1,0 +1,119 @@
+{
+  "format": "onto2d-operational-aging-analysis-profile",
+  "formatVersion": "1",
+  "profileVersion": "operational-aging-fd001-v1",
+  "dataset": "FD001",
+  "currentFrame": {
+    "fields": [
+      "settings",
+      "sensors"
+    ],
+    "excludedFields": [
+      "unitId",
+      "cycle",
+      "observedCycleCount",
+      "providedRul"
+    ],
+    "normalization": "training-min-max-v1",
+    "distance": "binary64-root-mean-square-v1",
+    "reportDecimalPlaces": 12,
+    "zeroRangePolicy": "retain-as-context-exclude-from-numeric-distance"
+  },
+  "pairSelection": {
+    "candidateCohort": "all-100-test-endpoints",
+    "unorderedPairCount": 4950,
+    "eligibleRule": "first-floor-5-percent-pairs-by-combined-current-frame-distance",
+    "eligiblePairCount": 247,
+    "selectionRule": "maximum-absolute-provided-rul-difference-then-distance-then-unit-ids",
+    "expectedSelectedUnitIds": [
+      25,
+      72
+    ],
+    "usesOutcomeForSelection": true,
+    "selectionBiased": true,
+    "predictiveEvaluationClaim": false
+  },
+  "distanceProfiles": [
+    {
+      "id": "current-combined",
+      "label": "Current frame / settings + sensors",
+      "window": "last-observed-row",
+      "dimensionScope": "all-nonconstant-settings-and-sensors",
+      "expectedDistance": 0.082125416271,
+      "expectedRank": 78,
+      "expectedPercentile": 0.015757575758
+    },
+    {
+      "id": "current-sensors-only-control",
+      "label": "Current frame / sensors only",
+      "window": "last-observed-row",
+      "dimensionScope": "all-nonconstant-sensors",
+      "expectedDistance": 0.083710777228,
+      "expectedRank": 368,
+      "expectedPercentile": 0.074343434343
+    },
+    {
+      "id": "current-settings-only-control",
+      "label": "Current frame / settings only",
+      "window": "last-observed-row",
+      "dimensionScope": "all-nonconstant-settings",
+      "expectedDistance": 0.069085145288,
+      "expectedRank": 366,
+      "expectedPercentile": 0.073939393939
+    },
+    {
+      "id": "last-20-combined",
+      "label": "Last 20 observed cycles / mean",
+      "window": "last-20-observed-rows-mean",
+      "dimensionScope": "all-nonconstant-settings-and-sensors",
+      "expectedDistance": 0.066452134448,
+      "expectedRank": 1439,
+      "expectedPercentile": 0.290707070707
+    },
+    {
+      "id": "full-history-combined",
+      "label": "Full observed history / mean",
+      "window": "all-observed-rows-mean",
+      "dimensionScope": "all-nonconstant-settings-and-sensors",
+      "expectedDistance": 0.035615328056,
+      "expectedRank": 1072,
+      "expectedPercentile": 0.216565656566
+    }
+  ],
+  "outcome": {
+    "field": "providedRul",
+    "role": "held-out-outcome-only",
+    "expectedLeftRul": 145,
+    "expectedRightRul": 50,
+    "expectedAbsoluteDifference": 95,
+    "predictedRulIncluded": false,
+    "predictionStatus": "not-evaluated"
+  },
+  "reachability": {
+    "status": "descriptive-source-outcome",
+    "relation": "provided-cycles-after-observed-endpoint",
+    "causalClaim": false,
+    "universalPhysicalClaim": false
+  },
+  "historyEquivalence": {
+    "status": "not-evaluated",
+    "reason": "The case evaluates declared-near observation frames and history-conditioned ranks, not an equivalence relation."
+  },
+  "historicalLoad": {
+    "status": "not-evaluated",
+    "value": null,
+    "reason": "FD001 supplies observed prefixes and failure horizons, but no finite admissible alternative-history space, route cost, or baseline route; Historical Load is undefined rather than zero."
+  },
+  "nonClaims": [
+    "A declared-near current frame is not exact engine-state identity.",
+    "The simulator's latent health index is not present in the participant data.",
+    "Provided test RUL is an outcome and never an input to a distance profile.",
+    "The flagship pair is outcome-aware and selection-biased, not a predictive evaluation.",
+    "No future test cycle is observed, synthesized, or included in a history window.",
+    "A derived history mean is not a directly observed health state.",
+    "Feature relevance is not interpreted as physical causation.",
+    "FD001 results do not generalize automatically to other operating conditions or fault modes.",
+    "No RUL predictor is trained or evaluated in this release.",
+    "Historical Load is not evaluated for this case."
+  ]
+}

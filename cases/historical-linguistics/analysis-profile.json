@@ -1,0 +1,33 @@
+{
+  "format": "onto2d-language-transmission-analysis-profile",
+  "formatVersion": "1",
+  "profileVersion": "language-transmission-v1",
+  "conceptId": "1-87",
+  "flagshipBorrowingId": "5",
+  "comparisonPairs": [
+    { "id": "english-dutch", "label": "English / Dutch", "left": "stan1293", "right": "dutc1256" },
+    { "id": "english-manange", "label": "English / Manange", "left": "stan1293", "right": "mana1288" },
+    { "id": "lower-sorbian-old-high-german", "label": "Lower Sorbian / Old High German", "left": "lowe1385", "right": "oldh1241" }
+  ],
+  "equivalenceRegimes": [
+    { "id": "language-identifier", "label": "Language identity", "question": "Do the records name the same Glottocode?", "fields": ["glottocode"] },
+    { "id": "genealogical-family", "label": "Top-level family", "question": "Do the languages share the same published top-level family?", "fields": ["familyId"] },
+    { "id": "lexical-state", "label": "Lexical state", "question": "Is the selected concept represented by the same recorded form?", "fields": ["form"] },
+    { "id": "transmission-profile", "label": "Transmission profile", "question": "Do borrowed status, score, relation, and immediate donor agree?", "fields": ["borrowedStatus", "borrowedScore", "sourceRelation", "sourceGlottocode"] }
+  ],
+  "historicalLoad": {
+    "status": "not-evaluated",
+    "value": null,
+    "reason": "The source cohort supplies classifications and lexical transmission annotations, but no admissible route space, cost functional, or event-count baseline; Historical Load is undefined rather than zero."
+  },
+  "nonClaims": [
+    "Glottolog classification is preserved as a versioned published classification, not unquestionable ground truth.",
+    "A WOLD borrowing row does not create a genealogical parent edge.",
+    "Surface-form similarity does not create a cognacy assertion.",
+    "The selected concept cannot characterize the borrowing profile of an entire language.",
+    "Source-certain identifies the recorded source relation; it does not overwrite the target form's borrowed-status uncertainty.",
+    "No proto-language, sound change, or phylogeny is reconstructed.",
+    "No absent donor or classification alternative is invented.",
+    "Historical Load is not evaluated for this case."
+  ]
+}

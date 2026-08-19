@@ -1,6 +1,28 @@
-# NASA Operational Aging — Implementation Plan
+# NASA Operational Aging — Implementation Record
 
 Updated: 2026-08-18
+
+Status: `ANALYSIS_READY`
+
+## Implemented Result
+
+The exact NASA archive is locked at
+`sha256:74bef434a34db25c7bf72e668ea4cd52afe5f2cf8e44367c55a82bfd91a5a34f`.
+The case consumes and independently locks `train_FD001.txt`, `test_FD001.txt`,
+`RUL_FD001.txt`, `readme.txt`, and the source method paper. The deterministic
+projection contains all 100 test endpoints plus complete observed prefixes for
+the selected test units 25 and 72.
+
+Across all 4,950 unordered endpoint pairs, units 25 and 72 rank 78th under the
+declared training-normalized current-frame RMS profile. NASA supplies 145 and
+50 remaining cycles for those endpoints, a 95-cycle difference. The pair is
+selected using the outcome inside the nearest five percent and is therefore
+explicitly selection-biased, not a predictor evaluation.
+
+History changes the comparison context: the same pair ranks 1,439th under the
+last-20-cycle mean and 1,072nd under the complete observed-prefix mean. These
+are derived descriptors, not observations of latent health. The release trains
+no predictor; Historical Load and history equivalence are not evaluated.
 
 ## History Model Metadata
 
@@ -18,7 +40,7 @@ Domain:
 
 Evidence profile:
     simulated operational trajectory
-    sensor measurement
+    simulated sensor observation
     operational setting
     run-to-failure outcome
     provided RUL ground truth
@@ -285,3 +307,15 @@ to be directly observed.
 The pinned FD001 dataset can be replayed deterministically, engine histories
 inspected, current-frame similarity compared with future lifetime, and all
 ground-truth, derived, and predicted values kept epistemically separate.
+
+Completed with:
+
+- source locks and deterministic compact projections;
+- a content-addressed case artifact and JSON Schema;
+- positive and re-signed negative tests for leakage, future rows, identity,
+  trajectory order, latent-state promotion, and source mutation;
+- an exact approved-release verifier boundary that rejects fully rehashed source
+  or endpoint substitutions before stale distance results can reach a Model Pack;
+- the `operational-aging` Model Pack;
+- the light-theme Operational Aging Lab;
+- exact Model Studio and History Atlas registration.

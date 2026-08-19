@@ -1,0 +1,96 @@
+{
+  "format": "onto2d-operational-aging-upstream-lock",
+  "formatVersion": "1",
+  "retrievedAt": "2026-08-18T20:34:13Z",
+  "liveNetworkRequiredByBuild": false,
+  "source": {
+    "id": "nasa-cmapss-jet-engine-simulated-data",
+    "name": "CMAPSS Jet Engine Simulated Data",
+    "publisher": "NASA Prognostics Center of Excellence",
+    "landingPage": "https://data.nasa.gov/dataset/cmapss-jet-engine-simulated-data",
+    "datasetIdentifier": "https://data.nasa.gov/api/views/ff5v-kuh6",
+    "resourceId": "5224bcd1-ad61-490b-93b9-2817288accb8",
+    "portalDatasetModified": "2024-05-15",
+    "resourceDataLastUpdated": "2025-05-29",
+    "licenseStatement": "License not specified on the NASA Open Data dataset and resource pages",
+    "citation": "Saxena, Abhinav; Goebel, Kai; Simon, Don; and Eklund, Neil. Damage Propagation Modeling for Aircraft Engine Run-to-Failure Simulation. PHM 2008."
+  },
+  "archive": {
+    "url": "https://data.nasa.gov/docs/legacy/CMAPSSData.zip",
+    "sha256": "74bef434a34db25c7bf72e668ea4cd52afe5f2cf8e44367c55a82bfd91a5a34f",
+    "bytes": 12425978,
+    "mediaType": "application/zip",
+    "memberCount": 14
+  },
+  "consumedMembers": [
+    {
+      "role": "training-trajectories",
+      "name": "train_FD001.txt",
+      "sha256": "963b5e22825b34d8b21c69e1aeb4af3e647050eb672ee8834ba4b5d91d2de0f8",
+      "bytes": 3515356
+    },
+    {
+      "role": "test-trajectories",
+      "name": "test_FD001.txt",
+      "sha256": "3cda7109ce17bafb5443f2ac926cfcf88154b941b8c4cf95eb55d1ddd6f52851",
+      "bytes": 2228855
+    },
+    {
+      "role": "test-rul-vector",
+      "name": "RUL_FD001.txt",
+      "sha256": "a19c8ec94931949d0485bdc35118206e9c81c4547b422efb9cf86f4ceddbceca",
+      "bytes": 429
+    },
+    {
+      "role": "dataset-documentation",
+      "name": "readme.txt",
+      "sha256": "4f5270554b775c67e73aff383c5436fd329d6e4cc3d3a116913276fae511269b",
+      "bytes": 2442
+    },
+    {
+      "role": "method-paper",
+      "name": "Damage Propagation Modeling.pdf",
+      "sha256": "e7aaef80c177333f400a4c1099fe76e67d244569b9397c937ec4cd3ed5b44a27",
+      "bytes": 434158,
+      "pageCount": 9
+    }
+  ],
+  "projectionGenerator": {
+    "path": "prepare-source.mjs",
+    "sha256": "f05571cea5555b0712d0faa9c4e06ec06f89efdceb6372ba1ec34b97bc380b23",
+    "bytes": 10186
+  },
+  "snapshots": [
+    {
+      "role": "endpoint-projection",
+      "path": "source/fd001-endpoints.json",
+      "sha256": "521abeb12aebf2fe2db588a8470c4ac9399cd51e7b4fa5c830e5645b12637859",
+      "bytes": 227747,
+      "derivedFrom": [
+        "train_FD001.txt",
+        "test_FD001.txt",
+        "RUL_FD001.txt",
+        "readme.txt",
+        "Damage Propagation Modeling.pdf"
+      ]
+    },
+    {
+      "role": "flagship-history-projection",
+      "path": "source/fd001-flagship-histories.json",
+      "sha256": "92118d2e88e466210bc06b1670b34eec28e35fc79ec8849e6c059b0e230a549c",
+      "bytes": 105043,
+      "derivedFrom": [
+        "test_FD001.txt",
+        "RUL_FD001.txt"
+      ]
+    }
+  ],
+  "selection": {
+    "dataset": "FD001",
+    "flagshipUnitIds": [
+      25,
+      72
+    ],
+    "profile": "nearest-five-percent-max-rul-separation-v1"
+  }
+}

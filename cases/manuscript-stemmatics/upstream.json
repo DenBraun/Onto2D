@@ -1,0 +1,68 @@
+{
+  "format": "onto2d-manuscript-stemmatics-upstream-lock",
+  "formatVersion": "1",
+  "retrievedAt": "2026-08-18T19:45:19Z",
+  "liveNetworkRequiredByBuild": false,
+  "source": {
+    "id": "new-stemmatics",
+    "name": "The New Stemmatics: Data",
+    "publisher": "Textual Scholarship / Peter Robinson",
+    "indexUrl": "https://textualscholarship.org/newstemmatics/data/",
+    "licenseStatement": "Creative Commons share-alike, attribution licence; version not specified on the source page",
+    "licenseUrl": "https://textualscholarship.org/newstemmatics/data/",
+    "citation": "Robinson, Peter. The Witness Relations in Link 1 and The Miller's Tale. In The Miller's Tale, Scholarly Digital Editions, 2004."
+  },
+  "upstreamFiles": [
+    {
+      "role": "dataset-index",
+      "url": "https://textualscholarship.org/newstemmatics/data/",
+      "sha256": "7fb4dc50529758339008aaf3bc454d35033f8ac0da27c74cb1cec594887b7ac7",
+      "bytes": 6264,
+      "mediaType": "text/html",
+      "etag": "1878-47e38bba0f980",
+      "lastModified": "2010-01-28T12:33:58Z"
+    },
+    {
+      "role": "millers-tale-nexus",
+      "url": "https://textualscholarship.org/newstemmatics/data/MI.nex",
+      "sha256": "b6b7b2114119a48cedad400bc1d2cfea80013e71bcf3d70b2e2f3a0ada6ce7b5",
+      "bytes": 425284,
+      "mediaType": null,
+      "etag": "67d44-551d73674dc40",
+      "lastModified": "2017-06-13T13:14:17Z"
+    },
+    {
+      "role": "millers-tale-analysis",
+      "url": "https://textualscholarship.org/newstemmatics/data/MIanal.pdf",
+      "sha256": "55c0d2c1f50e844b1c465626ca1a5ff21b4d6d79ea10ff23cf450b7ecd8456b9",
+      "bytes": 348556,
+      "mediaType": "application/pdf",
+      "etag": "5518c-4636613bfe600",
+      "lastModified": "2009-02-21T04:19:36Z"
+    }
+  ],
+  "snapshots": [
+    {
+      "role": "collation-selection",
+      "path": "source/millers-tale-collation-selection.json",
+      "sha256": "de6e58e6f54b4a7693dde360c2cafaf8e6f8a249a791bab7fe5fe3518fb934c6",
+      "bytes": 4662,
+      "derivedFrom": ["millers-tale-nexus", "millers-tale-analysis"]
+    },
+    {
+      "role": "analysis-claims",
+      "path": "source/millers-tale-analysis-claims.json",
+      "sha256": "8b9d3776f169dc114facd76e8f084adf0b715e0a18b250fca59d0ede97bde822",
+      "bytes": 4842,
+      "derivedFrom": ["dataset-index", "millers-tale-analysis"]
+    }
+  ],
+  "selection": {
+    "profile": "millers-tale-cx2-multiple-exemplar-v1",
+    "corpusId": "new-stemmatics-millers-tale-link-1",
+    "selectedWitnessIds": ["Cx1", "Cx2", "Pn", "Wy", "Hg", "Ch", "El"],
+    "selectedReadingSiteIds": ["mi-65-silk-grene", "mi-511-cogheth-knocketh"],
+    "flagshipWitnessId": "Cx2",
+    "unresolvedExemplarIds": ["better-copy"]
+  }
+}

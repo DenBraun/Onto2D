@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/manuscript-stemmatics-v1.json",
+  "title": "Onto2D Manuscript Stemmatics case artifact",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["format", "formatVersion", "caseVersion", "source", "corpus", "selection", "missingData", "witnesses", "readingSites", "quantitativeProfiles", "scholarlyClaims", "transmission", "agreementComparisons", "reconstruction", "evidenceAblation", "historyEquivalence", "historicalLoad", "evidenceBoundary", "caseIdentity"],
+  "properties": {
+    "format": { "const": "onto2d-manuscript-stemmatics-case" },
+    "formatVersion": { "const": "1" },
+    "caseVersion": { "const": "manuscript-stemmatics-v1" },
+    "source": {
+      "type": "object",
+      "required": ["identity", "retrievedAt", "liveNetworkRequiredByBuild", "authoredFiles", "snapshotFiles", "upstreamFiles", "citation", "license"],
+      "properties": {
+        "identity": { "$ref": "#/$defs/identity" },
+        "retrievedAt": { "type": "string", "format": "date-time" },
+        "liveNetworkRequiredByBuild": { "const": false },
+        "authoredFiles": { "type": "array", "minItems": 2, "maxItems": 2, "items": { "$ref": "#/$defs/file" } },
+        "snapshotFiles": { "type": "array", "minItems": 2, "maxItems": 2, "items": { "$ref": "#/$defs/file" } },
+        "upstreamFiles": { "type": "array", "minItems": 3, "maxItems": 3 },
+        "citation": { "type": "string", "minLength": 20 },
+        "license": { "type": "object", "required": ["statement", "url"] }
+      }
+    },
+    "corpus": {
+      "type": "object",
+      "required": ["id", "title", "work", "author", "collationEditor", "edition", "nexusTaxa", "collationBaseCount", "witnessCount", "variantCharacterCount", "transposedMatrix", "parallelSegmentation", "sourceDataset", "selectionProfile"],
+      "properties": {
+        "id": { "const": "new-stemmatics-millers-tale-link-1" },
+        "nexusTaxa": { "const": 59 },
+        "collationBaseCount": { "const": 1 },
+        "witnessCount": { "const": 58 },
+        "variantCharacterCount": { "const": 4032 },
+        "transposedMatrix": { "const": true },
+        "parallelSegmentation": { "const": true }
+      }
+    },
+    "selection": {
+      "type": "object",
+      "required": ["witnessIds", "readingSiteIds", "witnessCount", "readingSiteCount", "representativeSampleClaim", "fullCollationReconstructionClaim"],
+      "properties": {
+        "witnessIds": { "type": "array", "minItems": 7, "maxItems": 7, "items": { "type": "string" }, "uniqueItems": true },
+        "readingSiteIds": { "type": "array", "minItems": 2, "maxItems": 2, "items": { "type": "string" }, "uniqueItems": true },
+        "witnessCount": { "const": 7 },
+        "readingSiteCount": { "const": 2 },
+        "representativeSampleClaim": { "const": false },
+        "fullCollationReconstructionClaim": { "const": false }
+      }
+    },
+    "missingData": {
+      "type": "object",
+      "required": ["substantiallyIncompleteWitnessCount", "substantiallyIncompleteWitnessIds", "threshold", "exactMissingRates", "selectedCellMissingnessClaim"],
+      "properties": {
+        "substantiallyIncompleteWitnessCount": { "const": 4 },
+        "substantiallyIncompleteWitnessIds": { "type": "array", "minItems": 4, "maxItems": 4, "items": { "type": "string" }, "uniqueItems": true },
+        "exactMissingRates": { "type": "null" },
+        "selectedCellMissingnessClaim": { "const": "not-evaluated" }
+      }
+    },
+    "witnesses": { "type": "array", "minItems": 7, "maxItems": 7, "items": { "$ref": "#/$defs/witness" } },
+    "readingSites": { "type": "array", "minItems": 2, "maxItems": 2, "items": { "$ref": "#/$defs/readingSite" } },
+    "quantitativeProfiles": { "type": "object", "required": ["bGroupVariantTotal", "correctionProfile", "witnessCounts"], "properties": { "bGroupVariantTotal": { "const": 222 }, "correctionProfile": { "type": "object", "required": ["id", "count", "definition", "interpretation", "sourceLocator"], "properties": { "count": { "const": 207 } } }, "witnessCounts": { "type": "array", "minItems": 7, "maxItems": 7 } } },
+    "scholarlyClaims": { "type": "array", "minItems": 7, "maxItems": 7, "items": { "$ref": "#/$defs/claim" } },
+    "transmission": {
+      "type": "object",
+      "required": ["unresolvedExemplars", "relations"],
+      "properties": {
+        "unresolvedExemplars": { "type": "array", "minItems": 1, "maxItems": 1, "items": { "$ref": "#/$defs/unresolvedExemplar" } },
+        "relations": { "type": "array", "minItems": 4, "maxItems": 4, "items": { "$ref": "#/$defs/relation" } }
+      }
+    },
+    "agreementComparisons": { "type": "array", "minItems": 3, "maxItems": 3, "items": { "$ref": "#/$defs/agreement" } },
+    "reconstruction": {
+      "type": "object",
+      "required": ["method", "status", "supportedHistorySetState", "actualPastClaim", "centralRootingResolved", "candidateHistories", "multipleSourceCases", "treeDistortionClaimId", "rootUncertaintyClaimId"],
+      "properties": {
+        "status": { "const": "partial" },
+        "supportedHistorySetState": { "const": "partial" },
+        "actualPastClaim": { "const": false },
+        "centralRootingResolved": { "const": false },
+        "candidateHistories": { "type": "array", "maxItems": 0 },
+        "multipleSourceCases": { "type": "array", "minItems": 1, "maxItems": 1, "items": { "type": "object", "required": ["target", "inputRelationIds", "relationLayersDistinct", "treeCompatible", "unresolvedSourceIds", "evidenceState"], "properties": { "target": { "const": "Cx2" }, "treeCompatible": { "const": false } } } }
+      }
+    },
+    "evidenceAblation": { "type": "array", "minItems": 4, "maxItems": 4, "items": { "$ref": "#/$defs/ablation" } },
+    "historyEquivalence": { "type": "object", "required": ["regimes", "comparisons"], "properties": { "regimes": { "type": "array", "minItems": 4, "maxItems": 4 }, "comparisons": { "type": "array", "minItems": 3, "maxItems": 3 } } },
+    "historicalLoad": { "type": "object", "required": ["status", "value", "reason"], "properties": { "status": { "const": "not-evaluated" }, "value": { "type": "null" }, "reason": { "type": "string", "minLength": 40 } } },
+    "evidenceBoundary": { "type": "object", "required": ["observed", "derived", "reconstructed", "unknown", "nonClaims"] },
+    "caseIdentity": { "$ref": "#/$defs/identity" }
+  },
+  "$defs": {
+    "identity": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "file": { "type": "object", "required": ["role", "path", "identity", "bytes"], "properties": { "role": { "type": "string", "minLength": 1 }, "path": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._/-]*$" }, "identity": { "$ref": "#/$defs/identity" }, "bytes": { "type": "integer", "minimum": 1 } } },
+    "witness": { "type": "object", "required": ["id", "label", "kind", "analysisGroup", "bGroupVariantCount", "cx2CorrectionProfileAgreementCount", "coverageStatus", "readings", "readingSignature", "transmissionRole", "evidenceState", "identity"], "properties": { "id": { "type": "string", "minLength": 1 }, "bGroupVariantCount": { "type": "integer", "minimum": 0 }, "cx2CorrectionProfileAgreementCount": { "type": ["integer", "null"], "minimum": 0 }, "readings": { "type": "array", "minItems": 2, "maxItems": 2 }, "identity": { "$ref": "#/$defs/identity" } } },
+    "readingSite": { "type": "object", "required": ["id", "locator", "nexusCharacterIndex", "nexusLabel", "readings", "selectionBasis", "sourceLocator", "evidenceState", "createsAncestry"], "properties": { "nexusCharacterIndex": { "type": "integer", "minimum": 1, "maximum": 4032 }, "readings": { "type": "array", "minItems": 2 }, "createsAncestry": { "const": false } } },
+    "claim": { "type": "object", "required": ["id", "kind", "summary", "locators", "directObservation"], "properties": { "directObservation": { "const": false } } },
+    "unresolvedExemplar": { "type": "object", "required": ["id", "label", "kind", "extantWitness", "exactIdentity", "inventedByOnto2D", "sourceClaimId"], "properties": { "kind": { "const": "unresolved-exemplar-reference" }, "extantWitness": { "const": false }, "exactIdentity": { "type": "null" }, "inventedByOnto2D": { "const": false } } },
+    "relation": { "type": "object", "required": ["id", "source", "target", "relation", "relationLayer", "origin", "evidenceIds", "directObservation", "treeCompatible", "contamination", "physicalExemplarIdentityResolved"], "properties": { "origin": { "const": "published-analysis" }, "directObservation": { "const": false }, "physicalExemplarIdentityResolved": { "const": false } } },
+    "agreement": { "type": "object", "required": ["id", "left", "right", "method", "comparedSiteIds", "agreementSiteIds", "agreementCount", "comparedSiteCount", "agreementShare", "selectionBiased", "representativeOfFullCollation", "createsTransmissionRelation", "createsAncestry"], "properties": { "agreementShare": { "type": "number", "minimum": 0, "maximum": 1 }, "selectionBiased": { "const": true }, "representativeOfFullCollation": { "const": false }, "createsTransmissionRelation": { "const": false }, "createsAncestry": { "const": false } } },
+    "ablation": { "type": "object", "required": ["id", "label", "removedEvidenceIds", "supportedRelationIds", "attributedOnlyRelationIds", "withheldRelationIds", "localMultipleParentSupported", "resultState", "activeEvidenceIds", "removedEvidenceRetained"], "properties": { "resultState": { "enum": ["partial", "unresolved"] }, "removedEvidenceRetained": { "const": false } } }
+  }
+}

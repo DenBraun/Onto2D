@@ -1,0 +1,75 @@
+{
+  "format": "onto2d-manuscript-transmission-analysis-profile",
+  "formatVersion": "1",
+  "profileVersion": "manuscript-transmission-v1",
+  "corpusId": "new-stemmatics-millers-tale-link-1",
+  "flagshipWitnessId": "Cx2",
+  "comparisonPairs": [
+    { "id": "cx2-pn", "label": "Cx2 / Pn", "left": "Cx2", "right": "Pn" },
+    { "id": "pn-wy", "label": "Pn / Wy", "left": "Pn", "right": "Wy" },
+    { "id": "cx1-cx2", "label": "Cx1 / Cx2", "left": "Cx1", "right": "Cx2" }
+  ],
+  "equivalenceRegimes": [
+    { "id": "witness-record", "label": "Witness identity", "question": "Do the records name the same exact witness?", "fields": ["witnessId"] },
+    { "id": "selected-reading-slice", "label": "Selected readings", "question": "Do the two source-discussed readings agree?", "fields": ["readingSignature"] },
+    { "id": "scholarly-group", "label": "Published group", "question": "Does the published analysis place the witnesses in the same group?", "fields": ["analysisGroup"] },
+    { "id": "transmission-role", "label": "Transmission role", "question": "Do the witnesses have the same role in the bounded attributed transmission graph?", "fields": ["transmissionRole"] }
+  ],
+  "ablationRuns": [
+    {
+      "id": "full-evidence",
+      "label": "Full bounded evidence",
+      "removedEvidenceIds": [],
+      "supportedRelationIds": ["base-text:Cx1:Cx2", "correction-source:better-copy:Cx2", "copy:Cx2:Pn", "copy:Cx2:Wy"],
+      "attributedOnlyRelationIds": [],
+      "withheldRelationIds": [],
+      "localMultipleParentSupported": true,
+      "resultState": "partial"
+    },
+    {
+      "id": "without-correction-profile",
+      "label": "Remove 207-reading correction profile",
+      "removedEvidenceIds": ["claim-correction-profile-207"],
+      "supportedRelationIds": ["base-text:Cx1:Cx2", "copy:Cx2:Pn", "copy:Cx2:Wy"],
+      "attributedOnlyRelationIds": ["correction-source:better-copy:Cx2"],
+      "withheldRelationIds": [],
+      "localMultipleParentSupported": false,
+      "resultState": "partial"
+    },
+    {
+      "id": "without-published-correction-claim",
+      "label": "Remove the multiple-exemplar claim",
+      "removedEvidenceIds": ["claim-caxton-correction"],
+      "supportedRelationIds": ["copy:Cx2:Pn", "copy:Cx2:Wy"],
+      "attributedOnlyRelationIds": [],
+      "withheldRelationIds": ["base-text:Cx1:Cx2", "correction-source:better-copy:Cx2"],
+      "localMultipleParentSupported": false,
+      "resultState": "unresolved"
+    },
+    {
+      "id": "without-example-sites",
+      "label": "Remove the two displayed reading sites",
+      "removedEvidenceIds": ["reading:mi-65-silk-grene", "reading:mi-511-cogheth-knocketh"],
+      "supportedRelationIds": ["base-text:Cx1:Cx2", "correction-source:better-copy:Cx2", "copy:Cx2:Pn", "copy:Cx2:Wy"],
+      "attributedOnlyRelationIds": [],
+      "withheldRelationIds": [],
+      "localMultipleParentSupported": true,
+      "resultState": "partial"
+    }
+  ],
+  "historicalLoad": {
+    "status": "not-evaluated",
+    "value": null,
+    "reason": "The corpus supplies a collation and attributed transmission claims, but no finite admissible reconstruction space, cost functional, or baseline route; Historical Load is undefined rather than zero."
+  },
+  "nonClaims": [
+    "The selected reading slice is not a representative sample of the complete 4032-character collation.",
+    "Shared readings do not create a copying relation.",
+    "The published reconstruction is not a direct observation of medieval or early-print copying.",
+    "The unresolved better copy is not promoted to an extant witness or assigned an invented shelfmark.",
+    "A tree-compatible edge cannot replace the documented correction-source relation.",
+    "The two displayed sites do not independently prove contamination.",
+    "The central rooting of the full tradition remains outside the bounded result.",
+    "Historical Load is not evaluated for this case."
+  ]
+}

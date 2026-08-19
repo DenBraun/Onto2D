@@ -1,0 +1,79 @@
+{
+  "audit": {
+    "caseIdentity": "sha256:a5a95df5511fd8992acc4df6dd17384a362d69e150fd180f01f62901e3a04e49",
+    "exactIdentityFromNearness": 0,
+    "flagshipSelectionBiased": true,
+    "futureRowsIncluded": 0,
+    "historicalLoadStatus": "not-evaluated",
+    "inventory": {
+      "distanceProfiles": 5,
+      "endpoints": 100,
+      "providedOutcomes": 2,
+      "trajectories": 2
+    },
+    "latentHealthObservations": 0,
+    "mappingVersion": "operational-aging-mapping-v1",
+    "outcomeInputs": 0,
+    "predictions": 0,
+    "releaseIdentity": "sha256:6b1c3008c8edc90190b75993c2b71bc9319e15b949ece60f9cfb009a2e78fc52",
+    "sourceIdentity": "sha256:c2604616cbd0fee016cbcc83fda13719cf9e0cd95079c3a065e0e97c102ae5ed"
+  },
+  "evidenceClasses": {
+    "analysis-scope": "An explicit boundary against interpreting nearness as identity, outcome as input, or an unevaluated quantity as zero.",
+    "declared-distance-profile": "A deterministic normalized RMS comparison under one explicit window and field scope.",
+    "selection-biased-outcome-comparison": "An outcome difference for a pair deliberately selected using that outcome.",
+    "source-lock": "Exact NASA archive and consumed-member locks.",
+    "source-projected-endpoint": "The last observed test row, containing settings and sensors only.",
+    "source-projected-observed-prefix": "Cycles 1 through the final observed test row; no future rows.",
+    "source-provided-test-rul": "A separately supplied outcome, never an input to a distance profile."
+  },
+  "presentation": {
+    "boundary": {
+      "note": "The highlighted pair is near only under one declared profile. Its 95-cycle RUL gap was used to select the demonstration and is not predictive performance. Historical Load is undefined for this case.",
+      "summary": "Current frames, observed histories, latent health, provided RUL, and predictions remain distinct layers.",
+      "title": "Observation / history / outcome boundary"
+    },
+    "coordinates": [
+      {
+        "field": "typeRole",
+        "label": "Kind"
+      },
+      {
+        "field": "scientificStatus",
+        "label": "Evidence"
+      }
+    ],
+    "evidenceClassField": "evidenceClass",
+    "labels": {
+      "catalogTitle": "Operational aging evidence",
+      "children": "Outgoing observation or analysis relations",
+      "parents": "Incoming observation or analysis relations",
+      "phaseFilter": "Evidence layer",
+      "searchPlaceholder": "Search endpoints, histories, outcomes, and boundaries",
+      "statusFilter": "Evidence status",
+      "typeFilter": "Record kind"
+    },
+    "layerField": "phase",
+    "nodeKindField": "entityKind",
+    "profile": "operational-aging-presentation-v1",
+    "relationField": "relation"
+  },
+  "provenance": {
+    "archive": {
+      "bytes": 12425978,
+      "mediaType": "application/zip",
+      "memberCount": 14,
+      "sha256": "74bef434a34db25c7bf72e668ea4cd52afe5f2cf8e44367c55a82bfd91a5a34f",
+      "url": "https://data.nasa.gov/docs/legacy/CMAPSSData.zip"
+    },
+    "caseIdentity": "sha256:a5a95df5511fd8992acc4df6dd17384a362d69e150fd180f01f62901e3a04e49",
+    "citation": "Saxena, Abhinav; Goebel, Kai; Simon, Don; and Eklund, Neil. Damage Propagation Modeling for Aircraft Engine Run-to-Failure Simulation. PHM 2008.",
+    "license": {
+      "specifiedBySource": false,
+      "statement": "License not specified on the NASA Open Data dataset and resource pages"
+    },
+    "mappingVersion": "operational-aging-mapping-v1",
+    "releaseIdentity": "sha256:6b1c3008c8edc90190b75993c2b71bc9319e15b949ece60f9cfb009a2e78fc52",
+    "sourceIdentity": "sha256:c2604616cbd0fee016cbcc83fda13719cf9e0cd95079c3a065e0e97c102ae5ed"
+  }
+}

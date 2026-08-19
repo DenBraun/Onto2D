@@ -1,0 +1,135 @@
+{
+  "format": "onto2d-millers-tale-analysis-claims",
+  "formatVersion": "1",
+  "sourceFile": {
+    "url": "https://textualscholarship.org/newstemmatics/data/MIanal.pdf",
+    "sha256": "55c0d2c1f50e844b1c465626ca1a5ff21b4d6d79ea10ff23cf450b7ecd8456b9",
+    "bytes": 348556,
+    "etag": "5518c-4636613bfe600",
+    "lastModified": "2009-02-21T04:19:36Z",
+    "mediaType": "application/pdf",
+    "pageCount": 27
+  },
+  "publication": {
+    "title": "The Witness Relations in Link 1 and The Miller's Tale",
+    "author": "Peter Robinson",
+    "container": "The Miller's Tale, Scholarly Digital Editions, 2004",
+    "sourcePage": "https://textualscholarship.org/newstemmatics/data/"
+  },
+  "claims": [
+    {
+      "id": "claim-corpus-census",
+      "kind": "source-description",
+      "summary": "The tradition contains 54 manuscripts and four print editions from before 1500; four witnesses lack more than ten percent of the text.",
+      "locators": ["page 1"],
+      "directObservation": false
+    },
+    {
+      "id": "claim-b-group",
+      "kind": "scholarly-grouping",
+      "summary": "Cx1, Tc2, Ne, He, Ox1, Cx2, Wy, and Pn are analysed as members of the b group, with Hk treated cautiously.",
+      "locators": ["pages 5-6"],
+      "directObservation": false
+    },
+    {
+      "id": "claim-descendants-of-cx2",
+      "kind": "copy-relation",
+      "summary": "The later Pn and Wy editions are reported as copies of Cx2.",
+      "locators": ["page 5"],
+      "directObservation": false
+    },
+    {
+      "id": "claim-caxton-correction",
+      "kind": "multiple-exemplar-transmission",
+      "summary": "Cx2 was produced by correcting a copy of Cx1 from a second, better manuscript exemplar before resetting the edition.",
+      "locators": ["pages 18-19"],
+      "directObservation": false
+    },
+    {
+      "id": "claim-correction-profile-207",
+      "kind": "published-quantitative-analysis",
+      "summary": "A published search reports 207 Cx2-versus-Cx1 differences whose Cx2 readings occur in more than three witnesses; the analysis says the great majority likely came from the better copy.",
+      "locators": ["pages 19-20"],
+      "directObservation": false
+    },
+    {
+      "id": "claim-tree-distortion",
+      "kind": "methodological-warning",
+      "summary": "Including the Cx2-Pn-Wy trio changes higher-level tree rooting because a tree method attempts to explain lateral readings as vertical descent.",
+      "locators": ["pages 20-21"],
+      "directObservation": false
+    },
+    {
+      "id": "claim-rooting-uncertainty",
+      "kind": "uncertainty-boundary",
+      "summary": "The published analysis treats central rootings as uncertain and requires tree output to be checked against independent variant analysis.",
+      "locators": ["pages 20-21"],
+      "directObservation": false
+    }
+  ],
+  "entities": [
+    {
+      "id": "better-copy",
+      "label": "Caxton's better copy",
+      "kind": "unresolved-exemplar-reference",
+      "extantWitness": false,
+      "exactIdentity": null,
+      "inventedByOnto2D": false,
+      "sourceClaimId": "claim-caxton-correction"
+    }
+  ],
+  "transmissionRelations": [
+    {
+      "id": "base-text:Cx1:Cx2",
+      "source": "Cx1",
+      "target": "Cx2",
+      "relation": "base-edition-text-source",
+      "relationLayer": "attributed-transmission",
+      "origin": "published-analysis",
+      "evidenceIds": ["claim-caxton-correction"],
+      "directObservation": false,
+      "treeCompatible": true,
+      "contamination": false,
+      "physicalExemplarIdentityResolved": false
+    },
+    {
+      "id": "correction-source:better-copy:Cx2",
+      "source": "better-copy",
+      "target": "Cx2",
+      "relation": "correction-source",
+      "relationLayer": "attributed-contamination",
+      "origin": "published-analysis",
+      "evidenceIds": ["claim-caxton-correction", "claim-correction-profile-207"],
+      "directObservation": false,
+      "treeCompatible": false,
+      "contamination": true,
+      "physicalExemplarIdentityResolved": false
+    },
+    {
+      "id": "copy:Cx2:Pn",
+      "source": "Cx2",
+      "target": "Pn",
+      "relation": "copied-from-edition",
+      "relationLayer": "attributed-transmission",
+      "origin": "published-analysis",
+      "evidenceIds": ["claim-descendants-of-cx2"],
+      "directObservation": false,
+      "treeCompatible": true,
+      "contamination": false,
+      "physicalExemplarIdentityResolved": false
+    },
+    {
+      "id": "copy:Cx2:Wy",
+      "source": "Cx2",
+      "target": "Wy",
+      "relation": "copied-from-edition",
+      "relationLayer": "attributed-transmission",
+      "origin": "published-analysis",
+      "evidenceIds": ["claim-descendants-of-cx2"],
+      "directObservation": false,
+      "treeCompatible": true,
+      "contamination": false,
+      "physicalExemplarIdentityResolved": false
+    }
+  ]
+}

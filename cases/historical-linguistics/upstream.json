@@ -1,0 +1,54 @@
+{
+  "format": "onto2d-historical-linguistics-upstream-lock",
+  "formatVersion": "1",
+  "retrievedOn": "2026-08-18",
+  "liveNetworkRequiredByBuild": false,
+  "sources": [
+    {
+      "id": "glottolog",
+      "name": "Glottolog",
+      "publisher": "Max Planck Institute for Evolutionary Anthropology",
+      "release": "v5.3",
+      "releaseCommit": "072ca0d",
+      "releaseUrl": "https://github.com/glottolog/glottolog-cldf/releases/tag/v5.3",
+      "repository": "https://github.com/glottolog/glottolog-cldf",
+      "license": { "spdx": "CC-BY-4.0", "url": "https://github.com/glottolog/glottolog-cldf/blob/v5.3/LICENSE" },
+      "citation": "Hammarström, Harald; Forkel, Robert; Haspelmath, Martin; Bank, Sebastian. 2026. Glottolog 5.3. Leipzig: Max Planck Institute for Evolutionary Anthropology."
+    },
+    {
+      "id": "lexibank-wold",
+      "name": "Lexibank WOLD CLDF",
+      "publisher": "Lexibank / Max Planck Institute for Evolutionary Anthropology",
+      "release": "v4.2",
+      "releaseCommit": "1df62b9",
+      "releaseUrl": "https://github.com/lexibank/wold/releases/tag/v4.2",
+      "repository": "https://github.com/lexibank/wold",
+      "license": { "spdx": "CC-BY-4.0", "url": "https://github.com/lexibank/wold/blob/v4.2/LICENSE" },
+      "citation": "Haspelmath, Martin & Tadmor, Uri (eds.) 2009. World Loanword Database. Leipzig: Max Planck Institute for Evolutionary Anthropology."
+    }
+  ],
+  "snapshots": [
+    {
+      "role": "glottolog-selection",
+      "path": "source/glottolog-selection.json",
+      "sha256": "288bed89d826ec789663a320d8e5325a177d013ac4bc603d08300b34561310ce",
+      "bytes": 3265,
+      "derivedFrom": ["glottolog:cldf/languages.csv", "glottolog:cldf/values.csv"]
+    },
+    {
+      "role": "wold-match-selection",
+      "path": "source/wold-match-selection.json",
+      "sha256": "e6205ecab6a490abf5f460cfe83c51ed87994845720d9c07ef6e856b63c5a008",
+      "bytes": 5533,
+      "derivedFrom": ["lexibank-wold:cldf/languages.csv", "lexibank-wold:cldf/forms.csv", "lexibank-wold:cldf/borrowings.csv", "lexibank-wold:cldf/parameters.csv", "lexibank-wold:cldf/sources.bib"]
+    }
+  ],
+  "selection": {
+    "profile": "wold-match-six-language-v1",
+    "conceptId": "1-87",
+    "concepticonId": "1133",
+    "languageGlottocodes": ["roma1327", "lowe1385", "oldh1241", "dutc1256", "stan1293", "mana1288"],
+    "borrowingIds": ["5", "10030", "11349", "15734"],
+    "flagshipBorrowingId": "5"
+  }
+}

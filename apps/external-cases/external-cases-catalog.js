@@ -152,20 +152,20 @@ const PRESENTATION = Object.freeze({
   "manuscript-stemmatics": Object.freeze({
     question: "Can textual ancestry remain non-tree-shaped and evidence-dependent?",
     distinction: "textual similarity != copy ancestry",
-    summary: "A bounded manuscript tradition will separate readings and similarity from attributed stemmatic reconstruction and multiple-parent transmission.",
-    flagship: "Represent supported contamination or multiple-exemplar transmission without forcing the history into a tree.",
-    contribution: "This is the flagship test for non-tree historical parentage and evidence-sensitive reconstruction.",
-    boundaries: ["Machine-readable collation and published analysis", "Similarity metrics remain analysis artifacts", "Editorial stemmata are not direct observations", "Alternative histories may coexist"],
-    outputs: ["Pinned witness and variant corpus", "Similarity and reconstruction layers", "Evidence-ablation experiment", "Textual Transmission Lab"]
+    summary: "A source-locked Miller's Tale projection separates seven witness records and two source-discussed readings from Robinson's attributed copying and multiple-exemplar reconstruction.",
+    flagship: "Cx2 retains both a base-text relation to Cx1 and a non-tree-compatible correction source from an unresolved better copy, while Pn and Wy remain attributed descendants of Cx2.",
+    contribution: "The flagship non-tree parentage case makes evidence sensitivity operational: removing the published correction claim withholds both inputs into Cx2, while removing only the 207-reading profile downgrades the correction relation to attributed-only.",
+    boundaries: ["Exact New Stemmatics index, MI.nex, and published-analysis hashes plus compact source projections", "Two selected readings are disclosed as non-representative and cannot create ancestry", "Every transmission edge remains attributed to published analysis rather than direct observation", "The better copy, central rooting, exact missing rates, and Historical Load remain unresolved or undefined"],
+    outputs: ["Fifty-eight-witness corpus census with a seven-witness bounded projection", "Four attributed transmission relations including one explicit contamination edge", "Four evidence-ablation runs and a three-pair by four-regime equivalence matrix", "Verified manuscript-transmission Model Pack and Textual Transmission Lab"]
   }),
   "operational-aging": Object.freeze({
     question: "Can similar sensor snapshots conceal different degradation histories and remaining lifetimes?",
     distinction: "similar observation != same damage state != same future lifetime",
-    summary: "NASA C-MAPSS FD001 trajectories will separate current observation frames, recorded operational history, derived degradation features, and provided RUL.",
-    flagship: "Find declared-near sensor frames associated with meaningfully different remaining lifetimes and compare their preceding windows.",
-    contribution: "The case gives a controlled Embodied History -> Present State + Future benchmark without pretending latent health is directly observed.",
-    boundaries: ["Pinned FD001 files and documentation", "Future cycles and test targets cannot leak into inputs", "Predicted RUL remains distinct from provided RUL", "Sensor similarity never becomes exact state identity"],
-    outputs: ["Deterministic engine trajectories", "Observation and history-window projections", "Similar-snapshot comparison", "Operational Aging Lab"]
+    summary: "A source-locked NASA C-MAPSS FD001 analysis separates 100 current test endpoints, two complete observed prefixes, training-normalized distance profiles, and the separately supplied RUL outcomes.",
+    flagship: "Test units 25 and 72 rank 78th of 4,950 pairs by their final settings-and-sensors frame, yet their provided RUL values are 145 and 50 cycles; history-window ranks move to 1,439 and 1,072.",
+    contribution: "The case makes a snapshot-versus-history result operational without exposing latent health or claiming prediction: current-frame nearness, observed history, supplied outcome, and unknown simulator state remain separate.",
+    boundaries: ["Exact NASA archive and five consumed-member hashes plus deterministic FD001 projections", "Unit ID, cycle, observed-history length, future rows, and provided RUL cannot enter current-frame distance", "The flagship is outcome-aware and selection-biased, not a predictor evaluation", "Declared nearness never becomes exact state identity; latent health and Historical Load remain unobserved or undefined"],
+    outputs: ["One-hundred-endpoint source-locked cohort and two complete observed prefixes", "Five exact distance profiles over all 4,950 unordered test-endpoint pairs", "Verified operational-aging Model Pack with observation, history, outcome, and boundary layers", "Operational Aging Lab with trajectory, rank, context-control, and outcome views"]
   }),
   "ecological-memory": Object.freeze({
     question: "Can similar ecological snapshots retain different disturbance histories and later responses?",
@@ -179,11 +179,11 @@ const PRESENTATION = Object.freeze({
   "historical-linguistics": Object.freeze({
     question: "Can vertical inheritance and horizontal borrowing coexist without conflation?",
     distinction: "lexical similarity != genealogical ancestry",
-    summary: "Pinned Glottolog, Lexibank, and WOLD records will place genealogical classification and expert-curated borrowing in one evidence-aware model.",
-    flagship: "Overlay a reviewed borrowing edge across a small family tree so the historical graph visibly ceases to be a pure tree.",
-    contribution: "The case will test ancestry plus horizontal transfer at language and lexical-system scale.",
-    boundaries: ["Stable Glottocodes and pinned dataset releases", "Borrowing never becomes genealogical parentage", "Surface similarity never creates cognacy", "Unmatched mappings and contested classifications remain unresolved"],
-    outputs: ["Bounded multilingual cohort", "Genealogical and borrowing layers", "History-equivalence regimes", "Language Lineage and Borrowing Lab"]
+    summary: "Six exact WOLD/Lexibank forms for one meaning are joined by Glottocode to their full Glottolog 5.3 classification paths, then kept separate from four form-local borrowing records.",
+    flagship: "English -> Manange crosses the two selected top-level families: the WOLD source relation is certain, while the target form remains only 'perhaps borrowed' at 0.5.",
+    contribution: "The case makes a non-tree history queryable without corrupting the tree: 40 published-classification edges, four horizontal annotations, and zero generated cognacy claims.",
+    boundaries: ["Glottolog 5.3 and Lexibank WOLD 4.2 full-file hashes plus exact selection projections", "Borrowing records target lexical forms and never become genealogical parentage", "Unicode surface similarity creates neither cognacy nor ancestry", "Source certainty stays independent from target borrowed-status uncertainty"],
+    outputs: ["Six-language, one-concept source-locked cohort", "Forty-edge classification layer plus four borrowing records", "Three-pair by four-regime history-equivalence matrix", "Verified language-transmission Model Pack and Language Lineage & Borrowing Lab"]
   }),
   "legal-precedent-history": Object.freeze({
     question: "How can recorded decisions constrain future legal context without turning citation into authority?",

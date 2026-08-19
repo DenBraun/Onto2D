@@ -21,7 +21,8 @@ boundary.
 The repository also contains a private engine preview: a deterministic Model
 Pack contract, separate frozen Causal Emergence, live-bootstrap provenance,
 Nix derivation, OCI layer-provenance, in-toto, chemical-reaction, reproducible-build,
-and artwork-provenance releases,
+artwork-provenance, language-transmission, manuscript-transmission, and
+operational-aging releases,
 and a headless API for exact model queries and traversal. It is not yet a
 published npm package.
 
@@ -113,6 +114,26 @@ follows a source-locked Getty record through two recorded activities, preserves
 the later evidence gap without inventing a chain, and compares two history views
 under five explicit identity regimes
 ([method](cases/getty-artwork-provenance/README.md)).
+
+The [Language Lineage & Borrowing Lab](https://denbraun.github.io/Onto2D/apps/language-lineage-borrowing-lab/)
+joins six WOLD/Lexibank forms to exact Glottolog 5.3 classification paths,
+overlays form-local borrowing evidence, and keeps surface similarity, cognacy,
+genealogy, and source uncertainty distinct
+([method](cases/historical-linguistics/README.md)).
+
+The [Textual Transmission Lab](https://denbraun.github.io/Onto2D/apps/textual-transmission-lab/)
+shows why the Caxton second edition needs both an attributed base-text source
+and a distinct contamination relation, then exposes selected readings,
+evidence ablation, regime-relative equality, and the undefined Historical Load
+boundary
+([method](cases/manuscript-stemmatics/README.md)).
+
+The [Operational Aging Lab](https://denbraun.github.io/Onto2D/apps/operational-aging-lab/)
+compares two source-locked NASA C-MAPSS FD001 endpoints that rank in the nearest
+1.58 percent by their current frame yet differ by 95 supplied RUL cycles, then
+shows how observed-history windows change that rank without leaking outcomes or
+inventing latent health
+([method](cases/operational-aging/README.md)).
 
 The [History Atlas](https://denbraun.github.io/Onto2D/apps/history-atlas/)
 organizes 22 registered cases by two independent axes: how history is available

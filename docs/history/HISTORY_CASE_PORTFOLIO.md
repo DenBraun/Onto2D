@@ -25,10 +25,10 @@ Statuses describe repository maturity, not scientific truth.
 | Cell Lineage Identity | Reconstructed | Embodied | Identity | Developmental biology | PLANNED |
 | Lithic Operational History | Reconstructed | — | Present State | Archaeology | PLANNED |
 | Artwork Provenance | Recorded | Reconstructed | Identity | Cultural heritage | ANALYSIS_READY |
-| Manuscript Stemmatics | Reconstructed | Recorded | Identity | Textual scholarship | PLANNED |
-| Operational Aging | Embodied | Recorded | Present State, Future | Mechanical prognostics | PLANNED |
+| Manuscript Stemmatics | Reconstructed | Recorded | Identity | Textual scholarship | ANALYSIS_READY |
+| Operational Aging | Embodied | Recorded | Present State, Future | Mechanical prognostics | ANALYSIS_READY |
 | Ecological Memory | Embodied | Recorded | Present State, Future | Ecology | PLANNED |
-| Historical Linguistics | Reconstructed | Recorded | Identity | Historical linguistics | PLANNED |
+| Historical Linguistics | Reconstructed | Recorded | Identity | Historical linguistics | ANALYSIS_READY |
 | Legal Precedent | Recorded | Reconstructed | Future | Law | PLANNED |
 | Clinical Trajectories | Embodied | Recorded | Present State, Future | Clinical medicine | PLANNED |
 | Galactic Archaeology | Reconstructed | Recorded | Present State | Galactic astronomy | PLANNED |
@@ -62,12 +62,13 @@ metadata, never physical ownership of a case.
 ## Implementation priorities
 
 1. Recorded → Identity: Artwork Provenance, in-toto, Reproducible Builds, and
-   Chemistry are analysis-ready; Manuscript Stemmatics is next.
-2. Embodied → Present State: Material Process History, Operational Aging, and
-   Ecological Memory.
-3. Embodied → Future: LTEE, Operational Aging, and Ecological Memory.
-4. Reconstructed → Identity: Mineral Formation, Cell Lineage, Manuscripts, and
-   Historical Linguistics.
+   Chemistry are analysis-ready.
+2. Embodied → Present State: Operational Aging is analysis-ready; Ecological
+   Memory is next and Material Process History remains planned.
+3. Embodied → Future: Operational Aging is analysis-ready; LTEE and Ecological
+   Memory remain planned.
+4. Reconstructed → Identity: Historical Linguistics and Manuscript Stemmatics
+   are analysis-ready; Mineral Formation and Cell Lineage remain planned.
 5. Reconstruction from traces: Lithic Operational History and Galactic
    Archaeology.
 

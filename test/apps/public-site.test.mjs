@@ -70,6 +70,21 @@ const artworkApp = read("apps/artwork-provenance-identity-lab/artwork-provenance
 const artworkModel = read("apps/artwork-provenance-identity-lab/artwork-provenance-model.js");
 const artworkStyles = read("assets/css/study-artwork-provenance.css");
 const artworkArtifact = read("cases/getty-artwork-provenance/artifacts/getty-artwork-provenance.json");
+const languageMarkup = read("apps/language-lineage-borrowing-lab/index.html");
+const languageApp = read("apps/language-lineage-borrowing-lab/language-lineage-borrowing-lab.js");
+const languageModel = read("apps/language-lineage-borrowing-lab/language-transmission-model.js");
+const languageStyles = read("assets/css/study-language-transmission.css");
+const languageArtifact = read("cases/historical-linguistics/artifacts/historical-linguistics.json");
+const manuscriptMarkup = read("apps/textual-transmission-lab/index.html");
+const manuscriptApp = read("apps/textual-transmission-lab/textual-transmission-lab.js");
+const manuscriptModel = read("apps/textual-transmission-lab/manuscript-transmission-model.js");
+const manuscriptStyles = read("assets/css/study-manuscript-transmission.css");
+const manuscriptArtifact = read("cases/manuscript-stemmatics/artifacts/manuscript-stemmatics.json");
+const operationalMarkup = read("apps/operational-aging-lab/index.html");
+const operationalApp = read("apps/operational-aging-lab/operational-aging-lab.js");
+const operationalModel = read("apps/operational-aging-lab/operational-aging-model.js");
+const operationalStyles = read("assets/css/study-operational-aging.css");
+const operationalArtifact = read("cases/operational-aging/artifacts/operational-aging.json");
 const historyCasePageMarkups = historyCaseRegistry.cases.map((entry) => read(`${entry.casePagePath}index.html`));
 const modelPackWorker = read("assets/js/model-pack-worker.js");
 const siteServer = read("apps/historical-load-explorer/serve.mjs");
@@ -90,6 +105,9 @@ const publicDirectories = [
   "apps/synthesis-route-explorer",
   "apps/history-equivalence-lab",
   "apps/artwork-provenance-identity-lab",
+  "apps/language-lineage-borrowing-lab",
+  "apps/textual-transmission-lab",
+  "apps/operational-aging-lab",
   "apps/history-atlas",
   "apps/external-cases",
   ...historyCaseRegistry.cases.map((entry) => entry.casePagePath.replace(/\/$/, ""))
@@ -111,6 +129,9 @@ const publicFiles = [
   "assets/css/study-chemical-synthesis.css",
   "assets/css/study-history-equivalence.css",
   "assets/css/study-artwork-provenance.css",
+  "assets/css/study-language-transmission.css",
+  "assets/css/study-manuscript-transmission.css",
+  "assets/css/study-operational-aging.css",
   "assets/css/external-cases.css",
   "assets/css/history-case-header.css",
   "assets/css/history-atlas.css",
@@ -128,6 +149,9 @@ const publicFiles = [
   "cases/chemical-synthesis-history/artifacts/chemical-synthesis-history.json",
   "cases/reproducible-build-equivalence/artifacts/reproducible-build-equivalence.json",
   "cases/getty-artwork-provenance/artifacts/getty-artwork-provenance.json",
+  "cases/historical-linguistics/artifacts/historical-linguistics.json",
+  "cases/manuscript-stemmatics/artifacts/manuscript-stemmatics.json",
+  "cases/operational-aging/artifacts/operational-aging.json",
   ...publicDirectories.flatMap((directory) => readdirSync(
     new URL(`../../${directory}/`, import.meta.url)
   ).filter((name) => /\.(?:css|html|js|json|md|mjs)$/.test(name)).map((name) => `${directory}/${name}`))
@@ -204,6 +228,9 @@ test("all History case surfaces share one header component and navigation layout
     chemicalMarkup,
     buildEquivalenceMarkup,
     artworkMarkup,
+    languageMarkup,
+    manuscriptMarkup,
+    operationalMarkup,
     ...historyCasePageMarkups
   ];
   for (const markup of surfaces) {
@@ -218,10 +245,10 @@ test("all History case surfaces share one header component and navigation layout
   }
   assert.match(historyCaseHeaderStyles, /grid-template-columns:\s*minmax\(190px, 1fr\) auto minmax\(190px, 1fr\)/);
   assert.match(historyCaseHeaderStyles, /@media \(max-width: 700px\)/);
-  for (const styles of [externalCasesStyles, bootstrapStyles, gitHistoryStyles, nixStyles, ociStyles, inTotoStyles, chemicalStyles, buildEquivalenceStyles, artworkStyles]) {
+  for (const styles of [externalCasesStyles, bootstrapStyles, gitHistoryStyles, nixStyles, ociStyles, inTotoStyles, chemicalStyles, buildEquivalenceStyles, artworkStyles, languageStyles, manuscriptStyles, operationalStyles]) {
     assert.match(styles, /@import url\("\.\/history-case-header\.css\?v=20260818\.2"\);/);
   }
-  for (const markup of [chemicalMarkup, buildEquivalenceMarkup, artworkMarkup]) {
+  for (const markup of [chemicalMarkup, buildEquivalenceMarkup, artworkMarkup, languageMarkup, manuscriptMarkup, operationalMarkup]) {
     assert.match(markup, /<div class="history-case-context"><span>[^<]+<\/span><strong class="history-case-state"><i><\/i><span id="load-state" role="status" aria-live="polite">Verifying artifact<\/span><\/strong><\/div>/);
   }
 });
@@ -234,6 +261,9 @@ test("case-aware Model Studio links select the exact registered release", () => 
   assert.match(chemicalMarkup, /model-studio\/#model=chemical-reaction-provenance&amp;version=v1-47225e07891b6f70/);
   assert.match(buildEquivalenceMarkup, /model-studio\/#model=reproducible-build-equivalence&amp;version=v1-78148e4e627d2c9f/);
   assert.match(artworkMarkup, /model-studio\/#model=artwork-provenance&amp;version=v1-ca697f7318c611a9/);
+  assert.match(languageMarkup, /model-studio\/#model=language-transmission&amp;version=v1-557580b2872e9d7e/);
+  assert.match(manuscriptMarkup, /model-studio\/#model=manuscript-transmission&amp;version=v1-4581c6819fd2ab28/);
+  assert.match(operationalMarkup, /model-studio\/#model=operational-aging&amp;version=v1-6b1c3008c8edc901/);
   assert.match(externalCasesApp, /studio\.href = modelStudioHref\(entry, PROJECT_ROOT\)/);
   assert.match(externalCasesApp, /studioNavigation\.href = modelStudioHref\(entry, PROJECT_ROOT\)/);
   assert.match(externalCasesCatalog, /url\.hash = new URLSearchParams\(\{ model: entry\.modelId, version: entry\.modelVersion \}\)\.toString\(\)/);
@@ -419,6 +449,71 @@ test("Artwork Provenance Identity Lab keeps source relations, gaps, and identity
   assert.equal(modelRevision, appRevision);
 });
 
+test("Language Lineage & Borrowing Lab keeps genealogy, borrowing, similarity, and uncertainty separate", () => {
+  assert.match(languageApp, /cases\/historical-linguistics\/artifacts\/historical-linguistics\.json/);
+  assert.match(languageApp, /createLanguageTransmissionModel/);
+  assert.match(languageApp, /crypto\.subtle\.digest\("SHA-256"/);
+  assert.match(languageApp, /cache: "no-store"/);
+  assert.match(languageApp, /redirect: "error"/);
+  assert.match(languageApp, /marker-end.*borrowing-arrow/);
+  assert.match(languageModel, /borrowing boundary differs/);
+  assert.match(languageModel, /surface-similarity boundary differs/);
+  assert.match(languageModel, /equivalence matrix differs/);
+  assert.match(languageMarkup, /A family tree is not/);
+  assert.match(languageMarkup, /Horizontal evidence breaks the pure-tree view/);
+  assert.match(languageMarkup, /No honest load number here/);
+  for (const id of ["cohort-metrics", "family-trees", "transmission-graph", "form-list", "borrowing-controls", "borrowing-detail", "pair-controls", "comparison-result", "load-reason"]) assert.match(languageMarkup, new RegExp(`id=["']${id}["']`), `missing #${id}`);
+  const pinnedDigest = languageApp.match(/ARTIFACT_SHA256 = "([a-f0-9]{64})"/)?.[1];
+  assert.equal(pinnedDigest, createHash("sha256").update(languageArtifact).digest("hex"));
+  const appRevision = languageMarkup.match(/language-lineage-borrowing-lab\.js\?v=([^"']+)/)?.[1];
+  const modelRevision = languageApp.match(/language-transmission-model\.js\?v=([^"']+)/)?.[1];
+  assert.equal(modelRevision, appRevision);
+});
+
+test("Textual Transmission Lab preserves readings, attributed reconstruction, and contamination", () => {
+  assert.match(manuscriptApp, /cases\/manuscript-stemmatics\/artifacts\/manuscript-stemmatics\.json/);
+  assert.match(manuscriptApp, /createManuscriptTransmissionModel/);
+  assert.match(manuscriptApp, /crypto\.subtle\.digest\("SHA-256"/);
+  assert.match(manuscriptApp, /cache: "no-store"/);
+  assert.match(manuscriptApp, /redirect: "error"/);
+  assert.match(manuscriptApp, /marker-end.*contamination-arrow/);
+  assert.match(manuscriptModel, /contamination boundary differs/);
+  assert.match(manuscriptModel, /agreement boundary differs/);
+  assert.match(manuscriptModel, /Historical Load boundary differs/);
+  assert.match(manuscriptMarkup, /One text\./);
+  assert.match(manuscriptMarkup, /Cx2 cannot be represented by one clean tree edge/);
+  assert.match(manuscriptMarkup, /What the number 207 actually says/);
+  assert.match(manuscriptMarkup, /Undefined is the result/);
+  for (const id of ["corpus-metrics", "transmission-graph", "reading-matrix", "profile-bars", "agreement-controls", "agreement-detail", "ablation-controls", "ablation-detail", "pair-controls", "comparison-result", "load-reason"]) assert.match(manuscriptMarkup, new RegExp(`id=["']${id}["']`), `missing #${id}`);
+  const pinnedDigest = manuscriptApp.match(/ARTIFACT_SHA256 = "([a-f0-9]{64})"/)?.[1];
+  assert.equal(pinnedDigest, createHash("sha256").update(manuscriptArtifact).digest("hex"));
+  const appRevision = manuscriptMarkup.match(/textual-transmission-lab\.js\?v=([^"']+)/)?.[1];
+  const modelRevision = manuscriptApp.match(/manuscript-transmission-model\.js\?v=([^"']+)/)?.[1];
+  assert.equal(modelRevision, appRevision);
+});
+
+test("Operational Aging Lab separates snapshot, history, latent state, and outcome", () => {
+  assert.match(operationalApp, /cases\/operational-aging\/artifacts\/operational-aging\.json/);
+  assert.match(operationalApp, /createOperationalAgingModel/);
+  assert.match(operationalApp, /crypto\.subtle\.digest\("SHA-256"/);
+  assert.match(operationalApp, /cache: "no-store"/);
+  assert.match(operationalApp, /redirect: "error"/);
+  assert.doesNotMatch(operationalApp, /const URL = new URL\(/);
+  assert.match(operationalModel, /input boundary differs/);
+  assert.match(operationalModel, /trajectory .* boundary differs/);
+  assert.match(operationalModel, /non-primary boundary differs/);
+  assert.match(operationalMarkup, /Looks close now\.[\s\S]*Has a different horizon\./);
+  assert.match(operationalMarkup, /The pair stops looking exceptional when the window grows/);
+  assert.match(operationalMarkup, /Provided outcome, not prediction/);
+  assert.match(operationalMarkup, /Undefined is the honest result/);
+  for (const id of ["corpus-metrics", "endpoint-comparison", "rank-controls", "rank-detail", "rank-map", "sensor-controls", "trajectory-chart", "outcome-diagram", "context-control", "load-reason"]) assert.match(operationalMarkup, new RegExp(`id=["']${id}["']`), `missing #${id}`);
+  const pinnedDigest = operationalApp.match(/ARTIFACT_SHA256 = "([a-f0-9]{64})"/)?.[1];
+  assert.equal(pinnedDigest, createHash("sha256").update(operationalArtifact).digest("hex"));
+  const appRevision = operationalMarkup.match(/operational-aging-lab\.js\?v=([^"']+)/)?.[1];
+  const modelRevision = operationalApp.match(/operational-aging-model\.js\?v=([^"']+)/)?.[1];
+  assert.equal(modelRevision, appRevision);
+});
+
 test("Git History Identity Lab verifies one immutable artifact across four regimes", () => {
   assert.match(gitHistoryApp, /cases\/git-history-identity\/artifacts\/history-identity\.json/);
   assert.match(gitHistoryApp, /createGitHistoryModel/);
@@ -532,7 +627,7 @@ test("Model Studio fully verifies the real pack before using the shared view lay
   assert.match(studioApp, /MODEL_PACK_CACHE_STORAGE_/);
   assert.match(studioApp, /dataset\.cache = "unavailable"/);
   assert.match(studioApp, /"Cached model verified"/);
-  assert.match(studioApp, /sha256:1230e66488c7ef4fa9a00d6b121c7721d810731306aee0ec86c5c9f6ddd9b948/);
+  assert.match(studioApp, /sha256:9f224aed53312a18a4d83364a456a8392632d15bb635b4609e9e4ad062c70986/);
   assert.match(studioApp, /new Worker\(MODEL_PACK_WORKER_URL, \{/);
   assert.match(studioApp, /type: "module"/);
   assert.match(studioApp, /ownsWorker: true/);
@@ -697,6 +792,9 @@ test("document navigation has one canonical URL and rejects stale bfcache restor
     nixMarkup,
     ociMarkup,
     inTotoMarkup,
+    languageMarkup,
+    manuscriptMarkup,
+    operationalMarkup,
     read("apps/historical-load-explorer/index.html")
   ];
   for (const markup of pages) {
@@ -794,6 +892,21 @@ test("Chemical Synthesis and Artwork Provenance keep interface text at the reada
   assertReadableInterfaceText(artworkStyles, "Artwork Provenance Identity Lab");
   assert.doesNotMatch(chemicalStyles, /https?:\/\//);
   assert.doesNotMatch(artworkStyles, /https?:\/\//);
+});
+
+test("Language Lineage & Borrowing keeps interface text at the readable minimum", () => {
+  assertReadableInterfaceText(languageStyles, "Language Lineage & Borrowing Lab");
+  assert.doesNotMatch(languageStyles, /https?:\/\//);
+});
+
+test("Textual Transmission Lab keeps interface text at the readable minimum", () => {
+  assertReadableInterfaceText(manuscriptStyles, "Textual Transmission Lab");
+  assert.doesNotMatch(manuscriptStyles, /https?:\/\//);
+});
+
+test("Operational Aging Lab keeps interface text at the readable minimum", () => {
+  assertReadableInterfaceText(operationalStyles, "Operational Aging Lab");
+  assert.doesNotMatch(operationalStyles, /https?:\/\//);
 });
 
 test("graph sidebars keep machine fields on bounded single lines", () => {

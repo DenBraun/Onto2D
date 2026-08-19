@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/operational-aging-fd001-v1.json",
+  "title": "Onto2D Operational Aging case artifact",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["format", "formatVersion", "caseVersion", "source", "corpus", "inputDefinition", "endpointCohort", "flagship", "distanceResults", "trajectories", "outcomeComparison", "operatingContext", "reachability", "latentHistoricalState", "prediction", "historyEquivalence", "historicalLoad", "evidenceBoundary", "caseIdentity"],
+  "properties": {
+    "format": { "const": "onto2d-operational-aging-case" },
+    "formatVersion": { "const": "1" },
+    "caseVersion": { "const": "operational-aging-fd001-v1" },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["identity", "retrievedAt", "liveNetworkRequiredByBuild", "landingPage", "datasetIdentifier", "resourceId", "authoredFiles", "snapshotFiles", "archive", "consumedMembers", "citation", "license"],
+      "properties": {
+        "identity": { "$ref": "#/$defs/identity" },
+        "retrievedAt": { "type": "string", "format": "date-time" },
+        "liveNetworkRequiredByBuild": { "const": false },
+        "landingPage": { "type": "string", "pattern": "^https://data\\.nasa\\.gov/" },
+        "datasetIdentifier": { "type": "string", "pattern": "^https://data\\.nasa\\.gov/" },
+        "resourceId": { "const": "5224bcd1-ad61-490b-93b9-2817288accb8" },
+        "authoredFiles": { "type": "array", "minItems": 3, "maxItems": 3, "items": { "$ref": "#/$defs/file" } },
+        "snapshotFiles": { "type": "array", "minItems": 2, "maxItems": 2, "items": { "$ref": "#/$defs/file" } },
+        "archive": { "type": "object", "required": ["url", "sha256", "bytes", "mediaType", "memberCount"], "properties": { "url": { "type": "string" }, "sha256": { "const": "74bef434a34db25c7bf72e668ea4cd52afe5f2cf8e44367c55a82bfd91a5a34f" }, "bytes": { "const": 12425978 }, "mediaType": { "const": "application/zip" }, "memberCount": { "const": 14 } } },
+        "consumedMembers": { "type": "array", "minItems": 5, "maxItems": 5, "items": { "$ref": "#/$defs/upstreamFile" } },
+        "citation": { "type": "string", "minLength": 40 },
+        "license": { "type": "object", "additionalProperties": false, "required": ["statement", "specifiedBySource"], "properties": { "statement": { "const": "License not specified on the NASA Open Data dataset and resource pages" }, "specifiedBySource": { "const": false } } }
+      }
+    },
+    "corpus": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["dataset", "operatingConditionCount", "operatingConditionLabel", "faultModeCount", "faultModeLabel", "trainUnitCount", "trainRowCount", "trainMaximumCycle", "trainingEndsAtFailureThreshold", "testUnitCount", "testRowCount", "testMaximumObservedCycle", "testEndsBeforeFailureThreshold", "providedRulCount", "providedRulMinimum", "providedRulMaximum"],
+      "properties": {
+        "dataset": { "const": "FD001" },
+        "operatingConditionCount": { "const": 1 },
+        "operatingConditionLabel": { "const": "Sea Level" },
+        "faultModeCount": { "const": 1 },
+        "faultModeLabel": { "const": "HPC Degradation" },
+        "trainUnitCount": { "const": 100 },
+        "trainRowCount": { "const": 20631 },
+        "trainMaximumCycle": { "const": 362 },
+        "trainingEndsAtFailureThreshold": { "const": true },
+        "testUnitCount": { "const": 100 },
+        "testRowCount": { "const": 13096 },
+        "testMaximumObservedCycle": { "const": 303 },
+        "testEndsBeforeFailureThreshold": { "const": true },
+        "providedRulCount": { "const": 100 },
+        "providedRulMinimum": { "const": 7 },
+        "providedRulMaximum": { "const": 145 }
+      }
+    },
+    "inputDefinition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fields", "excludedFields", "normalization", "distance", "activeDistanceDimensions", "zeroRangeContextDimensions", "operatingSettingsRetained", "providedRulUsedAsInput", "cycleUsedInCurrentFrame", "unitIdUsedInCurrentFrame"],
+      "properties": {
+        "fields": { "const": ["settings", "sensors"] },
+        "excludedFields": { "const": ["unitId", "cycle", "observedCycleCount", "providedRul"] },
+        "normalization": { "const": "training-min-max-v1" },
+        "distance": { "const": "binary64-root-mean-square-v1" },
+        "activeDistanceDimensions": { "type": "array", "minItems": 17, "maxItems": 17, "items": { "type": "string" }, "uniqueItems": true },
+        "zeroRangeContextDimensions": { "type": "array", "minItems": 7, "maxItems": 7, "items": { "type": "string" }, "uniqueItems": true },
+        "operatingSettingsRetained": { "const": true },
+        "providedRulUsedAsInput": { "const": false },
+        "cycleUsedInCurrentFrame": { "const": false },
+        "unitIdUsedInCurrentFrame": { "const": false }
+      }
+    },
+    "endpointCohort": { "type": "array", "minItems": 100, "maxItems": 100, "items": { "$ref": "#/$defs/endpoint" } },
+    "flagship": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["unitIds", "selectionProfile", "pairUniverseSize", "eligiblePairCount", "eligibleDistanceMaximum", "currentCombinedRank", "usesOutcomeForSelection", "selectionBiased", "predictiveEvaluationClaim", "currentFramesExactlyEqual", "declaredNearCurrentFrame"],
+      "properties": {
+        "unitIds": { "const": [25, 72] },
+        "pairUniverseSize": { "const": 4950 },
+        "eligiblePairCount": { "const": 247 },
+        "currentCombinedRank": { "const": 78 },
+        "usesOutcomeForSelection": { "const": true },
+        "selectionBiased": { "const": true },
+        "predictiveEvaluationClaim": { "const": false },
+        "currentFramesExactlyEqual": { "const": false },
+        "declaredNearCurrentFrame": { "const": true },
+        "selectionProfile": { "type": "string", "minLength": 20 },
+        "eligibleDistanceMaximum": { "type": "number", "exclusiveMinimum": 0 }
+      }
+    },
+    "distanceResults": { "type": "array", "minItems": 5, "maxItems": 5, "items": { "$ref": "#/$defs/distanceResult" } },
+    "trajectories": { "type": "array", "minItems": 2, "maxItems": 2, "items": { "$ref": "#/$defs/trajectory" } },
+    "outcomeComparison": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["leftUnitId", "rightUnitId", "leftProvidedRul", "rightProvidedRul", "absoluteDifference", "leftImpliedFailureCycle", "rightImpliedFailureCycle", "providedRulRole", "providedRulUsedAsInput", "predictedRul", "predictionStatus"],
+      "properties": {
+        "leftUnitId": { "const": 25 }, "rightUnitId": { "const": 72 },
+        "leftProvidedRul": { "const": 145 }, "rightProvidedRul": { "const": 50 }, "absoluteDifference": { "const": 95 },
+        "leftImpliedFailureCycle": { "const": 193 }, "rightImpliedFailureCycle": { "const": 181 },
+        "providedRulRole": { "const": "held-out-outcome-only" }, "providedRulUsedAsInput": { "const": false },
+        "predictedRul": { "type": "null" }, "predictionStatus": { "const": "not-evaluated" }
+      }
+    },
+    "operatingContext": { "type": "object", "required": ["conditionCount", "conditionLabel", "settingFieldsRetained", "activeSettingFields", "constantSettingFields", "sensorsOnlyControlRank", "combinedCurrentRank", "multipleConditionGeneralizationClaim"], "properties": { "conditionCount": { "const": 1 }, "conditionLabel": { "const": "Sea Level" }, "settingFieldsRetained": { "const": ["setting1", "setting2", "setting3"] }, "activeSettingFields": { "const": ["setting1", "setting2"] }, "constantSettingFields": { "const": ["setting3"] }, "sensorsOnlyControlRank": { "const": 368 }, "combinedCurrentRank": { "const": 78 }, "multipleConditionGeneralizationClaim": { "const": false } } },
+    "reachability": { "type": "object", "required": ["status", "relation", "causalClaim", "universalPhysicalClaim"], "properties": { "status": { "const": "descriptive-source-outcome" }, "causalClaim": { "const": false }, "universalPhysicalClaim": { "const": false } } },
+    "latentHistoricalState": { "type": "object", "required": ["status", "directObservation", "sourceDisclosure", "derivedHistoryMeansAreLatentState"], "properties": { "status": { "const": "unobserved" }, "directObservation": { "const": false }, "derivedHistoryMeansAreLatentState": { "const": false } } },
+    "prediction": { "type": "object", "required": ["status", "model", "predictions", "trainingTestLeakageChecked"], "properties": { "status": { "const": "not-evaluated" }, "model": { "type": "null" }, "predictions": { "type": "array", "maxItems": 0 }, "trainingTestLeakageChecked": { "const": true } } },
+    "historyEquivalence": { "$ref": "#/$defs/notEvaluated" },
+    "historicalLoad": { "type": "object", "additionalProperties": false, "required": ["status", "value", "reason"], "properties": { "status": { "const": "not-evaluated" }, "value": { "type": "null" }, "reason": { "type": "string", "minLength": 60 } } },
+    "evidenceBoundary": { "type": "object", "additionalProperties": false, "required": ["observed", "providedOutcome", "derived", "unknown", "counterfactual", "nonClaims"], "properties": { "observed": { "type": "string", "minLength": 30 }, "providedOutcome": { "type": "string", "minLength": 30 }, "derived": { "type": "string", "minLength": 30 }, "unknown": { "type": "string", "minLength": 30 }, "counterfactual": { "type": "string", "minLength": 30 }, "nonClaims": { "type": "array", "minItems": 10, "items": { "type": "string", "minLength": 20 }, "uniqueItems": true } } },
+    "caseIdentity": { "$ref": "#/$defs/identity" }
+  },
+  "$defs": {
+    "identity": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "file": { "type": "object", "additionalProperties": false, "required": ["role", "path", "identity", "bytes"], "properties": { "role": { "type": "string", "minLength": 1 }, "path": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._/-]*$" }, "identity": { "$ref": "#/$defs/identity" }, "bytes": { "type": "integer", "minimum": 1 } } },
+    "upstreamFile": { "type": "object", "required": ["role", "name", "sha256", "bytes"], "properties": { "role": { "type": "string" }, "name": { "type": "string" }, "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }, "bytes": { "type": "integer", "minimum": 1 } } },
+    "vectors": { "type": "object", "additionalProperties": false, "required": ["settings", "sensors"], "properties": { "settings": { "type": "array", "minItems": 3, "maxItems": 3, "items": { "type": "number" } }, "sensors": { "type": "array", "minItems": 21, "maxItems": 21, "items": { "type": "number" } } } },
+    "endpoint": { "type": "object", "additionalProperties": false, "required": ["unitId", "split", "cycle", "observedCycleCount", "settings", "sensors", "historyDescriptors", "providedRul", "providedRulRole", "providedRulUsedAsInput", "futureRowsAvailable", "evidenceState", "identity"], "properties": { "unitId": { "type": "integer", "minimum": 1, "maximum": 100 }, "split": { "const": "test" }, "cycle": { "type": "integer", "minimum": 1 }, "observedCycleCount": { "type": "integer", "minimum": 1 }, "settings": { "type": "array", "minItems": 3, "maxItems": 3, "items": { "type": "number" } }, "sensors": { "type": "array", "minItems": 21, "maxItems": 21, "items": { "type": "number" } }, "historyDescriptors": { "type": "object", "additionalProperties": false, "required": ["last20ObservedMean", "fullObservedMean"], "properties": { "last20ObservedMean": { "$ref": "#/$defs/vectors" }, "fullObservedMean": { "$ref": "#/$defs/vectors" } } }, "providedRul": { "type": "integer", "minimum": 0 }, "providedRulRole": { "const": "held-out-outcome-only" }, "providedRulUsedAsInput": { "const": false }, "futureRowsAvailable": { "const": false }, "evidenceState": { "const": "source-projected-simulated-endpoint" }, "identity": { "$ref": "#/$defs/identity" } } },
+    "distanceResult": { "type": "object", "additionalProperties": false, "required": ["id", "label", "window", "dimensionScope", "dimensionCount", "distance", "rank", "pairUniverseSize", "percentile", "currentFrameInputFields", "historyRowsUsed", "providedRulUsedAsInput", "createsExactStateIdentity"], "properties": { "id": { "type": "string" }, "label": { "type": "string" }, "window": { "type": "string" }, "dimensionScope": { "type": "string" }, "dimensionCount": { "type": "integer", "minimum": 1 }, "distance": { "type": "number", "minimum": 0 }, "rank": { "type": "integer", "minimum": 1, "maximum": 4950 }, "pairUniverseSize": { "const": 4950 }, "percentile": { "type": "number", "exclusiveMinimum": 0, "maximum": 1 }, "currentFrameInputFields": { "type": ["array", "null"], "items": { "enum": ["settings", "sensors"] }, "uniqueItems": true }, "historyRowsUsed": { "type": ["integer", "null"], "minimum": 1 }, "providedRulUsedAsInput": { "const": false }, "createsExactStateIdentity": { "const": false } } },
+    "row": { "type": "object", "additionalProperties": false, "required": ["cycle", "settings", "sensors"], "properties": { "cycle": { "type": "integer", "minimum": 1 }, "settings": { "type": "array", "minItems": 3, "maxItems": 3, "items": { "type": "number" } }, "sensors": { "type": "array", "minItems": 21, "maxItems": 21, "items": { "type": "number" } } } },
+    "trajectory": { "type": "object", "additionalProperties": false, "required": ["unitId", "split", "observedCycleCount", "providedRul", "providedRulRole", "impliedFailureCycle", "rows", "futureRowsIncluded", "futureRowsSynthesized", "latentHealthObserved", "providedRulUsedAsInput", "evidenceState", "identity"], "properties": { "unitId": { "enum": [25, 72] }, "split": { "const": "test" }, "observedCycleCount": { "type": "integer", "minimum": 1 }, "providedRul": { "type": "integer", "minimum": 0 }, "providedRulRole": { "const": "held-out-outcome-only" }, "impliedFailureCycle": { "type": "integer", "minimum": 1 }, "rows": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/row" } }, "futureRowsIncluded": { "const": false }, "futureRowsSynthesized": { "const": false }, "latentHealthObserved": { "const": false }, "providedRulUsedAsInput": { "const": false }, "evidenceState": { "const": "source-projected-observed-prefix" }, "identity": { "$ref": "#/$defs/identity" } } },
+    "notEvaluated": { "type": "object", "additionalProperties": false, "required": ["status", "reason"], "properties": { "status": { "const": "not-evaluated" }, "reason": { "type": "string", "minLength": 40 } } }
+  }
+}

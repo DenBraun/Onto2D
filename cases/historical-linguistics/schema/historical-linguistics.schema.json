@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/historical-linguistics-v1.json",
+  "title": "Onto2D Historical Linguistics case artifact",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["format", "formatVersion", "caseVersion", "source", "concept", "cohort", "languages", "genealogy", "borrowings", "surfaceComparisons", "historyEquivalence", "reconstruction", "historicalLoad", "evidenceBoundary", "caseIdentity"],
+  "properties": {
+    "format": { "const": "onto2d-historical-linguistics-case" },
+    "formatVersion": { "const": "1" },
+    "caseVersion": { "const": "historical-linguistics-v1" },
+    "source": {
+      "type": "object",
+      "required": ["identity", "retrievedOn", "liveNetworkRequiredByBuild", "authoredFiles", "snapshotFiles", "releases"],
+      "properties": {
+        "identity": { "$ref": "#/$defs/identity" },
+        "retrievedOn": { "type": "string", "format": "date" },
+        "liveNetworkRequiredByBuild": { "const": false },
+        "authoredFiles": { "type": "array", "minItems": 2, "maxItems": 2, "items": { "$ref": "#/$defs/file" } },
+        "snapshotFiles": { "type": "array", "minItems": 2, "maxItems": 2, "items": { "$ref": "#/$defs/file" } },
+        "releases": { "type": "array", "minItems": 2, "maxItems": 2, "items": { "type": "object", "required": ["id", "release", "releaseCommit", "releaseUrl", "license", "citation"] } }
+      }
+    },
+    "concept": { "type": "object", "required": ["id", "name", "concepticonId", "concepticonGloss", "coreList", "semanticCategory", "semanticField", "evidenceState", "dataset"] },
+    "cohort": {
+      "type": "object",
+      "required": ["profile", "languageCount", "topLevelFamilyCount", "selectedFormCount", "borrowingAnnotationCount", "crossFamilyBorrowingCount"],
+      "properties": {
+        "profile": { "const": "wold-match-six-language-v1" },
+        "languageCount": { "const": 6 },
+        "topLevelFamilyCount": { "const": 2 },
+        "selectedFormCount": { "const": 6 },
+        "borrowingAnnotationCount": { "const": 4 },
+        "crossFamilyBorrowingCount": { "const": 1 }
+      }
+    },
+    "languages": { "type": "array", "minItems": 6, "maxItems": 6, "items": { "$ref": "#/$defs/language" } },
+    "genealogy": {
+      "type": "object",
+      "required": ["roots", "nodes", "edges", "identity"],
+      "properties": {
+        "roots": { "type": "array", "prefixItems": [{ "const": "indo1319" }, { "const": "sino1245" }], "items": false },
+        "nodes": { "type": "array", "minItems": 35, "items": { "type": "object", "required": ["id", "name", "kind", "evidenceState", "release"] } },
+        "edges": { "type": "array", "minItems": 40, "items": { "type": "object", "required": ["id", "parent", "child", "relation", "evidenceState", "attribution", "genealogical"], "properties": { "genealogical": { "const": true } } } },
+        "identity": { "$ref": "#/$defs/identity" }
+      }
+    },
+    "borrowings": { "type": "array", "minItems": 4, "maxItems": 4, "items": { "$ref": "#/$defs/borrowing" } },
+    "surfaceComparisons": { "type": "array", "minItems": 4, "maxItems": 4, "items": { "$ref": "#/$defs/surfaceComparison" } },
+    "historyEquivalence": {
+      "type": "object",
+      "required": ["regimes", "comparisons"],
+      "properties": {
+        "regimes": { "type": "array", "minItems": 4, "maxItems": 4 },
+        "comparisons": { "type": "array", "minItems": 3, "maxItems": 3, "items": { "type": "object", "required": ["id", "label", "left", "right", "historiesDistinct", "results"], "properties": { "historiesDistinct": { "const": true }, "results": { "type": "array", "minItems": 4, "maxItems": 4 } } } }
+      }
+    },
+    "reconstruction": {
+      "type": "object",
+      "required": ["question", "status", "verticalEdges", "horizontalEdges", "surfaceSignals", "cognacyAssertions", "newPhylogenyInferred", "alternatives", "ablation"],
+      "properties": { "status": { "const": "source-separated" }, "horizontalEdges": { "const": 4 }, "surfaceSignals": { "const": 4 }, "cognacyAssertions": { "const": 0 }, "newPhylogenyInferred": { "const": false } }
+    },
+    "historicalLoad": { "type": "object", "required": ["status", "value", "reason"], "properties": { "status": { "const": "not-evaluated" }, "value": { "type": "null" }, "reason": { "type": "string", "minLength": 40 } } },
+    "evidenceBoundary": { "type": "object", "required": ["classifications", "lexicalForms", "borrowing", "similarity", "unresolvedMappings", "nonClaims"] },
+    "caseIdentity": { "$ref": "#/$defs/identity" }
+  },
+  "$defs": {
+    "identity": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "glottocode": { "type": "string", "pattern": "^[a-z]{4}[0-9]{4}$" },
+    "file": { "type": "object", "required": ["role", "path", "identity", "bytes"], "properties": { "role": { "type": "string", "minLength": 1 }, "path": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._/-]*$" }, "identity": { "$ref": "#/$defs/identity" }, "bytes": { "type": "integer", "minimum": 1 } } },
+    "language": {
+      "type": "object",
+      "required": ["glottocode", "name", "familyId", "familyName", "identifiers", "identifierMapping", "classificationClaim", "lexicalForm", "borrowingAnnotations"],
+      "properties": {
+        "glottocode": { "$ref": "#/$defs/glottocode" },
+        "name": { "type": "string", "minLength": 1 },
+        "familyId": { "$ref": "#/$defs/glottocode" },
+        "classificationClaim": { "type": "object", "required": ["release", "path", "status", "uncertain", "attributedTo", "groundTruthClaim"], "properties": { "release": { "const": "v5.3" }, "status": { "const": "published-classification" }, "groundTruthClaim": { "const": false } } },
+        "lexicalForm": { "type": "object", "required": ["id", "languageId", "parameterId", "form", "segments", "loan", "borrowedStatus", "borrowedScore", "evidenceState", "contributor", "vocabularyUrl"] },
+        "borrowingAnnotations": { "type": "array" }
+      }
+    },
+    "borrowing": {
+      "type": "object",
+      "required": ["id", "targetFormId", "sourceRelation", "sourceWord", "sourceMeaning", "sourceCertain", "sourceLanguoid", "sourceGlottocode", "recipientGlottocode", "targetForm", "targetBorrowedStatus", "targetBorrowedScore", "relationKind", "evidenceState", "genealogicalParent", "generalizedBeyondTargetForm"],
+      "properties": { "sourceGlottocode": { "$ref": "#/$defs/glottocode" }, "recipientGlottocode": { "$ref": "#/$defs/glottocode" }, "relationKind": { "const": "lexical-borrowing" }, "genealogicalParent": { "const": false }, "generalizedBeyondTargetForm": { "const": false } }
+    },
+    "surfaceComparison": {
+      "type": "object",
+      "required": ["borrowingId", "targetFormId", "target", "source", "method", "distance", "similarity", "interpretation", "cognacyStatus", "createsCognacy", "createsGenealogy"],
+      "properties": { "similarity": { "type": "number", "minimum": 0, "maximum": 1 }, "cognacyStatus": { "const": "not-asserted" }, "createsCognacy": { "const": false }, "createsGenealogy": { "const": false } }
+    }
+  }
+}

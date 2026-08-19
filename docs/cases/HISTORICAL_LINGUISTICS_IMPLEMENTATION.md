@@ -2,6 +2,19 @@
 
 Updated: 2026-08-18
 
+Status: `ANALYSIS_READY`
+
+Implemented release:
+
+```text
+Glottolog CLDF: v5.3 / 072ca0d
+Lexibank WOLD CLDF: v4.2 / 1df62b9
+selection: six recipient languages / LWT 1-87 “the match”
+artifact: cases/historical-linguistics/artifacts/historical-linguistics.json
+Model Pack: language-transmission@v1-557580b2872e9d7e
+Explorer: apps/language-lineage-borrowing-lab/
+```
+
 ## History Model Metadata
 
 ```text
@@ -300,3 +313,33 @@ cannot distinguish vertical ancestry from horizontal transfer.
 A pinned multilingual cohort can display stable genealogical classification,
 lexical evidence, and at least one expert-curated borrowing relation in one
 model without conflating similarity, cognacy, borrowing, and ancestry.
+
+## Implemented Result
+
+The definition of done is satisfied by a deterministic, offline build:
+
+- six WOLD/Lexibank vocabulary records join to Glottolog through exact,
+  unique Glottocodes;
+- the selected Glottolog paths yield 40 deduplicated, attributed vertical
+  classification edges;
+- four WOLD source records remain horizontal relations local to one target
+  lexical form;
+- English → Manange is the flagship cross-family record; its
+  `sourceCertain = true` field does not overwrite the target form's
+  `3. perhaps borrowed` status and `0.5` score;
+- English → Dutch demonstrates borrowing within a shared top-level family;
+- four Unicode edit comparisons remain display-only and create zero cognacy
+  assertions;
+- three language pairs are compared under language-ID, family, lexical-state,
+  and transmission-profile equivalence regimes;
+- Historical Load is explicitly `null`: the case declares no route space,
+  admissibility rule, baseline, or cost function.
+
+The extractor locks both compact projections and the SHA-256 identities of the
+full upstream CLDF files from which they were selected. Tests reject borrowing
+as genealogy, similarity as cognacy, unstable joins, re-signed derived verdict
+changes, and any attempt to replace the undefined Historical Load with zero.
+The public verifier also recomputes the nested genealogy identity and admits
+only the exact approved `historical-linguistics-v1` case identity, so a caller
+cannot replace source locks or records and legitimize them by recomputing the
+public content hashes.

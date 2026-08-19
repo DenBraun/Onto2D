@@ -1,6 +1,68 @@
-# Manuscript Stemmatics — Implementation Plan
+# Manuscript Stemmatics - Implementation and Result
 
 Updated: 2026-08-18
+
+Status: implemented and verified - `ANALYSIS_READY`
+
+Exact release:
+
+```text
+case: manuscript-stemmatics-v1
+case identity: sha256:f434de7c96b481ee68abcf13f4b50e216af99ce8710014061b5a7ff7ac574629
+artifact: cases/manuscript-stemmatics/artifacts/manuscript-stemmatics.json
+model: manuscript-transmission@v1-4581c6819fd2ab28
+explorer: apps/textual-transmission-lab/
+```
+
+## Result
+
+The selected tradition is Link 1 and *The Miller's Tale* from the New
+Stemmatics data page. The source describes 54 manuscript witnesses and four
+pre-1500 print editions. Its NEXUS file contains 59 taxa including the
+collation base and 4032 transposed characters.
+
+The bounded explanation projects seven witnesses and two explicitly discussed
+reading sites. Those sites are selection-biased examples, not a representative
+sample of the complete collation. Exact agreement over them creates neither a
+copying relation nor ancestry.
+
+Robinson's published analysis supports the flagship non-tree result:
+
+```text
+Cx1 ----------------------> Cx2 ----------------------> Pn
+                              \\-----------------------> Wy
+unresolved better copy ----> Cx2
+```
+
+The first input supplied the base text; the second is an attributed correction
+source and is explicitly non-tree-compatible. Its physical identity remains
+unresolved. Every transmission relation is a published interpretation, never a
+directly observed historical event.
+
+The published quantitative profile reports 207 differences between Cx2 and
+Cx1 whose Cx2 reading also appears in more than three witnesses. This supports
+the correction interpretation in the published analysis. It is not a count of
+copying events and is not a Historical Load result.
+
+Four exact ablations make evidence sensitivity inspectable. Removing only the
+207-reading profile downgrades the correction source to attributed-only;
+removing the multiple-exemplar claim withholds both bounded inputs into Cx2.
+Removing the two displayed example sites does not remove the published
+transmission relations, because those relations are not inferred from the
+miniature display slice.
+
+These outcomes are replayed by the extractor from an explicit relation-evidence
+policy: missing required attribution evidence withholds a relation, while
+missing corroborating evidence downgrades it to attributed-only. The values in
+the analysis profile are regression expectations and are rejected if they
+disagree with the independently derived result. The public verifier repeats
+that replay, recomputes every witness identity, and admits only the exact
+approved `manuscript-stemmatics-v1` case identity.
+
+Historical Load is `null`, not zero: the source provides no finite admissible
+reconstruction space, route-cost functional, or baseline route. The bounded
+reconstruction status is `partial`, the central rooting is unresolved, and no
+candidate actual past is invented.
 
 ## History Model Metadata
 
@@ -70,10 +132,20 @@ https://textualscholarship.org/newstemmatics/data/
 The site publishes collations for several textual traditions and associated
 expert scholarly analyses.
 
-Initial candidate corpora include the provided Chaucer and Old Norse datasets.
+The implemented corpus is the site's Link 1 and *The Miller's Tale* dataset:
 
-The actual first corpus must be selected only after verifying that it contains
-a reviewable transmission problem relevant to the intended experiment.
+```text
+MI.nex
+sha256:b6b7b2114119a48cedad400bc1d2cfea80013e71bcf3d70b2e2f3a0ada6ce7b5
+
+MIanal.pdf
+sha256:55c0d2c1f50e844b1c465626ca1a5ff21b4d6d79ea10ff23cf450b7ecd8456b9
+```
+
+It was selected because the machine-readable collation is accompanied by a
+page-located published analysis of Cx2's multiple-exemplar transmission. Exact
+upstream byte counts, HTTP metadata, the data-page hash, and the source licence
+statement are retained in `cases/manuscript-stemmatics/upstream.json`.
 
 ## Outputs
 
@@ -95,7 +167,10 @@ Do not:
 - invent missing witnesses;
 - treat an editorial stemma as direct observation.
 
-## Phase 0 — Choose a Bounded Tradition
+The following phase record is retained as the implementation and review
+checklist. Every phase is complete for `manuscript-stemmatics-v1`.
+
+## Phase 0 - Choose a Bounded Tradition
 
 Select one tradition satisfying:
 
@@ -109,7 +184,7 @@ If no selected New Stemmatics corpus supports multiple-parent transmission,
 use the first release for ordinary reconstructed ancestry and select a second
 reviewed corpus for contamination rather than fabricating it.
 
-## Phase 1 — Pin Evidence
+## Phase 1 - Pin Evidence
 
 Persist:
 
@@ -123,7 +198,7 @@ selection notes
 
 Record source hashes and the exact source publication citation.
 
-## Phase 2 — Native Textual Model
+## Phase 2 - Native Textual Model
 
 Represent:
 
@@ -138,7 +213,7 @@ Source Document
 
 Do not create ancestry relations yet.
 
-## Phase 3 — Similarity Projection
+## Phase 3 - Similarity Projection
 
 Derive explicit, versioned comparisons such as:
 
@@ -152,7 +227,7 @@ Similarity metrics are analysis artifacts.
 
 They are not ancestry.
 
-## Phase 4 — Reconstructed Transmission Model
+## Phase 4 - Reconstructed Transmission Model
 
 Represent:
 
@@ -173,18 +248,18 @@ algorithmic-reconstruction
 Onto2D-counterfactual
 ```
 
-## Phase 5 — Canonical Experiments
+## Phase 5 - Canonical Experiments
 
-### Experiment A — Similar Text, Different Ancestry
+### Experiment A - Similar Text, Different Ancestry
 
 Show that high textual similarity alone does not define genealogical relation.
 
-### Experiment B — Reconstructed Stemma
+### Experiment B - Reconstructed Stemma
 
 Replay or import the selected published reconstruction as an explicitly
 attributed artifact.
 
-### Experiment C — Multiple Historical Parents
+### Experiment C - Multiple Historical Parents
 
 Where the corpus supports contamination:
 
@@ -196,13 +271,13 @@ Witness B -----/
 
 Keep the relation distinct from ordinary tree parentage.
 
-### Experiment D — Evidence Ablation
+### Experiment D - Evidence Ablation
 
 Remove selected variant sites and recompute the bounded candidate relation set.
 
 Show whether reconstruction becomes more ambiguous.
 
-### Experiment E — History Equivalence
+### Experiment E - History Equivalence
 
 Compare witnesses under:
 
@@ -212,7 +287,7 @@ selected-passage identity
 transmission-history identity
 ```
 
-## Phase 6 — Reconstruction Analysis
+## Phase 6 - Reconstruction Analysis
 
 Primary case-level output:
 
@@ -233,7 +308,7 @@ unsupported
 unresolved
 ```
 
-## Phase 7 — Model Pack
+## Phase 7 - Model Pack
 
 Potential:
 
@@ -253,7 +328,7 @@ scholarly claim
 source document
 ```
 
-## Phase 8 — Explorer
+## Phase 8 - Explorer
 
 Views:
 
@@ -274,7 +349,7 @@ reconstructed ancestry
 published interpretation
 ```
 
-## Phase 9 — Negative Tests
+## Phase 9 - Negative Tests
 
 Required:
 
