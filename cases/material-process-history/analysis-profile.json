@@ -1,0 +1,93 @@
+{
+  "format": "onto2d-material-process-history-analysis-profile",
+  "formatVersion": "1",
+  "profileVersion": "ambench-2022-01-material-process-interpretation-v1",
+  "question": "What does an exact manufacturing history add beyond nominal alloy and nominal recipe identity when interpreting present measured material state?",
+  "evidenceLayers": [
+    {
+      "id": "source-record",
+      "authority": "NIST AM-Bench metadata release 3.0.0",
+      "role": "build, process, part, and thermography records with native identifiers"
+    },
+    {
+      "id": "prescribed-process",
+      "authority": "AMB2022-01 PBFLB build-process records",
+      "role": "nominal material, machine, environment, laser, layer, hatch, and scan-file parameters"
+    },
+    {
+      "id": "in-situ-derived",
+      "authority": "NIST thermography metadata",
+      "role": "separately identified raw signal and derived TAM/SCR artifact references"
+    },
+    {
+      "id": "ex-situ-measured",
+      "authority": "NIST mds2-2711 / CHESS",
+      "role": "2,248 coordinate-bearing XX and ZZ residual elastic strain measurements for B7-P3"
+    },
+    {
+      "id": "onto2d-analysis",
+      "authority": "ambench-2022-01-material-process-interpretation-v1",
+      "role": "identity-regime comparison and bounded non-claims"
+    }
+  ],
+  "identityRegimes": [
+    {
+      "id": "nominal-material",
+      "equivalenceKey": "materialClass",
+      "expectedClassCount": 1,
+      "meaning": "All three selected P3 parts share the recorded IN718 material class."
+    },
+    {
+      "id": "nominal-recipe",
+      "equivalenceKey": "canonical sharedNominalRecipe",
+      "expectedClassCount": 1,
+      "meaning": "All three selected P3 parts share the projected nominal process recipe."
+    },
+    {
+      "id": "build-record",
+      "equivalenceKey": "native AMBuild identifier",
+      "expectedClassCount": 3,
+      "meaning": "B6, B7, and B8 remain different build records even when nominal recipe fields match."
+    },
+    {
+      "id": "part-record",
+      "equivalenceKey": "native AMBuildPart identifier",
+      "expectedClassCount": 3,
+      "meaning": "P3 from each build remains a different physical-part record."
+    },
+    {
+      "id": "measured-state",
+      "equivalenceKey": "native measurement target plus technique, coordinates, components, and values",
+      "expectedClassCount": 1,
+      "unresolvedCount": 2,
+      "meaning": "Only B7-P3 has the selected residual-strain field; absent sibling measurements remain unknown."
+    }
+  ],
+  "historicalLoad": {
+    "status": "not-evaluated",
+    "value": null,
+    "reason": "The source declares neither a finite universe of possible manufacturing paths nor transition costs or a history-free counterfactual baseline; undefined must not be displayed as zero."
+  },
+  "interpretationPolicy": {
+    "status": "measured-association-only",
+    "recipeEqualityMayMergeBuilds": false,
+    "measurementMayTransferBetweenParts": false,
+    "thermographyMayBecomeResidualStrain": false,
+    "causalProcessEffectAllowed": false,
+    "spatialFieldMayCollapseToOneScalar": false
+  },
+  "nonClaims": [
+    "The three selected builds are not the complete AMB2022-01 process space.",
+    "A shared nominal IN718 material class does not establish specimen identity.",
+    "A shared projected nominal recipe does not establish build or part identity.",
+    "A prescribed process parameter is not an observed machine trajectory.",
+    "A thermography raw-signal record is not a residual-strain measurement.",
+    "TAM and solid-cooling-rate artifacts remain derived thermography products.",
+    "The B7-P3 residual-strain field is not copied to B6-P3 or B8-P3.",
+    "Spatially varying strain is not collapsed into a single complete material-state value.",
+    "Association between process record and measured part does not establish a unique causal mechanism.",
+    "The repeated B6 SCR filename in B7/B8 source metadata is not silently corrected.",
+    "Recorded XML dates are not promoted to a complete physical chronology.",
+    "Historical Load is undefined because no finite path universe and cost model are declared."
+  ]
+}

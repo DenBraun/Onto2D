@@ -20,8 +20,8 @@ Statuses describe repository maturity, not scientific truth.
 | Software Heritage Lineage | Recorded | — | Identity | Software archival | PLANNED |
 | Chemical Synthesis History | Recorded | — | Identity | Chemistry | ANALYSIS_READY |
 | Mineral Formation History | Reconstructed | Embodied | Identity | Mineralogy | PLANNED |
-| LTEE Evolutionary Contingency | Embodied | Recorded, Reconstructed | Future | Experimental evolution | PLANNED |
-| Material Process History | Embodied | Recorded | Present State | Materials science | PLANNED |
+| LTEE Evolutionary Contingency | Embodied | Recorded, Reconstructed | Future | Experimental evolution | ANALYSIS_READY |
+| Material Process History | Embodied | Recorded | Present State | Materials science | ANALYSIS_READY |
 | Cell Lineage Identity | Reconstructed | Embodied | Identity | Developmental biology | PLANNED |
 | Lithic Operational History | Reconstructed | — | Present State | Archaeology | PLANNED |
 | Artwork Provenance | Recorded | Reconstructed | Identity | Cultural heritage | ANALYSIS_READY |
@@ -64,10 +64,12 @@ metadata, never physical ownership of a case.
 1. Recorded → Identity: Artwork Provenance, in-toto, Reproducible Builds, and
    Chemistry are analysis-ready.
 2. Embodied → Present State: Operational Aging and Ecological Memory are
-   analysis-ready; Material Process History remains planned.
-3. Embodied → Future: Operational Aging is analysis-ready. Ecological Memory's
-   present-state result is analysis-ready while future reachability remains
-   explicitly descriptive-only; LTEE remains planned.
+   analysis-ready; Material Process History is the implemented flagship for
+   Embodied History -> Present State.
+3. Embodied → Future: LTEE is the implemented flagship with three separate
+   Ara-3 replay protocols and descriptive history-conditioned reachability.
+   Operational Aging is analysis-ready; Ecological Memory's present-state
+   result is analysis-ready while future reachability remains descriptive-only.
 4. Reconstructed → Identity: Historical Linguistics and Manuscript Stemmatics
    are analysis-ready; Mineral Formation and Cell Lineage remain planned.
 5. Reconstruction from traces: Galactic Archaeology is analysis-ready with a

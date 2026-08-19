@@ -23,7 +23,8 @@ Pack contract, separate frozen Causal Emergence, live-bootstrap provenance,
 Nix derivation, OCI layer-provenance, in-toto, chemical-reaction, reproducible-build,
 artwork-provenance, language-transmission, manuscript-transmission,
 operational-aging, ecological-memory, legal-precedent-history,
-clinical-trajectories, and galactic-archaeology releases,
+clinical-trajectories, galactic-archaeology, and material-process-history releases,
+plus the ltee-lineage-history release,
 and a headless API for exact model queries and traversal. It is not yet a
 published npm package.
 
@@ -165,6 +166,21 @@ profiles. Present-day patterns support candidate historical compatibility,
 without becoming native Gaia labels, birth origins, common ancestry, or one
 true Galactic formation history
 ([method](cases/galactic-archaeology/README.md)).
+
+The [Material Process History Lab](https://denbraun.github.io/Onto2D/apps/material-process-history-lab/)
+compares three source-locked NIST AM-Bench IN718 build and P3 part identities
+under one exact nominal recipe, then exposes the 2,248-coordinate B7-P3
+residual-strain field without copying it to sibling parts, repairing source
+metadata, inventing causality, or rendering undefined Historical Load as zero
+([method](cases/material-process-history/README.md)).
+
+The [Evolutionary Contingency Lab](https://denbraun.github.io/Onto2D/apps/evolutionary-contingency-lab/)
+compares sixteen recorded Ara-3 source generations across three separate
+citrate replay protocols. Seven generations yielded Cit+ in at least one
+bounded replay; nine remain unresolved rather than inaccessible. Published
+statistics stay attributed, a source arithmetic discrepancy remains visible,
+and undefined Historical Load is never rendered as zero
+([method](cases/ltee-evolutionary-contingency/README.md)).
 
 The [History Atlas](https://denbraun.github.io/Onto2D/apps/history-atlas/)
 organizes 22 registered cases by two independent axes: how history is available

@@ -1,0 +1,1212 @@
+{
+  "format": "onto2d-ltee-evolutionary-contingency-case",
+  "formatVersion": "1",
+  "caseVersion": "ltee-ara3-citrate-replay-interpretation-v1",
+  "source": {
+    "identity": "sha256:edf18c3b63b7a430e0d8febb0708c411e6808a5a2dd9603f47fae3234baa80f1",
+    "snapshotIdentity": "sha256:d4574e9bf6e34979b3a1a3cb6002a1a6f97da85180ef44da1d8e841dcf257a3d",
+    "snapshotBytes": 32738,
+    "retrievedAt": "2026-08-19T09:03:00Z",
+    "doi": "10.1073/pnas.0803151105",
+    "pmid": "18524956",
+    "pmcid": "PMC2430337",
+    "articleUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2430337/?report=printable",
+    "liveNetworkRequiredByBuild": false,
+    "authoredFiles": [
+      {
+        "path": "upstream.json",
+        "identity": "sha256:fb6a2bb4e5f2438c2083cd8a54eb2574de1af09e036e3ff60fdf0e11e04b09ac",
+        "bytes": 1945
+      },
+      {
+        "path": "analysis-profile.json",
+        "identity": "sha256:2898bd160b7f2f0759d89d84dd8527856487b51c3f9cca27568c1849576226f2",
+        "bytes": 4642
+      },
+      {
+        "path": "prepare-source.py",
+        "identity": "sha256:b0549fd2a367e59e822ea69f433bf4a5d2f889349d6bfa83660362e51d0ddc3f",
+        "bytes": 17094
+      }
+    ],
+    "snapshotFiles": [
+      {
+        "path": "source/ltee-ara3-citrate-replay.json",
+        "identity": "sha256:d4574e9bf6e34979b3a1a3cb6002a1a6f97da85180ef44da1d8e841dcf257a3d",
+        "bytes": 32738
+      }
+    ],
+    "upstreamInputFiles": [
+      {
+        "path": "pmc/PMC2430337-printable.html",
+        "sha256": "7e271d52f2fba0e4c40c3c7491b654a56482763639b255fb77930583a4cc10f9",
+        "bytes": 225210
+      }
+    ]
+  },
+  "methodology": {
+    "question": "How does the recorded generation of an Ara-3 source background condition the observed accessibility of aerobic citrate use under each bounded replay protocol?",
+    "selectionProfile": "ltee-ara3-citrate-replay-projection-v1",
+    "analysisProfile": "ltee-ara3-citrate-replay-interpretation-v1",
+    "selectionRule": "Retain every source-generation row and non-missing replay count in Tables 1 and 2; preserve the three protocols separately; treat zero observed mutants as bounded non-observation, never impossibility.",
+    "evidenceLayers": [
+      {
+        "id": "article-metadata",
+        "authority": "NCBI PubMed Central record for PMCID PMC2430337",
+        "role": "article identity, authorship, publication date, DOI, PMID, and stable repository locator"
+      },
+      {
+        "id": "source-table",
+        "authority": "Blount, Borland, and Lenski (2008), Tables 1 and 2",
+        "role": "generation-indexed replicate counts, independent Cit+ observations, and published test summaries"
+      },
+      {
+        "id": "protocol-description",
+        "authority": "Blount, Borland, and Lenski (2008), replay experiment methods",
+        "role": "experimental units, scale, duration, and assay conditions that keep the three replays non-interchangeable"
+      },
+      {
+        "id": "published-interpretation",
+        "authority": "Blount, Borland, and Lenski (2008), statistical analysis and discussion",
+        "role": "source-attributed support for a potentiated background without identifying a unique causal mutation"
+      },
+      {
+        "id": "onto2d-analysis",
+        "authority": "ltee-ara3-citrate-replay-interpretation-v1",
+        "role": "bounded reachability labels, arithmetic checks, discrepancy visibility, and explicit non-claims"
+      }
+    ],
+    "interpretationPolicy": {
+      "status": "descriptive-history-conditioned-reachability",
+      "notObservedMayBecomeImpossible": false,
+      "protocolsMayPool": false,
+      "generationMayIdentifyGenotype": false,
+      "generationMayIdentifyClone": false,
+      "replayMayBecomeOriginalHistory": false,
+      "publishedPValuesRecomputed": false,
+      "publishedExpectedMeansAssumedReproduced": false,
+      "universalLawClaimAllowed": false,
+      "causalMutationIdentified": false
+    }
+  },
+  "cohort": {
+    "populationId": "Ara-3",
+    "targetOutcomeId": "phenotype:aerobic-citrate-use",
+    "sourceGenerationCount": 16,
+    "protocolCount": 3,
+    "observationCount": 38,
+    "replicateCountByProtocol": [
+      72,
+      340,
+      2800
+    ],
+    "independentCitPlusMutantCountByProtocol": [
+      4,
+      5,
+      8
+    ],
+    "independentCitPlusMutantCount": 17,
+    "observedBackgroundCount": 7,
+    "unresolvedBackgroundCount": 9,
+    "protocolsPooled": false
+  },
+  "protocols": [
+    {
+      "id": "replay-1",
+      "nativeLabel": "First experiment",
+      "mode": "serial-transfer replay",
+      "replicateUnit": "replay population",
+      "sourceCloneCountPerGeneration": 3,
+      "markerVariantsPerClone": 2,
+      "maximumReplayGenerationsApproximate": 3700,
+      "screeningIntervalGenerations": 250,
+      "incubationDays": null,
+      "replicates": 72,
+      "independentCitPlusMutants": 4,
+      "identity": "sha256:9a0aca2b783028eb0db11f10a1f0d6c6aac772ef36b9fda14bf2e85b0041f525"
+    },
+    {
+      "id": "replay-2",
+      "nativeLabel": "Second experiment",
+      "mode": "MC plate assay",
+      "replicateUnit": "MC plate",
+      "sourceCloneCount": 68,
+      "platesPerClone": 5,
+      "cellsPerPlateApproximate": 390000000,
+      "incubationDays": 59,
+      "replicates": 340,
+      "independentCitPlusMutants": 5,
+      "identity": "sha256:3056fa1b6b6506e66022b52b6cdd311188c40bb6ae36376cfca33eba86f75be7"
+    },
+    {
+      "id": "replay-3",
+      "nativeLabel": "Third experiment",
+      "mode": "MC plate assay",
+      "replicateUnit": "culture plated on MC agar",
+      "sourceCloneCountPerEvolvedGeneration": 20,
+      "replicatesPerClone": 10,
+      "ancestorReplicates": 200,
+      "cellsPerCultureApproximateRange": [
+        10000000000,
+        20000000000
+      ],
+      "totalCellsApproximate": 40000000000000,
+      "incubationDays": 45,
+      "replicates": 2800,
+      "independentCitPlusMutants": 8,
+      "identity": "sha256:738b1c1a12f4440b477d2859b482d736b1481a85632a3f8fd315ea2597af17a0"
+    }
+  ],
+  "backgrounds": [
+    {
+      "id": "background:ara-3:g-00000",
+      "populationId": "Ara-3",
+      "sourceGeneration": 0,
+      "nativeGenerationLabel": "Ancestor",
+      "recordKind": "published-generation-sample",
+      "cloneIdentityAvailableInTable": false,
+      "completeGenotypeAvailableInTable": false,
+      "potentiationStatusFromGenerationAlone": "unresolved",
+      "identity": "sha256:2e1821a6f5d908555170ec823b257290f5a879ef73c272f3229dafe4adc2ecef"
+    },
+    {
+      "id": "background:ara-3:g-05000",
+      "populationId": "Ara-3",
+      "sourceGeneration": 5000,
+      "nativeGenerationLabel": "5,000",
+      "recordKind": "published-generation-sample",
+      "cloneIdentityAvailableInTable": false,
+      "completeGenotypeAvailableInTable": false,
+      "potentiationStatusFromGenerationAlone": "unresolved",
+      "identity": "sha256:259cbb42f2fa521815d69c6c985800c789376a350d2b2f5faf38b8c4ef0511f8"
+    },
+    {
+      "id": "background:ara-3:g-10000",
+      "populationId": "Ara-3",
+      "sourceGeneration": 10000,
+      "nativeGenerationLabel": "10,000",
+      "recordKind": "published-generation-sample",
+      "cloneIdentityAvailableInTable": false,
+      "completeGenotypeAvailableInTable": false,
+      "potentiationStatusFromGenerationAlone": "unresolved",
+      "identity": "sha256:fba8bc0a1df30d794fad022882ee2811f7175d38f34dc943a4bb2362ecb1765a"
+    },
+    {
+      "id": "background:ara-3:g-15000",
+      "populationId": "Ara-3",
+      "sourceGeneration": 15000,
+      "nativeGenerationLabel": "15,000",
+      "recordKind": "published-generation-sample",
+      "cloneIdentityAvailableInTable": false,
+      "completeGenotypeAvailableInTable": false,
+      "potentiationStatusFromGenerationAlone": "unresolved",
+      "identity": "sha256:3e5160a38329c653ae3a01ad17be856cd1efe63bb4a46fb67048edaaae1c8113"
+    },
+    {
+      "id": "background:ara-3:g-20000",
+      "populationId": "Ara-3",
+      "sourceGeneration": 20000,
+      "nativeGenerationLabel": "20,000",
+      "recordKind": "published-generation-sample",
+      "cloneIdentityAvailableInTable": false,
+      "completeGenotypeAvailableInTable": false,
+      "potentiationStatusFromGenerationAlone": "unresolved",
+      "identity": "sha256:c22436f83a07083e72288f2f32ae2646a31cb69d9db8fe186013a99bb6279cdb"
+    },
+    {
+      "id": "background:ara-3:g-25000",
+      "populationId": "Ara-3",
+      "sourceGeneration": 25000,
+      "nativeGenerationLabel": "25,000",
+      "recordKind": "published-generation-sample",
+      "cloneIdentityAvailableInTable": false,
+      "completeGenotypeAvailableInTable": false,
+      "potentiationStatusFromGenerationAlone": "unresolved",
+      "identity": "sha256:a10d2fe2ad0a0bea72ee1672284360c33a050e1db439cc8ac00ae2eb34b82a07"
+    },
+    {
+      "id": "background:ara-3:g-27000",
+      "populationId": "Ara-3",
+      "sourceGeneration": 27000,
+      "nativeGenerationLabel": "27,000",
+      "recordKind": "published-generation-sample",
+      "cloneIdentityAvailableInTable": false,
+      "completeGenotypeAvailableInTable": false,
+      "potentiationStatusFromGenerationAlone": "unresolved",
+      "identity": "sha256:74e531faf576dc20b4f29f2bf060648837965ad7043126f225c0faa8ac16a4b1"
+    },
+    {
+      "id": "background:ara-3:g-27500",
+      "populationId": "Ara-3",
+      "sourceGeneration": 27500,
+      "nativeGenerationLabel": "27,500",
+      "recordKind": "published-generation-sample",
+      "cloneIdentityAvailableInTable": false,
+      "completeGenotypeAvailableInTable": false,
+      "potentiationStatusFromGenerationAlone": "unresolved",
+      "identity": "sha256:c73ce965e426c293c89e0471c1ca9a5937b748551d84181dfecaf2d169d152b8"
+    },
+    {
+      "id": "background:ara-3:g-28000",
+      "populationId": "Ara-3",
+      "sourceGeneration": 28000,
+      "nativeGenerationLabel": "28,000",
+      "recordKind": "published-generation-sample",
+      "cloneIdentityAvailableInTable": false,
+      "completeGenotypeAvailableInTable": false,
+      "potentiationStatusFromGenerationAlone": "unresolved",
+      "identity": "sha256:565ee3275d4582f875338b3b8468e3e2058ea221fdcb5332285c4dfed5c05121"
+    },
+    {
+      "id": "background:ara-3:g-29000",
+      "populationId": "Ara-3",
+      "sourceGeneration": 29000,
+      "nativeGenerationLabel": "29,000",
+      "recordKind": "published-generation-sample",
+      "cloneIdentityAvailableInTable": false,
+      "completeGenotypeAvailableInTable": false,
+      "potentiationStatusFromGenerationAlone": "unresolved",
+      "identity": "sha256:cf088406dbeca82275e3262320957de3ef199c20aa8282de5d848be6db5b14c3"
+    },
+    {
+      "id": "background:ara-3:g-30000",
+      "populationId": "Ara-3",
+      "sourceGeneration": 30000,
+      "nativeGenerationLabel": "30,000",
+      "recordKind": "published-generation-sample",
+      "cloneIdentityAvailableInTable": false,
+      "completeGenotypeAvailableInTable": false,
+      "potentiationStatusFromGenerationAlone": "unresolved",
+      "identity": "sha256:2370983b7d275478c90d07c99c78b8dca33907d214ce317b3c60a04d7e8edfc6"
+    },
+    {
+      "id": "background:ara-3:g-30500",
+      "populationId": "Ara-3",
+      "sourceGeneration": 30500,
+      "nativeGenerationLabel": "30,500",
+      "recordKind": "published-generation-sample",
+      "cloneIdentityAvailableInTable": false,
+      "completeGenotypeAvailableInTable": false,
+      "potentiationStatusFromGenerationAlone": "unresolved",
+      "identity": "sha256:222fc272822c603d4746d6b5520feda480256a92e78099ab2be1783d83e65268"
+    },
+    {
+      "id": "background:ara-3:g-31000",
+      "populationId": "Ara-3",
+      "sourceGeneration": 31000,
+      "nativeGenerationLabel": "31,000",
+      "recordKind": "published-generation-sample",
+      "cloneIdentityAvailableInTable": false,
+      "completeGenotypeAvailableInTable": false,
+      "potentiationStatusFromGenerationAlone": "unresolved",
+      "identity": "sha256:d876b6eafe9003e2d64ca913dc2acccea41126a60cf835ac47d34a8279daea3a"
+    },
+    {
+      "id": "background:ara-3:g-31500",
+      "populationId": "Ara-3",
+      "sourceGeneration": 31500,
+      "nativeGenerationLabel": "31,500",
+      "recordKind": "published-generation-sample",
+      "cloneIdentityAvailableInTable": false,
+      "completeGenotypeAvailableInTable": false,
+      "potentiationStatusFromGenerationAlone": "unresolved",
+      "identity": "sha256:092f5966b19d155e9c29c1569136f20a494f09cb971c8e737a788676df5cb3c7"
+    },
+    {
+      "id": "background:ara-3:g-32000",
+      "populationId": "Ara-3",
+      "sourceGeneration": 32000,
+      "nativeGenerationLabel": "32,000",
+      "recordKind": "published-generation-sample",
+      "cloneIdentityAvailableInTable": false,
+      "completeGenotypeAvailableInTable": false,
+      "potentiationStatusFromGenerationAlone": "unresolved",
+      "identity": "sha256:1348693557f4a81046ac02e27563da6c8b89c9d75c21996e828bf5d393212fd0"
+    },
+    {
+      "id": "background:ara-3:g-32500",
+      "populationId": "Ara-3",
+      "sourceGeneration": 32500,
+      "nativeGenerationLabel": "32,500",
+      "recordKind": "published-generation-sample",
+      "cloneIdentityAvailableInTable": false,
+      "completeGenotypeAvailableInTable": false,
+      "potentiationStatusFromGenerationAlone": "unresolved",
+      "identity": "sha256:7966b0166e5310de5a71d909a403d42631c25b8f22fef39de740e11a5bcc3367"
+    }
+  ],
+  "observations": [
+    {
+      "id": "observation:replay-1:g-00000",
+      "experimentId": "replay-1",
+      "backgroundId": "background:ara-3:g-00000",
+      "sourceGeneration": 0,
+      "nativeGenerationLabel": "Ancestor",
+      "replicates": 6,
+      "independentCitPlusMutants": 0,
+      "outcomeStatus": "not-observed",
+      "absenceMeansImpossible": false,
+      "identity": "sha256:2bbe6afb7affa88516d63e0ab098dc60aae34cf74c59e23e8aae5d8de393eeb7"
+    },
+    {
+      "id": "observation:replay-2:g-00000",
+      "experimentId": "replay-2",
+      "backgroundId": "background:ara-3:g-00000",
+      "sourceGeneration": 0,
+      "nativeGenerationLabel": "Ancestor",
+      "replicates": 10,
+      "independentCitPlusMutants": 0,
+      "outcomeStatus": "not-observed",
+      "absenceMeansImpossible": false,
+      "identity": "sha256:22fb35a0b941786727fc99106c2a62ecb999f1ae9d7461d0595657b88a3d5a03"
+    },
+    {
+      "id": "observation:replay-3:g-00000",
+      "experimentId": "replay-3",
+      "backgroundId": "background:ara-3:g-00000",
+      "sourceGeneration": 0,
+      "nativeGenerationLabel": "Ancestor",
+      "replicates": 200,
+      "independentCitPlusMutants": 0,
+      "outcomeStatus": "not-observed",
+      "absenceMeansImpossible": false,
+      "identity": "sha256:74dac52b862526c472f65a7db1e115f672b3659b1ab3de43944667710b8c134c"
+    },
+    {
+      "id": "observation:replay-3:g-05000",
+      "experimentId": "replay-3",
+      "backgroundId": "background:ara-3:g-05000",
+      "sourceGeneration": 5000,
+      "nativeGenerationLabel": "5,000",
+      "replicates": 200,
+      "independentCitPlusMutants": 0,
+      "outcomeStatus": "not-observed",
+      "absenceMeansImpossible": false,
+      "identity": "sha256:6c24282b0353a696d476f1c7cc8e7b2e977ca2541120a810d7758c3bce1c468f"
+    },
+    {
+      "id": "observation:replay-1:g-10000",
+      "experimentId": "replay-1",
+      "backgroundId": "background:ara-3:g-10000",
+      "sourceGeneration": 10000,
+      "nativeGenerationLabel": "10,000",
+      "replicates": 6,
+      "independentCitPlusMutants": 0,
+      "outcomeStatus": "not-observed",
+      "absenceMeansImpossible": false,
+      "identity": "sha256:6f466b085d034a9153ac240a92204e777d918c07aad1a18d9bb9c207a7dc0eca"
+    },
+    {
+      "id": "observation:replay-2:g-10000",
+      "experimentId": "replay-2",
+      "backgroundId": "background:ara-3:g-10000",
+      "sourceGeneration": 10000,
+      "nativeGenerationLabel": "10,000",
+      "replicates": 30,
+      "independentCitPlusMutants": 0,
+      "outcomeStatus": "not-observed",
+      "absenceMeansImpossible": false,
+      "identity": "sha256:282e2500e30731c794dc4891e8344b60ebc8b4bc43abe48be42331d083a4db31"
+    },
+    {
+      "id": "observation:replay-3:g-10000",
+      "experimentId": "replay-3",
+      "backgroundId": "background:ara-3:g-10000",
+      "sourceGeneration": 10000,
+      "nativeGenerationLabel": "10,000",
+      "replicates": 200,
+      "independentCitPlusMutants": 0,
+      "outcomeStatus": "not-observed",
+      "absenceMeansImpossible": false,
+      "identity": "sha256:69223bfe94074f507391adc38b7d7764be7045f13b9b01894d2a30b94df6da43"
+    },
+    {
+      "id": "observation:replay-3:g-15000",
+      "experimentId": "replay-3",
+      "backgroundId": "background:ara-3:g-15000",
+      "sourceGeneration": 15000,
+      "nativeGenerationLabel": "15,000",
+      "replicates": 200,
+      "independentCitPlusMutants": 0,
+      "outcomeStatus": "not-observed",
+      "absenceMeansImpossible": false,
+      "identity": "sha256:1cd3cd02ccd2ccb0bd813834a1617786653ab4639479b979dd49fba040be9a68"
+    },
+    {
+      "id": "observation:replay-1:g-20000",
+      "experimentId": "replay-1",
+      "backgroundId": "background:ara-3:g-20000",
+      "sourceGeneration": 20000,
+      "nativeGenerationLabel": "20,000",
+      "replicates": 6,
+      "independentCitPlusMutants": 0,
+      "outcomeStatus": "not-observed",
+      "absenceMeansImpossible": false,
+      "identity": "sha256:90dfd984d6e0ec52a8ac28b46767831b08e7d44e50bbb57abf63e35f86cc54f0"
+    },
+    {
+      "id": "observation:replay-2:g-20000",
+      "experimentId": "replay-2",
+      "backgroundId": "background:ara-3:g-20000",
+      "sourceGeneration": 20000,
+      "nativeGenerationLabel": "20,000",
+      "replicates": 30,
+      "independentCitPlusMutants": 0,
+      "outcomeStatus": "not-observed",
+      "absenceMeansImpossible": false,
+      "identity": "sha256:a6f6123b22bac89147d3ddb81f5f883a9fb182f2faf4a236d1a6279b0d26c5c5"
+    },
+    {
+      "id": "observation:replay-3:g-20000",
+      "experimentId": "replay-3",
+      "backgroundId": "background:ara-3:g-20000",
+      "sourceGeneration": 20000,
+      "nativeGenerationLabel": "20,000",
+      "replicates": 200,
+      "independentCitPlusMutants": 2,
+      "outcomeStatus": "observed",
+      "absenceMeansImpossible": false,
+      "identity": "sha256:fefa1a426b11bea5426d4dcfce95804fdede515336ac75008e392fb5dee1bece"
+    },
+    {
+      "id": "observation:replay-1:g-25000",
+      "experimentId": "replay-1",
+      "backgroundId": "background:ara-3:g-25000",
+      "sourceGeneration": 25000,
+      "nativeGenerationLabel": "25,000",
+      "replicates": 6,
+      "independentCitPlusMutants": 0,
+      "outcomeStatus": "not-observed",
+      "absenceMeansImpossible": false,
+      "identity": "sha256:fb1648dd781a4a8500fc89f41bc2366163c5175d4d9af22766493ed42e4496f1"
+    },
+    {
+      "id": "observation:replay-2:g-25000",
+      "experimentId": "replay-2",
+      "backgroundId": "background:ara-3:g-25000",
+      "sourceGeneration": 25000,
+      "nativeGenerationLabel": "25,000",
+      "replicates": 30,
+      "independentCitPlusMutants": 0,
+      "outcomeStatus": "not-observed",
+      "absenceMeansImpossible": false,
+      "identity": "sha256:3148d942a4e6fa25b8f645352faf4378a74608c30f7ed070f86c087767df6c27"
+    },
+    {
+      "id": "observation:replay-3:g-25000",
+      "experimentId": "replay-3",
+      "backgroundId": "background:ara-3:g-25000",
+      "sourceGeneration": 25000,
+      "nativeGenerationLabel": "25,000",
+      "replicates": 200,
+      "independentCitPlusMutants": 0,
+      "outcomeStatus": "not-observed",
+      "absenceMeansImpossible": false,
+      "identity": "sha256:f198e3b75683edc689d8ea9f2c790000c87d73afe0aaff05f07b9f485d02acc5"
+    },
+    {
+      "id": "observation:replay-3:g-27000",
+      "experimentId": "replay-3",
+      "backgroundId": "background:ara-3:g-27000",
+      "sourceGeneration": 27000,
+      "nativeGenerationLabel": "27,000",
+      "replicates": 200,
+      "independentCitPlusMutants": 2,
+      "outcomeStatus": "observed",
+      "absenceMeansImpossible": false,
+      "identity": "sha256:3fb545a130c9600388a7ca24c64946fd97b45a2ffe20f66e59a9fff9fbd86ab3"
+    },
+    {
+      "id": "observation:replay-1:g-27500",
+      "experimentId": "replay-1",
+      "backgroundId": "background:ara-3:g-27500",
+      "sourceGeneration": 27500,
+      "nativeGenerationLabel": "27,500",
+      "replicates": 6,
+      "independentCitPlusMutants": 0,
+      "outcomeStatus": "not-observed",
+      "absenceMeansImpossible": false,
+      "identity": "sha256:b6be198ec215c329db6c8ea3a5a992b57f6f5d1c14e0c67e00604fc1f6ce7864"
+    },
+    {
+      "id": "observation:replay-2:g-27500",
+      "experimentId": "replay-2",
+      "backgroundId": "background:ara-3:g-27500",
+      "sourceGeneration": 27500,
+      "nativeGenerationLabel": "27,500",
+      "replicates": 30,
+      "independentCitPlusMutants": 0,
+      "outcomeStatus": "not-observed",
+      "absenceMeansImpossible": false,
+      "identity": "sha256:c2065f0107e4a047b9068eb830e7374c6dce86e447276152a4b5bd8015057ab4"
+    },
+    {
+      "id": "observation:replay-3:g-28000",
+      "experimentId": "replay-3",
+      "backgroundId": "background:ara-3:g-28000",
+      "sourceGeneration": 28000,
+      "nativeGenerationLabel": "28,000",
+      "replicates": 200,
+      "independentCitPlusMutants": 0,
+      "outcomeStatus": "not-observed",
+      "absenceMeansImpossible": false,
+      "identity": "sha256:9611403a2431bb1e912b746bf5e29f0cc2291d9f6235309d99d68211cb90fb6c"
+    },
+    {
+      "id": "observation:replay-1:g-29000",
+      "experimentId": "replay-1",
+      "backgroundId": "background:ara-3:g-29000",
+      "sourceGeneration": 29000,
+      "nativeGenerationLabel": "29,000",
+      "replicates": 6,
+      "independentCitPlusMutants": 0,
+      "outcomeStatus": "not-observed",
+      "absenceMeansImpossible": false,
+      "identity": "sha256:b1711dfca84c3e5255b6a48ed86472bf1c927e1004e6c9b9baf4177bbc21391b"
+    },
+    {
+      "id": "observation:replay-2:g-29000",
+      "experimentId": "replay-2",
+      "backgroundId": "background:ara-3:g-29000",
+      "sourceGeneration": 29000,
+      "nativeGenerationLabel": "29,000",
+      "replicates": 30,
+      "independentCitPlusMutants": 0,
+      "outcomeStatus": "not-observed",
+      "absenceMeansImpossible": false,
+      "identity": "sha256:8c33bb827d3d744b183d70df4c00d26dbfda07ef291b212dda6ba6c4f47c31ff"
+    },
+    {
+      "id": "observation:replay-3:g-29000",
+      "experimentId": "replay-3",
+      "backgroundId": "background:ara-3:g-29000",
+      "sourceGeneration": 29000,
+      "nativeGenerationLabel": "29,000",
+      "replicates": 200,
+      "independentCitPlusMutants": 0,
+      "outcomeStatus": "not-observed",
+      "absenceMeansImpossible": false,
+      "identity": "sha256:040c1a8cb5480f54a4d8e9c522626bd4804402096112a1af9d4768a2d5c93f1d"
+    },
+    {
+      "id": "observation:replay-1:g-30000",
+      "experimentId": "replay-1",
+      "backgroundId": "background:ara-3:g-30000",
+      "sourceGeneration": 30000,
+      "nativeGenerationLabel": "30,000",
+      "replicates": 6,
+      "independentCitPlusMutants": 0,
+      "outcomeStatus": "not-observed",
+      "absenceMeansImpossible": false,
+      "identity": "sha256:98d18cde9b3a22dbae1df0b920243a8f8c5e691ee15cebd98cc1002b3fd509ef"
+    },
+    {
+      "id": "observation:replay-2:g-30000",
+      "experimentId": "replay-2",
+      "backgroundId": "background:ara-3:g-30000",
+      "sourceGeneration": 30000,
+      "nativeGenerationLabel": "30,000",
+      "replicates": 30,
+      "independentCitPlusMutants": 0,
+      "outcomeStatus": "not-observed",
+      "absenceMeansImpossible": false,
+      "identity": "sha256:1503e6c350323beb2808f60ff7e08489f03dec9b431085df7987f3aed3a70cc5"
+    },
+    {
+      "id": "observation:replay-3:g-30000",
+      "experimentId": "replay-3",
+      "backgroundId": "background:ara-3:g-30000",
+      "sourceGeneration": 30000,
+      "nativeGenerationLabel": "30,000",
+      "replicates": 200,
+      "independentCitPlusMutants": 0,
+      "outcomeStatus": "not-observed",
+      "absenceMeansImpossible": false,
+      "identity": "sha256:96ef20f7df84ff5e45c94b4c51db777363cf4c65768006b958d0e6cee6ae4aeb"
+    },
+    {
+      "id": "observation:replay-1:g-30500",
+      "experimentId": "replay-1",
+      "backgroundId": "background:ara-3:g-30500",
+      "sourceGeneration": 30500,
+      "nativeGenerationLabel": "30,500",
+      "replicates": 6,
+      "independentCitPlusMutants": 1,
+      "outcomeStatus": "observed",
+      "absenceMeansImpossible": false,
+      "identity": "sha256:2b714a9a278b9d89b846f72ee819550061cd1be07a11e6c78914717a09991878"
+    },
+    {
+      "id": "observation:replay-2:g-30500",
+      "experimentId": "replay-2",
+      "backgroundId": "background:ara-3:g-30500",
+      "sourceGeneration": 30500,
+      "nativeGenerationLabel": "30,500",
+      "replicates": 30,
+      "independentCitPlusMutants": 0,
+      "outcomeStatus": "not-observed",
+      "absenceMeansImpossible": false,
+      "identity": "sha256:2a7095ca163ec216f4d9f69f445ded4e02f0add0f4728a0678fde375228c9e30"
+    },
+    {
+      "id": "observation:replay-1:g-31000",
+      "experimentId": "replay-1",
+      "backgroundId": "background:ara-3:g-31000",
+      "sourceGeneration": 31000,
+      "nativeGenerationLabel": "31,000",
+      "replicates": 6,
+      "independentCitPlusMutants": 0,
+      "outcomeStatus": "not-observed",
+      "absenceMeansImpossible": false,
+      "identity": "sha256:1449bd4d26bb5e6ec95f9372540919a71a90b0cc62bf54b63096b15ae61c6927"
+    },
+    {
+      "id": "observation:replay-2:g-31000",
+      "experimentId": "replay-2",
+      "backgroundId": "background:ara-3:g-31000",
+      "sourceGeneration": 31000,
+      "nativeGenerationLabel": "31,000",
+      "replicates": 30,
+      "independentCitPlusMutants": 0,
+      "outcomeStatus": "not-observed",
+      "absenceMeansImpossible": false,
+      "identity": "sha256:10b7278e01e09230d290a29d52cca33db99b4ffe4c3e0f480a4dcb5a12162dfa"
+    },
+    {
+      "id": "observation:replay-3:g-31000",
+      "experimentId": "replay-3",
+      "backgroundId": "background:ara-3:g-31000",
+      "sourceGeneration": 31000,
+      "nativeGenerationLabel": "31,000",
+      "replicates": 200,
+      "independentCitPlusMutants": 1,
+      "outcomeStatus": "observed",
+      "absenceMeansImpossible": false,
+      "identity": "sha256:eaf275e0296f615d8bd73dcdef0b0510c4f3cc10a70baca60bf31e7a4ddf4464"
+    },
+    {
+      "id": "observation:replay-1:g-31500",
+      "experimentId": "replay-1",
+      "backgroundId": "background:ara-3:g-31500",
+      "sourceGeneration": 31500,
+      "nativeGenerationLabel": "31,500",
+      "replicates": 6,
+      "independentCitPlusMutants": 1,
+      "outcomeStatus": "observed",
+      "absenceMeansImpossible": false,
+      "identity": "sha256:2046fecf60e5baafe2ab8e67531cb2e8d97c134edd2f5a66284caa60d047b58f"
+    },
+    {
+      "id": "observation:replay-2:g-31500",
+      "experimentId": "replay-2",
+      "backgroundId": "background:ara-3:g-31500",
+      "sourceGeneration": 31500,
+      "nativeGenerationLabel": "31,500",
+      "replicates": 30,
+      "independentCitPlusMutants": 0,
+      "outcomeStatus": "not-observed",
+      "absenceMeansImpossible": false,
+      "identity": "sha256:6f01007a5ca18cb4cc6dd3956c4c423fc7553c5658e65902c222bab3deaad1d8"
+    },
+    {
+      "id": "observation:replay-3:g-31500",
+      "experimentId": "replay-3",
+      "backgroundId": "background:ara-3:g-31500",
+      "sourceGeneration": 31500,
+      "nativeGenerationLabel": "31,500",
+      "replicates": 200,
+      "independentCitPlusMutants": 1,
+      "outcomeStatus": "observed",
+      "absenceMeansImpossible": false,
+      "identity": "sha256:a9e40213adf31e88c72605b4262f06b30c02198bf7e59cfc87b3d9857766a263"
+    },
+    {
+      "id": "observation:replay-1:g-32000",
+      "experimentId": "replay-1",
+      "backgroundId": "background:ara-3:g-32000",
+      "sourceGeneration": 32000,
+      "nativeGenerationLabel": "32,000",
+      "replicates": 6,
+      "independentCitPlusMutants": 0,
+      "outcomeStatus": "not-observed",
+      "absenceMeansImpossible": false,
+      "identity": "sha256:9b39c70bafec7fdf6236e7dc608d511376151f0e4063c354d2adc1e0a38b8d64"
+    },
+    {
+      "id": "observation:replay-2:g-32000",
+      "experimentId": "replay-2",
+      "backgroundId": "background:ara-3:g-32000",
+      "sourceGeneration": 32000,
+      "nativeGenerationLabel": "32,000",
+      "replicates": 30,
+      "independentCitPlusMutants": 4,
+      "outcomeStatus": "observed",
+      "absenceMeansImpossible": false,
+      "identity": "sha256:7eab11a7d5be684387ed02648c3996a1bf68ab5aee1b1f8f996b715bdee6f93c"
+    },
+    {
+      "id": "observation:replay-3:g-32000",
+      "experimentId": "replay-3",
+      "backgroundId": "background:ara-3:g-32000",
+      "sourceGeneration": 32000,
+      "nativeGenerationLabel": "32,000",
+      "replicates": 200,
+      "independentCitPlusMutants": 2,
+      "outcomeStatus": "observed",
+      "absenceMeansImpossible": false,
+      "identity": "sha256:ed16380e15176e01b29cc601a29a8e555411be76ea57cb86395e17f8e04fcb0f"
+    },
+    {
+      "id": "observation:replay-1:g-32500",
+      "experimentId": "replay-1",
+      "backgroundId": "background:ara-3:g-32500",
+      "sourceGeneration": 32500,
+      "nativeGenerationLabel": "32,500",
+      "replicates": 6,
+      "independentCitPlusMutants": 2,
+      "outcomeStatus": "observed",
+      "absenceMeansImpossible": false,
+      "identity": "sha256:69fb4c25f23cc246d66677108590f168b71f1b1bf41dfac1e57141e3dcb56e9f"
+    },
+    {
+      "id": "observation:replay-2:g-32500",
+      "experimentId": "replay-2",
+      "backgroundId": "background:ara-3:g-32500",
+      "sourceGeneration": 32500,
+      "nativeGenerationLabel": "32,500",
+      "replicates": 30,
+      "independentCitPlusMutants": 1,
+      "outcomeStatus": "observed",
+      "absenceMeansImpossible": false,
+      "identity": "sha256:4c32514cec9789df0cf901eef8cd4ae3a5009cf12e54d3b9faff4b27f466c2a4"
+    },
+    {
+      "id": "observation:replay-3:g-32500",
+      "experimentId": "replay-3",
+      "backgroundId": "background:ara-3:g-32500",
+      "sourceGeneration": 32500,
+      "nativeGenerationLabel": "32,500",
+      "replicates": 200,
+      "independentCitPlusMutants": 0,
+      "outcomeStatus": "not-observed",
+      "absenceMeansImpossible": false,
+      "identity": "sha256:784e9d4bb5b8472da916b6e2810315c7dae5e55f7511db2fd5621aa147ac9817"
+    }
+  ],
+  "publishedStatistics": [
+    {
+      "experimentId": "replay-1",
+      "nullHypothesis": "all sampled source generations have equal likelihood of yielding Cit+ under this experiment",
+      "expectedMeanGeneration": 24917,
+      "observedMeanGeneration": 31750,
+      "meanShiftGenerations": 6833,
+      "tableOneReplicateWeightedMean": {
+        "numerator": 74750,
+        "denominator": 3,
+        "rounded": 24917
+      },
+      "tableOneMeanMatchesPublishedExpected": true,
+      "recomputedObservedMean": {
+        "numerator": 31750,
+        "denominator": 1
+      },
+      "publishedMonteCarloPValue": 0.0085,
+      "monteCarloIterations": 1000000,
+      "pValueRecomputed": false,
+      "publishedExpectedMeanRecomputed": false,
+      "identity": "sha256:c0ef744c4d1c5054735bec5e82556c2645918a078c44f4f3d120cc6abb8fb8d3"
+    },
+    {
+      "experimentId": "replay-2",
+      "nullHypothesis": "all sampled source generations have equal likelihood of yielding Cit+ under this experiment",
+      "expectedMeanGeneration": 28382,
+      "observedMeanGeneration": 32100,
+      "meanShiftGenerations": 3718,
+      "tableOneReplicateWeightedMean": {
+        "numerator": 448500,
+        "denominator": 17,
+        "rounded": 26382
+      },
+      "tableOneMeanMatchesPublishedExpected": false,
+      "recomputedObservedMean": {
+        "numerator": 32100,
+        "denominator": 1
+      },
+      "publishedMonteCarloPValue": 0.0007,
+      "monteCarloIterations": 1000000,
+      "pValueRecomputed": false,
+      "publishedExpectedMeanRecomputed": false,
+      "identity": "sha256:a4f27ec5d007109d46c98f1df1d2fcfc3b3f25b6be186d03dee8f715da801b52"
+    },
+    {
+      "experimentId": "replay-3",
+      "nullHypothesis": "all sampled source generations have equal likelihood of yielding Cit+ under this experiment",
+      "expectedMeanGeneration": 22571,
+      "observedMeanGeneration": 27563,
+      "meanShiftGenerations": 4992,
+      "tableOneReplicateWeightedMean": {
+        "numerator": 158000,
+        "denominator": 7,
+        "rounded": 22571
+      },
+      "tableOneMeanMatchesPublishedExpected": true,
+      "recomputedObservedMean": {
+        "numerator": 55125,
+        "denominator": 2
+      },
+      "publishedMonteCarloPValue": 0.0823,
+      "monteCarloIterations": 1000000,
+      "pValueRecomputed": false,
+      "publishedExpectedMeanRecomputed": false,
+      "identity": "sha256:f4f87ba9de883a73bd42f499f2f66ba0d54197485a18d990c27a4596c99c534d"
+    }
+  ],
+  "reachability": {
+    "status": "descriptive-published-evidence",
+    "targetOutcomeId": "phenotype:aerobic-citrate-use",
+    "conditionedOn": [
+      "Ara-3 source generation",
+      "exact replay experiment"
+    ],
+    "backgroundAssessments": [
+      {
+        "backgroundId": "background:ara-3:g-00000",
+        "sourceGeneration": 0,
+        "observedExperimentIds": [
+          "replay-1",
+          "replay-2",
+          "replay-3"
+        ],
+        "citPlusObservedExperimentIds": [],
+        "boundedOutcomeStatus": "not-observed",
+        "accessibilityStatus": "unresolved",
+        "protocolsPooled": false,
+        "impossibilityClaim": false
+      },
+      {
+        "backgroundId": "background:ara-3:g-05000",
+        "sourceGeneration": 5000,
+        "observedExperimentIds": [
+          "replay-3"
+        ],
+        "citPlusObservedExperimentIds": [],
+        "boundedOutcomeStatus": "not-observed",
+        "accessibilityStatus": "unresolved",
+        "protocolsPooled": false,
+        "impossibilityClaim": false
+      },
+      {
+        "backgroundId": "background:ara-3:g-10000",
+        "sourceGeneration": 10000,
+        "observedExperimentIds": [
+          "replay-1",
+          "replay-2",
+          "replay-3"
+        ],
+        "citPlusObservedExperimentIds": [],
+        "boundedOutcomeStatus": "not-observed",
+        "accessibilityStatus": "unresolved",
+        "protocolsPooled": false,
+        "impossibilityClaim": false
+      },
+      {
+        "backgroundId": "background:ara-3:g-15000",
+        "sourceGeneration": 15000,
+        "observedExperimentIds": [
+          "replay-3"
+        ],
+        "citPlusObservedExperimentIds": [],
+        "boundedOutcomeStatus": "not-observed",
+        "accessibilityStatus": "unresolved",
+        "protocolsPooled": false,
+        "impossibilityClaim": false
+      },
+      {
+        "backgroundId": "background:ara-3:g-20000",
+        "sourceGeneration": 20000,
+        "observedExperimentIds": [
+          "replay-1",
+          "replay-2",
+          "replay-3"
+        ],
+        "citPlusObservedExperimentIds": [
+          "replay-3"
+        ],
+        "boundedOutcomeStatus": "observed",
+        "accessibilityStatus": "supported-in-at-least-one-bounded-replay",
+        "protocolsPooled": false,
+        "impossibilityClaim": false
+      },
+      {
+        "backgroundId": "background:ara-3:g-25000",
+        "sourceGeneration": 25000,
+        "observedExperimentIds": [
+          "replay-1",
+          "replay-2",
+          "replay-3"
+        ],
+        "citPlusObservedExperimentIds": [],
+        "boundedOutcomeStatus": "not-observed",
+        "accessibilityStatus": "unresolved",
+        "protocolsPooled": false,
+        "impossibilityClaim": false
+      },
+      {
+        "backgroundId": "background:ara-3:g-27000",
+        "sourceGeneration": 27000,
+        "observedExperimentIds": [
+          "replay-3"
+        ],
+        "citPlusObservedExperimentIds": [
+          "replay-3"
+        ],
+        "boundedOutcomeStatus": "observed",
+        "accessibilityStatus": "supported-in-at-least-one-bounded-replay",
+        "protocolsPooled": false,
+        "impossibilityClaim": false
+      },
+      {
+        "backgroundId": "background:ara-3:g-27500",
+        "sourceGeneration": 27500,
+        "observedExperimentIds": [
+          "replay-1",
+          "replay-2"
+        ],
+        "citPlusObservedExperimentIds": [],
+        "boundedOutcomeStatus": "not-observed",
+        "accessibilityStatus": "unresolved",
+        "protocolsPooled": false,
+        "impossibilityClaim": false
+      },
+      {
+        "backgroundId": "background:ara-3:g-28000",
+        "sourceGeneration": 28000,
+        "observedExperimentIds": [
+          "replay-3"
+        ],
+        "citPlusObservedExperimentIds": [],
+        "boundedOutcomeStatus": "not-observed",
+        "accessibilityStatus": "unresolved",
+        "protocolsPooled": false,
+        "impossibilityClaim": false
+      },
+      {
+        "backgroundId": "background:ara-3:g-29000",
+        "sourceGeneration": 29000,
+        "observedExperimentIds": [
+          "replay-1",
+          "replay-2",
+          "replay-3"
+        ],
+        "citPlusObservedExperimentIds": [],
+        "boundedOutcomeStatus": "not-observed",
+        "accessibilityStatus": "unresolved",
+        "protocolsPooled": false,
+        "impossibilityClaim": false
+      },
+      {
+        "backgroundId": "background:ara-3:g-30000",
+        "sourceGeneration": 30000,
+        "observedExperimentIds": [
+          "replay-1",
+          "replay-2",
+          "replay-3"
+        ],
+        "citPlusObservedExperimentIds": [],
+        "boundedOutcomeStatus": "not-observed",
+        "accessibilityStatus": "unresolved",
+        "protocolsPooled": false,
+        "impossibilityClaim": false
+      },
+      {
+        "backgroundId": "background:ara-3:g-30500",
+        "sourceGeneration": 30500,
+        "observedExperimentIds": [
+          "replay-1",
+          "replay-2"
+        ],
+        "citPlusObservedExperimentIds": [
+          "replay-1"
+        ],
+        "boundedOutcomeStatus": "observed",
+        "accessibilityStatus": "supported-in-at-least-one-bounded-replay",
+        "protocolsPooled": false,
+        "impossibilityClaim": false
+      },
+      {
+        "backgroundId": "background:ara-3:g-31000",
+        "sourceGeneration": 31000,
+        "observedExperimentIds": [
+          "replay-1",
+          "replay-2",
+          "replay-3"
+        ],
+        "citPlusObservedExperimentIds": [
+          "replay-3"
+        ],
+        "boundedOutcomeStatus": "observed",
+        "accessibilityStatus": "supported-in-at-least-one-bounded-replay",
+        "protocolsPooled": false,
+        "impossibilityClaim": false
+      },
+      {
+        "backgroundId": "background:ara-3:g-31500",
+        "sourceGeneration": 31500,
+        "observedExperimentIds": [
+          "replay-1",
+          "replay-2",
+          "replay-3"
+        ],
+        "citPlusObservedExperimentIds": [
+          "replay-1",
+          "replay-3"
+        ],
+        "boundedOutcomeStatus": "observed",
+        "accessibilityStatus": "supported-in-at-least-one-bounded-replay",
+        "protocolsPooled": false,
+        "impossibilityClaim": false
+      },
+      {
+        "backgroundId": "background:ara-3:g-32000",
+        "sourceGeneration": 32000,
+        "observedExperimentIds": [
+          "replay-1",
+          "replay-2",
+          "replay-3"
+        ],
+        "citPlusObservedExperimentIds": [
+          "replay-2",
+          "replay-3"
+        ],
+        "boundedOutcomeStatus": "observed",
+        "accessibilityStatus": "supported-in-at-least-one-bounded-replay",
+        "protocolsPooled": false,
+        "impossibilityClaim": false
+      },
+      {
+        "backgroundId": "background:ara-3:g-32500",
+        "sourceGeneration": 32500,
+        "observedExperimentIds": [
+          "replay-1",
+          "replay-2",
+          "replay-3"
+        ],
+        "citPlusObservedExperimentIds": [
+          "replay-1",
+          "replay-2"
+        ],
+        "boundedOutcomeStatus": "observed",
+        "accessibilityStatus": "supported-in-at-least-one-bounded-replay",
+        "protocolsPooled": false,
+        "impossibilityClaim": false
+      }
+    ],
+    "combinedPublishedPValueUpperBound": 0.0001,
+    "combinedPValueRecomputed": false,
+    "protocolsPooled": false,
+    "completeMutationPathSpaceClaim": false
+  },
+  "reachabilityRegimes": [
+    {
+      "id": "population-record",
+      "equivalenceKey": "Ara-3 population identifier",
+      "expectedClassCount": 1,
+      "meaning": "Every selected generation sample belongs to the recorded Ara-3 population lineage."
+    },
+    {
+      "id": "source-generation",
+      "equivalenceKey": "published source-generation label",
+      "expectedClassCount": 16,
+      "meaning": "The selected tables expose sixteen generation labels, not sixteen complete genotypes or uniquely identified clones."
+    },
+    {
+      "id": "bounded-observed-accessibility",
+      "equivalenceKey": "Cit+ observed in at least one selected replay protocol",
+      "expectedClassCount": 2,
+      "observedBackgroundCount": 7,
+      "unresolvedBackgroundCount": 9,
+      "meaning": "Seven generations yielded Cit+ in at least one bounded replay; the other nine remain unresolved rather than inaccessible."
+    },
+    {
+      "id": "protocol-conditioned-observation",
+      "equivalenceKey": "source generation plus exact replay protocol",
+      "expectedClassCount": 38,
+      "meaning": "Each non-missing Table 1 cell is retained as its own protocol-conditioned observation."
+    }
+  ],
+  "experiments": [
+    {
+      "id": "protocol-separation",
+      "result": "The three replay designs remain three evidence contexts; their replicate counts are not pooled into one rate.",
+      "sourceMutation": false
+    },
+    {
+      "id": "bounded-accessibility",
+      "result": "Cit+ was observed from seven generation labels in at least one selected replay; nine labels remain unresolved rather than inaccessible.",
+      "sourceMutation": false
+    },
+    {
+      "id": "published-shift",
+      "result": "All three published observed mean generations are later than their reported null expectations; their P values remain published statistics.",
+      "sourceMutation": false
+    },
+    {
+      "id": "identity-boundary",
+      "result": "A generation sample remains distinct from a complete genotype, a unique clone, and a replayed evolutionary history.",
+      "sourceMutation": false
+    }
+  ],
+  "publishedInterpretation": {
+    "laterBackgroundsShowGreaterPropensity": true,
+    "potentiatingBackgroundSupported": true,
+    "potentiatingMutationIdentifiedBySelectedTables": false,
+    "generationUniquelyDeterminesPotentiation": false,
+    "reason": "The paper reports that generational samples may be polymorphic and that potentiated and nonpotentiated clones cannot be separated by generation alone."
+  },
+  "sourceDiscrepancies": [
+    {
+      "id": "published-expected-mean:replay-2",
+      "status": "visible-not-resolved",
+      "publishedExpectedMeanGeneration": 28382,
+      "tableOneReplicateWeightedMeanGeneration": 26382,
+      "interpretation": "The published value is retained as source evidence; the simpler Table 1 arithmetic is retained as a diagnostic and is not substituted."
+    }
+  ],
+  "historicalLoad": {
+    "status": "not-evaluated",
+    "value": null,
+    "reason": "The selected evidence does not enumerate a finite mutation-path universe, transition costs, or a history-free counterfactual baseline; undefined must not be displayed as zero."
+  },
+  "nonClaims": [
+    "A generation label is not a complete genotype.",
+    "A generation label does not uniquely identify every source clone.",
+    "A replay population is not the original LTEE population history.",
+    "A zero-mutant cell means not observed under that bounded protocol, not biologically impossible.",
+    "Missing Table 1 cells are not converted into zero-mutant observations.",
+    "Replicates from the three replay designs are not pooled into one outcome frequency.",
+    "Independent Cit+ mutants are not treated as identical molecular events.",
+    "The selected tables do not identify a unique potentiating mutation.",
+    "Generation alone does not separate potentiated and nonpotentiated clones.",
+    "Published Monte Carlo P values are retained but not recomputed.",
+    "The Table 2 expected mean for replay 2 is not claimed to reproduce from a simple Table 1 replicate weighting.",
+    "The published interpretation is evidence about Ara-3 under the selected experiments, not a universal evolutionary law.",
+    "Historical Load is undefined because the possible mutation-path space and a cost model are not declared."
+  ],
+  "audit": {
+    "sourceRowsRetained": 38,
+    "sourceGenerationLabelsRetained": 16,
+    "protocolsRetainedSeparately": 3,
+    "publishedStatisticsRetained": 3,
+    "publishedPValuesRecomputed": 0,
+    "missingCellsConvertedToZero": 0,
+    "impossibilityClaims": 0,
+    "completeGenotypesInvented": 0,
+    "uniqueCloneIdentitiesInvented": 0,
+    "replayHistoriesPromotedToOriginalHistory": 0,
+    "protocolsPooled": 0,
+    "causalMutationEdges": 0,
+    "completeMutationPathSpaceClaims": 0,
+    "liveQueriesDuringBuild": 0
+  },
+  "caseIdentity": "sha256:e0024fee2f319158b5fc1dc0e30da1a7d641f0763b4f29ad7cc548c46e13d691"
+}

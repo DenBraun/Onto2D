@@ -1,12 +1,13 @@
 import {
   HISTORY_MODES,
+  caseNavigationDetail,
   createHistoryCases,
   historyCaseById,
   historyEffectLabel,
   historyModeLabel,
   loadHistoryRegistry,
   modelStudioHref
-} from "./external-cases-catalog.js?v=20260819.2";
+} from "./external-cases-catalog.js?v=20260819.4";
 
 const PROJECT_ROOT = new URL("../../", import.meta.url);
 const GITHUB_BLOB_ROOT = "https://github.com/DenBraun/Onto2D/blob/main/";
@@ -41,13 +42,20 @@ function externalLinkIcon() {
 
 function caseLink(entry, selected) {
   const link = element("a", "sequence-link");
+  const detail = caseNavigationDetail(entry);
+  const secondary = element("small", "", detail.label);
+  secondary.dataset.kind = detail.kind;
+  secondary.dataset.value = detail.value;
   link.href = projectUrl(entry.casePagePath);
   link.dataset.caseId = entry.caseId;
   link.dataset.status = entry.statusKind;
   link.setAttribute("aria-current", entry.caseId === selected.caseId ? "page" : "false");
+  link.setAttribute("aria-label", detail.kind === "status"
+    ? `${entry.shortTitle}. Planned case.`
+    : `${entry.shortTitle}. Primary history effect: ${detail.label}.`);
   link.append(
     element("strong", "", entry.shortTitle),
-    element("small", "", entry.statusLabel)
+    secondary
   );
   return link;
 }
@@ -140,8 +148,10 @@ function renderCase(cases, caseId = document.body.dataset.caseId) {
   if (!studioNavigation) throw new Error("History case markup is missing its Model Studio navigation link.");
   studioNavigation.href = modelStudioHref(entry, PROJECT_ROOT);
   const status = document.getElementById("case-status");
-  status.textContent = entry.statusLabel;
-  status.dataset.status = entry.statusKind;
+  const planned = entry.status === "PLANNED";
+  status.hidden = !planned;
+  status.textContent = planned ? "Planned" : "";
+  status.dataset.status = planned ? "planned" : "";
   document.getElementById("case-title").textContent = entry.title;
   document.getElementById("case-question").textContent = entry.question;
   document.getElementById("case-distinction").textContent = entry.distinction;
@@ -159,7 +169,7 @@ function renderCase(cases, caseId = document.body.dataset.caseId) {
     ? "Repository result"
     : entry.statusKind === "next" ? "Next implementation" : "Planned contribution";
   document.getElementById("case-stage-note").textContent = implemented
-    ? `Maturity: ${entry.statusLabel}. Follow the linked method and artifacts for the exact verified boundary.`
+    ? "The linked repository artifacts define this result. The boundaries below state exactly what is verified and what remains outside the claim."
     : "This page describes a bounded research design. It does not claim that source extraction, experiments, or results already exist.";
   fillList("case-boundaries", entry.boundaries);
   fillList("case-outputs", entry.outputs);

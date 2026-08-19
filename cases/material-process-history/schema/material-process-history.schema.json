@@ -1,0 +1,297 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.example/schemas/material-process-history.schema.json",
+  "title": "Onto2D Material Process History case artifact",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "format",
+    "formatVersion",
+    "caseVersion",
+    "source",
+    "methodology",
+    "cohort",
+    "recipe",
+    "builds",
+    "residualStrain",
+    "identityRegimes",
+    "experiments",
+    "historicalLoad",
+    "sourceAnomalies",
+    "nonClaims",
+    "audit",
+    "caseIdentity"
+  ],
+  "properties": {
+    "format": { "const": "onto2d-material-process-history-case" },
+    "formatVersion": { "const": "1" },
+    "caseVersion": { "const": "ambench-2022-01-material-process-interpretation-v1" },
+    "source": {
+      "type": "object",
+      "required": ["identity", "snapshotIdentity", "snapshotBytes", "retrievedAt", "benchmarkId", "challengeDescriptionDoi", "measurementResultsDoi", "measurementResultsVersion", "metadataRelease", "metadataRepositoryCommit", "metadataArchiveSha256", "liveNetworkRequiredByBuild", "authoredFiles", "snapshotFiles", "inputFiles"],
+      "properties": {
+        "identity": { "$ref": "#/$defs/identity" },
+        "snapshotIdentity": { "$ref": "#/$defs/identity" },
+        "snapshotBytes": { "const": 400850 },
+        "retrievedAt": { "type": "string", "format": "date-time" },
+        "benchmarkId": { "const": "AMB2022-01" },
+        "challengeDescriptionDoi": { "const": "10.18434/mds2-2607" },
+        "measurementResultsDoi": { "const": "10.18434/mds2-2711" },
+        "measurementResultsVersion": { "const": "1.1.1" },
+        "metadataRelease": { "const": "3.0.0" },
+        "metadataRepositoryCommit": { "const": "77adb06c6de95b9b97e1dd26d46561f29db927af" },
+        "metadataArchiveSha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "liveNetworkRequiredByBuild": { "const": false },
+        "authoredFiles": { "type": "array", "minItems": 3, "maxItems": 3, "items": { "$ref": "#/$defs/file" } },
+        "snapshotFiles": { "type": "array", "minItems": 1, "maxItems": 1, "items": { "$ref": "#/$defs/file" } },
+        "inputFiles": { "type": "array", "minItems": 14, "maxItems": 14, "items": { "$ref": "#/$defs/inputFile" } }
+      },
+      "additionalProperties": false
+    },
+    "methodology": {
+      "type": "object",
+      "required": ["question", "selectionProfile", "analysisProfile", "selectionRule", "evidenceLayers", "interpretationPolicy"],
+      "properties": {
+        "question": { "type": "string", "minLength": 80 },
+        "selectionProfile": { "const": "ambench-2022-01-material-process-projection-v1" },
+        "analysisProfile": { "const": "ambench-2022-01-material-process-interpretation-v1" },
+        "selectionRule": { "type": "string", "minLength": 120 },
+        "evidenceLayers": { "type": "array", "minItems": 5, "maxItems": 5, "items": { "$ref": "#/$defs/evidenceLayer" } },
+        "interpretationPolicy": { "$ref": "#/$defs/interpretationPolicy" }
+      },
+      "additionalProperties": false
+    },
+    "cohort": {
+      "type": "object",
+      "required": ["buildCount", "comparisonPartCount", "thermographyRecordCount", "measuredPartCount", "unresolvedMeasuredStateCount", "residualStrainPointCount", "residualStrainHeightSliceCount", "sharedNominalMaterialClass", "sharedNominalRecipe", "completeProcessSpaceClaim"],
+      "properties": {
+        "buildCount": { "const": 3 },
+        "comparisonPartCount": { "const": 3 },
+        "thermographyRecordCount": { "const": 3 },
+        "measuredPartCount": { "const": 1 },
+        "unresolvedMeasuredStateCount": { "const": 2 },
+        "residualStrainPointCount": { "const": 2248 },
+        "residualStrainHeightSliceCount": { "const": 24 },
+        "sharedNominalMaterialClass": { "const": true },
+        "sharedNominalRecipe": { "const": true },
+        "completeProcessSpaceClaim": { "const": false }
+      },
+      "additionalProperties": false
+    },
+    "recipe": { "$ref": "#/$defs/recipe" },
+    "builds": { "type": "array", "minItems": 3, "maxItems": 3, "items": { "$ref": "#/$defs/build" } },
+    "residualStrain": { "$ref": "#/$defs/residualStrain" },
+    "identityRegimes": { "type": "array", "minItems": 5, "maxItems": 5, "items": { "$ref": "#/$defs/identityRegime" } },
+    "experiments": { "type": "array", "minItems": 4, "maxItems": 4, "items": { "$ref": "#/$defs/experiment" } },
+    "historicalLoad": { "$ref": "#/$defs/historicalLoad" },
+    "sourceAnomalies": { "type": "array", "minItems": 2, "maxItems": 2, "items": { "$ref": "#/$defs/sourceAnomaly" } },
+    "nonClaims": { "type": "array", "minItems": 12, "maxItems": 12, "uniqueItems": true, "items": { "type": "string", "minLength": 20 } },
+    "audit": {
+      "type": "object",
+      "required": ["nativeBuildIdsRetained", "nativePartIdsRetained", "nativeProcessIdsRetained", "thermographyRecordsRetained", "strainCoordinatesRetained", "strainComponentsRetained", "measurementUncertaintyRetained", "missingSiblingMeasurementsCopied", "sourceFilenameCorrectionsInvented", "causalEdges", "completeProcessSpaceClaims", "liveQueriesDuringBuild"],
+      "properties": {
+        "nativeBuildIdsRetained": { "const": 3 },
+        "nativePartIdsRetained": { "const": 3 },
+        "nativeProcessIdsRetained": { "const": 3 },
+        "thermographyRecordsRetained": { "const": 3 },
+        "strainCoordinatesRetained": { "const": 2248 },
+        "strainComponentsRetained": { "const": 4496 },
+        "measurementUncertaintyRetained": { "const": true },
+        "missingSiblingMeasurementsCopied": { "const": 0 },
+        "sourceFilenameCorrectionsInvented": { "const": 0 },
+        "causalEdges": { "const": 0 },
+        "completeProcessSpaceClaims": { "const": 0 },
+        "liveQueriesDuringBuild": { "const": 0 }
+      },
+      "additionalProperties": false
+    },
+    "caseIdentity": { "$ref": "#/$defs/identity" }
+  },
+  "$defs": {
+    "identity": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "file": {
+      "type": "object",
+      "required": ["path", "identity", "bytes"],
+      "properties": { "path": { "type": "string", "minLength": 3 }, "identity": { "$ref": "#/$defs/identity" }, "bytes": { "type": "integer", "minimum": 1 } },
+      "additionalProperties": false
+    },
+    "inputFile": {
+      "type": "object",
+      "required": ["path", "sha256", "bytes"],
+      "properties": { "path": { "type": "string", "minLength": 3 }, "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }, "bytes": { "type": "integer", "minimum": 1 } },
+      "additionalProperties": false
+    },
+    "quantity": {
+      "type": "object",
+      "required": ["value", "unit"],
+      "properties": { "value": { "type": "number" }, "unit": { "type": "string", "minLength": 1 } },
+      "additionalProperties": false
+    },
+    "recipeFields": {
+      "type": "object",
+      "required": ["identity", "processType", "facility", "machine", "feedstockId", "feedstockCondition", "materialClass", "substrateTemperature", "atmosphere", "oxygenContentLimit", "buildChamberPressure", "gasFlowDirection", "gasFlowSpeed", "recoatingDirection", "recoatingSpeed", "nominalLaserPower", "nominalScanSpeed", "beamSpotSize", "nominalLayerThickness", "totalLayers", "hatchSpacing", "scanDataUrl"],
+      "properties": {
+        "identity": { "$ref": "#/$defs/identity" }, "processType": { "const": "LaserPowderBedFusion" }, "facility": { "const": "NIST" }, "machine": { "const": "AMMT" },
+        "feedstockId": { "const": "K201801_Virgin" }, "feedstockCondition": { "const": "Virgin" }, "materialClass": { "type": "string", "pattern": "IN718$" },
+        "substrateTemperature": { "$ref": "#/$defs/quantity" }, "atmosphere": { "const": "argon" }, "oxygenContentLimit": { "$ref": "#/$defs/quantity" }, "buildChamberPressure": { "$ref": "#/$defs/quantity" },
+        "gasFlowDirection": { "const": "-Y" }, "gasFlowSpeed": { "$ref": "#/$defs/quantity" }, "recoatingDirection": { "const": "+X" }, "recoatingSpeed": { "$ref": "#/$defs/quantity" },
+        "nominalLaserPower": { "$ref": "#/$defs/quantity" }, "nominalScanSpeed": { "$ref": "#/$defs/quantity" }, "beamSpotSize": { "$ref": "#/$defs/quantity" }, "nominalLayerThickness": { "$ref": "#/$defs/quantity" },
+        "totalLayers": { "const": 312 }, "hatchSpacing": { "$ref": "#/$defs/quantity" }, "scanDataUrl": { "type": "string", "pattern": "^https://data\\.nist\\.gov/" }
+      },
+      "additionalProperties": false
+    },
+    "recipe": { "$ref": "#/$defs/recipeFields" },
+    "sourceRecipe": {
+      "type": "object",
+      "required": ["processType", "facility", "machine", "feedstockId", "feedstockCondition", "materialClass", "substrateTemperature", "atmosphere", "oxygenContentLimit", "buildChamberPressure", "gasFlowDirection", "gasFlowSpeed", "recoatingDirection", "recoatingSpeed", "nominalLaserPower", "nominalScanSpeed", "beamSpotSize", "nominalLayerThickness", "totalLayers", "hatchSpacing", "scanDataUrl"],
+      "properties": {
+        "processType": { "const": "LaserPowderBedFusion" }, "facility": { "const": "NIST" }, "machine": { "const": "AMMT" },
+        "feedstockId": { "const": "K201801_Virgin" }, "feedstockCondition": { "const": "Virgin" }, "materialClass": { "type": "string", "pattern": "IN718$" },
+        "substrateTemperature": { "$ref": "#/$defs/quantity" }, "atmosphere": { "const": "argon" }, "oxygenContentLimit": { "$ref": "#/$defs/quantity" }, "buildChamberPressure": { "$ref": "#/$defs/quantity" },
+        "gasFlowDirection": { "const": "-Y" }, "gasFlowSpeed": { "$ref": "#/$defs/quantity" }, "recoatingDirection": { "const": "+X" }, "recoatingSpeed": { "$ref": "#/$defs/quantity" },
+        "nominalLaserPower": { "$ref": "#/$defs/quantity" }, "nominalScanSpeed": { "$ref": "#/$defs/quantity" }, "beamSpotSize": { "$ref": "#/$defs/quantity" }, "nominalLayerThickness": { "$ref": "#/$defs/quantity" },
+        "totalLayers": { "const": 312 }, "hatchSpacing": { "$ref": "#/$defs/quantity" }, "scanDataUrl": { "type": "string", "pattern": "^https://data\\.nist\\.gov/" }
+      },
+      "additionalProperties": false
+    },
+    "evidenceLayer": {
+      "type": "object", "required": ["id", "authority", "role"],
+      "properties": { "id": { "enum": ["source-record", "prescribed-process", "in-situ-derived", "ex-situ-measured", "onto2d-analysis"] }, "authority": { "type": "string", "minLength": 5 }, "role": { "type": "string", "minLength": 30 } },
+      "additionalProperties": false
+    },
+    "interpretationPolicy": {
+      "type": "object", "required": ["status", "recipeEqualityMayMergeBuilds", "measurementMayTransferBetweenParts", "thermographyMayBecomeResidualStrain", "causalProcessEffectAllowed", "spatialFieldMayCollapseToOneScalar"],
+      "properties": { "status": { "const": "measured-association-only" }, "recipeEqualityMayMergeBuilds": { "const": false }, "measurementMayTransferBetweenParts": { "const": false }, "thermographyMayBecomeResidualStrain": { "const": false }, "causalProcessEffectAllowed": { "const": false }, "spatialFieldMayCollapseToOneScalar": { "const": false } },
+      "additionalProperties": false
+    },
+    "build": {
+      "type": "object",
+      "required": ["id", "pid", "recordedCreationDate", "materialClass", "benchmarkId", "status", "purpose", "componentIds", "identity", "process", "comparisonPart", "thermography"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^AMB2022-718-AMMT-B[678]$" }, "pid": { "$ref": "#/$defs/nativePid" }, "recordedCreationDate": { "$ref": "#/$defs/recordedDate" },
+        "materialClass": { "type": "string", "pattern": "IN718$" }, "benchmarkId": { "const": "AMB2022-01" }, "status": { "type": "string", "minLength": 20 }, "purpose": { "type": "string", "minLength": 5 },
+        "componentIds": { "type": "array", "minItems": 6, "maxItems": 6, "uniqueItems": true, "items": { "type": "string" } }, "identity": { "$ref": "#/$defs/identity" },
+        "process": { "$ref": "#/$defs/process" }, "comparisonPart": { "$ref": "#/$defs/comparisonPart" }, "thermography": { "$ref": "#/$defs/thermography" }
+      },
+      "additionalProperties": false
+    },
+    "nativePid": { "type": "string", "pattern": "^https://ambench2022\\.nist\\.gov/pid/rest/local/cdcs/[A-Z0-9]+$" },
+    "recordedDate": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}$" },
+    "process": {
+      "type": "object",
+      "required": ["id", "pid", "recordedStartDate", "recordedCompleteDate", "challengeIds", "outputBuildId", "p3ComponentProcessId", "recipe", "identity", "recipeIdentity"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^AMB2022-718-AMMT-B[678]_PBF-LB$" }, "pid": { "$ref": "#/$defs/nativePid" },
+        "recordedStartDate": { "$ref": "#/$defs/recordedDate" }, "recordedCompleteDate": { "$ref": "#/$defs/recordedDate" },
+        "challengeIds": { "type": "array", "minItems": 4, "maxItems": 6, "uniqueItems": true, "items": { "type": "string", "pattern": "^CHAL-AMB2022-01-(?:TAM|SCR|RS|PD|MS|PE)$" } },
+        "outputBuildId": { "type": "string", "pattern": "^AMB2022-718-AMMT-B[678]$" }, "p3ComponentProcessId": { "type": "string", "pattern": "^AMB2022-718-AMMT-B[678]-P3_PBF-LB_Component$" },
+        "recipe": { "$ref": "#/$defs/sourceRecipe" }, "identity": { "$ref": "#/$defs/identity" }, "recipeIdentity": { "$ref": "#/$defs/identity" }
+      },
+      "additionalProperties": false
+    },
+    "comparisonPart": {
+      "type": "object",
+      "required": ["id", "pid", "componentId", "parentPid", "recordedCreationDate", "materialClass", "purpose", "condition", "identity"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^AMB2022-718-AMMT-B[678]-P3$" }, "pid": { "$ref": "#/$defs/nativePid" },
+        "componentId": { "type": "string", "pattern": "^AMB2022-718-AMMT-B[678]-P3_Component$" }, "parentPid": { "$ref": "#/$defs/nativePid" },
+        "recordedCreationDate": { "$ref": "#/$defs/recordedDate" }, "materialClass": { "type": "string", "pattern": "IN718$" },
+        "purpose": { "type": "string", "minLength": 5 }, "condition": { "type": "null" }, "identity": { "$ref": "#/$defs/identity" }
+      },
+      "additionalProperties": false
+    },
+    "thermography": {
+      "type": "object",
+      "required": ["id", "pid", "buildProcessId", "componentProcessId", "recordedStartDate", "recordedCompleteDate", "technique", "instrumentModel", "frameRate", "bitDepth", "shutterSpeed", "imageWidthPixels", "imageHeightPixels", "pixelScaleX", "pixelScaleY", "tam", "solidCoolingRate", "identity"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^AMB2022_Thermography_718-AMMT-B[678]-P1-StaringCamera_Signal$" }, "pid": { "$ref": "#/$defs/nativePid" },
+        "buildProcessId": { "type": "string", "pattern": "^AMB2022-718-AMMT-B[678]_PBF-LB$" }, "componentProcessId": { "type": "string", "pattern": "^AMB2022-718-AMMT-B[678]-P1_PBF-LB_Component$" },
+        "recordedStartDate": { "$ref": "#/$defs/recordedDate" }, "recordedCompleteDate": { "$ref": "#/$defs/recordedDate" }, "technique": { "const": "staring-camera thermography" },
+        "instrumentModel": { "type": "string", "minLength": 10 }, "frameRate": { "$ref": "#/$defs/quantity" }, "bitDepth": { "const": 12 }, "shutterSpeed": { "$ref": "#/$defs/quantity" },
+        "imageWidthPixels": { "const": 640 }, "imageHeightPixels": { "const": 304 }, "pixelScaleX": { "$ref": "#/$defs/quantity" }, "pixelScaleY": { "$ref": "#/$defs/quantity" },
+        "tam": { "$ref": "#/$defs/tam" }, "solidCoolingRate": { "$ref": "#/$defs/solidCoolingRate" }, "identity": { "$ref": "#/$defs/identity" }
+      },
+      "additionalProperties": false
+    },
+    "tam": {
+      "type": "object", "required": ["filename", "dataDoi", "emissivity", "thresholdTemperature"],
+      "properties": { "filename": { "type": "string", "pattern": "^AMB2022-01-718-AMMT-B[678]-P1-StaringCamera_TAM\\.h5$" }, "dataDoi": { "const": "10.18434/mds2-2715" }, "emissivity": { "const": 0.5 }, "thresholdTemperature": { "$ref": "#/$defs/quantity" } },
+      "additionalProperties": false
+    },
+    "solidCoolingRate": {
+      "type": "object", "required": ["filename", "dataDoi", "unit", "emissivity", "solidusTemperature", "temperatureInterval"],
+      "properties": { "filename": { "const": "AMB2022-01-718-AMMT-B6-P1-StaringCamera_SCR.h5" }, "dataDoi": { "enum": ["10.18434/mds2-2720", "10.18434/mds2-2721", "10.18434/mds2-2722"] }, "unit": { "const": "°C/s" }, "emissivity": { "const": 0.5 }, "solidusTemperature": { "$ref": "#/$defs/quantity" }, "temperatureInterval": { "$ref": "#/$defs/quantity" } },
+      "additionalProperties": false
+    },
+    "strainPoint": {
+      "type": "object", "required": ["sourceRow", "xMm", "yMm", "zMm", "xxStrain", "zzStrain"],
+      "properties": { "sourceRow": { "type": "integer", "minimum": 2 }, "xMm": { "type": "number" }, "yMm": { "const": 2.5 }, "zMm": { "type": "number" }, "xxStrain": { "type": "number" }, "zzStrain": { "type": "number" } },
+      "additionalProperties": false
+    },
+    "residualStrain": {
+      "type": "object",
+      "required": ["measurementId", "targetPartId", "technique", "facility", "measurementPlane", "components", "strainUnit", "estimatedMeasurementUncertainty", "points", "summary", "identity"],
+      "properties": {
+        "measurementId": { "const": "CHAL-AMB2022-01-RS-CHESS-EDD" }, "targetPartId": { "const": "AMB2022-718-AMMT-B7-P3" }, "technique": { "const": "synchrotron X-ray energy dispersive diffraction" }, "facility": { "const": "Cornell High Energy Synchrotron Source" },
+        "measurementPlane": { "$ref": "#/$defs/measurementPlane" }, "components": { "const": ["XX", "ZZ"] }, "strainUnit": { "const": "unitless" }, "estimatedMeasurementUncertainty": { "$ref": "#/$defs/measurementUncertainty" },
+        "points": { "type": "array", "minItems": 2248, "maxItems": 2248, "items": { "$ref": "#/$defs/strainPoint" } }, "summary": { "$ref": "#/$defs/strainSummary" }, "identity": { "$ref": "#/$defs/identity" }
+      },
+      "additionalProperties": false
+    },
+    "measurementPlane": {
+      "type": "object", "required": ["axis", "position", "unit", "descriptionLocator"],
+      "properties": { "axis": { "const": "Y" }, "position": { "const": 2.5 }, "unit": { "const": "mm" }, "descriptionLocator": { "const": "measurement description PDF, pages 1-2" } },
+      "additionalProperties": false
+    },
+    "measurementUncertainty": {
+      "type": "object", "required": ["value", "unit", "coverageFactor", "descriptionLocator"],
+      "properties": { "value": { "const": 0.0001 }, "unit": { "const": "unitless" }, "coverageFactor": { "type": "null" }, "descriptionLocator": { "const": "measurement description PDF, page 2" } },
+      "additionalProperties": false
+    },
+    "strainSummary": {
+      "type": "object", "required": ["pointCount", "uniqueXCount", "uniqueYCount", "uniqueZCount", "xx", "zz", "heightSlices"],
+      "properties": { "pointCount": { "const": 2248 }, "uniqueXCount": { "const": 136 }, "uniqueYCount": { "const": 1 }, "uniqueZCount": { "const": 24 }, "xx": { "$ref": "#/$defs/componentSummary" }, "zz": { "$ref": "#/$defs/componentSummary" }, "heightSlices": { "type": "array", "minItems": 24, "maxItems": 24, "items": { "$ref": "#/$defs/heightSlice" } } },
+      "additionalProperties": false
+    },
+    "componentSummary": {
+      "type": "object", "required": ["minimum", "maximum", "mean", "meanAbsolute"],
+      "properties": { "minimum": { "$ref": "#/$defs/extremum" }, "maximum": { "$ref": "#/$defs/extremum" }, "mean": { "type": "number" }, "meanAbsolute": { "type": "number", "minimum": 0 } },
+      "additionalProperties": false
+    },
+    "extremum": {
+      "type": "object", "required": ["value", "xMm", "yMm", "zMm"],
+      "properties": { "value": { "type": "number" }, "xMm": { "type": "number" }, "yMm": { "const": 2.5 }, "zMm": { "type": "number" } },
+      "additionalProperties": false
+    },
+    "heightSlice": {
+      "type": "object", "required": ["zMm", "pointCount", "meanXX", "meanZZ"],
+      "properties": { "zMm": { "type": "number", "minimum": 0.25, "maximum": 11.75 }, "pointCount": { "type": "integer", "minimum": 75, "maximum": 136 }, "meanXX": { "type": "number" }, "meanZZ": { "type": "number" } },
+      "additionalProperties": false
+    },
+    "identityClass": {
+      "type": "object", "required": ["id", "members", "basis"],
+      "properties": { "id": { "type": "string" }, "members": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string" } }, "basis": { "type": "string" } },
+      "additionalProperties": false
+    },
+    "identityRegime": {
+      "type": "object", "required": ["id", "equivalenceKey", "expectedClassCount", "meaning", "classes", "unresolved"],
+      "properties": { "id": { "enum": ["nominal-material", "nominal-recipe", "build-record", "part-record", "measured-state"] }, "equivalenceKey": { "type": "string" }, "expectedClassCount": { "type": "integer", "minimum": 1 }, "unresolvedCount": { "const": 2 }, "meaning": { "type": "string", "minLength": 30 }, "classes": { "type": "array", "minItems": 1, "maxItems": 3, "items": { "$ref": "#/$defs/identityClass" } }, "unresolved": { "type": "array", "maxItems": 2, "uniqueItems": true, "items": { "type": "string" } } },
+      "additionalProperties": false
+    },
+    "experiment": {
+      "type": "object", "required": ["id", "result", "sourceMutation"],
+      "properties": { "id": { "enum": ["same-recipe-distinct-builds", "measurement-coverage", "spatial-field", "source-anomaly"] }, "result": { "type": "string", "minLength": 80 }, "sourceMutation": { "const": false }, "causalClaim": { "const": false }, "copiedMeasurementCount": { "const": 0 }, "coordinateCount": { "const": 2248 }, "inventedCorrectionCount": { "const": 0 } },
+      "additionalProperties": false
+    },
+    "historicalLoad": {
+      "type": "object", "required": ["status", "value", "reason"],
+      "properties": { "status": { "const": "not-evaluated" }, "value": { "type": "null" }, "reason": { "type": "string", "minLength": 100 } },
+      "additionalProperties": false
+    },
+    "sourceAnomaly": {
+      "type": "object", "required": ["id", "severity", "description", "affectedBuildIds"],
+      "properties": { "id": { "enum": ["repeated-scr-filename", "recorded-date-semantics"] }, "severity": { "enum": ["source-literal-warning", "interpretation-boundary"] }, "description": { "type": "string", "minLength": 100 }, "affectedBuildIds": { "type": "array", "minItems": 2, "maxItems": 3, "uniqueItems": true, "items": { "type": "string" } } },
+      "additionalProperties": false
+    }
+  }
+}

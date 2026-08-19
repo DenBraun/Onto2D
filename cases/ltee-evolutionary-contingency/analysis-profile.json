@@ -1,0 +1,93 @@
+{
+  "format": "onto2d-ltee-evolutionary-contingency-analysis-profile",
+  "formatVersion": "1",
+  "profileVersion": "ltee-ara3-citrate-replay-interpretation-v1",
+  "question": "How does the recorded generation of an Ara-3 source background condition the observed accessibility of aerobic citrate use under each bounded replay protocol?",
+  "evidenceLayers": [
+    {
+      "id": "article-metadata",
+      "authority": "NCBI PubMed Central record for PMCID PMC2430337",
+      "role": "article identity, authorship, publication date, DOI, PMID, and stable repository locator"
+    },
+    {
+      "id": "source-table",
+      "authority": "Blount, Borland, and Lenski (2008), Tables 1 and 2",
+      "role": "generation-indexed replicate counts, independent Cit+ observations, and published test summaries"
+    },
+    {
+      "id": "protocol-description",
+      "authority": "Blount, Borland, and Lenski (2008), replay experiment methods",
+      "role": "experimental units, scale, duration, and assay conditions that keep the three replays non-interchangeable"
+    },
+    {
+      "id": "published-interpretation",
+      "authority": "Blount, Borland, and Lenski (2008), statistical analysis and discussion",
+      "role": "source-attributed support for a potentiated background without identifying a unique causal mutation"
+    },
+    {
+      "id": "onto2d-analysis",
+      "authority": "ltee-ara3-citrate-replay-interpretation-v1",
+      "role": "bounded reachability labels, arithmetic checks, discrepancy visibility, and explicit non-claims"
+    }
+  ],
+  "reachabilityRegimes": [
+    {
+      "id": "population-record",
+      "equivalenceKey": "Ara-3 population identifier",
+      "expectedClassCount": 1,
+      "meaning": "Every selected generation sample belongs to the recorded Ara-3 population lineage."
+    },
+    {
+      "id": "source-generation",
+      "equivalenceKey": "published source-generation label",
+      "expectedClassCount": 16,
+      "meaning": "The selected tables expose sixteen generation labels, not sixteen complete genotypes or uniquely identified clones."
+    },
+    {
+      "id": "bounded-observed-accessibility",
+      "equivalenceKey": "Cit+ observed in at least one selected replay protocol",
+      "expectedClassCount": 2,
+      "observedBackgroundCount": 7,
+      "unresolvedBackgroundCount": 9,
+      "meaning": "Seven generations yielded Cit+ in at least one bounded replay; the other nine remain unresolved rather than inaccessible."
+    },
+    {
+      "id": "protocol-conditioned-observation",
+      "equivalenceKey": "source generation plus exact replay protocol",
+      "expectedClassCount": 38,
+      "meaning": "Each non-missing Table 1 cell is retained as its own protocol-conditioned observation."
+    }
+  ],
+  "historicalLoad": {
+    "status": "not-evaluated",
+    "value": null,
+    "reason": "The selected evidence does not enumerate a finite mutation-path universe, transition costs, or a history-free counterfactual baseline; undefined must not be displayed as zero."
+  },
+  "interpretationPolicy": {
+    "status": "descriptive-history-conditioned-reachability",
+    "notObservedMayBecomeImpossible": false,
+    "protocolsMayPool": false,
+    "generationMayIdentifyGenotype": false,
+    "generationMayIdentifyClone": false,
+    "replayMayBecomeOriginalHistory": false,
+    "publishedPValuesRecomputed": false,
+    "publishedExpectedMeansAssumedReproduced": false,
+    "universalLawClaimAllowed": false,
+    "causalMutationIdentified": false
+  },
+  "nonClaims": [
+    "A generation label is not a complete genotype.",
+    "A generation label does not uniquely identify every source clone.",
+    "A replay population is not the original LTEE population history.",
+    "A zero-mutant cell means not observed under that bounded protocol, not biologically impossible.",
+    "Missing Table 1 cells are not converted into zero-mutant observations.",
+    "Replicates from the three replay designs are not pooled into one outcome frequency.",
+    "Independent Cit+ mutants are not treated as identical molecular events.",
+    "The selected tables do not identify a unique potentiating mutation.",
+    "Generation alone does not separate potentiated and nonpotentiated clones.",
+    "Published Monte Carlo P values are retained but not recomputed.",
+    "The Table 2 expected mean for replay 2 is not claimed to reproduce from a simple Table 1 replicate weighting.",
+    "The published interpretation is evidence about Ara-3 under the selected experiments, not a universal evolutionary law.",
+    "Historical Load is undefined because the possible mutation-path space and a cost model are not declared."
+  ]
+}

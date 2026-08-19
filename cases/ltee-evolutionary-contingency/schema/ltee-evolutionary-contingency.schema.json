@@ -1,0 +1,183 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.example/schemas/ltee-evolutionary-contingency.schema.json",
+  "title": "Onto2D LTEE Evolutionary Contingency case artifact",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["format", "formatVersion", "caseVersion", "source", "methodology", "cohort", "protocols", "backgrounds", "observations", "publishedStatistics", "reachability", "reachabilityRegimes", "experiments", "publishedInterpretation", "sourceDiscrepancies", "historicalLoad", "nonClaims", "audit", "caseIdentity"],
+  "properties": {
+    "format": { "const": "onto2d-ltee-evolutionary-contingency-case" },
+    "formatVersion": { "const": "1" },
+    "caseVersion": { "const": "ltee-ara3-citrate-replay-interpretation-v1" },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["identity", "snapshotIdentity", "snapshotBytes", "retrievedAt", "doi", "pmid", "pmcid", "articleUrl", "liveNetworkRequiredByBuild", "authoredFiles", "snapshotFiles", "upstreamInputFiles"],
+      "properties": {
+        "identity": { "$ref": "#/$defs/identity" },
+        "snapshotIdentity": { "$ref": "#/$defs/identity" },
+        "snapshotBytes": { "const": 32738 },
+        "retrievedAt": { "type": "string", "format": "date-time" },
+        "doi": { "const": "10.1073/pnas.0803151105" },
+        "pmid": { "const": "18524956" },
+        "pmcid": { "const": "PMC2430337" },
+        "articleUrl": { "const": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2430337/?report=printable" },
+        "liveNetworkRequiredByBuild": { "const": false },
+        "authoredFiles": { "type": "array", "minItems": 3, "maxItems": 3, "items": { "$ref": "#/$defs/file" } },
+        "snapshotFiles": { "type": "array", "minItems": 1, "maxItems": 1, "items": { "$ref": "#/$defs/file" } },
+        "upstreamInputFiles": { "type": "array", "minItems": 1, "maxItems": 1, "items": { "$ref": "#/$defs/upstreamFile" } }
+      }
+    },
+    "methodology": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["question", "selectionProfile", "analysisProfile", "selectionRule", "evidenceLayers", "interpretationPolicy"],
+      "properties": {
+        "question": { "type": "string", "minLength": 80 },
+        "selectionProfile": { "const": "ltee-ara3-citrate-replay-projection-v1" },
+        "analysisProfile": { "const": "ltee-ara3-citrate-replay-interpretation-v1" },
+        "selectionRule": { "type": "string", "minLength": 100 },
+        "evidenceLayers": { "type": "array", "minItems": 5, "maxItems": 5, "items": { "$ref": "#/$defs/evidenceLayer" } },
+        "interpretationPolicy": { "$ref": "#/$defs/interpretationPolicy" }
+      }
+    },
+    "cohort": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["populationId", "targetOutcomeId", "sourceGenerationCount", "protocolCount", "observationCount", "replicateCountByProtocol", "independentCitPlusMutantCountByProtocol", "independentCitPlusMutantCount", "observedBackgroundCount", "unresolvedBackgroundCount", "protocolsPooled"],
+      "properties": {
+        "populationId": { "const": "Ara-3" },
+        "targetOutcomeId": { "const": "phenotype:aerobic-citrate-use" },
+        "sourceGenerationCount": { "const": 16 },
+        "protocolCount": { "const": 3 },
+        "observationCount": { "const": 38 },
+        "replicateCountByProtocol": { "const": [72, 340, 2800] },
+        "independentCitPlusMutantCountByProtocol": { "const": [4, 5, 8] },
+        "independentCitPlusMutantCount": { "const": 17 },
+        "observedBackgroundCount": { "const": 7 },
+        "unresolvedBackgroundCount": { "const": 9 },
+        "protocolsPooled": { "const": false }
+      }
+    },
+    "protocols": { "type": "array", "minItems": 3, "maxItems": 3, "items": { "$ref": "#/$defs/protocol" } },
+    "backgrounds": { "type": "array", "minItems": 16, "maxItems": 16, "items": { "$ref": "#/$defs/background" } },
+    "observations": { "type": "array", "minItems": 38, "maxItems": 38, "items": { "$ref": "#/$defs/observation" } },
+    "publishedStatistics": { "type": "array", "minItems": 3, "maxItems": 3, "items": { "$ref": "#/$defs/statistic" } },
+    "reachability": { "$ref": "#/$defs/reachability" },
+    "reachabilityRegimes": { "type": "array", "minItems": 4, "maxItems": 4, "items": { "$ref": "#/$defs/regime" } },
+    "experiments": { "type": "array", "minItems": 4, "maxItems": 4, "items": { "$ref": "#/$defs/experiment" } },
+    "publishedInterpretation": { "$ref": "#/$defs/publishedInterpretation" },
+    "sourceDiscrepancies": { "type": "array", "minItems": 1, "maxItems": 1, "items": { "$ref": "#/$defs/discrepancy" } },
+    "historicalLoad": { "$ref": "#/$defs/historicalLoad" },
+    "nonClaims": { "type": "array", "minItems": 13, "maxItems": 13, "uniqueItems": true, "items": { "type": "string", "minLength": 20 } },
+    "audit": { "$ref": "#/$defs/audit" },
+    "caseIdentity": { "$ref": "#/$defs/identity" }
+  },
+  "$defs": {
+    "identity": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "file": {
+      "type": "object", "additionalProperties": false, "required": ["path", "identity", "bytes"],
+      "properties": { "path": { "type": "string", "minLength": 3 }, "identity": { "$ref": "#/$defs/identity" }, "bytes": { "type": "integer", "minimum": 1 } }
+    },
+    "upstreamFile": {
+      "type": "object", "additionalProperties": false, "required": ["path", "sha256", "bytes"],
+      "properties": { "path": { "const": "pmc/PMC2430337-printable.html" }, "sha256": { "const": "7e271d52f2fba0e4c40c3c7491b654a56482763639b255fb77930583a4cc10f9" }, "bytes": { "const": 225210 } }
+    },
+    "evidenceLayer": {
+      "type": "object", "additionalProperties": false, "required": ["id", "authority", "role"],
+      "properties": { "id": { "enum": ["article-metadata", "source-table", "protocol-description", "published-interpretation", "onto2d-analysis"] }, "authority": { "type": "string", "minLength": 10 }, "role": { "type": "string", "minLength": 30 } }
+    },
+    "interpretationPolicy": {
+      "type": "object", "additionalProperties": false,
+      "required": ["status", "notObservedMayBecomeImpossible", "protocolsMayPool", "generationMayIdentifyGenotype", "generationMayIdentifyClone", "replayMayBecomeOriginalHistory", "publishedPValuesRecomputed", "publishedExpectedMeansAssumedReproduced", "universalLawClaimAllowed", "causalMutationIdentified"],
+      "properties": {
+        "status": { "const": "descriptive-history-conditioned-reachability" },
+        "notObservedMayBecomeImpossible": { "const": false }, "protocolsMayPool": { "const": false }, "generationMayIdentifyGenotype": { "const": false }, "generationMayIdentifyClone": { "const": false }, "replayMayBecomeOriginalHistory": { "const": false }, "publishedPValuesRecomputed": { "const": false }, "publishedExpectedMeansAssumedReproduced": { "const": false }, "universalLawClaimAllowed": { "const": false }, "causalMutationIdentified": { "const": false }
+      }
+    },
+    "protocol": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["id", "nativeLabel", "mode", "replicateUnit", "sourceCloneCountPerGeneration", "markerVariantsPerClone", "maximumReplayGenerationsApproximate", "screeningIntervalGenerations", "incubationDays", "replicates", "independentCitPlusMutants", "identity"],
+          "properties": {
+            "id": { "const": "replay-1" }, "nativeLabel": { "const": "First experiment" }, "mode": { "const": "serial-transfer replay" }, "replicateUnit": { "const": "replay population" },
+            "sourceCloneCountPerGeneration": { "const": 3 }, "markerVariantsPerClone": { "const": 2 }, "maximumReplayGenerationsApproximate": { "const": 3700 }, "screeningIntervalGenerations": { "const": 250 },
+            "incubationDays": { "type": "null" }, "replicates": { "const": 72 }, "independentCitPlusMutants": { "const": 4 }, "identity": { "$ref": "#/$defs/identity" }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["id", "nativeLabel", "mode", "replicateUnit", "sourceCloneCount", "platesPerClone", "cellsPerPlateApproximate", "incubationDays", "replicates", "independentCitPlusMutants", "identity"],
+          "properties": {
+            "id": { "const": "replay-2" }, "nativeLabel": { "const": "Second experiment" }, "mode": { "const": "MC plate assay" }, "replicateUnit": { "const": "MC plate" },
+            "sourceCloneCount": { "const": 68 }, "platesPerClone": { "const": 5 }, "cellsPerPlateApproximate": { "const": 390000000 }, "incubationDays": { "const": 59 },
+            "replicates": { "const": 340 }, "independentCitPlusMutants": { "const": 5 }, "identity": { "$ref": "#/$defs/identity" }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["id", "nativeLabel", "mode", "replicateUnit", "sourceCloneCountPerEvolvedGeneration", "replicatesPerClone", "ancestorReplicates", "cellsPerCultureApproximateRange", "totalCellsApproximate", "incubationDays", "replicates", "independentCitPlusMutants", "identity"],
+          "properties": {
+            "id": { "const": "replay-3" }, "nativeLabel": { "const": "Third experiment" }, "mode": { "const": "MC plate assay" }, "replicateUnit": { "const": "culture plated on MC agar" },
+            "sourceCloneCountPerEvolvedGeneration": { "const": 20 }, "replicatesPerClone": { "const": 10 }, "ancestorReplicates": { "const": 200 }, "cellsPerCultureApproximateRange": { "const": [10000000000, 20000000000] },
+            "totalCellsApproximate": { "const": 40000000000000 }, "incubationDays": { "const": 45 }, "replicates": { "const": 2800 }, "independentCitPlusMutants": { "const": 8 }, "identity": { "$ref": "#/$defs/identity" }
+          }
+        }
+      ]
+    },
+    "background": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "populationId", "sourceGeneration", "nativeGenerationLabel", "recordKind", "cloneIdentityAvailableInTable", "completeGenotypeAvailableInTable", "potentiationStatusFromGenerationAlone", "identity"],
+      "properties": { "id": { "type": "string", "pattern": "^background:ara-3:g-[0-9]{5}$" }, "populationId": { "const": "Ara-3" }, "sourceGeneration": { "type": "integer", "minimum": 0, "maximum": 32500 }, "nativeGenerationLabel": { "type": "string" }, "recordKind": { "const": "published-generation-sample" }, "cloneIdentityAvailableInTable": { "const": false }, "completeGenotypeAvailableInTable": { "const": false }, "potentiationStatusFromGenerationAlone": { "const": "unresolved" }, "identity": { "$ref": "#/$defs/identity" } }
+    },
+    "observation": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "experimentId", "backgroundId", "sourceGeneration", "nativeGenerationLabel", "replicates", "independentCitPlusMutants", "outcomeStatus", "absenceMeansImpossible", "identity"],
+      "properties": { "id": { "type": "string", "pattern": "^observation:replay-[123]:g-[0-9]{5}$" }, "experimentId": { "enum": ["replay-1", "replay-2", "replay-3"] }, "backgroundId": { "type": "string", "pattern": "^background:ara-3:g-[0-9]{5}$" }, "sourceGeneration": { "type": "integer", "minimum": 0, "maximum": 32500 }, "nativeGenerationLabel": { "type": "string" }, "replicates": { "type": "integer", "minimum": 1 }, "independentCitPlusMutants": { "type": "integer", "minimum": 0 }, "outcomeStatus": { "enum": ["observed", "not-observed"] }, "absenceMeansImpossible": { "const": false }, "identity": { "$ref": "#/$defs/identity" } }
+    },
+    "ratio": { "type": "object", "additionalProperties": false, "required": ["numerator", "denominator"], "properties": { "numerator": { "type": "integer" }, "denominator": { "type": "integer", "minimum": 1 } } },
+    "weightedMean": { "type": "object", "additionalProperties": false, "required": ["numerator", "denominator", "rounded"], "properties": { "numerator": { "type": "integer" }, "denominator": { "type": "integer", "minimum": 1 }, "rounded": { "type": "integer" } } },
+    "statistic": {
+      "type": "object", "additionalProperties": false,
+      "required": ["experimentId", "nullHypothesis", "expectedMeanGeneration", "observedMeanGeneration", "meanShiftGenerations", "tableOneReplicateWeightedMean", "tableOneMeanMatchesPublishedExpected", "recomputedObservedMean", "publishedMonteCarloPValue", "monteCarloIterations", "pValueRecomputed", "publishedExpectedMeanRecomputed", "identity"],
+      "properties": { "experimentId": { "enum": ["replay-1", "replay-2", "replay-3"] }, "nullHypothesis": { "type": "string", "minLength": 30 }, "expectedMeanGeneration": { "type": "integer" }, "observedMeanGeneration": { "type": "integer" }, "meanShiftGenerations": { "type": "integer", "minimum": 1 }, "tableOneReplicateWeightedMean": { "$ref": "#/$defs/weightedMean" }, "tableOneMeanMatchesPublishedExpected": { "type": "boolean" }, "recomputedObservedMean": { "$ref": "#/$defs/ratio" }, "publishedMonteCarloPValue": { "type": "number", "exclusiveMinimum": 0, "maximum": 1 }, "monteCarloIterations": { "const": 1000000 }, "pValueRecomputed": { "const": false }, "publishedExpectedMeanRecomputed": { "const": false }, "identity": { "$ref": "#/$defs/identity" } }
+    },
+    "assessment": {
+      "type": "object", "additionalProperties": false,
+      "required": ["backgroundId", "sourceGeneration", "observedExperimentIds", "citPlusObservedExperimentIds", "boundedOutcomeStatus", "accessibilityStatus", "protocolsPooled", "impossibilityClaim"],
+      "properties": { "backgroundId": { "type": "string" }, "sourceGeneration": { "type": "integer" }, "observedExperimentIds": { "type": "array", "items": { "enum": ["replay-1", "replay-2", "replay-3"] }, "uniqueItems": true }, "citPlusObservedExperimentIds": { "type": "array", "items": { "enum": ["replay-1", "replay-2", "replay-3"] }, "uniqueItems": true }, "boundedOutcomeStatus": { "enum": ["observed", "not-observed"] }, "accessibilityStatus": { "enum": ["supported-in-at-least-one-bounded-replay", "unresolved"] }, "protocolsPooled": { "const": false }, "impossibilityClaim": { "const": false } }
+    },
+    "reachability": {
+      "type": "object", "additionalProperties": false,
+      "required": ["status", "targetOutcomeId", "conditionedOn", "backgroundAssessments", "combinedPublishedPValueUpperBound", "combinedPValueRecomputed", "protocolsPooled", "completeMutationPathSpaceClaim"],
+      "properties": { "status": { "const": "descriptive-published-evidence" }, "targetOutcomeId": { "const": "phenotype:aerobic-citrate-use" }, "conditionedOn": { "const": ["Ara-3 source generation", "exact replay experiment"] }, "backgroundAssessments": { "type": "array", "minItems": 16, "maxItems": 16, "items": { "$ref": "#/$defs/assessment" } }, "combinedPublishedPValueUpperBound": { "const": 0.0001 }, "combinedPValueRecomputed": { "const": false }, "protocolsPooled": { "const": false }, "completeMutationPathSpaceClaim": { "const": false } }
+    },
+    "regime": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "equivalenceKey", "expectedClassCount", "meaning"],
+      "properties": {
+        "id": { "enum": ["population-record", "source-generation", "bounded-observed-accessibility", "protocol-conditioned-observation"] },
+        "equivalenceKey": { "type": "string" }, "expectedClassCount": { "type": "integer", "minimum": 1 },
+        "observedBackgroundCount": { "const": 7 }, "unresolvedBackgroundCount": { "const": 9 },
+        "meaning": { "type": "string", "minLength": 40 }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "id": { "const": "bounded-observed-accessibility" } }, "required": ["id"] },
+          "then": { "required": ["observedBackgroundCount", "unresolvedBackgroundCount"] },
+          "else": { "not": { "anyOf": [{ "required": ["observedBackgroundCount"] }, { "required": ["unresolvedBackgroundCount"] }] } }
+        }
+      ]
+    },
+    "experiment": { "type": "object", "additionalProperties": false, "required": ["id", "result", "sourceMutation"], "properties": { "id": { "enum": ["protocol-separation", "bounded-accessibility", "published-shift", "identity-boundary"] }, "result": { "type": "string", "minLength": 50 }, "sourceMutation": { "const": false } } },
+    "publishedInterpretation": { "type": "object", "additionalProperties": false, "required": ["laterBackgroundsShowGreaterPropensity", "potentiatingBackgroundSupported", "potentiatingMutationIdentifiedBySelectedTables", "generationUniquelyDeterminesPotentiation", "reason"], "properties": { "laterBackgroundsShowGreaterPropensity": { "const": true }, "potentiatingBackgroundSupported": { "const": true }, "potentiatingMutationIdentifiedBySelectedTables": { "const": false }, "generationUniquelyDeterminesPotentiation": { "const": false }, "reason": { "type": "string", "minLength": 80 } } },
+    "discrepancy": { "type": "object", "additionalProperties": false, "required": ["id", "status", "publishedExpectedMeanGeneration", "tableOneReplicateWeightedMeanGeneration", "interpretation"], "properties": { "id": { "const": "published-expected-mean:replay-2" }, "status": { "const": "visible-not-resolved" }, "publishedExpectedMeanGeneration": { "const": 28382 }, "tableOneReplicateWeightedMeanGeneration": { "const": 26382 }, "interpretation": { "type": "string", "minLength": 80 } } },
+    "historicalLoad": { "type": "object", "additionalProperties": false, "required": ["status", "value", "reason"], "properties": { "status": { "const": "not-evaluated" }, "value": { "type": "null" }, "reason": { "type": "string", "pattern": "undefined must not be displayed as zero" } } },
+    "audit": { "type": "object", "additionalProperties": false, "required": ["sourceRowsRetained", "sourceGenerationLabelsRetained", "protocolsRetainedSeparately", "publishedStatisticsRetained", "publishedPValuesRecomputed", "missingCellsConvertedToZero", "impossibilityClaims", "completeGenotypesInvented", "uniqueCloneIdentitiesInvented", "replayHistoriesPromotedToOriginalHistory", "protocolsPooled", "causalMutationEdges", "completeMutationPathSpaceClaims", "liveQueriesDuringBuild"], "properties": { "sourceRowsRetained": { "const": 38 }, "sourceGenerationLabelsRetained": { "const": 16 }, "protocolsRetainedSeparately": { "const": 3 }, "publishedStatisticsRetained": { "const": 3 }, "publishedPValuesRecomputed": { "const": 0 }, "missingCellsConvertedToZero": { "const": 0 }, "impossibilityClaims": { "const": 0 }, "completeGenotypesInvented": { "const": 0 }, "uniqueCloneIdentitiesInvented": { "const": 0 }, "replayHistoriesPromotedToOriginalHistory": { "const": 0 }, "protocolsPooled": { "const": 0 }, "causalMutationEdges": { "const": 0 }, "completeMutationPathSpaceClaims": { "const": 0 }, "liveQueriesDuringBuild": { "const": 0 } } }
+  }
+}

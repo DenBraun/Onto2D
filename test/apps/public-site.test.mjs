@@ -105,6 +105,16 @@ const galacticApp = read("apps/galactic-archaeology-lab/galactic-archaeology-lab
 const galacticModel = read("apps/galactic-archaeology-lab/galactic-archaeology-model.js");
 const galacticStyles = read("assets/css/study-galactic-archaeology.css");
 const galacticArtifact = read("cases/galactic-archaeology/artifacts/galactic-archaeology.json");
+const materialMarkup = read("apps/material-process-history-lab/index.html");
+const materialApp = read("apps/material-process-history-lab/material-process-history-lab.js");
+const materialModel = read("apps/material-process-history-lab/material-process-history-model.js");
+const materialStyles = read("assets/css/study-material-process-history.css");
+const materialArtifact = read("cases/material-process-history/artifacts/material-process-history.json");
+const lteeMarkup = read("apps/evolutionary-contingency-lab/index.html");
+const lteeApp = read("apps/evolutionary-contingency-lab/evolutionary-contingency-lab.js");
+const lteeModel = read("apps/evolutionary-contingency-lab/evolutionary-contingency-model.js");
+const lteeStyles = read("assets/css/study-evolutionary-contingency.css");
+const lteeArtifact = read("cases/ltee-evolutionary-contingency/artifacts/ltee-evolutionary-contingency.json");
 const historyCasePageMarkups = historyCaseRegistry.cases.map((entry) => read(`${entry.casePagePath}index.html`));
 const modelPackWorker = read("assets/js/model-pack-worker.js");
 const siteServer = read("apps/historical-load-explorer/serve.mjs");
@@ -132,6 +142,8 @@ const publicDirectories = [
   "apps/legal-precedent-history-lab",
   "apps/clinical-trajectory-lab",
   "apps/galactic-archaeology-lab",
+  "apps/material-process-history-lab",
+  "apps/evolutionary-contingency-lab",
   "apps/history-atlas",
   "apps/external-cases",
   ...historyCaseRegistry.cases.map((entry) => entry.casePagePath.replace(/\/$/, ""))
@@ -160,6 +172,8 @@ const publicFiles = [
   "assets/css/study-legal-precedent.css",
   "assets/css/study-clinical-trajectories.css",
   "assets/css/study-galactic-archaeology.css",
+  "assets/css/study-material-process-history.css",
+  "assets/css/study-evolutionary-contingency.css",
   "assets/css/external-cases.css",
   "assets/css/history-case-header.css",
   "assets/css/history-atlas.css",
@@ -184,6 +198,8 @@ const publicFiles = [
   "cases/legal-precedent-history/artifacts/legal-precedent-history.json",
   "cases/clinical-trajectories/artifacts/clinical-trajectories.json",
   "cases/galactic-archaeology/artifacts/galactic-archaeology.json",
+  "cases/material-process-history/artifacts/material-process-history.json",
+  "cases/ltee-evolutionary-contingency/artifacts/ltee-evolutionary-contingency.json",
   ...publicDirectories.flatMap((directory) => readdirSync(
     new URL(`../../${directory}/`, import.meta.url)
   ).filter((name) => /\.(?:css|html|js|json|md|mjs)$/.test(name)).map((name) => `${directory}/${name}`))
@@ -209,7 +225,7 @@ test("the root keeps three study lenses and exposes the registry-backed Case Stu
   assert.match(landing, /href="\.\/apps\/level-zero-validation\/(?:\?v=[^"]+)?"/);
   assert.match(landing, /href="\.\/apps\/model-studio\/(?:\?v=[^"]+)?"/);
   assert.match(landing, /<details class="cases-menu">/);
-  assert.match(landing, /type="module" src="\.\/assets\/js\/case-menu\.js\?v=20260818\.3"/);
+  assert.match(landing, /type="module" src="\.\/assets\/js\/case-menu\.js\?v=20260819\.2"/);
   assert.match(landing, /href="\.\/apps\/history-atlas\/"/);
   assert.match(landing, /id="history-case-menu-groups"/);
   assert.match(landing, />Case Studies <svg/);
@@ -267,6 +283,8 @@ test("all History case surfaces share one header component and navigation layout
     legalMarkup,
     clinicalMarkup,
     galacticMarkup,
+    materialMarkup,
+    lteeMarkup,
     ...historyCasePageMarkups
   ];
   for (const markup of surfaces) {
@@ -281,10 +299,10 @@ test("all History case surfaces share one header component and navigation layout
   }
   assert.match(historyCaseHeaderStyles, /grid-template-columns:\s*minmax\(190px, 1fr\) auto minmax\(190px, 1fr\)/);
   assert.match(historyCaseHeaderStyles, /@media \(max-width: 700px\)/);
-  for (const styles of [externalCasesStyles, bootstrapStyles, gitHistoryStyles, nixStyles, ociStyles, inTotoStyles, chemicalStyles, buildEquivalenceStyles, artworkStyles, languageStyles, manuscriptStyles, operationalStyles, ecologicalStyles, legalStyles, clinicalStyles, galacticStyles]) {
+  for (const styles of [externalCasesStyles, bootstrapStyles, gitHistoryStyles, nixStyles, ociStyles, inTotoStyles, chemicalStyles, buildEquivalenceStyles, artworkStyles, languageStyles, manuscriptStyles, operationalStyles, ecologicalStyles, legalStyles, clinicalStyles, galacticStyles, materialStyles, lteeStyles]) {
     assert.match(styles, /@import url\("\.\/history-case-header\.css\?v=20260818\.2"\);/);
   }
-  for (const markup of [chemicalMarkup, buildEquivalenceMarkup, artworkMarkup, languageMarkup, manuscriptMarkup, operationalMarkup, ecologicalMarkup, legalMarkup, clinicalMarkup, galacticMarkup]) {
+  for (const markup of [chemicalMarkup, buildEquivalenceMarkup, artworkMarkup, languageMarkup, manuscriptMarkup, operationalMarkup, ecologicalMarkup, legalMarkup, clinicalMarkup, galacticMarkup, materialMarkup, lteeMarkup]) {
     assert.match(markup, /<div class="history-case-context"><span>[^<]+<\/span><strong class="history-case-state"><i><\/i><span id="load-state" role="status" aria-live="polite">Verifying artifact<\/span><\/strong><\/div>/);
   }
 });
@@ -304,8 +322,20 @@ test("case-aware Model Studio links select the exact registered release", () => 
   assert.match(legalMarkup, /model-studio\/#model=legal-precedent-history&amp;version=v1-05958887a4ffef41/);
   assert.match(clinicalMarkup, /model-studio\/#model=clinical-trajectories&amp;version=v1-2360048548115b14/);
   assert.match(galacticMarkup, /model-studio\/#model=galactic-archaeology&amp;version=v1-2f109fd8c5475426/);
+  assert.match(materialMarkup, /model-studio\/#model=material-process-history&amp;version=v1-0ea3ee56fe462eea/);
+  assert.match(lteeMarkup, /model-studio\/#model=ltee-lineage-history&amp;version=v1-e4ff96341b402b13/);
   assert.match(externalCasesApp, /studio\.href = modelStudioHref\(entry, PROJECT_ROOT\)/);
   assert.match(externalCasesApp, /studioNavigation\.href = modelStudioHref\(entry, PROJECT_ROOT\)/);
+  assert.match(externalCasesApp, /caseNavigationDetail\(entry\)/);
+  assert.match(externalCasesApp, /Primary history effect: \$\{detail\.label\}/);
+  assert.doesNotMatch(externalCasesApp, /element\("small", "", entry\.statusLabel\)/);
+  assert.match(externalCasesApp, /status\.hidden = !planned/);
+  assert.doesNotMatch(externalCasesApp, /Maturity: \$\{entry\.statusLabel\}/);
+  assert.match(externalCasesStyles, /\.case-content\s*\{[^}]*grid-template-columns:minmax\(280px,\.72fr\) minmax\(0,1\.28fr\)[^}]*gap:0[^}]*border:1px solid var\(--line\)/s);
+  assert.match(externalCasesStyles, /\.case-stage\s*\{[^}]*grid-column:2[^}]*grid-template-columns:minmax\(0,1\.05fr\) minmax\(320px,\.95fr\)[^}]*border:0/s);
+  assert.match(externalCasesStyles, /\.content-panel\.flagship\s*\{[^}]*grid-column:1\/-1[^}]*border-top:3px solid var\(--accent\)/s);
+  assert.match(externalCasesStyles, /\.two-column\s*\{[^}]*grid-column:1\/-1[^}]*gap:0[^}]*border-top:1px solid var\(--line\)/s);
+  assert.match(externalCasesStyles, /\.status-chip\[hidden\]\s*\{[^}]*display:none/);
   assert.match(externalCasesCatalog, /url\.hash = new URLSearchParams\(\{ model: entry\.modelId, version: entry\.modelVersion \}\)\.toString\(\)/);
 });
 
@@ -650,6 +680,59 @@ test("Galactic Archaeology Lab separates observation, derivation, classification
   assert.equal(modelRevision, appRevision);
 });
 
+test("Material Process History Lab separates nominal recipe, native identity, measurement, and interpretation", () => {
+  assert.match(materialApp, /cases\/material-process-history\/artifacts\/material-process-history\.json/);
+  assert.match(materialApp, /createMaterialProcessHistoryModel/);
+  assert.match(materialApp, /crypto\.subtle\.digest\("SHA-256"/);
+  assert.match(materialApp, /cache: "no-store"/);
+  assert.match(materialApp, /redirect: "error"/);
+  assert.match(materialApp, /MAX_ARTIFACT_BYTES/);
+  assert.doesNotMatch(materialApp, /const URL = new URL\(/);
+  assert.match(materialApp, /const width = bounds\.width > 0 \? bounds\.width : 1100/);
+  assert.doesNotMatch(materialApp, /Math\.max\(340, bounds\.width/);
+  assert.match(materialApp, /canvas\.setAttribute\("aria-label", `Spatial map of \$\{component\}/);
+  assert.match(materialModel, /provenance link differs/);
+  assert.match(materialModel, /thermography boundary differs/);
+  assert.match(materialModel, /residual-strain authority differs/);
+  assert.match(materialModel, /analysis boundary differs/);
+  assert.match(materialMarkup, /Same alloy\. Same recipe\.[\s\S]*Not the same history\./);
+  assert.match(materialMarkup, /B7-P3 is a field, not one number/);
+  assert.match(materialMarkup, /No defensible number is the result/);
+  assert.match(materialMarkup, /UNKNOWN[\s\S]*Sibling state/);
+  for (const id of ["metric-grid", "pipeline", "recipe-grid", "build-controls", "build-cards", "build-inspector", "identity-grid", "component-controls", "height-select", "strain-canvas", "plot-readout", "measurement-facts", "anomaly-description", "anomaly-files", "load-reason"]) assert.match(materialMarkup, new RegExp(`id=["']${id}["']`), `missing #${id}`);
+  const pinnedDigest = materialApp.match(/ARTIFACT_SHA256 = "([a-f0-9]{64})"/)?.[1];
+  assert.equal(pinnedDigest, createHash("sha256").update(materialArtifact).digest("hex"));
+  const appRevision = materialMarkup.match(/material-process-history-lab\.js\?v=([^"']+)/)?.[1];
+  const modelRevision = materialApp.match(/material-process-history-model\.js\?v=([^"']+)/)?.[1];
+  assert.equal(modelRevision, appRevision);
+});
+
+test("Evolutionary Contingency Lab preserves protocol-conditioned accessibility and its limits", () => {
+  assert.match(lteeApp, /cases\/ltee-evolutionary-contingency\/artifacts\/ltee-evolutionary-contingency\.json/);
+  assert.match(lteeApp, /createEvolutionaryContingencyModel/);
+  assert.match(lteeApp, /crypto\.subtle\.digest\("SHA-256"/);
+  assert.match(lteeApp, /cache: "no-store"/);
+  assert.match(lteeApp, /redirect: "error"/);
+  assert.match(lteeApp, /MAX_ARTIFACT_BYTES/);
+  assert.doesNotMatch(lteeApp, /const URL = new URL\(/);
+  assert.match(lteeModel, /background inventory differs/);
+  assert.match(lteeModel, /protocol inventory differs/);
+  assert.match(lteeModel, /reachability boundary differs/);
+  assert.match(lteeModel, /source discrepancy differs/);
+  assert.match(lteeMarkup, /The present was still Cit-\.[\s\S]*The future was not equally open\./);
+  assert.match(lteeMarkup, /Three designs, deliberately not pooled/);
+  assert.match(lteeMarkup, /History changes the menu of reachable futures/);
+  assert.match(lteeMarkup, /No defensible load number is the result/);
+  assert.match(lteeMarkup, /not inaccessible[\s\S]*NOT OBSERVED/);
+  for (const id of ["metric-grid", "protocol-controls", "replay-body", "observation-inspector", "protocol-grid", "statistics-grid", "discrepancy-copy", "published-expected", "table-one-expected", "load-reason"]) assert.match(lteeMarkup, new RegExp(`id=["']${id}["']`), `missing #${id}`);
+  const pinnedDigest = lteeApp.match(/ARTIFACT_SHA256 = "([a-f0-9]{64})"/)?.[1];
+  assert.equal(pinnedDigest, createHash("sha256").update(lteeArtifact).digest("hex"));
+  const appRevision = lteeMarkup.match(/evolutionary-contingency-lab\.js\?v=([^"']+)/)?.[1];
+  const modelRevision = lteeApp.match(/evolutionary-contingency-model\.js\?v=([^"']+)/)?.[1];
+  assert.equal(modelRevision, appRevision);
+  assertReadableInterfaceText(lteeStyles, "Evolutionary Contingency Lab");
+});
+
 test("Git History Identity Lab verifies one immutable artifact across four regimes", () => {
   assert.match(gitHistoryApp, /cases\/git-history-identity\/artifacts\/history-identity\.json/);
   assert.match(gitHistoryApp, /createGitHistoryModel/);
@@ -763,7 +846,7 @@ test("Model Studio fully verifies the real pack before using the shared view lay
   assert.match(studioApp, /MODEL_PACK_CACHE_STORAGE_/);
   assert.match(studioApp, /dataset\.cache = "unavailable"/);
   assert.match(studioApp, /"Cached model verified"/);
-  assert.match(studioApp, /sha256:e28dde8ef079b04c5c3698d2875cde2a66a84b9514798a64d4863203c106c89c/);
+  assert.match(studioApp, /sha256:b53ca056e5cd9152ecfe1786ad18252df423ea49fdfa869a92bab9044eabbcf2/);
   assert.match(studioApp, /new Worker\(MODEL_PACK_WORKER_URL, \{/);
   assert.match(studioApp, /type: "module"/);
   assert.match(studioApp, /ownsWorker: true/);
@@ -1063,6 +1146,11 @@ test("Clinical Trajectory Lab keeps interface text at the readable minimum", () 
 test("Galactic Archaeology Lab keeps interface text at the readable minimum", () => {
   assertReadableInterfaceText(galacticStyles, "Galactic Archaeology Lab");
   assert.doesNotMatch(galacticStyles, /https?:\/\//);
+});
+
+test("Material Process History Lab keeps interface text at the readable minimum", () => {
+  assertReadableInterfaceText(materialStyles, "Material Process History Lab");
+  assert.doesNotMatch(materialStyles, /https?:\/\//);
 });
 
 test("graph sidebars keep machine fields on bounded single lines", () => {

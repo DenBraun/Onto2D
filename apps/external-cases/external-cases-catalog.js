@@ -107,20 +107,20 @@ const PRESENTATION = Object.freeze({
   "ltee-evolutionary-contingency": Object.freeze({
     question: "Can historical genetic background change which future innovations are accessible?",
     distinction: "same current phenotype != same future accessibility",
-    summary: "A bounded LTEE citrate case will connect frozen historical samples and evolutionary replay experiments without equating replay evidence with the original history.",
-    flagship: "Compare replay outcomes from different historical Ara-3 generations under one published experimental profile.",
-    contribution: "This is the flagship Embodied History -> Future test and the first explicit history-conditioned reachability case.",
-    boundaries: ["One reviewed citrate-innovation question", "Replay experiments remain separate experimental objects", "Not observed never becomes impossible", "Published causal interpretation retains attribution and uncertainty"],
-    outputs: ["Pinned LTEE evidence package", "Historical lineage and sample timeline", "Replay outcome comparison", "Evolutionary Contingency Lab"]
+    summary: "One exact primary paper is projected into sixteen Ara-3 source generations, three distinct replay protocols, thirty-eight non-missing observations, and separately attributed published statistics.",
+    flagship: "Seven generation labels yielded Cit+ in at least one bounded replay; nine remain unresolved, while every published observed mean generation lies later than its reported null expectation.",
+    contribution: "This flagship Embodied History -> Future case makes history-conditioned reachability concrete: prior background changes observed propensity without making an outcome inevitable or identifying a unique causal mutation.",
+    boundaries: ["Exact PMC response, generator, projection, and case identities are byte-locked", "Replay protocols remain separate and their replicate counts are never pooled into one rate", "Not observed and not run remain distinct; neither becomes impossible", "Generation is not genotype or unique clone; the replay-2 expected-mean discrepancy remains visible rather than silently repaired"],
+    outputs: ["Source-locked 16-background / 38-observation Ara-3 projection", "Verified case artifact with schema and negative epistemic tests", "Verified 73-node / 150-edge ltee-lineage-history Model Pack", "Evolutionary Contingency Lab with replay matrix, protocol inspector, published statistics, source audit, and Historical Load boundary"]
   }),
   "material-process-history": Object.freeze({
     question: "Can process history remain encoded in present material structure and properties?",
     distinction: "same nominal alloy != same material state",
-    summary: "A controlled NIST AM-Bench cohort will connect exact process histories to measured microstructure, residual state, and properties through an evidence-aware model.",
-    flagship: "Compare nominally similar specimens produced under different scan or heat-treatment histories.",
-    contribution: "This is the flagship Embodied History -> Present State case, with a strict firewall between sequence, correlation, and causal interpretation.",
-    boundaries: ["Exact AM-Bench release, DOI, files, hashes, and specimen IDs", "Measurement units, coordinates, uncertainty, and technique preserved", "Draft NIST schema version remains pinned", "Correlation cannot satisfy a causal relation"],
-    outputs: ["Process and measurement graph", "Specimen and identity-regime comparison", "Evidence-aware property links", "Material Process History Lab"]
+    summary: "Twelve exact NIST metadata records and the published 2,248-point CHESS result preserve one shared nominal P3 recipe, three build/part identities, separate P1 thermography, and one B7-P3 residual-strain field.",
+    flagship: "B6-P3, B7-P3, and B8-P3 collapse to one nominal-material and one nominal-recipe class, remain three native build and part classes, then resolve one measured-state class with two sibling states explicitly unknown.",
+    contribution: "This flagship Embodied History -> Present State case shows exactly what process provenance changes: recipe equality cannot merge specimens, one spatial field cannot be copied across siblings, and provenance association cannot become causality.",
+    boundaries: ["NIST metadata release 3.0.0 commit and archive plus twelve XML, result-table, PDF, generator, and projection byte locks", "All 2,248 coordinates, XX/ZZ components, unitless strain semantics, target part, technique, and published uncertainty retained", "P1 thermography/TAM/SCR remain separate from the P3 CHESS residual-strain field", "Repeated B6 SCR filename in B7/B8 source XML remains visible and is never silently repaired"],
+    outputs: ["Three-build source projection with one exact shared nominal P3 recipe", "2,248-point B7-P3 residual-strain field and 24 reproducible height slices", "Verified 54-node / 68-edge material-process-history Model Pack", "Material Process History Lab with recipe, specimen, identity-regime, strain-field, anomaly, and Historical Load views"]
   }),
   "cell-lineage-identity": Object.freeze({
     question: "Can similar current cell states retain different developmental lineages?",
@@ -332,6 +332,16 @@ export function statusPresentation(entry) {
     kind: entry.status === "PLANNED" ? "planned" : "progress",
     label: entry.status.replaceAll("_", " ")
   });
+}
+
+export function caseNavigationDetail(entry) {
+  if (!isRecord(entry)) registryFailure("case navigation entry must be an object.");
+  if (entry.status === "PLANNED") {
+    return Object.freeze({ kind: "status", label: "Planned", value: "planned" });
+  }
+  const effect = entry.primaryEffects?.[0];
+  requireEnum(effect, HISTORY_EFFECT_IDS, "case navigation primary effect");
+  return Object.freeze({ kind: "effect", label: historyEffectLabel(effect), value: effect });
 }
 
 export function modelStudioHref(entry, projectRoot) {

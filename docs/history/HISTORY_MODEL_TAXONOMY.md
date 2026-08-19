@@ -528,6 +528,20 @@ Recorded process history
 Embodied material history
 ```
 
+The implemented `material-process-history@v1-0ea3ee56fe462eea` release makes
+that hybrid boundary concrete: three native AM-Bench builds share one exact
+projected nominal P3 recipe, while native build and part identity remain three
+classes. Direct residual-strain evidence resolves B7-P3 only; B6-P3 and B8-P3
+remain unknown, and no causal edge or Historical Load number is inferred.
+
+The implemented `ltee-lineage-history@v1-e4ff96341b402b13` release makes the
+Embodied History → Future axis concrete without inventing determinism. It keeps
+sixteen Ara-3 generation labels, three replay protocols, thirty-eight bounded
+observations, published statistics, and interpretation boundaries separate.
+Cit+ observed from seven labels supports protocol-conditioned accessibility;
+the other nine remain unresolved, generation is not promoted to genotype, and
+Historical Load remains undefined.
+
 Keep stable paths:
 
 ```text

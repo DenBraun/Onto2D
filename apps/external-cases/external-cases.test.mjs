@@ -4,6 +4,7 @@ import test from "node:test";
 import {
   HISTORY_EFFECTS,
   HISTORY_MODES,
+  caseNavigationDetail,
   createHistoryCases,
   historyCaseById,
   modelStudioHref,
@@ -20,7 +21,7 @@ test("the history portfolio is complete, stable, and status-honest", async () =>
   assert.deepEqual(HISTORY_MODES.map((entry) => entry.id), ["recorded", "embodied", "reconstructed"]);
   assert.deepEqual(HISTORY_EFFECTS.map((entry) => entry.id), ["identity", "present-state", "future"]);
   assert.equal(new Set(cases.map((entry) => entry.caseId)).size, cases.length);
-  assert.equal(cases.filter((entry) => entry.statusKind === "implemented").length, 15);
+  assert.equal(cases.filter((entry) => entry.statusKind === "implemented").length, 17);
   assert.equal(cases.filter((entry) => entry.statusKind === "next").length, 0);
   assert.equal(historyCaseById(cases, "oci-layer-history").statusKind, "implemented");
   assert.equal(historyCaseById(cases, "in-toto-admissibility").statusKind, "implemented");
@@ -34,6 +35,8 @@ test("the history portfolio is complete, stable, and status-honest", async () =>
   assert.equal(historyCaseById(cases, "legal-precedent-history").statusKind, "implemented");
   assert.equal(historyCaseById(cases, "clinical-trajectories").statusKind, "implemented");
   assert.equal(historyCaseById(cases, "galactic-archaeology").statusKind, "implemented");
+  assert.equal(historyCaseById(cases, "material-process-history").statusKind, "implemented");
+  assert.equal(historyCaseById(cases, "ltee-evolutionary-contingency").statusKind, "implemented");
   assert.equal(historyCaseById(cases, "slsa-provenance-evidence").caseId, "slsa-provenance-evidence");
   assert.equal(historyCaseById(cases, "missing"), null);
 
@@ -45,6 +48,24 @@ test("the history portfolio is complete, stable, and status-honest", async () =>
     assert.ok(entry.outputs.length >= 4);
     assert.ok(entry.historyModes.includes(entry.primaryHistoryMode));
   }
+});
+
+test("case navigation reserves maturity status for planned work and labels available cases by effect", () => {
+  for (const entry of cases) {
+    const detail = caseNavigationDetail(entry);
+    if (entry.status === "PLANNED") {
+      assert.deepEqual(detail, { kind: "status", label: "Planned", value: "planned" });
+      continue;
+    }
+    assert.deepEqual(detail, {
+      kind: "effect",
+      label: HISTORY_EFFECTS.find(({ id }) => id === entry.primaryEffects[0]).label,
+      value: entry.primaryEffects[0]
+    });
+    assert.notEqual(detail.label.toUpperCase(), entry.statusLabel);
+  }
+  assert.throws(() => caseNavigationDetail(null), /must be an object/);
+  assert.throws(() => caseNavigationDetail({ ...cases[0], primaryEffects: [] }), /primary effect is invalid/);
 });
 
 test("hybrid cases retain multiple modes and effects", () => {
@@ -79,7 +100,9 @@ test("implemented case links select one exact registered Model Studio release", 
     ["ecological-memory", ["ecological-memory", "v1-f4d78af8ab98228a"]],
     ["legal-precedent-history", ["legal-precedent-history", "v1-05958887a4ffef41"]],
     ["clinical-trajectories", ["clinical-trajectories", "v1-2360048548115b14"]],
-    ["galactic-archaeology", ["galactic-archaeology", "v1-2f109fd8c5475426"]]
+    ["galactic-archaeology", ["galactic-archaeology", "v1-2f109fd8c5475426"]],
+    ["material-process-history", ["material-process-history", "v1-0ea3ee56fe462eea"]],
+    ["ltee-evolutionary-contingency", ["ltee-lineage-history", "v1-e4ff96341b402b13"]]
   ]);
   for (const entry of cases) {
     const url = new URL(modelStudioHref(entry, "https://onto2d.dev/project/"));
@@ -102,6 +125,7 @@ test("case pages use the shared registry renderer and expose taxonomy hooks", as
     const renderer = markup.match(/<script type="module" src="(\.\.\/external-cases\.js\?v=\d{8}\.\d+)"><\/script>/)?.[1];
     assert.ok(renderer, `${entry.caseId} is missing the cache-versioned shared renderer`);
     rendererSources.add(renderer);
+    assert.match(markup, /<strong>Mode \/ primary effect<\/strong>/);
     for (const id of [
       "case-history-modes",
       "case-effects",
