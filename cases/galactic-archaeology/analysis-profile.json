@@ -1,0 +1,71 @@
+{
+  "format": "onto2d-galactic-archaeology-analysis-profile",
+  "formatVersion": "1",
+  "profileVersion": "gaia-dr3-chemical-cartography-interpretation-v1",
+  "question": "How can present stellar traces support candidate Galactic histories without collapsing observation, derivation, classification, and interpretation?",
+  "evidenceLayers": [
+    {
+      "id": "observed",
+      "authority": "gaiadr3.gaia_source",
+      "role": "catalogue observations and reported measurement uncertainty"
+    },
+    {
+      "id": "gaia-derived",
+      "authority": "Gaia Apsis GSP-Spec",
+      "role": "stellar-parameter and chemical-abundance estimates with percentile intervals"
+    },
+    {
+      "id": "published-derived",
+      "authority": "Gaia DR3 chemical-cartography companion table",
+      "role": "orbit and action estimates with reported intervals"
+    },
+    {
+      "id": "onto2d-classified",
+      "authority": "gaia-dr3-chemical-cartography-balanced-v1",
+      "role": "deterministic rule-profile membership, not a native Gaia label"
+    },
+    {
+      "id": "publication-context",
+      "authority": "Gaia DR3 chemical-cartography paper",
+      "role": "bounded compatibility statements, not a recovered birth history"
+    }
+  ],
+  "qualityAblation": {
+    "baseline": "medium",
+    "strict": "high",
+    "baselineSourceCount": 64,
+    "strictSourceCount": 32,
+    "expectedPerProfile": {
+      "medium": 16,
+      "high": 8
+    },
+    "interpretationSurvivalRule": "A declared rule-profile pattern survives only when at least one source remains after the selected quality regime."
+  },
+  "interpretationPolicy": {
+    "status": "candidate-compatibility-only",
+    "assignmentAuthority": "Onto2D rule profile",
+    "birthOriginAllowed": false,
+    "commonAncestryAllowed": false,
+    "singleTrueFormationHistoryAllowed": false,
+    "alternativeInterpretationsAllowed": true
+  },
+  "historicalLoad": {
+    "status": "not-evaluated",
+    "value": null,
+    "reason": "No finite path space, transition cost, or history-free counterfactual baseline is declared; undefined must not be displayed as zero."
+  },
+  "nonClaims": [
+    "The 64-source cohort is not a representative census of the Milky Way.",
+    "A Gaia catalogue value is not automatically a direct instrument reading.",
+    "A Gaia Apsis estimate is not promoted to an observation.",
+    "A published orbital estimate is not promoted to a direct Gaia observation.",
+    "An Onto2D rule profile is not a Gaia population label.",
+    "A rule-profile assignment is not a recovered stellar birth site.",
+    "Chemical similarity is not proof of common ancestry.",
+    "A counter-rotating or radial orbit is not proof of accretion origin.",
+    "Missing radial velocity is retained as missing and never converted to zero.",
+    "Quality-filtered sources are absent from the strict view.",
+    "Reported percentile intervals and measurement errors are not silently discarded.",
+    "The canonical artifact never depends on a live TAP response."
+  ]
+}

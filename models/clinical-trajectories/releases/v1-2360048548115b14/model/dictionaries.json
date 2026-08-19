@@ -1,0 +1,79 @@
+{
+  "audit": {
+    "caseIdentity": "sha256:3ee8025e6790966cf8a3e66ba3ec54cb6a8032d18e2679c99e6cfaf23fa47760",
+    "causalEdges": 0,
+    "diagnosisAssertions": 0,
+    "futureInputEvents": 0,
+    "historicalLoadStatus": "not-evaluated",
+    "inventory": {
+      "availableTimelineEvents": 1981,
+      "boundedFrames": 5,
+      "focusEncounters": 5,
+      "focusIcuStays": 5,
+      "historySummaries": 5,
+      "historyWindows": 3,
+      "patients": 5,
+      "selectedFrameLabs": 20
+    },
+    "mappingVersion": "clinical-trajectories-mapping-v1",
+    "missingLabsImputed": 0,
+    "outcomePredictions": 0,
+    "prescriptionAdministrationClaims": 0,
+    "realCalendarDateClaims": 0,
+    "releaseIdentity": "sha256:2360048548115b1493e348819a7000bbd6f80a74c303569f55289c01bf399668",
+    "sourceIdentity": "sha256:1270b78cbdb30e9f93095dd01deb01a59683d043e6cd61a56b56119c1e50ad5f",
+    "sourceMutations": 0,
+    "treatmentEffectsInferred": 0,
+    "treatmentRecommendations": 0
+  },
+  "evidenceClasses": {
+    "analysis-scope": "Boundary preventing diagnosis, prognosis, treatment advice, causality, and Historical Load promotion.",
+    "bounded-selection": "Deterministic five-subject selection from the exact MIMIC-IV Demo v2.2 inputs.",
+    "declared-cutoff": "The selected latest ICU outtime used only as a shifted temporal cutoff.",
+    "declared-similarity-metric": "A descriptive four-lab normalized distance with no identity or clinical-equivalence claim.",
+    "exact-source-row": "An exact table, CSV row, and record identifier from the bounded source projection.",
+    "native-identifier-scope": "Native subject_id, hadm_id, and stay_id scope retained without cross-patient joins.",
+    "source-deidentification": "The source declares ciphered identifiers and consistently shifted dates.",
+    "source-record-counts": "Counts of selected records available at the cutoff; not clinical interpretation."
+  },
+  "presentation": {
+    "boundary": {
+      "note": "Dates are shifted, prescriptions are not administrations, missing values are not normal values, temporal order is not causation, and this model provides no diagnosis, prognosis, recommendation, or treatment-effect claim.",
+      "summary": "A bounded observation frame and its preceding records remain separate from complete patient state or clinical interpretation.",
+      "title": "Snapshot / trajectory / clinical-use boundary"
+    },
+    "coordinates": [
+      {
+        "field": "typeRole",
+        "label": "Kind"
+      },
+      {
+        "field": "evidenceStatus",
+        "label": "Evidence"
+      }
+    ],
+    "evidenceClassField": "evidenceClass",
+    "labels": {
+      "catalogTitle": "Clinical trajectory evidence",
+      "children": "Outgoing trajectory relations",
+      "parents": "Incoming trajectory relations",
+      "phaseFilter": "Evidence layer",
+      "searchPlaceholder": "Search patients, encounters, frames, labs, history summaries, and boundaries",
+      "statusFilter": "Evidence status",
+      "typeFilter": "Record kind"
+    },
+    "layerField": "phase",
+    "nodeKindField": "entityKind",
+    "profile": "clinical-trajectories-presentation-v1",
+    "relationField": "relation"
+  },
+  "provenance": {
+    "caseIdentity": "sha256:3ee8025e6790966cf8a3e66ba3ec54cb6a8032d18e2679c99e6cfaf23fa47760",
+    "cohortId": "mimic-iv-demo-clinical-trajectories-v1",
+    "doi": "10.13026/dp1f-ex47",
+    "mappingVersion": "clinical-trajectories-mapping-v1",
+    "releaseIdentity": "sha256:2360048548115b1493e348819a7000bbd6f80a74c303569f55289c01bf399668",
+    "retrievedAt": "2026-08-19T06:39:38Z",
+    "sourceIdentity": "sha256:1270b78cbdb30e9f93095dd01deb01a59683d043e6cd61a56b56119c1e50ad5f"
+  }
+}

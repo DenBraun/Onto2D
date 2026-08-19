@@ -30,8 +30,8 @@ Statuses describe repository maturity, not scientific truth.
 | Ecological Memory | Embodied | Recorded | Present State, Future | Ecology | ANALYSIS_READY |
 | Historical Linguistics | Reconstructed | Recorded | Identity | Historical linguistics | ANALYSIS_READY |
 | Legal Precedent | Recorded | Reconstructed | Future | Law | ANALYSIS_READY |
-| Clinical Trajectories | Embodied | Recorded | Present State, Future | Clinical medicine | PLANNED |
-| Galactic Archaeology | Reconstructed | Recorded | Present State | Galactic astronomy | PLANNED |
+| Clinical Trajectories | Embodied | Recorded | Present State, Future | Clinical medicine | ANALYSIS_READY |
+| Galactic Archaeology | Reconstructed | Recorded | Present State | Galactic astronomy | ANALYSIS_READY |
 
 Secondary effects remain present in the registry and website. The compact table
 shows only primary effects so that hybrid cases remain legible.
@@ -70,12 +70,15 @@ metadata, never physical ownership of a case.
    explicitly descriptive-only; LTEE remains planned.
 4. Reconstructed → Identity: Historical Linguistics and Manuscript Stemmatics
    are analysis-ready; Mineral Formation and Cell Lineage remain planned.
-5. Reconstruction from traces: Lithic Operational History and Galactic
-   Archaeology.
+5. Reconstruction from traces: Galactic Archaeology is analysis-ready with a
+   64-source Gaia DR3 cohort, five explicit evidence layers, and quality/evidence
+   ablations; Lithic Operational History remains planned.
 6. Recorded → Future: Legal Precedent is analysis-ready with a bounded
    official-date context and separately attributed treatment layer.
-7. Embodied → Present State / Future: Clinical Trajectories is the next
-   implementation target.
+7. Embodied → Present State / Future: Clinical Trajectories is analysis-ready
+   with five bounded frames and descriptive recorded-history context. It does
+   not perform future prediction or evaluate Historical Load.
 
-The priority sequence does not upgrade a `PLANNED` case. Source pinning,
-reproducible extraction, evidence review, and negative tests are still required.
+Future priorities should be selected explicitly. The portfolio currently has no
+entry marked `next`; planned cases remain plans until source pinning,
+reproducible extraction, evidence review, and negative tests are complete.

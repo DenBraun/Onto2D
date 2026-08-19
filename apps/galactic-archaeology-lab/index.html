@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="../../assets/js/document-state-reset.js" defer></script>
+    <meta name="description" content="A source-locked Gaia DR3 study separating stellar observations, derived parameters, orbit estimates, rule profiles, and candidate Galactic-history interpretations.">
+    <title>Galactic Archaeology Lab - Onto2D</title>
+    <link rel="icon" href="../../assets/icons/favicon.ico?v=20260818.1" type="image/x-icon">
+    <link rel="stylesheet" href="../../assets/css/ui-icons.css?v=20260818.1">
+    <link rel="stylesheet" href="../../assets/css/study-galactic-archaeology.css?v=20260819.1">
+    <script type="module" src="./galactic-archaeology-lab.js?v=20260819.2"></script>
+  </head>
+  <body data-state="loading">
+    <header class="history-case-header">
+      <a class="history-case-brand" href="../../" aria-label="Onto2D home"><svg viewBox="0 0 34 34" aria-hidden="true"><circle cx="7" cy="17" r="3"></circle><circle cx="27" cy="8" r="3"></circle><circle cx="27" cy="26" r="3"></circle><path d="M10 17h7m2-3 5-4m-5 10 5 4"></path></svg><span><strong>Onto2D</strong><small>History model</small></span></a>
+      <nav class="history-case-nav" aria-label="History navigation"><a href="../history-atlas/">History Atlas</a><a href="../model-studio/#model=galactic-archaeology&amp;version=v1-2f109fd8c5475426">Model Studio</a><a href="https://github.com/DenBraun/Onto2D/blob/main/docs/cases/GAIA_GALACTIC_ARCHAEOLOGY_IMPLEMENTATION.md" target="_blank" rel="noopener noreferrer">History model <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#external-link"></use></svg></a><a href="https://github.com/DenBraun/Onto2D" target="_blank" rel="noopener noreferrer">GitHub <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#external-link"></use></svg></a></nav>
+      <div class="history-case-context"><span>Galactic Archaeology</span><strong class="history-case-state"><i></i><span id="load-state" role="status" aria-live="polite">Verifying artifact</span></strong></div>
+    </header>
+
+    <main>
+      <p id="fatal-error" class="fatal-error" hidden></p>
+      <section class="hero" aria-labelledby="page-title">
+        <div class="hero-grid">
+          <div><p class="eyebrow">08 / Reconstructed + recorded history</p><h1 id="page-title">A stellar trace is evidence.<br>An origin is an interpretation.</h1><p class="hero-copy">Sixty-four Gaia DR3 sources make the full epistemic chain inspectable. Measurements, Gaia estimates, published orbit calculations, Onto2D rule profiles, and historical context remain five different things.</p></div>
+          <dl class="hero-meta"><div><dt>Source</dt><dd>Gaia DR3 / Chemical Cartography</dd></div><div><dt>Retrieved</dt><dd id="retrieved-on">Loading</dd></div><div><dt>Case identity</dt><dd id="case-identity">Loading</dd></div><div><dt>Source identity</dt><dd id="source-identity">Loading</dd></div><div><dt>Canonical build</dt><dd>Frozen bytes / no live TAP query</dd></div></dl>
+        </div>
+      </section>
+
+      <section class="claim-banner" aria-label="Interpretation boundary"><strong>CANDIDATE HISTORY ONLY</strong><p>A rule profile can be compatible with a published Galactic pattern. It does not establish a birth site, common ancestry, accretion origin, or one true formation history.</p></section>
+
+      <div class="workspace">
+        <section class="panel overview" aria-labelledby="overview-title"><div class="section-heading"><p class="section-kicker">01 / Exact bounded result</p><h2 id="overview-title">What the frozen cohort contains</h2><p>Every number comes from the verified artifact. The live Gaia archive is needed only to deliberately rebuild the pinned source projection.</p></div><div id="metric-grid" class="metric-grid"></div></section>
+
+        <section class="panel chain-study" aria-labelledby="chain-title"><div class="section-heading"><p class="section-kicker">02 / Epistemic chain</p><h2 id="chain-title">Five layers; no silent promotion</h2><p>The authority changes at every step. Following the arrows means adding a model or interpretation, not revealing progressively more direct facts.</p></div><div id="pipeline" class="pipeline"></div></section>
+
+        <section class="orbit-study" aria-labelledby="orbit-title">
+          <div class="orbit-heading"><div><p class="section-kicker">03 / Chemo-kinematic cohort</p><h2 id="orbit-title">Present-day orbit space</h2><p>Each point is one stellar source. Position uses a published orbital estimate; colour is an Onto2D rule profile. Choose a quality regime to see what survives Appendix B filtering.</p></div><div class="control-stack"><div id="quality-controls" class="choice-controls" role="group" aria-label="Quality regime"></div><div id="profile-controls" class="choice-controls compact" role="group" aria-label="Rule profile"></div></div></div>
+          <div class="orbit-layout">
+            <article class="plot-panel"><div class="plot-title"><strong>Azimuthal velocity x eccentricity</strong><span>PUBLISHED-DERIVED</span></div><canvas id="orbit-canvas" width="1000" height="590" role="img" aria-label="Scatter plot of published azimuthal velocity against orbital eccentricity for the selected Gaia cohort"></canvas><div id="orbit-legend" class="orbit-legend"></div><p id="orbit-readout" class="orbit-readout" aria-live="polite">Loading cohort.</p></article>
+            <aside class="source-browser"><header><span>SELECTED SOURCES</span><strong id="source-count">0 visible</strong></header><div id="source-list" class="source-list"></div><div id="source-inspector" class="source-inspector" aria-live="polite"></div></aside>
+          </div>
+        </section>
+
+        <section class="panel quality-study" aria-labelledby="quality-title"><div class="section-heading"><p class="section-kicker">04 / Quality ablation</p><h2 id="quality-title">Half the cohort leaves; all four patterns remain</h2><p>Medium is the 64-source baseline. High keeps 32. Persistence means only that each declared rule profile still has members; the medians move and no origin claim is strengthened automatically.</p></div><div id="quality-grid" class="quality-grid"></div></section>
+
+        <section class="evidence-study" aria-labelledby="evidence-title"><div><p class="section-kicker">05 / Evidence ablation</p><h2 id="evidence-title">Where the historical reading becomes permissible</h2><p>Advance one evidence layer at a time. Classification is withheld until chemistry and orbit estimates coexist; historical compatibility is withheld until publication context is present.</p><div id="evidence-controls" class="evidence-controls" role="group" aria-label="Visible evidence depth"></div></div><article id="evidence-result" class="evidence-result" aria-live="polite"></article></section>
+
+        <section class="panel interpretation-study" aria-labelledby="interpretation-title"><div class="section-heading"><p class="section-kicker">06 / Candidate interpretations</p><h2 id="interpretation-title">Compatibility is the result - not recovered origin</h2><p>These statements are deliberately asymmetrical: they summarize how the bounded present-day pattern can be read, while preserving alternative formation channels.</p></div><div id="interpretation-grid" class="interpretation-grid"></div></section>
+
+        <section class="load-boundary" aria-labelledby="load-title"><div><p class="section-kicker">07 / Historical Load</p><h2 id="load-title">Not evaluated is the result</h2><p id="load-reason"></p></div><div class="undefined-value"><strong>&mdash;</strong><span>NOT EVALUATED</span><small><code>null</code>, not zero</small></div></section>
+
+        <section class="panel boundary" aria-labelledby="boundary-title"><div class="section-heading"><p class="section-kicker">08 / Reading discipline</p><h2 id="boundary-title">What this release refuses to infer</h2></div><div class="boundary-grid"><article><span>OBSERVED</span><h3>Catalogue values</h3><p>Reported measurements keep their uncertainties. They do not absorb downstream orbit or population meaning.</p></article><article><span>ESTIMATED</span><h3>Parameters and orbits</h3><p>Gaia Apsis and the paper companion table remain separately attributed derived layers.</p></article><article><span>CLASSIFIED</span><h3>Rule profiles</h3><p>The four cohort names are Onto2D selection rules, not native Gaia population labels.</p></article><article><span>COMPATIBLE</span><h3>Historical context</h3><p>Radial or counter-rotating patterns can fit several histories; they do not prove accretion.</p></article><article><span>UNKNOWN</span><h3>Birth and ancestry</h3><p>No birth site, common ancestry, or unique formation route is produced for any source.</p></article></div><div class="source-links"><a href="https://gea.esac.esa.int/archive/documentation/GDR3/" target="_blank" rel="noopener noreferrer">Gaia DR3 documentation <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#external-link"></use></svg></a><a href="https://doi.org/10.1051/0004-6361/202243511" target="_blank" rel="noopener noreferrer">Chemical Cartography paper <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#external-link"></use></svg></a><a href="https://github.com/DenBraun/Onto2D/tree/main/cases/galactic-archaeology" target="_blank" rel="noopener noreferrer">Pinned case files <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#external-link"></use></svg></a></div></section>
+      </div>
+    </main>
+    <footer class="study-footer">64 Gaia DR3 sources / 33 exact ADQL queries / 32 High-quality survivors / zero birth-origin or ancestry claims.</footer>
+  </body>
+</html>

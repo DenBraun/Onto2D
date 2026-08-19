@@ -95,6 +95,16 @@ const legalApp = read("apps/legal-precedent-history-lab/legal-precedent-history-
 const legalModel = read("apps/legal-precedent-history-lab/legal-precedent-model.js");
 const legalStyles = read("assets/css/study-legal-precedent.css");
 const legalArtifact = read("cases/legal-precedent-history/artifacts/legal-precedent-history.json");
+const clinicalMarkup = read("apps/clinical-trajectory-lab/index.html");
+const clinicalApp = read("apps/clinical-trajectory-lab/clinical-trajectory-lab.js");
+const clinicalModel = read("apps/clinical-trajectory-lab/clinical-trajectory-model.js");
+const clinicalStyles = read("assets/css/study-clinical-trajectories.css");
+const clinicalArtifact = read("cases/clinical-trajectories/artifacts/clinical-trajectories.json");
+const galacticMarkup = read("apps/galactic-archaeology-lab/index.html");
+const galacticApp = read("apps/galactic-archaeology-lab/galactic-archaeology-lab.js");
+const galacticModel = read("apps/galactic-archaeology-lab/galactic-archaeology-model.js");
+const galacticStyles = read("assets/css/study-galactic-archaeology.css");
+const galacticArtifact = read("cases/galactic-archaeology/artifacts/galactic-archaeology.json");
 const historyCasePageMarkups = historyCaseRegistry.cases.map((entry) => read(`${entry.casePagePath}index.html`));
 const modelPackWorker = read("assets/js/model-pack-worker.js");
 const siteServer = read("apps/historical-load-explorer/serve.mjs");
@@ -120,6 +130,8 @@ const publicDirectories = [
   "apps/operational-aging-lab",
   "apps/ecological-memory-lab",
   "apps/legal-precedent-history-lab",
+  "apps/clinical-trajectory-lab",
+  "apps/galactic-archaeology-lab",
   "apps/history-atlas",
   "apps/external-cases",
   ...historyCaseRegistry.cases.map((entry) => entry.casePagePath.replace(/\/$/, ""))
@@ -146,6 +158,8 @@ const publicFiles = [
   "assets/css/study-operational-aging.css",
   "assets/css/study-ecological-memory.css",
   "assets/css/study-legal-precedent.css",
+  "assets/css/study-clinical-trajectories.css",
+  "assets/css/study-galactic-archaeology.css",
   "assets/css/external-cases.css",
   "assets/css/history-case-header.css",
   "assets/css/history-atlas.css",
@@ -168,6 +182,8 @@ const publicFiles = [
   "cases/operational-aging/artifacts/operational-aging.json",
   "cases/ecological-memory/artifacts/ecological-memory.json",
   "cases/legal-precedent-history/artifacts/legal-precedent-history.json",
+  "cases/clinical-trajectories/artifacts/clinical-trajectories.json",
+  "cases/galactic-archaeology/artifacts/galactic-archaeology.json",
   ...publicDirectories.flatMap((directory) => readdirSync(
     new URL(`../../${directory}/`, import.meta.url)
   ).filter((name) => /\.(?:css|html|js|json|md|mjs)$/.test(name)).map((name) => `${directory}/${name}`))
@@ -249,6 +265,8 @@ test("all History case surfaces share one header component and navigation layout
     operationalMarkup,
     ecologicalMarkup,
     legalMarkup,
+    clinicalMarkup,
+    galacticMarkup,
     ...historyCasePageMarkups
   ];
   for (const markup of surfaces) {
@@ -263,10 +281,10 @@ test("all History case surfaces share one header component and navigation layout
   }
   assert.match(historyCaseHeaderStyles, /grid-template-columns:\s*minmax\(190px, 1fr\) auto minmax\(190px, 1fr\)/);
   assert.match(historyCaseHeaderStyles, /@media \(max-width: 700px\)/);
-  for (const styles of [externalCasesStyles, bootstrapStyles, gitHistoryStyles, nixStyles, ociStyles, inTotoStyles, chemicalStyles, buildEquivalenceStyles, artworkStyles, languageStyles, manuscriptStyles, operationalStyles, ecologicalStyles, legalStyles]) {
+  for (const styles of [externalCasesStyles, bootstrapStyles, gitHistoryStyles, nixStyles, ociStyles, inTotoStyles, chemicalStyles, buildEquivalenceStyles, artworkStyles, languageStyles, manuscriptStyles, operationalStyles, ecologicalStyles, legalStyles, clinicalStyles, galacticStyles]) {
     assert.match(styles, /@import url\("\.\/history-case-header\.css\?v=20260818\.2"\);/);
   }
-  for (const markup of [chemicalMarkup, buildEquivalenceMarkup, artworkMarkup, languageMarkup, manuscriptMarkup, operationalMarkup, ecologicalMarkup, legalMarkup]) {
+  for (const markup of [chemicalMarkup, buildEquivalenceMarkup, artworkMarkup, languageMarkup, manuscriptMarkup, operationalMarkup, ecologicalMarkup, legalMarkup, clinicalMarkup, galacticMarkup]) {
     assert.match(markup, /<div class="history-case-context"><span>[^<]+<\/span><strong class="history-case-state"><i><\/i><span id="load-state" role="status" aria-live="polite">Verifying artifact<\/span><\/strong><\/div>/);
   }
 });
@@ -284,6 +302,8 @@ test("case-aware Model Studio links select the exact registered release", () => 
   assert.match(operationalMarkup, /model-studio\/#model=operational-aging&amp;version=v1-6b1c3008c8edc901/);
   assert.match(ecologicalMarkup, /model-studio\/#model=ecological-memory&amp;version=v1-f4d78af8ab98228a/);
   assert.match(legalMarkup, /model-studio\/#model=legal-precedent-history&amp;version=v1-05958887a4ffef41/);
+  assert.match(clinicalMarkup, /model-studio\/#model=clinical-trajectories&amp;version=v1-2360048548115b14/);
+  assert.match(galacticMarkup, /model-studio\/#model=galactic-archaeology&amp;version=v1-2f109fd8c5475426/);
   assert.match(externalCasesApp, /studio\.href = modelStudioHref\(entry, PROJECT_ROOT\)/);
   assert.match(externalCasesApp, /studioNavigation\.href = modelStudioHref\(entry, PROJECT_ROOT\)/);
   assert.match(externalCasesCatalog, /url\.hash = new URLSearchParams\(\{ model: entry\.modelId, version: entry\.modelVersion \}\)\.toString\(\)/);
@@ -580,6 +600,56 @@ test("Legal Precedent History Lab separates citation, attributed treatment, and 
   assert.equal(modelRevision, appRevision);
 });
 
+test("Clinical Trajectory Lab separates bounded frames, recorded history, and clinical meaning", () => {
+  assert.match(clinicalApp, /cases\/clinical-trajectories\/artifacts\/clinical-trajectories\.json/);
+  assert.match(clinicalApp, /createClinicalTrajectoryModel/);
+  assert.match(clinicalApp, /crypto\.subtle\.digest\("SHA-256"/);
+  assert.match(clinicalApp, /cache: "no-store"/);
+  assert.match(clinicalApp, /redirect: "error"/);
+  assert.match(clinicalApp, /MAX_ARTIFACT_BYTES/);
+  assert.doesNotMatch(clinicalApp, /const URL = new URL\(/);
+  assert.match(clinicalModel, /timeline boundary differs/);
+  assert.match(clinicalModel, /similar-frame boundary differs/);
+  assert.match(clinicalModel, /clinical safety boundary differs/);
+  assert.match(clinicalModel, /Historical Load boundary differs/);
+  assert.match(clinicalMarkup, /A snapshot is a window,[\s\S]*not the patient\./);
+  assert.match(clinicalMarkup, /P04 and P05 are nearest only under one declared metric/);
+  assert.match(clinicalMarkup, /Undefined is the result/);
+  assert.match(clinicalMarkup, /RESEARCH DATA-MODEL ONLY/);
+  for (const id of ["metric-grid", "patient-controls", "frame-labs", "frame-facts", "history-metrics", "history-windows", "event-controls", "event-list", "event-inspector", "comparison-distance", "comparison-frames", "comparison-history", "source-inventory", "load-reason"]) assert.match(clinicalMarkup, new RegExp(`id=["']${id}["']`), `missing #${id}`);
+  const pinnedDigest = clinicalApp.match(/ARTIFACT_SHA256 = "([a-f0-9]{64})"/)?.[1];
+  assert.equal(pinnedDigest, createHash("sha256").update(clinicalArtifact).digest("hex"));
+  const appRevision = clinicalMarkup.match(/clinical-trajectory-lab\.js\?v=([^"']+)/)?.[1];
+  const modelRevision = clinicalApp.match(/clinical-trajectory-model\.js\?v=([^"']+)/)?.[1];
+  assert.equal(modelRevision, appRevision);
+});
+
+test("Galactic Archaeology Lab separates observation, derivation, classification, and historical interpretation", () => {
+  assert.match(galacticApp, /cases\/galactic-archaeology\/artifacts\/galactic-archaeology\.json/);
+  assert.match(galacticApp, /createGalacticArchaeologyModel/);
+  assert.match(galacticApp, /crypto\.subtle\.digest\("SHA-256"/);
+  assert.match(galacticApp, /cache: "no-store"/);
+  assert.match(galacticApp, /redirect: "error"/);
+  assert.match(galacticApp, /MAX_ARTIFACT_BYTES/);
+  assert.doesNotMatch(galacticApp, /const URL = new URL\(/);
+  assert.match(galacticApp, /replaceChildren\(\.\.\.records\.map/);
+  assert.doesNotMatch(galacticApp, /records\.slice\(0,\s*16\)/);
+  assert.match(galacticModel, /quality\/profile balance differs/);
+  assert.match(galacticModel, /historical interpretation boundary differs/);
+  assert.match(galacticModel, /Historical Load boundary differs/);
+  assert.match(galacticMarkup, /A stellar trace is evidence\.[\s\S]*An origin is an interpretation\./);
+  assert.match(galacticMarkup, /Half the cohort leaves; all four patterns remain/);
+  assert.match(galacticMarkup, /Compatibility is the result - not recovered origin/);
+  assert.match(galacticMarkup, /Not evaluated is the result/);
+  assert.match(galacticMarkup, /CANDIDATE HISTORY ONLY/);
+  for (const id of ["metric-grid", "pipeline", "quality-controls", "profile-controls", "orbit-canvas", "orbit-legend", "orbit-readout", "source-list", "source-inspector", "quality-grid", "evidence-controls", "evidence-result", "interpretation-grid", "load-reason"]) assert.match(galacticMarkup, new RegExp(`id=["']${id}["']`), `missing #${id}`);
+  const pinnedDigest = galacticApp.match(/ARTIFACT_SHA256 = "([a-f0-9]{64})"/)?.[1];
+  assert.equal(pinnedDigest, createHash("sha256").update(galacticArtifact).digest("hex"));
+  const appRevision = galacticMarkup.match(/galactic-archaeology-lab\.js\?v=([^"']+)/)?.[1];
+  const modelRevision = galacticApp.match(/galactic-archaeology-model\.js\?v=([^"']+)/)?.[1];
+  assert.equal(modelRevision, appRevision);
+});
+
 test("Git History Identity Lab verifies one immutable artifact across four regimes", () => {
   assert.match(gitHistoryApp, /cases\/git-history-identity\/artifacts\/history-identity\.json/);
   assert.match(gitHistoryApp, /createGitHistoryModel/);
@@ -693,7 +763,7 @@ test("Model Studio fully verifies the real pack before using the shared view lay
   assert.match(studioApp, /MODEL_PACK_CACHE_STORAGE_/);
   assert.match(studioApp, /dataset\.cache = "unavailable"/);
   assert.match(studioApp, /"Cached model verified"/);
-  assert.match(studioApp, /sha256:9efdefe85d888b4da148d9b95d6fc6706e4f88bd99913e71ba53dc7b5355e45e/);
+  assert.match(studioApp, /sha256:e28dde8ef079b04c5c3698d2875cde2a66a84b9514798a64d4863203c106c89c/);
   assert.match(studioApp, /new Worker\(MODEL_PACK_WORKER_URL, \{/);
   assert.match(studioApp, /type: "module"/);
   assert.match(studioApp, /ownsWorker: true/);
@@ -983,6 +1053,16 @@ test("Ecological Memory Lab keeps interface text at the readable minimum", () =>
 test("Legal Precedent History Lab keeps interface text at the readable minimum", () => {
   assertReadableInterfaceText(legalStyles, "Legal Precedent History Lab");
   assert.doesNotMatch(legalStyles, /https?:\/\//);
+});
+
+test("Clinical Trajectory Lab keeps interface text at the readable minimum", () => {
+  assertReadableInterfaceText(clinicalStyles, "Clinical Trajectory Lab");
+  assert.doesNotMatch(clinicalStyles, /https?:\/\//);
+});
+
+test("Galactic Archaeology Lab keeps interface text at the readable minimum", () => {
+  assertReadableInterfaceText(galacticStyles, "Galactic Archaeology Lab");
+  assert.doesNotMatch(galacticStyles, /https?:\/\//);
 });
 
 test("graph sidebars keep machine fields on bounded single lines", () => {

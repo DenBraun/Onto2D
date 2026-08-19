@@ -1,0 +1,716 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.example/schemas/clinical-trajectories.schema.json",
+  "title": "Onto2D Clinical Trajectories case artifact",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "format",
+    "formatVersion",
+    "caseVersion",
+    "source",
+    "methodology",
+    "cohort",
+    "frames",
+    "histories",
+    "timelines",
+    "similarFrameComparison",
+    "audit",
+    "historicalLoad",
+    "nonClaims",
+    "disclaimer",
+    "caseIdentity"
+  ],
+  "properties": {
+    "format": {
+      "const": "onto2d-clinical-trajectories-case"
+    },
+    "formatVersion": {
+      "const": "1"
+    },
+    "caseVersion": {
+      "const": "mimic-iv-demo-clinical-trajectories-v1"
+    },
+    "source": {
+      "type": "object",
+      "required": [
+        "identity",
+        "authoredFiles",
+        "snapshotFiles",
+        "provider"
+      ],
+      "properties": {
+        "identity": {
+          "$ref": "#/$defs/identity"
+        },
+        "authoredFiles": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": { "$ref": "#/$defs/file" }
+        },
+        "snapshotFiles": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "items": { "$ref": "#/$defs/file" }
+        },
+        "provider": {
+          "type": "object",
+          "required": [
+            "name",
+            "version",
+            "publisher",
+            "doi",
+            "landingPage",
+            "license",
+            "licenseUrl",
+            "retrievedAt",
+            "deidentificationBoundary"
+          ],
+          "properties": {
+            "name": {
+              "const": "MIMIC-IV Clinical Database Demo"
+            },
+            "version": {
+              "const": "2.2"
+            },
+            "publisher": {
+              "const": "PhysioNet"
+            },
+            "doi": {
+              "const": "10.13026/dp1f-ex47"
+            },
+            "landingPage": {
+              "type": "string",
+              "pattern": "^https://"
+            },
+            "license": {
+              "const": "Open Data Commons Open Database License v1.0"
+            },
+            "licenseUrl": {
+              "type": "string",
+              "pattern": "^https://"
+            },
+            "retrievedAt": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "deidentificationBoundary": {
+              "type": "string",
+              "minLength": 40
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "methodology": {
+      "type": "object",
+      "required": [
+        "frameLabel",
+        "cutoffAuthority",
+        "lookbackHours",
+        "labSelection",
+        "prescriptionSelection",
+        "prescriptionSemantics",
+        "similarityStatus",
+        "similarityMetric",
+        "missingnessRule",
+        "shiftedDateSemantics"
+      ],
+      "properties": {
+        "frameLabel": {
+          "const": "bounded observation frame"
+        },
+        "cutoffAuthority": {
+          "const": "latest selected ICU outtime"
+        },
+        "lookbackHours": {
+          "const": 24
+        },
+        "labSelection": {
+          "type": "string",
+          "minLength": 30
+        },
+        "prescriptionSelection": {
+          "type": "string",
+          "minLength": 30
+        },
+        "prescriptionSemantics": {
+          "type": "string",
+          "minLength": 30
+        },
+        "similarityStatus": {
+          "const": "descriptive-only"
+        },
+        "similarityMetric": {
+          "const": "mean normalized absolute difference"
+        },
+        "missingnessRule": {
+          "type": "string",
+          "minLength": 30
+        },
+        "shiftedDateSemantics": {
+          "type": "string",
+          "minLength": 40
+        }
+      },
+      "additionalProperties": false
+    },
+    "cohort": {
+      "type": "object",
+      "required": [
+        "id",
+        "patientCount",
+        "completePopulationClaim",
+        "selectionRule",
+        "patients"
+      ],
+      "properties": {
+        "id": {
+          "const": "mimic-iv-demo-clinical-trajectories-v1"
+        },
+        "patientCount": {
+          "const": 5
+        },
+        "completePopulationClaim": {
+          "const": false
+        },
+        "selectionRule": {
+          "type": "string",
+          "minLength": 50
+        },
+        "patients": {
+          "type": "array",
+          "minItems": 5,
+          "maxItems": 5,
+          "items": {
+            "$ref": "#/$defs/patient"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "frames": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": {
+        "$ref": "#/$defs/frame"
+      }
+    },
+    "histories": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": {
+        "$ref": "#/$defs/history"
+      }
+    },
+    "timelines": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": {
+        "$ref": "#/$defs/timeline"
+      }
+    },
+    "similarFrameComparison": {
+      "type": "object",
+      "required": [
+        "status",
+        "metric",
+        "scales",
+        "leftAlias",
+        "rightAlias",
+        "distance",
+        "historyDiffers",
+        "comparedHistoryFields",
+        "samePatientIdentity",
+        "clinicalEquivalenceClaim",
+        "clinicalConclusion"
+      ],
+      "properties": {
+        "status": {
+          "const": "descriptive-only"
+        },
+        "metric": {
+          "const": "mean normalized absolute difference"
+        },
+        "scales": {
+          "type": "object",
+          "required": ["50912", "50971", "50983", "51222"],
+          "properties": {
+            "50912": { "type": "number", "exclusiveMinimum": 0 },
+            "50971": { "type": "number", "exclusiveMinimum": 0 },
+            "50983": { "type": "number", "exclusiveMinimum": 0 },
+            "51222": { "type": "number", "exclusiveMinimum": 0 }
+          },
+          "additionalProperties": false
+        },
+        "leftAlias": {
+          "const": "P04"
+        },
+        "rightAlias": {
+          "const": "P05"
+        },
+        "distance": {
+          "const": 0.09
+        },
+        "historyDiffers": {
+          "const": true
+        },
+        "comparedHistoryFields": {
+          "const": ["priorAdmissionCount", "priorIcuStayCount", "procedureRecordCountAtCutoff", "prescriptionRecordCountAtCutoff", "abnormalFlaggedSelectedLabCountAtCutoff"]
+        },
+        "samePatientIdentity": {
+          "const": false
+        },
+        "clinicalEquivalenceClaim": {
+          "const": false
+        },
+        "clinicalConclusion": {
+          "type": "null"
+        }
+      },
+      "additionalProperties": false
+    },
+    "audit": {
+      "type": "object",
+      "required": [
+        "patientCount",
+        "sourceAdmissionRecords",
+        "sourceTransferRecords",
+        "sourceIcuStayRecords",
+        "sourceSelectedLabRecords",
+        "sourcePrescriptionRecords",
+        "sourceProcedureRecords",
+        "futureEventsInFrames",
+        "missingLabsImputed",
+        "diagnosisAssertions",
+        "treatmentRecommendations",
+        "outcomePredictions",
+        "treatmentEffectsInferred",
+        "causalRelationsInferred",
+        "realCalendarDateClaims",
+        "sourceMutations"
+      ],
+      "properties": {
+        "patientCount": {
+          "const": 5
+        },
+        "sourceAdmissionRecords": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "sourceTransferRecords": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "sourceIcuStayRecords": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "sourceSelectedLabRecords": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "sourcePrescriptionRecords": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "sourceProcedureRecords": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "futureEventsInFrames": {
+          "const": 0
+        },
+        "missingLabsImputed": {
+          "const": 0
+        },
+        "diagnosisAssertions": {
+          "const": 0
+        },
+        "treatmentRecommendations": {
+          "const": 0
+        },
+        "outcomePredictions": {
+          "const": 0
+        },
+        "treatmentEffectsInferred": {
+          "const": 0
+        },
+        "causalRelationsInferred": {
+          "const": 0
+        },
+        "realCalendarDateClaims": {
+          "const": 0
+        },
+        "sourceMutations": {
+          "const": 0
+        }
+      },
+      "additionalProperties": false
+    },
+    "historicalLoad": {
+      "type": "object",
+      "required": [
+        "status",
+        "value",
+        "reason"
+      ],
+      "properties": {
+        "status": {
+          "const": "not-evaluated"
+        },
+        "value": {
+          "type": "null"
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 30
+        }
+      },
+      "additionalProperties": false
+    },
+    "nonClaims": {
+      "type": "array",
+      "minItems": 12,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 10
+      }
+    },
+    "disclaimer": {
+      "type": "string",
+      "minLength": 50
+    },
+    "caseIdentity": {
+      "$ref": "#/$defs/identity"
+    }
+  },
+  "$defs": {
+    "identity": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "file": {
+      "type": "object",
+      "required": ["role", "path", "identity", "bytes"],
+      "properties": {
+        "role": { "enum": ["upstream-lock", "analysis-profile", "projection-generator", "bounded-source-projection"] },
+        "path": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._/-]*$" },
+        "identity": { "$ref": "#/$defs/identity" },
+        "bytes": { "type": "integer", "minimum": 1 }
+      },
+      "additionalProperties": false
+    },
+    "alias": {
+      "type": "string",
+      "enum": [
+        "P01",
+        "P02",
+        "P03",
+        "P04",
+        "P05"
+      ]
+    },
+    "patient": {
+      "type": "object",
+      "required": [
+        "alias",
+        "sourceSubjectId",
+        "focusEncounterId",
+        "focusStayId",
+        "cutoff",
+        "identifierState",
+        "displayedDateState"
+      ],
+      "properties": {
+        "alias": {
+          "$ref": "#/$defs/alias"
+        },
+        "sourceSubjectId": {
+          "type": "string",
+          "pattern": "^[0-9]{8}$"
+        },
+        "focusEncounterId": {
+          "type": "string",
+          "pattern": "^[0-9]{8}$"
+        },
+        "focusStayId": {
+          "type": "string",
+          "pattern": "^[0-9]{8}$"
+        },
+        "cutoff": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "identifierState": {
+          "const": "source-deidentified"
+        },
+        "displayedDateState": {
+          "const": "source-shifted"
+        }
+      },
+      "additionalProperties": false
+    },
+    "timestamp": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}$"
+    },
+    "sourceLocator": {
+      "type": "object",
+      "required": [
+        "table",
+        "row",
+        "recordId"
+      ],
+      "properties": {
+        "table": {
+          "type": "string",
+          "pattern": "^(hosp|icu)/[a-z_]+\\.csv\\.gz$"
+        },
+        "row": {
+          "type": "integer",
+          "minimum": 2
+        },
+        "recordId": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "lab": {
+      "type": "object",
+      "required": [
+        "itemId",
+        "label",
+        "value",
+        "unit",
+        "sourceFlag",
+        "timestamp",
+        "missing",
+        "source"
+      ],
+      "properties": {
+        "itemId": {
+          "enum": [
+            "50912",
+            "50971",
+            "50983",
+            "51222"
+          ]
+        },
+        "label": { "type": "string", "minLength": 1 },
+        "value": {
+          "type": "number"
+        },
+        "unit": { "type": "string", "minLength": 1 },
+        "sourceFlag": { "type": ["string", "null"] },
+        "timestamp": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "missing": {
+          "const": false
+        },
+        "source": {
+          "$ref": "#/$defs/sourceLocator"
+        }
+      },
+      "additionalProperties": false
+    },
+    "frame": {
+      "type": "object",
+      "required": [
+        "alias",
+        "sourceSubjectId",
+        "focusEncounterId",
+        "focusStayId",
+        "cutoff",
+        "lookbackHours",
+        "careunit",
+        "labs",
+        "overlappingPrescriptionRecordCount",
+        "identity",
+        "label",
+        "cutoffIsShifted",
+        "completePatientState",
+        "prescriptionSemantics"
+      ],
+      "properties": {
+        "alias": {
+          "$ref": "#/$defs/alias"
+        },
+        "sourceSubjectId": { "type": "string", "pattern": "^[0-9]{8}$" },
+        "focusEncounterId": { "type": "string", "pattern": "^[0-9]{8}$" },
+        "focusStayId": { "type": "string", "pattern": "^[0-9]{8}$" },
+        "cutoff": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "lookbackHours": {
+          "const": 24
+        },
+        "careunit": { "type": "string", "minLength": 1 },
+        "labs": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "items": {
+            "$ref": "#/$defs/lab"
+          }
+        },
+        "identity": {
+          "$ref": "#/$defs/identity"
+        },
+        "overlappingPrescriptionRecordCount": { "type": "integer", "minimum": 0 },
+        "label": {
+          "const": "bounded observation frame"
+        },
+        "cutoffIsShifted": {
+          "const": true
+        },
+        "completePatientState": {
+          "const": false
+        },
+        "prescriptionSemantics": {
+          "type": "string",
+          "pattern": "not medication administration"
+        }
+      },
+      "additionalProperties": false
+    },
+    "history": {
+      "type": "object",
+      "required": [
+        "alias",
+        "priorAdmissionCount",
+        "priorIcuStayCount",
+        "procedureRecordCountAtCutoff",
+        "prescriptionRecordCountAtCutoff",
+        "abnormalFlaggedSelectedLabCountAtCutoff",
+        "timelineEventCount",
+        "futureSourceEventCount",
+        "windows",
+        "interpretation",
+        "causalClaim"
+      ],
+      "properties": {
+        "alias": {
+          "$ref": "#/$defs/alias"
+        },
+        "priorAdmissionCount": { "type": "integer", "minimum": 0 },
+        "priorIcuStayCount": { "type": "integer", "minimum": 0 },
+        "procedureRecordCountAtCutoff": { "type": "integer", "minimum": 0 },
+        "prescriptionRecordCountAtCutoff": { "type": "integer", "minimum": 0 },
+        "abnormalFlaggedSelectedLabCountAtCutoff": { "type": "integer", "minimum": 0 },
+        "timelineEventCount": { "type": "integer", "minimum": 1 },
+        "futureSourceEventCount": { "type": "integer", "minimum": 0 },
+        "windows": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": { "$ref": "#/$defs/historyWindow" }
+        },
+        "interpretation": {
+          "const": "record-count context only"
+        },
+        "causalClaim": {
+          "const": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "historyWindow": {
+      "type": "object",
+      "required": ["id", "label", "eventCount"],
+      "properties": {
+        "id": { "enum": ["current-frame", "focus-admission", "available-demo"] },
+        "label": { "type": "string", "minLength": 5 },
+        "eventCount": { "type": "integer", "minimum": 0 }
+      },
+      "additionalProperties": false
+    },
+    "event": {
+      "type": "object",
+      "required": [
+        "id",
+        "timestamp",
+        "shiftedTimestamp",
+        "kind",
+        "label",
+        "evidenceState",
+        "source",
+        "clinicalInterpretation",
+        "causalClaim"
+      ],
+      "properties": {
+        "id": { "type": "string", "minLength": 5 },
+        "timestamp": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "shiftedTimestamp": {
+          "const": true
+        },
+        "kind": { "enum": ["admission-start", "admission-end", "transfer", "icu-start", "icu-end", "lab-record", "prescription-record-start", "prescription-record-stop", "procedure-code-record"] },
+        "label": { "type": "string", "minLength": 5 },
+        "evidenceState": {
+          "const": "source-recorded"
+        },
+        "source": {
+          "$ref": "#/$defs/sourceLocator"
+        },
+        "clinicalInterpretation": {
+          "type": "null"
+        },
+        "causalClaim": {
+          "const": false
+        },
+        "hadmId": { "type": ["string", "null"], "pattern": "^[0-9]{8}$" },
+        "careunit": { "type": ["string", "null"] },
+        "stayId": { "type": "string", "pattern": "^[0-9]{8}$" },
+        "itemId": { "enum": ["50912", "50971", "50983", "51222"] },
+        "value": { "type": "number" },
+        "unit": { "type": ["string", "null"] },
+        "sourceFlag": { "type": ["string", "null"] },
+        "pharmacyId": { "type": "string", "minLength": 1 },
+        "administrationClaim": { "const": false },
+        "codeSemantics": { "const": "recorded-code-only" }
+      },
+      "additionalProperties": false
+    },
+    "timeline": {
+      "type": "object",
+      "required": [
+        "alias",
+        "cutoff",
+        "futureSourceEventCount",
+        "events"
+      ],
+      "properties": {
+        "alias": {
+          "$ref": "#/$defs/alias"
+        },
+        "cutoff": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "futureSourceEventCount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "events": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/event"
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

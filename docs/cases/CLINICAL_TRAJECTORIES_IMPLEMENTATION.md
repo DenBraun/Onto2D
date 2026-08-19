@@ -1,6 +1,8 @@
-# Clinical Trajectories — Implementation Plan
+# Clinical Trajectories — Implementation
 
-Updated: 2026-08-18
+Updated: 2026-08-19
+
+Status: `ANALYSIS_READY`
 
 ## History Model Metadata
 
@@ -55,6 +57,38 @@ procedures, and disease course may remain relevant to the present.
 
 The first implementation must remain descriptive.
 
+## Implemented Release
+
+The release uses a deterministic five-subject projection from the open
+MIMIC-IV Demo v2.2. Selection takes the first five ascending deidentified
+`subject_id` values that have at least two admissions, one ICU stay, one
+procedure record, one prescription record, and all four declared numeric labs
+in the 24 hours ending at the latest ICU `outtime`.
+
+```text
+patients:                     5
+selected native records:     1,766
+cutoff-safe timeline events: 1,981
+bounded frames:               5
+future events admitted:       0
+clinical predictions:         0
+```
+
+The selected aliases and exact focus scopes are:
+
+| Alias | `subject_id` | `hadm_id` | `stay_id` |
+|---|---:|---:|---:|
+| P01 | 10001217 | 27703517 | 34592300 |
+| P02 | 10002428 | 23473524 | 35479615 |
+| P03 | 10004235 | 24181354 | 34100191 |
+| P04 | 10004457 | 23251352 | 31494479 |
+| P05 | 10005348 | 25239799 | 34629895 |
+
+The committed source projection is 638,323 bytes with SHA-256
+`a8b4e28a9657f595f02620266cf9c5e1278188439e3564c93b07a7c92a8d076b`.
+The resulting case identity is
+`sha256:3ee8025e6790966cf8a3e66ba3ec54cb6a8032d18e2679c99e6cfaf23fa47760`.
+
 ## Primary External Source
 
 Open MIMIC-IV Clinical Database Demo v2.2:
@@ -75,6 +109,55 @@ https://physionet.org/content/mimic-iv-demo-meds/
 ```
 
 Do not require credentialed full MIMIC-IV for the first reproducible case.
+
+Eight compressed upstream files are locked to the SHA-256 values published by
+PhysioNet. The source projection and all derived releases rebuild offline.
+
+## Canonical Result
+
+Each alias has two deliberately separate views at the same shifted cutoff:
+
+- a 24-hour bounded frame containing the latest numeric creatinine, potassium,
+  sodium, and hemoglobin record;
+- the selected admission, transfer, ICU, lab, prescription, and procedure-code
+  records available before that cutoff.
+
+P04 and P05 are the nearest complete pair in this five-frame cohort under the
+declared metric. Their distance is `0.09`, calculated as the mean normalized
+absolute difference across the four labs with fixed scales `1`, `1`, `10`, and
+`5`, respectively. This value only says that these four observations are close
+under that one projection. It does not establish patient identity, clinical
+equivalence, diagnosis, causation, treatment effect, or a future outcome. Their
+record-count histories differ, which is the precise representation result the
+case exposes.
+
+Historical Load remains `null` / not evaluated. The case declares no finite
+clinically meaningful path space, cost function, or history-free baseline, so
+displaying zero would be a false result.
+
+## Reproducibility
+
+```sh
+python3 cases/clinical-trajectories/prepare-source.py \
+  /path/to/mimic-iv-clinical-database-demo-2.2 \
+  cases/clinical-trajectories/source/mimic-iv-demo-cohort.json
+npm run case:clinical-trajectories:verify
+npm run model:clinical-trajectories:verify
+```
+
+The exact Model Pack release is `clinical-trajectories@v1-2360048548115b14`:
+
+```text
+nodes:         55
+edges:         74
+root hash:     sha256:0d89eb1db1fa2196b2bd76aff00993d3f4bc2a276b059fbe2381e66fc842450f
+manifest hash: sha256:dbb0c48d344df97e5a5ccb172c0aae5799c437b5c43664fd0c52a7c3908c98fd
+```
+
+The [Clinical Trajectory Lab](../../apps/clinical-trajectory-lab/) verifies the
+case artifact before rendering cohort, frame, history-window, source-row,
+similarity, and interpretation-boundary views. Its Model Studio link selects
+this exact release rather than the default workspace model.
 
 ## Outputs
 
@@ -100,7 +183,12 @@ This case must not:
 
 It is a data-model and history-representation experiment.
 
-## Phase 0 — Pin Demo Dataset
+## Implementation Contract
+
+The completed phases below remain the release contract and regression-test
+scope.
+
+### Phase 0 — Pin Demo Dataset
 
 Persist/hash the v2.2 demo files used.
 
@@ -118,7 +206,7 @@ extraction version
 
 Use a small cohort, e.g. 5–20 patients, for the first Explorer.
 
-## Phase 1 — Native Event Model
+### Phase 1 — Native Event Model
 
 Represent exact records such as:
 
@@ -138,7 +226,7 @@ Preserve table and row provenance.
 
 A diagnosis code is a recorded code, not an Onto2D diagnosis assertion.
 
-## Phase 2 — Clinical Timeline
+### Phase 2 — Clinical Timeline
 
 Build a deterministic longitudinal sequence based on deidentified timestamps:
 
@@ -156,7 +244,7 @@ discharge
 
 Respect the dataset's deidentification and shifted-date semantics.
 
-## Phase 3 — Snapshot Projection
+### Phase 3 — Snapshot Projection
 
 Define a limited observation frame such as:
 
@@ -177,7 +265,7 @@ bounded observation frame
 
 not `patient state`.
 
-## Phase 4 — Historical Context Projection
+### Phase 4 — Historical Context Projection
 
 Create explicit lookback summaries:
 
@@ -191,21 +279,21 @@ prior ICU events
 
 Do not interpret these as diagnoses or causal history.
 
-## Phase 5 — Canonical Experiments
+### Phase 5 — Canonical Experiments
 
-### Experiment A — Snapshot vs Trajectory
+#### Experiment A — Snapshot vs Trajectory
 
 For one patient, show the current bounded frame next to the preceding event
 history.
 
-### Experiment B — Similar Frame, Different History
+#### Experiment B — Similar Frame, Different History
 
 If the small cohort contains suitable examples, find patient-time frames similar
 under a declared metric but with different preceding histories.
 
 Do not attach a clinical conclusion.
 
-### Experiment C — History Window
+#### Experiment C — History Window
 
 Compare:
 
@@ -216,11 +304,11 @@ current admission history
 available longitudinal demo history
 ```
 
-### Experiment D — Event Provenance
+#### Experiment D — Event Provenance
 
 Click any derived timeline event and return to the exact source table/row.
 
-## Phase 6 — Future Analysis Boundary
+### Phase 6 — Future Analysis Boundary
 
 The first release must not include patient-level outcome prediction.
 
@@ -233,9 +321,7 @@ Until then:
 Reachability: descriptive only
 ```
 
-## Phase 7 — Model Pack
-
-Potential:
+### Phase 7 — Model Pack
 
 ```text
 modelId: clinical-trajectories
@@ -256,7 +342,7 @@ source row
 
 Raw large tables may remain external verified artifacts.
 
-## Phase 8 — Explorer
+### Phase 8 — Explorer
 
 Views:
 
@@ -278,7 +364,7 @@ recommended treatment
 
 in the initial case.
 
-## Phase 9 — Negative Tests
+### Phase 9 — Negative Tests
 
 Required:
 

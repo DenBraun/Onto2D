@@ -197,20 +197,20 @@ const PRESENTATION = Object.freeze({
   "clinical-trajectories": Object.freeze({
     question: "What does longitudinal context add beyond a bounded clinical snapshot?",
     distinction: "bounded observation frame != complete patient state",
-    summary: "A small open MIMIC-IV Demo cohort will expose exact deidentified events, bounded current frames, and prior recorded context without clinical prediction.",
-    flagship: "Place one explicit observation frame beside its 24-hour, encounter, and available longitudinal history windows.",
-    contribution: "The case will test longitudinal personal state while remaining descriptive, non-prescriptive, and strict about missingness.",
-    boundaries: ["Open deidentified demo data only", "No diagnosis, treatment recommendation, or individual risk claim", "Future events cannot leak into current frames", "Codes, orders, administrations, and confirmed clinical facts remain distinct"],
-    outputs: ["Pinned demo cohort", "Source-traceable patient timeline", "Bounded frame and lookback views", "Clinical Trajectory Lab"]
+    summary: "Eight exact MIMIC-IV Demo v2.2 file locks produce five deidentified trajectories, four-lab cutoff frames, source-returning timelines, and record-count history windows without clinical prediction.",
+    flagship: "P04 and P05 are the nearest pair under one declared four-lab metric at distance 0.09, while their available procedure, prescription, flagged-lab, and event histories remain visibly different.",
+    contribution: "The case makes Embodied + Recorded History -> Present State inspectable while proving that a bounded frame, a descriptive similarity score, and temporal order do not become complete patient state or clinical meaning.",
+    boundaries: ["Open MIMIC-IV Demo v2.2 only, with ciphered identifiers and shifted dates", "No diagnosis, prognosis, treatment recommendation, treatment-effect estimate, or patient-level clinical conclusion", "All timeline events are cutoff-safe and return to an exact source table, CSV row, and native record ID", "Prescription orders remain distinct from administration or adherence; missing labs are never imputed"],
+    outputs: ["Five-subject source projection over 1,766 selected native records", "Five bounded frames and 1,981 cutoff-safe source events", "Verified clinical-trajectories Model Pack with zero causal or clinical-result edges", "Clinical Trajectory Lab with frame, timeline, provenance, similarity, and boundary views"]
   }),
   "galactic-archaeology": Object.freeze({
     question: "How can present stellar traces support candidate Galactic histories without collapsing model layers?",
     distinction: "observed != derived != classified != historically interpreted",
-    summary: "A frozen Gaia DR3 sample will preserve the full chain from measurement through parameter derivation and population assignment to published historical interpretation.",
-    flagship: "Replay one bounded published-style cohort selection and show how quality-filter changes affect the supported interpretation.",
-    contribution: "This is the extreme-scale reconstruction case and a stress test for long, uncertain epistemic chains.",
-    boundaries: ["Exact ADQL query, release, result table, hash, and quality filters", "Measurement uncertainty is retained", "Population labels never become direct observations", "Chemical similarity never becomes common origin automatically"],
-    outputs: ["Frozen Gaia cohort", "Observation and derived-parameter layers", "Quality-ablation analysis", "Galactic Archaeology Lab"]
+    summary: "Thirty-three exact Gaia DR3 ADQL queries freeze 64 stellar sources across four explicit chemo-kinematic rules, while catalogue observations, Apsis estimates, published orbit estimates, Onto2D classification, and historical context remain separate.",
+    flagship: "The Appendix B High-quality view removes exactly half of the bounded cohort yet leaves eight sources in each rule profile; medians move, while no birth-origin or ancestry claim is strengthened.",
+    contribution: "The case makes a long Reconstructed History -> Present State chain inspectable and shows precisely where present-day evidence permits only candidate historical compatibility.",
+    boundaries: ["Gaia DR3 tables, paper PDF, 33 executed queries, source projection, and generator are byte-locked", "All selected Gaia-parameter and published-orbit estimates retain their reported intervals", "Four cohort names are Onto2D rules, never native Gaia population labels", "Chemistry, radial motion, and counter-rotation establish neither birth origin nor common ancestry"],
+    outputs: ["64-source offline Gaia DR3 projection balanced across four rules and two quality strata", "Five-layer case artifact with quality and evidence ablations", "Verified 83-node / 437-edge Galactic Archaeology Model Pack", "Galactic Archaeology Lab with orbit-space inspection and source-level uncertainty"]
   })
 });
 

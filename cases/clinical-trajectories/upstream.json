@@ -1,0 +1,82 @@
+{
+  "format": "onto2d-clinical-trajectories-upstream-lock",
+  "formatVersion": "1",
+  "retrievedAt": "2026-08-19T06:39:38Z",
+  "liveNetworkRequiredByBuild": false,
+  "source": {
+    "name": "MIMIC-IV Clinical Database Demo",
+    "version": "2.2",
+    "publisher": "PhysioNet",
+    "doi": "10.13026/dp1f-ex47",
+    "landingPage": "https://physionet.org/content/mimic-iv-demo/2.2/",
+    "license": "Open Data Commons Open Database License v1.0",
+    "licenseUrl": "https://opendatacommons.org/licenses/odbl/1-0/",
+    "accessPolicy": "open",
+    "deidentificationBoundary": "The demo uses ciphered identifiers and consistently shifted subject dates. No displayed date is interpreted as a real calendar date."
+  },
+  "inputFiles": [
+    {
+      "path": "hosp/admissions.csv.gz",
+      "sha256": "910b9f160ffdf1e08ea673585393f347c773ccc87d66875c627584a903ae8493"
+    },
+    {
+      "path": "hosp/d_icd_procedures.csv.gz",
+      "sha256": "a921a20fbf3220e2a7fe874d6392d671c1cc769a001ef0a7841b80eb01030bb6"
+    },
+    {
+      "path": "hosp/d_labitems.csv.gz",
+      "sha256": "72ea5f020469fd24543bd98ab3bd0a4f645a5a4b7802d9d52af20d736f9d76db"
+    },
+    {
+      "path": "hosp/labevents.csv.gz",
+      "sha256": "d51a4cf1ea63245abe7d544b0d50a928e9ee2ec5eb9a5ce85500aed0bd6c6dfc"
+    },
+    {
+      "path": "hosp/prescriptions.csv.gz",
+      "sha256": "33c392ba5b9299b08eca0a61911ba106f0aebdba26ed31b856bb9ffd49fe3654"
+    },
+    {
+      "path": "hosp/procedures_icd.csv.gz",
+      "sha256": "68f21dcba9ae0c4b7faa3ef38aa950a8ebeb6d167bc74416314dccdcf28674e0"
+    },
+    {
+      "path": "hosp/transfers.csv.gz",
+      "sha256": "41151539886d12d57159b65ffe4d7df5a7ef8ceb7cd113ea9a56fbfbfd78a87c"
+    },
+    {
+      "path": "icu/icustays.csv.gz",
+      "sha256": "e05e81aa52a3022e522b6832a898101a69b84e64c17bb344d819e458d5bc21b3"
+    }
+  ],
+  "projectionGenerator": {
+    "path": "prepare-source.py",
+    "sha256": "c22053572448ec34a8fb73b13a8dfb813f4886825994e6c0ba963064ee62d7f4",
+    "bytes": 12532
+  },
+  "snapshot": {
+    "role": "bounded-deidentified-cohort",
+    "path": "source/mimic-iv-demo-cohort.json",
+    "sha256": "a8b4e28a9657f595f02620266cf9c5e1278188439e3564c93b07a7c92a8d076b",
+    "bytes": 638323,
+    "generatedBy": "prepare-source.py"
+  },
+  "selection": {
+    "profile": "mimic-iv-demo-clinical-trajectories-v1",
+    "cohortSize": 5,
+    "subjectAliases": [
+      "P01",
+      "P02",
+      "P03",
+      "P04",
+      "P05"
+    ],
+    "labItemIds": [
+      "50912",
+      "50971",
+      "50983",
+      "51222"
+    ],
+    "frameHours": 24,
+    "completenessClaim": false
+  }
+}

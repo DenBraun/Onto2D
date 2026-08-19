@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="../../assets/js/document-state-reset.js" defer></script>
+    <meta name="description" content="A source-locked Onto2D study separating bounded clinical observation frames, longitudinal records, and clinical interpretation.">
+    <title>Clinical Trajectory Lab - Onto2D</title>
+    <link rel="icon" href="../../assets/icons/favicon.ico?v=20260818.1" type="image/x-icon">
+    <link rel="stylesheet" href="../../assets/css/ui-icons.css?v=20260818.1">
+    <link rel="stylesheet" href="../../assets/css/study-clinical-trajectories.css?v=20260819.1">
+    <script type="module" src="./clinical-trajectory-lab.js?v=20260819.2"></script>
+  </head>
+  <body data-state="loading">
+    <header class="history-case-header">
+      <a class="history-case-brand" href="../../" aria-label="Onto2D home"><svg viewBox="0 0 34 34" aria-hidden="true"><circle cx="7" cy="17" r="3"></circle><circle cx="27" cy="8" r="3"></circle><circle cx="27" cy="26" r="3"></circle><path d="M10 17h7m2-3 5-4m-5 10 5 4"></path></svg><span><strong>Onto2D</strong><small>History model</small></span></a>
+      <nav class="history-case-nav" aria-label="History navigation"><a href="../history-atlas/">History Atlas</a><a href="../model-studio/#model=clinical-trajectories&amp;version=v1-2360048548115b14">Model Studio</a><a href="https://github.com/DenBraun/Onto2D/blob/main/docs/cases/CLINICAL_TRAJECTORIES_IMPLEMENTATION.md" target="_blank" rel="noopener noreferrer">History model <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#external-link"></use></svg></a><a href="https://github.com/DenBraun/Onto2D" target="_blank" rel="noopener noreferrer">GitHub <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#external-link"></use></svg></a></nav>
+      <div class="history-case-context"><span>Clinical Trajectories</span><strong class="history-case-state"><i></i><span id="load-state" role="status" aria-live="polite">Verifying artifact</span></strong></div>
+    </header>
+
+    <main>
+      <p id="fatal-error" class="fatal-error" hidden></p>
+      <section class="hero" aria-labelledby="page-title">
+        <div class="hero-grid">
+          <div><p class="eyebrow">07 / Embodied + recorded history</p><h1 id="page-title">A snapshot is a window,<br>not the patient.</h1><p class="hero-copy">Five deidentified MIMIC-IV Demo trajectories show exactly which records were available at a shifted ICU cutoff. A four-lab frame stays separate from the longer sequence that precedes it.</p></div>
+          <dl class="hero-meta"><div><dt>Source</dt><dd>MIMIC-IV Demo v2.2</dd></div><div><dt>Retrieved</dt><dd id="retrieved-on">Loading</dd></div><div><dt>Case identity</dt><dd id="case-identity">Loading</dd></div><div><dt>Source identity</dt><dd id="source-identity">Loading</dd></div><div><dt>Use boundary</dt><dd>Descriptive research model only</dd></div></dl>
+        </div>
+      </section>
+
+      <section class="clinical-banner" aria-label="Clinical use boundary"><strong>RESEARCH DATA-MODEL ONLY</strong><p>No diagnosis, prognosis, recommendation, treatment-effect estimate, or patient-level clinical decision is produced.</p></section>
+
+      <div class="workspace">
+        <section class="panel overview" aria-labelledby="overview-title"><div class="section-heading"><p class="section-kicker">01 / Exact bounded result</p><h2 id="overview-title">What was actually built</h2><p>The Explorer verifies one exact source release before rendering. Every count below comes from the committed artifact, not from a live API.</p></div><div id="metric-grid" class="metric-grid"></div></section>
+
+        <section class="cohort-study" aria-labelledby="cohort-title"><div class="section-heading"><p class="section-kicker">02 / Cohort navigator</p><h2 id="cohort-title">Five separate identifier scopes</h2><p>Choose an alias to inspect its focus admission, latest ICU stay, bounded frame, and available prior records. Native <code>subject_id</code>, <code>hadm_id</code>, and <code>stay_id</code> never cross between aliases.</p></div><div id="patient-controls" class="patient-controls" role="group" aria-label="Deidentified patient aliases"></div></section>
+
+        <section class="trajectory-study" aria-labelledby="trajectory-title">
+          <div class="trajectory-heading"><div><p class="section-kicker">03 / Snapshot versus trajectory</p><h2 id="trajectory-title">One cutoff, two honest views</h2></div><p id="trajectory-summary" class="trajectory-summary"></p></div>
+          <div class="trajectory-grid">
+            <article class="frame-panel"><header><div><span>BOUNDED OBSERVATION FRAME</span><h3 id="frame-title">Loading frame</h3></div><strong id="frame-cutoff">Loading</strong></header><div id="frame-labs" class="frame-labs"></div><dl id="frame-facts" class="frame-facts"></dl><footer>Latest declared numeric source record per item within the 24-hour lookback. This is not complete patient state.</footer></article>
+            <article class="history-panel"><header><div><span>AVAILABLE RECORDED HISTORY</span><h3 id="history-title">Loading history</h3></div><strong>CONTEXT ONLY</strong></header><div id="history-metrics" class="history-metrics"></div><div id="history-windows" class="history-windows"></div><footer>Counts describe records available by the cutoff. They do not diagnose, explain cause, or imply treatment effect.</footer></article>
+          </div>
+        </section>
+
+        <section class="panel timeline-study" aria-labelledby="timeline-title"><div class="timeline-head"><div class="section-heading"><p class="section-kicker">04 / Source-returning timeline</p><h2 id="timeline-title">Every shown event keeps its row locator</h2><p>The newest matching events appear first. Prescription entries remain order-interval records; procedure entries remain recorded codes.</p></div><div id="event-controls" class="event-controls" role="group" aria-label="Timeline event type"></div></div><div class="timeline-layout"><div id="event-list" class="event-list"></div><aside id="event-inspector" class="event-inspector" aria-live="polite"></aside></div></section>
+
+        <section class="panel comparison-study" aria-labelledby="comparison-title"><div class="section-heading"><p class="section-kicker">05 / Similar frame, different history</p><h2 id="comparison-title">P04 and P05 are nearest only under one declared metric</h2><p>A normalized four-lab distance of <strong id="comparison-distance">Loading</strong> makes this the closest pair in the five-frame cohort. That does not establish the same patient, clinical equivalence, or any future conclusion.</p></div><div id="comparison-frames" class="comparison-frames"></div><div id="comparison-history" class="comparison-history"></div></section>
+
+        <section class="source-study" aria-labelledby="source-title"><div><p class="section-kicker">06 / Pinned evidence</p><h2 id="source-title">The compact projection stays traceable to eight upstream files</h2><p>Only the declared record families enter this release. Demographics, free-text notes, diagnosis inference, and live credentialed MIMIC-IV access are not required.</p></div><div id="source-inventory" class="source-inventory"></div></section>
+
+        <section class="load-boundary" aria-labelledby="load-title"><div><p class="section-kicker">07 / Historical Load</p><h2 id="load-title">Undefined is the result</h2><p id="load-reason"></p></div><div class="undefined-value"><strong>&mdash;</strong><span>NOT EVALUATED</span><small><code>null</code>, not zero</small></div></section>
+
+        <section class="panel boundary" aria-labelledby="boundary-title"><div class="section-heading"><p class="section-kicker">08 / Reading discipline</p><h2 id="boundary-title">What this release refuses to turn into a claim</h2></div><div class="boundary-grid"><article><span>SHIFTED</span><h3>Dates</h3><p>Sequence and elapsed intervals are usable; displayed years are not real calendar dates.</p></article><article><span>RECORDED</span><h3>Prescriptions</h3><p>An order interval is not administration, adherence, or treatment response.</p></article><article><span>BOUNDED</span><h3>Lab frame</h3><p>Four latest values are an explicit observation window, never complete patient state.</p></article><article><span>DESCRIPTIVE</span><h3>Similarity</h3><p>A distance under one metric creates no identity or clinical-equivalence relation.</p></article><article><span>UNKNOWN</span><h3>Clinical meaning</h3><p>Temporal order and record counts supply no diagnosis, cause, prediction, or recommendation.</p></article></div><div class="source-links"><a href="https://physionet.org/content/mimic-iv-demo/2.2/" target="_blank" rel="noopener noreferrer">MIMIC-IV Demo v2.2 <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#external-link"></use></svg></a><a href="https://doi.org/10.13026/dp1f-ex47" target="_blank" rel="noopener noreferrer">Dataset DOI <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#external-link"></use></svg></a><a href="https://github.com/DenBraun/Onto2D/tree/main/cases/clinical-trajectories" target="_blank" rel="noopener noreferrer">Pinned case files <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#external-link"></use></svg></a></div></section>
+      </div>
+    </main>
+    <footer class="study-footer">Five source-deidentified subjects / 1,981 cutoff-safe events / zero clinical predictions / shifted dates / descriptive research use only.</footer>
+  </body>
+</html>

@@ -1,0 +1,72 @@
+{
+  "format": "onto2d-clinical-trajectories-analysis-profile",
+  "formatVersion": "1",
+  "profileVersion": "mimic-iv-demo-clinical-trajectories-v1",
+  "focusAlias": "P01",
+  "frame": {
+    "label": "bounded observation frame",
+    "cutoffAuthority": "latest selected ICU outtime",
+    "lookbackHours": 24,
+    "labItemIds": [
+      "50912",
+      "50971",
+      "50983",
+      "51222"
+    ],
+    "labSelection": "latest numeric record per declared item at or before cutoff and within lookback",
+    "prescriptionSelection": "records whose declared start/stop interval overlaps cutoff",
+    "prescriptionSemantics": "prescription record only; not medication administration or adherence"
+  },
+  "historyWindows": [
+    {
+      "id": "current-frame",
+      "label": "Current bounded frame",
+      "start": "cutoff-minus-24-hours",
+      "end": "cutoff"
+    },
+    {
+      "id": "focus-admission",
+      "label": "Current admission to cutoff",
+      "start": "focus-admission-admittime",
+      "end": "cutoff"
+    },
+    {
+      "id": "available-demo",
+      "label": "Available demo history",
+      "start": "first selected source event",
+      "end": "cutoff"
+    }
+  ],
+  "similarity": {
+    "status": "descriptive-only",
+    "metric": "mean normalized absolute difference",
+    "missingnessRule": "a pair missing any declared frame lab is ineligible",
+    "scales": {
+      "50912": 1,
+      "50971": 1,
+      "50983": 10,
+      "51222": 5
+    },
+    "identityClaimAllowed": false,
+    "clinicalConclusionAllowed": false
+  },
+  "historicalLoad": {
+    "status": "not-evaluated",
+    "value": null,
+    "reason": "No finite clinically meaningful path space, cost function, or history-free baseline is declared; undefined must not be displayed as zero."
+  },
+  "nonClaims": [
+    "No diagnosis is generated.",
+    "No treatment is recommended.",
+    "No individual outcome is predicted.",
+    "No treatment effect is inferred.",
+    "Temporal order is not causation.",
+    "A diagnosis code would remain a recorded code, not a confirmed diagnosis.",
+    "A prescription record is not a medication administration record.",
+    "Missing laboratory data is not normal laboratory data.",
+    "Similar bounded frames do not establish patient identity or clinical equivalence.",
+    "Shifted dates are not real calendar dates.",
+    "The five-subject cohort is not representative of a clinical population.",
+    "The source projection is not mutated by analysis."
+  ]
+}

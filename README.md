@@ -22,7 +22,8 @@ The repository also contains a private engine preview: a deterministic Model
 Pack contract, separate frozen Causal Emergence, live-bootstrap provenance,
 Nix derivation, OCI layer-provenance, in-toto, chemical-reaction, reproducible-build,
 artwork-provenance, language-transmission, manuscript-transmission,
-operational-aging, ecological-memory, and legal-precedent-history releases,
+operational-aging, ecological-memory, legal-precedent-history,
+clinical-trajectories, and galactic-archaeology releases,
 and a headless API for exact model queries and traversal. It is not yet a
 published npm package.
 
@@ -149,6 +150,21 @@ official chronology, reconstructs the four selected opinions available at the
 binding status, provider date conflicts, and counterfactual graph ablation as
 separate layers. It is a research visualization, not legal advice
 ([method](cases/legal-precedent-history/README.md)).
+
+The [Clinical Trajectory Lab](https://denbraun.github.io/Onto2D/apps/clinical-trajectory-lab/)
+separates five source-deidentified MIMIC-IV Demo observation frames from 1,981
+cutoff-safe recorded events. Its nearest complete pair has distance `0.09`
+under one declared four-lab metric, without promoting that number into patient
+identity, clinical equivalence, diagnosis, prediction, or treatment guidance
+([method](cases/clinical-trajectories/README.md)).
+
+The [Galactic Archaeology Lab](https://denbraun.github.io/Onto2D/apps/galactic-archaeology-lab/)
+projects 64 source-locked Gaia DR3 stars through five explicit evidence layers,
+then replays Medium and High quality views across four chemo-kinematic rule
+profiles. Present-day patterns support candidate historical compatibility,
+without becoming native Gaia labels, birth origins, common ancestry, or one
+true Galactic formation history
+([method](cases/galactic-archaeology/README.md)).
 
 The [History Atlas](https://denbraun.github.io/Onto2D/apps/history-atlas/)
 organizes 22 registered cases by two independent axes: how history is available

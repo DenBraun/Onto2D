@@ -1,0 +1,63 @@
+{
+  "format": "onto2d-galactic-archaeology-upstream-lock",
+  "formatVersion": "1",
+  "retrievedAt": "2026-08-19T07:20:00Z",
+  "liveNetworkRequiredByBuild": false,
+  "source": {
+    "name": "Gaia Data Release 3",
+    "publisher": "European Space Agency",
+    "releaseDocumentation": "https://gea.esac.esa.int/archive/documentation/GDR3/",
+    "tapEndpoint": "https://gaia.aip.de/tap/sync",
+    "license": "CC BY-NC 3.0 IGO",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc/3.0/igo/"
+  },
+  "tables": [
+    {
+      "name": "gaiadr3.gaia_source",
+      "doi": "10.17876/gaia/dr.3/1",
+      "role": "catalogue-observation-and-quality"
+    },
+    {
+      "name": "gaiadr3.astrophysical_parameters",
+      "doi": "10.17876/gaia/dr.3/43",
+      "role": "gaia-apsis-parameter-estimate"
+    },
+    {
+      "name": "gaiadr3.chemical_cartography",
+      "doi": "10.17876/gaia/dr.3/99",
+      "role": "published-companion-orbital-derivation"
+    }
+  ],
+  "paper": {
+    "title": "Gaia Data Release 3: Chemical cartography of the Milky Way",
+    "journal": "Astronomy & Astrophysics 674, A38 (2023)",
+    "doi": "10.1051/0004-6361/202243511",
+    "url": "https://doi.org/10.1051/0004-6361/202243511",
+    "pdfSha256": "c7c10f8d9b22a7c15c293b657451e912aed54e660c3e446098d7ccf4b8772036",
+    "qualityProfileLocator": "Appendix B"
+  },
+  "projectionGenerator": {
+    "path": "prepare-source.py",
+    "sha256": "60264507a6535829d2730ac4be34de9b7f03c2eab42448101f0022b56f1e2be7",
+    "bytes": 17419,
+    "runtimeDependencies": [
+      "Python 3 standard library"
+    ]
+  },
+  "snapshot": {
+    "role": "bounded-gaia-dr3-source-projection",
+    "path": "source/gaia-dr3-chemical-cartography.json",
+    "sha256": "3f4edace497de66c40116e42c7257b23765c568aaf8448ab38ff5d0580a8b546",
+    "bytes": 290161,
+    "generatedBy": "prepare-source.py"
+  },
+  "selection": {
+    "profile": "gaia-dr3-chemical-cartography-balanced-v1",
+    "sourceCount": 64,
+    "ruleProfileCount": 4,
+    "selectedHighPerProfile": 8,
+    "selectedMediumOnlyPerProfile": 8,
+    "queryCount": 33,
+    "completePopulationClaim": false
+  }
+}
