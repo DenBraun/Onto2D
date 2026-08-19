@@ -98,11 +98,11 @@ const PRESENTATION = Object.freeze({
   "mineral-formation-history": Object.freeze({
     question: "Can one conventional mineral species retain different supported formation histories?",
     distinction: "mineral species != formation-history class",
-    summary: "A reviewed mineral cohort will keep sample observations, conventional classification, formation interpretation, and evidence as independent layers.",
-    flagship: "Show same-species samples with different published formation modes alongside at least one unresolved formation history.",
-    contribution: "The case will test historical natural-kind profiles without replacing or duplicating conventional mineral identity.",
-    boundaries: ["One bounded mineral family", "Formation claims require reviewed evidence", "Locality alone never proves formation mechanism", "Unknown and contested modes remain explicit"],
-    outputs: ["Pinned sample and publication evidence", "Four identity regimes", "Formation-mode evidence graph", "Mineral History Explorer"]
+    summary: "Ten source-identified sedimentary pyrite-nodule samples and 95 exact LA-ICP-MS rows remain separate from three qualified, article-attributed growth interpretations and seven case-local unresolved mappings.",
+    flagship: "Compare DD86WRL1-681, PETR14, and 79990: one pyrite species key, three native samples, and three distinct published profiles - predominantly pervasive, predominantly concentric, and pervasive-centre with later margin infill.",
+    contribution: "This Reconstructed History -> Identity case demonstrates complementary classification: conventional species equality does not erase sample or supported formation-history identity, and missing mappings never become automatic chemical classifications.",
+    boundaries: ["Mendeley Data DOI, two XLSX hashes, accepted-manuscript hash, generator, projection, and case identity are byte-locked", "All 95 LA-ICP-MS rows remain attributable; repeated Pb_Py headings stay keyed by source column", "Only three sample-specific interpretations with exact article locators enter the reviewed claim layer", "Seven mappings and Historical Load remain explicitly unresolved; age, locality, and chemistry generate no replacement claims"],
+    outputs: ["Source-locked 10-sample / 95-analysis pyrite projection", "Verified case artifact with three identity regimes and negative epistemic tests", "Verified 30-node / 48-edge mineral-formation-history Model Pack", "Mineral Formation History Explorer with cohort, regime, evidence, trace-series, and Historical Load views"]
   }),
   "ltee-evolutionary-contingency": Object.freeze({
     question: "Can historical genetic background change which future innovations are accessible?",
@@ -123,13 +123,13 @@ const PRESENTATION = Object.freeze({
     outputs: ["Three-build source projection with one exact shared nominal P3 recipe", "2,248-point B7-P3 residual-strain field and 24 reproducible height slices", "Verified 54-node / 68-edge material-process-history Model Pack", "Material Process History Lab with recipe, specimen, identity-regime, strain-field, anomaly, and Historical Load views"]
   }),
   "cell-lineage-identity": Object.freeze({
-    question: "Can similar current cell states retain different developmental lineages?",
-    distinction: "current cell state != reconstructed lineage",
-    summary: "A bounded scGESTALT cohort will link transcriptomic state, observed CRISPR barcode evidence, and reconstructed lineage without conflating them.",
-    flagship: "Find a reviewed same-cell-type/different-lineage comparison and expose the barcode evidence and reconstruction limits.",
-    contribution: "The case will test identity under partially embodied and reconstructed ancestry.",
-    boundaries: ["Pinned public scGESTALT files and sample identities", "Large matrices remain verified external artifacts", "Barcode observation is distinct from inferred lineage", "Missing support never becomes an invented confidence value"],
-    outputs: ["Bounded cell-state projection", "Barcode evidence model", "Linked state and lineage views", "Reconstruction-status inspector"]
+    question: "When do the same matched cells count as identical by cell record, transcriptomic cluster, observed barcode, or bounded first-four-target signature?",
+    distinction: "cell record != current state != observed barcode != reconstructed grouping",
+    summary: "All 750 ZF1 GestMaster rows are source-locked and resolve into 56 numeric transcriptomic clusters, 192 exact reported HMID states, and 133 exact first-four-target signature groups without inventing a pedigree.",
+    flagship: "Compare one unchanged 750-cell cohort under four explicit equality keys, then inspect 7,058 same-cluster/different-barcode pairs, 22,967 same-barcode/different-cluster pairs, and 16 partial target observations.",
+    contribution: "This Reconstructed History -> Identity case shows what the lineage recorder actually changes: current-state equality does not erase recorded barcode difference, while shared barcode evidence does not prove a unique parent.",
+    boundaries: ["NCBI GEO archive, exact ZF1 member, generator, projection, and case identity are byte-locked", "All 750 source rows remain attributable; 56 cluster memberships and 192 exact HMID strings are preserved", "First-four-target grouping remains distinct from the paper's two-stage maximum-parsimony tree and target position is not treated as edit time", "Sixteen partial observations, collision ambiguity, absent divisions, absent confidence, and undefined Historical Load stay explicit"],
+    outputs: ["Complete bounded 750-cell ZF1 source projection", "Verified four-regime case artifact with negative epistemic tests", "Verified 1,140-node / 2,450-edge cell-lineage-history Model Pack", "Cell Lineage Identity Lab with regime, cluster, barcode, targets 1-4 signature, comparison, and boundary views"]
   }),
   "lithic-operational-history": Object.freeze({
     question: "How much operational history can be reconstructed from present artefact traces?",

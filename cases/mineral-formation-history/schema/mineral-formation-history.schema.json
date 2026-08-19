@@ -1,0 +1,148 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.example/schemas/mineral-formation-history.schema.json",
+  "title": "Onto2D Mineral Formation History case artifact",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["format", "formatVersion", "caseVersion", "source", "methodology", "cohort", "species", "measurementColumns", "samples", "analyses", "formationClaims", "identityRegimes", "experiments", "historicalLoad", "nonClaims", "audit", "caseIdentity"],
+  "properties": {
+    "format": { "const": "onto2d-mineral-formation-history-case" },
+    "formatVersion": { "const": "1" },
+    "caseVersion": { "const": "gregory-2019-pyrite-formation-interpretation-v1" },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["identity", "snapshotIdentity", "snapshotBytes", "retrievedAt", "dataset", "article", "conceptualAuthority", "liveNetworkRequiredByBuild", "authoredFiles", "snapshotFiles", "inputFiles"],
+      "properties": {
+        "identity": { "$ref": "#/$defs/identity" },
+        "snapshotIdentity": { "$ref": "#/$defs/identity" },
+        "snapshotBytes": { "const": 169851 },
+        "retrievedAt": { "type": "string", "format": "date-time" },
+        "dataset": {
+          "type": "object", "additionalProperties": false,
+          "required": ["title", "publisher", "doi", "version", "license", "licenseUrl"],
+          "properties": { "title": { "type": "string", "minLength": 20 }, "publisher": { "const": "Mendeley Data" }, "doi": { "const": "10.17632/h2n4b8cczy.1" }, "version": { "const": 1 }, "license": { "const": "CC BY 4.0" }, "licenseUrl": { "const": "https://creativecommons.org/licenses/by/4.0/" } }
+        },
+        "article": {
+          "type": "object", "additionalProperties": false,
+          "required": ["authors", "title", "journal", "doi", "acceptedManuscriptUrl", "acceptedManuscriptBytes", "acceptedManuscriptSha256", "acceptedManuscriptLicense", "interpretationLocators"],
+          "properties": { "authors": { "const": "Gregory et al." }, "title": { "type": "string", "minLength": 20 }, "journal": { "type": "string", "minLength": 20 }, "doi": { "const": "10.1016/j.gca.2019.05.035" }, "acceptedManuscriptUrl": { "type": "string", "minLength": 20 }, "acceptedManuscriptBytes": { "const": 783712 }, "acceptedManuscriptSha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }, "acceptedManuscriptLicense": { "const": "CC BY-NC-ND 4.0" }, "interpretationLocators": { "type": "array", "minItems": 3, "maxItems": 3, "items": { "type": "string", "minLength": 30 } } }
+        },
+        "conceptualAuthority": {
+          "type": "object", "additionalProperties": false,
+          "required": ["authors", "title", "journal", "doi", "nasaRecord", "role"],
+          "properties": { "authors": { "const": "Hazen and Morrison" }, "title": { "type": "string", "minLength": 20 }, "journal": { "type": "string", "minLength": 20 }, "doi": { "const": "10.2138/am-2022-8099" }, "nasaRecord": { "const": "https://ntrs.nasa.gov/citations/20230000674" }, "role": { "type": "string", "minLength": 50 } }
+        },
+        "liveNetworkRequiredByBuild": { "const": false },
+        "authoredFiles": { "type": "array", "minItems": 3, "maxItems": 3, "items": { "$ref": "#/$defs/file" } },
+        "snapshotFiles": { "type": "array", "minItems": 1, "maxItems": 1, "items": { "$ref": "#/$defs/file" } },
+        "inputFiles": { "type": "array", "minItems": 2, "maxItems": 2, "items": { "$ref": "#/$defs/inputFile" } }
+      }
+    },
+    "methodology": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["question", "selectionProfile", "analysisProfile", "evidenceLayers", "interpretationPolicy", "measurementColumnPolicy"],
+      "properties": {
+        "question": { "type": "string", "minLength": 80 },
+        "selectionProfile": { "const": "gregory-2019-pyrite-nodule-projection-v1" },
+        "analysisProfile": { "const": "gregory-2019-pyrite-formation-interpretation-v1" },
+        "evidenceLayers": { "type": "array", "minItems": 5, "maxItems": 5, "items": { "$ref": "#/$defs/evidenceLayer" } },
+        "interpretationPolicy": { "$ref": "#/$defs/interpretationPolicy" },
+        "measurementColumnPolicy": { "type": "string", "minLength": 80 }
+      }
+    },
+    "cohort": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["speciesCount", "sampleCount", "analysisCount", "reviewedFormationClaimCount", "unmappedWithinCaseCount", "ageRangeMa", "countryCount", "completeMineralOrFormationSpaceClaim"],
+      "properties": {
+        "speciesCount": { "const": 1 }, "sampleCount": { "const": 10 }, "analysisCount": { "const": 95 },
+        "reviewedFormationClaimCount": { "const": 3 }, "unmappedWithinCaseCount": { "const": 7 },
+        "ageRangeMa": { "type": "object", "additionalProperties": false, "required": ["minimum", "maximum"], "properties": { "minimum": { "const": 333 }, "maximum": { "const": 2692 } } },
+        "countryCount": { "const": 4 }, "completeMineralOrFormationSpaceClaim": { "const": false }
+      }
+    },
+    "species": {
+      "type": "object", "additionalProperties": false, "required": ["name", "formula", "identity"],
+      "properties": { "name": { "const": "Pyrite" }, "formula": { "const": "FeS2" }, "identity": { "$ref": "#/$defs/identity" } }
+    },
+    "measurementColumns": { "type": "object", "minProperties": 38, "propertyNames": { "pattern": "^[A-Z]{1,2}$" }, "additionalProperties": { "type": "string", "minLength": 3 } },
+    "samples": { "type": "array", "minItems": 10, "maxItems": 10, "items": { "$ref": "#/$defs/sample" } },
+    "analyses": { "type": "array", "minItems": 95, "maxItems": 95, "items": { "$ref": "#/$defs/analysis" } },
+    "formationClaims": { "type": "array", "minItems": 3, "maxItems": 3, "items": { "$ref": "#/$defs/formationClaim" } },
+    "identityRegimes": { "type": "array", "minItems": 3, "maxItems": 3, "items": { "$ref": "#/$defs/identityRegime" } },
+    "experiments": { "type": "array", "minItems": 4, "maxItems": 4, "items": { "$ref": "#/$defs/experiment" } },
+    "historicalLoad": { "$ref": "#/$defs/historicalLoad" },
+    "nonClaims": { "type": "array", "minItems": 11, "maxItems": 11, "uniqueItems": true, "items": { "type": "string", "minLength": 20 } },
+    "audit": {
+      "type": "object", "additionalProperties": false,
+      "required": ["sampleRowsRetained", "analysisRowsRetained", "populatedMeasurementValuesRetained", "populatedUncertaintyValuesRetained", "reviewedPublishedInterpretationsRetained", "unmappedSamplesPreserved", "duplicateLeadHeadingsRenamed", "automaticFormationClassifications", "localityToFormationInferences", "ageToFormationInferences", "onto2dGeneratedCausalEdges", "liveQueriesDuringBuild"],
+      "properties": {
+        "sampleRowsRetained": { "const": 10 }, "analysisRowsRetained": { "const": 95 },
+        "populatedMeasurementValuesRetained": { "const": 1995 }, "populatedUncertaintyValuesRetained": { "const": 1615 },
+        "reviewedPublishedInterpretationsRetained": { "const": 3 }, "unmappedSamplesPreserved": { "const": 7 },
+        "duplicateLeadHeadingsRenamed": { "const": 0 }, "automaticFormationClassifications": { "const": 0 },
+        "localityToFormationInferences": { "const": 0 }, "ageToFormationInferences": { "const": 0 },
+        "onto2dGeneratedCausalEdges": { "const": 0 }, "liveQueriesDuringBuild": { "const": 0 }
+      }
+    },
+    "caseIdentity": { "$ref": "#/$defs/identity" }
+  },
+  "$defs": {
+    "identity": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "nullableString": { "type": ["string", "null"] },
+    "file": { "type": "object", "additionalProperties": false, "required": ["path", "identity", "bytes"], "properties": { "path": { "type": "string", "minLength": 3 }, "identity": { "$ref": "#/$defs/identity" }, "bytes": { "type": "integer", "minimum": 1 } } },
+    "inputFile": { "type": "object", "additionalProperties": false, "required": ["name", "sha256", "bytes"], "properties": { "name": { "type": "string", "minLength": 5 }, "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }, "bytes": { "type": "integer", "minimum": 1 } } },
+    "evidenceLayer": { "type": "object", "additionalProperties": false, "required": ["id", "authority", "role"], "properties": { "id": { "enum": ["sample-record", "direct-measurement", "published-interpretation", "species-classification", "onto2d-analysis"] }, "authority": { "type": "string", "minLength": 5 }, "role": { "type": "string", "minLength": 30 } } },
+    "interpretationPolicy": {
+      "type": "object", "additionalProperties": false,
+      "required": ["status", "localityMayImplyFormation", "ageMayImplyFormation", "traceElementsMayBeAutoClassified", "publishedQualifierMayBeStrengthened", "unmappedSamplesMayReceiveClaims", "causalEdgesGeneratedByOnto2D"],
+      "properties": { "status": { "const": "published-interpretations-only" }, "localityMayImplyFormation": { "const": false }, "ageMayImplyFormation": { "const": false }, "traceElementsMayBeAutoClassified": { "const": false }, "publishedQualifierMayBeStrengthened": { "const": false }, "unmappedSamplesMayReceiveClaims": { "const": false }, "causalEdgesGeneratedByOnto2D": { "const": false } }
+    },
+    "sample": {
+      "type": "object", "additionalProperties": false,
+      "required": ["sampleId", "sourceRow", "ageMa", "period", "geochronology", "sourceComments", "archiveArea", "archiveBoxId", "location", "country", "supergroupOrGroup", "formation", "memberOrUnit", "description", "identity", "speciesIdentity", "formationMappingStatus", "analysisIdentities", "measurementSummary"],
+      "properties": {
+        "sampleId": { "type": "string", "minLength": 3 }, "sourceRow": { "type": "integer", "minimum": 3, "maximum": 12 }, "ageMa": { "type": "number", "minimum": 300, "maximum": 3000 },
+        "period": { "$ref": "#/$defs/nullableString" }, "geochronology": { "$ref": "#/$defs/nullableString" }, "sourceComments": { "type": "array", "items": { "type": "string" } },
+        "archiveArea": { "$ref": "#/$defs/nullableString" }, "archiveBoxId": { "$ref": "#/$defs/nullableString" }, "location": { "type": "string", "minLength": 5 }, "country": { "type": "string", "minLength": 3 },
+        "supergroupOrGroup": { "$ref": "#/$defs/nullableString" }, "formation": { "$ref": "#/$defs/nullableString" }, "memberOrUnit": { "$ref": "#/$defs/nullableString" }, "description": { "type": "string", "minLength": 10 },
+        "identity": { "$ref": "#/$defs/identity" }, "speciesIdentity": { "$ref": "#/$defs/identity" }, "formationMappingStatus": { "enum": ["reviewed-published-interpretation", "unmapped-within-bounded-case"] },
+        "analysisIdentities": { "type": "array", "minItems": 5, "maxItems": 13, "uniqueItems": true, "items": { "$ref": "#/$defs/identity" } }, "measurementSummary": { "$ref": "#/$defs/measurementSummary" }
+      }
+    },
+    "measurementSummary": {
+      "type": "object", "additionalProperties": false, "required": ["sampleId", "analysisCount", "reportedTraceElementUnit", "selectedTraceElementRanges"],
+      "properties": { "sampleId": { "type": "string" }, "analysisCount": { "type": "integer", "minimum": 5, "maximum": 13 }, "reportedTraceElementUnit": { "const": "ppm" }, "selectedTraceElementRanges": { "type": "object", "minProperties": 7, "maxProperties": 7, "additionalProperties": { "$ref": "#/$defs/range" } } }
+    },
+    "range": { "type": "object", "additionalProperties": false, "required": ["count", "minimum", "median", "maximum"], "properties": { "count": { "type": "integer", "minimum": 1 }, "minimum": { "type": "number" }, "median": { "type": "number" }, "maximum": { "type": "number" } } },
+    "analysis": {
+      "type": "object", "additionalProperties": false,
+      "required": ["analysisId", "sampleId", "sourceRow", "sequence", "spotSize", "reportedDepth", "reportedMedianNi", "valuesBySourceColumn", "uncertaintiesBySourceColumn", "identity"],
+      "properties": { "analysisId": { "type": "string", "minLength": 3 }, "sampleId": { "type": "string", "minLength": 3 }, "sourceRow": { "type": "integer", "minimum": 2 }, "sequence": { "type": ["number", "null"] }, "spotSize": { "$ref": "#/$defs/nullableString" }, "reportedDepth": { "$ref": "#/$defs/nullableString" }, "reportedMedianNi": { "type": ["number", "null"] }, "valuesBySourceColumn": { "type": "object", "minProperties": 20, "additionalProperties": { "type": ["number", "string"] } }, "uncertaintiesBySourceColumn": { "type": "object", "minProperties": 10, "additionalProperties": { "type": ["number", "string"] } }, "identity": { "$ref": "#/$defs/identity" } }
+    },
+    "formationClaim": {
+      "type": "object", "additionalProperties": false, "required": ["id", "sampleId", "profile", "shortLabel", "qualifier", "locator", "evidenceSummary", "identity", "articleDoi", "evidenceLayer", "sampleIdentity"],
+      "properties": { "id": { "type": "string", "pattern": "^formation:" }, "sampleId": { "enum": ["DD86WRL1-681", "PETR14", "79990"] }, "profile": { "type": "string", "minLength": 15 }, "shortLabel": { "type": "string", "minLength": 10 }, "qualifier": { "enum": ["predominantly", "interpreted"] }, "locator": { "type": "string", "minLength": 30 }, "evidenceSummary": { "type": "string", "minLength": 80 }, "identity": { "$ref": "#/$defs/identity" }, "articleDoi": { "const": "10.1016/j.gca.2019.05.035" }, "evidenceLayer": { "const": "published-interpretation" }, "sampleIdentity": { "$ref": "#/$defs/identity" } }
+    },
+    "identityClass": { "type": "object", "additionalProperties": false, "required": ["key", "label", "members"], "properties": { "key": { "$ref": "#/$defs/identity" }, "label": { "type": "string", "minLength": 3 }, "members": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/identity" } } } },
+    "identityRegime": { "type": "object", "additionalProperties": false, "required": ["id", "equivalenceKey", "expectedClassCount", "unresolvedCount", "meaning", "classes", "unresolved"], "properties": { "id": { "enum": ["conventional-species", "sample-record", "published-formation-profile"] }, "equivalenceKey": { "type": "string", "minLength": 10 }, "expectedClassCount": { "type": "integer", "minimum": 1, "maximum": 10 }, "unresolvedCount": { "type": "integer", "minimum": 0, "maximum": 7 }, "meaning": { "type": "string", "minLength": 40 }, "classes": { "type": "array", "minItems": 1, "maxItems": 10, "items": { "$ref": "#/$defs/identityClass" } }, "unresolved": { "type": "array", "maxItems": 7, "items": { "$ref": "#/$defs/identity" } } } },
+    "experiment": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "result", "sourceMutation"],
+      "properties": {
+        "id": { "enum": ["same-species-distinct-formations", "evidence-trace", "unknown-boundary", "classification-toggle"] },
+        "result": { "type": "string", "minLength": 60 }, "sourceMutation": { "const": false },
+        "claimCount": { "const": 3 }, "autoClassifiedAnalysisCount": { "const": 0 }, "unresolvedCount": { "const": 7 }
+      },
+      "oneOf": [
+        { "properties": { "id": { "const": "same-species-distinct-formations" } }, "required": ["claimCount"], "not": { "anyOf": [{ "required": ["autoClassifiedAnalysisCount"] }, { "required": ["unresolvedCount"] }] } },
+        { "properties": { "id": { "const": "evidence-trace" } }, "required": ["autoClassifiedAnalysisCount"], "not": { "anyOf": [{ "required": ["claimCount"] }, { "required": ["unresolvedCount"] }] } },
+        { "properties": { "id": { "const": "unknown-boundary" } }, "required": ["unresolvedCount"], "not": { "anyOf": [{ "required": ["claimCount"] }, { "required": ["autoClassifiedAnalysisCount"] }] } },
+        { "properties": { "id": { "const": "classification-toggle" } }, "not": { "anyOf": [{ "required": ["claimCount"] }, { "required": ["autoClassifiedAnalysisCount"] }, { "required": ["unresolvedCount"] }] } }
+      ]
+    },
+    "historicalLoad": { "type": "object", "additionalProperties": false, "required": ["status", "value", "reason"], "properties": { "status": { "const": "not-evaluated" }, "value": { "type": "null" }, "reason": { "type": "string", "minLength": 100 } } }
+  }
+}

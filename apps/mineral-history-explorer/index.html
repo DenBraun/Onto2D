@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="../../assets/js/document-state-reset.js" defer></script>
+    <meta name="description" content="A source-locked pyrite study separating conventional mineral species, sample identity, direct trace-element measurements, and qualified formation-history interpretations.">
+    <title>Mineral Formation History Explorer - Onto2D</title>
+    <link rel="icon" href="../../assets/icons/favicon.ico?v=20260818.1" type="image/x-icon">
+    <link rel="stylesheet" href="../../assets/css/ui-icons.css?v=20260818.1">
+    <link rel="stylesheet" href="../../assets/css/study-mineral-formation.css?v=20260819.1">
+    <script type="module" src="./mineral-history-explorer.js?v=20260819.1"></script>
+  </head>
+  <body data-state="loading">
+    <header class="history-case-header">
+      <a class="history-case-brand" href="../../" aria-label="Onto2D home"><svg viewBox="0 0 34 34" aria-hidden="true"><circle cx="7" cy="17" r="3"></circle><circle cx="27" cy="8" r="3"></circle><circle cx="27" cy="26" r="3"></circle><path d="M10 17h7m2-3 5-4m-5 10 5 4"></path></svg><span><strong>Onto2D</strong><small>History model</small></span></a>
+      <nav class="history-case-nav" aria-label="History navigation"><a href="../history-atlas/">History Atlas</a><a href="../model-studio/#model=mineral-formation-history&amp;version=v1-cefaa83457ac222c">Model Studio</a><a href="https://github.com/DenBraun/Onto2D/blob/main/docs/cases/MINERAL_FORMATION_HISTORY_IMPLEMENTATION.md" target="_blank" rel="noopener noreferrer">History model <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#external-link"></use></svg></a><a href="https://github.com/DenBraun/Onto2D" target="_blank" rel="noopener noreferrer">GitHub <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#external-link"></use></svg></a></nav>
+      <div class="history-case-context"><span>Mineral Formation History</span><strong class="history-case-state"><i></i><span id="load-state" role="status" aria-live="polite">Verifying artifact</span></strong></div>
+    </header>
+
+    <main>
+      <p id="fatal-error" class="fatal-error" hidden></p>
+      <section class="hero" aria-labelledby="page-title"><div class="hero-grid"><div><p class="eyebrow">10 / Reconstructed + embodied history</p><h1 id="page-title">Same mineral.<br>Different formation histories.</h1><p class="hero-copy">Ten published pyrite samples share one conventional species label. Three have distinct, source-attributed growth interpretations; seven remain deliberately unmapped in this bounded release.</p></div><dl class="hero-meta"><div><dt>Dataset</dt><dd>Mendeley Data / Gregory et al.</dd></div><div><dt>Retrieved</dt><dd id="retrieved-on">Loading</dd></div><div><dt>Case identity</dt><dd id="case-identity">Loading</dd></div><div><dt>Source identity</dt><dd id="source-identity">Loading</dd></div><div><dt>Canonical build</dt><dd>Frozen bytes / no live network</dd></div></dl></div></section>
+
+      <section class="claim-banner" aria-label="Exact result"><strong>EXACT RESULT</strong><p>One species class does not collapse ten sample records. Under the reviewed formation-profile regime, three samples are resolved and seven stay unknown within this release.</p></section>
+
+      <div class="workspace">
+        <section class="panel overview" aria-labelledby="overview-title"><div class="section-heading"><p class="section-kicker">01 / Bounded result</p><h2 id="overview-title">What is actually in the release</h2><p>Counts below come from the verified artifact, not from a live endpoint.</p></div><div id="metric-grid" class="metric-grid"></div></section>
+
+        <section class="identity-study" aria-labelledby="identity-title"><div class="identity-heading"><div><p class="section-kicker">02 / Identity question</p><h2 id="identity-title">Choose the equality key</h2><p>The cohort does not change. Only the declared identity regime changes.</p></div><div id="regime-controls" class="choice-controls" role="group" aria-label="Mineral identity regime"></div></div><div class="identity-result"><div><span id="regime-key">Loading</span><strong id="regime-count">&mdash;</strong><p id="regime-meaning"></p></div><div id="regime-classes" class="class-grid"></div></div></section>
+
+        <section class="formation-study" aria-labelledby="formation-title"><div class="section-heading"><p class="section-kicker">03 / Published interpretations</p><h2 id="formation-title">Three supported profiles, not three invented labels</h2><p>The wording remains qualified and attributable to the article.</p></div><div id="formation-cards" class="formation-cards"></div></section>
+
+        <section class="sample-study" aria-labelledby="sample-title"><div class="sample-heading"><div><p class="section-kicker">04 / Source cohort</p><h2 id="sample-title">Inspect all ten native samples</h2><p>Unmapped means no reviewed mapping in this release. It does not mean the sample has no history.</p></div><div id="sample-filter" class="choice-controls" role="group" aria-label="Sample mapping filter"></div></div><div class="sample-layout"><div id="sample-list" class="sample-list" role="list"></div><aside id="sample-inspector" class="sample-inspector" aria-live="polite"></aside></div></section>
+
+        <section class="trace-study" aria-labelledby="trace-title"><div class="trace-heading"><div><p class="section-kicker">05 / Direct measurement</p><h2 id="trace-title">See the series; do not mistake it for the claim</h2><p>Values are plotted on a log scale because concentrations span orders of magnitude. The plot is descriptive and never runs a formation classifier.</p></div><div id="element-controls" class="choice-controls" role="group" aria-label="Trace element"></div></div><div class="trace-layout"><article class="trace-plot"><div class="plot-title"><strong id="trace-label">Loading</strong><span>REPORTED PPM / LOG10 AXIS</span></div><svg id="trace-svg" viewBox="0 0 900 360" role="img" aria-label="Selected trace-element series for the chosen pyrite sample"></svg><p id="trace-readout" class="plot-readout" aria-live="polite"></p></article><aside class="trace-facts"><span>SOURCE PRESERVATION</span><strong>95</strong><p>analysis rows retained</p><dl><div><dt>Measurement promotion</dt><dd>none</dd></div><div><dt>Auto classification</dt><dd>0</dd></div><div><dt>Ambiguous Pb headings renamed</dt><dd>0</dd></div></dl></aside></div></section>
+
+        <section class="evidence-study" aria-labelledby="evidence-title"><div><p class="section-kicker">06 / Evidence chain</p><h2 id="evidence-title">Five layers that never silently merge</h2></div><div id="evidence-chain" class="evidence-chain"></div></section>
+
+        <section class="load-boundary" aria-labelledby="load-title"><div><p class="section-kicker">07 / Historical Load</p><h2 id="load-title">No defensible number is the result</h2><p id="load-reason"></p></div><div class="undefined-value"><strong>&mdash;</strong><span>NOT EVALUATED</span><small><code>null</code>, not zero</small></div></section>
+
+        <section class="panel boundary" aria-labelledby="boundary-title"><div class="section-heading"><p class="section-kicker">08 / Reading discipline</p><h2 id="boundary-title">What this release lets you say</h2></div><div class="boundary-grid"><article><span>EQUAL</span><h3>Conventional species</h3><p>All ten records use the bounded pyrite / FeS2 species key.</p></article><article><span>DISTINCT</span><h3>Physical samples</h3><p>Ten native sample IDs remain ten records across four countries.</p></article><article><span>SUPPORTED</span><h3>Three profiles</h3><p>Each mapped profile retains its qualifier, evidence summary, and article locator.</p></article><article><span>UNKNOWN</span><h3>Seven mappings</h3><p>No replacement claim is generated from age, locality, or chemistry.</p></article><article><span>UNDEFINED</span><h3>Historical Load</h3><p>No finite route space and cost model means no valid scalar result.</p></article></div><div class="source-links"><a href="https://doi.org/10.17632/h2n4b8cczy.1" target="_blank" rel="noopener noreferrer">Pinned dataset <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#external-link"></use></svg></a><a href="https://doi.org/10.1016/j.gca.2019.05.035" target="_blank" rel="noopener noreferrer">Gregory et al. article <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#external-link"></use></svg></a><a href="https://ntrs.nasa.gov/citations/20230000674" target="_blank" rel="noopener noreferrer">Paragenetic framework <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#external-link"></use></svg></a><a href="https://github.com/DenBraun/Onto2D/tree/main/cases/mineral-formation-history" target="_blank" rel="noopener noreferrer">Pinned case files <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#external-link"></use></svg></a></div></section>
+      </div>
+    </main>
+    <footer class="study-footer">1 species / 10 samples / 95 analyses / 3 reviewed formation profiles / 7 case-local unknown mappings / 0 generated causal claims.</footer>
+  </body>
+</html>

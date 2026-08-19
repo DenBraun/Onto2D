@@ -115,6 +115,16 @@ const lteeApp = read("apps/evolutionary-contingency-lab/evolutionary-contingency
 const lteeModel = read("apps/evolutionary-contingency-lab/evolutionary-contingency-model.js");
 const lteeStyles = read("assets/css/study-evolutionary-contingency.css");
 const lteeArtifact = read("cases/ltee-evolutionary-contingency/artifacts/ltee-evolutionary-contingency.json");
+const mineralMarkup = read("apps/mineral-history-explorer/index.html");
+const mineralApp = read("apps/mineral-history-explorer/mineral-history-explorer.js");
+const mineralModel = read("apps/mineral-history-explorer/mineral-formation-model.js");
+const mineralStyles = read("assets/css/study-mineral-formation.css");
+const mineralArtifact = read("cases/mineral-formation-history/artifacts/mineral-formation-history.json");
+const cellLineageMarkup = read("apps/cell-lineage-identity-lab/index.html");
+const cellLineageApp = read("apps/cell-lineage-identity-lab/cell-lineage-identity-lab.js");
+const cellLineageModel = read("apps/cell-lineage-identity-lab/cell-lineage-model.js");
+const cellLineageStyles = read("assets/css/study-cell-lineage.css");
+const cellLineageArtifact = read("cases/cell-lineage-identity/artifacts/cell-lineage-identity.json");
 const historyCasePageMarkups = historyCaseRegistry.cases.map((entry) => read(`${entry.casePagePath}index.html`));
 const modelPackWorker = read("assets/js/model-pack-worker.js");
 const siteServer = read("apps/historical-load-explorer/serve.mjs");
@@ -144,6 +154,8 @@ const publicDirectories = [
   "apps/galactic-archaeology-lab",
   "apps/material-process-history-lab",
   "apps/evolutionary-contingency-lab",
+  "apps/mineral-history-explorer",
+  "apps/cell-lineage-identity-lab",
   "apps/history-atlas",
   "apps/external-cases",
   ...historyCaseRegistry.cases.map((entry) => entry.casePagePath.replace(/\/$/, ""))
@@ -174,6 +186,8 @@ const publicFiles = [
   "assets/css/study-galactic-archaeology.css",
   "assets/css/study-material-process-history.css",
   "assets/css/study-evolutionary-contingency.css",
+  "assets/css/study-mineral-formation.css",
+  "assets/css/study-cell-lineage.css",
   "assets/css/external-cases.css",
   "assets/css/history-case-header.css",
   "assets/css/history-atlas.css",
@@ -200,6 +214,8 @@ const publicFiles = [
   "cases/galactic-archaeology/artifacts/galactic-archaeology.json",
   "cases/material-process-history/artifacts/material-process-history.json",
   "cases/ltee-evolutionary-contingency/artifacts/ltee-evolutionary-contingency.json",
+  "cases/mineral-formation-history/artifacts/mineral-formation-history.json",
+  "cases/cell-lineage-identity/artifacts/cell-lineage-identity.json",
   ...publicDirectories.flatMap((directory) => readdirSync(
     new URL(`../../${directory}/`, import.meta.url)
   ).filter((name) => /\.(?:css|html|js|json|md|mjs)$/.test(name)).map((name) => `${directory}/${name}`))
@@ -285,6 +301,8 @@ test("all History case surfaces share one header component and navigation layout
     galacticMarkup,
     materialMarkup,
     lteeMarkup,
+    mineralMarkup,
+    cellLineageMarkup,
     ...historyCasePageMarkups
   ];
   for (const markup of surfaces) {
@@ -299,10 +317,10 @@ test("all History case surfaces share one header component and navigation layout
   }
   assert.match(historyCaseHeaderStyles, /grid-template-columns:\s*minmax\(190px, 1fr\) auto minmax\(190px, 1fr\)/);
   assert.match(historyCaseHeaderStyles, /@media \(max-width: 700px\)/);
-  for (const styles of [externalCasesStyles, bootstrapStyles, gitHistoryStyles, nixStyles, ociStyles, inTotoStyles, chemicalStyles, buildEquivalenceStyles, artworkStyles, languageStyles, manuscriptStyles, operationalStyles, ecologicalStyles, legalStyles, clinicalStyles, galacticStyles, materialStyles, lteeStyles]) {
+  for (const styles of [externalCasesStyles, bootstrapStyles, gitHistoryStyles, nixStyles, ociStyles, inTotoStyles, chemicalStyles, buildEquivalenceStyles, artworkStyles, languageStyles, manuscriptStyles, operationalStyles, ecologicalStyles, legalStyles, clinicalStyles, galacticStyles, materialStyles, lteeStyles, mineralStyles, cellLineageStyles]) {
     assert.match(styles, /@import url\("\.\/history-case-header\.css\?v=20260818\.2"\);/);
   }
-  for (const markup of [chemicalMarkup, buildEquivalenceMarkup, artworkMarkup, languageMarkup, manuscriptMarkup, operationalMarkup, ecologicalMarkup, legalMarkup, clinicalMarkup, galacticMarkup, materialMarkup, lteeMarkup]) {
+  for (const markup of [chemicalMarkup, buildEquivalenceMarkup, artworkMarkup, languageMarkup, manuscriptMarkup, operationalMarkup, ecologicalMarkup, legalMarkup, clinicalMarkup, galacticMarkup, materialMarkup, lteeMarkup, mineralMarkup, cellLineageMarkup]) {
     assert.match(markup, /<div class="history-case-context"><span>[^<]+<\/span><strong class="history-case-state"><i><\/i><span id="load-state" role="status" aria-live="polite">Verifying artifact<\/span><\/strong><\/div>/);
   }
 });
@@ -733,6 +751,51 @@ test("Evolutionary Contingency Lab preserves protocol-conditioned accessibility 
   assertReadableInterfaceText(lteeStyles, "Evolutionary Contingency Lab");
 });
 
+test("Mineral Formation History Explorer preserves source records, interpretations, and unresolved samples", () => {
+  assert.match(mineralApp, /cases\/mineral-formation-history\/artifacts\/mineral-formation-history\.json/);
+  assert.match(mineralApp, /createMineralFormationModel/);
+  assert.match(mineralApp, /crypto\.subtle\.digest\("SHA-256"/);
+  assert.match(mineralApp, /cache: "no-store"/);
+  assert.match(mineralApp, /redirect: "error"/);
+  assert.match(mineralApp, /MAXIMUM_ARTIFACT_BYTES/);
+  assert.doesNotMatch(mineralApp, /const URL = new URL\(/);
+  assert.match(mineralModel, /published claim boundary differs/);
+  assert.match(mineralModel, /Historical Load boundary differs/);
+  assert.match(mineralMarkup, /Same mineral\.[\s\S]*Different formation histories\./);
+  assert.match(mineralMarkup, /Unmapped means no reviewed mapping in this release/);
+  assert.match(mineralMarkup, /No finite route space and cost model means no valid scalar result/);
+  for (const id of ["metric-grid", "regime-controls", "regime-classes", "formation-cards", "sample-filter", "sample-list", "sample-inspector", "element-controls", "trace-svg", "evidence-chain", "load-reason"]) assert.match(mineralMarkup, new RegExp(`id=["']${id}["']`), `missing #${id}`);
+  const pinnedDigest = mineralApp.match(/EXPECTED_ARTIFACT_SHA256 = "([a-f0-9]{64})"/)?.[1];
+  assert.equal(pinnedDigest, createHash("sha256").update(mineralArtifact).digest("hex"));
+  const appRevision = mineralMarkup.match(/mineral-history-explorer\.js\?v=([^"']+)/)?.[1];
+  const modelRevision = mineralApp.match(/mineral-formation-model\.js\?v=([^"']+)/)?.[1];
+  assert.equal(modelRevision, appRevision);
+});
+
+test("Cell Lineage Identity Lab preserves observation, grouping, reconstruction, and ancestry boundaries", () => {
+  assert.match(cellLineageApp, /cases\/cell-lineage-identity\/artifacts\/cell-lineage-identity\.json/);
+  assert.match(cellLineageApp, /createCellLineageModel/);
+  assert.match(cellLineageApp, /crypto\.subtle\.digest\("SHA-256"/);
+  assert.match(cellLineageApp, /cache: "no-store"/);
+  assert.match(cellLineageApp, /redirect: "error"/);
+  assert.match(cellLineageApp, /MAXIMUM_ARTIFACT_BYTES/);
+  assert.doesNotMatch(cellLineageApp, /const URL = new URL\(/);
+  assert.match(cellLineageApp, /marker-end/);
+  assert.match(cellLineageApp, /Showing the top/);
+  assert.match(cellLineageModel, /epistemic boundary differs/);
+  assert.match(cellLineageModel, /has an unresolved relation/);
+  assert.match(cellLineageMarkup, /Four valid meanings of "same\."/);
+  assert.match(cellLineageMarkup, /They do not denote observed cell divisions/);
+  assert.match(cellLineageMarkup, /Target position is not treated as edit time/);
+  assert.match(cellLineageMarkup, /<code>null<\/code>, not zero/);
+  for (const id of ["result-metrics", "regime-controls", "regime-key", "cluster-search", "cluster-list", "map-summary", "lineage-svg", "lineage-inspector", "comparison-grid", "load-reason"]) assert.match(cellLineageMarkup, new RegExp(`id=["']${id}["']`), `missing #${id}`);
+  const pinnedDigest = cellLineageApp.match(/EXPECTED_ARTIFACT_SHA256 = "([a-f0-9]{64})"/)?.[1];
+  assert.equal(pinnedDigest, createHash("sha256").update(cellLineageArtifact).digest("hex"));
+  const appRevision = cellLineageMarkup.match(/cell-lineage-identity-lab\.js\?v=([^"']+)/)?.[1];
+  const modelRevision = cellLineageApp.match(/cell-lineage-model\.js\?v=([^"']+)/)?.[1];
+  assert.equal(modelRevision, appRevision);
+});
+
 test("Git History Identity Lab verifies one immutable artifact across four regimes", () => {
   assert.match(gitHistoryApp, /cases\/git-history-identity\/artifacts\/history-identity\.json/);
   assert.match(gitHistoryApp, /createGitHistoryModel/);
@@ -846,7 +909,7 @@ test("Model Studio fully verifies the real pack before using the shared view lay
   assert.match(studioApp, /MODEL_PACK_CACHE_STORAGE_/);
   assert.match(studioApp, /dataset\.cache = "unavailable"/);
   assert.match(studioApp, /"Cached model verified"/);
-  assert.match(studioApp, /sha256:b53ca056e5cd9152ecfe1786ad18252df423ea49fdfa869a92bab9044eabbcf2/);
+  assert.match(studioApp, /sha256:504188a07726d1b66848330ca8e90afe31eda13e3e0b02df269f1b004056e308/);
   assert.match(studioApp, /new Worker\(MODEL_PACK_WORKER_URL, \{/);
   assert.match(studioApp, /type: "module"/);
   assert.match(studioApp, /ownsWorker: true/);
@@ -1014,6 +1077,8 @@ test("document navigation has one canonical URL and rejects stale bfcache restor
     languageMarkup,
     manuscriptMarkup,
     operationalMarkup,
+    mineralMarkup,
+    cellLineageMarkup,
     read("apps/historical-load-explorer/index.html")
   ];
   for (const markup of pages) {
@@ -1151,6 +1216,13 @@ test("Galactic Archaeology Lab keeps interface text at the readable minimum", ()
 test("Material Process History Lab keeps interface text at the readable minimum", () => {
   assertReadableInterfaceText(materialStyles, "Material Process History Lab");
   assert.doesNotMatch(materialStyles, /https?:\/\//);
+});
+
+test("Mineral Formation and Cell Lineage explorers keep interface text at the readable minimum", () => {
+  assertReadableInterfaceText(mineralStyles, "Mineral Formation History Explorer");
+  assertReadableInterfaceText(cellLineageStyles, "Cell Lineage Identity Lab");
+  assert.doesNotMatch(mineralStyles, /https?:\/\//);
+  assert.doesNotMatch(cellLineageStyles, /https?:\/\//);
 });
 
 test("graph sidebars keep machine fields on bounded single lines", () => {

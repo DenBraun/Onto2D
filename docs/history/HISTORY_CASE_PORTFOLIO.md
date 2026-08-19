@@ -19,10 +19,10 @@ Statuses describe repository maturity, not scientific truth.
 | SLSA Provenance Evidence | Recorded | — | Identity | Software supply chain | PLANNED |
 | Software Heritage Lineage | Recorded | — | Identity | Software archival | PLANNED |
 | Chemical Synthesis History | Recorded | — | Identity | Chemistry | ANALYSIS_READY |
-| Mineral Formation History | Reconstructed | Embodied | Identity | Mineralogy | PLANNED |
+| Mineral Formation History | Reconstructed | Embodied | Identity | Mineralogy | ANALYSIS_READY |
 | LTEE Evolutionary Contingency | Embodied | Recorded, Reconstructed | Future | Experimental evolution | ANALYSIS_READY |
 | Material Process History | Embodied | Recorded | Present State | Materials science | ANALYSIS_READY |
-| Cell Lineage Identity | Reconstructed | Embodied | Identity | Developmental biology | PLANNED |
+| Cell Lineage Identity | Reconstructed | Embodied | Identity | Developmental biology | ANALYSIS_READY |
 | Lithic Operational History | Reconstructed | — | Present State | Archaeology | PLANNED |
 | Artwork Provenance | Recorded | Reconstructed | Identity | Cultural heritage | ANALYSIS_READY |
 | Manuscript Stemmatics | Reconstructed | Recorded | Identity | Textual scholarship | ANALYSIS_READY |
@@ -70,8 +70,13 @@ metadata, never physical ownership of a case.
    Ara-3 replay protocols and descriptive history-conditioned reachability.
    Operational Aging is analysis-ready; Ecological Memory's present-state
    result is analysis-ready while future reachability remains descriptive-only.
-4. Reconstructed → Identity: Historical Linguistics and Manuscript Stemmatics
-   are analysis-ready; Mineral Formation and Cell Lineage remain planned.
+4. Reconstructed → Identity: Historical Linguistics, Manuscript Stemmatics,
+   Mineral Formation, and Cell Lineage are analysis-ready. Mineral Formation keeps one
+   conventional pyrite class, ten sample records, three reviewed formation
+   profiles, and seven case-local unresolved mappings. Cell Lineage preserves
+   750 source cells as 750 record, 56 cluster, 192 exact HMID, or 133 bounded
+   first-four-target signature classes without treating target position as edit
+   time or inventing a complete pedigree.
 5. Reconstruction from traces: Galactic Archaeology is analysis-ready with a
    64-source Gaia DR3 cohort, five explicit evidence layers, and quality/evidence
    ablations; Lithic Operational History remains planned.

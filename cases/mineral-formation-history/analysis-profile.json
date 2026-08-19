@@ -1,0 +1,112 @@
+{
+  "format": "onto2d-mineral-formation-history-analysis-profile",
+  "formatVersion": "1",
+  "profileVersion": "gregory-2019-pyrite-formation-interpretation-v1",
+  "question": "Can samples of one conventional mineral species remain different under a formation-history identity regime, and what evidence supports that distinction?",
+  "evidenceLayers": [
+    {
+      "id": "sample-record",
+      "authority": "Gregory et al. dataset Table 1",
+      "role": "native sample identifier, age, locality, stratigraphy, and material description"
+    },
+    {
+      "id": "direct-measurement",
+      "authority": "Gregory et al. Appendix 3",
+      "role": "95 retained in-situ LA-ICP-MS rows with source columns and reported uncertainties"
+    },
+    {
+      "id": "published-interpretation",
+      "authority": "Gregory et al. 2019 article",
+      "role": "three bounded sample-specific growth interpretations, each with an exact article locator"
+    },
+    {
+      "id": "species-classification",
+      "authority": "bounded pyrite cohort",
+      "role": "one conventional FeS2 species label used only as the species-level comparison key"
+    },
+    {
+      "id": "onto2d-analysis",
+      "authority": "gregory-2019-pyrite-formation-interpretation-v1",
+      "role": "regime-relative classes, unresolved mappings, and explicit non-claims"
+    }
+  ],
+  "identityRegimes": [
+    {
+      "id": "conventional-species",
+      "equivalenceKey": "species name plus formula",
+      "expectedClassCount": 1,
+      "unresolvedCount": 0,
+      "meaning": "All ten selected records are pyrite samples in the bounded source cohort."
+    },
+    {
+      "id": "sample-record",
+      "equivalenceKey": "native dataset sample identifier",
+      "expectedClassCount": 10,
+      "unresolvedCount": 0,
+      "meaning": "The ten physical sample records remain distinct regardless of species equality."
+    },
+    {
+      "id": "published-formation-profile",
+      "equivalenceKey": "reviewed sample-specific growth interpretation",
+      "expectedClassCount": 3,
+      "unresolvedCount": 7,
+      "meaning": "Three representative samples have bounded published profiles; seven are deliberately not mapped by this release."
+    }
+  ],
+  "formationClaims": [
+    {
+      "id": "formation:dd86wrl1-681",
+      "sampleId": "DD86WRL1-681",
+      "profile": "predominantly-pervasive-with-later-margin-growth",
+      "shortLabel": "Pervasive + later margin",
+      "qualifier": "predominantly",
+      "locator": "Figure 1 caption, lines 733-745 in the accepted manuscript text",
+      "evidenceSummary": "Little trace-element variation across the nodule and minor sulfur-isotope change at its margins support predominantly pervasive growth with minor later pyrite production at the margin."
+    },
+    {
+      "id": "formation:petr14",
+      "sampleId": "PETR14",
+      "profile": "predominantly-concentric-growth",
+      "shortLabel": "Concentric growth",
+      "qualifier": "predominantly",
+      "locator": "Figure 2 caption, lines 746-757 in the accepted manuscript text",
+      "evidenceSummary": "Spatial changes in trace elements and sulfur isotopes are interpreted as predominantly concentric growth."
+    },
+    {
+      "id": "formation:79990",
+      "sampleId": "79990",
+      "profile": "pervasive-centre-with-later-margin-infill",
+      "shortLabel": "Pervasive centre + margin infill",
+      "qualifier": "interpreted",
+      "locator": "Section 5 discussion of Figure 3, lines 352-359 in the accepted manuscript text",
+      "evidenceSummary": "Low variation and fine grains in the centre are interpreted as many early nucleation sites; later diagenetic pyrite filled space toward the margin."
+    }
+  ],
+  "historicalLoad": {
+    "status": "not-evaluated",
+    "value": null,
+    "reason": "The sources do not define a finite universe of admissible formation paths, transition costs, or a history-free counterfactual baseline. Undefined must not be displayed as zero."
+  },
+  "interpretationPolicy": {
+    "status": "published-interpretations-only",
+    "localityMayImplyFormation": false,
+    "ageMayImplyFormation": false,
+    "traceElementsMayBeAutoClassified": false,
+    "publishedQualifierMayBeStrengthened": false,
+    "unmappedSamplesMayReceiveClaims": false,
+    "causalEdgesGeneratedByOnto2D": false
+  },
+  "nonClaims": [
+    "The ten samples are not a complete pyrite, sedimentary-pyrite, or mineral-formation space.",
+    "A common pyrite species label does not establish sample identity.",
+    "Age, locality, formation name, or description alone does not establish a growth mechanism.",
+    "LA-ICP-MS values are observations and do not automatically become formation classifications.",
+    "The three formation profiles remain qualified interpretations from the cited article.",
+    "The seven unmapped samples are unresolved only within this bounded reviewed mapping, not globally unknowable.",
+    "No sulfur-isotope numeric series is reconstructed from article figures.",
+    "Duplicate Pb_Py workbook headings are retained by source column and are not assigned invented isotope labels.",
+    "The case does not replace IMA-style conventional mineral species classification.",
+    "No Onto2D-generated causal relation is added to the source graph.",
+    "Historical Load is undefined because no finite path universe and cost model are declared."
+  ]
+}

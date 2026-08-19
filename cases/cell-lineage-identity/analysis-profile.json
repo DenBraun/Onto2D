@@ -1,0 +1,101 @@
+{
+  "format": "onto2d-cell-lineage-identity-analysis-profile",
+  "formatVersion": "1",
+  "profileVersion": "zf1-scgestalt-regime-comparison-v2",
+  "question": "When do the same observed cells count as identical by cell record, transcriptomic cluster, barcode state, or a bounded first-four-target grouping?",
+  "evidenceLayers": [
+    {
+      "id": "sample-identity",
+      "authority": "GEO GSM2813984 / ZF1_scGSTLT",
+      "role": "one source-identified juvenile zebrafish brain cohort"
+    },
+    {
+      "id": "direct-measurement",
+      "authority": "GSM2813984_ZF1.GestMaster.txt.gz",
+      "role": "750 matched single-cell records with numeric cluster membership and reported HMID barcode state"
+    },
+    {
+      "id": "published-interpretation",
+      "authority": "Raj et al. 2018",
+      "role": "biological labels only where the paper explicitly relates a cluster number to a cell type"
+    },
+    {
+      "id": "bounded-reconstruction",
+      "authority": "zf1-scgestalt-regime-comparison-v2",
+      "role": "exact first-four-target signature grouping, kept distinct from the paper's maximum-parsimony tree"
+    },
+    {
+      "id": "evidence-boundary",
+      "authority": "Onto2D case policy",
+      "role": "partial target coverage, collision ambiguity, absent division observations, and undefined Historical Load"
+    }
+  ],
+  "identityRegimes": [
+    {
+      "id": "cell-record",
+      "equivalenceKey": "native GEO BarcodeKey",
+      "expectedClassCount": 750,
+      "meaning": "Every matched source cell remains a distinct observation."
+    },
+    {
+      "id": "transcriptomic-cluster",
+      "equivalenceKey": "numeric ClusterIdent from the source GestMaster table",
+      "expectedClassCount": 56,
+      "meaning": "Cells are grouped by the published analysis' cluster membership; this is not a claim of common ancestry."
+    },
+    {
+      "id": "observed-barcode-state",
+      "equivalenceKey": "exact ten-target HMID string",
+      "expectedClassCount": 192,
+      "meaning": "Cells with byte-equal reported barcode states are grouped together; collisions and barcode saturation prevent treating equality as a complete pedigree proof."
+    },
+    {
+      "id": "first-four-target-signature",
+      "equivalenceKey": "exact HMID target positions 1-4",
+      "expectedClassCount": 133,
+      "meaning": "A transparent bounded projection groups cells by the first four target positions without treating target order as edit time or claiming the published maximum-parsimony topology."
+    }
+  ],
+  "comparisons": [
+    {
+      "id": "same-cluster-different-barcode",
+      "pairCount": 7058,
+      "result": "A shared transcriptomic cluster does not collapse distinct observed barcode histories."
+    },
+    {
+      "id": "same-barcode-different-cluster",
+      "pairCount": 22967,
+      "result": "A shared observed barcode state can contain cells assigned to different transcriptomic clusters."
+    },
+    {
+      "id": "same-first-four-target-signature-different-cluster",
+      "pairCount": 28360,
+      "result": "A shared first-four-target signature can span different transcriptomic states and different complete barcode outcomes."
+    }
+  ],
+  "reconstructionPolicy": {
+    "publishedTreeImported": false,
+    "publishedMaximumParsimonyRecomputed": false,
+    "firstFourTargetGroupingComputed": true,
+    "groupingRepresentsObservedDivision": false,
+    "sameBarcodeProvesUniqueAncestor": false,
+    "missingTargetStateMayBeImputed": false,
+    "confidenceMayBeInvented": false,
+    "reason": "The released GestMaster table is sufficient for exact regime comparison but not for silently reproducing the paper's filtered two-stage PHYLIP tree."
+  },
+  "historicalLoad": {
+    "status": "not-evaluated",
+    "value": null,
+    "reason": "No finite universe of admissible developmental histories, transition-cost function, or history-free counterfactual baseline is declared. The class-count changes are reported directly instead."
+  },
+  "nonClaims": [
+    "The 750 matched cells are not all cells in ZF1 and are not a complete zebrafish developmental lineage.",
+    "Numeric transcriptomic cluster equality is not exact biological identity and does not establish ancestry.",
+    "An exact shared HMID constrains a lineage interpretation but does not by itself prove one unique immediate ancestor.",
+    "The 192 exact HMID strings are a source-table census, not the paper's final filtered count of tree barcodes.",
+    "The first-four-target signature is an Onto2D grouping key, not a replacement for Camin-Sokal maximum parsimony; target position is not edit time.",
+    "No unobserved division, parent cell, branch length, confidence value, or missing target state is invented.",
+    "Biological labels are attached only to cluster IDs explicitly discussed in the paper; other labels remain numeric.",
+    "Historical Load is undefined, not zero."
+  ]
+}

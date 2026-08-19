@@ -21,7 +21,7 @@ test("the history portfolio is complete, stable, and status-honest", async () =>
   assert.deepEqual(HISTORY_MODES.map((entry) => entry.id), ["recorded", "embodied", "reconstructed"]);
   assert.deepEqual(HISTORY_EFFECTS.map((entry) => entry.id), ["identity", "present-state", "future"]);
   assert.equal(new Set(cases.map((entry) => entry.caseId)).size, cases.length);
-  assert.equal(cases.filter((entry) => entry.statusKind === "implemented").length, 17);
+  assert.equal(cases.filter((entry) => entry.statusKind === "implemented").length, 19);
   assert.equal(cases.filter((entry) => entry.statusKind === "next").length, 0);
   assert.equal(historyCaseById(cases, "oci-layer-history").statusKind, "implemented");
   assert.equal(historyCaseById(cases, "in-toto-admissibility").statusKind, "implemented");
@@ -36,6 +36,8 @@ test("the history portfolio is complete, stable, and status-honest", async () =>
   assert.equal(historyCaseById(cases, "clinical-trajectories").statusKind, "implemented");
   assert.equal(historyCaseById(cases, "galactic-archaeology").statusKind, "implemented");
   assert.equal(historyCaseById(cases, "material-process-history").statusKind, "implemented");
+  assert.equal(historyCaseById(cases, "mineral-formation-history").statusKind, "implemented");
+  assert.equal(historyCaseById(cases, "cell-lineage-identity").statusKind, "implemented");
   assert.equal(historyCaseById(cases, "ltee-evolutionary-contingency").statusKind, "implemented");
   assert.equal(historyCaseById(cases, "slsa-provenance-evidence").caseId, "slsa-provenance-evidence");
   assert.equal(historyCaseById(cases, "missing"), null);
@@ -102,6 +104,8 @@ test("implemented case links select one exact registered Model Studio release", 
     ["clinical-trajectories", ["clinical-trajectories", "v1-2360048548115b14"]],
     ["galactic-archaeology", ["galactic-archaeology", "v1-2f109fd8c5475426"]],
     ["material-process-history", ["material-process-history", "v1-0ea3ee56fe462eea"]],
+    ["mineral-formation-history", ["mineral-formation-history", "v1-cefaa83457ac222c"]],
+    ["cell-lineage-identity", ["cell-lineage-history", "v1-6e6ea7be0f576db7"]],
     ["ltee-evolutionary-contingency", ["ltee-lineage-history", "v1-e4ff96341b402b13"]]
   ]);
   for (const entry of cases) {

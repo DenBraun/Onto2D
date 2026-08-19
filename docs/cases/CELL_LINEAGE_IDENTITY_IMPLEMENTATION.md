@@ -1,6 +1,6 @@
-# Cell Lineage Identity — Implementation Plan
+# Cell Lineage Identity — Implementation
 
-Updated: 2026-08-18
+Updated: 2026-08-19
 
 ## History Model Metadata
 
@@ -11,6 +11,8 @@ History modes:
 
 Primary effects:
     Identity
+
+Secondary effects:
     Present State
 
 Domain:
@@ -35,6 +37,38 @@ Reachability:
 Reconstruction:
     Primary
 ```
+
+## Implemented Release
+
+Status: `ANALYSIS_READY`
+
+The release pins NCBI GEO series `GSE105010`, sample `GSM2813984`
+(`ZF1_scGSTLT`), the exact `GSE105010_RAW.tar` bytes, and its exact
+`GSM2813984_ZF1.GestMaster.txt.gz` member. A standard-library generator
+reproduces a complete bounded projection of all 750 source rows.
+
+The verified result is:
+
+```text
+750 native cell-record classes
+ 56 numeric transcriptomic-cluster classes
+192 exact reported ten-target HMID classes
+133 exact first-four-target signature classes
+ 16 cells with explicit partial target coverage
+  0 invented parent cells, divisions, or confidence values
+```
+
+The source table, projection generator, analysis profile, case artifact, Model
+Pack, and browser artifact are all byte- or canonical-identity locked. The
+Model Pack release is `cell-lineage-history@v1-6e6ea7be0f576db7` with 1,140
+nodes and 2,450 edges. The dedicated explorer is
+`apps/cell-lineage-identity-lab/`.
+
+This release deliberately does not claim to reproduce the article's final
+filtered two-stage PHYLIP topology. The released GestMaster member supports an
+exact and useful regime comparison; the Onto2D first-four-target grouping is
+therefore labelled as a bounded reconstruction rather than an observed cell
+division or the published maximum-parsimony tree.
 
 ## Purpose
 
@@ -107,21 +141,21 @@ The reconstructed lineage is not direct observation of every cell division.
 
 ## Phase 0 — Bounded Dataset
 
-Do not ingest every available cell initially.
+Do not ingest every available animal or expression matrix initially.
 
 Select a bounded cohort containing:
 
-- one or a few zebrafish samples;
+- one source-identified zebrafish sample;
 - cells with transcriptome and lineage barcode data;
 - stable cell-type annotations;
-- a published or reproducible lineage reconstruction;
+- a reproducible, explicitly bounded lineage grouping;
 - enough diversity to demonstrate convergence/divergence.
 
 Freeze all files and hashes.
 
 ## Phase 1 — Cell State Model
 
-Represent:
+The release represents:
 
 ```text
 CellRecord
@@ -153,15 +187,17 @@ Keep raw/processed barcode evidence separate from inferred lineage.
 Represent:
 
 ```text
-LineageTree
-LineageNode
-ParentAssignment
-ReconstructionMethod
-Support/Confidence
-AlternativeAssignment
+ObservedBarcodeState
+FirstFourTargetSignature
+BoundedProjectionMethod
+ReconstructionBoundary
+PartialTargetCoverage
 ```
 
-If the chosen published dataset gives a fixed reconstructed tree without per-edge probabilities, preserve that limitation rather than inventing confidence values.
+The source article documents a two-stage Camin-Sokal maximum-parsimony method,
+but its historical interactive JSON endpoint is not imported into this
+release. The release therefore creates no lineage-tree parent assignment and
+no per-edge confidence. This is a result boundary, not missing UI state.
 
 ## Phase 4 — Identity Regimes
 
@@ -171,41 +207,53 @@ Implement:
 
 Exact measured cell record.
 
-### Transcriptomic State Similarity
+### Transcriptomic Cluster Identity
 
-Requires an explicit metric/profile and threshold.
+Uses exact numeric `ClusterIdent` membership from the source table. It is not a
+pairwise expression-distance metric and is never promoted to exact biological
+identity.
 
-Do not call similarity `identity` without a declared regime.
+### Paper-Labelled Cell-Type View
 
-### Cell-Type Identity
-
-Based on selected annotation labels.
+Uses a biological label only for cluster numbers explicitly discussed in Raj
+et al. All other clusters remain numeric source memberships.
 
 ### Barcode Identity
 
 Observed lineage barcode state.
 
-### Reconstructed Lineage Identity
+### Bounded Reconstructed Identity
 
-Based on ancestry in the selected reconstruction.
+Based on exact equality over HMID target positions 1-4. It is a
+versioned grouping key and not a claim of complete ancestry.
 
 ## Phase 5 — Canonical Experiments
 
 ### Experiment A — Same Cell Type, Different Lineage
 
-Identify cells with the same selected mature cell-type label but different reconstructed ancestry where supported by the dataset.
+The artifact reports 7,058 unordered pairs in the same numeric transcriptomic
+cluster but with different exact observed HMID states, with concrete source-row
+examples. The result is phrased as state equality versus barcode-history
+difference, not as proof of different true ancestry.
 
 ### Experiment B — Close Lineage, Different State
 
-Find closely related cells assigned to divergent transcriptional/cell-type states where supported.
+The artifact reports 22,967 unordered pairs with one exact observed HMID but
+different numeric clusters. Shared HMID constrains interpretation but does not
+prove one unique parent because barcode collisions and saturation remain
+possible.
 
 ### Experiment C — State Similarity vs Lineage Distance
 
-Plot bounded comparisons between expression/state similarity and lineage distance.
+The explorer links cluster, observed HMID, and first-four-target-signature
+layers. Target position is not treated as edit chronology. No
+expression-distance or lineage-distance metric is invented from absent source
+fields.
 
 ### Experiment D — Reconstruction Ambiguity
 
-Where available, show ambiguous or incomplete barcode evidence.
+Sixteen cells with `OUT` target states remain explicitly partial and are never
+imputed.
 
 ## Phase 6 — Convergent / Divergent Differentiation
 
@@ -230,10 +278,11 @@ A later deliberately bounded developmental model may support such an analysis.
 
 ## Phase 8 — Model Pack
 
-Potential:
-
 ```text
 modelId: cell-lineage-history
+version: v1-6e6ea7be0f576db7
+nodes: 1140
+edges: 2450
 ```
 
 Entities:
@@ -256,7 +305,7 @@ Large matrices stay external verified artifacts.
 Views:
 
 1. Cell State Map
-2. Lineage Tree
+2. Bounded Relation Map
 3. State vs Lineage Comparison
 4. Same-Type / Different-Lineage Cohorts
 5. Barcode Evidence
@@ -266,9 +315,9 @@ Views:
 A useful linked interaction:
 
 ```text
-select cells in state space
+select a transcriptomic cluster
         ↓
-highlight their positions in lineage tree
+inspect its observed HMIDs and first-four-target-signature groups
 ```
 
 and the reverse.
@@ -291,4 +340,7 @@ The case fails if Onto2D cannot maintain independent representations of current 
 
 ## Definition of Done
 
-A pinned scGESTALT cohort can be reproduced with linked state and lineage views, including at least one reviewed same-state/type versus different-lineage comparison and explicit reconstruction limitations.
+A pinned scGESTALT cohort is reproduced with all 750 source rows, four explicit
+identity regimes, exact cross-regime pair counts, linked state/barcode/bounded
+reconstruction views, and negative tests that reject invented ancestry,
+confidence, imputation, or Historical Load.

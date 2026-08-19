@@ -23,8 +23,9 @@ Pack contract, separate frozen Causal Emergence, live-bootstrap provenance,
 Nix derivation, OCI layer-provenance, in-toto, chemical-reaction, reproducible-build,
 artwork-provenance, language-transmission, manuscript-transmission,
 operational-aging, ecological-memory, legal-precedent-history,
-clinical-trajectories, galactic-archaeology, and material-process-history releases,
-plus the ltee-lineage-history release,
+clinical-trajectories, galactic-archaeology, material-process-history,
+mineral-formation-history, and cell-lineage-history releases, plus the
+ltee-lineage-history release,
 and a headless API for exact model queries and traversal. It is not yet a
 published npm package.
 
@@ -173,6 +174,23 @@ under one exact nominal recipe, then exposes the 2,248-coordinate B7-P3
 residual-strain field without copying it to sibling parts, repairing source
 metadata, inventing causality, or rendering undefined Historical Load as zero
 ([method](cases/material-process-history/README.md)).
+
+The [Mineral Formation History Explorer](https://denbraun.github.io/Onto2D/apps/mineral-history-explorer/)
+keeps one conventional pyrite species key, ten native sample records, 95 exact
+LA-ICP-MS rows, three qualified published growth interpretations, and seven
+case-local unresolved mappings in separate layers. Age, locality, and chemistry
+never become automatic formation claims, and Historical Load remains undefined
+without a finite path-and-cost model
+([method](cases/mineral-formation-history/README.md)).
+
+The [Cell Lineage Identity Lab](https://denbraun.github.io/Onto2D/apps/cell-lineage-identity-lab/)
+keeps all 750 source-matched ZF1 cells distinct from 56 transcriptomic clusters,
+192 exact reported HMID states, and 133 signatures over HMID target positions
+1-4. Target position is not treated as edit time. It
+exposes cross-regime comparisons while treating shared cluster, shared barcode,
+bounded reconstruction, and a complete developmental pedigree as different
+claims; Historical Load remains undefined
+([method](cases/cell-lineage-identity/README.md)).
 
 The [Evolutionary Contingency Lab](https://denbraun.github.io/Onto2D/apps/evolutionary-contingency-lab/)
 compares sixteen recorded Ara-3 source generations across three separate

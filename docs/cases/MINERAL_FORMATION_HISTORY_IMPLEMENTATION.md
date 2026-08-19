@@ -1,6 +1,33 @@
-# Mineral Formation History — Implementation Plan
+# Mineral Formation History — Implemented Release
 
-Updated: 2026-08-18
+Updated: 2026-08-19
+
+Status: `ANALYSIS_READY`
+
+```text
+caseId:      mineral-formation-history
+modelId:     mineral-formation-history
+model:       v1-cefaa83457ac222c
+explorer:    apps/mineral-history-explorer/
+case:        sha256:10b59cb71e26bb07e7a88139f639d5a416d20674b63ff5165a75d03d1b23cf9c
+model root:  sha256:759b271dd0da6434e97290d22876b34a7258c27991d0fc4fe158d60e2af72820
+```
+
+## Result
+
+The first release uses one bounded sedimentary pyrite-nodule cohort:
+
+```text
+1 conventional species key: Pyrite / FeS2
+10 native sample records
+95 retained LA-ICP-MS analysis rows
+3 reviewed, sample-specific published formation profiles
+7 samples with no mapping in this bounded release
+```
+
+It demonstrates that conventional species identity, physical sample identity,
+direct measurement, and formation-history interpretation can coexist without
+overwriting one another.
 
 ## History Model Metadata
 
@@ -11,6 +38,8 @@ History modes:
 
 Primary effects:
     Identity
+
+Secondary effects:
     Present State
 
 Domain:
@@ -25,7 +54,7 @@ Evidence profile:
     contested
 
 Historical Load:
-    Not primary
+    Not evaluated
 
 History Equivalence:
     Possible
@@ -37,257 +66,171 @@ Reconstruction:
     Primary
 ```
 
-## Purpose
+## Source Lock
 
-Test whether present mineral classification and formation-history classification can coexist as distinct views over the same samples/species.
+The source projection is generated from Mendeley Data DOI
+[`10.17632/h2n4b8cczy.1`](https://doi.org/10.17632/h2n4b8cczy.1), version 1,
+CC BY 4.0:
 
-Primary distinction:
+| File | Bytes | SHA-256 | Role |
+|---|---:|---|---|
+| `Table 1 sample information.xlsx` | 14,509 | `e1e7cee4f5a400b0b3a4edb44ea3e8736f0f3620823b0b750aa44022608af58a` | sample ID, age, locality, stratigraphy, description |
+| `Appendix 3 LA-icpms data.xlsx` | 118,563 | `dfd1fecb72ab8dc75e29dc0ca55a3ca32c3407b88962171594e629d377dcbf6c` | 95 measurement rows |
 
-```text
-composition + crystal structure
-        !=
-complete historical natural-kind description
-```
+The normal repository build uses the frozen JSON projection and requires no
+network access. `prepare-source.py` uses only the Python standard library and
+rejects input whose hash differs.
 
-The project must not assume that historical classification replaces conventional mineralogy. It tests whether formation history provides an additional explicit axis.
+The sample-specific formation interpretations come from Gregory et al. (2019),
+*Geochimica et Cosmochimica Acta* 259, 53–68, DOI
+[`10.1016/j.gca.2019.05.035`](https://doi.org/10.1016/j.gca.2019.05.035).
+The accepted manuscript is separately locked to 783,712 bytes and SHA-256
+`4c3e40b01a5f319bbb367258663589bd0b52ae2495d9a86820b764f88ebd5118`.
 
-## Primary External Sources
+Hazen and Morrison (2022), DOI
+[`10.2138/am-2022-8099`](https://doi.org/10.2138/am-2022-8099), is used only
+as conceptual authority for complementary conventional and paragenetic
+classification. It supplies no sample-specific claim in this case.
 
-Evolutionary System of Mineralogy overview:
+## Reviewed Formation Claims
 
-```text
-https://hazen.carnegiescience.edu/research/evolutionary-system-mineralogy
-```
+| Sample | Published profile retained by the case | Qualifier | Exact locator |
+|---|---|---|---|
+| `DD86WRL1-681` | pervasive growth with minor later margin growth | predominantly | Figure 1 caption, accepted-manuscript text lines 733–745 |
+| `PETR14` | concentric growth | predominantly | Figure 2 caption, accepted-manuscript text lines 746–757 |
+| `79990` | pervasive centre with later margin infill | interpreted | section 5 discussion of Figure 3, accepted-manuscript text lines 352–359 |
 
-RRUFF mineral data:
+The claim layer preserves the authors’ qualifiers. Onto2D does not strengthen
+`predominantly` or `interpreted` into proven, unique, or necessary mechanisms.
 
-```text
-https://rruff.info/
-```
+The other seven samples remain `unmapped-within-bounded-case`. This means no
+reviewed mapping is included in this release. It does not claim that their
+formation histories are globally unknowable.
 
-Additional formation/paragenetic claims must come from reviewed publications or reviewed datasets and be pinned individually.
-
-## Outputs
-
-```text
-cases/mineral-formation-history/
-apps/mineral-history-explorer/
-models/mineral-formation-history/
-docs/cases/MINERAL_FORMATION_HISTORY_IMPLEMENTATION.md
-```
-
-## Key Epistemic Boundary
-
-The system must distinguish:
-
-```text
-sample observation
-mineral species classification
-locality/age record
-formation-mode interpretation
-historical natural-kind grouping
-Onto2D analysis
-```
-
-A mineral locality is not itself proof of a formation mechanism.
-
-## Phase 0 — Start With One Mineral Family
-
-Do not ingest the entire mineral kingdom.
-
-Select one mineral with multiple reviewed formation modes. Pyrite is a strong initial candidate, but the final selection must be based on a reviewable published formation-mode corpus.
-
-Freeze:
-
-- mineral species definition;
-- selected samples/localities;
-- selected formation modes;
-- supporting publications;
-- evidence mapping.
-
-## Phase 1 — Evidence Package
-
-Create:
+## Evidence Layers
 
 ```text
-cases/mineral-formation-history/upstream.json
-cases/mineral-formation-history/evidence/
+sample-record
+    native identifier, age, locality, stratigraphy, description
+
+direct-measurement
+    exact LA-ICP-MS rows and reported uncertainties
+
+published-interpretation
+    qualified sample-specific claim plus article locator
+
+species-classification
+    bounded Pyrite / FeS2 comparison key
+
+onto2d-analysis
+    identity regimes, unresolved mappings, and non-claims
 ```
 
-Record:
+The source workbook repeats the heading `Pb_Py` in columns X, Y, and Z. The
+projection retains the source column letters and does not invent isotope labels.
 
-- RRUFF sample IDs where used;
-- locality/source metadata;
-- composition/structural identifiers;
-- formation-mode publication references;
-- age data where used;
-- extraction version;
-- manually reviewed mapping records.
+## Identity Regimes
 
-Manual scientific mappings must be explicit artifacts, not code comments.
+### Conventional species
 
-## Phase 2 — Native Sample Model
+All ten samples form one bounded `Pyrite / FeS2` class.
 
-Represent:
+### Sample record
 
-```text
-MineralSpecies
-MineralSample
-Locality
-AgeEstimate
-CompositionRecord
-StructureRecord
-SpectralRecord
-SourceRecord
+The native sample IDs form ten distinct classes.
+
+### Published formation profile
+
+Three reviewed representatives form three supported profile classes and seven
+samples remain unresolved. The regime does not manufacture a catch-all
+formation class for unknown records.
+
+## Canonical Experiments
+
+1. **Same species, different formation profiles.** Compare `DD86WRL1-681`,
+   `PETR14`, and `79990` without changing their common species key.
+2. **Evidence trace.** Follow each mapped sample through its measurement series,
+   qualified article claim, and exact locator.
+3. **Unknown boundary.** Verify that seven source samples receive no generated
+   claim from their age, locality, description, or chemistry.
+4. **Classification toggle.** Reproject one immutable cohort as 1 species class,
+   10 sample classes, or 3 supported profiles plus 7 unresolved records.
+
+## Historical Load
+
+Historical Load is:
+
+```json
+{
+  "status": "not-evaluated",
+  "value": null
+}
 ```
 
-Do not infer formation mode at this layer.
+The sources do not define a finite universe of admissible formation paths,
+explicit transitions, transition costs, or a history-free baseline. A numeric
+value—especially zero—would therefore be fabricated.
 
-## Phase 3 — Formation Interpretation Model
+## Model Pack
 
-Represent separately:
+The 30-node / 48-edge Model Pack contains:
 
-```text
-FormationMode
-FormationClaim
-EvidenceReference
-Confidence/Status
+- one source-cohort node and one conventional species node;
+- ten sample nodes and ten attributable measurement-series nodes;
+- three published-interpretation nodes;
+- three identity-regime nodes;
+- unresolved-mapping and Historical Load boundary nodes.
+
+Measurement edges explicitly carry `causalFormationClaim: false`. Only the
+three article-attributed claim nodes use `interprets-sample`; Onto2D generates
+zero causal formation edges.
+
+## Explorer
+
+The light-theme Mineral Formation History Explorer provides:
+
+1. exact release metrics;
+2. an identity-regime switcher;
+3. three published-interpretation cards;
+4. a complete ten-sample inspector with mapped/unmapped filtering;
+5. descriptive log-scale trace-element series by sample;
+6. the five-layer evidence chain;
+7. explicit Historical Load and epistemic boundaries.
+
+The trace chart preserves source order and reports numeric ranges. It is a
+visualization, not a formation classifier.
+
+## Negative Guarantees
+
+Automated tests reject or detect:
+
+- input workbooks with unexpected bytes;
+- added fields outside the artifact schema;
+- missing or duplicated sample/analysis identities;
+- renamed ambiguous lead columns;
+- formation claims inferred from locality, age, or trace elements;
+- strengthened publication qualifiers;
+- generated causal formation relations;
+- a numeric Historical Load without a declared path-and-cost model;
+- Model Pack, registry, and browser artifact hash drift.
+
+## Reproduce
+
+```sh
+npm run case:mineral-formation-history:verify
+node --test cases/mineral-formation-history/tests/mineral-formation-history.test.mjs
+
+npm run model:mineral-formation-history:verify
+node --test models/mineral-formation-history/compiler.test.mjs
+
+node --test apps/mineral-history-explorer/mineral-formation-model.test.mjs
+npm run check:history-registry
+npm run check:registry
 ```
-
-A sample may have:
-
-```text
-one supported formation mode
-multiple candidate modes
-unknown formation mode
-contested formation mode
-```
-
-Do not force a single label.
-
-## Phase 4 — Identity Regimes
-
-Implement explicit views:
-
-### Conventional Species Identity
-
-Based on the selected conventional mineral-species identifiers.
-
-### Sample Identity
-
-Individual specimen/source record.
-
-### Formation-Mode Identity
-
-Groups samples by reviewed formation mechanism/context.
-
-### Historical Natural-Kind Profile
-
-A reviewed composition of present mineral identity plus selected historical context.
-
-The last profile is an Onto2D representation of published evolutionary mineralogy ideas; it is not a replacement IMA classification.
-
-## Phase 5 — Canonical Experiments
-
-### Experiment A — Same Species, Different Formation
-
-Show two or more samples classified as the same conventional mineral species but assigned different reviewed formation modes.
-
-### Experiment B — Formation Evidence
-
-For each historical classification, expose the publication/data evidence.
-
-### Experiment C — Unknown History
-
-Include at least one sample for which formation mode is not confidently resolved.
-
-### Experiment D — Classification Toggle
-
-Explorer modes:
-
-```text
-Species
-Sample
-Formation mode
-Historical profile
-```
-
-The same data should regroup differently without rewriting source identity.
-
-## Phase 6 — Historical Load
-
-Do not introduce Historical Load in the first release merely because formation history exists.
-
-A valid Historical Load experiment requires:
-
-- a finite declared formation path space;
-- explicit transitions;
-- explicit physical admissibility constraints;
-- a defensible cost function.
-
-If those are unavailable, the case remains an identity/provenance case.
-
-A later bounded geochemical model may provide the required path space.
-
-## Phase 7 — Model Pack
-
-Create only after the first reviewed sample/formation mapping is stable:
-
-```text
-modelId: mineral-formation-history
-```
-
-Entities may include:
-
-```text
-species
-sample
-locality
-formation mode
-age interval
-formation claim
-evidence reference
-```
-
-## Phase 8 — Explorer
-
-Main views:
-
-1. Conventional Classification
-2. Samples and Localities
-3. Formation Modes
-4. Historical Grouping
-5. Evidence Inspector
-6. Deep-Time Context
-
-The page should visually demonstrate:
-
-```text
-same present mineral species
-        |
-        +-- formation history A
-        |
-        +-- formation history B
-```
-
-without implying different chemical species.
-
-## Phase 9 — Negative Tests
-
-Required:
-
-- locality alone cannot create a formation-mode claim;
-- missing age remains missing;
-- uncertain formation remains uncertain;
-- same species does not imply same formation mode;
-- different formation modes do not silently create different conventional species;
-- manual mapping must cite evidence;
-- analysis layer cannot mutate RRUFF source records.
 
 ## Falsification Criterion
 
-The case fails if Onto2D can express historical classification only by overwriting or duplicating conventional mineral identity.
-
-## Definition of Done
-
-A small reviewed mineral cohort exposes conventional identity, specimen identity, formation interpretation, and evidence as independent layers, with at least one same-species/different-history example and one unresolved example.
+The case fails if historical classification can be represented only by
+overwriting conventional species identity, or if absent reviewed mappings are
+silently replaced by generated claims. The implemented artifact and Model Pack
+make both changes detectable.

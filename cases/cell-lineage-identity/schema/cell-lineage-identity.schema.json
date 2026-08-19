@@ -1,0 +1,153 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/cell-lineage-identity.schema.json",
+  "title": "Onto2D Cell Lineage Identity artifact",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["format", "formatVersion", "caseId", "profileVersion", "source", "specimen", "clusters", "observedBarcodeGroups", "firstFourTargetSignatureGroups", "cells", "identityRegimes", "comparisons", "reconstructionBoundary", "historicalLoad", "nonClaims", "audit", "caseIdentity"],
+  "properties": {
+    "format": { "const": "onto2d-cell-lineage-identity-case" },
+    "formatVersion": { "const": "1" },
+    "caseId": { "const": "cell-lineage-identity" },
+    "profileVersion": { "const": "zf1-scgestalt-regime-comparison-v2" },
+    "source": { "$ref": "#/$defs/source" },
+    "specimen": { "$ref": "#/$defs/specimen" },
+    "clusters": { "type": "array", "minItems": 56, "maxItems": 56, "items": { "$ref": "#/$defs/cluster" } },
+    "observedBarcodeGroups": { "type": "array", "minItems": 192, "maxItems": 192, "items": { "$ref": "#/$defs/barcodeGroup" } },
+    "firstFourTargetSignatureGroups": { "type": "array", "minItems": 133, "maxItems": 133, "items": { "$ref": "#/$defs/firstFourTargetGroup" } },
+    "cells": { "type": "array", "minItems": 750, "maxItems": 750, "items": { "$ref": "#/$defs/cell" } },
+    "identityRegimes": { "type": "array", "minItems": 4, "maxItems": 4, "items": { "$ref": "#/$defs/regime" } },
+    "comparisons": { "type": "array", "minItems": 4, "maxItems": 4, "items": { "$ref": "#/$defs/comparison" } },
+    "reconstructionBoundary": { "$ref": "#/$defs/reconstructionBoundary" },
+    "historicalLoad": { "$ref": "#/$defs/historicalLoad" },
+    "nonClaims": { "type": "array", "minItems": 8, "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
+    "audit": { "$ref": "#/$defs/audit" },
+    "caseIdentity": { "$ref": "#/$defs/identity" }
+  },
+  "$defs": {
+    "identity": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "hash": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "nonEmpty": { "type": "string", "minLength": 1 },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["identity", "geoSeries", "geoSample", "sampleName", "organism", "articleDoi", "protocolDoi", "retrievedAt", "liveNetworkRequiredByBuild", "rawArchive", "rawMember", "publishedCode", "snapshot", "authoredFiles"],
+      "properties": {
+        "identity": { "$ref": "#/$defs/identity" },
+        "geoSeries": { "const": "GSE105010" },
+        "geoSample": { "const": "GSM2813984" },
+        "sampleName": { "const": "ZF1_scGSTLT" },
+        "organism": { "const": "Danio rerio" },
+        "articleDoi": { "const": "10.1038/nbt.4103" },
+        "protocolDoi": { "const": "10.1038/s41596-018-0058-x" },
+        "retrievedAt": { "type": "string", "format": "date-time" },
+        "liveNetworkRequiredByBuild": { "const": false },
+        "rawArchive": { "$ref": "#/$defs/fileLockWithUrl" },
+        "rawMember": { "$ref": "#/$defs/fileLock" },
+        "publishedCode": {
+          "type": "object", "additionalProperties": false,
+          "required": ["repository", "commit", "archived", "role"],
+          "properties": { "repository": { "$ref": "#/$defs/nonEmpty" }, "commit": { "type": "string", "pattern": "^[0-9a-f]{40}$" }, "archived": { "const": true }, "role": { "$ref": "#/$defs/nonEmpty" } }
+        },
+        "snapshot": { "$ref": "#/$defs/pathLock" },
+        "authoredFiles": { "type": "array", "minItems": 3, "maxItems": 3, "items": { "$ref": "#/$defs/authoredFile" } }
+      }
+    },
+    "fileLock": {
+      "type": "object", "additionalProperties": false,
+      "required": ["name", "bytes", "sha256"],
+      "properties": { "name": { "$ref": "#/$defs/nonEmpty" }, "bytes": { "type": "integer", "minimum": 1 }, "sha256": { "$ref": "#/$defs/hash" } }
+    },
+    "fileLockWithUrl": {
+      "type": "object", "additionalProperties": false,
+      "required": ["url", "bytes", "sha256"],
+      "properties": { "url": { "$ref": "#/$defs/nonEmpty" }, "bytes": { "type": "integer", "minimum": 1 }, "sha256": { "$ref": "#/$defs/hash" } }
+    },
+    "pathLock": {
+      "type": "object", "additionalProperties": false,
+      "required": ["path", "bytes", "sha256"],
+      "properties": { "path": { "$ref": "#/$defs/nonEmpty" }, "bytes": { "type": "integer", "minimum": 1 }, "sha256": { "$ref": "#/$defs/hash" } }
+    },
+    "authoredFile": {
+      "type": "object", "additionalProperties": false,
+      "required": ["path", "identity"],
+      "properties": { "path": { "$ref": "#/$defs/nonEmpty" }, "identity": { "$ref": "#/$defs/identity" } }
+    },
+    "specimen": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "sourceSample", "material", "sourceMatchedCellCount", "completeCellRecovery"],
+      "properties": { "id": { "const": "ZF1" }, "sourceSample": { "const": "GSM2813984" }, "material": { "$ref": "#/$defs/nonEmpty" }, "sourceMatchedCellCount": { "const": 750 }, "completeCellRecovery": { "const": false } }
+    },
+    "cluster": {
+      "type": "object", "additionalProperties": false,
+      "required": ["identity", "clusterId", "cellCount", "label", "labelStatus", "articleLocator"],
+      "properties": {
+        "identity": { "$ref": "#/$defs/identity" }, "clusterId": { "type": "integer", "minimum": 0 }, "cellCount": { "type": "integer", "minimum": 1 }, "label": { "$ref": "#/$defs/nonEmpty" },
+        "labelStatus": { "enum": ["published", "qualified", "numeric-source-membership-only"] }, "articleLocator": { "type": ["string", "null"] }
+      }
+    },
+    "barcodeGroup": {
+      "type": "object", "additionalProperties": false,
+      "required": ["identity", "key", "observedBarcode", "cellCount", "clusterIds", "cellIds"],
+      "properties": {
+        "identity": { "$ref": "#/$defs/identity" }, "key": { "$ref": "#/$defs/identity" }, "observedBarcode": { "$ref": "#/$defs/nonEmpty" }, "cellCount": { "type": "integer", "minimum": 1 },
+        "clusterIds": { "type": "array", "minItems": 1, "items": { "type": "integer", "minimum": 0 }, "uniqueItems": true },
+        "cellIds": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/nonEmpty" }, "uniqueItems": true }
+      }
+    },
+    "firstFourTargetGroup": {
+      "type": "object", "additionalProperties": false,
+      "required": ["identity", "key", "firstFourTargetSignature", "cellCount", "clusterIds", "observedBarcodeClassCount"],
+      "properties": {
+        "identity": { "$ref": "#/$defs/identity" }, "key": { "$ref": "#/$defs/identity" }, "firstFourTargetSignature": { "$ref": "#/$defs/nonEmpty" }, "cellCount": { "type": "integer", "minimum": 1 },
+        "clusterIds": { "type": "array", "minItems": 1, "items": { "type": "integer", "minimum": 0 }, "uniqueItems": true }, "observedBarcodeClassCount": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "cell": {
+      "type": "object", "additionalProperties": false,
+      "required": ["identity", "cellId", "sourceRow", "sourceCellNumber", "sourceCellBarcode", "clusterId", "clusterIdentity", "observedBarcodeIdentity", "firstFourTargetSignatureIdentity", "targetCoverage"],
+      "properties": {
+        "identity": { "$ref": "#/$defs/identity" }, "cellId": { "$ref": "#/$defs/nonEmpty" }, "sourceRow": { "type": "integer", "minimum": 2 }, "sourceCellNumber": { "type": "integer", "minimum": 1 }, "sourceCellBarcode": { "$ref": "#/$defs/nonEmpty" },
+        "clusterId": { "type": "integer", "minimum": 0 }, "clusterIdentity": { "$ref": "#/$defs/identity" }, "observedBarcodeIdentity": { "$ref": "#/$defs/identity" }, "firstFourTargetSignatureIdentity": { "$ref": "#/$defs/identity" }, "targetCoverage": { "enum": ["reported-at-all-targets", "partial"] }
+      }
+    },
+    "regime": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "equivalenceKey", "expectedClassCount", "meaning", "actualClassCount"],
+      "properties": { "id": { "enum": ["cell-record", "transcriptomic-cluster", "observed-barcode-state", "first-four-target-signature"] }, "equivalenceKey": { "$ref": "#/$defs/nonEmpty" }, "expectedClassCount": { "type": "integer", "minimum": 1 }, "meaning": { "$ref": "#/$defs/nonEmpty" }, "actualClassCount": { "type": "integer", "minimum": 1 } }
+    },
+    "cellRef": {
+      "type": "object", "additionalProperties": false,
+      "required": ["cellId", "sourceRow", "clusterId", "observedBarcodeKey", "firstFourTargetSignatureKey", "targetCoverage"],
+      "properties": { "cellId": { "$ref": "#/$defs/nonEmpty" }, "sourceRow": { "type": "integer", "minimum": 2 }, "clusterId": { "type": "integer", "minimum": 0 }, "observedBarcodeKey": { "$ref": "#/$defs/identity" }, "firstFourTargetSignatureKey": { "$ref": "#/$defs/identity" }, "targetCoverage": { "enum": ["reported-at-all-targets", "partial"] } }
+    },
+    "comparison": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "result", "examples"],
+      "properties": { "id": { "enum": ["same-cluster-different-barcode", "same-barcode-different-cluster", "same-first-four-target-signature-different-cluster", "partial-target-coverage"] }, "pairCount": { "type": "integer", "minimum": 0 }, "cellCount": { "type": "integer", "minimum": 0 }, "result": { "$ref": "#/$defs/nonEmpty" }, "examples": { "type": "array", "minItems": 2, "maxItems": 2, "items": { "$ref": "#/$defs/cellRef" } } },
+      "oneOf": [
+        { "properties": { "id": { "enum": ["same-cluster-different-barcode", "same-barcode-different-cluster", "same-first-four-target-signature-different-cluster"] } }, "required": ["pairCount"], "not": { "required": ["cellCount"] } },
+        { "properties": { "id": { "const": "partial-target-coverage" } }, "required": ["cellCount"], "not": { "required": ["pairCount"] } }
+      ]
+    },
+    "reconstructionBoundary": {
+      "type": "object", "additionalProperties": false,
+      "required": ["publishedTreeImported", "publishedMaximumParsimonyRecomputed", "firstFourTargetGroupingComputed", "groupingRepresentsObservedDivision", "sameBarcodeProvesUniqueAncestor", "missingTargetStateMayBeImputed", "confidenceMayBeInvented", "reason"],
+      "properties": { "publishedTreeImported": { "const": false }, "publishedMaximumParsimonyRecomputed": { "const": false }, "firstFourTargetGroupingComputed": { "const": true }, "groupingRepresentsObservedDivision": { "const": false }, "sameBarcodeProvesUniqueAncestor": { "const": false }, "missingTargetStateMayBeImputed": { "const": false }, "confidenceMayBeInvented": { "const": false }, "reason": { "$ref": "#/$defs/nonEmpty" } }
+    },
+    "historicalLoad": {
+      "type": "object", "additionalProperties": false,
+      "required": ["status", "value", "reason"],
+      "properties": { "status": { "const": "not-evaluated" }, "value": { "type": "null" }, "reason": { "$ref": "#/$defs/nonEmpty" } }
+    },
+    "audit": {
+      "type": "object", "additionalProperties": false,
+      "required": ["cellsRetained", "sourceRowsDropped", "clusterCount", "observedBarcodeClassCount", "firstFourTargetSignatureClassCount", "partialTargetCoverageCellCount", "unobservedDivisionsInvented", "confidenceValuesInvented", "biologicalLabelsInvented", "sameClusterDifferentObservedBarcodePairs", "sameObservedBarcodeDifferentClusterPairs", "sameFirstFourTargetSignatureDifferentClusterPairs", "caseGeneratedParentCellCount", "caseGeneratedDivisionCount", "caseGeneratedConfidenceCount"],
+      "properties": {
+        "cellsRetained": { "const": 750 }, "sourceRowsDropped": { "const": 0 }, "clusterCount": { "const": 56 }, "observedBarcodeClassCount": { "const": 192 }, "firstFourTargetSignatureClassCount": { "const": 133 }, "partialTargetCoverageCellCount": { "const": 16 },
+        "unobservedDivisionsInvented": { "const": 0 }, "confidenceValuesInvented": { "const": 0 }, "biologicalLabelsInvented": { "const": 0 }, "sameClusterDifferentObservedBarcodePairs": { "const": 7058 }, "sameObservedBarcodeDifferentClusterPairs": { "const": 22967 }, "sameFirstFourTargetSignatureDifferentClusterPairs": { "const": 28360 },
+        "caseGeneratedParentCellCount": { "const": 0 }, "caseGeneratedDivisionCount": { "const": 0 }, "caseGeneratedConfidenceCount": { "const": 0 }
+      }
+    }
+  }
+}

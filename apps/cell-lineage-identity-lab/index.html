@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="../../assets/js/document-state-reset.js" defer></script>
+    <meta name="description" content="A source-locked ZF1 scGESTALT study separating cell records, transcriptomic clusters, observed barcode states, and bounded lineage reconstruction.">
+    <title>Cell Lineage Identity Lab - Onto2D</title>
+    <link rel="icon" href="../../assets/icons/favicon.ico?v=20260818.1" type="image/x-icon">
+    <link rel="stylesheet" href="../../assets/css/ui-icons.css?v=20260818.1">
+    <link rel="stylesheet" href="../../assets/css/study-cell-lineage.css?v=20260819.1">
+    <script type="module" src="./cell-lineage-identity-lab.js?v=20260819.1"></script>
+  </head>
+  <body data-state="loading">
+    <header class="history-case-header">
+      <a class="history-case-brand" href="../../" aria-label="Onto2D home"><svg viewBox="0 0 34 34" aria-hidden="true"><circle cx="7" cy="17" r="3"></circle><circle cx="27" cy="8" r="3"></circle><circle cx="27" cy="26" r="3"></circle><path d="M10 17h7m2-3 5-4m-5 10 5 4"></path></svg><span><strong>Onto2D</strong><small>History model</small></span></a>
+      <nav class="history-case-nav" aria-label="History navigation"><a href="../history-atlas/">History Atlas</a><a href="../model-studio/#model=cell-lineage-history&amp;version=v1-6e6ea7be0f576db7">Model Studio</a><a href="https://github.com/DenBraun/Onto2D/blob/main/docs/cases/CELL_LINEAGE_IDENTITY_IMPLEMENTATION.md" target="_blank" rel="noopener noreferrer">History model <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#external-link"></use></svg></a><a href="https://github.com/DenBraun/Onto2D" target="_blank" rel="noopener noreferrer">GitHub <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#external-link"></use></svg></a></nav>
+      <div class="history-case-context"><span>Cell Lineage Identity</span><strong class="history-case-state"><i></i><span id="load-state" role="status" aria-live="polite">Verifying artifact</span></strong></div>
+    </header>
+
+    <main>
+      <p id="fatal-error" class="fatal-error" hidden></p>
+      <section class="hero" aria-labelledby="page-title"><div class="hero-copy"><p class="eyebrow">12 / Reconstructed + embodied history</p><h1 id="page-title">The same cells.<br>Four valid meanings of "same."</h1><p>One frozen ZF1 cohort produces different identity classes under cell-record, transcriptomic-cluster, observed-barcode, and first-four-target keys. The comparison changes; the 750 observations do not. Target position is not treated as edit time.</p></div><dl class="hero-meta"><div><dt>Source</dt><dd>GEO GSE105010 / GSM2813984</dd></div><div><dt>Case identity</dt><dd id="case-identity">Loading</dd></div><div><dt>Source identity</dt><dd id="source-identity">Loading</dd></div><div><dt>Build boundary</dt><dd>Frozen bytes / no live network</dd></div></dl></section>
+
+      <section class="result-strip" aria-label="Exact result"><strong>EXACT RESULT</strong><div id="result-metrics" class="result-metrics"></div><p>These are class counts under declared keys, not four estimates of one hidden truth.</p></section>
+
+      <div class="workspace">
+        <section class="identity-console" aria-labelledby="regime-title">
+          <header class="console-header"><div><p class="section-kicker">01 / Regime-relative result</p><h2 id="regime-title">Choose what equality means</h2></div><div id="regime-controls" class="regime-controls" role="group" aria-label="Cell identity regime"></div></header>
+          <div class="regime-readout"><div><span id="regime-key">Loading</span><strong id="regime-count">&mdash;</strong><small>classes from 750 cells</small></div><p id="regime-meaning"></p><aside id="regime-use"></aside></div>
+
+          <div class="explorer-grid">
+            <section class="cluster-browser" aria-labelledby="cluster-title"><header><div><span>TRANSCRIPTOMIC STATE</span><h3 id="cluster-title">56 source clusters</h3></div><label><span>Filter clusters</span><input id="cluster-search" type="search" autocomplete="off" placeholder="ID or paper label"></label></header><div id="cluster-list" class="cluster-list" role="list"></div></section>
+            <section class="lineage-map" aria-labelledby="map-title"><header><div><span>BOUNDED RELATION MAP</span><h3 id="map-title">Cluster -> barcode -> targets 1-4 signature</h3></div><p id="map-summary">Arrows show exact table joins and a deterministic first-four-target projection. They do not denote observed cell divisions.</p></header><div class="map-scroll"><svg id="lineage-svg" viewBox="0 0 950 560" role="img" aria-label="Relations from the selected transcriptomic cluster through observed barcode states to first-four-target signatures"></svg></div></section>
+            <aside id="lineage-inspector" class="lineage-inspector" aria-live="polite"></aside>
+          </div>
+
+          <div id="comparison-grid" class="comparison-grid"></div>
+        </section>
+
+        <section class="boundary-panel" aria-labelledby="boundary-title"><div class="boundary-copy"><p class="section-kicker">02 / Scientific reading discipline</p><h2 id="boundary-title">What the result gives you</h2><p>It tells you exactly which distinctions survive each equality rule. It does not manufacture a complete pedigree from a partial lineage recorder.</p><div class="boundary-points"><article><strong>USE</strong><p>Find cells that look alike now but retain different recorded barcode states.</p></article><article><strong>USE</strong><p>Find one observed barcode state spanning several transcriptomic clusters.</p></article><article><strong>DO NOT CLAIM</strong><p>A shared cluster proves ancestry, or a shared barcode proves one unique immediate parent.</p></article><article><strong>DO NOT CLAIM</strong><p>The bounded targets 1-4 signature is the paper's full maximum-parsimony tree or an edit-time ordering.</p></article></div></div><aside class="load-boundary"><span>HISTORICAL LOAD</span><strong>&mdash;</strong><b>NOT EVALUATED</b><p id="load-reason"></p><small><code>null</code>, not zero</small></aside><footer class="source-links"><a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE105010" target="_blank" rel="noopener noreferrer">NCBI GEO record <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#external-link"></use></svg></a><a href="https://doi.org/10.1038/nbt.4103" target="_blank" rel="noopener noreferrer">Primary article <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#external-link"></use></svg></a><a href="https://doi.org/10.1038/s41596-018-0058-x" target="_blank" rel="noopener noreferrer">Published protocol <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#external-link"></use></svg></a><a href="https://github.com/DenBraun/Onto2D/tree/main/cases/cell-lineage-identity" target="_blank" rel="noopener noreferrer">Pinned case files <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#external-link"></use></svg></a></footer></section>
+      </div>
+    </main>
+    <footer class="study-footer">750 source cells / 56 transcriptomic clusters / 192 exact HMID states / 133 first-four-target signatures / 16 partial target observations / 0 invented divisions.</footer>
+  </body>
+</html>
