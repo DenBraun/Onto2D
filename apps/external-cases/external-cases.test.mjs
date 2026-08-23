@@ -17,11 +17,11 @@ const registry = JSON.parse(await readFile(new URL("../../cases/history-case-reg
 const cases = createHistoryCases(registry);
 
 test("the history portfolio is complete, stable, and status-honest", async () => {
-  assert.equal(cases.length, 22);
+  assert.equal(cases.length, 23);
   assert.deepEqual(HISTORY_MODES.map((entry) => entry.id), ["recorded", "embodied", "reconstructed"]);
   assert.deepEqual(HISTORY_EFFECTS.map((entry) => entry.id), ["identity", "present-state", "future"]);
   assert.equal(new Set(cases.map((entry) => entry.caseId)).size, cases.length);
-  assert.equal(cases.filter((entry) => entry.statusKind === "implemented").length, 19);
+  assert.equal(cases.filter((entry) => entry.statusKind === "implemented").length, 20);
   assert.equal(cases.filter((entry) => entry.statusKind === "next").length, 0);
   assert.equal(historyCaseById(cases, "oci-layer-history").statusKind, "implemented");
   assert.equal(historyCaseById(cases, "in-toto-admissibility").statusKind, "implemented");
@@ -35,6 +35,7 @@ test("the history portfolio is complete, stable, and status-honest", async () =>
   assert.equal(historyCaseById(cases, "legal-precedent-history").statusKind, "implemented");
   assert.equal(historyCaseById(cases, "clinical-trajectories").statusKind, "implemented");
   assert.equal(historyCaseById(cases, "galactic-archaeology").statusKind, "implemented");
+  assert.equal(historyCaseById(cases, "seshat-epistemic-provenance").statusKind, "implemented");
   assert.equal(historyCaseById(cases, "material-process-history").statusKind, "implemented");
   assert.equal(historyCaseById(cases, "mineral-formation-history").statusKind, "implemented");
   assert.equal(historyCaseById(cases, "cell-lineage-identity").statusKind, "implemented");

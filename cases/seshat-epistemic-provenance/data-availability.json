@@ -1,0 +1,55 @@
+{
+  "format": "onto2d-seshat-data-availability-probe",
+  "formatVersion": "1",
+  "probeVersion": "public-polaris-api-2026-08-23-v1",
+  "probedAt": "2026-08-23T09:13:58Z",
+  "publicBoundary": true,
+  "results": [
+    {
+      "capability": "native-code",
+      "status": "available",
+      "scope": "Polaris-2026 workbook rows preserve P and the native uncertainty/dispute flags."
+    },
+    {
+      "capability": "narrative-to-code",
+      "status": "available",
+      "scope": "Each selected public Road API object contains the coded value and its description in one record."
+    },
+    {
+      "capability": "source-work-identity",
+      "status": "partial",
+      "scope": "Descriptions contain inline §REF§ payloads, but the public datum serializer excludes the citations relation; local source-work mappings are explicit and versioned rather than presented as native stable IDs."
+    },
+    {
+      "capability": "per-datapoint-research-assistant",
+      "status": "unavailable-publicly",
+      "scope": "The public datum serializer excludes curator. A separate polity-level RA endpoint is not a per-datapoint link and is not promoted to one."
+    },
+    {
+      "capability": "per-datapoint-expert",
+      "status": "unavailable-publicly",
+      "scope": "No expert identity is exported on the selected public Road objects."
+    },
+    {
+      "capability": "review-status-or-event",
+      "status": "unavailable-publicly",
+      "scope": "The public datum serializer excludes expert_reviewed and drb_reviewed, and exports no review-event relation."
+    },
+    {
+      "capability": "intervention-timestamps",
+      "status": "unavailable-publicly",
+      "scope": "The public datum serializer excludes created_date and modified_date."
+    }
+  ],
+  "apiSerializerExcludedFields": [
+    "drb_reviewed",
+    "note",
+    "finalized",
+    "created_date",
+    "modified_date",
+    "expert_reviewed",
+    "private_comment",
+    "citations",
+    "curator"
+  ]
+}

@@ -189,7 +189,9 @@ function render() {
 
 function initialize(cases) {
   allCases = cases;
-  document.getElementById("atlas-case-count").textContent = `${cases.length} registered cases`;
+  const registeredCaseCount = `${cases.length} registered cases`;
+  document.getElementById("atlas-header-case-count").textContent = registeredCaseCount;
+  document.getElementById("atlas-case-count").textContent = registeredCaseCount;
   document.getElementById("atlas-result-count").textContent = `${cases.filter((entry) => entry.statusKind === "implemented").length} available`;
   configureFilters(cases);
   render();

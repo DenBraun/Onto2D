@@ -299,7 +299,7 @@ identity.
   defines the pinned source, evidence classes, finite analysis, and trust
   boundary for the external bootstrap case.
 - [History Model Documentation](docs/history/README.md) defines the taxonomy,
-  evidence boundaries, analysis families, and 22-case portfolio.
+  evidence boundaries, analysis families, and 23-case portfolio.
 - [History Case Implementation Plans](docs/cases/README.md) preserve one
   status-honest plan per registered case.
 - [Review Guide](docs/REVIEW_GUIDE.md) defines the independent golden review

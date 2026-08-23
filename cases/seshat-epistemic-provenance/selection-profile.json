@@ -1,0 +1,77 @@
+{
+  "format": "onto2d-seshat-mvp-selection-profile",
+  "formatVersion": "1",
+  "profileVersion": "polaris-2026-road-three-polity-v1",
+  "frozenAt": "2026-08-23T09:13:58Z",
+  "frozenBeforeStressComputation": true,
+  "stressOutputsUsedForSelection": false,
+  "candidatePolityIds": [
+    "it_roman_principate",
+    "eg_old_k_1",
+    "us_emergent_mississippian_2"
+  ],
+  "criteria": [
+    "The variable occurs in Polaris-2026 for all three declared polity fixtures.",
+    "At least two fixtures have the same exact native code.",
+    "The public API exports a non-empty narrative for every selected claim.",
+    "The public records expose a reviewable provenance distinction without using any ablation result.",
+    "The variable is selected for a mechanism demonstration and not for a polity-level robustness claim."
+  ],
+  "selectedVariable": {
+    "section": "sc",
+    "polarisName": "road",
+    "apiName": "Road",
+    "apiEndpoint": "sc/roads",
+    "nativeCodesByPolity": {
+      "it_roman_principate": "P",
+      "eg_old_k_1": "P",
+      "us_emergent_mississippian_2": "P"
+    },
+    "selectionRationale": "Road is a compact categorical variable with the same frozen native value in all three fixtures and public narratives ranging from no exported source marker to several inline markers. This rationale was recorded before group-cut or perturbation outputs were computed."
+  },
+  "nativeMapping": {
+    "mappingVersion": "seshat-polaris-api-code-map-v1",
+    "polarisCode": "P",
+    "apiValue": "present",
+    "resolutionState": "Resolved",
+    "derivationOperation": "DirectCoding"
+  },
+  "sourceWorkMapping": {
+    "mappingVersion": "seshat-inline-reference-to-work-v1",
+    "policy": "Only exact inline reference payloads are mapped. No source family or independence relation is inferred. Slash-prefixed payloads are mapped by the explicitly reviewed post-slash citation label; the raw payload remains separately preserved.",
+    "entries": [
+      {
+        "rawReference": "(Partridge 2010)",
+        "sourceWorkId": "source-work:partridge-2010",
+        "label": "Partridge 2010"
+      },
+      {
+        "rawReference": "(Peregrine/Pauketat 2014, 28)",
+        "sourceWorkId": "source-work:pauketat-2014",
+        "label": "Pauketat 2014"
+      },
+      {
+        "rawReference": "(Pauketat 2014, 28)",
+        "sourceWorkId": "source-work:pauketat-2014",
+        "label": "Pauketat 2014"
+      },
+      {
+        "rawReference": "(Peregrine/Kelly 2014, 23)",
+        "sourceWorkId": "source-work:kelly-2014",
+        "label": "Kelly 2014"
+      },
+      {
+        "rawReference": "(Peregrine/Trubitt 2014, 21)",
+        "sourceWorkId": "source-work:trubitt-2014",
+        "label": "Trubitt 2014"
+      }
+    ]
+  },
+  "claimsNotMade": [
+    "The three polities form a statistical sample.",
+    "One polity or evidence regime is generally more robust than another.",
+    "An inline reference count is a count of independent supports.",
+    "A polity-level research-assistant record identifies the coder of this datapoint.",
+    "A missing public provenance field means that the underlying Seshat workflow lacks it."
+  ]
+}

@@ -125,6 +125,11 @@ const cellLineageApp = read("apps/cell-lineage-identity-lab/cell-lineage-identit
 const cellLineageModel = read("apps/cell-lineage-identity-lab/cell-lineage-model.js");
 const cellLineageStyles = read("assets/css/study-cell-lineage.css");
 const cellLineageArtifact = read("cases/cell-lineage-identity/artifacts/cell-lineage-identity.json");
+const seshatMarkup = read("apps/seshat-evidence-dependency-lab/index.html");
+const seshatApp = read("apps/seshat-evidence-dependency-lab/seshat-evidence-dependency-lab.js");
+const seshatModel = read("apps/seshat-evidence-dependency-lab/seshat-evidence-model.js");
+const seshatStyles = read("assets/css/study-seshat-evidence-dependency.css");
+const seshatArtifact = read("cases/seshat-epistemic-provenance/artifacts/seshat-epistemic-provenance.json");
 const historyCasePageMarkups = historyCaseRegistry.cases.map((entry) => read(`${entry.casePagePath}index.html`));
 const modelPackWorker = read("assets/js/model-pack-worker.js");
 const siteServer = read("apps/historical-load-explorer/serve.mjs");
@@ -156,6 +161,7 @@ const publicDirectories = [
   "apps/evolutionary-contingency-lab",
   "apps/mineral-history-explorer",
   "apps/cell-lineage-identity-lab",
+  "apps/seshat-evidence-dependency-lab",
   "apps/history-atlas",
   "apps/external-cases",
   ...historyCaseRegistry.cases.map((entry) => entry.casePagePath.replace(/\/$/, ""))
@@ -188,6 +194,7 @@ const publicFiles = [
   "assets/css/study-evolutionary-contingency.css",
   "assets/css/study-mineral-formation.css",
   "assets/css/study-cell-lineage.css",
+  "assets/css/study-seshat-evidence-dependency.css",
   "assets/css/external-cases.css",
   "assets/css/history-case-header.css",
   "assets/css/history-atlas.css",
@@ -216,6 +223,7 @@ const publicFiles = [
   "cases/ltee-evolutionary-contingency/artifacts/ltee-evolutionary-contingency.json",
   "cases/mineral-formation-history/artifacts/mineral-formation-history.json",
   "cases/cell-lineage-identity/artifacts/cell-lineage-identity.json",
+  "cases/seshat-epistemic-provenance/artifacts/seshat-epistemic-provenance.json",
   ...publicDirectories.flatMap((directory) => readdirSync(
     new URL(`../../${directory}/`, import.meta.url)
   ).filter((name) => /\.(?:css|html|js|json|md|mjs)$/.test(name)).map((name) => `${directory}/${name}`))
@@ -243,6 +251,7 @@ test("the root keeps three study lenses and exposes the registry-backed Case Stu
   assert.match(landing, /<details class="cases-menu">/);
   assert.match(landing, /type="module" src="\.\/assets\/js\/case-menu\.js\?v=20260819\.2"/);
   assert.match(landing, /href="\.\/apps\/history-atlas\/"/);
+  assert.match(landing, new RegExp(`${historyCaseRegistry.cases.length} cases mapped by history access and effect`));
   assert.match(landing, /id="history-case-menu-groups"/);
   assert.match(landing, />Case Studies <svg/);
   assert.match(landingStyles, /\.cases-menu-panel>\.cases-menu-overview\s*\{[^}]*padding:15px 18px/s);
@@ -255,7 +264,9 @@ test("the root keeps three study lenses and exposes the registry-backed Case Stu
 });
 
 test("the History Atlas exposes the validated 3 x 3 portfolio and honest availability", () => {
-  assert.equal(historyCaseRegistry.cases.length, 22);
+  assert.equal(historyCaseRegistry.cases.length, 23);
+  assert.match(historyAtlasMarkup, new RegExp(`id="atlas-header-case-count">${historyCaseRegistry.cases.length} registered cases<`));
+  assert.match(historyAtlasApp, /getElementById\("atlas-header-case-count"\)\.textContent = registeredCaseCount/);
   assert.deepEqual(historyCaseRegistry.historyModes, ["recorded", "embodied", "reconstructed"]);
   assert.deepEqual(historyCaseRegistry.effects, ["identity", "present-state", "future"]);
   assert.match(historyAtlasMarkup, /id="history-matrix"/);
@@ -303,6 +314,7 @@ test("all History case surfaces share one header component and navigation layout
     lteeMarkup,
     mineralMarkup,
     cellLineageMarkup,
+    seshatMarkup,
     ...historyCasePageMarkups
   ];
   for (const markup of surfaces) {
@@ -317,10 +329,10 @@ test("all History case surfaces share one header component and navigation layout
   }
   assert.match(historyCaseHeaderStyles, /grid-template-columns:\s*minmax\(190px, 1fr\) auto minmax\(190px, 1fr\)/);
   assert.match(historyCaseHeaderStyles, /@media \(max-width: 700px\)/);
-  for (const styles of [externalCasesStyles, bootstrapStyles, gitHistoryStyles, nixStyles, ociStyles, inTotoStyles, chemicalStyles, buildEquivalenceStyles, artworkStyles, languageStyles, manuscriptStyles, operationalStyles, ecologicalStyles, legalStyles, clinicalStyles, galacticStyles, materialStyles, lteeStyles, mineralStyles, cellLineageStyles]) {
+  for (const styles of [externalCasesStyles, bootstrapStyles, gitHistoryStyles, nixStyles, ociStyles, inTotoStyles, chemicalStyles, buildEquivalenceStyles, artworkStyles, languageStyles, manuscriptStyles, operationalStyles, ecologicalStyles, legalStyles, clinicalStyles, galacticStyles, materialStyles, lteeStyles, mineralStyles, cellLineageStyles, seshatStyles]) {
     assert.match(styles, /@import url\("\.\/history-case-header\.css\?v=20260818\.2"\);/);
   }
-  for (const markup of [chemicalMarkup, buildEquivalenceMarkup, artworkMarkup, languageMarkup, manuscriptMarkup, operationalMarkup, ecologicalMarkup, legalMarkup, clinicalMarkup, galacticMarkup, materialMarkup, lteeMarkup, mineralMarkup, cellLineageMarkup]) {
+  for (const markup of [chemicalMarkup, buildEquivalenceMarkup, artworkMarkup, languageMarkup, manuscriptMarkup, operationalMarkup, ecologicalMarkup, legalMarkup, clinicalMarkup, galacticMarkup, materialMarkup, lteeMarkup, mineralMarkup, cellLineageMarkup, seshatMarkup]) {
     assert.match(markup, /<div class="history-case-context"><span>[^<]+<\/span><strong class="history-case-state"><i><\/i><span id="load-state" role="status" aria-live="polite">Verifying artifact<\/span><\/strong><\/div>/);
   }
 });
@@ -695,6 +707,35 @@ test("Galactic Archaeology Lab separates observation, derivation, classification
   assert.equal(pinnedDigest, createHash("sha256").update(galacticArtifact).digest("hex"));
   const appRevision = galacticMarkup.match(/galactic-archaeology-lab\.js\?v=([^"']+)/)?.[1];
   const modelRevision = galacticApp.match(/galactic-archaeology-model\.js\?v=([^"']+)/)?.[1];
+  assert.equal(modelRevision, appRevision);
+});
+
+test("Historical Evidence Dependency Lab preserves native codes, exact support identity, and public metadata gaps", () => {
+  assert.match(seshatApp, /cases\/seshat-epistemic-provenance\/artifacts\/seshat-epistemic-provenance\.json/);
+  assert.match(seshatApp, /createSeshatEvidenceModel/);
+  assert.match(seshatApp, /crypto\.subtle\.digest\("SHA-256"/);
+  assert.match(seshatApp, /cache: "no-store"/);
+  assert.match(seshatApp, /redirect: "error"/);
+  assert.match(seshatApp, /MAX_ARTIFACT_BYTES/);
+  assert.doesNotMatch(seshatApp, /const URL = new URL\(/);
+  assert.match(seshatModel, /unknown public actor or review metadata was promoted/);
+  assert.match(seshatModel, /raw ablation boundary differs/);
+  assert.match(seshatModel, /analysis boundary differs/);
+  assert.match(seshatMarkup, /Same code\.[\s\S]*Different support history\./);
+  assert.match(seshatMarkup, /Reference count is not independence/);
+  assert.match(seshatMarkup, /Unavailable stays unavailable/);
+  assert.match(seshatMarkup, /First categorical flip \/ minimum group cut/);
+  assert.match(seshatMarkup, /These three polities are illustrative fixtures selected for contrasting source regimes\. They are not a statistical sample and are not used to infer a general relationship between historical documentation and epistemic robustness\./);
+  assert.match(seshatMarkup, /Codebook 4\.20\.2021/);
+  assert.match(seshatMarkup, /Public Data terms/);
+  assert.doesNotMatch(seshatMarkup, /prepared, not sent/i);
+  assert.match(seshatMarkup, /Not evaluated is the result/);
+  assert.match(seshatMarkup, /MECHANISM DEMONSTRATION \/ NOT A RANKING/);
+  for (const id of ["metric-grid", "claim-controls", "claim-native", "claim-narrative", "support-graph", "graph-readout", "shared-dependencies", "cut-grid", "ablation-controls", "ablation-result", "identity-grid", "availability-body", "load-reason", "limitations"]) assert.match(seshatMarkup, new RegExp(`id=["']${id}["']`), `missing #${id}`);
+  const pinnedDigest = seshatApp.match(/ARTIFACT_SHA256 = "([a-f0-9]{64})"/)?.[1];
+  assert.equal(pinnedDigest, createHash("sha256").update(seshatArtifact).digest("hex"));
+  const appRevision = seshatMarkup.match(/seshat-evidence-dependency-lab\.js\?v=([^"']+)/)?.[1];
+  const modelRevision = seshatApp.match(/seshat-evidence-model\.js\?v=([^"']+)/)?.[1];
   assert.equal(modelRevision, appRevision);
 });
 
@@ -1079,6 +1120,7 @@ test("document navigation has one canonical URL and rejects stale bfcache restor
     operationalMarkup,
     mineralMarkup,
     cellLineageMarkup,
+    seshatMarkup,
     read("apps/historical-load-explorer/index.html")
   ];
   for (const markup of pages) {
@@ -1211,6 +1253,11 @@ test("Clinical Trajectory Lab keeps interface text at the readable minimum", () 
 test("Galactic Archaeology Lab keeps interface text at the readable minimum", () => {
   assertReadableInterfaceText(galacticStyles, "Galactic Archaeology Lab");
   assert.doesNotMatch(galacticStyles, /https?:\/\//);
+});
+
+test("Historical Evidence Dependency Lab keeps interface text at the readable minimum", () => {
+  assertReadableInterfaceText(seshatStyles, "Historical Evidence Dependency Lab");
+  assert.doesNotMatch(seshatStyles, /https?:\/\//);
 });
 
 test("Material Process History Lab keeps interface text at the readable minimum", () => {

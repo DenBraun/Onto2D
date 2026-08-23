@@ -1,0 +1,229 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/seshat-epistemic-provenance.schema.json",
+  "title": "Onto2D Seshat Epistemic Dependency and Provenance case artifact",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["format", "formatVersion", "caseVersion", "source", "methodology", "dataAvailability", "typeSystem", "variable", "claims", "supportGraph", "derivedComparison", "identityComparison", "stressAnalyses", "historicalLoad", "limitations", "audit", "caseIdentity"],
+  "properties": {
+    "format": { "const": "onto2d-seshat-epistemic-provenance-case" },
+    "formatVersion": { "const": "1" },
+    "caseVersion": { "const": "polaris-2026-road-three-polity-v1" },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["identity", "sourceProjectionIdentity", "sourceProjectionBytes", "authorityProjectionIdentity", "authorityProjectionBytes", "retrievedAt", "snapshotRelease", "polarisCommit", "polarisWorkbookIdentity", "apiEndpoint", "apiServerCodeCommit", "serializerIdentity", "codebookVersion", "codebookIdentity", "publicDataTermsIdentity", "publicDataLicense", "liveNetworkRequiredByBuild", "authoredFiles", "snapshotFiles", "licenseBoundary"],
+      "properties": {
+        "identity": { "$ref": "#/$defs/identity" },
+        "sourceProjectionIdentity": { "$ref": "#/$defs/identity" },
+        "sourceProjectionBytes": { "const": 5545 },
+        "authorityProjectionIdentity": { "$ref": "#/$defs/identity" },
+        "authorityProjectionBytes": { "const": 1898 },
+        "retrievedAt": { "type": "string", "format": "date-time" },
+        "snapshotRelease": { "const": "Polaris-2026" },
+        "polarisCommit": { "const": "55ca5fbc2b563ddbbc1a3413071d4bd243d0a5fa" },
+        "polarisWorkbookIdentity": { "const": "sha256:cf60c9f76eeda6db545521831a9201e65c64d2b74d4aeb55445cd2b564456c41" },
+        "apiEndpoint": { "const": "https://seshat-db.com/api/sc/roads/" },
+        "apiServerCodeCommit": { "const": "9e812bcdbdfe5bb3e87e7a2588d2bcb9a2dc78f0" },
+        "serializerIdentity": { "const": "sha256:3571ba8fab32d62ca57bd2052d7da1e67431f90b36947b222dc421a4fab3251f" },
+        "codebookVersion": { "const": "4.20.2021" },
+        "codebookIdentity": { "const": "sha256:31442ad457955c768a67a5eb4675f8e4cbf23616dcc1f1fc1cfabae05482601d" },
+        "publicDataTermsIdentity": { "const": "sha256:0e3c6581527917fc9a332193fc534e72e6b4402f2aac011b86c1f271da498321" },
+        "publicDataLicense": { "const": "CC BY-SA 4.0" },
+        "liveNetworkRequiredByBuild": { "const": false },
+        "authoredFiles": { "type": "array", "minItems": 3, "maxItems": 3, "items": { "$ref": "#/$defs/file" } },
+        "snapshotFiles": { "type": "array", "minItems": 2, "maxItems": 2, "items": { "$ref": "#/$defs/file" } },
+        "licenseBoundary": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["repositoryCodeLicense", "repositoryCodeLicenseUrl", "publicDataLicense", "publicDataLicenseUrl", "publicDataTermsUrl", "publicDataTermsCapturedAt", "publicDataTermsSha256", "policy"],
+          "properties": {
+            "repositoryCodeLicense": { "const": "MIT" },
+            "repositoryCodeLicenseUrl": { "type": "string", "format": "uri" },
+            "publicDataLicense": { "const": "CC BY-SA 4.0" },
+            "publicDataLicenseUrl": { "const": "https://creativecommons.org/licenses/by-sa/4.0/" },
+            "publicDataTermsUrl": { "const": "https://seshat-db.com/terms/current/" },
+            "publicDataTermsCapturedAt": { "type": "string", "format": "date-time" },
+            "publicDataTermsSha256": { "const": "0e3c6581527917fc9a332193fc534e72e6b4402f2aac011b86c1f271da498321" },
+            "policy": { "type": "string", "minLength": 100 }
+          }
+        }
+      }
+    },
+    "methodology": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["question", "selectionProfile", "frozenBeforeStressComputation", "stressOutputsUsedForSelection", "dependencySemantics", "mappingIdentity", "mappingPolicy", "rawOutputsOnly", "pcaPerformed", "imputationPerformed", "qualitativeStabilityLabelsAssigned"],
+      "properties": {
+        "question": { "type": "string", "minLength": 80 },
+        "selectionProfile": { "const": "polaris-2026-road-three-polity-v1" },
+        "frozenBeforeStressComputation": { "const": true },
+        "stressOutputsUsedForSelection": { "const": false },
+        "dependencySemantics": { "type": "string", "minLength": 100 },
+        "mappingIdentity": { "$ref": "#/$defs/identity" },
+        "mappingPolicy": { "type": "string", "minLength": 100 },
+        "rawOutputsOnly": { "const": true },
+        "pcaPerformed": { "const": false },
+        "imputationPerformed": { "const": false },
+        "qualitativeStabilityLabelsAssigned": { "const": false }
+      }
+    },
+    "dataAvailability": { "$ref": "#/$defs/dataAvailability" },
+    "typeSystem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["artifactKinds", "derivationOperations", "resolutionStates", "evidenceBasisUsedForClaims", "reviewStatusUsedForClaims", "agreementStatusUsedForClaims", "precisionUsedForClaims", "axesAreIndependent"],
+      "properties": {
+        "artifactKinds": { "const": ["EvidenceArtifact", "CodingClaim", "DerivedArtifact"] },
+        "derivationOperations": { "const": ["DirectCoding", "Inference", "Imputation", "DeterministicDerivation", "Aggregation", "StatisticalEstimation", "ManualResolution", "ImportedPublishedResult"] },
+        "resolutionStates": { "const": ["Resolved", "Unknown", "SuspectedUnknown", "Disputed", "Transitional", "Range", "NotApplicable", "Uncoded"] },
+        "evidenceBasisUsedForClaims": { "const": "UnknownBasis" },
+        "reviewStatusUsedForClaims": { "const": "unknown" },
+        "agreementStatusUsedForClaims": { "const": "unknown" },
+        "precisionUsedForClaims": { "const": "exact" },
+        "axesAreIndependent": { "const": true }
+      }
+    },
+    "variable": {
+      "type": "object", "additionalProperties": false,
+      "required": ["section", "polarisName", "apiName", "exactNativeCode", "mappedApiValue", "polityCount"],
+      "properties": { "section": { "const": "sc" }, "polarisName": { "const": "road" }, "apiName": { "const": "Road" }, "exactNativeCode": { "const": "P" }, "mappedApiValue": { "const": "present" }, "polityCount": { "const": 3 } }
+    },
+    "claims": { "type": "array", "minItems": 3, "maxItems": 3, "items": { "$ref": "#/$defs/claim" } },
+    "supportGraph": { "$ref": "#/$defs/supportGraph" },
+    "derivedComparison": {
+      "type": "object", "additionalProperties": false,
+      "required": ["nodeId", "identity", "supportRootHash", "canonicalBytes", "operation"],
+      "properties": { "nodeId": { "const": "derived:road-three-polity-comparison" }, "identity": { "$ref": "#/$defs/identity" }, "supportRootHash": { "$ref": "#/$defs/identity" }, "canonicalBytes": { "type": "integer", "minimum": 1000 }, "operation": { "const": "DeterministicDerivation" } }
+    },
+    "identityComparison": { "$ref": "#/$defs/identityComparison" },
+    "stressAnalyses": { "type": "array", "minItems": 4, "maxItems": 4, "items": { "$ref": "#/$defs/stressAnalysis" } },
+    "historicalLoad": {
+      "type": "object", "additionalProperties": false,
+      "required": ["status", "value", "reason"],
+      "properties": { "status": { "const": "not-evaluated" }, "value": { "type": "null" }, "reason": { "type": "string", "minLength": 80 } }
+    },
+    "limitations": { "type": "array", "minItems": 8, "maxItems": 8, "uniqueItems": true, "items": { "type": "string", "minLength": 20 } },
+    "audit": {
+      "type": "object", "additionalProperties": false,
+      "required": ["polityClaimsRetained", "exactNativeCodesRetained", "publicNarrativesRetained", "inlineReferenceRecordsRetained", "mappedSourceWorkGroups", "researchAssistantGroupsInvented", "expertGroupsInvented", "reviewEpisodeGroupsInvented", "liveQueriesDuringBuild", "sourceMutationsDuringAblation"],
+      "properties": {
+        "polityClaimsRetained": { "const": 3 }, "exactNativeCodesRetained": { "const": 3 }, "publicNarrativesRetained": { "const": 3 }, "inlineReferenceRecordsRetained": { "const": 5 }, "mappedSourceWorkGroups": { "const": 4 },
+        "researchAssistantGroupsInvented": { "const": 0 }, "expertGroupsInvented": { "const": 0 }, "reviewEpisodeGroupsInvented": { "const": 0 }, "liveQueriesDuringBuild": { "const": 0 }, "sourceMutationsDuringAblation": { "const": 0 }
+      }
+    },
+    "caseIdentity": { "$ref": "#/$defs/identity" }
+  },
+  "$defs": {
+    "identity": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "file": {
+      "type": "object", "additionalProperties": false, "required": ["path", "identity", "bytes"],
+      "properties": { "path": { "type": "string", "minLength": 3 }, "identity": { "$ref": "#/$defs/identity" }, "bytes": { "type": "integer", "minimum": 1 } }
+    },
+    "dataAvailability": {
+      "type": "object", "additionalProperties": false,
+      "required": ["format", "formatVersion", "probeVersion", "probedAt", "publicBoundary", "results", "apiSerializerExcludedFields"],
+      "properties": {
+        "format": { "const": "onto2d-seshat-data-availability-probe" }, "formatVersion": { "const": "1" }, "probeVersion": { "const": "public-polaris-api-2026-08-23-v1" }, "probedAt": { "type": "string", "format": "date-time" }, "publicBoundary": { "const": true },
+        "results": {
+          "type": "array", "minItems": 7, "maxItems": 7,
+          "items": {
+            "type": "object", "additionalProperties": false, "required": ["capability", "status", "scope"],
+            "properties": { "capability": { "enum": ["native-code", "narrative-to-code", "source-work-identity", "per-datapoint-research-assistant", "per-datapoint-expert", "review-status-or-event", "intervention-timestamps"] }, "status": { "enum": ["available", "partial", "unavailable-publicly"] }, "scope": { "type": "string", "minLength": 40 } }
+          }
+        },
+        "apiSerializerExcludedFields": { "type": "array", "minItems": 9, "maxItems": 9, "uniqueItems": true, "items": { "type": "string" } }
+      }
+    },
+    "composition": {
+      "type": "object", "additionalProperties": false,
+      "required": ["evidenceArtifacts", "codingClaims", "derivedArtifacts", "sourceRecords", "sourceWorks", "narratives", "researchAssistants", "experts", "reviewEpisodes"],
+      "properties": { "evidenceArtifacts": { "type": "integer", "minimum": 3 }, "codingClaims": { "const": 1 }, "derivedArtifacts": { "const": 0 }, "sourceRecords": { "type": "integer", "minimum": 2 }, "sourceWorks": { "type": "integer", "minimum": 0 }, "narratives": { "const": 1 }, "researchAssistants": { "const": 0 }, "experts": { "const": 0 }, "reviewEpisodes": { "const": 0 } }
+    },
+    "cut": {
+      "oneOf": [
+        { "type": "object", "additionalProperties": false, "required": ["value", "witnessGroupIds"], "properties": { "value": { "const": 1 }, "witnessGroupIds": { "type": "array", "minItems": 1, "maxItems": 1, "items": { "type": "string", "pattern": "^group:" } } } },
+        { "type": "object", "additionalProperties": false, "required": ["value", "reason"], "properties": { "value": { "type": "null" }, "reason": { "type": "string", "minLength": 20 } } }
+      ]
+    },
+    "flip": {
+      "oneOf": [
+        { "type": "object", "additionalProperties": false, "required": ["value", "kind", "baselineValue", "perturbedValue", "response", "witnessGroupIds"], "properties": { "value": { "const": 1 }, "kind": { "const": "categorical-value" }, "baselineValue": { "const": "present" }, "perturbedValue": { "type": "null" }, "response": { "const": "unresolved" }, "witnessGroupIds": { "type": "array", "minItems": 1, "maxItems": 1, "items": { "type": "string", "pattern": "^group:" } } } },
+        { "type": "object", "additionalProperties": false, "required": ["value", "kind", "baselineValue", "reason"], "properties": { "value": { "type": "null" }, "kind": { "const": "categorical-value" }, "baselineValue": { "const": "present" }, "reason": { "type": "string", "minLength": 20 } } }
+      ]
+    },
+    "claim": {
+      "type": "object", "additionalProperties": false,
+      "required": ["polityId", "polityName", "rootNodeId", "claimIdentity", "exactNativeCode", "mappedApiValue", "narrative", "inlineReferenceCount", "support"],
+      "properties": {
+        "polityId": { "enum": ["eg_old_k_1", "it_roman_principate", "us_emergent_mississippian_2"] }, "polityName": { "type": "string", "minLength": 10 }, "rootNodeId": { "type": "string", "pattern": "^claim:" }, "claimIdentity": { "$ref": "#/$defs/identity" }, "exactNativeCode": { "const": "P" }, "mappedApiValue": { "const": "present" }, "narrative": { "type": "string", "minLength": 20 }, "inlineReferenceCount": { "type": "integer", "minimum": 0, "maximum": 4 },
+        "support": {
+          "type": "object", "additionalProperties": false, "required": ["supportRootHash", "canonicalBytes", "composition", "metrics", "minimumGroupCuts", "firstCategoricalFlips"],
+          "properties": {
+            "supportRootHash": { "$ref": "#/$defs/identity" }, "canonicalBytes": { "type": "integer", "minimum": 1000 }, "composition": { "$ref": "#/$defs/composition" },
+            "metrics": {
+              "type": "object", "additionalProperties": false,
+              "required": ["supportNodeCount", "supportEdgeCount", "supportGroupCount", "uniqueSourceWorkGroupCount", "inlineReferenceRecordCount", "maximumReferencesPerSourceWork", "dependencyDepth"],
+              "properties": { "supportNodeCount": { "type": "integer", "minimum": 4 }, "supportEdgeCount": { "type": "integer", "minimum": 4 }, "supportGroupCount": { "type": "integer", "minimum": 3 }, "uniqueSourceWorkGroupCount": { "type": "integer", "minimum": 0, "maximum": 3 }, "inlineReferenceRecordCount": { "type": "integer", "minimum": 0, "maximum": 4 }, "maximumReferencesPerSourceWork": { "type": "integer", "minimum": 0, "maximum": 2 }, "dependencyDepth": { "type": "integer", "minimum": 2, "maximum": 3 } }
+            },
+            "minimumGroupCuts": {
+              "type": "object", "additionalProperties": false,
+              "required": ["sourceWork", "researchAssistant", "expert", "reviewEpisode"],
+              "properties": { "sourceWork": { "$ref": "#/$defs/cut" }, "researchAssistant": { "$ref": "#/$defs/cut" }, "expert": { "$ref": "#/$defs/cut" }, "reviewEpisode": { "$ref": "#/$defs/cut" } }
+            },
+            "firstCategoricalFlips": {
+              "type": "object", "additionalProperties": false,
+              "required": ["sourceWork", "researchAssistant", "expert", "reviewEpisode"],
+              "properties": { "sourceWork": { "$ref": "#/$defs/flip" }, "researchAssistant": { "$ref": "#/$defs/flip" }, "expert": { "$ref": "#/$defs/flip" }, "reviewEpisode": { "$ref": "#/$defs/flip" } }
+            }
+          }
+        }
+      }
+    },
+    "node": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "artifactKind", "artifactSubtype", "nativeIdentity", "claimIdentity", "derivationOperation", "resolutionState", "evidenceBasis", "reviewStatus", "agreementStatus", "precision", "mappingIdentity", "labels"],
+      "properties": {
+        "id": { "type": "string", "minLength": 5 }, "artifactKind": { "enum": ["EvidenceArtifact", "CodingClaim", "DerivedArtifact"] }, "artifactSubtype": { "type": "string", "minLength": 5 }, "nativeIdentity": { "$ref": "#/$defs/identity" }, "claimIdentity": { "anyOf": [{ "$ref": "#/$defs/identity" }, { "type": "null" }] }, "derivationOperation": { "enum": [null, "DirectCoding", "Inference", "Imputation", "DeterministicDerivation", "Aggregation", "StatisticalEstimation", "ManualResolution", "ImportedPublishedResult"] }, "resolutionState": { "enum": [null, "Resolved", "Unknown", "SuspectedUnknown", "Disputed", "Transitional", "Range", "NotApplicable", "Uncoded"] }, "evidenceBasis": { "const": "UnknownBasis" }, "reviewStatus": { "const": "unknown" }, "agreementStatus": { "const": "unknown" }, "precision": { "enum": ["exact", "unknown"] }, "mappingIdentity": { "anyOf": [{ "$ref": "#/$defs/identity" }, { "type": "null" }] }, "labels": { "type": "object" }
+      }
+    },
+    "edge": {
+      "type": "object", "additionalProperties": false, "required": ["id", "from", "to", "semanticType", "dependencyMode"],
+      "properties": { "id": { "type": "string", "pattern": "^edge:" }, "from": { "type": "string", "minLength": 5 }, "to": { "type": "string", "minLength": 5 }, "semanticType": { "enum": ["records-native-code", "records-api-value", "exports-narrative", "supports-coding-rationale", "identifies-source-work-for-reference", "cited-by-narrative", "input-to-deterministic-comparison"] }, "dependencyMode": { "const": "required" } }
+    },
+    "group": {
+      "type": "object", "additionalProperties": false, "required": ["id", "type", "label", "memberNodeIds"],
+      "properties": { "id": { "type": "string", "pattern": "^group:" }, "type": { "enum": ["SourceRecord", "SourceWork", "SourceFamily", "ResearchAssistant", "Expert", "Reviewer", "ReviewEpisode", "Narrative", "DataPropagationEpisode"] }, "label": { "type": "string", "minLength": 3 }, "memberNodeIds": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "minLength": 5 } } }
+    },
+    "supportGraph": {
+      "type": "object", "additionalProperties": false, "required": ["format", "formatVersion", "nodes", "edges", "groups", "mappingIdentities"],
+      "properties": { "format": { "const": "onto2d-support-dependency-dag" }, "formatVersion": { "const": "1" }, "nodes": { "type": "array", "minItems": 22, "maxItems": 22, "items": { "$ref": "#/$defs/node" } }, "edges": { "type": "array", "minItems": 25, "items": { "$ref": "#/$defs/edge" } }, "groups": { "type": "array", "minItems": 18, "items": { "$ref": "#/$defs/group" } }, "mappingIdentities": { "type": "array", "minItems": 1, "maxItems": 1, "items": { "$ref": "#/$defs/identity" } } }
+    },
+    "identityPair": {
+      "type": "object", "additionalProperties": false, "required": ["leftPolityId", "rightPolityId", "sameExactNativeCode", "sameMappedValue", "sameSupportComposition", "sameExactSupportIdentity"],
+      "properties": { "leftPolityId": { "type": "string" }, "rightPolityId": { "type": "string" }, "sameExactNativeCode": { "const": true }, "sameMappedValue": { "const": true }, "sameSupportComposition": { "const": false }, "sameExactSupportIdentity": { "const": false } }
+    },
+    "identityComparison": {
+      "type": "object", "additionalProperties": false, "required": ["rule", "allNativeValuesEqual", "allExactSupportIdentitiesEqual", "pairs"],
+      "properties": { "rule": { "type": "string", "minLength": 100 }, "allNativeValuesEqual": { "const": true }, "allExactSupportIdentitiesEqual": { "const": false }, "pairs": { "type": "array", "minItems": 3, "maxItems": 3, "items": { "$ref": "#/$defs/identityPair" } } }
+    },
+    "stressAnalysis": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "polityId", "supportRootNodeId", "supportGroupId", "supportGroupType", "operation", "dependencySemantics", "baseline", "perturbation", "rawResponse", "threshold", "qualitativeLabel", "sourceGraphMutated"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^ablation:" }, "polityId": { "enum": ["eg_old_k_1", "us_emergent_mississippian_2"] }, "supportRootNodeId": { "type": "string", "pattern": "^claim:" }, "supportGroupId": { "type": "string", "pattern": "^group:source-work:" }, "supportGroupType": { "const": "SourceWork" }, "operation": { "const": "remove-support-group-transitively" }, "dependencySemantics": { "const": "required-conjunctive-transitive-removal" },
+        "baseline": { "$ref": "#/$defs/baseline" }, "perturbation": { "$ref": "#/$defs/perturbation" },
+        "rawResponse": { "type": "object", "additionalProperties": false, "required": ["kind", "baseline", "perturbed"], "properties": { "kind": { "const": "categorical-resolution" }, "baseline": { "const": "Resolved" }, "perturbed": { "const": "Unknown" } } },
+        "threshold": { "type": "null" }, "qualitativeLabel": { "type": "null" }, "sourceGraphMutated": { "const": false }
+      }
+    },
+    "baseline": {
+      "type": "object", "additionalProperties": false, "required": ["exactNativeCode", "mappedValue", "resolutionState", "rootRetained"],
+      "properties": { "exactNativeCode": { "const": "P" }, "mappedValue": { "const": "present" }, "resolutionState": { "const": "Resolved" }, "rootRetained": { "const": true } }
+    },
+    "perturbation": {
+      "type": "object", "additionalProperties": false, "required": ["removedNodeIds", "removedEdgeIds", "exactNativeCode", "mappedValue", "resolutionState", "rootRetained"],
+      "properties": { "removedNodeIds": { "type": "array", "minItems": 4, "uniqueItems": true, "items": { "type": "string" } }, "removedEdgeIds": { "type": "array", "minItems": 3, "uniqueItems": true, "items": { "type": "string" } }, "exactNativeCode": { "type": "null" }, "mappedValue": { "type": "null" }, "resolutionState": { "const": "Unknown" }, "rootRetained": { "const": false } }
+    }
+  }
+}

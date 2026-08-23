@@ -211,6 +211,15 @@ const PRESENTATION = Object.freeze({
     contribution: "The case makes a long Reconstructed History -> Present State chain inspectable and shows precisely where present-day evidence permits only candidate historical compatibility.",
     boundaries: ["Gaia DR3 tables, paper PDF, 33 executed queries, source projection, and generator are byte-locked", "All selected Gaia-parameter and published-orbit estimates retain their reported intervals", "Four cohort names are Onto2D rules, never native Gaia population labels", "Chemistry, radial motion, and counter-rotation establish neither birth origin nor common ancestry"],
     outputs: ["64-source offline Gaia DR3 projection balanced across four rules and two quality strata", "Five-layer case artifact with quality and evidence ablations", "Verified 83-node / 437-edge Galactic Archaeology Model Pack", "Galactic Archaeology Lab with orbit-space inspection and source-level uncertainty"]
+  }),
+  "seshat-epistemic-provenance": Object.freeze({
+    question: "Can identical historical codes retain different epistemic identities because their public support dependency structures differ?",
+    distinction: "same categorical value != same support identity",
+    summary: "Three frozen Polaris-2026 Road claims retain the exact native code P while a strict labelled DAG preserves different public narratives, mapped source works, support compositions, and exact support hashes.",
+    flagship: "Compare Roman Principate, Classic Old Kingdom Egypt, and Cahokia under one outcome-blind variable selection, then remove one declared source-work group without mutating the source graph.",
+    contribution: "The case makes Recorded + Reconstructed evidence -> Identity operational at the claim-support layer: all three values agree, all three exact support identities differ, and unavailable per-datapoint actors or review events remain unavailable.",
+    boundaries: ["Polaris-2026, Codebook 4.20.2021, and current Public Data terms are frozen with exact upstream identities; MIT repository code and CC BY-SA 4.0 data scopes remain separate", "Native codes, API values, narratives, local source-work mappings, and derived support identities remain separate", "Publicly unavailable per-datapoint RA, expert, review-event, and timestamp relations are never invented", "Raw group-ablation responses receive no qualitative stability label and do not rank polities or historical truth"],
+    outputs: ["Byte-locked three-claim source projection and outcome-blind selection profile", "Strict artifact-kind, derivation, resolution, evidence, review, agreement, and precision axes", "Canonical 22-node / 25-edge support DAG with exact group cuts and raw ablations", "Historical Evidence Dependency Lab with native claim, graph, shared-dependency, identity, and public-boundary views"]
   })
 });
 

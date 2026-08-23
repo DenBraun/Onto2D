@@ -1,6 +1,6 @@
 # Onto2D History Case Portfolio
 
-Updated: 2026-08-19
+Updated: 2026-08-23
 
 This is the authoritative human-readable portfolio view. The machine-readable
 source is [`cases/history-case-registry.json`](../../cases/history-case-registry.json).
@@ -32,6 +32,7 @@ Statuses describe repository maturity, not scientific truth.
 | Legal Precedent | Recorded | Reconstructed | Future | Law | ANALYSIS_READY |
 | Clinical Trajectories | Embodied | Recorded | Present State, Future | Clinical medicine | ANALYSIS_READY |
 | Galactic Archaeology | Reconstructed | Recorded | Present State | Galactic astronomy | ANALYSIS_READY |
+| Seshat Epistemic Dependency and Provenance | Recorded | Reconstructed | Identity | Historical social science | EXPLORER |
 
 Secondary effects remain present in the registry and website. The compact table
 shows only primary effects so that hybrid cases remain legible.
@@ -52,9 +53,9 @@ reconstructed evidence mode.
 
 | History access | Identity | Present State | Future |
 |---|---|---|---|
-| Recorded | Git, Nix, live-bootstrap, OCI, in-toto, Reproducible Builds, SLSA, Software Heritage, Chemistry, Artwork | OCI secondary view; recorded AM-Bench, operational, ecological, clinical, LTEE observations | Legal Precedent; recorded operational, ecological, clinical, and LTEE contexts |
+| Recorded | Git, Nix, live-bootstrap, OCI, in-toto, Reproducible Builds, SLSA, Software Heritage, Chemistry, Artwork, Seshat Epistemic Provenance | OCI secondary view; recorded AM-Bench, operational, ecological, clinical, LTEE observations | Legal Precedent; recorded operational, ecological, clinical, and LTEE contexts |
 | Embodied | Mineral and Cell Lineage secondary views | AM-Bench, Operational Aging, Ecological Memory, Clinical Trajectories | LTEE, Operational Aging, Ecological Memory, Clinical Trajectories |
-| Reconstructed | Mineral Formation, Cell Lineage, Manuscripts, Historical Linguistics, Artwork gaps | Lithic History, Galactic Archaeology, Mineral Formation | Explicit research gap; no case is inserted artificially |
+| Reconstructed | Mineral Formation, Cell Lineage, Manuscripts, Historical Linguistics, Artwork gaps, Seshat Epistemic Provenance secondary view | Lithic History, Galactic Archaeology, Mineral Formation | Explicit research gap; no case is inserted artificially |
 
 The same case may occur in more than one cell. Matrix membership is a view over
 metadata, never physical ownership of a case.
@@ -62,7 +63,9 @@ metadata, never physical ownership of a case.
 ## Implementation priorities
 
 1. Recorded → Identity: Artwork Provenance, in-toto, Reproducible Builds, and
-   Chemistry are analysis-ready.
+   Chemistry are analysis-ready. Seshat Epistemic Provenance is explorer-ready
+   with three equal native Road codes, three distinct exact support identities,
+   and public-metadata group cuts that fail closed.
 2. Embodied → Present State: Operational Aging and Ecological Memory are
    analysis-ready; Material Process History is the implemented flagship for
    Embodied History -> Present State.
@@ -71,7 +74,9 @@ metadata, never physical ownership of a case.
    Operational Aging is analysis-ready; Ecological Memory's present-state
    result is analysis-ready while future reachability remains descriptive-only.
 4. Reconstructed → Identity: Historical Linguistics, Manuscript Stemmatics,
-   Mineral Formation, and Cell Lineage are analysis-ready. Mineral Formation keeps one
+   Mineral Formation, and Cell Lineage are analysis-ready. Seshat Epistemic
+   Provenance has a secondary reconstructed-evidence placement while remaining
+   primarily a recorded-claim case. Mineral Formation keeps one
    conventional pyrite class, ten sample records, three reviewed formation
    profiles, and seven case-local unresolved mappings. Cell Lineage preserves
    750 source cells as 750 record, 56 cluster, 192 exact HMID, or 133 bounded
