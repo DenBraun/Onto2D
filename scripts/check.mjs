@@ -6,6 +6,7 @@ import { fileURLToPath } from "node:url";
 const REPOSITORY_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const checks = [
   "check-source.mjs",
+  "check-public-module-revisions.mjs",
   "check-workspace.mjs",
   "check-types.mjs",
   "check-model-pack-worker.mjs",

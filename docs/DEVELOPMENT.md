@@ -19,10 +19,11 @@ npm run build
 ```
 
 `npm test` runs every repository test. `npm run check` validates source files,
-workspace boundaries, TypeScript declarations, the committed browser-worker
-bundle, the pinned Model Pack registry, schemas, the frozen kernel closure
-contract, documentation, and the catalogue audit. `npm run build` confirms the
-published source packages and generated static worker asset.
+public module cache revisions, workspace boundaries, TypeScript declarations,
+the committed browser-worker bundle, the pinned Model Pack registry, schemas,
+the frozen kernel closure contract, documentation, and the catalogue audit.
+`npm run build` confirms the published source packages and generated static
+worker asset.
 
 Focused commands:
 
@@ -31,6 +32,7 @@ Focused commands:
 | `npm run test:kernel` | Kernel behavior |
 | `npm run check:closure` | Capability evidence and release-closure contract |
 | `npm run check:goldens` | Independent canonical and skeleton fixtures |
+| `npm run check:public-revisions` | Coherent Model Studio module cache revisions |
 | `npm run check:schemas` | Schema compilation and export coverage |
 | `npm run check:types` | Published TypeScript entrypoints |
 | `npm run check:registry` | Exact registry releases and Studio pin |
@@ -44,6 +46,7 @@ Focused commands:
 | `npm run case:rdf-mapping:verify` | Replay its frozen evidence without writing |
 | `npm run dev:site` | Local static project site |
 | `npm run build:worker` | Regenerate the committed static worker asset |
+| `npm run revision:model-studio -- YYYYMMDD.N` | Update the complete Model Studio module graph to one cache revision |
 
 ## Change workflow
 
@@ -86,3 +89,8 @@ GitHub Pages application cannot use the document import map inside a worker;
 commit it together with its modular source and verify it with
 `npm run check:worker`. Committed Model Pack candidates under `models/` must be
 rebuilt and have their source audit and hash changes reviewed before release.
+
+Model Studio's entrypoint, import map, direct module imports, dynamic imports,
+and worker URL share one cache revision. Do not edit those `?v=` values
+individually. Use `npm run revision:model-studio -- YYYYMMDD.N`; the updater
+changes the complete graph in one command, and `npm run check` rejects drift.
