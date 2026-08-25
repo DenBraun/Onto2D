@@ -17,11 +17,11 @@ const registry = JSON.parse(await readFile(new URL("../../cases/history-case-reg
 const cases = createHistoryCases(registry);
 
 test("the history portfolio is complete, stable, and status-honest", async () => {
-  assert.equal(cases.length, 23);
+  assert.equal(cases.length, 24);
   assert.deepEqual(HISTORY_MODES.map((entry) => entry.id), ["recorded", "embodied", "reconstructed"]);
   assert.deepEqual(HISTORY_EFFECTS.map((entry) => entry.id), ["identity", "present-state", "future"]);
   assert.equal(new Set(cases.map((entry) => entry.caseId)).size, cases.length);
-  assert.equal(cases.filter((entry) => entry.statusKind === "implemented").length, 20);
+  assert.equal(cases.filter((entry) => entry.statusKind === "implemented").length, 21);
   assert.equal(cases.filter((entry) => entry.statusKind === "next").length, 0);
   assert.equal(historyCaseById(cases, "oci-layer-history").statusKind, "implemented");
   assert.equal(historyCaseById(cases, "in-toto-admissibility").statusKind, "implemented");
@@ -40,6 +40,7 @@ test("the history portfolio is complete, stable, and status-honest", async () =>
   assert.equal(historyCaseById(cases, "mineral-formation-history").statusKind, "implemented");
   assert.equal(historyCaseById(cases, "cell-lineage-identity").statusKind, "implemented");
   assert.equal(historyCaseById(cases, "ltee-evolutionary-contingency").statusKind, "implemented");
+  assert.equal(historyCaseById(cases, "airflow-dependency-constraints").statusKind, "implemented");
   assert.equal(historyCaseById(cases, "slsa-provenance-evidence").caseId, "slsa-provenance-evidence");
   assert.equal(historyCaseById(cases, "missing"), null);
 
@@ -76,7 +77,15 @@ test("hybrid cases retain multiple modes and effects", () => {
   assert.deepEqual(ltee.historyModes, ["embodied", "recorded", "reconstructed"]);
   assert.deepEqual(ltee.primaryEffects, ["future"]);
   assert.deepEqual(ltee.secondaryEffects, ["present-state", "identity"]);
+  assert.equal(ltee.analyses.historicalLoad, "candidate");
   assert.equal(ltee.analyses.reachability, "primary");
+
+  const airflow = historyCaseById(cases, "airflow-dependency-constraints");
+  assert.deepEqual(airflow.historyModes, ["recorded"]);
+  assert.deepEqual(airflow.primaryEffects, ["future"]);
+  assert.deepEqual(airflow.secondaryEffects, ["identity"]);
+  assert.equal(airflow.analyses.historicalLoad, "primary");
+  assert.equal(airflow.analyses.reachability, "secondary");
 
   const clinical = historyCaseById(cases, "clinical-trajectories");
   assert.deepEqual(clinical.primaryEffects, ["present-state", "future"]);
@@ -107,7 +116,8 @@ test("implemented case links select one exact registered Model Studio release", 
     ["material-process-history", ["material-process-history", "v1-0ea3ee56fe462eea"]],
     ["mineral-formation-history", ["mineral-formation-history", "v1-cefaa83457ac222c"]],
     ["cell-lineage-identity", ["cell-lineage-history", "v1-6e6ea7be0f576db7"]],
-    ["ltee-evolutionary-contingency", ["ltee-lineage-history", "v1-e4ff96341b402b13"]]
+    ["ltee-evolutionary-contingency", ["ltee-lineage-history", "v1-e4ff96341b402b13"]],
+    ["airflow-dependency-constraints", ["airflow-dependency-constraints", "v1-e702da2bbcc24ac5"]]
   ]);
   for (const entry of cases) {
     const url = new URL(modelStudioHref(entry, "https://onto2d.dev/project/"));

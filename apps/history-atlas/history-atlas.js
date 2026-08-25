@@ -5,7 +5,7 @@ import {
   historyEffectLabel,
   historyModeLabel,
   loadHistoryRegistry
-} from "../external-cases/external-cases-catalog.js?v=20260819.6";
+} from "../external-cases/external-cases-catalog.js?v=20260825.2";
 
 const PROJECT_ROOT = new URL("../../", import.meta.url);
 const filterIds = Object.freeze(["mode", "effect", "domain", "evidence", "status", "load", "model"]);
@@ -158,7 +158,7 @@ function portfolioCard(entry) {
   availabilityRow.append(
     availability("Model Pack", entry.modelPackPath !== null),
     availability("Explorer", entry.explorerPath !== null),
-    element("span", "analysis-badge", `Historical Load: ${entry.analyses.historicalLoad.replaceAll("-", " ")}`)
+    element("span", "analysis-badge", `Historical Load role: ${entry.analyses.historicalLoad.replaceAll("-", " ")}`)
   );
 
   const footer = element("footer");

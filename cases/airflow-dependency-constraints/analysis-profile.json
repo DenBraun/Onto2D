@@ -1,0 +1,236 @@
+{
+  "format": "onto2d-airflow-constraint-analysis-profile",
+  "formatVersion": "1",
+  "scope": {
+    "airflowRelease": "3.3.1",
+    "rootProject": "apache-airflow-core",
+    "rootVersion": "3.3.1",
+    "pythonVersion": "3.12",
+    "platform": "manylinux-x86_64",
+    "projectionId": "airflow-core-five-requirement-projection-v1",
+    "constraintPath": "constraints-no-providers-3.12.txt",
+    "boundary": "Complete only for the five selected native Airflow Core requirements and their in-scope transitive closure; not a complete apache-airflow installation."
+  },
+  "rootRequirements": [
+    {
+      "sourceRequirement": "jsonschema>=4.19.1",
+      "project": "jsonschema",
+      "specifiers": [{ "operator": ">=", "version": "4.19.1" }]
+    },
+    {
+      "sourceRequirement": "pydantic>=2.11.0",
+      "project": "pydantic",
+      "specifiers": [{ "operator": ">=", "version": "2.11.0" }]
+    },
+    {
+      "sourceRequirement": "requests<3,>=2.32.0",
+      "project": "requests",
+      "specifiers": [{ "operator": "<", "version": "3" }, { "operator": ">=", "version": "2.32.0" }]
+    },
+    {
+      "sourceRequirement": "sqlalchemy[asyncio]>=2.0.50",
+      "project": "sqlalchemy",
+      "specifiers": [{ "operator": ">=", "version": "2.0.50" }]
+    },
+    {
+      "sourceRequirement": "typing-extensions>=4.14.1",
+      "project": "typing-extensions",
+      "specifiers": [{ "operator": ">=", "version": "4.14.1" }]
+    }
+  ],
+  "projects": [
+    {
+      "project": "annotated-types",
+      "versions": ["0.8.0"],
+      "baseline": "0.8.0",
+      "constrained": "0.8.0",
+      "dependencies": { "0.8.0": [] }
+    },
+    {
+      "project": "attrs",
+      "versions": ["26.1.0"],
+      "baseline": "26.1.0",
+      "constrained": "26.1.0",
+      "dependencies": { "26.1.0": [] }
+    },
+    {
+      "project": "certifi",
+      "versions": ["2026.7.22"],
+      "baseline": "2026.7.22",
+      "constrained": "2026.7.22",
+      "dependencies": { "2026.7.22": [] }
+    },
+    {
+      "project": "charset-normalizer",
+      "versions": ["3.4.9"],
+      "baseline": "3.4.9",
+      "constrained": "3.4.9",
+      "dependencies": { "3.4.9": [] }
+    },
+    {
+      "project": "greenlet",
+      "versions": ["3.5.4"],
+      "baseline": "3.5.4",
+      "constrained": "3.5.4",
+      "dependencies": { "3.5.4": [] }
+    },
+    {
+      "project": "idna",
+      "versions": ["3.18"],
+      "baseline": "3.18",
+      "constrained": "3.18",
+      "dependencies": { "3.18": [] }
+    },
+    {
+      "project": "jsonschema",
+      "versions": ["4.19.1", "4.26.0"],
+      "baseline": "4.19.1",
+      "constrained": "4.26.0",
+      "dependencies": {
+        "4.19.1": [
+          { "sourceRequirements": ["attrs>=22.2.0"], "project": "attrs", "specifiers": [{ "operator": ">=", "version": "22.2.0" }] },
+          { "sourceRequirements": ["jsonschema-specifications>=2023.03.6"], "project": "jsonschema-specifications", "specifiers": [{ "operator": ">=", "version": "2023.03.6" }] },
+          { "sourceRequirements": ["referencing>=0.28.4"], "project": "referencing", "specifiers": [{ "operator": ">=", "version": "0.28.4" }] },
+          { "sourceRequirements": ["rpds-py>=0.7.1"], "project": "rpds-py", "specifiers": [{ "operator": ">=", "version": "0.7.1" }] }
+        ],
+        "4.26.0": [
+          { "sourceRequirements": ["attrs>=22.2.0"], "project": "attrs", "specifiers": [{ "operator": ">=", "version": "22.2.0" }] },
+          { "sourceRequirements": ["jsonschema-specifications>=2023.03.6"], "project": "jsonschema-specifications", "specifiers": [{ "operator": ">=", "version": "2023.03.6" }] },
+          { "sourceRequirements": ["referencing>=0.28.4"], "project": "referencing", "specifiers": [{ "operator": ">=", "version": "0.28.4" }] },
+          { "sourceRequirements": ["rpds-py>=0.25.0"], "project": "rpds-py", "specifiers": [{ "operator": ">=", "version": "0.25.0" }] }
+        ]
+      }
+    },
+    {
+      "project": "jsonschema-specifications",
+      "versions": ["2025.9.1"],
+      "baseline": "2025.9.1",
+      "constrained": "2025.9.1",
+      "dependencies": {
+        "2025.9.1": [
+          { "sourceRequirements": ["referencing>=0.31.0"], "project": "referencing", "specifiers": [{ "operator": ">=", "version": "0.31.0" }] }
+        ]
+      }
+    },
+    {
+      "project": "pydantic",
+      "versions": ["2.11.0", "2.13.4"],
+      "baseline": "2.11.0",
+      "constrained": "2.13.4",
+      "dependencies": {
+        "2.11.0": [
+          { "sourceRequirements": ["annotated-types>=0.6.0"], "project": "annotated-types", "specifiers": [{ "operator": ">=", "version": "0.6.0" }] },
+          { "sourceRequirements": ["pydantic-core==2.33.0"], "project": "pydantic-core", "specifiers": [{ "operator": "==", "version": "2.33.0" }] },
+          { "sourceRequirements": ["typing-extensions>=4.12.2"], "project": "typing-extensions", "specifiers": [{ "operator": ">=", "version": "4.12.2" }] },
+          { "sourceRequirements": ["typing-inspection>=0.4.0"], "project": "typing-inspection", "specifiers": [{ "operator": ">=", "version": "0.4.0" }] }
+        ],
+        "2.13.4": [
+          { "sourceRequirements": ["annotated-types>=0.6.0"], "project": "annotated-types", "specifiers": [{ "operator": ">=", "version": "0.6.0" }] },
+          { "sourceRequirements": ["pydantic-core==2.46.4"], "project": "pydantic-core", "specifiers": [{ "operator": "==", "version": "2.46.4" }] },
+          { "sourceRequirements": ["typing-extensions>=4.14.1"], "project": "typing-extensions", "specifiers": [{ "operator": ">=", "version": "4.14.1" }] },
+          { "sourceRequirements": ["typing-inspection>=0.4.2"], "project": "typing-inspection", "specifiers": [{ "operator": ">=", "version": "0.4.2" }] }
+        ]
+      }
+    },
+    {
+      "project": "pydantic-core",
+      "versions": ["2.33.0", "2.46.4"],
+      "baseline": "2.33.0",
+      "constrained": "2.46.4",
+      "dependencies": {
+        "2.33.0": [
+          { "sourceRequirements": ["typing-extensions!=4.7.0,>=4.6.0"], "project": "typing-extensions", "specifiers": [{ "operator": "!=", "version": "4.7.0" }, { "operator": ">=", "version": "4.6.0" }] }
+        ],
+        "2.46.4": [
+          { "sourceRequirements": ["typing-extensions>=4.14.1"], "project": "typing-extensions", "specifiers": [{ "operator": ">=", "version": "4.14.1" }] }
+        ]
+      }
+    },
+    {
+      "project": "referencing",
+      "versions": ["0.37.0"],
+      "baseline": "0.37.0",
+      "constrained": "0.37.0",
+      "dependencies": {
+        "0.37.0": [
+          { "sourceRequirements": ["attrs>=22.2.0"], "project": "attrs", "specifiers": [{ "operator": ">=", "version": "22.2.0" }] },
+          { "sourceRequirements": ["rpds-py>=0.7.0"], "project": "rpds-py", "specifiers": [{ "operator": ">=", "version": "0.7.0" }] },
+          { "sourceRequirements": ["typing-extensions>=4.4.0; python_version < \"3.13\""], "project": "typing-extensions", "specifiers": [{ "operator": ">=", "version": "4.4.0" }] }
+        ]
+      }
+    },
+    {
+      "project": "requests",
+      "versions": ["2.32.2", "2.34.2"],
+      "baseline": "2.32.2",
+      "constrained": "2.34.2",
+      "dependencies": {
+        "2.32.2": [
+          { "sourceRequirements": ["charset-normalizer<4,>=2"], "project": "charset-normalizer", "specifiers": [{ "operator": "<", "version": "4" }, { "operator": ">=", "version": "2" }] },
+          { "sourceRequirements": ["idna<4,>=2.5"], "project": "idna", "specifiers": [{ "operator": "<", "version": "4" }, { "operator": ">=", "version": "2.5" }] },
+          { "sourceRequirements": ["urllib3<3,>=1.21.1"], "project": "urllib3", "specifiers": [{ "operator": "<", "version": "3" }, { "operator": ">=", "version": "1.21.1" }] },
+          { "sourceRequirements": ["certifi>=2017.4.17"], "project": "certifi", "specifiers": [{ "operator": ">=", "version": "2017.4.17" }] }
+        ],
+        "2.34.2": [
+          { "sourceRequirements": ["charset_normalizer<4,>=2"], "project": "charset-normalizer", "specifiers": [{ "operator": "<", "version": "4" }, { "operator": ">=", "version": "2" }] },
+          { "sourceRequirements": ["idna<4,>=2.5"], "project": "idna", "specifiers": [{ "operator": "<", "version": "4" }, { "operator": ">=", "version": "2.5" }] },
+          { "sourceRequirements": ["urllib3<3,>=1.26"], "project": "urllib3", "specifiers": [{ "operator": "<", "version": "3" }, { "operator": ">=", "version": "1.26" }] },
+          { "sourceRequirements": ["certifi>=2023.5.7"], "project": "certifi", "specifiers": [{ "operator": ">=", "version": "2023.5.7" }] }
+        ]
+      }
+    },
+    {
+      "project": "rpds-py",
+      "versions": ["2026.6.3"],
+      "baseline": "2026.6.3",
+      "constrained": "2026.6.3",
+      "dependencies": { "2026.6.3": [] }
+    },
+    {
+      "project": "sqlalchemy",
+      "versions": ["2.0.50", "2.0.51"],
+      "baseline": "2.0.50",
+      "constrained": "2.0.51",
+      "dependencies": {
+        "2.0.50": [
+          { "sourceRequirements": ["greenlet>=1; extra == \"asyncio\""], "project": "greenlet", "specifiers": [{ "operator": ">=", "version": "1" }] },
+          { "sourceRequirements": ["typing-extensions>=4.6.0"], "project": "typing-extensions", "specifiers": [{ "operator": ">=", "version": "4.6.0" }] }
+        ],
+        "2.0.51": [
+          { "sourceRequirements": ["greenlet>=1; extra == \"asyncio\""], "project": "greenlet", "specifiers": [{ "operator": ">=", "version": "1" }] },
+          { "sourceRequirements": ["typing-extensions>=4.6.0"], "project": "typing-extensions", "specifiers": [{ "operator": ">=", "version": "4.6.0" }] }
+        ]
+      }
+    },
+    {
+      "project": "typing-extensions",
+      "versions": ["4.14.1", "4.16.0"],
+      "baseline": "4.14.1",
+      "constrained": "4.16.0",
+      "dependencies": { "4.14.1": [], "4.16.0": [] }
+    },
+    {
+      "project": "typing-inspection",
+      "versions": ["0.4.2"],
+      "baseline": "0.4.2",
+      "constrained": "0.4.2",
+      "dependencies": {
+        "0.4.2": [
+          { "sourceRequirements": ["typing-extensions>=4.12.0"], "project": "typing-extensions", "specifiers": [{ "operator": ">=", "version": "4.12.0" }] }
+        ]
+      }
+    },
+    {
+      "project": "urllib3",
+      "versions": ["2.2.1", "2.7.0"],
+      "baseline": "2.2.1",
+      "constrained": "2.7.0",
+      "dependencies": { "2.2.1": [], "2.7.0": [] }
+    }
+  ],
+  "costFunctions": [
+    { "id": "wheel-download-bytes", "unit": "bytes", "definition": "Sum of exact selected compatible wheel sizes for all projects in one solution." },
+    { "id": "environment-change-actions", "unit": "package-version changes", "definition": "Count of selected project versions that differ from the declared valid baseline environment." },
+    { "id": "selected-wheel-count", "unit": "wheels", "definition": "Number of selected project wheels; retained as a zero-load structural control." }
+  ]
+}

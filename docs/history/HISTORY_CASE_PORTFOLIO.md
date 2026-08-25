@@ -1,10 +1,18 @@
 # Onto2D History Case Portfolio
 
-Updated: 2026-08-23
+Updated: 2026-08-25
 
 This is the authoritative human-readable portfolio view. The machine-readable
 source is [`cases/history-case-registry.json`](../../cases/history-case-registry.json).
 Statuses describe repository maturity, not scientific truth.
+
+The registry's `analyses` values describe each analysis family's role in the
+research program. They do not encode result status. For example, LTEE now has
+`historicalLoad: candidate`, while its exact v1 artifact correctly remains
+`status: not-evaluated`, `value: null`. Airflow instead declares
+`historicalLoad: primary` because its bounded v1 artifact contains three
+completed cost results. This separates future analysis priority from a
+calculation that has actually been performed.
 
 ## Portfolio
 
@@ -33,6 +41,7 @@ Statuses describe repository maturity, not scientific truth.
 | Clinical Trajectories | Embodied | Recorded | Present State, Future | Clinical medicine | ANALYSIS_READY |
 | Galactic Archaeology | Reconstructed | Recorded | Present State | Galactic astronomy | ANALYSIS_READY |
 | Seshat Epistemic Dependency and Provenance | Recorded | Reconstructed | Identity | Historical social science | EXPLORER |
+| Airflow Dependency Constraints | Recorded | — | Future | Python dependency resolution | ANALYSIS_READY |
 
 Secondary effects remain present in the registry and website. The compact table
 shows only primary effects so that hybrid cases remain legible.
@@ -53,7 +62,7 @@ reconstructed evidence mode.
 
 | History access | Identity | Present State | Future |
 |---|---|---|---|
-| Recorded | Git, Nix, live-bootstrap, OCI, in-toto, Reproducible Builds, SLSA, Software Heritage, Chemistry, Artwork, Seshat Epistemic Provenance | OCI secondary view; recorded AM-Bench, operational, ecological, clinical, LTEE observations | Legal Precedent; recorded operational, ecological, clinical, and LTEE contexts |
+| Recorded | Git, Nix, live-bootstrap, OCI, in-toto, Reproducible Builds, SLSA, Software Heritage, Chemistry, Artwork, Seshat Epistemic Provenance; Airflow secondary view | OCI secondary view; recorded AM-Bench, operational, ecological, clinical, LTEE observations | Legal Precedent, Airflow Dependency Constraints; recorded operational, ecological, clinical, and LTEE contexts |
 | Embodied | Mineral and Cell Lineage secondary views | AM-Bench, Operational Aging, Ecological Memory, Clinical Trajectories | LTEE, Operational Aging, Ecological Memory, Clinical Trajectories |
 | Reconstructed | Mineral Formation, Cell Lineage, Manuscripts, Historical Linguistics, Artwork gaps, Seshat Epistemic Provenance secondary view | Lithic History, Galactic Archaeology, Mineral Formation | Explicit research gap; no case is inserted artificially |
 
@@ -71,6 +80,8 @@ metadata, never physical ownership of a case.
    Embodied History -> Present State.
 3. Embodied → Future: LTEE is the implemented flagship with three separate
    Ara-3 replay protocols and descriptive history-conditioned reachability.
+   It is also the priority empirical Historical Load candidate, but the current
+   artifact does not turn published generation shifts or P values into `dH`.
    Operational Aging is analysis-ready; Ecological Memory's present-state
    result is analysis-ready while future reachability remains descriptive-only.
 4. Reconstructed → Identity: Historical Linguistics, Manuscript Stemmatics,
@@ -86,11 +97,19 @@ metadata, never physical ownership of a case.
    64-source Gaia DR3 cohort, five explicit evidence layers, and quality/evidence
    ablations; Lithic Operational History remains planned.
 6. Recorded → Future: Legal Precedent is analysis-ready with a bounded
-   official-date context and separately attributed treatment layer.
+   official-date context and separately attributed treatment layer. Airflow
+   Dependency Constraints is now the independent engineering Historical Load
+   case: a 27-file source lock closes a five-requirement Airflow Core 3.3.1
+   projection over 17 projects and 24 candidates. Complete enumeration yields
+   64 solutions, one of which satisfies the selected official pins; the three
+   declared `dH` results are +144,596 wheel bytes, +7 baseline version changes,
+   and zero selected wheels.
 7. Embodied → Present State / Future: Clinical Trajectories is analysis-ready
    with five bounded frames and descriptive recorded-history context. It does
    not perform future prediction or evaluate Historical Load.
 
-Future priorities should be selected explicitly. The portfolio currently has no
-entry marked `next`; planned cases remain plans until source pinning,
-reproducible extraction, evidence review, and negative tests are complete.
+Future priorities are selected explicitly. No registry entry is currently
+marked `next`; Airflow has passed source pinning, complete bounded enumeration,
+reproducible extraction, evidence review, and negative tests for its declared
+projection. Expansion to a complete Airflow installation would be a new case
+revision rather than an unstated extension of the v1 result.

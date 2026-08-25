@@ -24,8 +24,8 @@ Nix derivation, OCI layer-provenance, in-toto, chemical-reaction, reproducible-b
 artwork-provenance, language-transmission, manuscript-transmission,
 operational-aging, ecological-memory, legal-precedent-history,
 clinical-trajectories, galactic-archaeology, material-process-history,
-mineral-formation-history, and cell-lineage-history releases, plus the
-ltee-lineage-history release,
+mineral-formation-history, cell-lineage-history, ltee-lineage-history, and
+airflow-dependency-constraints releases,
 and a headless API for exact model queries and traversal. It is not yet a
 published npm package.
 
@@ -197,11 +197,21 @@ compares sixteen recorded Ara-3 source generations across three separate
 citrate replay protocols. Seven generations yielded Cit+ in at least one
 bounded replay; nine remain unresolved rather than inaccessible. Published
 statistics stay attributed, a source arithmetic discrepancy remains visible,
-and undefined Historical Load is never rendered as zero
+and LTEE is marked as a candidate Historical Load extension while the current
+undefined value is never rendered as zero
 ([method](cases/ltee-evolutionary-contingency/README.md)).
 
+The [Airflow Constraint Resolution Lab](https://denbraun.github.io/Onto2D/apps/airflow-constraint-resolution-lab/)
+exhaustively enumerates a source-locked Airflow Core 3.3.1 / Python 3.12
+dependency projection: 128 candidate assignments, 64 complete solutions, and
+one solution admitted by the selected official pins. Three predeclared costs
+produce Historical Load values of +144,596 compatible-wheel bytes, +7 baseline
+version changes, and zero selected wheels. Resolver work remains diagnostic,
+and the result is explicitly not a complete Airflow installation
+([method](cases/airflow-dependency-constraints/README.md)).
+
 The [History Atlas](https://denbraun.github.io/Onto2D/apps/history-atlas/)
-organizes 22 registered cases by two independent axes: how history is available
+organizes 24 registered cases by two independent axes: how history is available
 (Recorded, Embodied, or Reconstructed) and what it changes (Identity, Present
 State, or Future). Domain is a filter rather than the primary taxonomy. Every
 case has a stable page and explicit maturity, evidence, analysis, Model Pack,
@@ -299,7 +309,7 @@ identity.
   defines the pinned source, evidence classes, finite analysis, and trust
   boundary for the external bootstrap case.
 - [History Model Documentation](docs/history/README.md) defines the taxonomy,
-  evidence boundaries, analysis families, and 23-case portfolio.
+  evidence boundaries, analysis families, and 24-case portfolio.
 - [History Case Implementation Plans](docs/cases/README.md) preserve one
   status-honest plan per registered case.
 - [Review Guide](docs/REVIEW_GUIDE.md) defines the independent golden review

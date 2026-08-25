@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="../../assets/js/document-state-reset.js" defer></script>
+    <meta name="description" content="A source-locked Airflow dependency-resolution study with a complete bounded candidate space and cost-relative Historical Load.">
+    <title>Airflow Constraint Resolution Lab - Onto2D</title>
+    <link rel="icon" href="../../assets/icons/favicon.ico?v=20260818.1" type="image/x-icon">
+    <link rel="stylesheet" href="../../assets/css/ui-icons.css?v=20260818.1">
+    <link rel="stylesheet" href="../../assets/css/study-airflow-constraint-resolution.css?v=20260825.1">
+    <script type="module" src="./airflow-constraint-resolution-lab.js?v=20260825.1"></script>
+  </head>
+  <body data-state="loading">
+    <header class="history-case-header">
+      <a class="history-case-brand" href="../../" aria-label="Onto2D home"><svg viewBox="0 0 34 34" aria-hidden="true"><circle cx="7" cy="17" r="3"></circle><circle cx="27" cy="8" r="3"></circle><circle cx="27" cy="26" r="3"></circle><path d="M10 17h7m2-3 5-4m-5 10 5 4"></path></svg><span><strong>Onto2D</strong><small>History model</small></span></a>
+      <nav class="history-case-nav" aria-label="History navigation"><a href="../history-atlas/">History Atlas</a><a href="../model-studio/#model=airflow-dependency-constraints&amp;version=v1-e702da2bbcc24ac5">Model Studio</a><a href="https://github.com/DenBraun/Onto2D/blob/main/docs/cases/AIRFLOW_DEPENDENCY_CONSTRAINTS_IMPLEMENTATION.md" target="_blank" rel="noopener noreferrer">History model <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#external-link"></use></svg></a><a href="https://github.com/DenBraun/Onto2D" target="_blank" rel="noopener noreferrer">GitHub <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#external-link"></use></svg></a></nav>
+      <div class="history-case-context"><span>Airflow Dependency Constraints</span><strong class="history-case-state"><i></i><span id="load-state" role="status" aria-live="polite">Verifying artifact</span></strong></div>
+    </header>
+
+    <main>
+      <p id="fatal-error" class="fatal-error" hidden></p>
+      <section class="hero" aria-labelledby="page-title"><div class="hero-grid"><div><p class="eyebrow">24 / Recorded history -&gt; future admissibility</p><h1 id="page-title">The resolver can branch.<br>The release remembers one route.</h1><p class="hero-copy">Airflow publishes a tested, versioned constraint set. This lab compares it with every solution in one frozen dependency projection, while keeping resolver search effort separate from solution-path cost.</p></div><dl class="hero-meta"><div><dt>Airflow release</dt><dd>3.3.1</dd></div><div><dt>Runtime profile</dt><dd>Python 3.12 / manylinux x86_64</dd></div><div><dt>Case identity</dt><dd id="case-identity">Loading</dd></div><div><dt>Source identity</dt><dd id="source-identity">Loading</dd></div><div><dt>Source files</dt><dd id="source-count">Loading</dd></div></dl></div></section>
+
+      <section class="claim-banner" aria-label="Exact result"><strong>EXACT BOUNDED RESULT</strong><p>128 assignments produce 64 complete solutions and 64 dependency-conflict rejections. The official selected pins admit one solution. Historical Load is +144,596 wheel bytes, +7 version changes, and 0 wheels under the structural control.</p></section>
+
+      <div class="workspace">
+        <section class="panel" aria-labelledby="overview-title"><div class="section-heading"><p class="section-kicker">01 / Finite universe</p><h2 id="overview-title">A complete census inside an explicit boundary</h2><p>The counts below describe the frozen five-requirement Airflow Core projection. They do not describe every Airflow dependency or every PyPI release.</p></div><div id="metric-grid" class="metric-grid"></div></section>
+
+        <section class="load-study" aria-labelledby="load-title"><div class="study-heading"><div><p class="section-kicker">02 / Historical Load</p><h2 id="load-title">One filter, three declared costs</h2><p>Choose a cost. Both optima are computed over the same 64-solution universe; only the official constraint predicate changes admissibility.</p></div><div id="cost-controls" class="choice-controls" role="group" aria-label="Historical Load cost profile"></div></div><div id="cost-detail" class="cost-detail" aria-live="polite"></div></section>
+
+        <section class="panel" aria-labelledby="comparison-title"><div class="section-heading"><p class="section-kicker">03 / Optimum witnesses</p><h2 id="comparison-title">Where the constrained environment changes</h2><p>Only projects with more than one candidate are shown. Fixed transitive dependencies remain part of every complete 17-project solution.</p></div><div class="table-scroll"><table class="solution-table"><thead><tr><th>Project</th><th>Baseline / free witness</th><th>Official constraint</th><th>Wheel-byte delta</th></tr></thead><tbody id="solution-table"></tbody></table></div></section>
+
+        <section class="ablation-study" aria-labelledby="ablation-title"><div class="study-heading"><div><p class="section-kicker">04 / Counterfactual filters</p><h2 id="ablation-title">Relax a pin without rewriting upstream evidence</h2><p>Every ablation is an Onto2D analysis-only filter. The official constraint bytes and their source identity stay unchanged.</p></div><div id="ablation-controls" class="choice-controls" role="group" aria-label="Constraint ablation"></div></div><div id="ablation-detail" class="ablation-detail" aria-live="polite"></div></section>
+
+        <section class="two-column" aria-label="Dependency and resolver evidence"><section class="panel" aria-labelledby="shared-title"><div class="section-heading"><p class="section-kicker">05 / Shared dependencies</p><h2 id="shared-title">Reuse is structural, not duplicated</h2><p>One target project can constrain several independent branches at once.</p></div><div id="shared-grid" class="shared-grid"></div></section><section class="panel diagnostic" aria-labelledby="diagnostic-title"><div class="section-heading"><p class="section-kicker">06 / Resolver diagnostic</p><h2 id="diagnostic-title">Rejected work is not path cost</h2><p>Enumeration reveals conflicts and branching. Its work count does not populate <code>dH</code>.</p></div><div id="rejection-list" class="rejection-list"></div></section></section>
+
+        <section class="boundary" aria-labelledby="boundary-title"><div><p class="section-kicker">07 / Scientific boundary</p><h2 id="boundary-title">A real upstream filter, a deliberately bounded claim</h2><p id="scope-boundary"></p></div><div class="boundary-cards"><article><span>UPSTREAM</span><strong>Constraint bytes</strong><p>121 official pins are captured exactly; 17 apply inside this projection.</p></article><article><span>DERIVED</span><strong>64 solutions</strong><p>Complete exhaustive enumeration under the declared project and candidate inventory.</p></article><article><span>COUNTERFACTUAL</span><strong>8 relaxations</strong><p>Local analysis views that never become Airflow recommendations.</p></article><article><span>NOT CLAIMED</span><strong>pip performance</strong><p>No runtime or backtracking count is interpreted as Historical Load.</p></article></div><div class="source-links"><a href="https://airflow.apache.org/docs/apache-airflow/stable/installation/installing-from-pypi.html" target="_blank" rel="noopener noreferrer">Airflow constraints documentation <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#external-link"></use></svg></a><a href="https://pip.pypa.io/en/stable/topics/dependency-resolution/" target="_blank" rel="noopener noreferrer">pip dependency resolution <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#external-link"></use></svg></a><a href="https://github.com/DenBraun/Onto2D/tree/main/cases/airflow-dependency-constraints" target="_blank" rel="noopener noreferrer">Pinned case files <svg class="ui-icon" aria-hidden="true"><use href="../../assets/icons/ui-symbols.svg#external-link"></use></svg></a></div></section>
+      </div>
+    </main>
+    <footer class="study-footer">27 source files / 17 projects / 24 candidates / 128 assignments / 64 complete solutions / one official constrained solution / zero resolver-work costs.</footer>
+  </body>
+</html>

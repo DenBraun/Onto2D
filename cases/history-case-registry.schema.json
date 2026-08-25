@@ -40,6 +40,7 @@
       "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
     },
     "analysisLevel": {
+      "description": "Research-program role for an analysis family, not the evaluation status of a case artifact.",
       "enum": ["primary", "secondary", "candidate", "relevant", "possible", "descriptive-only", "not-primary"]
     },
     "case": {
@@ -102,6 +103,7 @@
         },
         "analyses": {
           "type": "object",
+          "description": "Portfolio roles only. Evaluated, unresolved, and not-evaluated result states belong to the versioned case artifact.",
           "additionalProperties": false,
           "required": ["historicalLoad", "historyEquivalence", "reachability", "reconstruction"],
           "properties": {

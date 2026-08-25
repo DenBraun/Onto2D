@@ -34,7 +34,7 @@ const MODEL_PACK_WORKER_URL = new URL(
   "../../assets/js/model-pack-worker.js?v=20260819.1",
   import.meta.url
 );
-const EXPECTED_REGISTRY_HASH = "sha256:504188a07726d1b66848330ca8e90afe31eda13e3e0b02df269f1b004056e308";
+const EXPECTED_REGISTRY_HASH = "sha256:d7e0e1aff27b0a9d70ef98953f3f9e4b6618b528cf4671c8faa5355365a55f35";
 const MODEL_CACHE_OPTIONS = Object.freeze({
   databaseName: "onto2d-model-studio-cache-v1",
   maxEntries: 4,

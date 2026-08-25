@@ -1,6 +1,6 @@
 # Scientific Roadmap
 
-Status date: 2026-08-17
+Status date: 2026-08-25
 
 ## Scope
 
@@ -182,6 +182,24 @@ The *E. coli* network is a useful candidate only if its available evidence can
 support the chosen formation-history definition. A directed interaction graph
 and its motif counts alone are not sufficient evidence of historical load.
 
+The LTEE Ara-3 citrate replay case is the stronger biological candidate for
+this workstream because it directly tests history-conditioned accessibility
+using frozen historical samples. Its current source-locked release must still
+remain `not-evaluated`: the 2008 replay tables do not enumerate a finite
+mutation-path universe, cost its transitions, or define free and
+history-conditioned optima in one shared space. The published mutant counts,
+mean-generation shifts, and P values quantify contingency but are not
+`dH(x | F) = aF - a0`.
+
+An LTEE Historical Load extension should be a new preregistered case revision,
+not a reinterpretation of the current scalar fields. It must source-lock the
+additional clone/genotype and intervention evidence, declare path resolution,
+target phenotype and replay environment, specify free and background-
+conditioned admissibility, predeclare biologically interpretable costs and
+sensitivity analyses, propagate polymorphism and unobserved-path uncertainty,
+and validate the result against an external replay outcome. Failure to close
+that path space must yield `unresolved`, not a convenient number.
+
 The live-bootstrap provenance case is also not an empirical Historical Load
 result. It is a reproducible methods case over one pinned manifest and a
 complete, explicitly finite three-path construction space. Its results test
@@ -189,8 +207,21 @@ source/evidence separation, cost sensitivity, admissibility, and ablation, but
 they do not estimate a naturally observed distribution or validate the metric
 against an external outcome.
 
+Airflow Dependency Constraints is now an implemented independent engineering
+case. It is not folded into Nix: the Nix case tests derivation and output
+identity, whereas Airflow tests the cost of an externally published,
+release-specific admissibility filter. Its source-locked v1 scope is a complete
+five-requirement Airflow Core 3.3.1 / Python 3.12 projection, not a complete
+Airflow installation. Across 17 projects and 24 candidates, exhaustive
+enumeration finds 64 valid solutions and one official-constraint solution.
+Predeclared costs yield `dH` values of +144,596 compatible-wheel bytes, +7
+changes from the declared valid baseline, and zero selected wheels. Resolver
+assignments and rejections remain diagnostics; wheel payloads are not vendored
+and pip installation or runtime is not replayed. A broader package-index or
+full-install result therefore requires a new case revision.
+
 The [History Case Portfolio](history/HISTORY_CASE_PORTFOLIO.md) extends that
-methods work across 22 registered cases. The portfolio is organized by history
+methods work across 24 registered cases. The portfolio is organized by history
 access (Recorded, Embodied, Reconstructed) and history effect (Identity,
 Present State, Future), with domain retained as secondary metadata. Each case
 has a separate falsification criterion and implementation plan; `PLANNED`

@@ -7,7 +7,7 @@ import {
   historyModeLabel,
   loadHistoryRegistry,
   modelStudioHref
-} from "./external-cases-catalog.js?v=20260819.6";
+} from "./external-cases-catalog.js?v=20260825.2";
 
 const PROJECT_ROOT = new URL("../../", import.meta.url);
 const GITHUB_BLOB_ROOT = "https://github.com/DenBraun/Onto2D/blob/main/";

@@ -1,6 +1,6 @@
 # LTEE Evolutionary Contingency — Implementation Report
 
-Updated: 2026-08-19
+Updated: 2026-08-25
 Status: `ANALYSIS_READY`
 
 ## History Model Metadata
@@ -26,7 +26,7 @@ Evidence profile:
     unknown
 
 Historical Load:
-    Not primary; not evaluated in the empirical release
+    Candidate empirical extension; not evaluated in this release
 
 History Equivalence:
     Possible; not evaluated in this release
@@ -60,6 +60,12 @@ the selected experiments, the paper reports that later Ara-3 backgrounds had a
 greater propensity to yield Cit+. Many later-background replays nevertheless
 did not yield Cit+, and the selected tables do not identify a unique
 potentiating mutation.
+
+The case is already quantitative: it preserves per-protocol mutant counts,
+published mean-generation shifts, and source-attributed Monte Carlo P values.
+Those quantities test whether historical background changes observed
+accessibility. They are not Historical Load values and must not be relabelled
+as such.
 
 ## Exact Source Boundary
 
@@ -182,9 +188,11 @@ A replay starts from a historical sample under a new experiment. It is
 evidence about future accessibility from that background, not a continuation
 or reconstruction of the original LTEE trajectory.
 
-## Historical Load Policy
+## Historical Load Candidate and Current Boundary
 
-Historical Load is:
+At the portfolio level, LTEE is a `candidate` for a future empirical Historical
+Load extension. That label describes research priority, not a completed
+calculation. The current artifact therefore remains:
 
 ```json
 {
@@ -193,15 +201,50 @@ Historical Load is:
 }
 ```
 
+Onto2D's current finite-path definition is:
+
+```text
+dH(x | F) = aF - a0
+```
+
+where `a0` is the minimum declared cost in a bounded free path space and `aF`
+is the minimum cost after an explicit historical/admissibility regime `F` is
+applied. This is narrower than a generic effect of history on an outcome.
+
 The selected evidence does not enumerate:
 
 - a finite universe of possible mutation paths;
+- an explicit free and history-conditioned admissibility relation over the same
+  path universe;
 - transition costs;
 - a history-free counterfactual baseline.
 
 Consequently there is no defensible empirical Historical Load number. `null`
 is a result of model discipline, not missing UI work, and must never be shown
 as zero.
+
+In particular, the published `+6,833`, `+3,718`, and `+4,992` generation shifts
+compare observed mutant-generation means with paper-specific null
+expectations. They are not `aF - a0`: neither term is a minimum path cost in a
+shared declared space. The Cit+ outcome's rarity, its occurrence in one LTEE
+population, and replay evidence for potentiation establish contingency, but do
+not by themselves define a scalar load.
+
+A defensible follow-up would have to preregister and source-lock at least:
+
+1. a finite state and mutation-transition space at a declared genotype or
+   genotype-class resolution;
+2. the Cit+ target and exact environment/replay protocol;
+3. free and background-conditioned admissibility regimes over the same paths;
+4. one or more biologically interpretable cost functions, with sensitivity
+   analysis rather than a universal score;
+5. the mapping from frozen clones and replay observations to those states,
+   including polymorphism, missing paths, and uncertainty;
+6. an external outcome against which the resulting value is tested.
+
+Until those conditions are met, LTEE remains the flagship empirical
+reachability result and a high-priority Historical Load candidate, not an
+evaluated Historical Load case.
 
 ## Case Artifact
 
@@ -228,7 +271,7 @@ still rejects:
 - impossibility promotion;
 - protocol pooling;
 - causal-mutation promotion;
-- Historical Load promotion;
+- numeric Historical Load promotion inside the current evidence boundary;
 - source, generator, or projection byte changes.
 
 ## Model Pack
@@ -269,7 +312,8 @@ falling back to the user's default model.
 - shows published mean shifts and source-attributed P values;
 - exposes the replay-2 expected-mean discrepancy;
 - explains the scientific result in plain language;
-- presents Historical Load as `null`, never zero.
+- identifies LTEE as a candidate extension while presenting the current
+  Historical Load result as `null`, never zero.
 
 The browser model independently checks the approved case, source, and snapshot
 identities and fails closed for unknown protocol or generation selectors.

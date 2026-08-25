@@ -1,6 +1,6 @@
 # Onto2D History Model — Taxonomy and Case Reorganization Plan
 
-Updated: 2026-08-18
+Updated: 2026-08-25
 
 ## Repository adoption note
 
@@ -168,6 +168,7 @@ Examples:
 ```text
 Git commit parents
 Nix derivations
+Airflow release constraint files
 OCI layer sequence
 live-bootstrap manifest
 in-toto links
@@ -472,7 +473,7 @@ Suggested record:
   "caseId": "ltee-evolutionary-contingency",
   "title": "LTEE Evolutionary Contingency",
   "domain": "experimental-evolution",
-  "status": "planned",
+  "status": "ANALYSIS_READY",
   "primaryHistoryMode": "embodied",
   "historyModes": [
     "recorded",
@@ -540,7 +541,21 @@ sixteen Ara-3 generation labels, three replay protocols, thirty-eight bounded
 observations, published statistics, and interpretation boundaries separate.
 Cit+ observed from seven labels supports protocol-conditioned accessibility;
 the other nine remain unresolved, generation is not promoted to genotype, and
-Historical Load remains undefined.
+Historical Load remains undefined in the current artifact. LTEE is nevertheless
+the priority candidate for a separately preregistered empirical Historical
+Load extension.
+
+The implemented
+`airflow-dependency-constraints@v1-e702da2bbcc24ac5` release adds a deliberately
+different Historical Load case. Its history is the recorded, versioned result
+of an upstream release-testing process; its future effect is the subset of
+install solutions admitted for the same root projection. Twenty-seven exact
+source files freeze Airflow Core 3.3.1, Python 3.12, the official constraint,
+and raw PyPI metadata. A complete five-requirement projection contains 17
+projects, 24 candidates, and 64 valid solutions; the selected official pins
+admit one. Predeclared costs produce `dH` values of +144,596 wheel bytes, +7
+baseline version changes, and zero selected wheels. pip backtracking and
+enumeration work remain separate resolver diagnostics, not `dH`.
 
 Keep stable paths:
 
@@ -609,6 +624,7 @@ Strongest cases:
 
 ```text
 LTEE replay experiments
+Airflow Dependency Constraints
 Operational Aging / Fatigue
 Clinical Trajectories
 Legal Precedent
@@ -751,6 +767,21 @@ Primary history mode: Recorded
 Primary effect: Identity
 Role: content identity vs construction identity
 ```
+
+## Airflow Dependency Constraints
+
+```text
+Primary history mode: Recorded
+Primary effect: Future
+Secondary effect: Identity
+Primary scientific role: Historical Load candidate
+Role: externally versioned release constraints change the admissible future
+      install-solution set
+```
+
+This case does not reclassify Nix. Nix remains the derivation-identity case;
+Airflow is the cost-of-admissibility case over one frozen resolution universe.
+Resolver backtracking is recorded as diagnostic evidence only.
 
 ## OCI Layer History
 
@@ -1187,6 +1218,18 @@ Historical Load is no longer the organizing concept.
 
 It is one analysis applicable to selected finite history spaces.
 
+The current operational form is:
+
+```text
+dH(x | F) = aF - a0
+```
+
+`a0` and `aF` are minima in the same explicitly bounded, costed path space,
+before and after an admissibility regime `F`. Historical contingency,
+path-dependent reachability, and Historical Load are therefore related but not
+synonymous. An experiment may strongly show that history changes future
+propensity without supplying either minimum needed for `dH`.
+
 Best candidates:
 
 ```text
@@ -1194,10 +1237,16 @@ live-bootstrap
 chemistry
 OCI
 in-toto
+Airflow dependency constraints in the implemented, source-locked five-
+requirement v1 projection; broader installation scopes require a new revision
 selected bounded material-process cases
+LTEE as a future empirical extension, after a finite mutation-path and cost
+model is preregistered
 ```
 
 Do not compute it merely because a case contains history.
+Do not substitute a treatment effect, event rarity, generation shift, P value,
+or observed path length for `aF - a0`.
 
 ## History Equivalence
 
@@ -1427,7 +1476,7 @@ History modes: Embodied, Recorded, Reconstructed
 Primary effects: Future
 Domain: Experimental evolution
 Evidence profile: Experimental observation, sample identity, published interpretation
-Historical Load: Not primary
+Historical Load: Candidate empirical extension; not evaluated in v1
 History Equivalence: Possible later
 Reachability: Primary
 Reconstruction: Secondary

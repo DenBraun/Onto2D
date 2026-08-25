@@ -11,4 +11,4 @@ npm run case:ltee:verify
 
 The extraction keeps all three experimental designs separate. `not-observed` is never promoted to `impossible`; a source generation is never promoted to a complete genotype or a unique clone; replay histories are never treated as the original LTEE history; and published P values remain source-attributed rather than recomputed.
 
-Historical Load is intentionally `not-evaluated`. The paper does not provide a finite universe of mutation paths, transition costs, or a history-free counterfactual baseline.
+LTEE is a priority candidate for a future empirical Historical Load extension, while this exact release intentionally remains `not-evaluated`. The paper provides quantitative history-conditioned reachability evidence, but it does not declare the finite mutation-path space, shared free and history-conditioned admissibility regimes, transition costs, or counterfactual baseline required for `dH(x | F) = aF - a0`. Published generation shifts and P values are therefore not relabelled as Historical Load.

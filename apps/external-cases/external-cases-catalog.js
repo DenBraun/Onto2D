@@ -220,6 +220,15 @@ const PRESENTATION = Object.freeze({
     contribution: "The case makes Recorded + Reconstructed evidence -> Identity operational at the claim-support layer: all three values agree, all three exact support identities differ, and unavailable per-datapoint actors or review events remain unavailable.",
     boundaries: ["Polaris-2026, Codebook 4.20.2021, and current Public Data terms are frozen with exact upstream identities; MIT repository code and CC BY-SA 4.0 data scopes remain separate", "Native codes, API values, narratives, local source-work mappings, and derived support identities remain separate", "Publicly unavailable per-datapoint RA, expert, review-event, and timestamp relations are never invented", "Raw group-ablation responses receive no qualitative stability label and do not rank polities or historical truth"],
     outputs: ["Byte-locked three-claim source projection and outcome-blind selection profile", "Strict artifact-kind, derivation, resolution, evidence, review, agreement, and precision axes", "Canonical 22-node / 25-edge support DAG with exact group cuts and raw ablations", "Historical Evidence Dependency Lab with native claim, graph, shared-dependency, identity, and public-boundary views"]
+  }),
+  "airflow-dependency-constraints": Object.freeze({
+    question: "What path cost do Airflow's published release constraints impose on a frozen dependency-resolution space?",
+    distinction: "resolver search effort != constrained solution-path cost",
+    summary: "A source-locked Airflow 3.3.1 / Python 3.12 projection preserves 27 exact upstream files and completely enumerates 17 projects, 24 release candidates, and 64 valid solutions.",
+    flagship: "Exhaustively classify 128 assignments into 64 complete solutions and 64 dependency conflicts, then apply the official selected pins as an external filter that admits exactly one solution.",
+    contribution: "Three predeclared costs give Historical Load values of +144,596 wheel bytes, +7 environment changes, and 0 selected wheels; resolver assignment and rejection counts remain diagnostics, never costs.",
+    boundaries: ["This is a closed five-requirement Airflow Core projection, not a complete Airflow installation or a global PyPI census", "Airflow constraints are a tested release configuration, not proof that every excluded version combination is invalid", "Wheel filenames, URLs, sizes, and hashes are frozen, but wheel payloads are not vendored and pip installation is not replayed", "Resolver work remains diagnostic and eight Onto2D constraint ablations remain counterfactual rather than upstream recommendations"],
+    outputs: ["Twenty-seven-file source lock and reproducible analysis artifact", "Complete 128-assignment census, three Historical Load costs, and eight constraint ablations", "Verified 118-node / 1,247-edge airflow-dependency-constraints Model Pack", "Airflow Constraint Resolution Lab with exact witnesses, shared dependencies, diagnostics, and scope boundary"]
   })
 });
 

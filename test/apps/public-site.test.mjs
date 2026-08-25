@@ -115,6 +115,11 @@ const lteeApp = read("apps/evolutionary-contingency-lab/evolutionary-contingency
 const lteeModel = read("apps/evolutionary-contingency-lab/evolutionary-contingency-model.js");
 const lteeStyles = read("assets/css/study-evolutionary-contingency.css");
 const lteeArtifact = read("cases/ltee-evolutionary-contingency/artifacts/ltee-evolutionary-contingency.json");
+const airflowMarkup = read("apps/airflow-constraint-resolution-lab/index.html");
+const airflowApp = read("apps/airflow-constraint-resolution-lab/airflow-constraint-resolution-lab.js");
+const airflowModel = read("apps/airflow-constraint-resolution-lab/airflow-constraint-model.js");
+const airflowStyles = read("assets/css/study-airflow-constraint-resolution.css");
+const airflowArtifact = read("cases/airflow-dependency-constraints/artifacts/airflow-dependency-constraints.json");
 const mineralMarkup = read("apps/mineral-history-explorer/index.html");
 const mineralApp = read("apps/mineral-history-explorer/mineral-history-explorer.js");
 const mineralModel = read("apps/mineral-history-explorer/mineral-formation-model.js");
@@ -159,6 +164,7 @@ const publicDirectories = [
   "apps/galactic-archaeology-lab",
   "apps/material-process-history-lab",
   "apps/evolutionary-contingency-lab",
+  "apps/airflow-constraint-resolution-lab",
   "apps/mineral-history-explorer",
   "apps/cell-lineage-identity-lab",
   "apps/seshat-evidence-dependency-lab",
@@ -192,6 +198,7 @@ const publicFiles = [
   "assets/css/study-galactic-archaeology.css",
   "assets/css/study-material-process-history.css",
   "assets/css/study-evolutionary-contingency.css",
+  "assets/css/study-airflow-constraint-resolution.css",
   "assets/css/study-mineral-formation.css",
   "assets/css/study-cell-lineage.css",
   "assets/css/study-seshat-evidence-dependency.css",
@@ -221,6 +228,7 @@ const publicFiles = [
   "cases/galactic-archaeology/artifacts/galactic-archaeology.json",
   "cases/material-process-history/artifacts/material-process-history.json",
   "cases/ltee-evolutionary-contingency/artifacts/ltee-evolutionary-contingency.json",
+  "cases/airflow-dependency-constraints/artifacts/airflow-dependency-constraints.json",
   "cases/mineral-formation-history/artifacts/mineral-formation-history.json",
   "cases/cell-lineage-identity/artifacts/cell-lineage-identity.json",
   "cases/seshat-epistemic-provenance/artifacts/seshat-epistemic-provenance.json",
@@ -249,7 +257,7 @@ test("the root keeps three study lenses and exposes the registry-backed Case Stu
   assert.match(landing, /href="\.\/apps\/level-zero-validation\/(?:\?v=[^"]+)?"/);
   assert.match(landing, /href="\.\/apps\/model-studio\/(?:\?v=[^"]+)?"/);
   assert.match(landing, /<details class="cases-menu">/);
-  assert.match(landing, /type="module" src="\.\/assets\/js\/case-menu\.js\?v=20260819\.2"/);
+  assert.match(landing, /type="module" src="\.\/assets\/js\/case-menu\.js\?v=20260825\.2"/);
   assert.match(landing, /href="\.\/apps\/history-atlas\/"/);
   assert.match(landing, new RegExp(`${historyCaseRegistry.cases.length} cases mapped by history access and effect`));
   assert.match(landing, /id="history-case-menu-groups"/);
@@ -264,7 +272,7 @@ test("the root keeps three study lenses and exposes the registry-backed Case Stu
 });
 
 test("the History Atlas exposes the validated 3 x 3 portfolio and honest availability", () => {
-  assert.equal(historyCaseRegistry.cases.length, 23);
+  assert.equal(historyCaseRegistry.cases.length, 24);
   assert.match(historyAtlasMarkup, new RegExp(`id="atlas-header-case-count">${historyCaseRegistry.cases.length} registered cases<`));
   assert.match(historyAtlasApp, /getElementById\("atlas-header-case-count"\)\.textContent = registeredCaseCount/);
   assert.deepEqual(historyCaseRegistry.historyModes, ["recorded", "embodied", "reconstructed"]);
@@ -312,6 +320,7 @@ test("all History case surfaces share one header component and navigation layout
     galacticMarkup,
     materialMarkup,
     lteeMarkup,
+    airflowMarkup,
     mineralMarkup,
     cellLineageMarkup,
     seshatMarkup,
@@ -329,10 +338,10 @@ test("all History case surfaces share one header component and navigation layout
   }
   assert.match(historyCaseHeaderStyles, /grid-template-columns:\s*minmax\(190px, 1fr\) auto minmax\(190px, 1fr\)/);
   assert.match(historyCaseHeaderStyles, /@media \(max-width: 700px\)/);
-  for (const styles of [externalCasesStyles, bootstrapStyles, gitHistoryStyles, nixStyles, ociStyles, inTotoStyles, chemicalStyles, buildEquivalenceStyles, artworkStyles, languageStyles, manuscriptStyles, operationalStyles, ecologicalStyles, legalStyles, clinicalStyles, galacticStyles, materialStyles, lteeStyles, mineralStyles, cellLineageStyles, seshatStyles]) {
+  for (const styles of [externalCasesStyles, bootstrapStyles, gitHistoryStyles, nixStyles, ociStyles, inTotoStyles, chemicalStyles, buildEquivalenceStyles, artworkStyles, languageStyles, manuscriptStyles, operationalStyles, ecologicalStyles, legalStyles, clinicalStyles, galacticStyles, materialStyles, lteeStyles, airflowStyles, mineralStyles, cellLineageStyles, seshatStyles]) {
     assert.match(styles, /@import url\("\.\/history-case-header\.css\?v=20260818\.2"\);/);
   }
-  for (const markup of [chemicalMarkup, buildEquivalenceMarkup, artworkMarkup, languageMarkup, manuscriptMarkup, operationalMarkup, ecologicalMarkup, legalMarkup, clinicalMarkup, galacticMarkup, materialMarkup, lteeMarkup, mineralMarkup, cellLineageMarkup, seshatMarkup]) {
+  for (const markup of [chemicalMarkup, buildEquivalenceMarkup, artworkMarkup, languageMarkup, manuscriptMarkup, operationalMarkup, ecologicalMarkup, legalMarkup, clinicalMarkup, galacticMarkup, materialMarkup, lteeMarkup, airflowMarkup, mineralMarkup, cellLineageMarkup, seshatMarkup]) {
     assert.match(markup, /<div class="history-case-context"><span>[^<]+<\/span><strong class="history-case-state"><i><\/i><span id="load-state" role="status" aria-live="polite">Verifying artifact<\/span><\/strong><\/div>/);
   }
 });
@@ -354,6 +363,7 @@ test("case-aware Model Studio links select the exact registered release", () => 
   assert.match(galacticMarkup, /model-studio\/#model=galactic-archaeology&amp;version=v1-2f109fd8c5475426/);
   assert.match(materialMarkup, /model-studio\/#model=material-process-history&amp;version=v1-0ea3ee56fe462eea/);
   assert.match(lteeMarkup, /model-studio\/#model=ltee-lineage-history&amp;version=v1-e4ff96341b402b13/);
+  assert.match(airflowMarkup, /model-studio\/#model=airflow-dependency-constraints&amp;version=v1-e702da2bbcc24ac5/);
   assert.match(externalCasesApp, /studio\.href = modelStudioHref\(entry, PROJECT_ROOT\)/);
   assert.match(externalCasesApp, /studioNavigation\.href = modelStudioHref\(entry, PROJECT_ROOT\)/);
   assert.match(externalCasesApp, /caseNavigationDetail\(entry\)/);
@@ -781,7 +791,8 @@ test("Evolutionary Contingency Lab preserves protocol-conditioned accessibility 
   assert.match(lteeMarkup, /The present was still Cit-\.[\s\S]*The future was not equally open\./);
   assert.match(lteeMarkup, /Three designs, deliberately not pooled/);
   assert.match(lteeMarkup, /History changes the menu of reachable futures/);
-  assert.match(lteeMarkup, /No defensible load number is the result/);
+  assert.match(lteeMarkup, /A strong candidate, not an invented scalar/);
+  assert.match(lteeMarkup, /CANDIDATE \/ NOT EVALUATED/);
   assert.match(lteeMarkup, /not inaccessible[\s\S]*NOT OBSERVED/);
   for (const id of ["metric-grid", "protocol-controls", "replay-body", "observation-inspector", "protocol-grid", "statistics-grid", "discrepancy-copy", "published-expected", "table-one-expected", "load-reason"]) assert.match(lteeMarkup, new RegExp(`id=["']${id}["']`), `missing #${id}`);
   const pinnedDigest = lteeApp.match(/ARTIFACT_SHA256 = "([a-f0-9]{64})"/)?.[1];
@@ -790,6 +801,32 @@ test("Evolutionary Contingency Lab preserves protocol-conditioned accessibility 
   const modelRevision = lteeApp.match(/evolutionary-contingency-model\.js\?v=([^"']+)/)?.[1];
   assert.equal(modelRevision, appRevision);
   assertReadableInterfaceText(lteeStyles, "Evolutionary Contingency Lab");
+});
+
+test("Airflow Constraint Resolution Lab keeps the finite path cost separate from resolver work", () => {
+  assert.match(airflowApp, /cases\/airflow-dependency-constraints\/artifacts\/airflow-dependency-constraints\.json/);
+  assert.match(airflowApp, /createAirflowConstraintModel/);
+  assert.match(airflowApp, /crypto\.subtle\.digest\("SHA-256"/);
+  assert.match(airflowApp, /cache: "no-store"/);
+  assert.match(airflowApp, /redirect: "error"/);
+  assert.match(airflowApp, /MAX_ARTIFACT_BYTES/);
+  assert.doesNotMatch(airflowApp, /const URL = new URL\(/);
+  assert.match(airflowModel, /scope boundary differs/);
+  assert.match(airflowModel, /resolver diagnostic census differs/);
+  assert.match(airflowModel, /Historical Load result differs/);
+  assert.match(airflowModel, /resolverDiagnosticsUsedAsCost !== false/);
+  assert.match(airflowMarkup, /128 assignments produce 64 complete solutions and 64 dependency-conflict rejections/);
+  assert.match(airflowMarkup, /Historical Load is \+144,596 wheel bytes, \+7 version changes, and 0 wheels/);
+  assert.match(airflowMarkup, /They do not describe every Airflow dependency or every PyPI release/);
+  assert.match(airflowMarkup, /Rejected work is not path cost/);
+  assert.match(airflowMarkup, /No runtime or backtracking count is interpreted as Historical Load/);
+  for (const id of ["metric-grid", "cost-controls", "cost-detail", "solution-table", "ablation-controls", "ablation-detail", "shared-grid", "rejection-list", "scope-boundary"]) assert.match(airflowMarkup, new RegExp(`id=["']${id}["']`), `missing #${id}`);
+  const pinnedDigest = airflowApp.match(/ARTIFACT_SHA256 = "([a-f0-9]{64})"/)?.[1];
+  assert.equal(pinnedDigest, createHash("sha256").update(airflowArtifact).digest("hex"));
+  const appRevision = airflowMarkup.match(/airflow-constraint-resolution-lab\.js\?v=([^"']+)/)?.[1];
+  const modelRevision = airflowApp.match(/airflow-constraint-model\.js\?v=([^"']+)/)?.[1];
+  assert.equal(modelRevision, appRevision);
+  assertReadableInterfaceText(airflowStyles, "Airflow Constraint Resolution Lab");
 });
 
 test("Mineral Formation History Explorer preserves source records, interpretations, and unresolved samples", () => {
@@ -950,7 +987,7 @@ test("Model Studio fully verifies the real pack before using the shared view lay
   assert.match(studioApp, /MODEL_PACK_CACHE_STORAGE_/);
   assert.match(studioApp, /dataset\.cache = "unavailable"/);
   assert.match(studioApp, /"Cached model verified"/);
-  assert.match(studioApp, /sha256:504188a07726d1b66848330ca8e90afe31eda13e3e0b02df269f1b004056e308/);
+  assert.match(studioApp, /sha256:d7e0e1aff27b0a9d70ef98953f3f9e4b6618b528cf4671c8faa5355365a55f35/);
   assert.match(studioApp, /new Worker\(MODEL_PACK_WORKER_URL, \{/);
   assert.match(studioApp, /type: "module"/);
   assert.match(studioApp, /ownsWorker: true/);
@@ -1118,6 +1155,7 @@ test("document navigation has one canonical URL and rejects stale bfcache restor
     languageMarkup,
     manuscriptMarkup,
     operationalMarkup,
+    airflowMarkup,
     mineralMarkup,
     cellLineageMarkup,
     seshatMarkup,
@@ -1263,6 +1301,11 @@ test("Historical Evidence Dependency Lab keeps interface text at the readable mi
 test("Material Process History Lab keeps interface text at the readable minimum", () => {
   assertReadableInterfaceText(materialStyles, "Material Process History Lab");
   assert.doesNotMatch(materialStyles, /https?:\/\//);
+});
+
+test("Airflow Constraint Resolution Lab keeps interface text at the readable minimum", () => {
+  assertReadableInterfaceText(airflowStyles, "Airflow Constraint Resolution Lab");
+  assert.doesNotMatch(airflowStyles, /https?:\/\//);
 });
 
 test("Mineral Formation and Cell Lineage explorers keep interface text at the readable minimum", () => {

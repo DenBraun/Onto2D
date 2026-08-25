@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.1.0",
-  "taxonomyVersion": "2026-08-18",
+  "taxonomyVersion": "2026-08-25",
   "historyModes": [
     "recorded",
     "embodied",
@@ -516,7 +516,7 @@
         "unknown"
       ],
       "analyses": {
-        "historicalLoad": "not-primary",
+        "historicalLoad": "candidate",
         "historyEquivalence": "possible",
         "reachability": "primary",
         "reconstruction": "secondary"
@@ -1203,6 +1203,58 @@
         },
         {
           "mode": "reconstructed",
+          "effect": "identity",
+          "role": "secondary"
+        }
+      ]
+    },
+    {
+      "caseId": "airflow-dependency-constraints",
+      "portfolioOrder": 23,
+      "title": "Airflow Dependency Constraints",
+      "shortTitle": "Airflow Constraints",
+      "domain": "python-dependency-resolution",
+      "domainLabel": "Python dependency resolution",
+      "status": "ANALYSIS_READY",
+      "priority": "active",
+      "primaryHistoryMode": "recorded",
+      "historyModes": [
+        "recorded"
+      ],
+      "primaryEffects": [
+        "future"
+      ],
+      "secondaryEffects": [
+        "identity"
+      ],
+      "evidenceProfile": [
+        "direct-record",
+        "cryptographically-verified",
+        "derived",
+        "counterfactual",
+        "unknown"
+      ],
+      "analyses": {
+        "historicalLoad": "primary",
+        "historyEquivalence": "secondary",
+        "reachability": "secondary",
+        "reconstruction": "not-primary"
+      },
+      "modelId": "airflow-dependency-constraints",
+      "modelVersion": "v1-e702da2bbcc24ac5",
+      "modelPackPath": "models/airflow-dependency-constraints/",
+      "explorerId": "airflow-constraint-resolution-lab",
+      "explorerPath": "apps/airflow-constraint-resolution-lab/",
+      "casePagePath": "apps/external-cases/airflow-dependency-constraints/",
+      "implementationDoc": "docs/cases/AIRFLOW_DEPENDENCY_CONSTRAINTS_IMPLEMENTATION.md",
+      "matrixPlacements": [
+        {
+          "mode": "recorded",
+          "effect": "future",
+          "role": "primary"
+        },
+        {
+          "mode": "recorded",
           "effect": "identity",
           "role": "secondary"
         }
