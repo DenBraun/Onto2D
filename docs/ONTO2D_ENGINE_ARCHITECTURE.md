@@ -218,8 +218,11 @@ neighborhoods, and full node records separately.
 This milestone does not change Model Pack v1 into a chunked semantic format.
 The current split files are still all required for verification, and complete
 analysis still requires a fully materialized verified source population.
-Physical level, domain, namespace, or subgraph chunks require a future reviewed
-format revision and new release hashes.
+The [Model Pack v2 proposal](model-pack-v2/README.md) specifies physical ID-ordered
+chunks and manifest-bound optional artifacts, with distinct partial-inspection
+and complete-analysis gates. Its draft schemas and examples do not change this
+implemented v1 contract. Adoption requires format review, explicit version
+dispatch and new release hashes; semantic subgraph slicing remains deferred.
 
 ## External RDF import
 

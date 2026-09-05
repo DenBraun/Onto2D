@@ -10,6 +10,7 @@ with `npm ci` (`npm ci --offline` works when the lockfile packages are cached).
 ```sh
 npm run history-benchmark:test
 npm run history-benchmark:aging:test
+npm run history-benchmark:ltee:test
 node --test test/apps/history-matters-benchmark.test.mjs
 npm run history-benchmark:check
 ```
@@ -18,6 +19,9 @@ These checks cover both public entrypoints, analytic controls, split and cutoff
 leakage, training-only normalization, deterministic distinct-unit neighbors,
 numeric extremes, malformed budgets, source projection, all frozen preparations,
 browser transfer limits, schemas, registry joins and the exact browser payload.
+LTEE checks cover all three protocol censuses and exposure, missing-as-null,
+unresolved clone identity, unchanged source discrepancies and coherently rehashed
+attempts to pool protocols, alter denominators or promote claims.
 The checker compares committed files with regenerated values in memory and
 does not write replacement fixtures.
 
@@ -58,7 +62,12 @@ occupied, use `npm run dev:site -- 8087` and the corresponding URL.
    remain in the examples section and neither has score panels. The example count
    is 2/5; all three analysis checks remain. Operational Aging displays EVALUATION_READY,
    not evaluated, 100 training engines, 972 prefixes and 100 test engines. Its
-   three artifact links must resolve. LTEE remains CONTRACT_DRAFT.
+   three artifact links must resolve. LTEE displays NOT_ELIGIBLE for scoring
+   under this source profile and not evaluated. Its three census rows show
+   72 / 4, 340 / 5 and 2800 / 8 units / independent Cit+ mutants, with distinct
+   unit labels and no combined total or benchmark score. Expand all three
+   protocols: P/H/Y, endpoints, missingness, blockers and the replay-2 discrepancy
+   must remain visible. All five LTEE JSON links must resolve.
 4. Combine **empirical** with **positive**: no example cards appear, the example
    count is 0/5 and a no-matches message appears. All three analysis checks remain
    visible. Clear filters to restore five examples and hide the empty message.
@@ -85,7 +94,7 @@ occupied, use `npm run dev:site -- 8087` and the corresponding URL.
 | Three synthetic controls | positive, negative, neutral-within-resolution |
 | Git, OCI, reproducible builds | semantic/exact, P1 error 0, diagnostic nulls retained |
 | Operational Aging / FD001 | four prediction views, 16 null preparations, no held-out score |
-| LTEE | draft contract plan, no score |
+| LTEE | three frozen protocol contracts, separate census and eligibility audit, no score |
 | Explorer groups | five examples/candidates; three separately counted analysis checks |
 | Portfolio | eight registry entries, six scored contrasts, no aggregate metric |
 
@@ -100,6 +109,7 @@ order and inspect all resulting artifact changes:
 
 ```sh
 npm run history-benchmark:aging:prepare
+npm run history-benchmark:ltee:prepare
 npm run history-benchmark:reference
 npm run history-benchmark:check
 ```

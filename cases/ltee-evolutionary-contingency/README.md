@@ -2,6 +2,11 @@
 
 This case freezes the three Ara-3 citrate replay experiments reported by Blount, Borland, and Lenski (2008). It asks one bounded question: how does a recorded source generation condition the observed accessibility of Cit+ under each exact replay protocol?
 
+The separate [History Matters protocol package](history-benchmark/README.md)
+now formalizes all three experiments and replays their eligibility audit.
+It retains source observations while keeping scored P/P+H comparison unavailable
+under the selected aggregate-table profile.
+
 The repository stores a reviewed projection, not the publisher HTML. `upstream.json` pins the exact retrieved response and `prepare-source.py` deterministically reconstructs the projection when that upstream input is supplied explicitly.
 
 ```bash

@@ -14,6 +14,11 @@ The page explains that this local replay runs on each page load: three synthetic
 checks and three completed domain examples are recalculated against the saved
 reference. Filtering does not replay results. No models are trained or empirical
 candidates evaluated in the browser.
+The separate LTEE experimental bundle is reconstructed as a protocol/census
+audit before registry joins. Its three contracts retain distinct units and
+exposure, missing cells and source-attributed statistics. The card shows a
+three-row census and expandable P/H/Y and evidence requirements; a protocol
+audit is never counted among the six scored results.
 
 **Examples and research** contains the five domain cases and candidates. Claim
 class, result, history access and effect filters apply only to this section;
@@ -39,5 +44,7 @@ npm run history-benchmark:check
 The six completed pilot results are synthetic and semantic. Operational Aging
 now shows an evaluation-ready full-cohort preparation, frozen contract and
 prediction links; its held-out error remains unavailable pending independent
-review. LTEE remains a draft empirical candidate. See the
+review. LTEE has three frozen protocols and an eligibility audit; this
+aggregate-table profile remains ineligible for scoring pending an appropriate
+reviewed evaluation design. See the
 [method](../../docs/history/HISTORY_MATTERS_BENCHMARK.md).

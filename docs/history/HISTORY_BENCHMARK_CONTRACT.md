@@ -54,3 +54,9 @@ are rejected; a malformed budget cannot silently select the full ensemble.
 `REPLICATED` or `REVIEWED`. The pilot builder can intentionally regenerate
 contracts, but `--verify` never writes and rejects any drift. A new frozen
 artifact hash does not itself prove preregistration before seeing outcomes.
+
+The [LTEE case-local contracts](../../cases/ltee-evolutionary-contingency/history-benchmark/README.md)
+use a separate protocol-census audit and separate schemas. Their registry entry
+links a protocol set and `assessmentPath`; it remains `NOT_ELIGIBLE` for scored
+P/P+H evaluation under that profile, with verdict `not-evaluated`. Audit records
+never enter this exact result suite or masquerade as regression preparations.

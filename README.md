@@ -57,7 +57,9 @@ Git, OCI and reproducible-build contrasts, with a
 [verified Explorer](apps/history-matters-benchmark/index.html). Operational Aging
 now has a [full-cohort preparation](cases/operational-aging/history-benchmark/README.md)
 with 972 training prefixes and 100 test endpoints. Its held-out scoring awaits
-independent protocol review; LTEE remains a draft candidate. No global score or
+independent protocol review; LTEE has [three frozen protocol contracts and an
+eligibility audit](cases/ltee-evolutionary-contingency/history-benchmark/README.md),
+with no scored present/history comparison under this source profile. No global score or
 empirical predictive advantage is claimed.
 
 Run `npm run history-benchmark:check` to verify the complete pilot.

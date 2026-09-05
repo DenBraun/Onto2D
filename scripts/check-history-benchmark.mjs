@@ -5,6 +5,7 @@ import Ajv2020 from "ajv/dist/2020.js";
 import { run as verifyPilot } from "../cases/history-matters-reference/build.mjs";
 import { benchmarkRows } from "../apps/history-matters-benchmark/presentation.js";
 import { run as verifyFd001 } from "../cases/operational-aging/history-benchmark/build.mjs";
+import { run as verifyLtee } from "../cases/ltee-evolutionary-contingency/history-benchmark/build.mjs";
 
 const root = fileURLToPath(new URL("../", import.meta.url));
 const json = async (relative) => JSON.parse(await readFile(path.join(root, relative), "utf8"));
@@ -23,7 +24,12 @@ export async function run() {
     const check = ajv.compile(regressionSchema);
     if (!check(await json(`${aging}/${artifactPath}`))) throw new Error(`FD001 ${name}: ${ajv.errorsText(check.errors)}`);
   }
-  benchmarkRows(registry, bundle.entries, bundle.preparations);
+  const ltee = "cases/ltee-evolutionary-contingency/history-benchmark";
+  for (const name of ["protocol-set", "assessment"]) {
+    const check = ajv.compile(await json(`${ltee}/schema/${name}.schema.json`));
+    if (!check(await json(`${ltee}/${name}.json`))) throw new Error(`LTEE ${name}: ${ajv.errorsText(check.errors)}`);
+  }
+  benchmarkRows(registry, bundle.entries, bundle.preparations, bundle.experimentalProtocols);
   const historyCases = new Map(history.cases.map((entry) => [entry.caseId, entry]));
   for (const member of registry.entries) {
     const entry = historyCases.get(member.caseId);
@@ -32,7 +38,7 @@ export async function run() {
       if (!entry.analyses.historyMatters || entry.analyses.historyMatters === "not-primary") throw new Error(`Missing benchmark role: ${member.caseId}`);
       if (!entry.historyModes.includes(member.historyMode) || ![...entry.primaryEffects, ...entry.secondaryEffects].includes(member.effect)) throw new Error(`Benchmark taxonomy differs from History Atlas: ${member.caseId}`);
     }
-    for (const field of ["contractPath", "resultPath", "planPath", "preparationPath", "readinessPath"]) {
+    for (const field of ["contractPath", "resultPath", "planPath", "preparationPath", "readinessPath", "assessmentPath"]) {
       if (member[field] == null) continue;
       const resolved = path.resolve(root, member[field]);
       if (!resolved.startsWith(root) || member[field].includes("\\")) throw new Error(`Unsafe benchmark path: ${member[field]}`);
@@ -44,6 +50,7 @@ export async function run() {
   // Regeneration checks exact source bytes, projection/evaluator implementation,
   // frozen P/H/Y/split artifacts, every result, membership, suite and browser pin.
   await verifyFd001({ verify: true });
+  await verifyLtee({ verify: true });
   await verifyPilot({ verify: true });
   console.log(`History benchmark registry check passed: ${registry.entries.length} members, with no aggregate score.`);
 }

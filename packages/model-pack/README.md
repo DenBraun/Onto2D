@@ -5,6 +5,9 @@ npm install @onto2d/model-pack
 ```
 
 This package builds and verifies transparent, immutable Onto2D Model Packs.
+The supported format is v1. The [v2 format proposal](../../docs/model-pack-v2/README.md)
+documents future chunk and optional-artifact contracts; its draft examples are
+not accepted by this package's current builders or loaders.
 Semantic files determine `rootHash`; recomputable indexes are verified but do
 not redefine model semantics. Every file is content-addressed, unexpected
 paths fail closed, and verification reconstructs all indexes from nodes and

@@ -1,6 +1,6 @@
 # Engine Roadmap
 
-Updated: 2026-08-17.
+Updated: 2026-09-05.
 
 ## Completed foundation
 
@@ -62,8 +62,8 @@ Before publishing the root facade:
 1. independently review the bundled Model Pack golden files and source audit;
 2. create a second real release before defining a meaningful `previous` alias
    or committing its reviewed lineage record;
-3. decide whether lineage sidecars should become optional manifest-bound files
-   in the next Model Pack format revision;
+3. review and accept the proposed manifest-bound lineage contract in
+   [Model Pack v2](model-pack-v2/README.md) before implementing the format;
 4. decide whether the root package should become publishable or remain an
    integration facade.
 
@@ -109,11 +109,15 @@ resolves only explicit model/version pairs and stays separate from loading and
 verification. Lazy presentation loading for large verified models is complete
 at the presentation boundary; it does not pretend that Model Pack v1 has
 independently verifiable semantic chunks. A physical chunked transport requires
-a reviewed Model Pack format revision. The next format-level engineering
-milestone is a Model Pack v2 proposal for manifest-bound optional artifacts and
-independently verifiable semantic chunks. It must settle lineage sidecars,
-chunk identity, complete-model verification, and v1 compatibility before code
-or release fixtures are changed.
+a reviewed Model Pack format revision. The
+[Model Pack v2 proposal](model-pack-v2/README.md) now specifies logical collection
+identity, manifest-authenticated chunks, optional indexes and lineage, the
+complete-model gate, bounded transport and explicit v1 compatibility. Its draft
+schemas and executable examples are documentation assets; format 2 is not yet
+supported by the runtime. The next format milestone is review and acceptance,
+followed by portable v2 build/verification with unchanged v1 release fixtures.
+Transport, registry, cache, worker and Studio integration follow that boundary
+in the proposal's implementation sequence.
 Numerical Level-0 validation,
 catalogue migration, generalization and independent comparison of the external
 solver, and empirical Historical Load remain scientific projects tracked in

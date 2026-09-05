@@ -3,6 +3,7 @@ import { createHash } from "node:crypto";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import path from "node:path";
 import { canonicalize } from "../../packages/kernel/src/canonical-entry.js";
+import { verifyLteeProtocolBundle } from "../ltee-evolutionary-contingency/history-benchmark/protocol-model.js";
 import {
   buildHistoryBenchmarkSuite, buildHistoryBenchmarkViews, contentHash, normalizeObservations, normalizeTargets, runHistoryBenchmark
 } from "../../packages/history-benchmark/src/index.js";
@@ -128,10 +129,18 @@ export async function buildPilot() {
     preparationPath: `${agingDirectory}/expected/preparation.json`, readinessPath: `${agingDirectory}/readiness.json`,
     reason: `Full-cohort observations, ${preparations[0].readiness.counts.trainingSamples} training prefixes, ${preparations[0].readiness.counts.testSamples} test predictions and ${preparations[0].readiness.nullTrials} null preparations are frozen. Held-out outcomes remain unscored pending independent protocol review.`
   });
+  const lteeDirectory = "cases/ltee-evolutionary-contingency/history-benchmark";
+  const experimentalProtocols = [verifyLteeProtocolBundle(await json(`${lteeDirectory}/bundle.json`))];
+  const ltee = registry.entries.find((member) => member.caseId === "ltee-evolutionary-contingency");
+  Object.assign(ltee, {
+    status: experimentalProtocols[0].protocolSet.status, contractPath: `${lteeDirectory}/protocol-set.json`,
+    assessmentPath: `${lteeDirectory}/assessment.json`,
+    reason: "Three source-bound replay protocols are documented. The selected aggregate tables support a descriptive census; scoring requires a reviewed aggregate-count model or additional unit-level evidence with a reviewed evaluation design."
+  });
   const suite = buildHistoryBenchmarkSuite(entries);
   files.set("cases/history-benchmark-registry.json", registry);
   files.set("cases/history-matters-reference/expected/suite.json", suite);
-  const bundle = { schemaVersion: "1", registry, suite, entries, preparations };
+  const bundle = { schemaVersion: "1", registry, suite, entries, preparations, experimentalProtocols };
   files.set("apps/history-matters-benchmark/pilot.json", bundle);
   return { files, entries, registry, suite };
 }

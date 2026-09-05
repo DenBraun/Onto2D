@@ -121,5 +121,6 @@ family. Its [registry](../../cases/history-benchmark-registry.json) records
 benchmark maturity independently of case maturity, and its result artifacts
 retain verdicts independently of both. Git, OCI and reproducible builds have
 exact semantic pilot runs; Operational Aging has evaluation-ready full-cohort
-predictions with scoring pending review, and LTEE has a protocol draft.
+predictions with scoring pending review, and LTEE has three frozen protocol
+contracts with a replayable eligibility audit and no scored P/P+H result.
 Synthetic controls are infrastructure and do not add scientific cases to the Atlas.

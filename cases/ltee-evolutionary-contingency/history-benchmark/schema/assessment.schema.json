@@ -1,0 +1,196 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/cases/ltee-history-benchmark/assessment.schema.json",
+  "title": "LTEE History Benchmark Assessment",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "format",
+    "benchmarkId",
+    "protocolSetHash",
+    "status",
+    "verdict",
+    "aggregateScore",
+    "protocols",
+    "hash"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "enum": [
+        "1"
+      ]
+    },
+    "format": {
+      "enum": [
+        "onto2d-ltee-history-protocol-assessment"
+      ]
+    },
+    "benchmarkId": {
+      "enum": [
+        "ltee-evolutionary-contingency-history-matters-v1"
+      ]
+    },
+    "protocolSetHash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "status": {
+      "enum": [
+        "NOT_ELIGIBLE"
+      ]
+    },
+    "verdict": {
+      "enum": [
+        "not-evaluated"
+      ]
+    },
+    "aggregateScore": {
+      "type": "null"
+    },
+    "protocols": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "protocolId",
+          "contractHash",
+          "generationRows",
+          "notRunRows",
+          "replicateUnit",
+          "replicates",
+          "independentCitPlusMutants",
+          "status",
+          "verdict",
+          "primary",
+          "blockers",
+          "sourceDiscrepancy"
+        ],
+        "properties": {
+          "protocolId": {
+            "enum": [
+              "replay-1",
+              "replay-2",
+              "replay-3"
+            ]
+          },
+          "contractHash": {
+            "type": "string",
+            "pattern": "^sha256:[0-9a-f]{64}$"
+          },
+          "generationRows": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "notRunRows": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "replicateUnit": {
+            "enum": [
+              "replay population",
+              "MC plate",
+              "culture plated on MC agar"
+            ]
+          },
+          "replicates": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "independentCitPlusMutants": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "status": {
+            "enum": [
+              "NOT_ELIGIBLE"
+            ]
+          },
+          "verdict": {
+            "enum": [
+              "not-evaluated"
+            ]
+          },
+          "primary": {
+            "type": "null"
+          },
+          "blockers": {
+            "type": "array",
+            "minItems": 4,
+            "maxItems": 4,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "code",
+                "message"
+              ],
+              "properties": {
+                "code": {
+                  "enum": [
+                    "UNRESOLVED_UNIT_LINKAGE",
+                    "COARSE_PRESENT_VIEW",
+                    "NO_REVIEWED_P0_P1_EVALUATOR",
+                    "NO_REVIEWED_EXCHANGEABILITY"
+                  ]
+                },
+                "message": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          },
+          "sourceDiscrepancy": {
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "status",
+                  "publishedExpectedMeanGeneration",
+                  "tableOneReplicateWeightedMeanGeneration",
+                  "publishedPValueRecomputed"
+                ],
+                "properties": {
+                  "status": {
+                    "enum": [
+                      "visible-not-resolved"
+                    ]
+                  },
+                  "publishedExpectedMeanGeneration": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "tableOneReplicateWeightedMeanGeneration": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "publishedPValueRecomputed": {
+                    "const": false
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "hash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    }
+  }
+}

@@ -4,6 +4,13 @@ The root v0 API implements an exact census profile. A separate
 [regression profile](HISTORY_REGRESSION_PREPARATION.md) now implements unit-disjoint
 preparation and scoring, with independent review pending for the FD001 case.
 Neither profile establishes causal identification.
+The [LTEE protocol audit](../../cases/ltee-evolutionary-contingency/history-benchmark/README.md)
+is a third, case-local evidence profile with no scoring. It uses the complete
+already-published table census, preserves protocol-specific exposure and null
+missing cells, and rejects generation-to-clone/genotype promotion. P/H/Y are
+documented views of retrospective aggregate evidence, not target-blind fitted
+features. No independent-unit split, pooled rate or exchangeable-history null
+is inferred from those aggregates.
 
 | Boundary | Mechanical protection | Remaining review obligation |
 | --- | --- | --- |

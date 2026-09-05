@@ -1,8 +1,8 @@
 import { buildHistoryBenchmarkSuite } from "@onto2d/history-benchmark";
 import { canonicalize } from "@onto2d/kernel/canonical";
-import { PILOT_SHA256 } from "./pin.js?v=20260905.6";
-import { benchmarkRows, filterBenchmarkRows, formatScore } from "./presentation.js?v=20260905.6";
-import { readPilotBytes } from "./transport.js?v=20260905.6";
+import { PILOT_SHA256 } from "./pin.js?v=20260905.7";
+import { benchmarkRows, filterBenchmarkRows, formatScore } from "./presentation.js?v=20260905.7";
+import { readPilotBytes } from "./transport.js?v=20260905.7";
 
 const root = new URL("../../", import.meta.url);
 const filterFields = ["claimClass", "verdict", "historyMode", "effect"];
@@ -52,11 +52,51 @@ function card(row) {
       links.append(link("Frozen contract", row.contractPath), link("Preparation", row.preparationPath), link("Readiness", row.readinessPath));
       article.append(links);
     }
+    if (row.protocolAssessment) appendExperimentalProtocols(article, row);
     article.append(link("Read the evaluation plan", row.planPath));
     return article;
   }
   appendEvidence(article, row);
   return article;
+}
+function appendExperimentalProtocols(container, row) {
+  const table = node("table", undefined, "protocol-census");
+  table.append(node("caption", "Published observations · each protocol counted separately"));
+  const head = node("thead"); const headings = node("tr");
+  for (const label of ["Replay", "Units", "Cit+ mutants"]) {
+    const th = node("th", label); th.scope = "col"; headings.append(th);
+  }
+  head.append(headings); table.append(head);
+  const body = node("tbody");
+  for (const protocol of row.protocolAssessment.protocols) {
+    const tr = node("tr");
+    const name = node("th", protocol.protocolId.replace("replay-", "Replay ")); name.scope = "row";
+    const units = node("td"); units.append(node("strong", String(protocol.replicates)), node("span", protocol.replicateUnit));
+    tr.append(name, units, node("td", String(protocol.independentCitPlusMutants))); body.append(tr);
+  }
+  table.append(body); container.append(table);
+  container.append(node("p", "Comparison unavailable for this source profile. The table records observations; it does not give a benchmark score or an estimate of history gain.", "boundary"));
+  const evidence = node("details", undefined, "experimental-protocols");
+  evidence.append(node("summary", "Inspect the three protocols"));
+  for (const protocol of row.contract.protocols) {
+    const details = node("details", undefined, "experimental-protocol");
+    details.append(node("summary", `${protocol.protocolId.replace("replay-", "Replay ")} · ${protocol.mode}`));
+    details.append(node("p", protocol.cutoff.endpoint));
+    details.append(node("p", `${protocol.cohort.generations.length} reported generation groups; ${protocol.cohort.notRunGenerations.length} not-run cells. Repeated-clone links remain unresolved.`));
+    const definitions = node("dl", undefined, "definitions");
+    for (const [label, value] of [["Present", protocol.views.present.definition], ["History", protocol.views.history.definition], ["Target", protocol.views.target.definition]]) definitions.append(node("dt", label), node("dd", value));
+    details.append(definitions);
+    for (const blocker of protocol.evaluation.blockers) details.append(node("p", blocker.message));
+    const discrepancy = row.protocolAssessment.protocols.find((p) => p.protocolId === protocol.protocolId).sourceDiscrepancy;
+    if (discrepancy) details.append(node("p", `Unresolved source discrepancy: the published expected mean is ${discrepancy.publishedExpectedMeanGeneration} generations; the simple Table 1 arithmetic gives ${discrepancy.tableOneReplicateWeightedMeanGeneration}. The published P value is not recalculated.`, "null-caveat"));
+    const links = node("p", undefined, "artifact-links");
+    links.append(link("Protocol JSON", `cases/ltee-evolutionary-contingency/history-benchmark/contracts/${protocol.protocolId}.json`));
+    details.append(links, node("code", protocol.hash)); evidence.append(details);
+  }
+  container.append(evidence);
+  const links = node("p", undefined, "artifact-links");
+  links.append(link("Frozen protocols", row.contractPath), link("Evidence audit", row.assessmentPath));
+  container.append(links);
 }
 function appendEvidence(container, row) {
   const { result, contract } = row;
@@ -112,7 +152,7 @@ async function initialize() {
   if (hash !== PILOT_SHA256) throw new Error("Pilot artifact hash mismatch.");
   const bundle = JSON.parse(new TextDecoder("utf-8", { fatal: true }).decode(bytes));
   if (canonicalize(buildHistoryBenchmarkSuite(bundle.entries)) !== canonicalize(bundle.suite)) throw new Error("Suite failed exact replay.");
-  const rows = benchmarkRows(bundle.registry, bundle.entries, bundle.preparations);
+  const rows = benchmarkRows(bundle.registry, bundle.entries, bundle.preparations, bundle.experimentalProtocols);
   examples = rows.filter((row) => row.claimClass !== "synthetic");
   const controls = rows.filter((row) => row.claimClass === "synthetic");
   document.getElementById("controls").replaceChildren(...controls.map(controlCard));

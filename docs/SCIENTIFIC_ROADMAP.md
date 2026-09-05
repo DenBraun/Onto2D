@@ -245,8 +245,10 @@ controlled P/P+H comparisons outside Historical Load. Three synthetic controls
 and three semantic contrasts replay exactly; Operational Aging and LTEE retain
 unevaluated outcome status. Operational Aging now has source-verified full-cohort
 preparation, unit-disjoint predictions and an age sensitivity baseline. Next work
-is independent review and held-out scoring, protocol-specific LTEE contracts,
-and independent review before benchmark v1.
+is independent review and held-out scoring. LTEE now has three source-bound
+protocol contracts and an eligibility audit; experimental scoring requires a
+reviewed aggregate-count design or additional unit-level evidence. Independent
+review remains required before benchmark v1.
 
 ## Dependencies and order
 

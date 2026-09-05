@@ -1,6 +1,6 @@
 # History Matters Benchmark
 
-Status: implemented v0 pilot plus full-cohort FD001 preparation, 2026-09-05. Empirical evaluation and independent
+Status: implemented v0 pilot, full-cohort FD001 preparation and LTEE protocol audit, 2026-09-05. Empirical evaluation and independent
 review remain open. The [original proposal](proposals/HISTORY_MATTERS_BENCHMARK_DRAFT.md)
 is retained as design input; this document describes the implemented scope.
 
@@ -48,7 +48,7 @@ identity regimes and are visibly semantic, not independently observed outcomes.
 | OCI layer sequence | semantic/exact | 6/6 | 0/6 | positive |
 | Reproducible-build toolchain | semantic/exact | 2/6 | 0/6 | positive |
 | Operational Aging (EVALUATION_READY) | empirical/predictive preparation | — | — | not-evaluated |
-| LTEE | empirical/experimental candidate | — | — | not-evaluated |
+| LTEE (NOT_ELIGIBLE for this scoring profile) | empirical/experimental protocol audit | — | — | not-evaluated |
 
 These results apply only to the declared census and equality evaluator. In OCI,
 permuting unique histories preserves the partition: its null does not show that
@@ -89,12 +89,20 @@ was previously analyzed, so this is not independent preregistration.
 
 ## Next milestones
 
+The LTEE formalization milestone is complete: [three source-bound contracts and
+an eligibility audit](../../cases/ltee-evolutionary-contingency/history-benchmark/README.md)
+preserve all published cohorts and missing cells. The case-local evaluator
+supports a descriptive census. It does not supply a scored present/history
+comparison, and does not declare aggregate-count analysis impossible. Source
+statistics, unresolved clone linkage and the replay-2 diagnostic remain visible.
+
 1. Independently review the [frozen Operational Aging preparation](../../cases/operational-aging/history-benchmark/README.md),
    then verify and join held-out outcomes and publish the first score regardless
    of direction. Full-cohort views, unit-disjoint predictions, training-only
    normalization and an age baseline are now implemented; the old pair stays illustrative.
-2. Formalize the [LTEE protocol plan](../../cases/ltee-evolutionary-contingency/history-benchmark-plan.md)
-   without pooling unlike experiments or treating non-observation as impossibility.
+2. Review the [frozen LTEE protocols](../../cases/ltee-evolutionary-contingency/history-benchmark-plan.md)
+   and supply a justified aggregate-count model or additional unit-level evidence
+   before introducing an experimental scoring revision.
 3. Add independent contract/leakage review, an evaluated empirical contrast and
    clean replay on an exact release commit before claiming benchmark v1.
 4. Extend external evaluators, uncertainty and source acquisition only with

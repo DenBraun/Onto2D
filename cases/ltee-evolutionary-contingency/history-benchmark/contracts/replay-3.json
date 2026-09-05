@@ -1,0 +1,271 @@
+{
+  "schemaVersion": "1",
+  "contractId": "ltee-evolutionary-contingency-history-matters-v1:replay-3",
+  "protocolId": "replay-3",
+  "title": "Third experiment",
+  "source": {
+    "snapshotHash": "sha256:d4574e9bf6e34979b3a1a3cb6002a1a6f97da85180ef44da1d8e841dcf257a3d",
+    "caseHash": "sha256:e0024fee2f319158b5fc1dc0e30da1a7d641f0763b4f29ad7cc548c46e13d691",
+    "table": "T1",
+    "protocolId": "replay-3"
+  },
+  "cohort": {
+    "population": "Ara-3",
+    "observedUnit": "generation-by-protocol aggregate",
+    "replicateUnit": "culture plated on MC agar",
+    "generations": [
+      0,
+      5000,
+      10000,
+      15000,
+      20000,
+      25000,
+      27000,
+      28000,
+      29000,
+      30000,
+      31000,
+      31500,
+      32000,
+      32500
+    ],
+    "notRunGenerations": [
+      27500,
+      30500
+    ],
+    "independence": "unresolved-clone-clustering"
+  },
+  "selection": {
+    "rule": "Retain every published generation cell for this protocol, including zero observations; missing cells remain not-run.",
+    "outcomeBasedExclusions": false,
+    "generationThreshold": null,
+    "crossProtocolPooling": false
+  },
+  "cutoff": {
+    "origin": "before-new-replay",
+    "historicalAvailability": "Source generation is known when the historical sample starts the replay.",
+    "endpoint": "45 days of incubation under this protocol.",
+    "originalHistoryEqualsReplayHistory": false
+  },
+  "mode": "MC plate assay",
+  "exposure": {
+    "ancestorReplicates": 200,
+    "cellsPerCultureApproximateRange": [
+      10000000000,
+      20000000000
+    ],
+    "incubationDays": 45,
+    "replicatesPerClone": 10,
+    "sourceCloneCountPerEvolvedGeneration": 20,
+    "totalCellsApproximate": 40000000000000
+  },
+  "views": {
+    "present": {
+      "definition": "Reported starting Cit- phenotype and the declared replay environment/protocol, with source generation withheld.",
+      "availability": "protocol-description-only",
+      "completePresentStateObserved": false
+    },
+    "history": {
+      "definition": "Add the recorded Ara-3 source generation to the same coarse present view.",
+      "fields": [
+        "sourceGeneration"
+      ],
+      "cloneIdentity": "unresolved",
+      "completeGenotype": "unresolved"
+    },
+    "target": {
+      "definition": "Independent Cit+ mutants reported by source generation at this protocol's endpoint.",
+      "fields": [
+        "replicates",
+        "independentCitPlusMutants",
+        "outcomeStatus"
+      ],
+      "individualOutcomeLinkage": "unresolved",
+      "nonObservationMeansImpossible": false
+    }
+  },
+  "evaluation": {
+    "evaluator": "protocol-census-audit-v1",
+    "comparisonStatus": "requires-additional-evidence-and-reviewed-design",
+    "P0": "Keep this protocol and its observed-unit denominator; collapse source-generation labels for an inventory only.",
+    "P1": "Show the same observations separately by recorded source generation; no generation cutoff is selected from outcomes.",
+    "supportedComparison": "descriptive-generation-conditioned-observation-census",
+    "primaryMetric": null,
+    "nullModel": {
+      "status": "not-run",
+      "reason": "Clone dependence and exchangeability are unresolved; published P values remain attributed."
+    },
+    "uncertainty": "No confidence interval or new significance claim.",
+    "blockers": [
+      {
+        "code": "UNRESOLVED_UNIT_LINKAGE",
+        "message": "Published cells aggregate replay units. Clone identities, repeated-clone links and individual outcomes are not resolved by the selected tables."
+      },
+      {
+        "code": "COARSE_PRESENT_VIEW",
+        "message": "Starting Cit- phenotype and protocol context define a coarse present view. Equal phenotype does not establish equal genotype or complete present state."
+      },
+      {
+        "code": "NO_REVIEWED_P0_P1_EVALUATOR",
+        "message": "Collapsing source generations supports a descriptive census. Scoring needs a reviewed model for aggregate counts and clone dependence, or additional unit-level evidence with a reviewed evaluation design."
+      },
+      {
+        "code": "NO_REVIEWED_EXCHANGEABILITY",
+        "message": "Different source backgrounds and repeated clones are not assumed exchangeable. No history permutation or new significance calculation is executed."
+      }
+    ]
+  },
+  "cells": [
+    {
+      "sourceGeneration": 0,
+      "backgroundId": "background:ara-3:g-00000",
+      "sourceObservationId": "observation:replay-3:g-00000",
+      "outcomeStatus": "not-observed",
+      "replicates": 200,
+      "independentCitPlusMutants": 0
+    },
+    {
+      "sourceGeneration": 5000,
+      "backgroundId": "background:ara-3:g-05000",
+      "sourceObservationId": "observation:replay-3:g-05000",
+      "outcomeStatus": "not-observed",
+      "replicates": 200,
+      "independentCitPlusMutants": 0
+    },
+    {
+      "sourceGeneration": 10000,
+      "backgroundId": "background:ara-3:g-10000",
+      "sourceObservationId": "observation:replay-3:g-10000",
+      "outcomeStatus": "not-observed",
+      "replicates": 200,
+      "independentCitPlusMutants": 0
+    },
+    {
+      "sourceGeneration": 15000,
+      "backgroundId": "background:ara-3:g-15000",
+      "sourceObservationId": "observation:replay-3:g-15000",
+      "outcomeStatus": "not-observed",
+      "replicates": 200,
+      "independentCitPlusMutants": 0
+    },
+    {
+      "sourceGeneration": 20000,
+      "backgroundId": "background:ara-3:g-20000",
+      "sourceObservationId": "observation:replay-3:g-20000",
+      "outcomeStatus": "observed",
+      "replicates": 200,
+      "independentCitPlusMutants": 2
+    },
+    {
+      "sourceGeneration": 25000,
+      "backgroundId": "background:ara-3:g-25000",
+      "sourceObservationId": "observation:replay-3:g-25000",
+      "outcomeStatus": "not-observed",
+      "replicates": 200,
+      "independentCitPlusMutants": 0
+    },
+    {
+      "sourceGeneration": 27000,
+      "backgroundId": "background:ara-3:g-27000",
+      "sourceObservationId": "observation:replay-3:g-27000",
+      "outcomeStatus": "observed",
+      "replicates": 200,
+      "independentCitPlusMutants": 2
+    },
+    {
+      "sourceGeneration": 27500,
+      "backgroundId": "background:ara-3:g-27500",
+      "sourceObservationId": null,
+      "outcomeStatus": "not-run",
+      "replicates": null,
+      "independentCitPlusMutants": null
+    },
+    {
+      "sourceGeneration": 28000,
+      "backgroundId": "background:ara-3:g-28000",
+      "sourceObservationId": "observation:replay-3:g-28000",
+      "outcomeStatus": "not-observed",
+      "replicates": 200,
+      "independentCitPlusMutants": 0
+    },
+    {
+      "sourceGeneration": 29000,
+      "backgroundId": "background:ara-3:g-29000",
+      "sourceObservationId": "observation:replay-3:g-29000",
+      "outcomeStatus": "not-observed",
+      "replicates": 200,
+      "independentCitPlusMutants": 0
+    },
+    {
+      "sourceGeneration": 30000,
+      "backgroundId": "background:ara-3:g-30000",
+      "sourceObservationId": "observation:replay-3:g-30000",
+      "outcomeStatus": "not-observed",
+      "replicates": 200,
+      "independentCitPlusMutants": 0
+    },
+    {
+      "sourceGeneration": 30500,
+      "backgroundId": "background:ara-3:g-30500",
+      "sourceObservationId": null,
+      "outcomeStatus": "not-run",
+      "replicates": null,
+      "independentCitPlusMutants": null
+    },
+    {
+      "sourceGeneration": 31000,
+      "backgroundId": "background:ara-3:g-31000",
+      "sourceObservationId": "observation:replay-3:g-31000",
+      "outcomeStatus": "observed",
+      "replicates": 200,
+      "independentCitPlusMutants": 1
+    },
+    {
+      "sourceGeneration": 31500,
+      "backgroundId": "background:ara-3:g-31500",
+      "sourceObservationId": "observation:replay-3:g-31500",
+      "outcomeStatus": "observed",
+      "replicates": 200,
+      "independentCitPlusMutants": 1
+    },
+    {
+      "sourceGeneration": 32000,
+      "backgroundId": "background:ara-3:g-32000",
+      "sourceObservationId": "observation:replay-3:g-32000",
+      "outcomeStatus": "observed",
+      "replicates": 200,
+      "independentCitPlusMutants": 2
+    },
+    {
+      "sourceGeneration": 32500,
+      "backgroundId": "background:ara-3:g-32500",
+      "sourceObservationId": "observation:replay-3:g-32500",
+      "outcomeStatus": "not-observed",
+      "replicates": 200,
+      "independentCitPlusMutants": 0
+    }
+  ],
+  "publishedStatistics": {
+    "expectedMeanGeneration": 22571,
+    "experimentId": "replay-3",
+    "meanShiftGenerations": 4992,
+    "monteCarloIterations": 1000000,
+    "nullHypothesis": "all sampled source generations have equal likelihood of yielding Cit+ under this experiment",
+    "observedMeanGeneration": 27563,
+    "pValueRecomputed": false,
+    "publishedExpectedMeanRecomputed": false,
+    "publishedMonteCarloPValue": 0.0823,
+    "recomputedObservedMean": {
+      "denominator": 2,
+      "numerator": 55125
+    },
+    "tableOneMeanMatchesPublishedExpected": true,
+    "tableOneReplicateWeightedMean": {
+      "denominator": 7,
+      "numerator": 158000,
+      "rounded": 22571
+    }
+  },
+  "interpretationBoundary": "Retrospective protocol formalization over published aggregate observations. Generation is not a unique clone or genotype. No scored history gain, causal effect, impossibility, Historical Load or independent review is established.",
+  "hash": "sha256:0989f0bbcfb55b770c01389d5ff183d0bdcf19c26145e2fff79f8eb13ca4b744"
+}

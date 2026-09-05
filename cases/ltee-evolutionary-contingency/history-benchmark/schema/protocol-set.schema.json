@@ -1,0 +1,835 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/cases/ltee-history-benchmark/protocol-set.schema.json",
+  "title": "LTEE History Benchmark Protocol Set",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "format",
+    "benchmarkId",
+    "caseId",
+    "claimClass",
+    "designClass",
+    "historyMode",
+    "effect",
+    "status",
+    "statusScope",
+    "review",
+    "bindings",
+    "protocols",
+    "hash"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "enum": [
+        "1"
+      ]
+    },
+    "format": {
+      "enum": [
+        "onto2d-ltee-history-protocol-set"
+      ]
+    },
+    "benchmarkId": {
+      "enum": [
+        "ltee-evolutionary-contingency-history-matters-v1"
+      ]
+    },
+    "caseId": {
+      "enum": [
+        "ltee-evolutionary-contingency"
+      ]
+    },
+    "claimClass": {
+      "enum": [
+        "empirical"
+      ]
+    },
+    "designClass": {
+      "enum": [
+        "experimental"
+      ]
+    },
+    "historyMode": {
+      "enum": [
+        "recorded"
+      ]
+    },
+    "effect": {
+      "enum": [
+        "future"
+      ]
+    },
+    "status": {
+      "enum": [
+        "NOT_ELIGIBLE"
+      ]
+    },
+    "statusScope": {
+      "type": "string",
+      "minLength": 1
+    },
+    "review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "priorOutcomeExposure",
+        "preregistered"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "pending"
+          ]
+        },
+        "priorOutcomeExposure": {
+          "const": true
+        },
+        "preregistered": {
+          "const": false
+        }
+      }
+    },
+    "bindings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "builderHash",
+        "implementationHash",
+        "policyHash",
+        "sourceCaseHash",
+        "sourceSnapshotHash"
+      ],
+      "properties": {
+        "builderHash": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "implementationHash": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "policyHash": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "sourceCaseHash": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "sourceSnapshotHash": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        }
+      }
+    },
+    "protocols": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "schemaVersion",
+          "contractId",
+          "protocolId",
+          "title",
+          "source",
+          "cohort",
+          "selection",
+          "cutoff",
+          "mode",
+          "exposure",
+          "views",
+          "evaluation",
+          "cells",
+          "publishedStatistics",
+          "interpretationBoundary",
+          "hash"
+        ],
+        "properties": {
+          "schemaVersion": {
+            "enum": [
+              "1"
+            ]
+          },
+          "contractId": {
+            "enum": [
+              "ltee-evolutionary-contingency-history-matters-v1:replay-1",
+              "ltee-evolutionary-contingency-history-matters-v1:replay-2",
+              "ltee-evolutionary-contingency-history-matters-v1:replay-3"
+            ]
+          },
+          "protocolId": {
+            "enum": [
+              "replay-1",
+              "replay-2",
+              "replay-3"
+            ]
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "snapshotHash",
+              "caseHash",
+              "table",
+              "protocolId"
+            ],
+            "properties": {
+              "snapshotHash": {
+                "type": "string",
+                "pattern": "^sha256:[0-9a-f]{64}$"
+              },
+              "caseHash": {
+                "type": "string",
+                "pattern": "^sha256:[0-9a-f]{64}$"
+              },
+              "table": {
+                "enum": [
+                  "T1"
+                ]
+              },
+              "protocolId": {
+                "enum": [
+                  "replay-1",
+                  "replay-2",
+                  "replay-3"
+                ]
+              }
+            }
+          },
+          "cohort": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "population",
+              "observedUnit",
+              "replicateUnit",
+              "generations",
+              "notRunGenerations",
+              "independence"
+            ],
+            "properties": {
+              "population": {
+                "type": "string",
+                "minLength": 1
+              },
+              "observedUnit": {
+                "enum": [
+                  "generation-by-protocol aggregate"
+                ]
+              },
+              "replicateUnit": {
+                "enum": [
+                  "replay population",
+                  "MC plate",
+                  "culture plated on MC agar"
+                ]
+              },
+              "generations": {
+                "type": "array",
+                "minItems": 12,
+                "maxItems": 14,
+                "items": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                }
+              },
+              "notRunGenerations": {
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 4,
+                "items": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                }
+              },
+              "independence": {
+                "enum": [
+                  "unresolved-clone-clustering"
+                ]
+              }
+            }
+          },
+          "selection": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "rule",
+              "outcomeBasedExclusions",
+              "generationThreshold",
+              "crossProtocolPooling"
+            ],
+            "properties": {
+              "rule": {
+                "type": "string",
+                "minLength": 1
+              },
+              "outcomeBasedExclusions": {
+                "const": false
+              },
+              "generationThreshold": {
+                "type": "null"
+              },
+              "crossProtocolPooling": {
+                "const": false
+              }
+            }
+          },
+          "cutoff": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "origin",
+              "historicalAvailability",
+              "endpoint",
+              "originalHistoryEqualsReplayHistory"
+            ],
+            "properties": {
+              "origin": {
+                "enum": [
+                  "before-new-replay"
+                ]
+              },
+              "historicalAvailability": {
+                "type": "string",
+                "minLength": 1
+              },
+              "endpoint": {
+                "type": "string",
+                "minLength": 1
+              },
+              "originalHistoryEqualsReplayHistory": {
+                "const": false
+              }
+            }
+          },
+          "mode": {
+            "type": "string",
+            "minLength": 1
+          },
+          "exposure": {
+            "anyOf": [
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "incubationDays",
+                  "markerVariantsPerClone",
+                  "maximumReplayGenerationsApproximate",
+                  "screeningIntervalGenerations",
+                  "sourceCloneCountPerGeneration"
+                ],
+                "properties": {
+                  "incubationDays": {
+                    "type": "null"
+                  },
+                  "markerVariantsPerClone": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "maximumReplayGenerationsApproximate": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "screeningIntervalGenerations": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "sourceCloneCountPerGeneration": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "cellsPerPlateApproximate",
+                  "incubationDays",
+                  "platesPerClone",
+                  "sourceCloneCount"
+                ],
+                "properties": {
+                  "cellsPerPlateApproximate": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "incubationDays": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "platesPerClone": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "sourceCloneCount": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "ancestorReplicates",
+                  "cellsPerCultureApproximateRange",
+                  "incubationDays",
+                  "replicatesPerClone",
+                  "sourceCloneCountPerEvolvedGeneration",
+                  "totalCellsApproximate"
+                ],
+                "properties": {
+                  "ancestorReplicates": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "cellsPerCultureApproximateRange": {
+                    "type": "array",
+                    "minItems": 2,
+                    "maxItems": 2,
+                    "items": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "incubationDays": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "replicatesPerClone": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "sourceCloneCountPerEvolvedGeneration": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "totalCellsApproximate": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  }
+                }
+              }
+            ]
+          },
+          "views": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "present",
+              "history",
+              "target"
+            ],
+            "properties": {
+              "present": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "definition",
+                  "availability",
+                  "completePresentStateObserved"
+                ],
+                "properties": {
+                  "definition": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "availability": {
+                    "enum": [
+                      "protocol-description-only"
+                    ]
+                  },
+                  "completePresentStateObserved": {
+                    "const": false
+                  }
+                }
+              },
+              "history": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "definition",
+                  "fields",
+                  "cloneIdentity",
+                  "completeGenotype"
+                ],
+                "properties": {
+                  "definition": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "fields": {
+                    "type": "array",
+                    "minItems": 1,
+                    "maxItems": 1,
+                    "items": {
+                      "enum": [
+                        "sourceGeneration"
+                      ]
+                    }
+                  },
+                  "cloneIdentity": {
+                    "enum": [
+                      "unresolved"
+                    ]
+                  },
+                  "completeGenotype": {
+                    "enum": [
+                      "unresolved"
+                    ]
+                  }
+                }
+              },
+              "target": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "definition",
+                  "fields",
+                  "individualOutcomeLinkage",
+                  "nonObservationMeansImpossible"
+                ],
+                "properties": {
+                  "definition": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "fields": {
+                    "type": "array",
+                    "minItems": 3,
+                    "maxItems": 3,
+                    "items": {
+                      "enum": [
+                        "replicates",
+                        "independentCitPlusMutants",
+                        "outcomeStatus"
+                      ]
+                    }
+                  },
+                  "individualOutcomeLinkage": {
+                    "enum": [
+                      "unresolved"
+                    ]
+                  },
+                  "nonObservationMeansImpossible": {
+                    "const": false
+                  }
+                }
+              }
+            }
+          },
+          "evaluation": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "evaluator",
+              "comparisonStatus",
+              "P0",
+              "P1",
+              "supportedComparison",
+              "primaryMetric",
+              "nullModel",
+              "uncertainty",
+              "blockers"
+            ],
+            "properties": {
+              "evaluator": {
+                "enum": [
+                  "protocol-census-audit-v1"
+                ]
+              },
+              "comparisonStatus": {
+                "enum": [
+                  "requires-additional-evidence-and-reviewed-design"
+                ]
+              },
+              "P0": {
+                "type": "string",
+                "minLength": 1
+              },
+              "P1": {
+                "type": "string",
+                "minLength": 1
+              },
+              "supportedComparison": {
+                "enum": [
+                  "descriptive-generation-conditioned-observation-census"
+                ]
+              },
+              "primaryMetric": {
+                "type": "null"
+              },
+              "nullModel": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "status",
+                  "reason"
+                ],
+                "properties": {
+                  "status": {
+                    "enum": [
+                      "not-run"
+                    ]
+                  },
+                  "reason": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              },
+              "uncertainty": {
+                "type": "string",
+                "minLength": 1
+              },
+              "blockers": {
+                "type": "array",
+                "minItems": 4,
+                "maxItems": 4,
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "code",
+                    "message"
+                  ],
+                  "properties": {
+                    "code": {
+                      "enum": [
+                        "UNRESOLVED_UNIT_LINKAGE",
+                        "COARSE_PRESENT_VIEW",
+                        "NO_REVIEWED_P0_P1_EVALUATOR",
+                        "NO_REVIEWED_EXCHANGEABILITY"
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "cells": {
+            "type": "array",
+            "minItems": 16,
+            "maxItems": 16,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "sourceGeneration",
+                "backgroundId",
+                "sourceObservationId",
+                "outcomeStatus",
+                "replicates",
+                "independentCitPlusMutants"
+              ],
+              "properties": {
+                "sourceGeneration": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "backgroundId": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "sourceObservationId": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "outcomeStatus": {
+                  "enum": [
+                    "not-observed",
+                    "not-run",
+                    "observed"
+                  ]
+                },
+                "replicates": {
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "independentCitPlusMutants": {
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "publishedStatistics": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "expectedMeanGeneration",
+              "experimentId",
+              "meanShiftGenerations",
+              "monteCarloIterations",
+              "nullHypothesis",
+              "observedMeanGeneration",
+              "pValueRecomputed",
+              "publishedExpectedMeanRecomputed",
+              "publishedMonteCarloPValue",
+              "recomputedObservedMean",
+              "tableOneMeanMatchesPublishedExpected",
+              "tableOneReplicateWeightedMean"
+            ],
+            "properties": {
+              "expectedMeanGeneration": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "experimentId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "meanShiftGenerations": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "monteCarloIterations": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "nullHypothesis": {
+                "type": "string",
+                "minLength": 1
+              },
+              "observedMeanGeneration": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "pValueRecomputed": {
+                "const": false
+              },
+              "publishedExpectedMeanRecomputed": {
+                "const": false
+              },
+              "publishedMonteCarloPValue": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "recomputedObservedMean": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "denominator",
+                  "numerator"
+                ],
+                "properties": {
+                  "denominator": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "numerator": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  }
+                }
+              },
+              "tableOneMeanMatchesPublishedExpected": {
+                "type": "boolean"
+              },
+              "tableOneReplicateWeightedMean": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "denominator",
+                  "numerator",
+                  "rounded"
+                ],
+                "properties": {
+                  "denominator": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "numerator": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "rounded": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  }
+                }
+              }
+            }
+          },
+          "interpretationBoundary": {
+            "type": "string",
+            "minLength": 1
+          },
+          "hash": {
+            "type": "string",
+            "pattern": "^sha256:[0-9a-f]{64}$"
+          }
+        }
+      }
+    },
+    "hash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    }
+  }
+}
