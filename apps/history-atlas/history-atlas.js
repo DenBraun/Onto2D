@@ -5,7 +5,7 @@ import {
   historyEffectLabel,
   historyModeLabel,
   loadHistoryRegistry
-} from "../external-cases/external-cases-catalog.js?v=20260825.2";
+} from "../external-cases/external-cases-catalog.js?v=20260905.1";
 
 const PROJECT_ROOT = new URL("../../", import.meta.url);
 const filterIds = Object.freeze(["mode", "effect", "domain", "evidence", "status", "load", "model"]);
@@ -160,6 +160,12 @@ function portfolioCard(entry) {
     availability("Explorer", entry.explorerPath !== null),
     element("span", "analysis-badge", `Historical Load role: ${entry.analyses.historicalLoad.replaceAll("-", " ")}`)
   );
+
+  if (entry.analyses.historyMatters) {
+    const benchmark = element("a", "analysis-badge", `History Matters role: ${entry.analyses.historyMatters}`);
+    benchmark.href = `${projectUrl("apps/history-matters-benchmark/")}#${entry.caseId}-history-matters-v1`;
+    availabilityRow.append(benchmark);
+  }
 
   const footer = element("footer");
   const casePage = element("a", "case-open", "Open case");

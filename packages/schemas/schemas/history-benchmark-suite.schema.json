@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/history-benchmark-suite.schema.json",
+  "title": "History Benchmark Suite",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "suiteId",
+    "results",
+    "hash"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "1"
+    },
+    "suiteId": {
+      "const": "history-matters-pilot"
+    },
+    "results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "benchmarkId",
+          "claimClass",
+          "designClass",
+          "verdict",
+          "resultHash"
+        ],
+        "properties": {
+          "benchmarkId": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^(?:\\S|\\S[\\s\\S]*\\S)$"
+          },
+          "claimClass": {
+            "enum": [
+              "synthetic",
+              "semantic",
+              "normative"
+            ]
+          },
+          "designClass": {
+            "enum": [
+              "synthetic-control",
+              "exact"
+            ]
+          },
+          "verdict": {
+            "enum": [
+              "positive",
+              "negative",
+              "neutral-within-resolution",
+              "indeterminate",
+              "invalid",
+              "not-evaluated"
+            ]
+          },
+          "resultHash": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          }
+        }
+      },
+      "minItems": 0
+    },
+    "hash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    }
+  }
+}

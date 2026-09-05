@@ -1,0 +1,368 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/history-benchmark-result.schema.json",
+  "title": "History Benchmark Result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "benchmarkId",
+    "caseId",
+    "claimClass",
+    "designClass",
+    "contractHash",
+    "inputs",
+    "primary",
+    "nulls",
+    "verdict",
+    "issues",
+    "interpretationBoundary",
+    "hash"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "1"
+    },
+    "benchmarkId": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?:\\S|\\S[\\s\\S]*\\S)$"
+    },
+    "caseId": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?:\\S|\\S[\\s\\S]*\\S)$"
+    },
+    "claimClass": {
+      "enum": [
+        "synthetic",
+        "semantic",
+        "normative"
+      ]
+    },
+    "designClass": {
+      "enum": [
+        "synthetic-control",
+        "exact"
+      ]
+    },
+    "contractHash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "inputs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "observationsHash",
+        "targetHash",
+        "presentViewHash",
+        "historyViewHash",
+        "splitHash",
+        "evaluatorHash"
+      ],
+      "properties": {
+        "observationsHash": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "targetHash": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "presentViewHash": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "historyViewHash": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "splitHash": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "evaluatorHash": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        }
+      }
+    },
+    "primary": {
+      "anyOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "metric",
+            "direction",
+            "presentOnly",
+            "presentPlusHistory",
+            "orientedGain",
+            "resolution"
+          ],
+          "properties": {
+            "metric": {
+              "const": "pairwise-error"
+            },
+            "direction": {
+              "const": "lower-is-better"
+            },
+            "presentOnly": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "errors",
+                "pairs",
+                "value"
+              ],
+              "properties": {
+                "errors": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "pairs": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "value": {
+                  "anyOf": [
+                    {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 1
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              }
+            },
+            "presentPlusHistory": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "errors",
+                "pairs",
+                "value"
+              ],
+              "properties": {
+                "errors": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "pairs": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "value": {
+                  "anyOf": [
+                    {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 1
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              }
+            },
+            "orientedGain": {
+              "type": "number",
+              "minimum": -1,
+              "maximum": 1
+            },
+            "resolution": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            }
+          }
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "nulls": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "role",
+        "status",
+        "requestedTrials",
+        "trials",
+        "meanError",
+        "trueHistoryBeatsNullMean"
+      ],
+      "properties": {
+        "id": {
+          "const": "history-permutation-v1"
+        },
+        "role": {
+          "enum": [
+            "diagnostic",
+            "require-better-than-null-mean"
+          ]
+        },
+        "status": {
+          "enum": [
+            "not-evaluated",
+            "complete",
+            "exhausted"
+          ]
+        },
+        "requestedTrials": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 256
+        },
+        "trials": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "trial",
+              "donorUnitIds",
+              "errors",
+              "pairs",
+              "value"
+            ],
+            "properties": {
+              "trial": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "donorUnitIds": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "^(?:\\S|\\S[\\s\\S]*\\S)$"
+                },
+                "minItems": 1,
+                "maxItems": 256
+              },
+              "errors": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "pairs": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "value": {
+                "anyOf": [
+                  {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            }
+          },
+          "minItems": 0,
+          "maxItems": 256
+        },
+        "meanError": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "trueHistoryBeatsNullMean": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        }
+      }
+    },
+    "verdict": {
+      "enum": [
+        "positive",
+        "negative",
+        "neutral-within-resolution",
+        "indeterminate",
+        "invalid",
+        "not-evaluated"
+      ]
+    },
+    "issues": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "code",
+          "message"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^(?:\\S|\\S[\\s\\S]*\\S)$"
+          },
+          "message": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^(?:\\S|\\S[\\s\\S]*\\S)$"
+          }
+        }
+      },
+      "minItems": 0
+    },
+    "interpretationBoundary": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?:\\S|\\S[\\s\\S]*\\S)$"
+    },
+    "hash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    }
+  }
+}

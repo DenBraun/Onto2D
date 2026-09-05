@@ -11,6 +11,7 @@ const checks = [
   "check-types.mjs",
   "check-model-pack-worker.mjs",
   "check-history-case-registry.mjs",
+  "check-history-benchmark.mjs",
   "check-model-pack-registry.mjs",
   "check-schemas.mjs",
   "check-kernel-closure.mjs",

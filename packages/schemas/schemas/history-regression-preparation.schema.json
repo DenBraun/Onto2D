@@ -1,0 +1,296 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/history-regression-preparation.schema.json",
+  "title": "History Regression Preparation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "benchmarkId",
+    "contractHash",
+    "status",
+    "counts",
+    "normalization",
+    "views",
+    "nulls",
+    "hash"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "1"
+    },
+    "benchmarkId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "contractHash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "status": {
+      "enum": [
+        "prepared",
+        "incomplete"
+      ]
+    },
+    "counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "trainingSamples",
+        "trainingUnits",
+        "testSamples",
+        "testUnits"
+      ],
+      "properties": {
+        "trainingSamples": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+        },
+        "trainingUnits": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+        },
+        "testSamples": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+        },
+        "testUnits": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+        }
+      }
+    },
+    "normalization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "present",
+        "history",
+        "age"
+      ],
+      "properties": {
+        "present": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/range"
+          },
+          "minItems": 1,
+          "maxItems": 128
+        },
+        "history": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/range"
+          },
+          "minItems": 1,
+          "maxItems": 128
+        },
+        "age": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/range"
+          },
+          "minItems": 1,
+          "maxItems": 1
+        }
+      }
+    },
+    "views": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "P0",
+        "P1",
+        "P0Age",
+        "P1Age"
+      ],
+      "properties": {
+        "P0": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/prediction"
+          },
+          "minItems": 1,
+          "maxItems": 16384
+        },
+        "P1": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/prediction"
+          },
+          "minItems": 1,
+          "maxItems": 16384
+        },
+        "P0Age": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/prediction"
+          },
+          "minItems": 1,
+          "maxItems": 16384
+        },
+        "P1Age": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/prediction"
+          },
+          "minItems": 1,
+          "maxItems": 16384
+        }
+      }
+    },
+    "nulls": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "requestedTrials",
+        "trials"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "complete",
+            "exhausted"
+          ]
+        },
+        "requestedTrials": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 256
+        },
+        "trials": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "trial",
+              "donorSampleIds",
+              "predictions"
+            ],
+            "properties": {
+              "trial": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000000000
+              },
+              "donorSampleIds": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "minItems": 1,
+                "maxItems": 16384,
+                "uniqueItems": true
+              },
+              "predictions": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/prediction"
+                },
+                "minItems": 1,
+                "maxItems": 16384
+              }
+            }
+          },
+          "minItems": 0,
+          "maxItems": 256
+        }
+      }
+    },
+    "hash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    }
+  },
+  "$defs": {
+    "range": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "minimum",
+        "maximum",
+        "active"
+      ],
+      "properties": {
+        "minimum": {
+          "type": "number",
+          "minimum": -1000000000000.0,
+          "maximum": 1000000000000.0
+        },
+        "maximum": {
+          "type": "number",
+          "minimum": -1000000000000.0,
+          "maximum": 1000000000000.0
+        },
+        "active": {
+          "type": "boolean"
+        }
+      }
+    },
+    "neighbor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sampleId",
+        "unitId",
+        "distance",
+        "value"
+      ],
+      "properties": {
+        "sampleId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "unitId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "distance": {
+          "type": "number",
+          "minimum": 0
+        },
+        "value": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1000000000000.0
+        }
+      }
+    },
+    "prediction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sampleId",
+        "value",
+        "neighbors"
+      ],
+      "properties": {
+        "sampleId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "value": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1000000000000.0
+        },
+        "neighbors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/neighbor"
+          },
+          "minItems": 1,
+          "maxItems": 64
+        }
+      }
+    }
+  }
+}

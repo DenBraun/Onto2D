@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/history-benchmark-view.schema.json",
+  "title": "History Benchmark View",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "observationsHash",
+    "builderHash",
+    "role",
+    "records",
+    "hash"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "1"
+    },
+    "observationsHash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "builderHash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "role": {
+      "enum": [
+        "present",
+        "history"
+      ]
+    },
+    "records": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "unitId",
+          "cutoff",
+          "events"
+        ],
+        "properties": {
+          "unitId": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^(?:\\S|\\S[\\s\\S]*\\S)$"
+          },
+          "cutoff": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "events": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "time",
+                "value"
+              ],
+              "properties": {
+                "time": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "value": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "^(?:\\S|\\S[\\s\\S]*\\S)$"
+                }
+              }
+            },
+            "minItems": 1,
+            "maxItems": 1024
+          }
+        }
+      },
+      "minItems": 1,
+      "maxItems": 256
+    },
+    "hash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    }
+  }
+}

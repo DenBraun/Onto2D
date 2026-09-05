@@ -34,14 +34,14 @@ does not trust hashes copied into stored JSON.
 
 | Dependency | Status | Analysis hash |
 |---|---|---|
-| Integrated Level-0 v1 | `complete-negative-result-within-declared-model` | `sha256:f9c7cb2b7364aece577dc8bd6e0b97375213c7d2974ff78cc6cc66b6979d6d8d` |
-| Expanded Phase-C search | `completed-preregistered-bounded-extension` | `sha256:c5cb34687b813fa04026ef9bb5b59eeb06700326b1610ee510ee324a8aab83af` |
+| Integrated Level-0 v1 | `complete-negative-result-within-declared-model` | `sha256:9d42d9de1f8ef32e7fff19f62215a057ae9d081ff2461e47493d25d8108b805f` |
+| Expanded Phase-C search | `completed-preregistered-bounded-extension` | `sha256:b0cda4ba7f5a785f15a5bdb81b41e4a64425506e49133245edf3c14cfb2cd232` |
 
 The v2 identities are:
 
 - source DOI: `10.5281/zenodo.19397414`, version `v1.2`;
-- model hash: `sha256:4b5c2a1fcbea65d864888b830db595c28d06724258a673748614b1d225f0a05b`;
-- analysis hash: `sha256:608ce4895ae17cb5cb1b74fed9fa63daefd8f9f8e7b23c47c4cdcb8194d8e176`.
+- model hash: `sha256:0343473a48af5d5beda62b2bb38ab1a56a19460b773180c55c4b16d4e163106f`;
+- analysis hash: `sha256:c14feb73b718308c21fefce30222e5e7493b6f49c6b24d70ddb8a8c676358f2e`.
 
 Run the non-mutating full reproduction with:
 

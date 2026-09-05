@@ -3,6 +3,22 @@ const schema = (name) => new URL(`../schemas/${name}.schema.json`, import.meta.u
 export const SCHEMA_VERSION = "1";
 
 export const schemaUrls = Object.freeze({
+  historyRegressionContract: schema("history-regression-contract"),
+  historyRegressionDataset: schema("history-regression-dataset"),
+  historyRegressionTargets: schema("history-regression-targets"),
+  historyRegressionPreparation: schema("history-regression-preparation"),
+  historyRegressionResult: schema("history-regression-result"),
+  historyRegressionReadiness: schema("history-regression-readiness"),
+
+  historyBenchmarkContract: schema("history-benchmark-contract"),
+  historyBenchmarkObservations: schema("history-benchmark-observations"),
+  historyBenchmarkView: schema("history-benchmark-view"),
+  historyBenchmarkTarget: schema("history-benchmark-target"),
+  historyBenchmarkSplit: schema("history-benchmark-split"),
+  historyBenchmarkResult: schema("history-benchmark-result"),
+  historyBenchmarkSuite: schema("history-benchmark-suite"),
+  historyBenchmarkRegistry: schema("history-benchmark-registry"),
+
   artifactRef: schema("artifact-ref"),
   quantity: schema("quantity"),
   invariantValue: schema("invariant-value"),

@@ -11,7 +11,7 @@ import {
 const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../..");
 
 test("source catalogue audit reproduces the reviewed R0 facts", async () => {
-  const catalogue = await loadSourceCatalogue({ catalogueDirectory: path.join(repositoryRoot, "scr") });
+  const catalogue = await loadSourceCatalogue({ catalogueDirectory: path.join(repositoryRoot, "references") });
   const audit = auditSourceCatalogue(catalogue);
 
   assert.equal(

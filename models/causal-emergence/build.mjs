@@ -15,7 +15,7 @@ import {
 } from "./compiler.mjs";
 
 const REPOSITORY_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
-const SOURCE_ROOT = path.join(REPOSITORY_ROOT, "scr");
+const SOURCE_ROOT = path.join(REPOSITORY_ROOT, "references");
 const RELEASE_ROOT = path.join(
   REPOSITORY_ROOT,
   "models",
@@ -34,7 +34,7 @@ async function sourceFileReferences(levelFiles) {
   return Promise.all(names.map(async (name) => {
     const bytes = new Uint8Array(await readFile(path.join(SOURCE_ROOT, name)));
     return {
-      path: `scr/${name}`,
+      path: `references/${name}`,
       hash: hashArtifactBytes(bytes)
     };
   }));

@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "1",
+  "benchmarkId": "reproducible-build-equivalence-history-matters-v1",
+  "caseId": "reproducible-build-equivalence",
+  "claimClass": "semantic",
+  "designClass": "exact",
+  "historyMode": "recorded",
+  "effect": "identity",
+  "population": "Every unit in the declared source fixture, including negative and metadata controls; no pair selection.",
+  "cutoffPolicy": "per-unit-ordinal",
+  "presentView": "Specified output byte identity.",
+  "historyView": "Recorded Node.js runtime name and version; ambient session label excluded.",
+  "targetView": "Joint output-content and toolchain classes; same toolchain with changed bytes stays distinct.",
+  "selectionPolicy": {
+    "strategy": "complete-source-population",
+    "targetBlind": true
+  },
+  "splitPolicy": "complete-census",
+  "evaluator": {
+    "id": "identity-partition-v1",
+    "version": "1",
+    "implementationHash": "sha256:2b6066912f7b614e9d31cf1a09fa2cef94769e2dab4d8385516678527cbb1a75"
+  },
+  "primaryMetric": {
+    "id": "pairwise-error",
+    "direction": "lower-is-better",
+    "resolution": 0
+  },
+  "nullModel": {
+    "id": "history-permutation-v1",
+    "seed": 1729,
+    "trials": 16,
+    "role": "diagnostic"
+  },
+  "bindings": {
+    "observationsHash": "sha256:f2621198aecc120743f60cb14eded9e047f644cca2c4dec8a188c395e3d5b1ec",
+    "targetsHash": "sha256:0376ff4d2580e85d13557af1c96ab83b7c5a6059de9c0a55e4724d5d165b04bf",
+    "builderHash": "sha256:470d14ce147c9a78666ae51a50697d887ddb4fdc270c4a9d6c9a56e227e58494"
+  },
+  "sources": [
+    {
+      "path": "cases/reproducible-build-equivalence/artifacts/reproducible-build-equivalence.json",
+      "sha256": "sha256:629ece373035c716136c4acf6b51d3b1213186af083979dffa9d6165a65ae6ea"
+    }
+  ],
+  "interpretationBoundary": "Exact semantic sensitivity to a declared identity regime in the complete bounded source fixture. Reference classes are derived from that regime, not independent outcomes. The null is diagnostic and may preserve unique partitions. No held-out prediction, causal effect, Historical Load, or independent review is claimed."
+}

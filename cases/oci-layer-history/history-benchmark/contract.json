@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "1",
+  "benchmarkId": "oci-layer-history-history-matters-v1",
+  "caseId": "oci-layer-history",
+  "claimClass": "semantic",
+  "designClass": "exact",
+  "historyMode": "recorded",
+  "effect": "identity",
+  "population": "Every unit in the declared source fixture, including negative and metadata controls; no pair selection.",
+  "cutoffPolicy": "per-unit-ordinal",
+  "presentView": "Normalized final rootfs identity from the bounded source fixture.",
+  "historyView": "Ordered native layer descriptor digests.",
+  "targetView": "Declared exact layer-sequence classes.",
+  "selectionPolicy": {
+    "strategy": "complete-source-population",
+    "targetBlind": true
+  },
+  "splitPolicy": "complete-census",
+  "evaluator": {
+    "id": "identity-partition-v1",
+    "version": "1",
+    "implementationHash": "sha256:2b6066912f7b614e9d31cf1a09fa2cef94769e2dab4d8385516678527cbb1a75"
+  },
+  "primaryMetric": {
+    "id": "pairwise-error",
+    "direction": "lower-is-better",
+    "resolution": 0
+  },
+  "nullModel": {
+    "id": "history-permutation-v1",
+    "seed": 1729,
+    "trials": 16,
+    "role": "diagnostic"
+  },
+  "bindings": {
+    "observationsHash": "sha256:ccbf481ca2a77d1613abe75a07b8cfa8954d4b3b65db0331984cf1aa7aa87b56",
+    "targetsHash": "sha256:e096b294ac0e1433ec9749e280df2a54f7b89878c4ad1630c9071259432d5ac9",
+    "builderHash": "sha256:470d14ce147c9a78666ae51a50697d887ddb4fdc270c4a9d6c9a56e227e58494"
+  },
+  "sources": [
+    {
+      "path": "cases/oci-layer-history/artifacts/oci-layer-history.json",
+      "sha256": "sha256:eb16c8a4d2b6c671c9bad61ac54961aa61835f363b160a637a7d994518c3766b"
+    }
+  ],
+  "interpretationBoundary": "Exact semantic sensitivity to a declared identity regime in the complete bounded source fixture. Reference classes are derived from that regime, not independent outcomes. The null is diagnostic and may preserve unique partitions. No held-out prediction, causal effect, Historical Load, or independent review is claimed."
+}

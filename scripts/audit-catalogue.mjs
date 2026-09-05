@@ -22,7 +22,7 @@ function stableSnapshot(audit) {
 
 export async function run(options = {}) {
   const catalogue = await loadSourceCatalogue({
-    catalogueDirectory: path.join(REPOSITORY_ROOT, "scr")
+    catalogueDirectory: path.join(REPOSITORY_ROOT, "references")
   });
   const snapshot = stableSnapshot(auditSourceCatalogue(catalogue));
 

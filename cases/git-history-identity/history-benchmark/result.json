@@ -1,0 +1,270 @@
+{
+  "schemaVersion": "1",
+  "benchmarkId": "git-history-identity-history-matters-v1",
+  "caseId": "git-history-identity",
+  "claimClass": "semantic",
+  "designClass": "exact",
+  "contractHash": "sha256:31471ba2e8b43338c535105887766c88243e49f821e3e90edd1be424aa9b938a",
+  "inputs": {
+    "observationsHash": "sha256:2dfa8d49b9c4d1f740fe2e982d4a5820e176ddfd0c94598ffa59f13e9ca5f86b",
+    "targetHash": "sha256:1398288741e474eedb9c52073b31ef0984f3b81e2db677ba439b8c5cef1835df",
+    "presentViewHash": "sha256:72c80ed557aaa0e27d3983f3fbcb08f3fe58a3825b21ae6d1dd4a3212cf17cc4",
+    "historyViewHash": "sha256:241a95f3bd15a1de04c6b7460fde4b9f26dea939511606bb7b94cc46a288e01c",
+    "splitHash": "sha256:c81cba642b1b0c8bd079f9ef2dce1eacb9e3913468616b2cf03ecfba6313fd77",
+    "evaluatorHash": "sha256:3bffa2a7c9fcbe47f606b7dcb9d2d2d50bc714bf3e50fd1c6e74ceacfeabad98"
+  },
+  "primary": {
+    "metric": "pairwise-error",
+    "direction": "lower-is-better",
+    "presentOnly": {
+      "errors": 6,
+      "pairs": 15,
+      "value": 0.4
+    },
+    "presentPlusHistory": {
+      "errors": 0,
+      "pairs": 15,
+      "value": 0
+    },
+    "orientedGain": 0.4,
+    "resolution": 0
+  },
+  "nulls": {
+    "id": "history-permutation-v1",
+    "role": "diagnostic",
+    "status": "complete",
+    "requestedTrials": 16,
+    "trials": [
+      {
+        "trial": 0,
+        "donorUnitIds": [
+          "history-b",
+          "history-linear",
+          "history-a",
+          "history-c",
+          "history-metadata",
+          "history-merge"
+        ],
+        "errors": 1,
+        "pairs": 15,
+        "value": 0.06666666666666667
+      },
+      {
+        "trial": 1,
+        "donorUnitIds": [
+          "history-b",
+          "history-a",
+          "history-merge",
+          "history-metadata",
+          "history-c",
+          "history-linear"
+        ],
+        "errors": 1,
+        "pairs": 15,
+        "value": 0.06666666666666667
+      },
+      {
+        "trial": 2,
+        "donorUnitIds": [
+          "history-a",
+          "history-b",
+          "history-metadata",
+          "history-merge",
+          "history-linear",
+          "history-c"
+        ],
+        "errors": 2,
+        "pairs": 15,
+        "value": 0.13333333333333333
+      },
+      {
+        "trial": 3,
+        "donorUnitIds": [
+          "history-a",
+          "history-merge",
+          "history-c",
+          "history-metadata",
+          "history-linear",
+          "history-b"
+        ],
+        "errors": 1,
+        "pairs": 15,
+        "value": 0.06666666666666667
+      },
+      {
+        "trial": 4,
+        "donorUnitIds": [
+          "history-metadata",
+          "history-a",
+          "history-merge",
+          "history-b",
+          "history-c",
+          "history-linear"
+        ],
+        "errors": 2,
+        "pairs": 15,
+        "value": 0.13333333333333333
+      },
+      {
+        "trial": 5,
+        "donorUnitIds": [
+          "history-metadata",
+          "history-a",
+          "history-linear",
+          "history-merge",
+          "history-c",
+          "history-b"
+        ],
+        "errors": 2,
+        "pairs": 15,
+        "value": 0.13333333333333333
+      },
+      {
+        "trial": 6,
+        "donorUnitIds": [
+          "history-merge",
+          "history-b",
+          "history-metadata",
+          "history-c",
+          "history-a",
+          "history-linear"
+        ],
+        "errors": 1,
+        "pairs": 15,
+        "value": 0.06666666666666667
+      },
+      {
+        "trial": 7,
+        "donorUnitIds": [
+          "history-b",
+          "history-linear",
+          "history-merge",
+          "history-a",
+          "history-metadata",
+          "history-c"
+        ],
+        "errors": 2,
+        "pairs": 15,
+        "value": 0.13333333333333333
+      },
+      {
+        "trial": 8,
+        "donorUnitIds": [
+          "history-linear",
+          "history-merge",
+          "history-a",
+          "history-b",
+          "history-c",
+          "history-metadata"
+        ],
+        "errors": 2,
+        "pairs": 15,
+        "value": 0.13333333333333333
+      },
+      {
+        "trial": 9,
+        "donorUnitIds": [
+          "history-c",
+          "history-a",
+          "history-metadata",
+          "history-linear",
+          "history-b",
+          "history-merge"
+        ],
+        "errors": 2,
+        "pairs": 15,
+        "value": 0.13333333333333333
+      },
+      {
+        "trial": 10,
+        "donorUnitIds": [
+          "history-linear",
+          "history-b",
+          "history-a",
+          "history-merge",
+          "history-c",
+          "history-metadata"
+        ],
+        "errors": 2,
+        "pairs": 15,
+        "value": 0.13333333333333333
+      },
+      {
+        "trial": 11,
+        "donorUnitIds": [
+          "history-linear",
+          "history-c",
+          "history-b",
+          "history-metadata",
+          "history-a",
+          "history-merge"
+        ],
+        "errors": 2,
+        "pairs": 15,
+        "value": 0.13333333333333333
+      },
+      {
+        "trial": 12,
+        "donorUnitIds": [
+          "history-c",
+          "history-a",
+          "history-metadata",
+          "history-linear",
+          "history-b",
+          "history-merge"
+        ],
+        "errors": 2,
+        "pairs": 15,
+        "value": 0.13333333333333333
+      },
+      {
+        "trial": 13,
+        "donorUnitIds": [
+          "history-a",
+          "history-merge",
+          "history-b",
+          "history-linear",
+          "history-c",
+          "history-metadata"
+        ],
+        "errors": 0,
+        "pairs": 15,
+        "value": 0
+      },
+      {
+        "trial": 14,
+        "donorUnitIds": [
+          "history-b",
+          "history-c",
+          "history-linear",
+          "history-merge",
+          "history-metadata",
+          "history-a"
+        ],
+        "errors": 1,
+        "pairs": 15,
+        "value": 0.06666666666666667
+      },
+      {
+        "trial": 15,
+        "donorUnitIds": [
+          "history-a",
+          "history-b",
+          "history-linear",
+          "history-merge",
+          "history-c",
+          "history-metadata"
+        ],
+        "errors": 0,
+        "pairs": 15,
+        "value": 0
+      }
+    ],
+    "meanError": 0.09583333333333334,
+    "trueHistoryBeatsNullMean": true
+  },
+  "verdict": "positive",
+  "issues": [],
+  "interpretationBoundary": "Exact semantic sensitivity to a declared identity regime in the complete bounded source fixture. Reference classes are derived from that regime, not independent outcomes. The null is diagnostic and may preserve unique partitions. No held-out prediction, causal effect, Historical Load, or independent review is claimed.",
+  "hash": "sha256:f67fe673cb7024a29540f2bf7f183854e324bd9bac2cfcc480f95574e4db724c"
+}

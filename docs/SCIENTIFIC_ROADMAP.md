@@ -85,7 +85,7 @@ Completion criteria:
 
 The catalogue adapter can audit and replay a migration, but it cannot author
 the scientific interpretation of `ParentCode` relations. The goal is a
-reviewed, loss-preserving migration of the current `scr/level-*.json` catalogue
+reviewed, loss-preserving migration of the current `references/level-*.json` catalogue
 into explicit relation layers and formation-support components.
 
 Required work:
@@ -237,6 +237,16 @@ Completion criteria:
   formation claim; all other views remain explicitly illustrative;
 - at least one independent reviewer can trace a displayed value back through
   preprocessing, model inputs, and verified run artifacts.
+
+## History Matters benchmark workstream
+
+The [History Matters v0 pilot](history/HISTORY_MATTERS_BENCHMARK.md) now adds
+controlled P/P+H comparisons outside Historical Load. Three synthetic controls
+and three semantic contrasts replay exactly; Operational Aging and LTEE retain
+unevaluated outcome status. Operational Aging now has source-verified full-cohort
+preparation, unit-disjoint predictions and an age sensitivity baseline. Next work
+is independent review and held-out scoring, protocol-specific LTEE contracts,
+and independent review before benchmark v1.
 
 ## Dependencies and order
 

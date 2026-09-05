@@ -4,6 +4,8 @@ import test from "node:test";
 import * as cli from "@onto2d/cli";
 import * as catalogAdapter from "@onto2d/catalog-adapter";
 import * as canonicalIdentityAnalysis from "@onto2d/canonical-identity-analysis";
+import * as historyBenchmark from "@onto2d/history-benchmark";
+import * as historyRegression from "@onto2d/history-benchmark/predictive";
 import * as kernel from "@onto2d/kernel";
 import * as kernelCanonical from "@onto2d/kernel/canonical";
 import * as levelZeroSolver from "@onto2d/level-zero-solver";
@@ -25,6 +27,8 @@ import * as view from "@onto2d/view";
 import * as viewLazy from "@onto2d/view/lazy";
 
 const PACKAGE_SURFACES = Object.freeze([
+  Object.freeze({ name: "history-benchmark", runtime: historyBenchmark, declarations: new URL("../../packages/history-benchmark/src/index.d.ts", import.meta.url) }),
+  Object.freeze({ name: "history-benchmark/predictive", runtime: historyRegression, declarations: new URL("../../packages/history-benchmark/src/predictive.d.ts", import.meta.url) }),
   Object.freeze({
     name: "cli",
     runtime: cli,

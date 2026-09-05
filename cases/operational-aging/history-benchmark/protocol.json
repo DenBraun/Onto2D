@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "1",
+  "benchmarkId": "operational-aging-history-matters-v1",
+  "dataset": "FD001",
+  "expectedTrainingUnits": 100,
+  "expectedTestUnits": 100,
+  "expectedTrainingRows": 20631,
+  "expectedTestRows": 13096,
+  "selection": {
+    "trainingFirstCutoff": 20,
+    "trainingCutoffStep": 20,
+    "trainingTerminalPolicy": "exclude-terminal-observation",
+    "testPolicy": "all-unit-final-observations",
+    "historyWindow": 20,
+    "historyPolicy": "mean-prior-frames-excluding-current",
+    "shortHistoryPolicy": "all-available-prior-frames",
+    "features": "all-three-settings-and-21-sensors",
+    "missingDataPolicy": "reject-incomplete-input"
+  },
+  "evaluator": {
+    "id": "unit-nearest-neighbor-regression-v1",
+    "neighbors": 5,
+    "tieBreak": "sample-id",
+    "distance": "sum-squared-training-range-scaled-features",
+    "trainingUnitPolicy": "one-nearest-prefix-per-unit",
+    "prediction": "unweighted-mean-without-rul-capping"
+  },
+  "primary": {
+    "baseline": "P0",
+    "history": "P1",
+    "metric": "mae",
+    "resolutionCycles": 1,
+    "positiveRule": "gain-and-true-history-advantage-over-null-mean-exceed-resolution"
+  },
+  "secondary": {
+    "metric": "rmse",
+    "ageSensitivity": ["P0Age", "P1Age"],
+    "uncertainty": "no-confidence-interval-or-significance-claim"
+  },
+  "nullModel": {
+    "id": "test-history-permutation-v1",
+    "seed": 1729,
+    "trials": 16,
+    "stratum": "one-declared-population",
+    "justification": "FD001 has one operating-condition/fault-mode population; diagnostic reassignment only, with no exchangeability or causal claim."
+  },
+  "review": {
+    "status": "pending",
+    "requiredBeforeCaseScoring": true,
+    "priorOutcomeExposure": "Existing endpoint and selected-pair analyses expose test RUL. This is a prospective freeze of a new retrospective protocol, not independent preregistration or a previously unseen dataset."
+  }
+}

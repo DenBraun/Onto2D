@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/history-regression-dataset.schema.json",
+  "title": "History Regression Dataset",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "presentFeatures",
+    "historyFeatures",
+    "samples"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "1"
+    },
+    "presentFeatures": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1,
+      "maxItems": 128,
+      "uniqueItems": true
+    },
+    "historyFeatures": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1,
+      "maxItems": 128,
+      "uniqueItems": true
+    },
+    "samples": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "sampleId",
+          "unitId",
+          "split",
+          "cutoff",
+          "presentTime",
+          "historyStart",
+          "historyEnd",
+          "present",
+          "history",
+          "recordHash"
+        ],
+        "properties": {
+          "sampleId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "unitId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "split": {
+            "enum": [
+              "train",
+              "test"
+            ]
+          },
+          "cutoff": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000000000
+          },
+          "presentTime": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000000000
+          },
+          "historyStart": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000000000
+          },
+          "historyEnd": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000000000
+          },
+          "present": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "minimum": -1000000000000.0,
+              "maximum": 1000000000000.0
+            },
+            "minItems": 1,
+            "maxItems": 128
+          },
+          "history": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "minimum": -1000000000000.0,
+              "maximum": 1000000000000.0
+            },
+            "minItems": 1,
+            "maxItems": 128
+          },
+          "recordHash": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          }
+        }
+      },
+      "minItems": 2,
+      "maxItems": 16384
+    }
+  }
+}

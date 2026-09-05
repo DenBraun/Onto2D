@@ -413,8 +413,9 @@ export function validateHistoryRegistry(registry) {
       registryFailure(`${entry.caseId} repeats an effect across primaryEffects and secondaryEffects.`);
     }
 
-    requireExactFields(entry.analyses, ANALYSIS_FIELDS, `${entry.caseId}.analyses`);
-    for (const field of ANALYSIS_FIELDS) requireEnum(entry.analyses[field], ANALYSIS_LEVELS, `${entry.caseId}.analyses.${field}`);
+    const analysisFields = Object.hasOwn(entry.analyses ?? {}, "historyMatters") ? [...ANALYSIS_FIELDS, "historyMatters"] : ANALYSIS_FIELDS;
+    requireExactFields(entry.analyses, analysisFields, `${entry.caseId}.analyses`);
+    for (const field of analysisFields) requireEnum(entry.analyses[field], ANALYSIS_LEVELS, `${entry.caseId}.analyses.${field}`);
     requireNullableId(entry.modelId, `${entry.caseId}.modelId`);
     if (entry.modelVersion !== null) requireString(entry.modelVersion, `${entry.caseId}.modelVersion`, 1, VERSION_PATTERN);
     requireNullableId(entry.explorerId, `${entry.caseId}.explorerId`);

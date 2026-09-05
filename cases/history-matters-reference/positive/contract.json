@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "1",
+  "benchmarkId": "history-matters-reference-positive-v1",
+  "caseId": "history-matters-reference",
+  "claimClass": "synthetic",
+  "designClass": "synthetic-control",
+  "historyMode": "recorded",
+  "effect": "future",
+  "population": "Every unit in the declared source fixture, including negative and metadata controls; no pair selection.",
+  "cutoffPolicy": "per-unit-ordinal",
+  "presentView": "Declared current symbol; unit ID and time excluded from features.",
+  "historyView": "Ordered origin and path symbols observed before the cutoff.",
+  "targetView": "Separately authored synthetic future class, at ordinal 3.",
+  "selectionPolicy": {
+    "strategy": "complete-source-population",
+    "targetBlind": true
+  },
+  "splitPolicy": "complete-census",
+  "evaluator": {
+    "id": "identity-partition-v1",
+    "version": "1",
+    "implementationHash": "sha256:2b6066912f7b614e9d31cf1a09fa2cef94769e2dab4d8385516678527cbb1a75"
+  },
+  "primaryMetric": {
+    "id": "pairwise-error",
+    "direction": "lower-is-better",
+    "resolution": 0
+  },
+  "nullModel": {
+    "id": "history-permutation-v1",
+    "seed": 1729,
+    "trials": 16,
+    "role": "require-better-than-null-mean"
+  },
+  "bindings": {
+    "observationsHash": "sha256:a9be28df25c5f266c92ef4013b39e760245bdfee649702cb63068c75f5d0b656",
+    "targetsHash": "sha256:839a91cd40f681f341f90785194b37478b0f9ae54577dde8508847a0ba24cb8e",
+    "builderHash": "sha256:470d14ce147c9a78666ae51a50697d887ddb4fdc270c4a9d6c9a56e227e58494"
+  },
+  "sources": [
+    {
+      "path": "cases/history-matters-reference/source/controls.json",
+      "sha256": "sha256:f73062f60d32acd4fb0b7202ed3c324e3b838d0ac5f5c5982350f0abfd72a25b"
+    }
+  ],
+  "interpretationBoundary": "Synthetic pipeline control only. Pairwise classification under exact equality; no empirical, predictive, causal, or physical evidence. A negative result means this evaluator over-separates a sufficient present representation."
+}

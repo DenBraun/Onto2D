@@ -1,0 +1,152 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/history-benchmark-registry.schema.json",
+  "title": "History Benchmark Registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "suiteId",
+    "entries"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "1"
+    },
+    "suiteId": {
+      "const": "history-matters-pilot"
+    },
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "benchmarkId",
+          "caseId",
+          "title",
+          "status",
+          "claimClass",
+          "designClass",
+          "historyMode",
+          "effect",
+          "contractPath",
+          "resultPath",
+          "planPath",
+          "reason"
+        ],
+        "properties": {
+          "benchmarkId": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^(?:\\S|\\S[\\s\\S]*\\S)$"
+          },
+          "caseId": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^(?:\\S|\\S[\\s\\S]*\\S)$"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^(?:\\S|\\S[\\s\\S]*\\S)$"
+          },
+          "status": {
+            "enum": [
+              "NOT_ELIGIBLE",
+              "ILLUSTRATIVE",
+              "CONTRACT_DRAFT",
+              "CONTRAST_READY",
+              "EVALUATION_READY",
+              "EVALUATED",
+              "REPLICATED",
+              "REVIEWED"
+            ]
+          },
+          "claimClass": {
+            "enum": [
+              "synthetic",
+              "semantic",
+              "normative",
+              "empirical"
+            ]
+          },
+          "designClass": {
+            "enum": [
+              "synthetic-control",
+              "exact",
+              "descriptive",
+              "predictive",
+              "experimental",
+              "causal"
+            ]
+          },
+          "historyMode": {
+            "enum": [
+              "recorded",
+              "embodied",
+              "reconstructed"
+            ]
+          },
+          "effect": {
+            "enum": [
+              "identity",
+              "present-state",
+              "future"
+            ]
+          },
+          "contractPath": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^(?:\\S|\\S[\\s\\S]*\\S)$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "resultPath": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^(?:\\S|\\S[\\s\\S]*\\S)$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "planPath": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^(?:\\S|\\S[\\s\\S]*\\S)$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^(?:\\S|\\S[\\s\\S]*\\S)$"
+          },
+          "preparationPath": {
+            "type": "string",
+            "minLength": 1
+          },
+          "readinessPath": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "minItems": 1
+    }
+  }
+}

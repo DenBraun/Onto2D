@@ -67,3 +67,11 @@ declared, so the value is undefined rather than zero.
 Methodology follows the official Reproducible Builds definition, build
 environment perimeter, and `SOURCE_DATE_EPOCH` specification linked in
 `build-spec.json`.
+
+## History Matters pilot
+
+The [frozen benchmark contract](history-benchmark/contract.json) compares the
+complete source-fixture census under an exact semantic identity regime.
+`npm run history-benchmark:check` replays its P/H/target artifacts, wrong-history
+nulls and [result](history-benchmark/result.json). This is a regime-relative
+semantic result, not empirical prediction or an independent review.

@@ -18,7 +18,7 @@ development dependency.
 
 ## Change rules
 
-- Do not rewrite `scr/` data to make an audit pass. Update a reviewed golden
+- Do not rewrite `references/` data to make an audit pass. Update a reviewed golden
   only when the source change and its scientific rationale are intentional.
 - Do not classify every `ParentCode` as generative. Source relation policy and
   node-resolution criteria must be frozen before topology-aware migration.

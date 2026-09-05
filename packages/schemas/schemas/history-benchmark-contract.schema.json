@@ -1,0 +1,262 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/history-benchmark-contract.schema.json",
+  "title": "History Benchmark Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "benchmarkId",
+    "caseId",
+    "claimClass",
+    "designClass",
+    "historyMode",
+    "effect",
+    "population",
+    "cutoffPolicy",
+    "presentView",
+    "historyView",
+    "targetView",
+    "selectionPolicy",
+    "splitPolicy",
+    "evaluator",
+    "primaryMetric",
+    "nullModel",
+    "bindings",
+    "sources",
+    "interpretationBoundary"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "1"
+    },
+    "benchmarkId": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?:\\S|\\S[\\s\\S]*\\S)$"
+    },
+    "caseId": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?:\\S|\\S[\\s\\S]*\\S)$"
+    },
+    "claimClass": {
+      "enum": [
+        "synthetic",
+        "semantic",
+        "normative"
+      ]
+    },
+    "designClass": {
+      "enum": [
+        "synthetic-control",
+        "exact"
+      ]
+    },
+    "historyMode": {
+      "enum": [
+        "recorded",
+        "embodied",
+        "reconstructed"
+      ]
+    },
+    "effect": {
+      "enum": [
+        "identity",
+        "present-state",
+        "future"
+      ]
+    },
+    "population": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?:\\S|\\S[\\s\\S]*\\S)$"
+    },
+    "cutoffPolicy": {
+      "const": "per-unit-ordinal"
+    },
+    "presentView": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?:\\S|\\S[\\s\\S]*\\S)$"
+    },
+    "historyView": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?:\\S|\\S[\\s\\S]*\\S)$"
+    },
+    "targetView": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?:\\S|\\S[\\s\\S]*\\S)$"
+    },
+    "selectionPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "strategy",
+        "targetBlind"
+      ],
+      "properties": {
+        "strategy": {
+          "const": "complete-source-population"
+        },
+        "targetBlind": {
+          "const": true
+        }
+      }
+    },
+    "splitPolicy": {
+      "const": "complete-census"
+    },
+    "evaluator": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "version",
+        "implementationHash"
+      ],
+      "properties": {
+        "id": {
+          "const": "identity-partition-v1"
+        },
+        "version": {
+          "const": "1"
+        },
+        "implementationHash": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        }
+      }
+    },
+    "primaryMetric": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "direction",
+        "resolution"
+      ],
+      "properties": {
+        "id": {
+          "const": "pairwise-error"
+        },
+        "direction": {
+          "const": "lower-is-better"
+        },
+        "resolution": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    },
+    "nullModel": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "seed",
+        "trials",
+        "role"
+      ],
+      "properties": {
+        "id": {
+          "const": "history-permutation-v1"
+        },
+        "seed": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "trials": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 256
+        },
+        "role": {
+          "enum": [
+            "diagnostic",
+            "require-better-than-null-mean"
+          ]
+        }
+      }
+    },
+    "bindings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "observationsHash",
+        "targetsHash",
+        "builderHash"
+      ],
+      "properties": {
+        "observationsHash": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "targetsHash": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "builderHash": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        }
+      }
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "path",
+          "sha256"
+        ],
+        "properties": {
+          "path": {
+            "type": "string",
+            "pattern": "^(?!/)(?![\\s\\S]*[:\\\\\\x00-\\x1f])(?!.*(?:^|/)(?:\\.|\\.\\.)(?:/|$))(?!.*//)[^/]+(?:/[^/]+)*$"
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          }
+        }
+      },
+      "minItems": 1
+    },
+    "interpretationBoundary": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?:\\S|\\S[\\s\\S]*\\S)$"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "claimClass": {
+            "const": "synthetic"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "designClass": {
+            "const": "synthetic-control"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "designClass": {
+            "const": "exact"
+          }
+        }
+      }
+    }
+  ]
+}

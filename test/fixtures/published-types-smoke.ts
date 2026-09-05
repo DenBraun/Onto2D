@@ -295,3 +295,16 @@ void verifyRdfMappingPolicy;
 void mapRdfToOnto2D;
 void verifyRdfMappingArtifact;
 void buildRdfMappedModelPack;
+
+import { runHistoryBenchmark, type HistoryBenchmarkContract, type HistoryBenchmarkInputs, type BenchmarkVerdict } from "@onto2d/history-benchmark";
+declare const historyBenchmarkContract: HistoryBenchmarkContract;
+declare const historyBenchmarkInputs: HistoryBenchmarkInputs;
+const historyBenchmarkVerdict: BenchmarkVerdict = runHistoryBenchmark(historyBenchmarkContract, historyBenchmarkInputs).verdict;
+void historyBenchmarkVerdict;
+
+import { prepareHistoryRegression, type HistoryRegressionContract, type RegressionDataset, type RegressionTargets } from "@onto2d/history-benchmark/predictive";
+declare const regressionContract: HistoryRegressionContract;
+declare const regressionData: RegressionDataset;
+declare const regressionTargets: RegressionTargets;
+const predictionStatus: "prepared" | "incomplete" = prepareHistoryRegression(regressionContract, regressionData, regressionTargets).status;
+void predictionStatus;

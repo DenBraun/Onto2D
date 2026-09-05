@@ -95,3 +95,11 @@ formats, submodules, or working-tree state.
 
 The approved design and falsification criterion remain in
 [`../../docs/external-cases/GIT_HISTORY_IDENTITY_IMPLEMENTATION.md`](../../docs/external-cases/GIT_HISTORY_IDENTITY_IMPLEMENTATION.md).
+
+## History Matters pilot
+
+The [frozen benchmark contract](history-benchmark/contract.json) compares the
+complete source-fixture census under an exact semantic identity regime.
+`npm run history-benchmark:check` replays its P/H/target artifacts, wrong-history
+nulls and [result](history-benchmark/result.json). This is a regime-relative
+semantic result, not empirical prediction or an independent review.

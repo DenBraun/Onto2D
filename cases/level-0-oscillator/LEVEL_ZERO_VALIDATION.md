@@ -39,15 +39,15 @@ the complete artifact must match a fresh computation.
 
 | Dependency | Analysis hash |
 |---|---|
-| Phase-B reference | `sha256:ecb9e32e8564e00f639c4a2f57b3a612f087b41ad3110cfde53957cacdf38483` |
-| Phase-C boundedness preflight | `sha256:3a1a052cd01f2932428ab4c2e0d50dde1c20a0eca7e482a44cc10dd4a66b1c90` |
-| Phase-C objecthood search | `sha256:c3c13e3682ed27a81653f38f6bb52befb84d1539bb873a5b9ef87ed3837e9bc5` |
+| Phase-B reference | `sha256:66125dfe5c2b9f3631196af6b251531dfe381402877ccd5be9a153d7ed359a41` |
+| Phase-C boundedness preflight | `sha256:3d1b6849b7bec9c286ea695f46439ef42fc7fc980f1b766f630083c877a11c0f` |
+| Phase-C objecthood search | `sha256:64fe4cbdb44bfa94fc2dfb77256093742fdae80e8b55ce0bb10a1d3979722471` |
 
 The integrated identities are:
 
 - source DOI: `10.5281/zenodo.19397414`, version `v1.2`;
-- model hash: `sha256:92cf3e05e8d75866bed589acf97906488d334c4c1772259c6cedb8f9da8cc6c4`;
-- analysis hash: `sha256:f9c7cb2b7364aece577dc8bd6e0b97375213c7d2974ff78cc6cc66b6979d6d8d`.
+- model hash: `sha256:d83dcba3f4cb22495eaaec3cdcd03f59de6314720a9b714b163efdcea429447f`;
+- analysis hash: `sha256:9d42d9de1f8ef32e7fff19f62215a057ae9d081ff2461e47493d25d8108b805f`.
 
 The pipeline specification is
 [`level-zero-validation-v1.json`](level-zero-validation-v1.json), and the

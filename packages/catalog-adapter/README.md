@@ -4,7 +4,7 @@
 npm install @onto2d/catalog-adapter
 ```
 
-This adapter reads and audits the preserved `scr/level-*.json` catalogue
+This adapter reads and audits the preserved `references/level-*.json` catalogue
 without modifying it. For caller-supplied reviewed inputs it can also replay:
 
 - relation-classification views and adjudicated projections;

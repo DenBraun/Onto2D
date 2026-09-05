@@ -30,6 +30,7 @@ Emergence snapshot.
 | `packages/schemas` | Versioned external data shapes |
 | `packages/model-pack` | Canonical releases, bounded verification transports, workers, verified caching, and read-only registry resolution |
 | `packages/engine` | Headless model access, traversal, workspaces, analyses, diff, and verified presentation composition |
+| `packages/history-benchmark` | History Matters contracts, exact census contrasts, unit-disjoint regression preparation, nulls and replay |
 | `packages/canonical-identity-analysis` | Replayable kernel-backed identity analysis |
 | `packages/view` | Deterministic presentation projections, lazy pages, explicit inspection, and graph layout |
 | `packages/rdf-import` | Bounded RDF 1.1 import artifacts and semantics-neutral graph projection |
@@ -43,7 +44,7 @@ Emergence snapshot.
 | `apps` | Explanatory studies and model readers over disclosed or versioned inputs |
 | `models` | Reproducible, reviewed Model Pack releases and their compilers |
 | `src` | Private root facade that composes the engine with bundled releases |
-| `scr` | Preserved source catalogue and reference material |
+| `references` | Preserved source catalogue and reference material |
 | `scripts` | Repository checks and independent conformance tooling |
 | `tools` | Standalone local prototypes that remain independent of case interpretation |
 | `test` | Behavioral, schema, integration, case, and golden evidence |
@@ -54,7 +55,7 @@ Emergence snapshot.
 
 ## Boundary rules
 
-- Source data in `scr/` is not edited to satisfy an audit.
+- Source data in `references/` is not edited to satisfy an audit.
 - The CLI composes public loader and engine APIs; it does not bypass pack verification.
 - Directory, ZIP, and HTTP transport metadata never changes Model Pack semantic identity.
 - Cache records are verified before use; storage and eviction metadata never

@@ -115,13 +115,13 @@ test("an invalid external pack is rejected before presentation", async () => {
   );
 });
 
-test("adding the external registry entry leaves the causal release byte-identical", async () => {
+test("the causal release retains its pinned bytes after source relocation", async () => {
   const bytes = await readFile(new URL(
     "models/causal-emergence/releases/2026.08.15/bundle.json",
     REPOSITORY_ROOT
   ));
   assert.equal(
     createHash("sha256").update(bytes).digest("hex"),
-    "7d93ac1aa8aa488c4b664faba99890e92f93dd78f5e7f663c834c8b772a49a2b"
+    "8aaf04c157d4b303f499d35516611fc9aa69aa8c9829621ca0dbb93de36e0c29"
   );
 });

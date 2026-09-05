@@ -1,0 +1,201 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/history-regression-contract.schema.json",
+  "title": "History Regression Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "benchmarkId",
+    "caseId",
+    "claimClass",
+    "designClass",
+    "historyMode",
+    "effect",
+    "population",
+    "presentView",
+    "historyView",
+    "targetView",
+    "splitPolicy",
+    "preprocessing",
+    "evaluator",
+    "primaryMetric",
+    "secondaryMetrics",
+    "nullModel",
+    "bindings",
+    "interpretationBoundary"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "1"
+    },
+    "benchmarkId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "caseId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "claimClass": {
+      "enum": [
+        "synthetic",
+        "empirical"
+      ]
+    },
+    "designClass": {
+      "const": "predictive"
+    },
+    "historyMode": {
+      "enum": [
+        "recorded",
+        "embodied",
+        "reconstructed"
+      ]
+    },
+    "effect": {
+      "const": "future"
+    },
+    "population": {
+      "type": "string",
+      "minLength": 1
+    },
+    "presentView": {
+      "type": "string",
+      "minLength": 1
+    },
+    "historyView": {
+      "type": "string",
+      "minLength": 1
+    },
+    "targetView": {
+      "type": "string",
+      "minLength": 1
+    },
+    "splitPolicy": {
+      "const": "unit-disjoint"
+    },
+    "preprocessing": {
+      "const": "training-min-max-no-clipping"
+    },
+    "evaluator": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "neighbors",
+        "tieBreak",
+        "implementationHash"
+      ],
+      "properties": {
+        "id": {
+          "const": "unit-nearest-neighbor-regression-v1"
+        },
+        "neighbors": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 64
+        },
+        "tieBreak": {
+          "const": "sample-id"
+        },
+        "implementationHash": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        }
+      }
+    },
+    "primaryMetric": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "resolution",
+        "units"
+      ],
+      "properties": {
+        "id": {
+          "const": "mae"
+        },
+        "resolution": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1000000000000.0
+        },
+        "units": {
+          "const": "cycles"
+        }
+      }
+    },
+    "secondaryMetrics": {
+      "const": [
+        "rmse"
+      ]
+    },
+    "nullModel": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "seed",
+        "trials",
+        "stratum"
+      ],
+      "properties": {
+        "id": {
+          "const": "test-history-permutation-v1"
+        },
+        "seed": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "trials": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 256
+        },
+        "stratum": {
+          "const": "one-declared-population"
+        }
+      }
+    },
+    "bindings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "datasetHash",
+        "trainingTargetsHash",
+        "heldOutTargetSourceHash",
+        "builderHash",
+        "protocolHash"
+      ],
+      "properties": {
+        "datasetHash": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "trainingTargetsHash": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "heldOutTargetSourceHash": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "builderHash": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "protocolHash": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        }
+      }
+    },
+    "interpretationBoundary": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

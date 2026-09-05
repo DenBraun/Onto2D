@@ -91,8 +91,8 @@ npm run case:level-0:expanded
 
 Frozen identities:
 
-- model hash: `sha256:f2e3dd288150fe2426d273f461b5d768c5490375479a3841fb38ba5dbf1b80e8`;
-- analysis hash: `sha256:78703eec1202bebe57cdd5014e49bbac4c9a5a801bb9ff419cc0e21e32afd2f6`;
+- model hash: `sha256:8d8736590444e5820ca167b8a74012f1c6d3c03fdba2e36c04910203280b0f99`;
+- analysis hash: `sha256:a020a2b5c24f4e682c29845154a116bc52f051830dc01837cf088cd844f0c3a5`;
 - artifact:
   [`artifacts/phase-c-expanded-search-v2.json`](artifacts/phase-c-expanded-search-v2.json);
 - solver:

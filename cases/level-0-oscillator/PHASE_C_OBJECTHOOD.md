@@ -130,10 +130,10 @@ create an object-like carrier from the zero field.
 
 - source DOI: `10.5281/zenodo.19397414`, version `v1.2`;
 - source SHA-256: `sha256:3992ae25c5e499842a57b07dea0d2f9d206ee3483d634fb9053af39dc260a8f7`;
-- Phase-B reference: `sha256:ecb9e32e8564e00f639c4a2f57b3a612f087b41ad3110cfde53957cacdf38483`;
-- boundedness preflight: `sha256:3a1a052cd01f2932428ab4c2e0d50dde1c20a0eca7e482a44cc10dd4a66b1c90`;
-- model hash: `sha256:523bdf998cd2c9202aade71b198d8d2334deddef50920400888a0a32282e7670`;
-- analysis hash: `sha256:b2442288c5ebc8e6df802a46deb78697155e345c9f76cd68fe7312738aa4047f`;
+- Phase-B reference: `sha256:66125dfe5c2b9f3631196af6b251531dfe381402877ccd5be9a153d7ed359a41`;
+- boundedness preflight: `sha256:3d1b6849b7bec9c286ea695f46439ef42fc7fc980f1b766f630083c877a11c0f`;
+- model hash: `sha256:de82502773487907134efc42611eaeedd11f6dbb875fda5c512f8a101ed8b414`;
+- analysis hash: `sha256:d20ae86e0db42ae8c3ea47e379faff67d0f79eb924238504fa75b241280ac2a6`;
 - solver: `onto2d-level-0-phase-c-objecthood@2.0.0`, method
   `dirichlet-central-difference-newton-portable-report-v2`.
 

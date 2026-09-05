@@ -46,13 +46,13 @@ The machine-readable contract is
 
 Frozen identities:
 
-- model: `sha256:d1f6e4c29c1894c7bde1a98190865f6e0e8fec31c3bdcf73cdbe03b0fccbdd35`;
-- analysis: `sha256:778e3ab29ff707a4b8961f7c88f5f117825c1005158521cb0a339bc911d13436`;
-- Phase-B reference: `sha256:ecb9e32e8564e00f639c4a2f57b3a612f087b41ad3110cfde53957cacdf38483`;
-- boundedness preflight: `sha256:3a1a052cd01f2932428ab4c2e0d50dde1c20a0eca7e482a44cc10dd4a66b1c90`;
-- objecthood v2: `sha256:b2442288c5ebc8e6df802a46deb78697155e345c9f76cd68fe7312738aa4047f`;
-- dynamics v2: `sha256:fddf195e2a439e051b94ad0d560774a0d996e927ad66ccc154d08f6013fabc2f`;
-- expanded search v2: `sha256:78703eec1202bebe57cdd5014e49bbac4c9a5a801bb9ff419cc0e21e32afd2f6`.
+- model: `sha256:99fddf2cec4e70dff35446b9a957d9b32889dbb992392f80c02a4638694c5347`;
+- analysis: `sha256:603b879e713a0a6b4472ffd1a718c39ac6b69c2285b942ca182c6028be155b7f`;
+- Phase-B reference: `sha256:66125dfe5c2b9f3631196af6b251531dfe381402877ccd5be9a153d7ed359a41`;
+- boundedness preflight: `sha256:3d1b6849b7bec9c286ea695f46439ef42fc7fc980f1b766f630083c877a11c0f`;
+- objecthood v2: `sha256:d20ae86e0db42ae8c3ea47e379faff67d0f79eb924238504fa75b241280ac2a6`;
+- dynamics v2: `sha256:c67724a11db17994b851ff79d868a90989d0d445fc054177497724f1a1f884ff`;
+- expanded search v2: `sha256:a020a2b5c24f4e682c29845154a116bc52f051830dc01837cf088cd844f0c3a5`.
 
 Independent scientific review remains pending under
 [`REVIEW.md`](REVIEW.md).

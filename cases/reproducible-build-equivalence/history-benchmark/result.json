@@ -1,0 +1,238 @@
+{
+  "schemaVersion": "1",
+  "benchmarkId": "reproducible-build-equivalence-history-matters-v1",
+  "caseId": "reproducible-build-equivalence",
+  "claimClass": "semantic",
+  "designClass": "exact",
+  "contractHash": "sha256:1d66e402dd51e09e5f6a3330fbbeadeaeaba9b124d21c1d371335f8a93ccd300",
+  "inputs": {
+    "observationsHash": "sha256:f2621198aecc120743f60cb14eded9e047f644cca2c4dec8a188c395e3d5b1ec",
+    "targetHash": "sha256:0376ff4d2580e85d13557af1c96ab83b7c5a6059de9c0a55e4724d5d165b04bf",
+    "presentViewHash": "sha256:44729df2978a423cd14ac55f552c34055107895ed31190b6eceffba9ad5c7c9a",
+    "historyViewHash": "sha256:f2404be650b68a152724ad6ce990fd14874dfa278394019342849b946bb27009",
+    "splitHash": "sha256:41407850f6a3d3d9fca8d565d0553009c72b100bff687256b6805ccdd67780b5",
+    "evaluatorHash": "sha256:3bffa2a7c9fcbe47f606b7dcb9d2d2d50bc714bf3e50fd1c6e74ceacfeabad98"
+  },
+  "primary": {
+    "metric": "pairwise-error",
+    "direction": "lower-is-better",
+    "presentOnly": {
+      "errors": 2,
+      "pairs": 6,
+      "value": 0.3333333333333333
+    },
+    "presentPlusHistory": {
+      "errors": 0,
+      "pairs": 6,
+      "value": 0
+    },
+    "orientedGain": 0.3333333333333333,
+    "resolution": 0
+  },
+  "nulls": {
+    "id": "history-permutation-v1",
+    "role": "diagnostic",
+    "status": "complete",
+    "requestedTrials": 16,
+    "trials": [
+      {
+        "trial": 0,
+        "donorUnitIds": [
+          "baseline-node24",
+          "ambient-variation-node24",
+          "baseline-node22",
+          "relevant-input-node24"
+        ],
+        "errors": 2,
+        "pairs": 6,
+        "value": 0.3333333333333333
+      },
+      {
+        "trial": 1,
+        "donorUnitIds": [
+          "baseline-node24",
+          "ambient-variation-node24",
+          "baseline-node22",
+          "relevant-input-node24"
+        ],
+        "errors": 2,
+        "pairs": 6,
+        "value": 0.3333333333333333
+      },
+      {
+        "trial": 2,
+        "donorUnitIds": [
+          "baseline-node22",
+          "relevant-input-node24",
+          "baseline-node24",
+          "ambient-variation-node24"
+        ],
+        "errors": 2,
+        "pairs": 6,
+        "value": 0.3333333333333333
+      },
+      {
+        "trial": 3,
+        "donorUnitIds": [
+          "relevant-input-node24",
+          "baseline-node24",
+          "ambient-variation-node24",
+          "baseline-node22"
+        ],
+        "errors": 2,
+        "pairs": 6,
+        "value": 0.3333333333333333
+      },
+      {
+        "trial": 4,
+        "donorUnitIds": [
+          "ambient-variation-node24",
+          "baseline-node24",
+          "baseline-node22",
+          "relevant-input-node24"
+        ],
+        "errors": 2,
+        "pairs": 6,
+        "value": 0.3333333333333333
+      },
+      {
+        "trial": 5,
+        "donorUnitIds": [
+          "ambient-variation-node24",
+          "baseline-node24",
+          "baseline-node22",
+          "relevant-input-node24"
+        ],
+        "errors": 2,
+        "pairs": 6,
+        "value": 0.3333333333333333
+      },
+      {
+        "trial": 6,
+        "donorUnitIds": [
+          "ambient-variation-node24",
+          "relevant-input-node24",
+          "baseline-node24",
+          "baseline-node22"
+        ],
+        "errors": 2,
+        "pairs": 6,
+        "value": 0.3333333333333333
+      },
+      {
+        "trial": 7,
+        "donorUnitIds": [
+          "baseline-node22",
+          "ambient-variation-node24",
+          "baseline-node24",
+          "relevant-input-node24"
+        ],
+        "errors": 2,
+        "pairs": 6,
+        "value": 0.3333333333333333
+      },
+      {
+        "trial": 8,
+        "donorUnitIds": [
+          "baseline-node22",
+          "ambient-variation-node24",
+          "baseline-node24",
+          "relevant-input-node24"
+        ],
+        "errors": 2,
+        "pairs": 6,
+        "value": 0.3333333333333333
+      },
+      {
+        "trial": 9,
+        "donorUnitIds": [
+          "baseline-node24",
+          "relevant-input-node24",
+          "ambient-variation-node24",
+          "baseline-node22"
+        ],
+        "errors": 2,
+        "pairs": 6,
+        "value": 0.3333333333333333
+      },
+      {
+        "trial": 10,
+        "donorUnitIds": [
+          "baseline-node24",
+          "baseline-node22",
+          "relevant-input-node24",
+          "ambient-variation-node24"
+        ],
+        "errors": 0,
+        "pairs": 6,
+        "value": 0
+      },
+      {
+        "trial": 11,
+        "donorUnitIds": [
+          "relevant-input-node24",
+          "ambient-variation-node24",
+          "baseline-node24",
+          "baseline-node22"
+        ],
+        "errors": 2,
+        "pairs": 6,
+        "value": 0.3333333333333333
+      },
+      {
+        "trial": 12,
+        "donorUnitIds": [
+          "baseline-node22",
+          "relevant-input-node24",
+          "ambient-variation-node24",
+          "baseline-node24"
+        ],
+        "errors": 2,
+        "pairs": 6,
+        "value": 0.3333333333333333
+      },
+      {
+        "trial": 13,
+        "donorUnitIds": [
+          "baseline-node22",
+          "ambient-variation-node24",
+          "relevant-input-node24",
+          "baseline-node24"
+        ],
+        "errors": 2,
+        "pairs": 6,
+        "value": 0.3333333333333333
+      },
+      {
+        "trial": 14,
+        "donorUnitIds": [
+          "baseline-node22",
+          "relevant-input-node24",
+          "baseline-node24",
+          "ambient-variation-node24"
+        ],
+        "errors": 2,
+        "pairs": 6,
+        "value": 0.3333333333333333
+      },
+      {
+        "trial": 15,
+        "donorUnitIds": [
+          "ambient-variation-node24",
+          "baseline-node24",
+          "relevant-input-node24",
+          "baseline-node22"
+        ],
+        "errors": 2,
+        "pairs": 6,
+        "value": 0.3333333333333333
+      }
+    ],
+    "meanError": 0.3125,
+    "trueHistoryBeatsNullMean": true
+  },
+  "verdict": "positive",
+  "issues": [],
+  "interpretationBoundary": "Exact semantic sensitivity to a declared identity regime in the complete bounded source fixture. Reference classes are derived from that regime, not independent outcomes. The null is diagnostic and may preserve unique partitions. No held-out prediction, causal effect, Historical Load, or independent review is claimed.",
+  "hash": "sha256:4149e2589a58d226cccd82122e1e83c58a8472cd7f2b99a458349cbbb98084e8"
+}

@@ -257,7 +257,7 @@ test("the root keeps three study lenses and exposes the registry-backed Case Stu
   assert.match(landing, /href="\.\/apps\/level-zero-validation\/(?:\?v=[^"]+)?"/);
   assert.match(landing, /href="\.\/apps\/model-studio\/(?:\?v=[^"]+)?"/);
   assert.match(landing, /<details class="cases-menu">/);
-  assert.match(landing, /type="module" src="\.\/assets\/js\/case-menu\.js\?v=20260825\.2"/);
+  assert.match(landing, /type="module" src="\.\/assets\/js\/case-menu\.js\?v=20260905\.1"/);
   assert.match(landing, /href="\.\/apps\/history-atlas\/"/);
   assert.match(landing, new RegExp(`${historyCaseRegistry.cases.length} cases mapped by history access and effect`));
   assert.match(landing, /id="history-case-menu-groups"/);
@@ -987,7 +987,7 @@ test("Model Studio fully verifies the real pack before using the shared view lay
   assert.match(studioApp, /MODEL_PACK_CACHE_STORAGE_/);
   assert.match(studioApp, /dataset\.cache = "unavailable"/);
   assert.match(studioApp, /"Cached model verified"/);
-  assert.match(studioApp, /sha256:d7e0e1aff27b0a9d70ef98953f3f9e4b6618b528cf4671c8faa5355365a55f35/);
+  assert.match(studioApp, /sha256:2a57d52a041107064a425ba8640de9f4dde0b308c05c91a27e5c03d60348b205/);
   assert.match(studioApp, /new Worker\(MODEL_PACK_WORKER_URL, \{/);
   assert.match(studioApp, /type: "module"/);
   assert.match(studioApp, /ownsWorker: true/);

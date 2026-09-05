@@ -113,3 +113,13 @@ marked `next`; Airflow has passed source pinning, complete bounded enumeration,
 reproducible extraction, evidence review, and negative tests for its declared
 projection. Expansion to a complete Airflow installation would be a new case
 revision rather than an unstated extension of the v1 result.
+
+## History Matters pilot
+
+The [benchmark program](HISTORY_MATTERS_BENCHMARK.md) is a separate analysis
+family. Its [registry](../../cases/history-benchmark-registry.json) records
+benchmark maturity independently of case maturity, and its result artifacts
+retain verdicts independently of both. Git, OCI and reproducible builds have
+exact semantic pilot runs; Operational Aging has evaluation-ready full-cohort
+predictions with scoring pending review, and LTEE has a protocol draft.
+Synthetic controls are infrastructure and do not add scientific cases to the Atlas.

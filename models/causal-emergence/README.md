@@ -1,7 +1,7 @@
 # Causal Emergence Model Pack
 
-This directory builds the preserved `scr/level-*.json` catalogue into the
-first transparent Onto2D Model Pack. The source files remain in `scr/`; the
+This directory builds the preserved `references/level-*.json` catalogue into the
+first transparent Onto2D Model Pack. The source files remain in `references/`; the
 compiler does not rewrite or silently migrate them.
 
 The release is explicitly a source-catalogue snapshot. `ParentCode` records

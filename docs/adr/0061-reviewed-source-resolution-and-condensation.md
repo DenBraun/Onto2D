@@ -69,7 +69,7 @@ their identities. JSON Schemas and TypeScript declarations cover both results.
 - Isolated nodes cannot disappear, arbitrary clusters cannot be injected, and
   every edge remains queryable in one typed layer.
 - The generative quotient is a verified DAG rather than an assumed property.
-- Applying the mechanism to `scr/`, authoring policies, collecting independent
+- Applying the mechanism to `references/`, authoring policies, collecting independent
   annotations, reviewing dispositions/rationales, computing migration metrics,
   and producing a loadable `sourceMigration` package remain explicit pending
   research/application work.

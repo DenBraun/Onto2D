@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/history-benchmark-split.schema.json",
+  "title": "History Benchmark Split",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "strategy",
+    "unitIds",
+    "hash"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "1"
+    },
+    "strategy": {
+      "const": "complete-census"
+    },
+    "unitIds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "^(?:\\S|\\S[\\s\\S]*\\S)$"
+      },
+      "minItems": 1,
+      "maxItems": 256,
+      "uniqueItems": true
+    },
+    "hash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    }
+  }
+}

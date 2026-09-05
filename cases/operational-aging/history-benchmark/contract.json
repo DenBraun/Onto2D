@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "1",
+  "benchmarkId": "operational-aging-history-matters-v1",
+  "caseId": "operational-aging",
+  "claimClass": "empirical",
+  "designClass": "predictive",
+  "historyMode": "embodied",
+  "effect": "future",
+  "population": "All 100 FD001 test endpoints; all 100 training engines sampled from cycle 20 every 20 cycles, excluding terminal observations. No target-based test selection.",
+  "presentView": "All three current operating settings and 21 sensors. P0Age separately adds observed cycle age.",
+  "historyView": "Means of up to 20 preceding frames, excluding the current frame. Recorded observations proxy embodied degradation; latent health is not observed.",
+  "targetView": "Supplied FD001 test RUL is reserved for later independent protocol review and scoring. Training RUL is derived separately from each training trajectory's terminal cycle.",
+  "splitPolicy": "unit-disjoint",
+  "preprocessing": "training-min-max-no-clipping",
+  "evaluator": {
+    "id": "unit-nearest-neighbor-regression-v1",
+    "neighbors": 5,
+    "tieBreak": "sample-id",
+    "implementationHash": "sha256:b5be5f4f75b3866051ae1acee88454ad7d6cf13cfe3d917cfd8beae1c9a28163"
+  },
+  "primaryMetric": {
+    "id": "mae",
+    "resolution": 1,
+    "units": "cycles"
+  },
+  "secondaryMetrics": [
+    "rmse"
+  ],
+  "nullModel": {
+    "id": "test-history-permutation-v1",
+    "seed": 1729,
+    "trials": 16,
+    "stratum": "one-declared-population"
+  },
+  "bindings": {
+    "datasetHash": "sha256:033b993ce21108db5b69fcf660f7c0b9b836c990d3a6f8fbf0e84ad3b1d6d88c",
+    "trainingTargetsHash": "sha256:2d5c9fbb8dc126c4bd2e7f7736999f95cf5c4a0e8b38f2cdc5b895157f796895",
+    "heldOutTargetSourceHash": "sha256:a19c8ec94931949d0485bdc35118206e9c81c4547b422efb9cf86f4ceddbceca",
+    "builderHash": "sha256:3a7b41d9e96cb8031b22eefff3794e2de3df64034c07e660754f45a680c10ea3",
+    "protocolHash": "sha256:11ea8e310a059a15648be3fb15768e24e4cde26d55821f94367bdefb66bc9bca"
+  },
+  "interpretationBoundary": "Retrospective FD001 simulated-engine benchmark preparation. Prior source analyses already expose test outcomes; no independent preregistration, physical-engine validation, causal effect or Historical Load is claimed. Held-out performance remains unevaluated pending independent protocol review."
+}

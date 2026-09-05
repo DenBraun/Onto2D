@@ -878,10 +878,10 @@ test("the portable integrated Level-0 v3 chain is an exact versioned successor",
   ));
   assert.equal(
     legacyV1.analysisHash,
-    "sha256:f9c7cb2b7364aece577dc8bd6e0b97375213c7d2974ff78cc6cc66b6979d6d8d"
+    "sha256:9d42d9de1f8ef32e7fff19f62215a057ae9d081ff2461e47493d25d8108b805f"
   );
   assert.equal(
     legacyV2.analysisHash,
-    "sha256:608ce4895ae17cb5cb1b74fed9fa63daefd8f9f8e7b23c47c4cdcb8194d8e176"
+    "sha256:c14feb73b718308c21fefce30222e5e7493b6f49c6b24d70ddb8a8c676358f2e"
   );
 });

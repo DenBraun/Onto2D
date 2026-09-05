@@ -329,7 +329,7 @@ a general RDF ontology mapper, a W3C conformance test, or an independently
 reviewed scientific dataset.
 
 The bundled Causal Emergence pack is compiled reproducibly from the preserved
-`scr/` snapshot. Its 971 relations are labelled `source-parent`: they have not
+`references/` snapshot. Its 971 relations are labelled `source-parent`: they have not
 yet passed reviewed migration into a stronger generative relation. The pack
 also records the current catalogue audit, including three known weight-sum
 anomalies and uncovered requirements. Compilation does not silently repair

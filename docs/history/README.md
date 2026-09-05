@@ -13,6 +13,15 @@ determine repository paths.
 
 ## Canonical documents
 
+- [History Matters Benchmark](HISTORY_MATTERS_BENCHMARK.md) defines the v0
+  comparison pilot and its separate contract, leakage model and review guide.
+- [History regression preparation](HISTORY_REGRESSION_PREPARATION.md) defines
+  unit-disjoint numeric predictions, nulls and the separate scoring boundary.
+- [History benchmark testing](HISTORY_BENCHMARK_TESTING.md) provides offline
+  checks, expected results, manual browser checks and regeneration instructions.
+- [History benchmark implementation review](HISTORY_BENCHMARK_IMPLEMENTATION_REVIEW.md)
+  records corrected findings and local validation, separately from scientific review.
+
 - [History Model Taxonomy](HISTORY_MODEL_TAXONOMY.md) defines the two axes,
   their epistemic boundaries, and the migration policy.
 - [History Case Portfolio](HISTORY_CASE_PORTFOLIO.md) is the human-readable

@@ -1,40 +1,40 @@
 import {
   loadModelPackBundle,
   loadModelPackHttpDirectory
-} from "../../packages/model-pack/src/browser.js?v=20260825.1";
+} from "../../packages/model-pack/src/browser.js?v=20260905.4";
 import {
   createIndexedDbModelPackCacheStorage,
   createVerifiedModelPackCache
-} from "../../packages/model-pack/src/cache.js?v=20260825.1";
+} from "../../packages/model-pack/src/cache.js?v=20260905.4";
 import {
   loadModelPackRegistryHttp,
   matchModelPackRegistryResolution,
   resolveModelPackRegistry
-} from "../../packages/model-pack/src/registry.js?v=20260825.1";
-import { createModelPackWorkerClient } from "../../packages/model-pack/src/worker.js?v=20260825.1";
-import { RDF_IMPORT_LIMITS, importNTriples } from "../../packages/rdf-import/src/index.js?v=20260825.1";
+} from "../../packages/model-pack/src/registry.js?v=20260905.4";
+import { createModelPackWorkerClient } from "../../packages/model-pack/src/worker.js?v=20260905.4";
+import { RDF_IMPORT_LIMITS, importNTriples } from "../../packages/rdf-import/src/index.js?v=20260905.4";
 import {
   buildRdfMappedModelPack,
   verifyRdfMappingPolicy
-} from "../../packages/rdf-mapping/src/index.js?v=20260825.1";
-import { validateShacl } from "../../packages/shacl-validation/src/index.js?v=20260825.1";
-import { createVerifiedModelPresentation } from "../../packages/engine/src/presentation.js?v=20260825.1";
-import { layoutNeighborhood, wrapGraphNodeLabel } from "../../packages/view/src/index.js?v=20260825.1";
-import { graphHighlight } from "./graph-interactions.js?v=20260825.1";
+} from "../../packages/rdf-mapping/src/index.js?v=20260905.4";
+import { validateShacl } from "../../packages/shacl-validation/src/index.js?v=20260905.4";
+import { createVerifiedModelPresentation } from "../../packages/engine/src/presentation.js?v=20260905.4";
+import { layoutNeighborhood, wrapGraphNodeLabel } from "../../packages/view/src/index.js?v=20260905.4";
+import { graphHighlight } from "./graph-interactions.js?v=20260905.4";
 import {
   modelSelectionKey,
   modelSelectionLabel,
   registryEntryForKey,
   requestedRegistryEntry,
   requestedWorkspaceState
-} from "./model-selection.js?v=20260825.1";
+} from "./model-selection.js?v=20260905.4";
 
 const MODEL_REGISTRY_URL = new URL("../../models/registry.json", import.meta.url);
 const MODEL_PACK_WORKER_URL = new URL(
-  "../../assets/js/model-pack-worker.js?v=20260825.1",
+  "../../assets/js/model-pack-worker.js?v=20260905.4",
   import.meta.url
 );
-const EXPECTED_REGISTRY_HASH = "sha256:d7e0e1aff27b0a9d70ef98953f3f9e4b6618b528cf4671c8faa5355365a55f35";
+const EXPECTED_REGISTRY_HASH = "sha256:2a57d52a041107064a425ba8640de9f4dde0b308c05c91a27e5c03d60348b205";
 const MODEL_CACHE_OPTIONS = Object.freeze({
   databaseName: "onto2d-model-studio-cache-v1",
   maxEntries: 4,

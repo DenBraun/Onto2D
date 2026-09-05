@@ -1,0 +1,205 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/history-regression-result.schema.json",
+  "title": "History Regression Result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "benchmarkId",
+    "claimClass",
+    "preparationHash",
+    "targetHash",
+    "primary",
+    "ageSensitivity",
+    "nulls",
+    "verdict",
+    "interpretationBoundary",
+    "hash"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "1"
+    },
+    "benchmarkId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "claimClass": {
+      "enum": [
+        "synthetic",
+        "empirical"
+      ]
+    },
+    "preparationHash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "targetHash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "primary": {
+      "anyOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "metric",
+            "units",
+            "presentOnly",
+            "presentPlusHistory",
+            "orientedGain",
+            "resolution"
+          ],
+          "properties": {
+            "metric": {
+              "const": "mae"
+            },
+            "units": {
+              "const": "cycles"
+            },
+            "presentOnly": {
+              "$ref": "#/$defs/metric"
+            },
+            "presentPlusHistory": {
+              "$ref": "#/$defs/metric"
+            },
+            "orientedGain": {
+              "type": "number",
+              "minimum": -1000000000000.0,
+              "maximum": 1000000000000.0
+            },
+            "resolution": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1000000000000.0
+            }
+          }
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "ageSensitivity": {
+      "anyOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "presentWithAge",
+            "presentWithAgeAndHistory",
+            "orientedGain"
+          ],
+          "properties": {
+            "presentWithAge": {
+              "$ref": "#/$defs/metric"
+            },
+            "presentWithAgeAndHistory": {
+              "$ref": "#/$defs/metric"
+            },
+            "orientedGain": {
+              "type": "number",
+              "minimum": -1000000000000.0,
+              "maximum": 1000000000000.0
+            }
+          }
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "nulls": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "trialMae",
+        "meanMae",
+        "trueHistoryBeatsNullMean"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "complete",
+            "exhausted"
+          ]
+        },
+        "trialMae": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1000000000000.0
+          },
+          "minItems": 0,
+          "maxItems": 256
+        },
+        "meanMae": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1000000000000.0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "trueHistoryBeatsNullMean": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        }
+      }
+    },
+    "verdict": {
+      "enum": [
+        "positive",
+        "negative",
+        "neutral-within-resolution",
+        "indeterminate"
+      ]
+    },
+    "interpretationBoundary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "hash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    }
+  },
+  "$defs": {
+    "metric": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "count",
+        "mae",
+        "rmse"
+      ],
+      "properties": {
+        "count": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+        },
+        "mae": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1000000000000.0
+        },
+        "rmse": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1000000000000.0
+        }
+      }
+    }
+  }
+}

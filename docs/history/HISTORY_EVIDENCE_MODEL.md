@@ -48,3 +48,11 @@ similarity, citation, or correlation cannot silently become causal dependence.
 
 Case-specific evidence types remain allowed. They should enter the shared
 vocabulary only after repeated semantics across independent cases.
+
+## Benchmark evidence
+
+[History Matters](HISTORY_MATTERS_BENCHMARK.md) keeps P/H views and targets in
+separate artifacts. Semantic regime-derived labels and synthetic targets are
+not independent empirical outcomes. Reassigned null histories are counterfactual
+diagnostics and never become source evidence. Evaluated, reviewed and replicated
+are distinct maturity states; none is a causal interpretation.

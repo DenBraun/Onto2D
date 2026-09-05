@@ -1,0 +1,170 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/history-regression-readiness.schema.json",
+  "title": "History Regression Readiness",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "benchmarkId",
+    "status",
+    "verdict",
+    "reviewStatus",
+    "contractHash",
+    "preparationHash",
+    "datasetHash",
+    "trainingTargetsHash",
+    "sourceCounts",
+    "counts",
+    "features",
+    "nullTrials",
+    "heldOutTargetsRead",
+    "interpretationBoundary"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "1"
+    },
+    "benchmarkId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "const": "EVALUATION_READY"
+    },
+    "verdict": {
+      "const": "not-evaluated"
+    },
+    "reviewStatus": {
+      "const": "pending"
+    },
+    "contractHash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "preparationHash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "datasetHash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "trainingTargetsHash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "sourceCounts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "trainingUnits",
+        "testUnits",
+        "trainingRows",
+        "testRows"
+      ],
+      "properties": {
+        "trainingUnits": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+        },
+        "testUnits": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+        },
+        "trainingRows": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+        },
+        "testRows": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+        }
+      }
+    },
+    "counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "trainingSamples",
+        "trainingUnits",
+        "testSamples",
+        "testUnits"
+      ],
+      "properties": {
+        "trainingSamples": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+        },
+        "trainingUnits": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+        },
+        "testSamples": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+        },
+        "testUnits": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+        }
+      }
+    },
+    "features": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "present",
+        "history",
+        "activePresent",
+        "activeHistory",
+        "ageActive"
+      ],
+      "properties": {
+        "present": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000000
+        },
+        "history": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000000
+        },
+        "activePresent": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000000
+        },
+        "activeHistory": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000000
+        },
+        "ageActive": {
+          "type": "boolean"
+        }
+      }
+    },
+    "nullTrials": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 256
+    },
+    "heldOutTargetsRead": {
+      "const": false
+    },
+    "interpretationBoundary": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

@@ -29,6 +29,8 @@ Focused commands:
 
 | Command | Purpose |
 |---|---|
+| `npm run history-benchmark:aging:verify` | Full-cohort FD001 prediction preparation without held-out scoring |
+| `npm run history-benchmark:check` | Source-bound History Matters pilot and benchmark registry |
 | `npm run test:kernel` | Kernel behavior |
 | `npm run check:closure` | Capability evidence and release-closure contract |
 | `npm run check:goldens` | Independent canonical and skeleton fixtures |

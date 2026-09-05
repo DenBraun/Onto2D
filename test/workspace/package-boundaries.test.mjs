@@ -4,7 +4,7 @@ import { schemaUrls, SCHEMA_VERSION } from "../../packages/schemas/src/index.js"
 
 test("schema package exposes every initial contract as a file URL", () => {
   assert.equal(SCHEMA_VERSION, "1");
-  assert.equal(Object.keys(schemaUrls).length, 144);
+  assert.equal(Object.keys(schemaUrls).length, 158);
   assert.ok(
     schemaUrls.modelPackManifest.pathname.endsWith("model-pack-manifest.schema.json")
   );

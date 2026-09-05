@@ -157,7 +157,14 @@
     "test": "node scripts/test.mjs",
     "test:live-bootstrap-trace": "node --test tools/live-bootstrap-trace/export.test.mjs",
     "test:kernel": "node scripts/test.mjs packages/kernel/test",
-    "audit:catalogue": "node scripts/audit-catalogue.mjs"
+    "audit:catalogue": "node scripts/audit-catalogue.mjs",
+    "history-benchmark:reference": "node cases/history-matters-reference/build.mjs",
+    "history-benchmark:check": "node scripts/check-history-benchmark.mjs",
+    "history-benchmark:goldens": "node cases/history-matters-reference/build.mjs --verify",
+    "history-benchmark:test": "node --test packages/history-benchmark/test/*.test.mjs",
+    "history-benchmark:aging:prepare": "node cases/operational-aging/history-benchmark/build.mjs",
+    "history-benchmark:aging:verify": "node cases/operational-aging/history-benchmark/build.mjs --verify",
+    "history-benchmark:aging:test": "node --test cases/operational-aging/history-benchmark/tests/*.test.mjs"
   },
   "dependencies": {
     "@onto2d/canonical-identity-analysis": "0.1.0",

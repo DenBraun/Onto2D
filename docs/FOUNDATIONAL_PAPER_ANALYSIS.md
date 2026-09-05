@@ -1,6 +1,6 @@
 # Foundational Paper Analysis and Kernel Traceability
 
-Source: [topology-of-arising.pdf](../scr/topology-of-arising.pdf)
+Source: [topology-of-arising.pdf](../references/topology-of-arising.pdf)
 
 Source identity used for this analysis:
 
@@ -56,7 +56,7 @@ Conflating any two of these axes would make the computational ladder scientifica
 
 ### 2.1 Alignment with the existing `level-0.json` catalogue
 
-The current catalogue already mirrors much of the paper. `scr/descriptions.json` maps numeric phases `0–3` to A–D as Differentiation, Integration, Self-organization, and Threshold transition. All 24 Level-0 records currently have `ScientificStatus: "methodological-placeholder"`, which is consistent with the paper's non-empirical admissibility-formalism status.
+The current catalogue already mirrors much of the paper. `references/descriptions.json` maps numeric phases `0–3` to A–D as Differentiation, Integration, Self-organization, and Threshold transition. All 24 Level-0 records currently have `ScientificStatus: "methodological-placeholder"`, which is consistent with the paper's non-empirical admissibility-formalism status.
 
 | Catalogue IDs | Catalogue concepts | Catalogue phase | Paper alignment | Required treatment |
 |---|---|---:|---|---|

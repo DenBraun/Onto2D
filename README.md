@@ -48,6 +48,20 @@ known catalogue findings; it does not silently upgrade them into reviewed
 generative semantics. See the
 [Engine Architecture](docs/ONTO2D_ENGINE_ARCHITECTURE.md).
 
+## History Matters pilot
+
+The [History Matters Benchmark](docs/history/HISTORY_MATTERS_BENCHMARK.md) adds
+replayable present-only versus present-plus-history comparisons. Its v0 pilot
+contains three synthetic controls (positive, negative and neutral) and exact
+Git, OCI and reproducible-build contrasts, with a
+[verified Explorer](apps/history-matters-benchmark/index.html). Operational Aging
+now has a [full-cohort preparation](cases/operational-aging/history-benchmark/README.md)
+with 972 training prefixes and 100 test endpoints. Its held-out scoring awaits
+independent protocol review; LTEE remains a draft candidate. No global score or
+empirical predictive advantage is claimed.
+
+Run `npm run history-benchmark:check` to verify the complete pilot.
+
 ## Try the studies
 
 - [Historical Load Explorer](https://denbraun.github.io/Onto2D/apps/historical-load-explorer/)

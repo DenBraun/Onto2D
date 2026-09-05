@@ -51,3 +51,11 @@ Verify the committed artifact and Model Pack:
 npm run case:operational-aging:verify
 npm run model:operational-aging:verify
 ```
+
+## Full-cohort History Matters preparation
+
+The separate [benchmark preparation](history-benchmark/README.md) uses all 100
+training and 100 test engines with a fixed training cutoff grid, isolated target
+inputs and four prediction views. It is EVALUATION_READY, with test error
+not-evaluated pending independent review. This does not upgrade the selected
+25/72 illustration or change its frozen case artifact.

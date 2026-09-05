@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "1",
+  "benchmarkId": "git-history-identity-history-matters-v1",
+  "caseId": "git-history-identity",
+  "claimClass": "semantic",
+  "designClass": "exact",
+  "historyMode": "recorded",
+  "effect": "identity",
+  "population": "Every unit in the declared source fixture, including negative and metadata controls; no pair selection.",
+  "cutoffPolicy": "per-unit-ordinal",
+  "presentView": "Native final tree OID.",
+  "historyView": "Native parent closure and topology below the head; head metadata excluded.",
+  "targetView": "Declared exact ancestry classes; metadata-only control shares its ancestry class.",
+  "selectionPolicy": {
+    "strategy": "complete-source-population",
+    "targetBlind": true
+  },
+  "splitPolicy": "complete-census",
+  "evaluator": {
+    "id": "identity-partition-v1",
+    "version": "1",
+    "implementationHash": "sha256:2b6066912f7b614e9d31cf1a09fa2cef94769e2dab4d8385516678527cbb1a75"
+  },
+  "primaryMetric": {
+    "id": "pairwise-error",
+    "direction": "lower-is-better",
+    "resolution": 0
+  },
+  "nullModel": {
+    "id": "history-permutation-v1",
+    "seed": 1729,
+    "trials": 16,
+    "role": "diagnostic"
+  },
+  "bindings": {
+    "observationsHash": "sha256:2dfa8d49b9c4d1f740fe2e982d4a5820e176ddfd0c94598ffa59f13e9ca5f86b",
+    "targetsHash": "sha256:1398288741e474eedb9c52073b31ef0984f3b81e2db677ba439b8c5cef1835df",
+    "builderHash": "sha256:470d14ce147c9a78666ae51a50697d887ddb4fdc270c4a9d6c9a56e227e58494"
+  },
+  "sources": [
+    {
+      "path": "cases/git-history-identity/artifacts/history-identity.json",
+      "sha256": "sha256:eab24316d47b511ed4f2aebb465309db19b1d4218d3fe42eeadf23a3c3436b11"
+    }
+  ],
+  "interpretationBoundary": "Exact semantic sensitivity to a declared identity regime in the complete bounded source fixture. Reference classes are derived from that regime, not independent outcomes. The null is diagnostic and may preserve unique partitions. No held-out prediction, causal effect, Historical Load, or independent review is claimed."
+}
