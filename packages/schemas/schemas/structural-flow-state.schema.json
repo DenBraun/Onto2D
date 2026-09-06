@@ -1,0 +1,208 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/structural-flow-state.schema.json",
+  "title": "Structural flow state",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "iteration": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 24
+    },
+    "previousStateHash": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "metricHash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "normalization": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "rawSum": {
+          "$ref": "structural-flow-input.schema.json#/$defs/positiveRational"
+        },
+        "closureSum": {
+          "$ref": "structural-flow-input.schema.json#/$defs/positiveRational"
+        },
+        "factor": {
+          "$ref": "structural-flow-input.schema.json#/$defs/positiveRational"
+        },
+        "shortenedEdgeIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024
+          },
+          "minItems": 0,
+          "maxItems": 64,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "rawSum",
+        "closureSum",
+        "factor",
+        "shortenedEdgeIds"
+      ]
+    },
+    "edges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024
+          },
+          "length": {
+            "$ref": "structural-flow-input.schema.json#/$defs/positiveRational"
+          },
+          "wasserstein": {
+            "$ref": "structural-flow-input.schema.json#/$defs/nonnegativeRational"
+          },
+          "curvature": {
+            "$ref": "structural-flow-input.schema.json#/$defs/rational"
+          }
+        },
+        "required": [
+          "id",
+          "length",
+          "wasserstein",
+          "curvature"
+        ]
+      },
+      "minItems": 1,
+      "maxItems": 64
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "lengthSum": {
+          "$ref": "structural-flow-input.schema.json#/$defs/positiveRational"
+        },
+        "minimumLength": {
+          "$ref": "structural-flow-input.schema.json#/$defs/positiveRational"
+        },
+        "maximumLength": {
+          "$ref": "structural-flow-input.schema.json#/$defs/positiveRational"
+        },
+        "minimumCurvature": {
+          "$ref": "structural-flow-input.schema.json#/$defs/rational"
+        },
+        "maximumCurvature": {
+          "$ref": "structural-flow-input.schema.json#/$defs/rational"
+        },
+        "curvatureSum": {
+          "$ref": "structural-flow-input.schema.json#/$defs/rational"
+        },
+        "signs": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "negative": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 64
+            },
+            "zero": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 64
+            },
+            "positive": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 64
+            }
+          },
+          "required": [
+            "negative",
+            "zero",
+            "positive"
+          ]
+        },
+        "maximumLengthEdgeIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024
+          },
+          "minItems": 1,
+          "maxItems": 64,
+          "uniqueItems": true
+        },
+        "maxLengthChange": {
+          "anyOf": [
+            {
+              "$ref": "structural-flow-input.schema.json#/$defs/nonnegativeRational"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "maxCurvatureChange": {
+          "anyOf": [
+            {
+              "$ref": "structural-flow-input.schema.json#/$defs/nonnegativeRational"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "stableStepCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 8
+        }
+      },
+      "required": [
+        "lengthSum",
+        "minimumLength",
+        "maximumLength",
+        "minimumCurvature",
+        "maximumCurvature",
+        "curvatureSum",
+        "signs",
+        "maximumLengthEdgeIds",
+        "maxLengthChange",
+        "maxCurvatureChange",
+        "stableStepCount"
+      ]
+    },
+    "transportResponse": {
+      "$ref": "structural-flow-transport-response.schema.json"
+    },
+    "stateHash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    }
+  },
+  "required": [
+    "iteration",
+    "previousStateHash",
+    "metricHash",
+    "normalization",
+    "edges",
+    "summary",
+    "transportResponse",
+    "stateHash"
+  ]
+}

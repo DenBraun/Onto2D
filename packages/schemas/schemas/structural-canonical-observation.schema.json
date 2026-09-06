@@ -1,0 +1,475 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/structural-canonical-observation.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": "1"
+    },
+    "analysis": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "const": "structural-canonical-observation"
+        },
+        "version": {
+          "const": "1"
+        }
+      },
+      "required": [
+        "id",
+        "version"
+      ]
+    },
+    "evaluation": {
+      "const": "measured"
+    },
+    "implementation": {
+      "const": {
+        "id": "canonical-directed-observation-v1",
+        "version": "1",
+        "kernelOperation": "canonicalizeCandidate",
+        "kernelCanonicalSchemaVersion": "1",
+        "inputOrdering": "source-id-ascending",
+        "valueEncoding": "node-count-and-canonical-directed-endpoints",
+        "witnessMeaning": "one-isomorphism-not-canonical-orbits",
+        "attributes": "excluded",
+        "contentHash": "sha256:c24eb843608db1252a279b2f48f717f13d675680cd7607cec6d46d84c26d9a4d"
+      }
+    },
+    "preparation": {
+      "allOf": [
+        {
+          "$ref": "structural-regime-preparation.schema.json"
+        },
+        {
+          "properties": {
+            "request": {
+              "properties": {
+                "regimeId": {
+                  "const": "canonical-structure-v1"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "observation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "regime": {
+          "const": {
+            "id": "canonical-structure-v1",
+            "version": "1",
+            "contentHash": "sha256:9276d8ad6a0d6e872783a79af4de63727b6452b42db1928ffc9f20111d86a97c"
+          }
+        },
+        "observable": {
+          "const": {
+            "id": "canonical-directed-structure-v1",
+            "version": "1",
+            "contentHash": "sha256:48f137781781c54724e172256925e44c9a2be42a08610c88abaca8a9f6016e7b"
+          }
+        },
+        "implementation": {
+          "const": {
+            "id": "canonical-directed-observation-v1",
+            "version": "1",
+            "contentHash": "sha256:c24eb843608db1252a279b2f48f717f13d675680cd7607cec6d46d84c26d9a4d"
+          }
+        },
+        "value": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "nodeCount": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 6
+            },
+            "edges": {
+              "type": "array",
+              "maxItems": 30,
+              "uniqueItems": true,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "from": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 5
+                  },
+                  "to": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 5
+                  }
+                },
+                "required": [
+                  "from",
+                  "to"
+                ],
+                "allOf": [
+                  {
+                    "not": {
+                      "properties": {
+                        "from": {
+                          "const": 0
+                        },
+                        "to": {
+                          "const": 0
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "not": {
+                      "properties": {
+                        "from": {
+                          "const": 1
+                        },
+                        "to": {
+                          "const": 1
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "not": {
+                      "properties": {
+                        "from": {
+                          "const": 2
+                        },
+                        "to": {
+                          "const": 2
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "not": {
+                      "properties": {
+                        "from": {
+                          "const": 3
+                        },
+                        "to": {
+                          "const": 3
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "not": {
+                      "properties": {
+                        "from": {
+                          "const": 4
+                        },
+                        "to": {
+                          "const": 4
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "not": {
+                      "properties": {
+                        "from": {
+                          "const": 5
+                        },
+                        "to": {
+                          "const": 5
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "required": [
+            "nodeCount",
+            "edges"
+          ],
+          "oneOf": [
+            {
+              "properties": {
+                "nodeCount": {
+                  "const": 1
+                },
+                "edges": {
+                  "maxItems": 0,
+                  "items": {
+                    "properties": {
+                      "from": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 0
+                      },
+                      "to": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 0
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "properties": {
+                "nodeCount": {
+                  "const": 2
+                },
+                "edges": {
+                  "maxItems": 2,
+                  "items": {
+                    "properties": {
+                      "from": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 1
+                      },
+                      "to": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 1
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "properties": {
+                "nodeCount": {
+                  "const": 3
+                },
+                "edges": {
+                  "maxItems": 6,
+                  "items": {
+                    "properties": {
+                      "from": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 2
+                      },
+                      "to": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 2
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "properties": {
+                "nodeCount": {
+                  "const": 4
+                },
+                "edges": {
+                  "maxItems": 12,
+                  "items": {
+                    "properties": {
+                      "from": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 3
+                      },
+                      "to": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 3
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "properties": {
+                "nodeCount": {
+                  "const": 5
+                },
+                "edges": {
+                  "maxItems": 20,
+                  "items": {
+                    "properties": {
+                      "from": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 4
+                      },
+                      "to": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 4
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "properties": {
+                "nodeCount": {
+                  "const": 6
+                },
+                "edges": {
+                  "maxItems": 30,
+                  "items": {
+                    "properties": {
+                      "from": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 5
+                      },
+                      "to": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 5
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "valueHash": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "regime",
+        "observable",
+        "implementation",
+        "value",
+        "valueHash"
+      ]
+    },
+    "witness": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "nodes": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 6,
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "sourceNodeId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "canonicalNode": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 5
+              }
+            },
+            "required": [
+              "sourceNodeId",
+              "canonicalNode"
+            ]
+          }
+        },
+        "edges": {
+          "type": "array",
+          "maxItems": 30,
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "sourceEdgeId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "from": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 5
+              },
+              "to": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 5
+              }
+            },
+            "required": [
+              "sourceEdgeId",
+              "from",
+              "to"
+            ]
+          }
+        },
+        "candidateHash": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "skeletonHash": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "statistics": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "searchStates": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100000
+            },
+            "leaves": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100000
+            },
+            "refinementRounds": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 600000
+            }
+          },
+          "required": [
+            "searchStates",
+            "leaves",
+            "refinementRounds"
+          ]
+        }
+      },
+      "required": [
+        "nodes",
+        "edges",
+        "candidateHash",
+        "skeletonHash",
+        "statistics"
+      ]
+    },
+    "artifactHash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "analysis",
+    "evaluation",
+    "implementation",
+    "preparation",
+    "observation",
+    "witness",
+    "artifactHash"
+  ]
+}

@@ -1,0 +1,716 @@
+{
+  "analysis": {
+    "id": "structural-ollivier",
+    "version": "1"
+  },
+  "artifactHash": "sha256:c20b5ceeba87cac94ccac565247652ddf543e165ca9b93d1372be6632817b35e",
+  "model": {
+    "manifestHash": "sha256:462dc8a61a5aac672f6a4854e8360a1885e8cf7859d4098f4ce02d3e76580d28",
+    "modelId": "ollivier-paper-edge-neighborhood",
+    "modelRootHash": "sha256:31180d8438ca30f89e1a7c72eace5f07a764d4ced60a70e87e1ca6339ddd0677",
+    "modelVersion": "1"
+  },
+  "request": {
+    "analysis": {
+      "id": "structural-ollivier",
+      "version": "1"
+    },
+    "graph": {
+      "edges": [
+        {
+          "id": "1->2",
+          "source": "1",
+          "sourceRecordHash": "sha256:2ac9a2c435904b3f696ddbbde2d0eb9fc3cd718f500bc3673ea31493d2257c97",
+          "target": "2"
+        },
+        {
+          "id": "2->7",
+          "source": "2",
+          "sourceRecordHash": "sha256:adbd0c28192cce47c3ca29b84c3692b2c9ab09612716dd70641cebad2975001d",
+          "target": "7"
+        },
+        {
+          "id": "2->8",
+          "source": "2",
+          "sourceRecordHash": "sha256:692907aaa03e8987cb5cc9338d86be54834b820f4622cf308485b264620c52d2",
+          "target": "8"
+        },
+        {
+          "id": "2->9",
+          "source": "2",
+          "sourceRecordHash": "sha256:d229e99964a842e856f2495506efba09df18a0061921792106b6d1800824ecc0",
+          "target": "9"
+        },
+        {
+          "id": "3->1",
+          "source": "3",
+          "sourceRecordHash": "sha256:8e739602931a33cc3161f5551dd6e836e5701202abd83ec742c3b74cb946ba77",
+          "target": "1"
+        },
+        {
+          "id": "4->1",
+          "source": "4",
+          "sourceRecordHash": "sha256:00c8a3ce95a0e69acb233b93cc160dffc20d1618fda09f345d5a8f8b0fd55ad6",
+          "target": "1"
+        },
+        {
+          "id": "9->1",
+          "source": "9",
+          "sourceRecordHash": "sha256:99789d5468b54dfbedc557c80900f82170d3a5c92f0a6c7db8f7d5e3a4cc18b2",
+          "target": "1"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "1",
+          "sourceRecordHash": "sha256:18951ebafa4aeb5cb2ea5b72a79fd97ce98b719dfce595646f1c733a9081f0ef"
+        },
+        {
+          "id": "2",
+          "sourceRecordHash": "sha256:415a1d7cba8ec0f62f1e8a750f45d53db2ee1552d91dd0544f8d64d3a0b3f644"
+        },
+        {
+          "id": "3",
+          "sourceRecordHash": "sha256:e7a31014106460b1141a5925d747a4db981de64dbb985bcaed83a68141541902"
+        },
+        {
+          "id": "4",
+          "sourceRecordHash": "sha256:e9c8aeb39597353a89c53c2526f8ba316cab3607b72d37c31670dfb2d4e8b756"
+        },
+        {
+          "id": "7",
+          "sourceRecordHash": "sha256:fa56422c876237aff46edd6735ce51094b0d8d7524171e43ed3b2fa20b025591"
+        },
+        {
+          "id": "8",
+          "sourceRecordHash": "sha256:fa305ebae5370deaf19e0cc10984f0ad1913e275035310d5b3ffe69089f2fcc7"
+        },
+        {
+          "id": "9",
+          "sourceRecordHash": "sha256:a49ee0a20a4895553201582dae9096d0be46378e5fd12f15e52746689316c2f3"
+        }
+      ]
+    },
+    "model": {
+      "manifestHash": "sha256:462dc8a61a5aac672f6a4854e8360a1885e8cf7859d4098f4ce02d3e76580d28",
+      "modelId": "ollivier-paper-edge-neighborhood",
+      "modelRootHash": "sha256:31180d8438ca30f89e1a7c72eace5f07a764d4ced60a70e87e1ca6339ddd0677",
+      "modelVersion": "1"
+    },
+    "parameters": {
+      "edgeIds": [
+        "1->2",
+        "2->7",
+        "2->8",
+        "2->9",
+        "3->1",
+        "4->1",
+        "9->1"
+      ],
+      "idleness": "half",
+      "scope": {
+        "kind": "full"
+      }
+    },
+    "policy": {
+      "defaultIdleness": "zero",
+      "denominator": "directed-endpoint-distance",
+      "disconnectedSupport": "reject-unreachable-pair",
+      "distance": "directed-shortest-path-in-scoped-graph",
+      "edgeLength": 1,
+      "emptyNeighborhood": "dirac-at-endpoint",
+      "id": "ollivier-directed-in-out-unit-v1",
+      "idleness": [
+        "zero",
+        "half"
+      ],
+      "limits": {
+        "maxAnalyzedEdges": 32,
+        "maxEdges": 256,
+        "maxMassDenominator": 512,
+        "maxNodes": 64,
+        "maxPotentialMagnitude": 4096,
+        "maxSupportSize": 16,
+        "maxTotalTransportCells": 4096,
+        "maxTransportBytes": 1048576,
+        "maxTransportCells": 256
+      },
+      "numeric": "exact-integer-transport-rational-curvature",
+      "ordering": "utf16-code-unit",
+      "sourceMeasure": "uniform-predecessors",
+      "sourceWeights": "ignored",
+      "targetMeasure": "uniform-successors",
+      "verification": "primal-dual-equality",
+      "version": "1"
+    },
+    "policyHash": "sha256:d8cfaff53c8257431a8df5fea0909b0a25c2e4f11c3ddd77c27307aca590b4bd",
+    "problems": [
+      {
+        "costs": [
+          [
+            1,
+            2,
+            2,
+            2
+          ],
+          [
+            2,
+            3,
+            3,
+            3
+          ],
+          [
+            2,
+            3,
+            3,
+            3
+          ],
+          [
+            2,
+            3,
+            3,
+            0
+          ]
+        ],
+        "distance": 1,
+        "edgeId": "1->2",
+        "massDenominator": 6,
+        "source": "1",
+        "sourceMeasure": [
+          {
+            "nodeId": "1",
+            "units": 3
+          },
+          {
+            "nodeId": "3",
+            "units": 1
+          },
+          {
+            "nodeId": "4",
+            "units": 1
+          },
+          {
+            "nodeId": "9",
+            "units": 1
+          }
+        ],
+        "target": "2",
+        "targetMeasure": [
+          {
+            "nodeId": "2",
+            "units": 3
+          },
+          {
+            "nodeId": "7",
+            "units": 1
+          },
+          {
+            "nodeId": "8",
+            "units": 1
+          },
+          {
+            "nodeId": "9",
+            "units": 1
+          }
+        ]
+      },
+      {
+        "costs": [
+          [
+            2
+          ],
+          [
+            1
+          ]
+        ],
+        "distance": 1,
+        "edgeId": "2->7",
+        "massDenominator": 2,
+        "source": "2",
+        "sourceMeasure": [
+          {
+            "nodeId": "1",
+            "units": 1
+          },
+          {
+            "nodeId": "2",
+            "units": 1
+          }
+        ],
+        "target": "7",
+        "targetMeasure": [
+          {
+            "nodeId": "7",
+            "units": 2
+          }
+        ]
+      },
+      {
+        "costs": [
+          [
+            2
+          ],
+          [
+            1
+          ]
+        ],
+        "distance": 1,
+        "edgeId": "2->8",
+        "massDenominator": 2,
+        "source": "2",
+        "sourceMeasure": [
+          {
+            "nodeId": "1",
+            "units": 1
+          },
+          {
+            "nodeId": "2",
+            "units": 1
+          }
+        ],
+        "target": "8",
+        "targetMeasure": [
+          {
+            "nodeId": "8",
+            "units": 2
+          }
+        ]
+      },
+      {
+        "costs": [
+          [
+            0,
+            2
+          ],
+          [
+            2,
+            1
+          ]
+        ],
+        "distance": 1,
+        "edgeId": "2->9",
+        "massDenominator": 2,
+        "source": "2",
+        "sourceMeasure": [
+          {
+            "nodeId": "1",
+            "units": 1
+          },
+          {
+            "nodeId": "2",
+            "units": 1
+          }
+        ],
+        "target": "9",
+        "targetMeasure": [
+          {
+            "nodeId": "1",
+            "units": 1
+          },
+          {
+            "nodeId": "9",
+            "units": 1
+          }
+        ]
+      },
+      {
+        "costs": [
+          [
+            1,
+            2
+          ]
+        ],
+        "distance": 1,
+        "edgeId": "3->1",
+        "massDenominator": 2,
+        "source": "3",
+        "sourceMeasure": [
+          {
+            "nodeId": "3",
+            "units": 2
+          }
+        ],
+        "target": "1",
+        "targetMeasure": [
+          {
+            "nodeId": "1",
+            "units": 1
+          },
+          {
+            "nodeId": "2",
+            "units": 1
+          }
+        ]
+      },
+      {
+        "costs": [
+          [
+            1,
+            2
+          ]
+        ],
+        "distance": 1,
+        "edgeId": "4->1",
+        "massDenominator": 2,
+        "source": "4",
+        "sourceMeasure": [
+          {
+            "nodeId": "4",
+            "units": 2
+          }
+        ],
+        "target": "1",
+        "targetMeasure": [
+          {
+            "nodeId": "1",
+            "units": 1
+          },
+          {
+            "nodeId": "2",
+            "units": 1
+          }
+        ]
+      },
+      {
+        "costs": [
+          [
+            2,
+            0
+          ],
+          [
+            1,
+            2
+          ]
+        ],
+        "distance": 1,
+        "edgeId": "9->1",
+        "massDenominator": 2,
+        "source": "9",
+        "sourceMeasure": [
+          {
+            "nodeId": "2",
+            "units": 1
+          },
+          {
+            "nodeId": "9",
+            "units": 1
+          }
+        ],
+        "target": "1",
+        "targetMeasure": [
+          {
+            "nodeId": "1",
+            "units": 1
+          },
+          {
+            "nodeId": "2",
+            "units": 1
+          }
+        ]
+      }
+    ],
+    "projectionHash": "sha256:2815dc4d27c5435f05af2730a571ea48ca8ede2dd7f078ee0e2bbd10af5d7132",
+    "requestHash": "sha256:9d6ee737809ad3620f7f27beca07488356a7b1c730c33e636fc0be97d929b3fe",
+    "schemaVersion": "1",
+    "scope": {
+      "boundaryEdgeCount": 0,
+      "excludedEdgeCount": 0,
+      "excludedNodeCount": 0,
+      "kind": "full"
+    },
+    "solver": {
+      "id": "onto2d-python-ollivier-reference",
+      "method": "integer-successive-shortest-path-primal-dual-v1",
+      "version": "1"
+    },
+    "sourceProjectionHash": "sha256:455e7c2e334b82fc573ab22821244a6c1f3699a24d15a5b703bc7b53e8f0fe78"
+  },
+  "response": {
+    "requestHash": "sha256:9d6ee737809ad3620f7f27beca07488356a7b1c730c33e636fc0be97d929b3fe",
+    "schemaVersion": "1",
+    "solutions": [
+      {
+        "costNumerator": 9,
+        "edgeId": "1->2",
+        "flow": [
+          [
+            3,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ]
+        ],
+        "sourcePotentials": [
+          2,
+          3,
+          3,
+          0
+        ],
+        "targetPotentials": [
+          -1,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "costNumerator": 3,
+        "edgeId": "2->7",
+        "flow": [
+          [
+            1
+          ],
+          [
+            1
+          ]
+        ],
+        "sourcePotentials": [
+          2,
+          1
+        ],
+        "targetPotentials": [
+          0
+        ]
+      },
+      {
+        "costNumerator": 3,
+        "edgeId": "2->8",
+        "flow": [
+          [
+            1
+          ],
+          [
+            1
+          ]
+        ],
+        "sourcePotentials": [
+          2,
+          1
+        ],
+        "targetPotentials": [
+          0
+        ]
+      },
+      {
+        "costNumerator": 1,
+        "edgeId": "2->9",
+        "flow": [
+          [
+            1,
+            0
+          ],
+          [
+            0,
+            1
+          ]
+        ],
+        "sourcePotentials": [
+          0,
+          1
+        ],
+        "targetPotentials": [
+          0,
+          0
+        ]
+      },
+      {
+        "costNumerator": 3,
+        "edgeId": "3->1",
+        "flow": [
+          [
+            1,
+            1
+          ]
+        ],
+        "sourcePotentials": [
+          2
+        ],
+        "targetPotentials": [
+          -1,
+          0
+        ]
+      },
+      {
+        "costNumerator": 3,
+        "edgeId": "4->1",
+        "flow": [
+          [
+            1,
+            1
+          ]
+        ],
+        "sourcePotentials": [
+          2
+        ],
+        "targetPotentials": [
+          -1,
+          0
+        ]
+      },
+      {
+        "costNumerator": 1,
+        "edgeId": "9->1",
+        "flow": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "sourcePotentials": [
+          0,
+          1
+        ],
+        "targetPotentials": [
+          0,
+          0
+        ]
+      }
+    ],
+    "solver": {
+      "id": "onto2d-python-ollivier-reference",
+      "method": "integer-successive-shortest-path-primal-dual-v1",
+      "version": "1"
+    }
+  },
+  "result": {
+    "edges": [
+      {
+        "curvature": {
+          "denominator": "2",
+          "numerator": "-1"
+        },
+        "id": "1->2",
+        "sign": "negative",
+        "source": "1",
+        "target": "2",
+        "wasserstein": {
+          "denominator": "2",
+          "numerator": "3"
+        }
+      },
+      {
+        "curvature": {
+          "denominator": "2",
+          "numerator": "-1"
+        },
+        "id": "2->7",
+        "sign": "negative",
+        "source": "2",
+        "target": "7",
+        "wasserstein": {
+          "denominator": "2",
+          "numerator": "3"
+        }
+      },
+      {
+        "curvature": {
+          "denominator": "2",
+          "numerator": "-1"
+        },
+        "id": "2->8",
+        "sign": "negative",
+        "source": "2",
+        "target": "8",
+        "wasserstein": {
+          "denominator": "2",
+          "numerator": "3"
+        }
+      },
+      {
+        "curvature": {
+          "denominator": "2",
+          "numerator": "1"
+        },
+        "id": "2->9",
+        "sign": "positive",
+        "source": "2",
+        "target": "9",
+        "wasserstein": {
+          "denominator": "2",
+          "numerator": "1"
+        }
+      },
+      {
+        "curvature": {
+          "denominator": "2",
+          "numerator": "-1"
+        },
+        "id": "3->1",
+        "sign": "negative",
+        "source": "3",
+        "target": "1",
+        "wasserstein": {
+          "denominator": "2",
+          "numerator": "3"
+        }
+      },
+      {
+        "curvature": {
+          "denominator": "2",
+          "numerator": "-1"
+        },
+        "id": "4->1",
+        "sign": "negative",
+        "source": "4",
+        "target": "1",
+        "wasserstein": {
+          "denominator": "2",
+          "numerator": "3"
+        }
+      },
+      {
+        "curvature": {
+          "denominator": "2",
+          "numerator": "1"
+        },
+        "id": "9->1",
+        "sign": "positive",
+        "source": "9",
+        "target": "1",
+        "wasserstein": {
+          "denominator": "2",
+          "numerator": "1"
+        }
+      }
+    ],
+    "summary": {
+      "count": 7,
+      "mean": {
+        "denominator": "14",
+        "numerator": "-3"
+      },
+      "signs": {
+        "negative": 5,
+        "positive": 2,
+        "zero": 0
+      },
+      "sum": {
+        "denominator": "2",
+        "numerator": "-3"
+      }
+    }
+  },
+  "schemaVersion": "1"
+}

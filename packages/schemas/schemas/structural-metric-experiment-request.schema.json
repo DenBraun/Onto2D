@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/structural-metric-experiment-request.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "selection": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "all"
+            }
+          },
+          "required": [
+            "kind"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "necessity"
+            },
+            "through": {
+              "enum": [
+                "necessary",
+                "enabling",
+                "contextual",
+                "optional"
+              ]
+            }
+          },
+          "required": [
+            "kind",
+            "through"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "roles"
+            },
+            "roles": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "arising",
+                  "maintenance",
+                  "modulation"
+                ]
+              },
+              "maxItems": 3,
+              "minItems": 1,
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "kind",
+            "roles"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "channel"
+            },
+            "field": {
+              "enum": [
+                "dependencyTypeId",
+                "interactionModeIds",
+                "causalDirectionIds"
+              ]
+            },
+            "value": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            }
+          },
+          "required": [
+            "kind",
+            "field",
+            "value"
+          ]
+        }
+      ]
+    },
+    "metricPolicyId": {
+      "enum": [
+        "unit-v1",
+        "inverse-target-share-v1"
+      ]
+    }
+  },
+  "required": []
+}

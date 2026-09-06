@@ -1,0 +1,165 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/structural-projection.schema.json",
+  "title": "Structural Projection",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": "1"
+    },
+    "model": {
+      "$ref": "#/$defs/modelBinding"
+    },
+    "policy": {
+      "$ref": "structural-projection-policy.schema.json"
+    },
+    "policyHash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "nodes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024
+          },
+          "sourceRecordHash": {
+            "type": "string",
+            "pattern": "^sha256:[0-9a-f]{64}$"
+          },
+          "attributes": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "level": {},
+              "phase": {},
+              "phaseId": {},
+              "typeRole": {},
+              "typeRoleId": {},
+              "scienceIds": {},
+              "scientificStatus": {},
+              "requirements": {}
+            },
+            "required": []
+          }
+        },
+        "required": [
+          "id",
+          "sourceRecordHash",
+          "attributes"
+        ]
+      },
+      "minItems": 1,
+      "maxItems": 4096
+    },
+    "edges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024
+          },
+          "source": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024
+          },
+          "target": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024
+          },
+          "sourceRecordHash": {
+            "type": "string",
+            "pattern": "^sha256:[0-9a-f]{64}$"
+          },
+          "attributes": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "relationLayer": {
+                "const": "source-parent"
+              },
+              "causalDirections": {},
+              "causalDirectionIds": {},
+              "interactionModes": {},
+              "interactionModeIds": {},
+              "weight": {},
+              "necessity": {},
+              "dependencyType": {},
+              "dependencyTypeId": {},
+              "ontologicalRole": {},
+              "quantization": {}
+            },
+            "required": [
+              "relationLayer"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "source",
+          "target",
+          "sourceRecordHash",
+          "attributes"
+        ]
+      },
+      "maxItems": 16384
+    },
+    "projectionHash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "model",
+    "policy",
+    "policyHash",
+    "nodes",
+    "edges",
+    "projectionHash"
+  ],
+  "$defs": {
+    "modelBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "modelId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        },
+        "modelVersion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        },
+        "modelRootHash": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "manifestHash": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "modelId",
+        "modelVersion",
+        "modelRootHash",
+        "manifestHash"
+      ]
+    }
+  }
+}

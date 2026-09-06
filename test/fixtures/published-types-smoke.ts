@@ -13,6 +13,33 @@ import { writePackageRunArtifactBundle } from "@onto2d/run-store";
 import { runCli, type RunCliOptions } from "@onto2d/cli";
 import { buildModelPack, type ModelPack } from "@onto2d/model-pack";
 import {
+  prepareOllivierRequest, acceptOllivierResponse, verifyOllivierArtifact,
+  createOllivierAnalyzer, createOllivierAnalysis, type OllivierArtifact, type OllivierInput
+} from "@onto2d/structural-geometry/ollivier";
+import { createPythonOllivierAdapter } from "@onto2d/structural-geometry/ollivier/node";
+import { prepareStructuralFlow, createStructuralFlowAnalyzer, createStructuralFlowAnalysis,
+  verifyStructuralFlowArtifact, type StructuralFlowArtifact, type StructuralFlowInput,
+  type StructuralFlowTransportRequest, type StructuralFlowTransportResponse } from "@onto2d/structural-geometry/flow";
+import { createPythonStructuralFlowAdapter } from "@onto2d/structural-geometry/flow/node";
+import { STRUCTURAL_METRIC_PROVIDER_DESCRIPTORS, createStructuralMetricContext, createStructuralMetricProvider,
+  buildStructuralProvider, verifyStructuralProviderArtifact, requireStructuralMetricValues,
+  analyzeStructuralGeometryWithProvider, verifyStructuralProviderAnalysis, createStructuralMetricProviderAnalysis,
+  createStructuralProviderAnalysis, type StructuralMetricProvider, type StructuralMetricContext } from "@onto2d/structural-geometry/providers";
+import {
+  analyzeStructuralMetricExperiment, verifyStructuralMetricExperiment,
+  auditStructuralWeights, verifyStructuralWeightAudit, structuralMetricExperimentAnalysis,
+  type StructuralMetricExperiment, type StructuralWeightAudit
+} from "@onto2d/structural-geometry/experiments";
+import {
+  analyzeStructuralGeometry,
+  projectStructuralGeometry,
+  verifyStructuralProjection,
+  verifyStructuralGeometryArtifact,
+  structuralGeometryAnalysis,
+  type StructuralGeometryArtifact,
+  type StructuralProjection
+} from "@onto2d/structural-geometry";
+import {
   loadModelPackBundle,
   loadModelPackHttpDirectory,
   type ModelPackBrowserBundleOptions,
@@ -147,8 +174,82 @@ const modelPack: ModelPack = buildModelPack({
 });
 const enginePromise = EngineOnto2D.create({
   models: [modelPack],
-  analyses: [canonicalIdentityAnalysis]
+  analyses: [canonicalIdentityAnalysis, structuralGeometryAnalysis, structuralMetricExperimentAnalysis]
 });
+const metricExperiment: StructuralMetricExperiment = analyzeStructuralMetricExperiment(modelPack, {
+  metricPolicyId: "inverse-target-share-v1", selection: { kind: "necessity", through: "enabling" }
+});
+const metricAudit: StructuralWeightAudit = verifyStructuralWeightAudit(auditStructuralWeights(modelPack), modelPack);
+const replayedExperiment = verifyStructuralMetricExperiment(metricExperiment, modelPack, metricExperiment.request);
+const intervalTicks: string = replayedExperiment.result.summary.sum.lowerTicks;
+// @ts-expect-error Typed experimental channels do not scalarize necessity.
+analyzeStructuralMetricExperiment(modelPack, { selection: { kind: "channel", field: "necessity", value: 1 } });
+// @ts-expect-error Interval bounds are immutable decimal integer strings.
+metricExperiment.result.edges[0].curvature.lowerTicks = "0";
+void metricAudit;
+void intervalTicks;
+const structuralProjection: StructuralProjection = projectStructuralGeometry(modelPack);
+const providerContext: StructuralMetricContext = createStructuralMetricContext(modelPack);
+const unitProvider: StructuralMetricProvider<"unit-v1"> = createStructuralMetricProvider("unit-v1");
+const providedMetric = unitProvider.build(providerContext.projection, providerContext);
+const providerLength: string = providedMetric.result.edges[0].length.numerator;
+const providedChannels = createStructuralMetricProvider("typed-channel-v1").build(providerContext.projection, providerContext,
+  { field: "interactionModeIds", values: [0, 1] });
+const providerEnvelope = analyzeStructuralGeometryWithProvider(modelPack, { analysis: "structural-metric-experiment", metricProviderId: "inverse-target-share-v1" });
+const providerEngine = EngineOnto2D.create({ models: [modelPack], analyses: [createStructuralMetricProviderAnalysis(), createStructuralProviderAnalysis()] });
+// @ts-expect-error An unverified structural lookalike has no metric-context brand.
+const forgedProviderContext: StructuralMetricContext = { projection: structuralProjection, binding: providerContext.binding };
+// @ts-expect-error Discrete channels do not expose edge lengths.
+providedChannels.result.edges[0].length;
+// @ts-expect-error A typed-channel provider requires explicit parameters.
+createStructuralMetricProvider("typed-channel-v1").build(providerContext.projection, providerContext);
+// @ts-expect-error Provider geometry is deeply readonly.
+providedMetric.result.edges[0].length.numerator = "0";
+// @ts-expect-error Filtration cannot be requested as a numeric metric provider.
+analyzeStructuralGeometryWithProvider(modelPack, { analysis: "structural-metric-experiment", metricProviderId: "necessity-filtration-v1" });
+void providerLength; void providerEnvelope; void providerEngine; void forgedProviderContext;
+void STRUCTURAL_METRIC_PROVIDER_DESCRIPTORS; void buildStructuralProvider; void verifyStructuralProviderArtifact;
+void requireStructuralMetricValues; void verifyStructuralProviderAnalysis;
+const ollivierInput: OllivierInput = { scope: { kind: "induced", nodeIds: ["a", "b"] }, edgeIds: ["a->b"], idleness: "half" };
+const ollivierRequest = prepareOllivierRequest(modelPack, ollivierInput);
+const ollivierAdapter = createPythonOllivierAdapter({ timeoutMs: 20000 });
+const ollivierAnalyzer = createOllivierAnalyzer(ollivierAdapter, { maxCacheEntries: 8 });
+const ollivierArtifact: Promise<OllivierArtifact> = ollivierAnalyzer.analyze(modelPack, ollivierInput);
+const ollivierAnalysis = createOllivierAnalysis(ollivierAdapter);
+const ollivierEngine = EngineOnto2D.create({ models: [modelPack], analyses: [ollivierAnalysis] });
+// @ts-expect-error Supports are immutable.
+ollivierRequest.problems[0].sourceMeasure[0].units = 2;
+// @ts-expect-error Idleness values belong to a closed policy.
+prepareOllivierRequest(modelPack, { edgeIds: ["a->b"], idleness: 0.5 });
+void ollivierArtifact;
+void ollivierEngine;
+void acceptOllivierResponse;
+void verifyOllivierArtifact;
+const flowInput: StructuralFlowInput = { maxIterations: 8, step: "half", idleness: "half",
+  tolerance: { numerator: "1", denominator: "1000000" }, cut: { kind: "final-length", threshold: { numerator: "2", denominator: "1" } } };
+const flowRequest = prepareStructuralFlow(modelPack, flowInput);
+const flowAdapter = createPythonStructuralFlowAdapter({ timeoutMs: 20000 });
+const flowArtifact: Promise<StructuralFlowArtifact> = createStructuralFlowAnalyzer(flowAdapter).analyze(modelPack, flowInput);
+const flowEngine = EngineOnto2D.create({ models: [modelPack], analyses: [createStructuralFlowAnalysis(flowAdapter)] });
+declare const flowTransport: StructuralFlowTransportRequest;
+const flowResponse: StructuralFlowTransportResponse | Promise<StructuralFlowTransportResponse> = flowAdapter.evaluate(flowTransport);
+// @ts-expect-error normalized parameters are deeply readonly
+flowRequest.parameters.initialLengths[0].length.numerator = "2";
+// @ts-expect-error steps are declared symbolic policies
+prepareStructuralFlow(modelPack, { step: 0.5 });
+void flowArtifact; void flowEngine; void flowResponse; void verifyStructuralFlowArtifact;
+const structuralArtifact: StructuralGeometryArtifact = analyzeStructuralGeometry(modelPack, { metricPolicyId: "unit-v1" });
+const checkedProjection: StructuralProjection = verifyStructuralProjection(structuralProjection, modelPack);
+const checkedGeometry: StructuralGeometryArtifact = verifyStructuralGeometryArtifact(structuralArtifact, modelPack);
+const exactGeometryManifest: string = checkedGeometry.model.manifestHash;
+const exactMeanNumerator: number | undefined = checkedGeometry.result.summary.mean?.numerator;
+// @ts-expect-error Geometry is immutable, including nested result values.
+structuralArtifact.result.edges[0].curvature = 9;
+// @ts-expect-error The first implementation does not accept weighted metrics.
+analyzeStructuralGeometry(modelPack, { metricPolicyId: "weighted" });
+void checkedProjection;
+void exactGeometryManifest;
+void exactMeanNumerator;
 const typedModel: Model | undefined = undefined;
 const typedIdentity: ModelIdentity = {
   modelId: "types",
@@ -308,3 +409,120 @@ declare const regressionData: RegressionDataset;
 declare const regressionTargets: RegressionTargets;
 const predictionStatus: "prepared" | "incomplete" = prepareHistoryRegression(regressionContract, regressionData, regressionTargets).status;
 void predictionStatus;
+
+// R3 contract preparation is additive; it cannot be mistaken for a measured comparison.
+import { DISTINGUISHABILITY_REGIMES, getDistinguishabilityRegime, verifyDistinguishabilityRegime,
+  prepareStructuralRegime, verifyStructuralRegimePreparation, verifyStructuralObservationSpec,
+  createStructuralRegimePreparationAnalysis, type StructuralRegimePreparation } from "@onto2d/structural-geometry/regimes";
+const regimeContract = getDistinguishabilityRegime("canonical-structure-v1");
+verifyDistinguishabilityRegime(regimeContract, "canonical-structure-v1");
+const regimePreparation: StructuralRegimePreparation = prepareStructuralRegime(modelPack,
+  { regimeId: "canonical-structure-v1", scope: { kind: "induced", nodeIds: ["a", "b"] } });
+verifyStructuralRegimePreparation(regimePreparation, modelPack, regimePreparation.request);
+verifyStructuralObservationSpec(regimePreparation.observableSpecs[0], regimePreparation.observableSpecs[0].id);
+const regimeEngine = EngineOnto2D.create({ models: [modelPack], analyses: [createStructuralRegimePreparationAnalysis()] });
+// @ts-expect-error A preparation does not contain a measured distance.
+regimePreparation.distance;
+// @ts-expect-error Observations are immutable contract descriptors.
+regimePreparation.observableSpecs[0].mandatory = false;
+// @ts-expect-error Policy identities are readonly.
+DISTINGUISHABILITY_REGIMES[0].matchingPolicy.contentHash = "sha256:changed";
+// @ts-expect-error No implicit default regime.
+prepareStructuralRegime(modelPack, {});
+// @ts-expect-error Future history regimes are not implemented.
+getDistinguishabilityRegime("history-aware-v1");
+// @ts-expect-error Induced scope requires explicit node membership.
+prepareStructuralRegime(modelPack, { regimeId: "topology-only-v1", scope: { kind: "induced" } });
+void regimeEngine;
+
+// SG2-011 provides a measured exact observation without a comparison API.
+import { observeCanonicalStructure, verifyCanonicalStructureObservation, createCanonicalStructureObservationAnalysis,
+  CANONICAL_STRUCTURE_IMPLEMENTATION, type CanonicalStructureObservation } from "@onto2d/structural-geometry/canonical";
+const canonicalObservation: CanonicalStructureObservation = observeCanonicalStructure(modelPack,
+  { regimeId: "canonical-structure-v1", scope: { kind: "induced", nodeIds: ["a", "b"] } });
+verifyCanonicalStructureObservation(canonicalObservation, modelPack, { regimeId: "canonical-structure-v1" });
+const canonicalValueHash: string = canonicalObservation.observation.valueHash;
+const canonicalEngine = EngineOnto2D.create({ models: [modelPack], analyses: [createCanonicalStructureObservationAnalysis()] });
+// @ts-expect-error Canonical values are readonly.
+canonicalObservation.observation.value.edges[0].from = 2;
+// @ts-expect-error Matching witnesses are readonly provenance.
+canonicalObservation.witness.nodes[0].canonicalNode = 1;
+// @ts-expect-error This observation does not contain a distance or comparison status.
+canonicalObservation.distance;
+// @ts-expect-error The topology evaluator is a separate subsequent task.
+observeCanonicalStructure(modelPack, { regimeId: "topology-only-v1" });
+// @ts-expect-error An explicit regime is required.
+observeCanonicalStructure(modelPack, {});
+// @ts-expect-error Implementation content identities are immutable.
+CANONICAL_STRUCTURE_IMPLEMENTATION.contentHash = "sha256:changed";
+void canonicalValueHash; void canonicalEngine;
+
+import { canonicalizeCandidate as portableGraphCanonicalize,
+  type GraphCanonicalizationOptions as PortableGraphOptions } from "@onto2d/kernel/graph-canonicalizer";
+const portableGraphOptions: PortableGraphOptions = { policy: { connected: false }, limits: { maxNodes: 6 } };
+const portableGraphResult = portableGraphCanonicalize({ domain: "single-candidate",
+  nodes: [{ ref: `sha256:${"a".repeat(64)}` }], edges: [] }, portableGraphOptions);
+void portableGraphResult;
+
+import { observeStructuralTopology, verifyStructuralTopologyObservation, createStructuralTopologyObservationAnalysis,
+  TOPOLOGY_OBSERVATION_IMPLEMENTATION, type StructuralTopologyObservation } from "@onto2d/structural-geometry/topology";
+const topologyObservation: StructuralTopologyObservation = observeStructuralTopology(modelPack,
+  { regimeId: "topology-only-v1", scope: { kind: "induced", nodeIds: ["a", "b"] } });
+verifyStructuralTopologyObservation(topologyObservation, modelPack, { regimeId: "topology-only-v1" });
+const reachablePairs: number = topologyObservation.observation.value.reachableOrderedPairCount;
+const topologyEngine = EngineOnto2D.create({ models: [modelPack], analyses: [createStructuralTopologyObservationAnalysis()] });
+// @ts-expect-error Observation component vectors are immutable.
+topologyObservation.observation.value.weakComponentSizes.push(4);
+// @ts-expect-error Diagnostic memberships are immutable.
+topologyObservation.diagnostics.strongComponents[0][0] = "other";
+// @ts-expect-error This observation API does not promise a comparison distance.
+topologyObservation.distance;
+// @ts-expect-error The evaluator requires explicit topology selection.
+observeStructuralTopology(modelPack, {});
+// @ts-expect-error The topology evaluator does not implement the typed regime.
+observeStructuralTopology(modelPack, { regimeId: "typed-relations-v1" });
+// @ts-expect-error Built-in observable-to-field bindings are immutable.
+TOPOLOGY_OBSERVATION_IMPLEMENTATION.valueFields[0].field = "edgeCount";
+void reachablePairs; void topologyEngine;
+
+import { observeTypedRelations, verifyTypedRelationsObservation, createTypedRelationsObservationAnalysis,
+  createStructuralVocabularyMapping, verifyStructuralVocabularyMapping, alignTypedRelations, verifyTypedRelationsAlignment,
+  type TypedRelationsObservation, type StructuralVocabularyMappingInput } from "@onto2d/structural-geometry/typed";
+const typedInput = { regimeId: "typed-relations-v1" as const };
+const typedObservation: TypedRelationsObservation = observeTypedRelations(modelPack, typedInput);
+verifyTypedRelationsObservation(typedObservation, modelPack, typedInput);
+if (typedObservation.observations[1].availability === "observed") {
+  const typedEdges = typedObservation.observations[1].value.edges;
+  // @ts-expect-error Typed sets are immutable.
+  typedEdges[0].types.causalDirectionIds.push(2);
+  void typedEdges;
+} else {
+  const missingTypedValue: null = typedObservation.observations[1].value;
+  void missingTypedValue;
+}
+const mappingInput: StructuralVocabularyMappingInput = { id: "type-smoke", version: "1",
+  fields: { dependencyTypeId: [{ left: 0, right: 10 }], interactionModeIds: [], causalDirectionIds: [],
+    ontologicalRole: [{ left: "arising", right: "arising" }], necessity: [] },
+  reviewEvidence: { reference: "type-smoke-only", contentHash: modelPack.manifest.rootHash } };
+const vocabularyMapping = createStructuralVocabularyMapping(modelPack, modelPack, mappingInput);
+verifyStructuralVocabularyMapping(vocabularyMapping, modelPack, modelPack, mappingInput);
+const typedAlignment = alignTypedRelations(modelPack, typedInput, modelPack, typedInput, { mapping: vocabularyMapping });
+verifyTypedRelationsAlignment(typedAlignment, modelPack, typedInput, modelPack, typedInput, { mapping: vocabularyMapping });
+if (typedAlignment.aligned) {
+  const normalizedCode: number = typedAlignment.aligned.right.value.edges[0].types.dependencyTypeId;
+  void normalizedCode;
+}
+const typedEngine = EngineOnto2D.create({ models: [modelPack], analyses: [createTypedRelationsObservationAnalysis()] });
+// @ts-expect-error Observation values do not assert a pairwise comparison status.
+typedObservation.status;
+// @ts-expect-error Vocabulary alignment does not supply a distance.
+typedAlignment.distance;
+// @ts-expect-error This evaluator requires an explicit typed regime.
+observeTypedRelations(modelPack, { regimeId: "canonical-structure-v1" });
+// @ts-expect-error An approval hash requires its corresponding mapping artifact.
+alignTypedRelations(modelPack, typedInput, modelPack, typedInput, { approvedMappingHash: vocabularyMapping.artifactHash });
+// @ts-expect-error Mapping code values are scalar atoms, not sets.
+mappingInput.fields.interactionModeIds[0].left = [0];
+// @ts-expect-error Mapping endpoints and declarations are immutable.
+vocabularyMapping.left.dictionaryHash = modelPack.manifest.rootHash;
+void typedEngine;

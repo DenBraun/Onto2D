@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/structural-ollivier-policy.schema.json",
+  "title": "Structural Ollivier policy",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "const": "ollivier-directed-in-out-unit-v1"
+    },
+    "version": {
+      "const": "1"
+    },
+    "sourceMeasure": {
+      "const": "uniform-predecessors"
+    },
+    "targetMeasure": {
+      "const": "uniform-successors"
+    },
+    "emptyNeighborhood": {
+      "const": "dirac-at-endpoint"
+    },
+    "idleness": {
+      "const": [
+        "zero",
+        "half"
+      ]
+    },
+    "defaultIdleness": {
+      "const": "zero"
+    },
+    "distance": {
+      "const": "directed-shortest-path-in-scoped-graph"
+    },
+    "edgeLength": {
+      "const": 1
+    },
+    "denominator": {
+      "const": "directed-endpoint-distance"
+    },
+    "disconnectedSupport": {
+      "const": "reject-unreachable-pair"
+    },
+    "sourceWeights": {
+      "const": "ignored"
+    },
+    "numeric": {
+      "const": "exact-integer-transport-rational-curvature"
+    },
+    "verification": {
+      "const": "primal-dual-equality"
+    },
+    "ordering": {
+      "const": "utf16-code-unit"
+    },
+    "limits": {
+      "const": {
+        "maxNodes": 64,
+        "maxEdges": 256,
+        "maxAnalyzedEdges": 32,
+        "maxSupportSize": 16,
+        "maxTransportCells": 256,
+        "maxTotalTransportCells": 4096,
+        "maxMassDenominator": 512,
+        "maxPotentialMagnitude": 4096,
+        "maxTransportBytes": 1048576
+      }
+    }
+  },
+  "required": [
+    "id",
+    "version",
+    "sourceMeasure",
+    "targetMeasure",
+    "emptyNeighborhood",
+    "idleness",
+    "defaultIdleness",
+    "distance",
+    "edgeLength",
+    "denominator",
+    "disconnectedSupport",
+    "sourceWeights",
+    "numeric",
+    "verification",
+    "ordering",
+    "limits"
+  ]
+}

@@ -1,6 +1,6 @@
 # Scientific Roadmap
 
-Status date: 2026-08-25
+Status date: 2026-09-06
 
 ## Scope
 
@@ -249,6 +249,78 @@ is independent review and held-out scoring. LTEE now has three source-bound
 protocol contracts and an eligibility audit; experimental scoring requires a
 reviewed aggregate-count design or additional unit-level evidence. Independent
 review remains required before benchmark v1.
+
+## Structural Geometry workstream
+
+The [adopted Structural Geometry roadmap](structural-geometry/README.md) starts
+with a complete immutable source-parent projection, an explicit unit metric,
+directed Forman curvature and exact source replay. Sixteen synthetic controls
+and a separate Python incidence reference check the implementation; a frozen
+249-node, 971-edge Causal Emergence result describes the existing source snapshot.
+
+The unit statistic is determined by ordered endpoint degrees, so it cannot
+establish added information beyond that baseline. Independent scientific review
+and comparative validation remain open. Typed metric hypotheses, directed
+transport, normalized shadow flow, persistence, reviewed higher-order semantics
+and cross-domain signatures have separate gates. UI follows validated artifact
+and interpretation contracts. This work does not reclassify source-parent
+relations or alter the kernel's evidence semantics.
+
+Stage-three computational experiments now compare unit connectivity with an
+explicit inverse-target-share hypothesis across 72 typed selections/metric
+combinations. Three non-unit source weight sums remain disclosed findings.
+These experiments show representation sensitivity and verify arithmetic, not
+superior robustness or interpretability; no new default metric is promoted.
+
+Stage four now has a [bounded Ollivier reference path](structural-geometry/OLLIVIER_CURVATURE.md)
+with exact transport certificates and independent NetworkX agreement on 242 edge
+calculations. A constructed shortcut control distinguishes graphs with identical
+Forman endpoint-degree values. This is a computational demonstration, not held-out
+evidence of practical usefulness. The two Causal Emergence fragments have explicit
+scope boundaries; their values are not full-model results.
+
+Stage five now has [normalized shadow flow](structural-geometry/SHADOW_FLOW.md)
+with immutable source graphs, rational length evolution, exact optimality
+certificates, metric closure, normalization and distinct stopping reasons.
+The published `G(3,2)` recurrence agrees at all 17 states and a final threshold
+recovers its three known groups. NetworkX independently reproduces all 11 runs,
+68 states and 1089 edge calculations. Both real-source fragments stop at their
+declared six-step limit; neither is reported as converged.
+
+The [R1 supplement](structural-geometry/FLOW_CONTROLS_REVIEW.md) now adds eight
+star profiles and a single bridge between two K4 groups. Analytic and NetworkX
+checks agree on all 33 states / 506 edge calculations. The selected bridge
+contrast appears at the fixed cap/cut; this is a finite synthetic control.
+
+The [revised research program](structural-geometry/REVISED_ROADMAP.md) preserves
+those results. Baseline capture and supplemental flow controls are complete;
+compatible [metric providers](structural-geometry/METRIC_PROVIDERS.md) now preserve
+the 73 original full-source analyses. [SG2-010 regime contracts](structural-geometry/REGIME_CONTRACTS.md)
+and source/scope preparation are complete. [SG2-011](structural-geometry/CANONICAL_OBSERVATIONS.md)
+now measures exact canonical structure, with independent agreement on 4,165
+small directed graphs. [SG2-012](structural-geometry/TOPOLOGY_OBSERVATIONS.md) now
+measures the frozen topology profile: 4,165 graphs agree with independent matrix
+closure, with 238 isomorphism classes merging into 69 summary classes.
+[SG2-013](structural-geometry/TYPED_OBSERVATIONS.md) adds independently checked
+joint typed observations and vocabulary alignment without inferring semantic
+authority from local codes or dictionary equality. Next come strict comparison
+and coverage, controlled probes, a graph-native response signature and a fixed-domain
+pseudometric. Only then test whether adding curvature/flow improves comparison
+over response-only and strong graph baselines. The revised
+[H0–H8 protocol](structural-geometry/BENCHMARK_PROTOCOL.md) replaces the earlier
+geometry hypothesis numbering for future work.
+
+Distinguishability is an operational observation principle, not an established
+physical origin of space or emergence. Inter-structure pseudometric zero means
+indistinguishability under a declared complete feature regime, not source or
+mechanism identity. Missing mandatory data remains indeterminate. Pairwise
+partial distances do not inherit a pseudometric guarantee. Geometry must be
+allowed to show no added value; negative results remain part of the program.
+
+Directed persistence, explicit higher-order cases and four independently sourced
+domain candidates are deferred to R8–R11. The four explanatory domains are not
+positive ground truth. Website claims follow the resulting evidence gates.
+Independent scientific review and empirical usefulness remain open.
 
 ## Dependencies and order
 

@@ -1,0 +1,234 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/structural-flow-artifact.schema.json",
+  "title": "Structural flow artifact",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": "1"
+    },
+    "analysis": {
+      "const": {
+        "id": "structural-flow",
+        "version": "1"
+      }
+    },
+    "model": {
+      "$ref": "structural-projection.schema.json#/$defs/modelBinding"
+    },
+    "request": {
+      "$ref": "structural-flow-request.schema.json"
+    },
+    "states": {
+      "type": "array",
+      "items": {
+        "$ref": "structural-flow-state.schema.json"
+      },
+      "minItems": 1,
+      "maxItems": 25
+    },
+    "termination": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "reason": {
+          "enum": [
+            "fixed-point",
+            "cycle",
+            "tolerance",
+            "iteration-limit",
+            "degenerate-length"
+          ]
+        },
+        "iteration": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 24
+        },
+        "cycleStart": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 22
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "cyclePeriod": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 2,
+              "maximum": 24
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "edgeIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024
+          },
+          "minItems": 0,
+          "maxItems": 64,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "reason",
+        "iteration",
+        "cycleStart",
+        "cyclePeriod",
+        "edgeIds"
+      ]
+    },
+    "cuts": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "policy": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "kind": {
+                  "const": "none"
+                }
+              },
+              "required": [
+                "kind"
+              ]
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "kind": {
+                  "const": "final-length"
+                },
+                "threshold": {
+                  "$ref": "structural-flow-input.schema.json#/$defs/positiveRational"
+                }
+              },
+              "required": [
+                "kind",
+                "threshold"
+              ]
+            }
+          ]
+        },
+        "iteration": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 24
+        },
+        "removedEdgeIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024
+          },
+          "minItems": 0,
+          "maxItems": 64,
+          "uniqueItems": true
+        },
+        "weakComponents": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 1024
+            },
+            "minItems": 1,
+            "maxItems": 64,
+            "uniqueItems": true
+          },
+          "minItems": 1,
+          "maxItems": 64
+        },
+        "strongComponents": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 1024
+            },
+            "minItems": 1,
+            "maxItems": 64,
+            "uniqueItems": true
+          },
+          "minItems": 1,
+          "maxItems": 64
+        },
+        "connectivity": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "weakComponentCount": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 64
+            },
+            "strongComponentCount": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 64
+            },
+            "cyclicNodeCount": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 64
+            },
+            "isolatedNodeCount": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 64
+            }
+          },
+          "required": [
+            "weakComponentCount",
+            "strongComponentCount",
+            "cyclicNodeCount",
+            "isolatedNodeCount"
+          ]
+        }
+      },
+      "required": [
+        "policy",
+        "iteration",
+        "removedEdgeIds",
+        "weakComponents",
+        "strongComponents",
+        "connectivity"
+      ]
+    },
+    "artifactHash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "analysis",
+    "model",
+    "request",
+    "states",
+    "termination",
+    "cuts",
+    "artifactHash"
+  ]
+}

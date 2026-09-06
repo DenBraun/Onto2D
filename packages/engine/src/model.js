@@ -1,4 +1,4 @@
-import { canonicalClone, canonicalize, deepFreeze } from "@onto2d/kernel";
+import { canonicalClone, canonicalize, deepFreeze } from "@onto2d/kernel/canonical";
 import { modelPackFilePaths, verifyModelPack } from "@onto2d/model-pack";
 import { engineFail } from "./errors.js";
 

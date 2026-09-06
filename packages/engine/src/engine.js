@@ -1,4 +1,4 @@
-import { canonicalClone } from "@onto2d/kernel";
+import { canonicalClone } from "@onto2d/kernel/canonical";
 import { engineFail } from "./errors.js";
 import { dataArray, dataEntries, safeIdentifier } from "./input.js";
 import { ModelRegistry } from "./registry.js";

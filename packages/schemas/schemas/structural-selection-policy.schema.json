@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/structural-selection-policy.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "const": "typed-source-parent-subgraph-v1"
+    },
+    "version": {
+      "const": "1"
+    },
+    "nodePopulation": {
+      "const": "all-source-nodes"
+    },
+    "necessityOrder": {
+      "const": [
+        "necessary",
+        "enabling",
+        "contextual",
+        "optional"
+      ]
+    },
+    "roleUniverse": {
+      "const": [
+        "arising",
+        "maintenance",
+        "modulation"
+      ]
+    },
+    "channels": {
+      "const": [
+        "dependencyTypeId",
+        "interactionModeIds",
+        "causalDirectionIds"
+      ]
+    },
+    "missingCategory": {
+      "const": "reject"
+    },
+    "missingChannel": {
+      "const": "exclude-and-account"
+    },
+    "roleOrder": {
+      "const": "subset-lattice"
+    }
+  },
+  "required": [
+    "id",
+    "version",
+    "nodePopulation",
+    "necessityOrder",
+    "roleUniverse",
+    "channels",
+    "missingCategory",
+    "missingChannel",
+    "roleOrder"
+  ]
+}

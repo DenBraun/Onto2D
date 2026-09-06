@@ -1,4 +1,4 @@
-import { canonicalize, deepFreeze, hashCanonical } from "@onto2d/kernel";
+import { canonicalize, deepFreeze, hashCanonical } from "@onto2d/kernel/canonical";
 import { engineFail } from "./errors.js";
 import { dataEntries } from "./input.js";
 import { verifyModelLineage } from "./lineage.js";

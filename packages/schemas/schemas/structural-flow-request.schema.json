@@ -1,0 +1,335 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/structural-flow-request.schema.json",
+  "title": "Structural flow request",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": "1"
+    },
+    "analysis": {
+      "const": {
+        "id": "structural-flow",
+        "version": "1"
+      }
+    },
+    "model": {
+      "$ref": "structural-projection.schema.json#/$defs/modelBinding"
+    },
+    "sourceProjectionHash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "projectionHash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "graph": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "nodes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1024
+              },
+              "sourceRecordHash": {
+                "type": "string",
+                "pattern": "^sha256:[0-9a-f]{64}$"
+              }
+            },
+            "required": [
+              "id",
+              "sourceRecordHash"
+            ]
+          },
+          "minItems": 2,
+          "maxItems": 64
+        },
+        "edges": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1024
+              },
+              "source": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1024
+              },
+              "target": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1024
+              },
+              "sourceRecordHash": {
+                "type": "string",
+                "pattern": "^sha256:[0-9a-f]{64}$"
+              }
+            },
+            "required": [
+              "id",
+              "source",
+              "target",
+              "sourceRecordHash"
+            ]
+          },
+          "minItems": 1,
+          "maxItems": 64
+        }
+      },
+      "required": [
+        "nodes",
+        "edges"
+      ]
+    },
+    "scope": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "full"
+            },
+            "excludedNodeCount": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4096
+            },
+            "excludedEdgeCount": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 16384
+            },
+            "boundaryEdgeCount": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 16384
+            }
+          },
+          "required": [
+            "kind",
+            "excludedNodeCount",
+            "excludedEdgeCount",
+            "boundaryEdgeCount"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "induced"
+            },
+            "nodeIds": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1024
+              },
+              "minItems": 2,
+              "maxItems": 64,
+              "uniqueItems": true
+            },
+            "excludedNodeCount": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4096
+            },
+            "excludedEdgeCount": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 16384
+            },
+            "boundaryEdgeCount": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 16384
+            }
+          },
+          "required": [
+            "kind",
+            "nodeIds",
+            "excludedNodeCount",
+            "excludedEdgeCount",
+            "boundaryEdgeCount"
+          ]
+        }
+      ]
+    },
+    "policy": {
+      "$ref": "structural-flow-policy.schema.json"
+    },
+    "policyHash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "scope": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "kind": {
+                  "const": "full"
+                }
+              },
+              "required": [
+                "kind"
+              ]
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "kind": {
+                  "const": "induced"
+                },
+                "nodeIds": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 1024
+                  },
+                  "minItems": 2,
+                  "maxItems": 64,
+                  "uniqueItems": true
+                }
+              },
+              "required": [
+                "kind",
+                "nodeIds"
+              ]
+            }
+          ]
+        },
+        "initialLengths": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "edgeId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1024
+              },
+              "length": {
+                "$ref": "structural-flow-input.schema.json#/$defs/positiveRational"
+              }
+            },
+            "required": [
+              "edgeId",
+              "length"
+            ]
+          },
+          "minItems": 1,
+          "maxItems": 64
+        },
+        "maxIterations": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 24
+        },
+        "step": {
+          "enum": [
+            "half",
+            "one"
+          ]
+        },
+        "idleness": {
+          "enum": [
+            "zero",
+            "half"
+          ]
+        },
+        "stableSteps": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 8
+        },
+        "tolerance": {
+          "$ref": "structural-flow-input.schema.json#/$defs/positiveRational"
+        },
+        "cut": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "kind": {
+                  "const": "none"
+                }
+              },
+              "required": [
+                "kind"
+              ]
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "kind": {
+                  "const": "final-length"
+                },
+                "threshold": {
+                  "$ref": "structural-flow-input.schema.json#/$defs/positiveRational"
+                }
+              },
+              "required": [
+                "kind",
+                "threshold"
+              ]
+            }
+          ]
+        }
+      },
+      "required": [
+        "scope",
+        "initialLengths",
+        "maxIterations",
+        "step",
+        "idleness",
+        "stableSteps",
+        "tolerance",
+        "cut"
+      ]
+    },
+    "requestHash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "analysis",
+    "model",
+    "sourceProjectionHash",
+    "projectionHash",
+    "graph",
+    "scope",
+    "policy",
+    "policyHash",
+    "parameters",
+    "requestHash"
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "name": "@onto2d/structural-geometry",
+  "version": "0.1.0",
+  "description": "Read-only directed Forman geometry and certified external Ollivier transport for verified Onto2D Model Packs.",
+  "type": "module",
+  "types": "./src/index.d.ts",
+  "license": "MIT",
+  "sideEffects": false,
+  "files": [
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DenBraun/Onto2D.git",
+    "directory": "packages/structural-geometry"
+  },
+  "bugs": {
+    "url": "https://github.com/DenBraun/Onto2D/issues"
+  },
+  "homepage": "https://github.com/DenBraun/Onto2D/tree/main/packages/structural-geometry#readme",
+  "publishConfig": {
+    "access": "public"
+  },
+  "exports": {
+    "./canonical": {
+      "types": "./src/canonical.d.ts",
+      "import": "./src/canonical.js"
+    },
+    "./providers": {
+      "types": "./src/providers.d.ts",
+      "import": "./src/providers.js"
+    },
+    ".": {
+      "types": "./src/index.d.ts",
+      "import": "./src/index.js"
+    },
+    "./ollivier": {
+      "types": "./src/ollivier.d.ts",
+      "import": "./src/ollivier.js"
+    },
+    "./ollivier/node": {
+      "types": "./src/ollivier-node.d.ts",
+      "import": "./src/ollivier-node.js"
+    },
+    "./experiments": {
+      "types": "./src/experiments.d.ts",
+      "import": "./src/experiments.js"
+    },
+    "./flow": {
+      "types": "./src/flow.d.ts",
+      "import": "./src/flow.js"
+    },
+    "./flow/node": {
+      "types": "./src/flow-node.d.ts",
+      "import": "./src/flow-node.js"
+    },
+    "./regimes": {
+      "types": "./src/regimes.d.ts",
+      "import": "./src/regimes.js"
+    },
+    "./topology": {
+      "types": "./src/topology.d.ts",
+      "import": "./src/topology.js"
+    },
+    "./typed": {
+      "types": "./src/typed.d.ts",
+      "import": "./src/typed.js"
+    }
+  },
+  "dependencies": {
+    "@onto2d/engine": "0.1.0",
+    "@onto2d/kernel": "0.1.0",
+    "@onto2d/model-pack": "0.1.0",
+    "@onto2d/scientific-adapter": "0.1.0"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

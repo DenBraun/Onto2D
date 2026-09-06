@@ -1,0 +1,883 @@
+{
+  "expectations": [
+    {
+      "id": "normalized-star-fixed-point",
+      "statement": "Both directed stars preserve normalized lengths [2/5,4/5,6/5,8/5], W equals length, all curvature is zero, and stop at fixed-point iteration 1 for every step/idleness combination. No cut."
+    },
+    {
+      "id": "bridge-separation-at-fixed-cap",
+      "statement": "Two bidirected K4 groups joined by reciprocal gateway arcs, initially unit lengths, use step one and zero idleness for at most 16 transformations. Exact class recurrence predicts bridge lengths above 2 and every within-group length below 2 at state 16; strict final cut removes only the two bridge arcs and recovers the two K4 groups. Report actual stopping reason; a cap does not establish convergence."
+    }
+  ],
+  "graphs": [
+    {
+      "edges": [
+        {
+          "id": "leaf-1->center",
+          "source": "leaf-1",
+          "target": "center"
+        },
+        {
+          "id": "leaf-2->center",
+          "source": "leaf-2",
+          "target": "center"
+        },
+        {
+          "id": "leaf-3->center",
+          "source": "leaf-3",
+          "target": "center"
+        },
+        {
+          "id": "leaf-4->center",
+          "source": "leaf-4",
+          "target": "center"
+        }
+      ],
+      "id": "inward-star",
+      "nodes": [
+        {
+          "id": "center"
+        },
+        {
+          "id": "leaf-1"
+        },
+        {
+          "id": "leaf-2"
+        },
+        {
+          "id": "leaf-3"
+        },
+        {
+          "id": "leaf-4"
+        }
+      ]
+    },
+    {
+      "edges": [
+        {
+          "id": "center->leaf-1",
+          "source": "center",
+          "target": "leaf-1"
+        },
+        {
+          "id": "center->leaf-2",
+          "source": "center",
+          "target": "leaf-2"
+        },
+        {
+          "id": "center->leaf-3",
+          "source": "center",
+          "target": "leaf-3"
+        },
+        {
+          "id": "center->leaf-4",
+          "source": "center",
+          "target": "leaf-4"
+        }
+      ],
+      "id": "outward-star",
+      "nodes": [
+        {
+          "id": "center"
+        },
+        {
+          "id": "leaf-1"
+        },
+        {
+          "id": "leaf-2"
+        },
+        {
+          "id": "leaf-3"
+        },
+        {
+          "id": "leaf-4"
+        }
+      ]
+    },
+    {
+      "edges": [
+        {
+          "id": "a0->a1",
+          "source": "a0",
+          "target": "a1"
+        },
+        {
+          "id": "a0->a2",
+          "source": "a0",
+          "target": "a2"
+        },
+        {
+          "id": "a0->a3",
+          "source": "a0",
+          "target": "a3"
+        },
+        {
+          "id": "a1->a0",
+          "source": "a1",
+          "target": "a0"
+        },
+        {
+          "id": "a1->a2",
+          "source": "a1",
+          "target": "a2"
+        },
+        {
+          "id": "a1->a3",
+          "source": "a1",
+          "target": "a3"
+        },
+        {
+          "id": "a2->a0",
+          "source": "a2",
+          "target": "a0"
+        },
+        {
+          "id": "a2->a1",
+          "source": "a2",
+          "target": "a1"
+        },
+        {
+          "id": "a2->a3",
+          "source": "a2",
+          "target": "a3"
+        },
+        {
+          "id": "a3->a0",
+          "source": "a3",
+          "target": "a0"
+        },
+        {
+          "id": "a3->a1",
+          "source": "a3",
+          "target": "a1"
+        },
+        {
+          "id": "a3->a2",
+          "source": "a3",
+          "target": "a2"
+        },
+        {
+          "id": "b0->b1",
+          "source": "b0",
+          "target": "b1"
+        },
+        {
+          "id": "b0->b2",
+          "source": "b0",
+          "target": "b2"
+        },
+        {
+          "id": "b0->b3",
+          "source": "b0",
+          "target": "b3"
+        },
+        {
+          "id": "b1->b0",
+          "source": "b1",
+          "target": "b0"
+        },
+        {
+          "id": "b1->b2",
+          "source": "b1",
+          "target": "b2"
+        },
+        {
+          "id": "b1->b3",
+          "source": "b1",
+          "target": "b3"
+        },
+        {
+          "id": "b2->b0",
+          "source": "b2",
+          "target": "b0"
+        },
+        {
+          "id": "b2->b1",
+          "source": "b2",
+          "target": "b1"
+        },
+        {
+          "id": "b2->b3",
+          "source": "b2",
+          "target": "b3"
+        },
+        {
+          "id": "b3->b0",
+          "source": "b3",
+          "target": "b0"
+        },
+        {
+          "id": "b3->b1",
+          "source": "b3",
+          "target": "b1"
+        },
+        {
+          "id": "b3->b2",
+          "source": "b3",
+          "target": "b2"
+        },
+        {
+          "id": "a0->b0",
+          "source": "a0",
+          "target": "b0"
+        },
+        {
+          "id": "b0->a0",
+          "source": "b0",
+          "target": "a0"
+        }
+      ],
+      "id": "two-k4-single-bridge",
+      "nodes": [
+        {
+          "id": "a0"
+        },
+        {
+          "id": "a1"
+        },
+        {
+          "id": "a2"
+        },
+        {
+          "id": "a3"
+        },
+        {
+          "id": "b0"
+        },
+        {
+          "id": "b1"
+        },
+        {
+          "id": "b2"
+        },
+        {
+          "id": "b3"
+        }
+      ]
+    }
+  ],
+  "normalization": "total-length-equals-scoped-edge-count",
+  "policyId": "directed-ollivier-shadow-flow-v1",
+  "runs": [
+    {
+      "expectationId": "normalized-star-fixed-point",
+      "graphId": "inward-star",
+      "id": "inward-star-half-zero",
+      "input": {
+        "cut": {
+          "kind": "none"
+        },
+        "idleness": "zero",
+        "initialLengths": [
+          {
+            "edgeId": "leaf-1->center",
+            "length": {
+              "denominator": "1",
+              "numerator": "1"
+            }
+          },
+          {
+            "edgeId": "leaf-2->center",
+            "length": {
+              "denominator": "1",
+              "numerator": "2"
+            }
+          },
+          {
+            "edgeId": "leaf-3->center",
+            "length": {
+              "denominator": "1",
+              "numerator": "3"
+            }
+          },
+          {
+            "edgeId": "leaf-4->center",
+            "length": {
+              "denominator": "1",
+              "numerator": "4"
+            }
+          }
+        ],
+        "maxIterations": 8,
+        "scope": {
+          "kind": "full"
+        },
+        "stableSteps": 2,
+        "step": "half",
+        "tolerance": {
+          "denominator": "1000000000000000000000000000000",
+          "numerator": "1"
+        }
+      }
+    },
+    {
+      "expectationId": "normalized-star-fixed-point",
+      "graphId": "inward-star",
+      "id": "inward-star-half-half",
+      "input": {
+        "cut": {
+          "kind": "none"
+        },
+        "idleness": "half",
+        "initialLengths": [
+          {
+            "edgeId": "leaf-1->center",
+            "length": {
+              "denominator": "1",
+              "numerator": "1"
+            }
+          },
+          {
+            "edgeId": "leaf-2->center",
+            "length": {
+              "denominator": "1",
+              "numerator": "2"
+            }
+          },
+          {
+            "edgeId": "leaf-3->center",
+            "length": {
+              "denominator": "1",
+              "numerator": "3"
+            }
+          },
+          {
+            "edgeId": "leaf-4->center",
+            "length": {
+              "denominator": "1",
+              "numerator": "4"
+            }
+          }
+        ],
+        "maxIterations": 8,
+        "scope": {
+          "kind": "full"
+        },
+        "stableSteps": 2,
+        "step": "half",
+        "tolerance": {
+          "denominator": "1000000000000000000000000000000",
+          "numerator": "1"
+        }
+      }
+    },
+    {
+      "expectationId": "normalized-star-fixed-point",
+      "graphId": "inward-star",
+      "id": "inward-star-one-zero",
+      "input": {
+        "cut": {
+          "kind": "none"
+        },
+        "idleness": "zero",
+        "initialLengths": [
+          {
+            "edgeId": "leaf-1->center",
+            "length": {
+              "denominator": "1",
+              "numerator": "1"
+            }
+          },
+          {
+            "edgeId": "leaf-2->center",
+            "length": {
+              "denominator": "1",
+              "numerator": "2"
+            }
+          },
+          {
+            "edgeId": "leaf-3->center",
+            "length": {
+              "denominator": "1",
+              "numerator": "3"
+            }
+          },
+          {
+            "edgeId": "leaf-4->center",
+            "length": {
+              "denominator": "1",
+              "numerator": "4"
+            }
+          }
+        ],
+        "maxIterations": 8,
+        "scope": {
+          "kind": "full"
+        },
+        "stableSteps": 2,
+        "step": "one",
+        "tolerance": {
+          "denominator": "1000000000000000000000000000000",
+          "numerator": "1"
+        }
+      }
+    },
+    {
+      "expectationId": "normalized-star-fixed-point",
+      "graphId": "inward-star",
+      "id": "inward-star-one-half",
+      "input": {
+        "cut": {
+          "kind": "none"
+        },
+        "idleness": "half",
+        "initialLengths": [
+          {
+            "edgeId": "leaf-1->center",
+            "length": {
+              "denominator": "1",
+              "numerator": "1"
+            }
+          },
+          {
+            "edgeId": "leaf-2->center",
+            "length": {
+              "denominator": "1",
+              "numerator": "2"
+            }
+          },
+          {
+            "edgeId": "leaf-3->center",
+            "length": {
+              "denominator": "1",
+              "numerator": "3"
+            }
+          },
+          {
+            "edgeId": "leaf-4->center",
+            "length": {
+              "denominator": "1",
+              "numerator": "4"
+            }
+          }
+        ],
+        "maxIterations": 8,
+        "scope": {
+          "kind": "full"
+        },
+        "stableSteps": 2,
+        "step": "one",
+        "tolerance": {
+          "denominator": "1000000000000000000000000000000",
+          "numerator": "1"
+        }
+      }
+    },
+    {
+      "expectationId": "normalized-star-fixed-point",
+      "graphId": "outward-star",
+      "id": "outward-star-half-zero",
+      "input": {
+        "cut": {
+          "kind": "none"
+        },
+        "idleness": "zero",
+        "initialLengths": [
+          {
+            "edgeId": "center->leaf-1",
+            "length": {
+              "denominator": "1",
+              "numerator": "1"
+            }
+          },
+          {
+            "edgeId": "center->leaf-2",
+            "length": {
+              "denominator": "1",
+              "numerator": "2"
+            }
+          },
+          {
+            "edgeId": "center->leaf-3",
+            "length": {
+              "denominator": "1",
+              "numerator": "3"
+            }
+          },
+          {
+            "edgeId": "center->leaf-4",
+            "length": {
+              "denominator": "1",
+              "numerator": "4"
+            }
+          }
+        ],
+        "maxIterations": 8,
+        "scope": {
+          "kind": "full"
+        },
+        "stableSteps": 2,
+        "step": "half",
+        "tolerance": {
+          "denominator": "1000000000000000000000000000000",
+          "numerator": "1"
+        }
+      }
+    },
+    {
+      "expectationId": "normalized-star-fixed-point",
+      "graphId": "outward-star",
+      "id": "outward-star-half-half",
+      "input": {
+        "cut": {
+          "kind": "none"
+        },
+        "idleness": "half",
+        "initialLengths": [
+          {
+            "edgeId": "center->leaf-1",
+            "length": {
+              "denominator": "1",
+              "numerator": "1"
+            }
+          },
+          {
+            "edgeId": "center->leaf-2",
+            "length": {
+              "denominator": "1",
+              "numerator": "2"
+            }
+          },
+          {
+            "edgeId": "center->leaf-3",
+            "length": {
+              "denominator": "1",
+              "numerator": "3"
+            }
+          },
+          {
+            "edgeId": "center->leaf-4",
+            "length": {
+              "denominator": "1",
+              "numerator": "4"
+            }
+          }
+        ],
+        "maxIterations": 8,
+        "scope": {
+          "kind": "full"
+        },
+        "stableSteps": 2,
+        "step": "half",
+        "tolerance": {
+          "denominator": "1000000000000000000000000000000",
+          "numerator": "1"
+        }
+      }
+    },
+    {
+      "expectationId": "normalized-star-fixed-point",
+      "graphId": "outward-star",
+      "id": "outward-star-one-zero",
+      "input": {
+        "cut": {
+          "kind": "none"
+        },
+        "idleness": "zero",
+        "initialLengths": [
+          {
+            "edgeId": "center->leaf-1",
+            "length": {
+              "denominator": "1",
+              "numerator": "1"
+            }
+          },
+          {
+            "edgeId": "center->leaf-2",
+            "length": {
+              "denominator": "1",
+              "numerator": "2"
+            }
+          },
+          {
+            "edgeId": "center->leaf-3",
+            "length": {
+              "denominator": "1",
+              "numerator": "3"
+            }
+          },
+          {
+            "edgeId": "center->leaf-4",
+            "length": {
+              "denominator": "1",
+              "numerator": "4"
+            }
+          }
+        ],
+        "maxIterations": 8,
+        "scope": {
+          "kind": "full"
+        },
+        "stableSteps": 2,
+        "step": "one",
+        "tolerance": {
+          "denominator": "1000000000000000000000000000000",
+          "numerator": "1"
+        }
+      }
+    },
+    {
+      "expectationId": "normalized-star-fixed-point",
+      "graphId": "outward-star",
+      "id": "outward-star-one-half",
+      "input": {
+        "cut": {
+          "kind": "none"
+        },
+        "idleness": "half",
+        "initialLengths": [
+          {
+            "edgeId": "center->leaf-1",
+            "length": {
+              "denominator": "1",
+              "numerator": "1"
+            }
+          },
+          {
+            "edgeId": "center->leaf-2",
+            "length": {
+              "denominator": "1",
+              "numerator": "2"
+            }
+          },
+          {
+            "edgeId": "center->leaf-3",
+            "length": {
+              "denominator": "1",
+              "numerator": "3"
+            }
+          },
+          {
+            "edgeId": "center->leaf-4",
+            "length": {
+              "denominator": "1",
+              "numerator": "4"
+            }
+          }
+        ],
+        "maxIterations": 8,
+        "scope": {
+          "kind": "full"
+        },
+        "stableSteps": 2,
+        "step": "one",
+        "tolerance": {
+          "denominator": "1000000000000000000000000000000",
+          "numerator": "1"
+        }
+      }
+    },
+    {
+      "expectationId": "bridge-separation-at-fixed-cap",
+      "graphId": "two-k4-single-bridge",
+      "id": "two-k4-single-bridge-one-zero",
+      "input": {
+        "cut": {
+          "kind": "final-length",
+          "threshold": {
+            "denominator": "1",
+            "numerator": "2"
+          }
+        },
+        "idleness": "zero",
+        "initialLengths": [
+          {
+            "edgeId": "a0->a1",
+            "length": {
+              "denominator": "1",
+              "numerator": "1"
+            }
+          },
+          {
+            "edgeId": "a0->a2",
+            "length": {
+              "denominator": "1",
+              "numerator": "1"
+            }
+          },
+          {
+            "edgeId": "a0->a3",
+            "length": {
+              "denominator": "1",
+              "numerator": "1"
+            }
+          },
+          {
+            "edgeId": "a1->a0",
+            "length": {
+              "denominator": "1",
+              "numerator": "1"
+            }
+          },
+          {
+            "edgeId": "a1->a2",
+            "length": {
+              "denominator": "1",
+              "numerator": "1"
+            }
+          },
+          {
+            "edgeId": "a1->a3",
+            "length": {
+              "denominator": "1",
+              "numerator": "1"
+            }
+          },
+          {
+            "edgeId": "a2->a0",
+            "length": {
+              "denominator": "1",
+              "numerator": "1"
+            }
+          },
+          {
+            "edgeId": "a2->a1",
+            "length": {
+              "denominator": "1",
+              "numerator": "1"
+            }
+          },
+          {
+            "edgeId": "a2->a3",
+            "length": {
+              "denominator": "1",
+              "numerator": "1"
+            }
+          },
+          {
+            "edgeId": "a3->a0",
+            "length": {
+              "denominator": "1",
+              "numerator": "1"
+            }
+          },
+          {
+            "edgeId": "a3->a1",
+            "length": {
+              "denominator": "1",
+              "numerator": "1"
+            }
+          },
+          {
+            "edgeId": "a3->a2",
+            "length": {
+              "denominator": "1",
+              "numerator": "1"
+            }
+          },
+          {
+            "edgeId": "b0->b1",
+            "length": {
+              "denominator": "1",
+              "numerator": "1"
+            }
+          },
+          {
+            "edgeId": "b0->b2",
+            "length": {
+              "denominator": "1",
+              "numerator": "1"
+            }
+          },
+          {
+            "edgeId": "b0->b3",
+            "length": {
+              "denominator": "1",
+              "numerator": "1"
+            }
+          },
+          {
+            "edgeId": "b1->b0",
+            "length": {
+              "denominator": "1",
+              "numerator": "1"
+            }
+          },
+          {
+            "edgeId": "b1->b2",
+            "length": {
+              "denominator": "1",
+              "numerator": "1"
+            }
+          },
+          {
+            "edgeId": "b1->b3",
+            "length": {
+              "denominator": "1",
+              "numerator": "1"
+            }
+          },
+          {
+            "edgeId": "b2->b0",
+            "length": {
+              "denominator": "1",
+              "numerator": "1"
+            }
+          },
+          {
+            "edgeId": "b2->b1",
+            "length": {
+              "denominator": "1",
+              "numerator": "1"
+            }
+          },
+          {
+            "edgeId": "b2->b3",
+            "length": {
+              "denominator": "1",
+              "numerator": "1"
+            }
+          },
+          {
+            "edgeId": "b3->b0",
+            "length": {
+              "denominator": "1",
+              "numerator": "1"
+            }
+          },
+          {
+            "edgeId": "b3->b1",
+            "length": {
+              "denominator": "1",
+              "numerator": "1"
+            }
+          },
+          {
+            "edgeId": "b3->b2",
+            "length": {
+              "denominator": "1",
+              "numerator": "1"
+            }
+          },
+          {
+            "edgeId": "a0->b0",
+            "length": {
+              "denominator": "1",
+              "numerator": "1"
+            }
+          },
+          {
+            "edgeId": "b0->a0",
+            "length": {
+              "denominator": "1",
+              "numerator": "1"
+            }
+          }
+        ],
+        "maxIterations": 16,
+        "scope": {
+          "kind": "full"
+        },
+        "stableSteps": 2,
+        "step": "one",
+        "tolerance": {
+          "denominator": "1000000000000000000000000000000",
+          "numerator": "1"
+        }
+      }
+    }
+  ],
+  "schemaVersion": "1",
+  "status": "synthetic-computational-controls",
+  "suiteId": "structural-flow-controls-v1"
+}

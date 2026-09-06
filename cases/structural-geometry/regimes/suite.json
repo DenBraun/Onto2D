@@ -1,0 +1,124 @@
+{
+  "artifactHash": "sha256:ca2f748ec504e541a576e393425957964ea8512f21b67c2ca9383848911542ef",
+  "regimes": [
+    {
+      "contentHash": "sha256:9276d8ad6a0d6e872783a79af4de63727b6452b42db1928ffc9f20111d86a97c",
+      "id": "canonical-structure-v1",
+      "version": "1"
+    },
+    {
+      "contentHash": "sha256:41a6fa10321e885da08f671de608de62cb1e51154b05a1c3cc2154d107f7646c",
+      "id": "topology-only-v1",
+      "version": "1"
+    },
+    {
+      "contentHash": "sha256:5fe49b9439e107998e170cf8cf1e690598dfe8937321f5202ac4c2f270414868",
+      "id": "typed-relations-v1",
+      "version": "1"
+    }
+  ],
+  "runs": [
+    {
+      "artifactHash": "sha256:fc9f84393dfff5edef54ef01f3d40756c57482c8ef7c9df12a780fc997c301e5",
+      "evaluation": "not-run",
+      "file": "artifacts/canonical-structure-v1-control.json",
+      "id": "canonical-structure-v1-control",
+      "input": {
+        "regimeId": "canonical-structure-v1"
+      },
+      "scopedEdges": 4,
+      "scopedNodes": 5
+    },
+    {
+      "artifactHash": "sha256:76ccb284eace9c416859f0a7b35dddc80be6e5774dec30613e6ef7e422126508",
+      "evaluation": "not-run",
+      "file": "artifacts/canonical-structure-v1-causal-fragment.json",
+      "id": "canonical-structure-v1-causal-fragment",
+      "input": {
+        "regimeId": "canonical-structure-v1",
+        "scope": {
+          "kind": "induced",
+          "nodeIds": [
+            "0.0",
+            "0.1",
+            "0.2",
+            "0.3",
+            "0.4",
+            "0.5"
+          ]
+        }
+      },
+      "scopedEdges": 11,
+      "scopedNodes": 6
+    },
+    {
+      "artifactHash": "sha256:0746cff31488fc897e08a94c865dafad53810c8ae37ad193a5ac6b0919db730a",
+      "evaluation": "not-run",
+      "file": "artifacts/topology-only-v1-control.json",
+      "id": "topology-only-v1-control",
+      "input": {
+        "regimeId": "topology-only-v1"
+      },
+      "scopedEdges": 4,
+      "scopedNodes": 5
+    },
+    {
+      "artifactHash": "sha256:ecbb0ff3860f77be4f7fd09adc7d5fbb5bd373ac22a7f05fd05a485ee1e0063f",
+      "evaluation": "not-run",
+      "file": "artifacts/topology-only-v1-causal-fragment.json",
+      "id": "topology-only-v1-causal-fragment",
+      "input": {
+        "regimeId": "topology-only-v1",
+        "scope": {
+          "kind": "induced",
+          "nodeIds": [
+            "0.0",
+            "0.1",
+            "0.2",
+            "0.3",
+            "0.4",
+            "0.5"
+          ]
+        }
+      },
+      "scopedEdges": 11,
+      "scopedNodes": 6
+    },
+    {
+      "artifactHash": "sha256:be3daa67b40e96feb577c02de6c0d9e6e64481a6ffb7c82d6b7e8cf63861ec5f",
+      "evaluation": "not-run",
+      "file": "artifacts/typed-relations-v1-control.json",
+      "id": "typed-relations-v1-control",
+      "input": {
+        "regimeId": "typed-relations-v1"
+      },
+      "scopedEdges": 4,
+      "scopedNodes": 5
+    },
+    {
+      "artifactHash": "sha256:9473c6ad8d186b4ac7afbd7a6f250736bae782843a13f3dd20fb7fdb72fb7222",
+      "evaluation": "not-run",
+      "file": "artifacts/typed-relations-v1-causal-fragment.json",
+      "id": "typed-relations-v1-causal-fragment",
+      "input": {
+        "regimeId": "typed-relations-v1",
+        "scope": {
+          "kind": "induced",
+          "nodeIds": [
+            "0.0",
+            "0.1",
+            "0.2",
+            "0.3",
+            "0.4",
+            "0.5"
+          ]
+        }
+      },
+      "scopedEdges": 11,
+      "scopedNodes": 6
+    }
+  ],
+  "schemaVersion": "1",
+  "status": "contract-preparations-only",
+  "suiteId": "structural-regime-contracts-v1"
+}

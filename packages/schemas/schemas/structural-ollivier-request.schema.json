@@ -1,0 +1,385 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/structural-ollivier-request.schema.json",
+  "title": "Structural Ollivier request",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": "1"
+    },
+    "analysis": {
+      "const": {
+        "id": "structural-ollivier",
+        "version": "1"
+      }
+    },
+    "model": {
+      "$ref": "structural-projection.schema.json#/$defs/modelBinding"
+    },
+    "sourceProjectionHash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "projectionHash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "scope": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "full"
+            },
+            "excludedNodeCount": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4096
+            },
+            "excludedEdgeCount": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 16384
+            },
+            "boundaryEdgeCount": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 16384
+            }
+          },
+          "required": [
+            "kind",
+            "excludedNodeCount",
+            "excludedEdgeCount",
+            "boundaryEdgeCount"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "induced"
+            },
+            "nodeIds": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1024
+              },
+              "minItems": 2,
+              "maxItems": 64,
+              "uniqueItems": true
+            },
+            "excludedNodeCount": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4096
+            },
+            "excludedEdgeCount": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 16384
+            },
+            "boundaryEdgeCount": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 16384
+            }
+          },
+          "required": [
+            "kind",
+            "nodeIds",
+            "excludedNodeCount",
+            "excludedEdgeCount",
+            "boundaryEdgeCount"
+          ]
+        }
+      ]
+    },
+    "graph": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "nodes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1024
+              },
+              "sourceRecordHash": {
+                "type": "string",
+                "pattern": "^sha256:[0-9a-f]{64}$"
+              }
+            },
+            "required": [
+              "id",
+              "sourceRecordHash"
+            ]
+          },
+          "minItems": 2,
+          "maxItems": 64
+        },
+        "edges": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1024
+              },
+              "source": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1024
+              },
+              "target": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1024
+              },
+              "sourceRecordHash": {
+                "type": "string",
+                "pattern": "^sha256:[0-9a-f]{64}$"
+              }
+            },
+            "required": [
+              "id",
+              "source",
+              "target",
+              "sourceRecordHash"
+            ]
+          },
+          "minItems": 1,
+          "maxItems": 256
+        }
+      },
+      "required": [
+        "nodes",
+        "edges"
+      ]
+    },
+    "policy": {
+      "$ref": "structural-ollivier-policy.schema.json"
+    },
+    "policyHash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "scope": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "kind": {
+                  "const": "full"
+                }
+              },
+              "required": [
+                "kind"
+              ]
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "kind": {
+                  "const": "induced"
+                },
+                "nodeIds": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 1024
+                  },
+                  "minItems": 2,
+                  "maxItems": 64,
+                  "uniqueItems": true
+                }
+              },
+              "required": [
+                "kind",
+                "nodeIds"
+              ]
+            }
+          ]
+        },
+        "edgeIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024
+          },
+          "minItems": 1,
+          "maxItems": 32,
+          "uniqueItems": true
+        },
+        "idleness": {
+          "enum": [
+            "zero",
+            "half"
+          ]
+        }
+      },
+      "required": [
+        "scope",
+        "edgeIds",
+        "idleness"
+      ]
+    },
+    "solver": {
+      "const": {
+        "id": "onto2d-python-ollivier-reference",
+        "version": "1",
+        "method": "integer-successive-shortest-path-primal-dual-v1"
+      }
+    },
+    "problems": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "edgeId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024
+          },
+          "source": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024
+          },
+          "target": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024
+          },
+          "distance": {
+            "const": 1
+          },
+          "massDenominator": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 512
+          },
+          "sourceMeasure": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "nodeId": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 1024
+                },
+                "units": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 512
+                }
+              },
+              "required": [
+                "nodeId",
+                "units"
+              ]
+            },
+            "minItems": 1,
+            "maxItems": 16
+          },
+          "targetMeasure": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "nodeId": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 1024
+                },
+                "units": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 512
+                }
+              },
+              "required": [
+                "nodeId",
+                "units"
+              ]
+            },
+            "minItems": 1,
+            "maxItems": 16
+          },
+          "costs": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 3
+              },
+              "minItems": 1,
+              "maxItems": 16
+            },
+            "minItems": 1,
+            "maxItems": 16
+          }
+        },
+        "required": [
+          "edgeId",
+          "source",
+          "target",
+          "distance",
+          "massDenominator",
+          "sourceMeasure",
+          "targetMeasure",
+          "costs"
+        ]
+      },
+      "minItems": 1,
+      "maxItems": 32
+    },
+    "requestHash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "analysis",
+    "model",
+    "sourceProjectionHash",
+    "projectionHash",
+    "scope",
+    "graph",
+    "policy",
+    "policyHash",
+    "parameters",
+    "solver",
+    "problems",
+    "requestHash"
+  ]
+}

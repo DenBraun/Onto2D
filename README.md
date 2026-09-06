@@ -48,6 +48,63 @@ known catalogue findings; it does not silently upgrade them into reviewed
 generative semantics. See the
 [Engine Architecture](docs/ONTO2D_ENGINE_ARCHITECTURE.md).
 
+## Structural Geometry
+
+The [Structural Geometry workstream](docs/structural-geometry/README.md) adds an
+immutable directed projection and unit Forman curvature above verified Model
+Packs, with exact source replay, 16 synthetic controls and a frozen full Causal
+Emergence result. This is descriptive graph analysis; source-parent relations
+retain their source interpretation, and no causal or emergence claim is inferred.
+
+Run `npm run structural-geometry:check` to verify the implementation and
+`npm run structural-geometry:report` to inspect the full-model result.
+
+The [stage-three experiments](cases/structural-geometry/experiments/README.md)
+add necessity/role selections, separate typed channels, a source weight audit
+and an optional local-weight metric. Run
+`npm run structural-geometry:experiments:report` for the verified comparison;
+unit remains the default metric.
+
+The [Ollivier reference path](cases/structural-geometry/ollivier/README.md) adds
+bounded directed neighborhood transport through an external Python oracle,
+exact optimality certificates, request caching and 242 edge values checked with
+independent NetworkX transport. Use `npm run structural-geometry:ollivier:report`
+to inspect the verified controls and explicit source-bound fragments.
+
+The [shadow flow reference](cases/structural-geometry/flow/README.md) evolves
+separate rational edge lengths with exact normalization, convergence traces and
+optional final cuts. Its 11 trajectories agree with independent NetworkX and
+reproduce a published three-group example. Run
+`npm run structural-geometry:flow:report` to inspect the verified results.
+
+The separate [flow control supplement](cases/structural-geometry/flow-controls/README.md)
+adds nine directed-star and single-bridge runs, checked against analytic and
+NetworkX references. Use `npm run structural-geometry:flow:controls:report` to
+inspect them. The original suite remains unchanged.
+
+The [MetricProvider layer](docs/structural-geometry/METRIC_PROVIDERS.md) now exposes
+five metric/view capabilities with verified source contexts and separate legacy
+envelopes. Run `npm run structural-geometry:providers:report` for 13 provider
+profiles and exact compatibility with 73 existing analyses.
+
+The [regime contract foundation](docs/structural-geometry/REGIME_CONTRACTS.md)
+now declares three observation profiles and prepares verified source scopes.
+Run `npm run structural-geometry:regimes:report` for six reproducible preparations;
+their observations are explicitly `not-run`. The separate
+[exact canonical evaluator](docs/structural-geometry/CANONICAL_OBSERVATIONS.md)
+now supplies 17 measured examples and independent checks over 4,165 small
+directed graphs. Run `npm run structural-geometry:canonical:report` to inspect
+them. The [topology evaluator](docs/structural-geometry/TOPOLOGY_OBSERVATIONS.md)
+adds seven directed summaries, 23 artifacts and an exhaustive collision census.
+Run `npm run structural-geometry:topology:report` to inspect them.
+The [typed evaluator](docs/structural-geometry/TYPED_OBSERVATIONS.md) now adds
+joint five-field observations, explicit evidence gaps and vocabulary alignment
+under separately approved mappings. Run `npm run structural-geometry:typed:report`
+for 26 observations and eight compatibility controls. Next come strict comparison
+and coverage under the [revised research plan](docs/structural-geometry/REVISED_ROADMAP.md),
+then probes, response signatures and geometric added-value tests.
+Directed persistence and the public Lab follow the revised research gates.
+
 ## History Matters pilot
 
 The [History Matters Benchmark](docs/history/HISTORY_MATTERS_BENCHMARK.md) adds

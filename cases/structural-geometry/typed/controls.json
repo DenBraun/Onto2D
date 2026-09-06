@@ -1,0 +1,1809 @@
+{
+  "schemaVersion": "1",
+  "colors": [
+    {
+      "dependencyTypeId": 0,
+      "interactionModeIds": [
+        0
+      ],
+      "ontologicalRole": "arising",
+      "necessity": "necessary",
+      "causalDirectionIds": [
+        0
+      ]
+    },
+    {
+      "dependencyTypeId": 1,
+      "interactionModeIds": [
+        1
+      ],
+      "ontologicalRole": "maintenance",
+      "necessity": "optional",
+      "causalDirectionIds": [
+        1
+      ]
+    }
+  ],
+  "controls": [
+    {
+      "id": "singleton",
+      "nodes": 1,
+      "edges": []
+    },
+    {
+      "id": "two-isolates",
+      "nodes": 2,
+      "edges": []
+    },
+    {
+      "id": "single-edge",
+      "nodes": 2,
+      "edges": [
+        {
+          "from": 0,
+          "to": 1,
+          "types": {
+            "dependencyTypeId": 0,
+            "interactionModeIds": [
+              0
+            ],
+            "ontologicalRole": "arising",
+            "necessity": "necessary",
+            "causalDirectionIds": [
+              0
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "change-dependencyTypeId",
+      "nodes": 2,
+      "edges": [
+        {
+          "from": 0,
+          "to": 1,
+          "types": {
+            "dependencyTypeId": 1,
+            "interactionModeIds": [
+              0
+            ],
+            "ontologicalRole": "arising",
+            "necessity": "necessary",
+            "causalDirectionIds": [
+              0
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "change-interactionModeIds",
+      "nodes": 2,
+      "edges": [
+        {
+          "from": 0,
+          "to": 1,
+          "types": {
+            "dependencyTypeId": 0,
+            "interactionModeIds": [
+              1
+            ],
+            "ontologicalRole": "arising",
+            "necessity": "necessary",
+            "causalDirectionIds": [
+              0
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "change-ontologicalRole",
+      "nodes": 2,
+      "edges": [
+        {
+          "from": 0,
+          "to": 1,
+          "types": {
+            "dependencyTypeId": 0,
+            "interactionModeIds": [
+              0
+            ],
+            "ontologicalRole": "maintenance",
+            "necessity": "necessary",
+            "causalDirectionIds": [
+              0
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "change-necessity",
+      "nodes": 2,
+      "edges": [
+        {
+          "from": 0,
+          "to": 1,
+          "types": {
+            "dependencyTypeId": 0,
+            "interactionModeIds": [
+              0
+            ],
+            "ontologicalRole": "arising",
+            "necessity": "optional",
+            "causalDirectionIds": [
+              0
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "change-causalDirectionIds",
+      "nodes": 2,
+      "edges": [
+        {
+          "from": 0,
+          "to": 1,
+          "types": {
+            "dependencyTypeId": 0,
+            "interactionModeIds": [
+              0
+            ],
+            "ontologicalRole": "arising",
+            "necessity": "necessary",
+            "causalDirectionIds": [
+              1
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "reciprocal-correlated",
+      "nodes": 2,
+      "edges": [
+        {
+          "from": 0,
+          "to": 1,
+          "types": {
+            "dependencyTypeId": 0,
+            "interactionModeIds": [
+              0
+            ],
+            "ontologicalRole": "arising",
+            "necessity": "necessary",
+            "causalDirectionIds": [
+              0
+            ]
+          }
+        },
+        {
+          "from": 1,
+          "to": 0,
+          "types": {
+            "dependencyTypeId": 1,
+            "interactionModeIds": [
+              1
+            ],
+            "ontologicalRole": "maintenance",
+            "necessity": "optional",
+            "causalDirectionIds": [
+              1
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "reciprocal-crossed",
+      "nodes": 2,
+      "edges": [
+        {
+          "from": 0,
+          "to": 1,
+          "types": {
+            "dependencyTypeId": 0,
+            "interactionModeIds": [
+              1
+            ],
+            "ontologicalRole": "arising",
+            "necessity": "necessary",
+            "causalDirectionIds": [
+              0
+            ]
+          }
+        },
+        {
+          "from": 1,
+          "to": 0,
+          "types": {
+            "dependencyTypeId": 1,
+            "interactionModeIds": [
+              0
+            ],
+            "ontologicalRole": "maintenance",
+            "necessity": "optional",
+            "causalDirectionIds": [
+              1
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "set-order",
+      "nodes": 2,
+      "edges": [
+        {
+          "from": 0,
+          "to": 1,
+          "types": {
+            "dependencyTypeId": 0,
+            "interactionModeIds": [
+              0,
+              2
+            ],
+            "ontologicalRole": "arising",
+            "necessity": "necessary",
+            "causalDirectionIds": [
+              1,
+              2
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "set-reordered",
+      "nodes": 2,
+      "edges": [
+        {
+          "from": 0,
+          "to": 1,
+          "types": {
+            "dependencyTypeId": 0,
+            "interactionModeIds": [
+              2,
+              0
+            ],
+            "ontologicalRole": "arising",
+            "necessity": "necessary",
+            "causalDirectionIds": [
+              2,
+              1
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "empty-sets",
+      "nodes": 2,
+      "edges": [
+        {
+          "from": 0,
+          "to": 1,
+          "types": {
+            "dependencyTypeId": 0,
+            "interactionModeIds": [],
+            "ontologicalRole": "arising",
+            "necessity": "necessary",
+            "causalDirectionIds": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "missing-field",
+      "nodes": 2,
+      "edges": [
+        {
+          "from": 0,
+          "to": 1,
+          "types": {
+            "dependencyTypeId": 0,
+            "ontologicalRole": "arising",
+            "necessity": "necessary",
+            "causalDirectionIds": [
+              0
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "all-fields-missing",
+      "nodes": 2,
+      "edges": [
+        {
+          "from": 0,
+          "to": 1,
+          "types": {}
+        }
+      ]
+    },
+    {
+      "id": "excluded-missing",
+      "nodes": 3,
+      "edges": [
+        {
+          "from": 0,
+          "to": 1,
+          "types": {}
+        }
+      ],
+      "scope": [
+        "n2"
+      ]
+    },
+    {
+      "id": "directed-cycle",
+      "nodes": 3,
+      "edges": [
+        {
+          "from": 0,
+          "to": 1,
+          "types": {
+            "dependencyTypeId": 0,
+            "interactionModeIds": [
+              0
+            ],
+            "ontologicalRole": "arising",
+            "necessity": "necessary",
+            "causalDirectionIds": [
+              0
+            ]
+          }
+        },
+        {
+          "from": 1,
+          "to": 2,
+          "types": {
+            "dependencyTypeId": 1,
+            "interactionModeIds": [
+              1
+            ],
+            "ontologicalRole": "maintenance",
+            "necessity": "optional",
+            "causalDirectionIds": [
+              1
+            ]
+          }
+        },
+        {
+          "from": 2,
+          "to": 0,
+          "types": {
+            "dependencyTypeId": 0,
+            "interactionModeIds": [
+              0
+            ],
+            "ontologicalRole": "arising",
+            "necessity": "necessary",
+            "causalDirectionIds": [
+              0
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "asymmetric-six",
+      "nodes": 6,
+      "edges": [
+        {
+          "from": 0,
+          "to": 1,
+          "types": {
+            "dependencyTypeId": 0,
+            "interactionModeIds": [
+              0
+            ],
+            "ontologicalRole": "arising",
+            "necessity": "necessary",
+            "causalDirectionIds": [
+              0
+            ]
+          }
+        },
+        {
+          "from": 0,
+          "to": 2,
+          "types": {
+            "dependencyTypeId": 1,
+            "interactionModeIds": [
+              1
+            ],
+            "ontologicalRole": "maintenance",
+            "necessity": "optional",
+            "causalDirectionIds": [
+              1
+            ]
+          }
+        },
+        {
+          "from": 1,
+          "to": 2,
+          "types": {
+            "dependencyTypeId": 0,
+            "interactionModeIds": [
+              0
+            ],
+            "ontologicalRole": "arising",
+            "necessity": "necessary",
+            "causalDirectionIds": [
+              0
+            ]
+          }
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "types": {
+            "dependencyTypeId": 1,
+            "interactionModeIds": [
+              1
+            ],
+            "ontologicalRole": "maintenance",
+            "necessity": "optional",
+            "causalDirectionIds": [
+              1
+            ]
+          }
+        },
+        {
+          "from": 3,
+          "to": 4,
+          "types": {
+            "dependencyTypeId": 0,
+            "interactionModeIds": [
+              0
+            ],
+            "ontologicalRole": "arising",
+            "necessity": "necessary",
+            "causalDirectionIds": [
+              0
+            ]
+          }
+        },
+        {
+          "from": 4,
+          "to": 2,
+          "types": {
+            "dependencyTypeId": 1,
+            "interactionModeIds": [
+              1
+            ],
+            "ontologicalRole": "maintenance",
+            "necessity": "optional",
+            "causalDirectionIds": [
+              1
+            ]
+          }
+        },
+        {
+          "from": 4,
+          "to": 5,
+          "types": {
+            "dependencyTypeId": 0,
+            "interactionModeIds": [
+              0
+            ],
+            "ontologicalRole": "arising",
+            "necessity": "necessary",
+            "causalDirectionIds": [
+              0
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "asymmetric-six-renamed",
+      "nodes": 6,
+      "edges": [
+        {
+          "from": 0,
+          "to": 1,
+          "types": {
+            "dependencyTypeId": 0,
+            "interactionModeIds": [
+              0
+            ],
+            "ontologicalRole": "arising",
+            "necessity": "necessary",
+            "causalDirectionIds": [
+              0
+            ]
+          }
+        },
+        {
+          "from": 0,
+          "to": 2,
+          "types": {
+            "dependencyTypeId": 1,
+            "interactionModeIds": [
+              1
+            ],
+            "ontologicalRole": "maintenance",
+            "necessity": "optional",
+            "causalDirectionIds": [
+              1
+            ]
+          }
+        },
+        {
+          "from": 1,
+          "to": 2,
+          "types": {
+            "dependencyTypeId": 0,
+            "interactionModeIds": [
+              0
+            ],
+            "ontologicalRole": "arising",
+            "necessity": "necessary",
+            "causalDirectionIds": [
+              0
+            ]
+          }
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "types": {
+            "dependencyTypeId": 1,
+            "interactionModeIds": [
+              1
+            ],
+            "ontologicalRole": "maintenance",
+            "necessity": "optional",
+            "causalDirectionIds": [
+              1
+            ]
+          }
+        },
+        {
+          "from": 3,
+          "to": 4,
+          "types": {
+            "dependencyTypeId": 0,
+            "interactionModeIds": [
+              0
+            ],
+            "ontologicalRole": "arising",
+            "necessity": "necessary",
+            "causalDirectionIds": [
+              0
+            ]
+          }
+        },
+        {
+          "from": 4,
+          "to": 2,
+          "types": {
+            "dependencyTypeId": 1,
+            "interactionModeIds": [
+              1
+            ],
+            "ontologicalRole": "maintenance",
+            "necessity": "optional",
+            "causalDirectionIds": [
+              1
+            ]
+          }
+        },
+        {
+          "from": 4,
+          "to": 5,
+          "types": {
+            "dependencyTypeId": 0,
+            "interactionModeIds": [
+              0
+            ],
+            "ontologicalRole": "arising",
+            "necessity": "necessary",
+            "causalDirectionIds": [
+              0
+            ]
+          }
+        }
+      ],
+      "labels": [
+        "😀",
+        "",
+        "a",
+        "10",
+        "0",
+        "-"
+      ]
+    },
+    {
+      "id": "asymmetric-six-annotations",
+      "nodes": 6,
+      "edges": [
+        {
+          "from": 0,
+          "to": 1,
+          "types": {
+            "dependencyTypeId": 0,
+            "interactionModeIds": [
+              0
+            ],
+            "ontologicalRole": "arising",
+            "necessity": "necessary",
+            "causalDirectionIds": [
+              0
+            ]
+          }
+        },
+        {
+          "from": 0,
+          "to": 2,
+          "types": {
+            "dependencyTypeId": 1,
+            "interactionModeIds": [
+              1
+            ],
+            "ontologicalRole": "maintenance",
+            "necessity": "optional",
+            "causalDirectionIds": [
+              1
+            ]
+          }
+        },
+        {
+          "from": 1,
+          "to": 2,
+          "types": {
+            "dependencyTypeId": 0,
+            "interactionModeIds": [
+              0
+            ],
+            "ontologicalRole": "arising",
+            "necessity": "necessary",
+            "causalDirectionIds": [
+              0
+            ]
+          }
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "types": {
+            "dependencyTypeId": 1,
+            "interactionModeIds": [
+              1
+            ],
+            "ontologicalRole": "maintenance",
+            "necessity": "optional",
+            "causalDirectionIds": [
+              1
+            ]
+          }
+        },
+        {
+          "from": 3,
+          "to": 4,
+          "types": {
+            "dependencyTypeId": 0,
+            "interactionModeIds": [
+              0
+            ],
+            "ontologicalRole": "arising",
+            "necessity": "necessary",
+            "causalDirectionIds": [
+              0
+            ]
+          }
+        },
+        {
+          "from": 4,
+          "to": 2,
+          "types": {
+            "dependencyTypeId": 1,
+            "interactionModeIds": [
+              1
+            ],
+            "ontologicalRole": "maintenance",
+            "necessity": "optional",
+            "causalDirectionIds": [
+              1
+            ]
+          }
+        },
+        {
+          "from": 4,
+          "to": 5,
+          "types": {
+            "dependencyTypeId": 0,
+            "interactionModeIds": [
+              0
+            ],
+            "ontologicalRole": "arising",
+            "necessity": "necessary",
+            "causalDirectionIds": [
+              0
+            ]
+          }
+        }
+      ],
+      "nodeAttributes": {
+        "scientificStatus": "control-only",
+        "name": "Presentation"
+      },
+      "edgeAttributes": {
+        "weight": 0.25,
+        "confidence": 0.8
+      },
+      "dictionaries": {
+        "note": "Different local dictionary provenance"
+      }
+    },
+    {
+      "id": "six-isolates",
+      "nodes": 6,
+      "edges": []
+    },
+    {
+      "id": "complete-six",
+      "nodes": 6,
+      "edges": [
+        {
+          "from": 0,
+          "to": 1,
+          "types": {
+            "dependencyTypeId": 1,
+            "interactionModeIds": [
+              1
+            ],
+            "ontologicalRole": "maintenance",
+            "necessity": "optional",
+            "causalDirectionIds": [
+              1
+            ]
+          }
+        },
+        {
+          "from": 0,
+          "to": 2,
+          "types": {
+            "dependencyTypeId": 0,
+            "interactionModeIds": [
+              0
+            ],
+            "ontologicalRole": "arising",
+            "necessity": "necessary",
+            "causalDirectionIds": [
+              0
+            ]
+          }
+        },
+        {
+          "from": 0,
+          "to": 3,
+          "types": {
+            "dependencyTypeId": 1,
+            "interactionModeIds": [
+              1
+            ],
+            "ontologicalRole": "maintenance",
+            "necessity": "optional",
+            "causalDirectionIds": [
+              1
+            ]
+          }
+        },
+        {
+          "from": 0,
+          "to": 4,
+          "types": {
+            "dependencyTypeId": 0,
+            "interactionModeIds": [
+              0
+            ],
+            "ontologicalRole": "arising",
+            "necessity": "necessary",
+            "causalDirectionIds": [
+              0
+            ]
+          }
+        },
+        {
+          "from": 0,
+          "to": 5,
+          "types": {
+            "dependencyTypeId": 1,
+            "interactionModeIds": [
+              1
+            ],
+            "ontologicalRole": "maintenance",
+            "necessity": "optional",
+            "causalDirectionIds": [
+              1
+            ]
+          }
+        },
+        {
+          "from": 1,
+          "to": 0,
+          "types": {
+            "dependencyTypeId": 1,
+            "interactionModeIds": [
+              1
+            ],
+            "ontologicalRole": "maintenance",
+            "necessity": "optional",
+            "causalDirectionIds": [
+              1
+            ]
+          }
+        },
+        {
+          "from": 1,
+          "to": 2,
+          "types": {
+            "dependencyTypeId": 1,
+            "interactionModeIds": [
+              1
+            ],
+            "ontologicalRole": "maintenance",
+            "necessity": "optional",
+            "causalDirectionIds": [
+              1
+            ]
+          }
+        },
+        {
+          "from": 1,
+          "to": 3,
+          "types": {
+            "dependencyTypeId": 0,
+            "interactionModeIds": [
+              0
+            ],
+            "ontologicalRole": "arising",
+            "necessity": "necessary",
+            "causalDirectionIds": [
+              0
+            ]
+          }
+        },
+        {
+          "from": 1,
+          "to": 4,
+          "types": {
+            "dependencyTypeId": 1,
+            "interactionModeIds": [
+              1
+            ],
+            "ontologicalRole": "maintenance",
+            "necessity": "optional",
+            "causalDirectionIds": [
+              1
+            ]
+          }
+        },
+        {
+          "from": 1,
+          "to": 5,
+          "types": {
+            "dependencyTypeId": 0,
+            "interactionModeIds": [
+              0
+            ],
+            "ontologicalRole": "arising",
+            "necessity": "necessary",
+            "causalDirectionIds": [
+              0
+            ]
+          }
+        },
+        {
+          "from": 2,
+          "to": 0,
+          "types": {
+            "dependencyTypeId": 0,
+            "interactionModeIds": [
+              0
+            ],
+            "ontologicalRole": "arising",
+            "necessity": "necessary",
+            "causalDirectionIds": [
+              0
+            ]
+          }
+        },
+        {
+          "from": 2,
+          "to": 1,
+          "types": {
+            "dependencyTypeId": 1,
+            "interactionModeIds": [
+              1
+            ],
+            "ontologicalRole": "maintenance",
+            "necessity": "optional",
+            "causalDirectionIds": [
+              1
+            ]
+          }
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "types": {
+            "dependencyTypeId": 1,
+            "interactionModeIds": [
+              1
+            ],
+            "ontologicalRole": "maintenance",
+            "necessity": "optional",
+            "causalDirectionIds": [
+              1
+            ]
+          }
+        },
+        {
+          "from": 2,
+          "to": 4,
+          "types": {
+            "dependencyTypeId": 0,
+            "interactionModeIds": [
+              0
+            ],
+            "ontologicalRole": "arising",
+            "necessity": "necessary",
+            "causalDirectionIds": [
+              0
+            ]
+          }
+        },
+        {
+          "from": 2,
+          "to": 5,
+          "types": {
+            "dependencyTypeId": 1,
+            "interactionModeIds": [
+              1
+            ],
+            "ontologicalRole": "maintenance",
+            "necessity": "optional",
+            "causalDirectionIds": [
+              1
+            ]
+          }
+        },
+        {
+          "from": 3,
+          "to": 0,
+          "types": {
+            "dependencyTypeId": 1,
+            "interactionModeIds": [
+              1
+            ],
+            "ontologicalRole": "maintenance",
+            "necessity": "optional",
+            "causalDirectionIds": [
+              1
+            ]
+          }
+        },
+        {
+          "from": 3,
+          "to": 1,
+          "types": {
+            "dependencyTypeId": 0,
+            "interactionModeIds": [
+              0
+            ],
+            "ontologicalRole": "arising",
+            "necessity": "necessary",
+            "causalDirectionIds": [
+              0
+            ]
+          }
+        },
+        {
+          "from": 3,
+          "to": 2,
+          "types": {
+            "dependencyTypeId": 1,
+            "interactionModeIds": [
+              1
+            ],
+            "ontologicalRole": "maintenance",
+            "necessity": "optional",
+            "causalDirectionIds": [
+              1
+            ]
+          }
+        },
+        {
+          "from": 3,
+          "to": 4,
+          "types": {
+            "dependencyTypeId": 1,
+            "interactionModeIds": [
+              1
+            ],
+            "ontologicalRole": "maintenance",
+            "necessity": "optional",
+            "causalDirectionIds": [
+              1
+            ]
+          }
+        },
+        {
+          "from": 3,
+          "to": 5,
+          "types": {
+            "dependencyTypeId": 0,
+            "interactionModeIds": [
+              0
+            ],
+            "ontologicalRole": "arising",
+            "necessity": "necessary",
+            "causalDirectionIds": [
+              0
+            ]
+          }
+        },
+        {
+          "from": 4,
+          "to": 0,
+          "types": {
+            "dependencyTypeId": 0,
+            "interactionModeIds": [
+              0
+            ],
+            "ontologicalRole": "arising",
+            "necessity": "necessary",
+            "causalDirectionIds": [
+              0
+            ]
+          }
+        },
+        {
+          "from": 4,
+          "to": 1,
+          "types": {
+            "dependencyTypeId": 1,
+            "interactionModeIds": [
+              1
+            ],
+            "ontologicalRole": "maintenance",
+            "necessity": "optional",
+            "causalDirectionIds": [
+              1
+            ]
+          }
+        },
+        {
+          "from": 4,
+          "to": 2,
+          "types": {
+            "dependencyTypeId": 0,
+            "interactionModeIds": [
+              0
+            ],
+            "ontologicalRole": "arising",
+            "necessity": "necessary",
+            "causalDirectionIds": [
+              0
+            ]
+          }
+        },
+        {
+          "from": 4,
+          "to": 3,
+          "types": {
+            "dependencyTypeId": 1,
+            "interactionModeIds": [
+              1
+            ],
+            "ontologicalRole": "maintenance",
+            "necessity": "optional",
+            "causalDirectionIds": [
+              1
+            ]
+          }
+        },
+        {
+          "from": 4,
+          "to": 5,
+          "types": {
+            "dependencyTypeId": 1,
+            "interactionModeIds": [
+              1
+            ],
+            "ontologicalRole": "maintenance",
+            "necessity": "optional",
+            "causalDirectionIds": [
+              1
+            ]
+          }
+        },
+        {
+          "from": 5,
+          "to": 0,
+          "types": {
+            "dependencyTypeId": 1,
+            "interactionModeIds": [
+              1
+            ],
+            "ontologicalRole": "maintenance",
+            "necessity": "optional",
+            "causalDirectionIds": [
+              1
+            ]
+          }
+        },
+        {
+          "from": 5,
+          "to": 1,
+          "types": {
+            "dependencyTypeId": 0,
+            "interactionModeIds": [
+              0
+            ],
+            "ontologicalRole": "arising",
+            "necessity": "necessary",
+            "causalDirectionIds": [
+              0
+            ]
+          }
+        },
+        {
+          "from": 5,
+          "to": 2,
+          "types": {
+            "dependencyTypeId": 1,
+            "interactionModeIds": [
+              1
+            ],
+            "ontologicalRole": "maintenance",
+            "necessity": "optional",
+            "causalDirectionIds": [
+              1
+            ]
+          }
+        },
+        {
+          "from": 5,
+          "to": 3,
+          "types": {
+            "dependencyTypeId": 0,
+            "interactionModeIds": [
+              0
+            ],
+            "ontologicalRole": "arising",
+            "necessity": "necessary",
+            "causalDirectionIds": [
+              0
+            ]
+          }
+        },
+        {
+          "from": 5,
+          "to": 4,
+          "types": {
+            "dependencyTypeId": 1,
+            "interactionModeIds": [
+              1
+            ],
+            "ontologicalRole": "maintenance",
+            "necessity": "optional",
+            "causalDirectionIds": [
+              1
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "reciprocal-renumbered",
+      "nodes": 2,
+      "edges": [
+        {
+          "from": 0,
+          "to": 1,
+          "types": {
+            "dependencyTypeId": 20,
+            "interactionModeIds": [
+              20
+            ],
+            "ontologicalRole": "arising",
+            "necessity": "necessary",
+            "causalDirectionIds": [
+              20
+            ]
+          }
+        },
+        {
+          "from": 1,
+          "to": 0,
+          "types": {
+            "dependencyTypeId": 10,
+            "interactionModeIds": [
+              10
+            ],
+            "ontologicalRole": "maintenance",
+            "necessity": "optional",
+            "causalDirectionIds": [
+              10
+            ]
+          }
+        }
+      ],
+      "dictionaries": {
+        "DeclaredCodes": [
+          10,
+          20,
+          30
+        ],
+        "note": "Separate constructed namespace; approval comes from test policy"
+      }
+    },
+    {
+      "id": "same-dictionary-other-source",
+      "nodes": 2,
+      "edges": [
+        {
+          "from": 0,
+          "to": 1,
+          "types": {
+            "dependencyTypeId": 0,
+            "interactionModeIds": [
+              0
+            ],
+            "ontologicalRole": "arising",
+            "necessity": "necessary",
+            "causalDirectionIds": [
+              0
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "changed-dictionary",
+      "nodes": 2,
+      "edges": [
+        {
+          "from": 0,
+          "to": 1,
+          "types": {
+            "dependencyTypeId": 0,
+            "interactionModeIds": [
+              0
+            ],
+            "ontologicalRole": "arising",
+            "necessity": "necessary",
+            "causalDirectionIds": [
+              0
+            ]
+          }
+        }
+      ],
+      "dictionaries": {
+        "note": "Changed vocabulary binding"
+      }
+    }
+  ],
+  "mappings": [
+    {
+      "id": "renumbered",
+      "left": "reciprocal-correlated",
+      "right": "reciprocal-renumbered",
+      "fields": {
+        "dependencyTypeId": [
+          {
+            "left": 0,
+            "right": 20
+          },
+          {
+            "left": 1,
+            "right": 10
+          },
+          {
+            "left": 2,
+            "right": 30
+          }
+        ],
+        "interactionModeIds": [
+          {
+            "left": 0,
+            "right": 20
+          },
+          {
+            "left": 1,
+            "right": 10
+          },
+          {
+            "left": 2,
+            "right": 30
+          }
+        ],
+        "ontologicalRole": [
+          {
+            "left": "arising",
+            "right": "arising"
+          },
+          {
+            "left": "maintenance",
+            "right": "maintenance"
+          },
+          {
+            "left": "modulation",
+            "right": "modulation"
+          }
+        ],
+        "necessity": [
+          {
+            "left": "necessary",
+            "right": "necessary"
+          },
+          {
+            "left": "enabling",
+            "right": "enabling"
+          },
+          {
+            "left": "contextual",
+            "right": "contextual"
+          },
+          {
+            "left": "optional",
+            "right": "optional"
+          }
+        ],
+        "causalDirectionIds": [
+          {
+            "left": 0,
+            "right": 20
+          },
+          {
+            "left": 1,
+            "right": 10
+          },
+          {
+            "left": 2,
+            "right": 30
+          }
+        ]
+      }
+    },
+    {
+      "id": "partial",
+      "left": "reciprocal-correlated",
+      "right": "reciprocal-renumbered",
+      "fields": {
+        "dependencyTypeId": [
+          {
+            "left": 0,
+            "right": 20
+          }
+        ],
+        "interactionModeIds": [
+          {
+            "left": 0,
+            "right": 20
+          },
+          {
+            "left": 1,
+            "right": 10
+          },
+          {
+            "left": 2,
+            "right": 30
+          }
+        ],
+        "ontologicalRole": [
+          {
+            "left": "arising",
+            "right": "arising"
+          },
+          {
+            "left": "maintenance",
+            "right": "maintenance"
+          },
+          {
+            "left": "modulation",
+            "right": "modulation"
+          }
+        ],
+        "necessity": [
+          {
+            "left": "necessary",
+            "right": "necessary"
+          },
+          {
+            "left": "enabling",
+            "right": "enabling"
+          },
+          {
+            "left": "contextual",
+            "right": "contextual"
+          },
+          {
+            "left": "optional",
+            "right": "optional"
+          }
+        ],
+        "causalDirectionIds": [
+          {
+            "left": 0,
+            "right": 20
+          },
+          {
+            "left": 1,
+            "right": 10
+          },
+          {
+            "left": 2,
+            "right": 30
+          }
+        ]
+      }
+    },
+    {
+      "id": "identity",
+      "left": "single-edge",
+      "right": "same-dictionary-other-source",
+      "fields": {
+        "dependencyTypeId": [
+          {
+            "left": 0,
+            "right": 0
+          },
+          {
+            "left": 1,
+            "right": 1
+          },
+          {
+            "left": 2,
+            "right": 2
+          }
+        ],
+        "interactionModeIds": [
+          {
+            "left": 0,
+            "right": 0
+          },
+          {
+            "left": 1,
+            "right": 1
+          },
+          {
+            "left": 2,
+            "right": 2
+          }
+        ],
+        "ontologicalRole": [
+          {
+            "left": "arising",
+            "right": "arising"
+          },
+          {
+            "left": "maintenance",
+            "right": "maintenance"
+          },
+          {
+            "left": "modulation",
+            "right": "modulation"
+          }
+        ],
+        "necessity": [
+          {
+            "left": "necessary",
+            "right": "necessary"
+          },
+          {
+            "left": "enabling",
+            "right": "enabling"
+          },
+          {
+            "left": "contextual",
+            "right": "contextual"
+          },
+          {
+            "left": "optional",
+            "right": "optional"
+          }
+        ],
+        "causalDirectionIds": [
+          {
+            "left": 0,
+            "right": 0
+          },
+          {
+            "left": 1,
+            "right": 1
+          },
+          {
+            "left": 2,
+            "right": 2
+          }
+        ]
+      }
+    },
+    {
+      "id": "missing",
+      "left": "single-edge",
+      "right": "missing-field",
+      "fields": {
+        "dependencyTypeId": [
+          {
+            "left": 0,
+            "right": 0
+          },
+          {
+            "left": 1,
+            "right": 1
+          },
+          {
+            "left": 2,
+            "right": 2
+          }
+        ],
+        "interactionModeIds": [
+          {
+            "left": 0,
+            "right": 0
+          },
+          {
+            "left": 1,
+            "right": 1
+          },
+          {
+            "left": 2,
+            "right": 2
+          }
+        ],
+        "ontologicalRole": [
+          {
+            "left": "arising",
+            "right": "arising"
+          },
+          {
+            "left": "maintenance",
+            "right": "maintenance"
+          },
+          {
+            "left": "modulation",
+            "right": "modulation"
+          }
+        ],
+        "necessity": [
+          {
+            "left": "necessary",
+            "right": "necessary"
+          },
+          {
+            "left": "enabling",
+            "right": "enabling"
+          },
+          {
+            "left": "contextual",
+            "right": "contextual"
+          },
+          {
+            "left": "optional",
+            "right": "optional"
+          }
+        ],
+        "causalDirectionIds": [
+          {
+            "left": 0,
+            "right": 0
+          },
+          {
+            "left": 1,
+            "right": 1
+          },
+          {
+            "left": 2,
+            "right": 2
+          }
+        ]
+      }
+    },
+    {
+      "id": "role",
+      "left": "single-edge",
+      "right": "change-ontologicalRole",
+      "fields": {
+        "dependencyTypeId": [
+          {
+            "left": 0,
+            "right": 0
+          },
+          {
+            "left": 1,
+            "right": 1
+          },
+          {
+            "left": 2,
+            "right": 2
+          }
+        ],
+        "interactionModeIds": [
+          {
+            "left": 0,
+            "right": 0
+          },
+          {
+            "left": 1,
+            "right": 1
+          },
+          {
+            "left": 2,
+            "right": 2
+          }
+        ],
+        "ontologicalRole": [
+          {
+            "left": "arising",
+            "right": "maintenance"
+          },
+          {
+            "left": "maintenance",
+            "right": "arising"
+          },
+          {
+            "left": "modulation",
+            "right": "modulation"
+          }
+        ],
+        "necessity": [
+          {
+            "left": "necessary",
+            "right": "necessary"
+          },
+          {
+            "left": "enabling",
+            "right": "enabling"
+          },
+          {
+            "left": "contextual",
+            "right": "contextual"
+          },
+          {
+            "left": "optional",
+            "right": "optional"
+          }
+        ],
+        "causalDirectionIds": [
+          {
+            "left": 0,
+            "right": 0
+          },
+          {
+            "left": 1,
+            "right": 1
+          },
+          {
+            "left": 2,
+            "right": 2
+          }
+        ]
+      }
+    }
+  ],
+  "alignments": [
+    {
+      "id": "same-source",
+      "left": "single-edge",
+      "right": "single-edge"
+    },
+    {
+      "id": "cross-source-unbound",
+      "left": "single-edge",
+      "right": "same-dictionary-other-source"
+    },
+    {
+      "id": "renumbered-unapproved",
+      "left": "reciprocal-correlated",
+      "right": "reciprocal-renumbered",
+      "mapping": "renumbered",
+      "approve": false
+    },
+    {
+      "id": "renumbered-approved",
+      "left": "reciprocal-correlated",
+      "right": "reciprocal-renumbered",
+      "mapping": "renumbered",
+      "approve": true
+    },
+    {
+      "id": "partial-approved",
+      "left": "reciprocal-correlated",
+      "right": "reciprocal-renumbered",
+      "mapping": "partial",
+      "approve": true
+    },
+    {
+      "id": "identity-approved",
+      "left": "single-edge",
+      "right": "same-dictionary-other-source",
+      "mapping": "identity",
+      "approve": true
+    },
+    {
+      "id": "missing-approved",
+      "left": "single-edge",
+      "right": "missing-field",
+      "mapping": "missing",
+      "approve": true
+    },
+    {
+      "id": "role-approved",
+      "left": "single-edge",
+      "right": "change-ontologicalRole",
+      "mapping": "role",
+      "approve": true
+    }
+  ],
+  "equalities": [
+    [
+      "asymmetric-six",
+      "asymmetric-six-renamed"
+    ],
+    [
+      "asymmetric-six",
+      "asymmetric-six-annotations"
+    ],
+    [
+      "set-order",
+      "set-reordered"
+    ],
+    [
+      "single-edge",
+      "same-dictionary-other-source"
+    ],
+    [
+      "single-edge",
+      "changed-dictionary"
+    ]
+  ],
+  "differences": [
+    [
+      "single-edge",
+      "change-dependencyTypeId"
+    ],
+    [
+      "single-edge",
+      "change-interactionModeIds"
+    ],
+    [
+      "single-edge",
+      "change-ontologicalRole"
+    ],
+    [
+      "single-edge",
+      "change-necessity"
+    ],
+    [
+      "single-edge",
+      "change-causalDirectionIds"
+    ],
+    [
+      "reciprocal-correlated",
+      "reciprocal-crossed"
+    ],
+    [
+      "single-edge",
+      "empty-sets"
+    ]
+  ],
+  "causalScope": [
+    "0.0",
+    "0.1",
+    "0.2",
+    "0.3",
+    "0.4",
+    "0.5"
+  ]
+}

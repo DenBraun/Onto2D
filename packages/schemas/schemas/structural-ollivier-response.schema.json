@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/structural-ollivier-response.schema.json",
+  "title": "Structural Ollivier response",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": "1"
+    },
+    "requestHash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "solver": {
+      "const": {
+        "id": "onto2d-python-ollivier-reference",
+        "version": "1",
+        "method": "integer-successive-shortest-path-primal-dual-v1"
+      }
+    },
+    "solutions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "edgeId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024
+          },
+          "flow": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 512
+              },
+              "minItems": 1,
+              "maxItems": 16
+            },
+            "minItems": 1,
+            "maxItems": 16
+          },
+          "sourcePotentials": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "minimum": -4096,
+              "maximum": 4096
+            },
+            "minItems": 1,
+            "maxItems": 16
+          },
+          "targetPotentials": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "minimum": -4096,
+              "maximum": 4096
+            },
+            "minItems": 1,
+            "maxItems": 16
+          },
+          "costNumerator": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1536
+          }
+        },
+        "required": [
+          "edgeId",
+          "flow",
+          "sourcePotentials",
+          "targetPotentials",
+          "costNumerator"
+        ]
+      },
+      "minItems": 1,
+      "maxItems": 32
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "requestHash",
+    "solver",
+    "solutions"
+  ]
+}

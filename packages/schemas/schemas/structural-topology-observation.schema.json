@@ -1,0 +1,327 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/structural-topology-observation.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": "1"
+    },
+    "analysis": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "const": "structural-topology-observation"
+        },
+        "version": {
+          "const": "1"
+        }
+      },
+      "required": [
+        "id",
+        "version"
+      ]
+    },
+    "evaluation": {
+      "const": "measured"
+    },
+    "implementation": {
+      "const": {
+        "id": "directed-topology-observation-v1",
+        "version": "1",
+        "reachability": "breadth-first-from-each-scoped-node",
+        "strongComponents": "mutual-directed-reachability",
+        "weakComponents": "undirected-breadth-first",
+        "componentSizeOrdering": "numeric-ascending",
+        "diagnosticOrdering": "source-id-ascending",
+        "pairVisits": "distinct-source-target-visits-including-self-seeds",
+        "edgeScans": "directed-adjacency-entries-scanned-by-reachability-only",
+        "attributes": "excluded",
+        "graphIsomorphismClaim": false,
+        "valueFields": [
+          {
+            "observableId": "node-count-v1",
+            "field": "nodeCount"
+          },
+          {
+            "observableId": "edge-count-v1",
+            "field": "edgeCount"
+          },
+          {
+            "observableId": "weak-component-sizes-v1",
+            "field": "weakComponentSizes"
+          },
+          {
+            "observableId": "strong-component-sizes-v1",
+            "field": "strongComponentSizes"
+          },
+          {
+            "observableId": "reachable-ordered-pair-count-v1",
+            "field": "reachableOrderedPairCount"
+          },
+          {
+            "observableId": "cyclic-node-count-v1",
+            "field": "cyclicNodeCount"
+          },
+          {
+            "observableId": "isolated-node-count-v1",
+            "field": "isolatedNodeCount"
+          }
+        ],
+        "contentHash": "sha256:56e0a358ae1c6f3618fb792c319bedc2d1e06db637b8410de1a39d4a69f3a4e8"
+      }
+    },
+    "preparation": {
+      "allOf": [
+        {
+          "$ref": "structural-regime-preparation.schema.json"
+        },
+        {
+          "properties": {
+            "request": {
+              "properties": {
+                "regimeId": {
+                  "const": "topology-only-v1"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "observation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "regime": {
+          "const": {
+            "id": "topology-only-v1",
+            "version": "1",
+            "contentHash": "sha256:41a6fa10321e885da08f671de608de62cb1e51154b05a1c3cc2154d107f7646c"
+          }
+        },
+        "observables": {
+          "const": [
+            {
+              "id": "node-count-v1",
+              "version": "1",
+              "contentHash": "sha256:fcde1a54025bdc9f964cdfb6cbd9f015fb94cc473949584abe8ba01031d9d983"
+            },
+            {
+              "id": "edge-count-v1",
+              "version": "1",
+              "contentHash": "sha256:13f1db7824b26dd6ec1d8ff6ca169670637dd780b11db2ba308c6356e24197c5"
+            },
+            {
+              "id": "weak-component-sizes-v1",
+              "version": "1",
+              "contentHash": "sha256:bd3c0c2440644cb1da3251a1b3b585d061e172fa6e674aca0de8250b1f800ee1"
+            },
+            {
+              "id": "strong-component-sizes-v1",
+              "version": "1",
+              "contentHash": "sha256:9ee44d035a7da8c0bb040c0a2d4dc39a91bdc8fa0f08a588aff4955931e12671"
+            },
+            {
+              "id": "reachable-ordered-pair-count-v1",
+              "version": "1",
+              "contentHash": "sha256:0d267b9b833a0a7b7e341190e4522a1c9fac9792d651d10081ea82468618f74f"
+            },
+            {
+              "id": "cyclic-node-count-v1",
+              "version": "1",
+              "contentHash": "sha256:325e52ae7471466b4e032c7067585331bb1ce4c49be9e10b28d4685874aacbd6"
+            },
+            {
+              "id": "isolated-node-count-v1",
+              "version": "1",
+              "contentHash": "sha256:df7729800602b4a29082552fbcdd36d9f44cf2851024cc3396196b94f95823d6"
+            }
+          ]
+        },
+        "implementation": {
+          "const": {
+            "id": "directed-topology-observation-v1",
+            "version": "1",
+            "contentHash": "sha256:56e0a358ae1c6f3618fb792c319bedc2d1e06db637b8410de1a39d4a69f3a4e8"
+          }
+        },
+        "value": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "nodeCount": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 64
+            },
+            "edgeCount": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 256
+            },
+            "weakComponentSizes": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 64,
+              "items": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 64
+              }
+            },
+            "strongComponentSizes": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 64,
+              "items": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 64
+              }
+            },
+            "reachableOrderedPairCount": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4032
+            },
+            "cyclicNodeCount": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 64
+            },
+            "isolatedNodeCount": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 64
+            }
+          },
+          "required": [
+            "nodeCount",
+            "edgeCount",
+            "weakComponentSizes",
+            "strongComponentSizes",
+            "reachableOrderedPairCount",
+            "cyclicNodeCount",
+            "isolatedNodeCount"
+          ]
+        },
+        "valueHash": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "regime",
+        "observables",
+        "implementation",
+        "value",
+        "valueHash"
+      ]
+    },
+    "diagnostics": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "weakComponents": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 64,
+          "uniqueItems": true,
+          "items": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 64,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "strongComponents": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 64,
+          "uniqueItems": true,
+          "items": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 64,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "reachablePairsBySource": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 64,
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "sourceNodeId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "count": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 63
+              }
+            },
+            "required": [
+              "sourceNodeId",
+              "count"
+            ]
+          }
+        },
+        "work": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "reachabilityPairVisits": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 4096
+            },
+            "reachabilityEdgeScans": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 16384
+            }
+          },
+          "required": [
+            "reachabilityPairVisits",
+            "reachabilityEdgeScans"
+          ]
+        }
+      },
+      "required": [
+        "weakComponents",
+        "strongComponents",
+        "reachablePairsBySource",
+        "work"
+      ]
+    },
+    "artifactHash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "analysis",
+    "evaluation",
+    "implementation",
+    "preparation",
+    "observation",
+    "diagnostics",
+    "artifactHash"
+  ]
+}

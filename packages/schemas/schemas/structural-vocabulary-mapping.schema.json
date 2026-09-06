@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/structural-vocabulary-mapping.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": "1"
+    },
+    "policy": {
+      "const": {
+        "id": "explicit-typed-vocabulary-alignment-v1",
+        "version": "1",
+        "sameSource": "exact-model-binding-and-full-dictionary-hash",
+        "crossSource": "explicit-approved-mapping-hash",
+        "approval": "external-caller-allowance-not-self-asserted-by-mapping",
+        "mapping": "partial-bijection-per-field",
+        "requiredCoverage": "every-scoped-value-on-both-sides",
+        "targetVocabulary": "left-source",
+        "recanonicalization": "joint-fields-after-right-to-left-remapping",
+        "missingCompatibility": "unresolved-no-aligned-values",
+        "maxMappingEntries": 1024,
+        "maxCanonicalizerCalls": 5,
+        "maxSearchStatesPerCall": 100000,
+        "maxArtifactBytes": 1048576,
+        "contentHash": "sha256:7bf83509995ef0a3b6e520596b674caacd0052148a0b09c4c2adb6f0d73bbb6c"
+      }
+    },
+    "regime": {
+      "const": {
+        "id": "typed-relations-v1",
+        "version": "1",
+        "contentHash": "sha256:5fe49b9439e107998e170cf8cf1e690598dfe8937321f5202ac4c2f270414868"
+      }
+    },
+    "declaration": {
+      "$ref": "structural-vocabulary-mapping-input.schema.json"
+    },
+    "left": {
+      "$ref": "structural-typed-observation.schema.json#/$defs/vocabulary"
+    },
+    "right": {
+      "$ref": "structural-typed-observation.schema.json#/$defs/vocabulary"
+    },
+    "artifactHash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "policy",
+    "regime",
+    "declaration",
+    "left",
+    "right",
+    "artifactHash"
+  ]
+}

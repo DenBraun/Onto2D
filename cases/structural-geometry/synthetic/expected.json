@@ -1,0 +1,858 @@
+{
+  "schemaVersion": "1",
+  "referenceVersion": "1",
+  "definition": "Saucan et al., arXiv:1809.07698, equation (5), unit weights",
+  "cases": [
+    {
+      "id": "isolated-node",
+      "edges": [],
+      "nodes": [
+        {
+          "id": "a",
+          "incomingCurvature": 0,
+          "outgoingCurvature": 0,
+          "balance": 0
+        }
+      ]
+    },
+    {
+      "id": "single-edge",
+      "edges": [
+        {
+          "id": "a->b",
+          "curvature": 2
+        }
+      ],
+      "nodes": [
+        {
+          "id": "a",
+          "incomingCurvature": 0,
+          "outgoingCurvature": 2,
+          "balance": -2
+        },
+        {
+          "id": "b",
+          "incomingCurvature": 2,
+          "outgoingCurvature": 0,
+          "balance": 2
+        }
+      ]
+    },
+    {
+      "id": "path",
+      "edges": [
+        {
+          "id": "a->b",
+          "curvature": 1
+        },
+        {
+          "id": "b->c",
+          "curvature": 0
+        },
+        {
+          "id": "c->d",
+          "curvature": 1
+        }
+      ],
+      "nodes": [
+        {
+          "id": "a",
+          "incomingCurvature": 0,
+          "outgoingCurvature": 1,
+          "balance": -1
+        },
+        {
+          "id": "b",
+          "incomingCurvature": 1,
+          "outgoingCurvature": 0,
+          "balance": 1
+        },
+        {
+          "id": "c",
+          "incomingCurvature": 0,
+          "outgoingCurvature": 1,
+          "balance": -1
+        },
+        {
+          "id": "d",
+          "incomingCurvature": 1,
+          "outgoingCurvature": 0,
+          "balance": 1
+        }
+      ]
+    },
+    {
+      "id": "cycle",
+      "edges": [
+        {
+          "id": "a->b",
+          "curvature": 0
+        },
+        {
+          "id": "b->c",
+          "curvature": 0
+        },
+        {
+          "id": "c->d",
+          "curvature": 0
+        },
+        {
+          "id": "d->a",
+          "curvature": 0
+        }
+      ],
+      "nodes": [
+        {
+          "id": "a",
+          "incomingCurvature": 0,
+          "outgoingCurvature": 0,
+          "balance": 0
+        },
+        {
+          "id": "b",
+          "incomingCurvature": 0,
+          "outgoingCurvature": 0,
+          "balance": 0
+        },
+        {
+          "id": "c",
+          "incomingCurvature": 0,
+          "outgoingCurvature": 0,
+          "balance": 0
+        },
+        {
+          "id": "d",
+          "incomingCurvature": 0,
+          "outgoingCurvature": 0,
+          "balance": 0
+        }
+      ]
+    },
+    {
+      "id": "outward-star",
+      "edges": [
+        {
+          "id": "h->a",
+          "curvature": 2
+        },
+        {
+          "id": "h->b",
+          "curvature": 2
+        },
+        {
+          "id": "h->c",
+          "curvature": 2
+        },
+        {
+          "id": "h->d",
+          "curvature": 2
+        }
+      ],
+      "nodes": [
+        {
+          "id": "a",
+          "incomingCurvature": 2,
+          "outgoingCurvature": 0,
+          "balance": 2
+        },
+        {
+          "id": "b",
+          "incomingCurvature": 2,
+          "outgoingCurvature": 0,
+          "balance": 2
+        },
+        {
+          "id": "c",
+          "incomingCurvature": 2,
+          "outgoingCurvature": 0,
+          "balance": 2
+        },
+        {
+          "id": "d",
+          "incomingCurvature": 2,
+          "outgoingCurvature": 0,
+          "balance": 2
+        },
+        {
+          "id": "h",
+          "incomingCurvature": 0,
+          "outgoingCurvature": 8,
+          "balance": -8
+        }
+      ]
+    },
+    {
+      "id": "inward-star",
+      "edges": [
+        {
+          "id": "a->h",
+          "curvature": 2
+        },
+        {
+          "id": "b->h",
+          "curvature": 2
+        },
+        {
+          "id": "c->h",
+          "curvature": 2
+        },
+        {
+          "id": "d->h",
+          "curvature": 2
+        }
+      ],
+      "nodes": [
+        {
+          "id": "a",
+          "incomingCurvature": 0,
+          "outgoingCurvature": 2,
+          "balance": -2
+        },
+        {
+          "id": "b",
+          "incomingCurvature": 0,
+          "outgoingCurvature": 2,
+          "balance": -2
+        },
+        {
+          "id": "c",
+          "incomingCurvature": 0,
+          "outgoingCurvature": 2,
+          "balance": -2
+        },
+        {
+          "id": "d",
+          "incomingCurvature": 0,
+          "outgoingCurvature": 2,
+          "balance": -2
+        },
+        {
+          "id": "h",
+          "incomingCurvature": 8,
+          "outgoingCurvature": 0,
+          "balance": 8
+        }
+      ]
+    },
+    {
+      "id": "tree",
+      "edges": [
+        {
+          "id": "a->c",
+          "curvature": 1
+        },
+        {
+          "id": "a->d",
+          "curvature": 1
+        },
+        {
+          "id": "b->e",
+          "curvature": 1
+        },
+        {
+          "id": "b->f",
+          "curvature": 1
+        },
+        {
+          "id": "r->a",
+          "curvature": 0
+        },
+        {
+          "id": "r->b",
+          "curvature": 0
+        }
+      ],
+      "nodes": [
+        {
+          "id": "a",
+          "incomingCurvature": 0,
+          "outgoingCurvature": 2,
+          "balance": -2
+        },
+        {
+          "id": "b",
+          "incomingCurvature": 0,
+          "outgoingCurvature": 2,
+          "balance": -2
+        },
+        {
+          "id": "c",
+          "incomingCurvature": 1,
+          "outgoingCurvature": 0,
+          "balance": 1
+        },
+        {
+          "id": "d",
+          "incomingCurvature": 1,
+          "outgoingCurvature": 0,
+          "balance": 1
+        },
+        {
+          "id": "e",
+          "incomingCurvature": 1,
+          "outgoingCurvature": 0,
+          "balance": 1
+        },
+        {
+          "id": "f",
+          "incomingCurvature": 1,
+          "outgoingCurvature": 0,
+          "balance": 1
+        },
+        {
+          "id": "r",
+          "incomingCurvature": 0,
+          "outgoingCurvature": 0,
+          "balance": 0
+        }
+      ]
+    },
+    {
+      "id": "bidirected-clique",
+      "edges": [
+        {
+          "id": "a->b",
+          "curvature": -2
+        },
+        {
+          "id": "a->c",
+          "curvature": -2
+        },
+        {
+          "id": "b->a",
+          "curvature": -2
+        },
+        {
+          "id": "b->c",
+          "curvature": -2
+        },
+        {
+          "id": "c->a",
+          "curvature": -2
+        },
+        {
+          "id": "c->b",
+          "curvature": -2
+        }
+      ],
+      "nodes": [
+        {
+          "id": "a",
+          "incomingCurvature": -4,
+          "outgoingCurvature": -4,
+          "balance": 0
+        },
+        {
+          "id": "b",
+          "incomingCurvature": -4,
+          "outgoingCurvature": -4,
+          "balance": 0
+        },
+        {
+          "id": "c",
+          "incomingCurvature": -4,
+          "outgoingCurvature": -4,
+          "balance": 0
+        }
+      ]
+    },
+    {
+      "id": "bridge",
+      "edges": [
+        {
+          "id": "a->b",
+          "curvature": -4
+        },
+        {
+          "id": "a->c",
+          "curvature": -4
+        },
+        {
+          "id": "a->d",
+          "curvature": -5
+        },
+        {
+          "id": "b->a",
+          "curvature": -4
+        },
+        {
+          "id": "b->c",
+          "curvature": -4
+        },
+        {
+          "id": "b->d",
+          "curvature": -5
+        },
+        {
+          "id": "c->a",
+          "curvature": -4
+        },
+        {
+          "id": "c->b",
+          "curvature": -4
+        },
+        {
+          "id": "c->d",
+          "curvature": -5
+        },
+        {
+          "id": "d->a",
+          "curvature": -4
+        },
+        {
+          "id": "d->b",
+          "curvature": -4
+        },
+        {
+          "id": "d->c",
+          "curvature": -4
+        },
+        {
+          "id": "d->e",
+          "curvature": -4
+        },
+        {
+          "id": "e->f",
+          "curvature": -5
+        },
+        {
+          "id": "e->g",
+          "curvature": -5
+        },
+        {
+          "id": "e->h",
+          "curvature": -5
+        },
+        {
+          "id": "f->e",
+          "curvature": -4
+        },
+        {
+          "id": "f->g",
+          "curvature": -4
+        },
+        {
+          "id": "f->h",
+          "curvature": -4
+        },
+        {
+          "id": "g->e",
+          "curvature": -4
+        },
+        {
+          "id": "g->f",
+          "curvature": -4
+        },
+        {
+          "id": "g->h",
+          "curvature": -4
+        },
+        {
+          "id": "h->e",
+          "curvature": -4
+        },
+        {
+          "id": "h->f",
+          "curvature": -4
+        },
+        {
+          "id": "h->g",
+          "curvature": -4
+        }
+      ],
+      "nodes": [
+        {
+          "id": "a",
+          "incomingCurvature": -12,
+          "outgoingCurvature": -13,
+          "balance": 1
+        },
+        {
+          "id": "b",
+          "incomingCurvature": -12,
+          "outgoingCurvature": -13,
+          "balance": 1
+        },
+        {
+          "id": "c",
+          "incomingCurvature": -12,
+          "outgoingCurvature": -13,
+          "balance": 1
+        },
+        {
+          "id": "d",
+          "incomingCurvature": -15,
+          "outgoingCurvature": -16,
+          "balance": 1
+        },
+        {
+          "id": "e",
+          "incomingCurvature": -16,
+          "outgoingCurvature": -15,
+          "balance": -1
+        },
+        {
+          "id": "f",
+          "incomingCurvature": -13,
+          "outgoingCurvature": -12,
+          "balance": -1
+        },
+        {
+          "id": "g",
+          "incomingCurvature": -13,
+          "outgoingCurvature": -12,
+          "balance": -1
+        },
+        {
+          "id": "h",
+          "incomingCurvature": -13,
+          "outgoingCurvature": -12,
+          "balance": -1
+        }
+      ]
+    },
+    {
+      "id": "diamond-dag",
+      "edges": [
+        {
+          "id": "a->b",
+          "curvature": 1
+        },
+        {
+          "id": "a->c",
+          "curvature": 1
+        },
+        {
+          "id": "b->d",
+          "curvature": 1
+        },
+        {
+          "id": "c->d",
+          "curvature": 1
+        }
+      ],
+      "nodes": [
+        {
+          "id": "a",
+          "incomingCurvature": 0,
+          "outgoingCurvature": 2,
+          "balance": -2
+        },
+        {
+          "id": "b",
+          "incomingCurvature": 1,
+          "outgoingCurvature": 1,
+          "balance": 0
+        },
+        {
+          "id": "c",
+          "incomingCurvature": 1,
+          "outgoingCurvature": 1,
+          "balance": 0
+        },
+        {
+          "id": "d",
+          "incomingCurvature": 2,
+          "outgoingCurvature": 0,
+          "balance": 2
+        }
+      ]
+    },
+    {
+      "id": "layered-dag",
+      "edges": [
+        {
+          "id": "a->c",
+          "curvature": 1
+        },
+        {
+          "id": "a->d",
+          "curvature": 1
+        },
+        {
+          "id": "b->c",
+          "curvature": 1
+        },
+        {
+          "id": "b->d",
+          "curvature": 1
+        },
+        {
+          "id": "c->e",
+          "curvature": 0
+        },
+        {
+          "id": "d->e",
+          "curvature": 0
+        }
+      ],
+      "nodes": [
+        {
+          "id": "a",
+          "incomingCurvature": 0,
+          "outgoingCurvature": 2,
+          "balance": -2
+        },
+        {
+          "id": "b",
+          "incomingCurvature": 0,
+          "outgoingCurvature": 2,
+          "balance": -2
+        },
+        {
+          "id": "c",
+          "incomingCurvature": 2,
+          "outgoingCurvature": 0,
+          "balance": 2
+        },
+        {
+          "id": "d",
+          "incomingCurvature": 2,
+          "outgoingCurvature": 0,
+          "balance": 2
+        },
+        {
+          "id": "e",
+          "incomingCurvature": 0,
+          "outgoingCurvature": 0,
+          "balance": 0
+        }
+      ]
+    },
+    {
+      "id": "feed-forward-triangle",
+      "edges": [
+        {
+          "id": "a->b",
+          "curvature": 1
+        },
+        {
+          "id": "a->c",
+          "curvature": 2
+        },
+        {
+          "id": "b->c",
+          "curvature": 1
+        }
+      ],
+      "nodes": [
+        {
+          "id": "a",
+          "incomingCurvature": 0,
+          "outgoingCurvature": 3,
+          "balance": -3
+        },
+        {
+          "id": "b",
+          "incomingCurvature": 1,
+          "outgoingCurvature": 1,
+          "balance": 0
+        },
+        {
+          "id": "c",
+          "incomingCurvature": 3,
+          "outgoingCurvature": 0,
+          "balance": 3
+        }
+      ]
+    },
+    {
+      "id": "feedback-triangle",
+      "edges": [
+        {
+          "id": "a->b",
+          "curvature": 0
+        },
+        {
+          "id": "b->c",
+          "curvature": 0
+        },
+        {
+          "id": "c->a",
+          "curvature": 0
+        }
+      ],
+      "nodes": [
+        {
+          "id": "a",
+          "incomingCurvature": 0,
+          "outgoingCurvature": 0,
+          "balance": 0
+        },
+        {
+          "id": "b",
+          "incomingCurvature": 0,
+          "outgoingCurvature": 0,
+          "balance": 0
+        },
+        {
+          "id": "c",
+          "incomingCurvature": 0,
+          "outgoingCurvature": 0,
+          "balance": 0
+        }
+      ]
+    },
+    {
+      "id": "reciprocal-pair",
+      "edges": [
+        {
+          "id": "a->b",
+          "curvature": 0
+        },
+        {
+          "id": "b->a",
+          "curvature": 0
+        }
+      ],
+      "nodes": [
+        {
+          "id": "a",
+          "incomingCurvature": 0,
+          "outgoingCurvature": 0,
+          "balance": 0
+        },
+        {
+          "id": "b",
+          "incomingCurvature": 0,
+          "outgoingCurvature": 0,
+          "balance": 0
+        }
+      ]
+    },
+    {
+      "id": "paper-edge-neighborhood",
+      "edges": [
+        {
+          "id": "1->2",
+          "curvature": -4
+        },
+        {
+          "id": "2->7",
+          "curvature": 1
+        },
+        {
+          "id": "2->8",
+          "curvature": 1
+        },
+        {
+          "id": "2->9",
+          "curvature": 0
+        },
+        {
+          "id": "3->1",
+          "curvature": 1
+        },
+        {
+          "id": "4->1",
+          "curvature": 1
+        },
+        {
+          "id": "9->1",
+          "curvature": 0
+        }
+      ],
+      "nodes": [
+        {
+          "id": "1",
+          "incomingCurvature": 2,
+          "outgoingCurvature": -4,
+          "balance": 6
+        },
+        {
+          "id": "2",
+          "incomingCurvature": -4,
+          "outgoingCurvature": 2,
+          "balance": -6
+        },
+        {
+          "id": "3",
+          "incomingCurvature": 0,
+          "outgoingCurvature": 1,
+          "balance": -1
+        },
+        {
+          "id": "4",
+          "incomingCurvature": 0,
+          "outgoingCurvature": 1,
+          "balance": -1
+        },
+        {
+          "id": "7",
+          "incomingCurvature": 1,
+          "outgoingCurvature": 0,
+          "balance": 1
+        },
+        {
+          "id": "8",
+          "incomingCurvature": 1,
+          "outgoingCurvature": 0,
+          "balance": 1
+        },
+        {
+          "id": "9",
+          "incomingCurvature": 0,
+          "outgoingCurvature": 0,
+          "balance": 0
+        }
+      ]
+    },
+    {
+      "id": "asymmetric-neighborhood",
+      "edges": [
+        {
+          "id": "a->b",
+          "curvature": -1
+        },
+        {
+          "id": "b->d",
+          "curvature": 0
+        },
+        {
+          "id": "b->e",
+          "curvature": 1
+        },
+        {
+          "id": "c->a",
+          "curvature": 0
+        },
+        {
+          "id": "d->c",
+          "curvature": 0
+        }
+      ],
+      "nodes": [
+        {
+          "id": "a",
+          "incomingCurvature": 0,
+          "outgoingCurvature": -1,
+          "balance": 1
+        },
+        {
+          "id": "b",
+          "incomingCurvature": -1,
+          "outgoingCurvature": 1,
+          "balance": -2
+        },
+        {
+          "id": "c",
+          "incomingCurvature": 0,
+          "outgoingCurvature": 0,
+          "balance": 0
+        },
+        {
+          "id": "d",
+          "incomingCurvature": 0,
+          "outgoingCurvature": 0,
+          "balance": 0
+        },
+        {
+          "id": "e",
+          "incomingCurvature": 1,
+          "outgoingCurvature": 0,
+          "balance": 1
+        }
+      ]
+    }
+  ]
+}

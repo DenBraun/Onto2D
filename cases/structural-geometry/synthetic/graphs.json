@@ -1,0 +1,735 @@
+{
+  "schemaVersion": "1",
+  "cases": [
+    {
+      "id": "isolated-node",
+      "nodes": [
+        {
+          "id": "a"
+        }
+      ],
+      "edges": []
+    },
+    {
+      "id": "single-edge",
+      "nodes": [
+        {
+          "id": "a"
+        },
+        {
+          "id": "b"
+        }
+      ],
+      "edges": [
+        {
+          "id": "a->b",
+          "source": "a",
+          "target": "b"
+        }
+      ]
+    },
+    {
+      "id": "path",
+      "nodes": [
+        {
+          "id": "a"
+        },
+        {
+          "id": "b"
+        },
+        {
+          "id": "c"
+        },
+        {
+          "id": "d"
+        }
+      ],
+      "edges": [
+        {
+          "id": "a->b",
+          "source": "a",
+          "target": "b"
+        },
+        {
+          "id": "b->c",
+          "source": "b",
+          "target": "c"
+        },
+        {
+          "id": "c->d",
+          "source": "c",
+          "target": "d"
+        }
+      ]
+    },
+    {
+      "id": "cycle",
+      "nodes": [
+        {
+          "id": "a"
+        },
+        {
+          "id": "b"
+        },
+        {
+          "id": "c"
+        },
+        {
+          "id": "d"
+        }
+      ],
+      "edges": [
+        {
+          "id": "a->b",
+          "source": "a",
+          "target": "b"
+        },
+        {
+          "id": "b->c",
+          "source": "b",
+          "target": "c"
+        },
+        {
+          "id": "c->d",
+          "source": "c",
+          "target": "d"
+        },
+        {
+          "id": "d->a",
+          "source": "d",
+          "target": "a"
+        }
+      ]
+    },
+    {
+      "id": "outward-star",
+      "nodes": [
+        {
+          "id": "h"
+        },
+        {
+          "id": "a"
+        },
+        {
+          "id": "b"
+        },
+        {
+          "id": "c"
+        },
+        {
+          "id": "d"
+        }
+      ],
+      "edges": [
+        {
+          "id": "h->a",
+          "source": "h",
+          "target": "a"
+        },
+        {
+          "id": "h->b",
+          "source": "h",
+          "target": "b"
+        },
+        {
+          "id": "h->c",
+          "source": "h",
+          "target": "c"
+        },
+        {
+          "id": "h->d",
+          "source": "h",
+          "target": "d"
+        }
+      ]
+    },
+    {
+      "id": "inward-star",
+      "nodes": [
+        {
+          "id": "h"
+        },
+        {
+          "id": "a"
+        },
+        {
+          "id": "b"
+        },
+        {
+          "id": "c"
+        },
+        {
+          "id": "d"
+        }
+      ],
+      "edges": [
+        {
+          "id": "a->h",
+          "source": "a",
+          "target": "h"
+        },
+        {
+          "id": "b->h",
+          "source": "b",
+          "target": "h"
+        },
+        {
+          "id": "c->h",
+          "source": "c",
+          "target": "h"
+        },
+        {
+          "id": "d->h",
+          "source": "d",
+          "target": "h"
+        }
+      ]
+    },
+    {
+      "id": "tree",
+      "nodes": [
+        {
+          "id": "r"
+        },
+        {
+          "id": "a"
+        },
+        {
+          "id": "b"
+        },
+        {
+          "id": "c"
+        },
+        {
+          "id": "d"
+        },
+        {
+          "id": "e"
+        },
+        {
+          "id": "f"
+        }
+      ],
+      "edges": [
+        {
+          "id": "r->a",
+          "source": "r",
+          "target": "a"
+        },
+        {
+          "id": "r->b",
+          "source": "r",
+          "target": "b"
+        },
+        {
+          "id": "a->c",
+          "source": "a",
+          "target": "c"
+        },
+        {
+          "id": "a->d",
+          "source": "a",
+          "target": "d"
+        },
+        {
+          "id": "b->e",
+          "source": "b",
+          "target": "e"
+        },
+        {
+          "id": "b->f",
+          "source": "b",
+          "target": "f"
+        }
+      ]
+    },
+    {
+      "id": "bidirected-clique",
+      "nodes": [
+        {
+          "id": "a"
+        },
+        {
+          "id": "b"
+        },
+        {
+          "id": "c"
+        }
+      ],
+      "edges": [
+        {
+          "id": "a->b",
+          "source": "a",
+          "target": "b"
+        },
+        {
+          "id": "a->c",
+          "source": "a",
+          "target": "c"
+        },
+        {
+          "id": "b->a",
+          "source": "b",
+          "target": "a"
+        },
+        {
+          "id": "b->c",
+          "source": "b",
+          "target": "c"
+        },
+        {
+          "id": "c->a",
+          "source": "c",
+          "target": "a"
+        },
+        {
+          "id": "c->b",
+          "source": "c",
+          "target": "b"
+        }
+      ]
+    },
+    {
+      "id": "bridge",
+      "nodes": [
+        {
+          "id": "a"
+        },
+        {
+          "id": "b"
+        },
+        {
+          "id": "c"
+        },
+        {
+          "id": "d"
+        },
+        {
+          "id": "e"
+        },
+        {
+          "id": "f"
+        },
+        {
+          "id": "g"
+        },
+        {
+          "id": "h"
+        }
+      ],
+      "edges": [
+        {
+          "id": "a->b",
+          "source": "a",
+          "target": "b"
+        },
+        {
+          "id": "a->c",
+          "source": "a",
+          "target": "c"
+        },
+        {
+          "id": "a->d",
+          "source": "a",
+          "target": "d"
+        },
+        {
+          "id": "b->a",
+          "source": "b",
+          "target": "a"
+        },
+        {
+          "id": "b->c",
+          "source": "b",
+          "target": "c"
+        },
+        {
+          "id": "b->d",
+          "source": "b",
+          "target": "d"
+        },
+        {
+          "id": "c->a",
+          "source": "c",
+          "target": "a"
+        },
+        {
+          "id": "c->b",
+          "source": "c",
+          "target": "b"
+        },
+        {
+          "id": "c->d",
+          "source": "c",
+          "target": "d"
+        },
+        {
+          "id": "d->a",
+          "source": "d",
+          "target": "a"
+        },
+        {
+          "id": "d->b",
+          "source": "d",
+          "target": "b"
+        },
+        {
+          "id": "d->c",
+          "source": "d",
+          "target": "c"
+        },
+        {
+          "id": "e->f",
+          "source": "e",
+          "target": "f"
+        },
+        {
+          "id": "e->g",
+          "source": "e",
+          "target": "g"
+        },
+        {
+          "id": "e->h",
+          "source": "e",
+          "target": "h"
+        },
+        {
+          "id": "f->e",
+          "source": "f",
+          "target": "e"
+        },
+        {
+          "id": "f->g",
+          "source": "f",
+          "target": "g"
+        },
+        {
+          "id": "f->h",
+          "source": "f",
+          "target": "h"
+        },
+        {
+          "id": "g->e",
+          "source": "g",
+          "target": "e"
+        },
+        {
+          "id": "g->f",
+          "source": "g",
+          "target": "f"
+        },
+        {
+          "id": "g->h",
+          "source": "g",
+          "target": "h"
+        },
+        {
+          "id": "h->e",
+          "source": "h",
+          "target": "e"
+        },
+        {
+          "id": "h->f",
+          "source": "h",
+          "target": "f"
+        },
+        {
+          "id": "h->g",
+          "source": "h",
+          "target": "g"
+        },
+        {
+          "id": "d->e",
+          "source": "d",
+          "target": "e"
+        }
+      ]
+    },
+    {
+      "id": "diamond-dag",
+      "nodes": [
+        {
+          "id": "a"
+        },
+        {
+          "id": "b"
+        },
+        {
+          "id": "c"
+        },
+        {
+          "id": "d"
+        }
+      ],
+      "edges": [
+        {
+          "id": "a->b",
+          "source": "a",
+          "target": "b"
+        },
+        {
+          "id": "a->c",
+          "source": "a",
+          "target": "c"
+        },
+        {
+          "id": "b->d",
+          "source": "b",
+          "target": "d"
+        },
+        {
+          "id": "c->d",
+          "source": "c",
+          "target": "d"
+        }
+      ]
+    },
+    {
+      "id": "layered-dag",
+      "nodes": [
+        {
+          "id": "a"
+        },
+        {
+          "id": "b"
+        },
+        {
+          "id": "c"
+        },
+        {
+          "id": "d"
+        },
+        {
+          "id": "e"
+        }
+      ],
+      "edges": [
+        {
+          "id": "a->c",
+          "source": "a",
+          "target": "c"
+        },
+        {
+          "id": "a->d",
+          "source": "a",
+          "target": "d"
+        },
+        {
+          "id": "b->c",
+          "source": "b",
+          "target": "c"
+        },
+        {
+          "id": "b->d",
+          "source": "b",
+          "target": "d"
+        },
+        {
+          "id": "c->e",
+          "source": "c",
+          "target": "e"
+        },
+        {
+          "id": "d->e",
+          "source": "d",
+          "target": "e"
+        }
+      ]
+    },
+    {
+      "id": "feed-forward-triangle",
+      "nodes": [
+        {
+          "id": "a"
+        },
+        {
+          "id": "b"
+        },
+        {
+          "id": "c"
+        }
+      ],
+      "edges": [
+        {
+          "id": "a->b",
+          "source": "a",
+          "target": "b"
+        },
+        {
+          "id": "b->c",
+          "source": "b",
+          "target": "c"
+        },
+        {
+          "id": "a->c",
+          "source": "a",
+          "target": "c"
+        }
+      ]
+    },
+    {
+      "id": "feedback-triangle",
+      "nodes": [
+        {
+          "id": "a"
+        },
+        {
+          "id": "b"
+        },
+        {
+          "id": "c"
+        }
+      ],
+      "edges": [
+        {
+          "id": "a->b",
+          "source": "a",
+          "target": "b"
+        },
+        {
+          "id": "b->c",
+          "source": "b",
+          "target": "c"
+        },
+        {
+          "id": "c->a",
+          "source": "c",
+          "target": "a"
+        }
+      ]
+    },
+    {
+      "id": "reciprocal-pair",
+      "nodes": [
+        {
+          "id": "a"
+        },
+        {
+          "id": "b"
+        }
+      ],
+      "edges": [
+        {
+          "id": "a->b",
+          "source": "a",
+          "target": "b"
+        },
+        {
+          "id": "b->a",
+          "source": "b",
+          "target": "a"
+        }
+      ]
+    },
+    {
+      "id": "paper-edge-neighborhood",
+      "nodes": [
+        {
+          "id": "1"
+        },
+        {
+          "id": "2"
+        },
+        {
+          "id": "3"
+        },
+        {
+          "id": "4"
+        },
+        {
+          "id": "7"
+        },
+        {
+          "id": "8"
+        },
+        {
+          "id": "9"
+        }
+      ],
+      "edges": [
+        {
+          "id": "1->2",
+          "source": "1",
+          "target": "2"
+        },
+        {
+          "id": "3->1",
+          "source": "3",
+          "target": "1"
+        },
+        {
+          "id": "4->1",
+          "source": "4",
+          "target": "1"
+        },
+        {
+          "id": "9->1",
+          "source": "9",
+          "target": "1"
+        },
+        {
+          "id": "2->7",
+          "source": "2",
+          "target": "7"
+        },
+        {
+          "id": "2->8",
+          "source": "2",
+          "target": "8"
+        },
+        {
+          "id": "2->9",
+          "source": "2",
+          "target": "9"
+        }
+      ]
+    },
+    {
+      "id": "asymmetric-neighborhood",
+      "nodes": [
+        {
+          "id": "a"
+        },
+        {
+          "id": "b"
+        },
+        {
+          "id": "c"
+        },
+        {
+          "id": "d"
+        },
+        {
+          "id": "e"
+        }
+      ],
+      "edges": [
+        {
+          "id": "a->b",
+          "source": "a",
+          "target": "b"
+        },
+        {
+          "id": "c->a",
+          "source": "c",
+          "target": "a"
+        },
+        {
+          "id": "b->d",
+          "source": "b",
+          "target": "d"
+        },
+        {
+          "id": "b->e",
+          "source": "b",
+          "target": "e"
+        },
+        {
+          "id": "d->c",
+          "source": "d",
+          "target": "c"
+        }
+      ]
+    }
+  ]
+}

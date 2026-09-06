@@ -1,0 +1,131 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/structural-provider-analysis-artifact.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": "1"
+    },
+    "analysis": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "const": "structural-provider-analysis"
+        },
+        "version": {
+          "const": "1"
+        }
+      },
+      "required": [
+        "id",
+        "version"
+      ]
+    },
+    "request": {
+      "$ref": "structural-provider-analysis-input.schema.json"
+    },
+    "context": {
+      "$ref": "structural-metric-context.schema.json"
+    },
+    "metricArtifact": {
+      "allOf": [
+        {
+          "$ref": "structural-provider-artifact.schema.json"
+        },
+        {
+          "properties": {
+            "result": {
+              "properties": {
+                "kind": {
+                  "const": "metric-values"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "viewArtifact": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "structural-provider-artifact.schema.json"
+            },
+            {
+              "properties": {
+                "result": {
+                  "properties": {
+                    "kind": {
+                      "enum": [
+                        "filtration",
+                        "selection",
+                        "channels"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "legacyArtifact": {},
+    "artifactHash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "analysis",
+    "request",
+    "context",
+    "metricArtifact",
+    "viewArtifact",
+    "legacyArtifact",
+    "artifactHash"
+  ],
+  "oneOf": [
+    {
+      "properties": {
+        "request": {
+          "properties": {
+            "analysis": {
+              "const": "structural-geometry"
+            }
+          }
+        },
+        "legacyArtifact": {
+          "$ref": "structural-geometry-artifact.schema.json"
+        },
+        "viewArtifact": {
+          "type": "null"
+        }
+      }
+    },
+    {
+      "properties": {
+        "request": {
+          "properties": {
+            "analysis": {
+              "const": "structural-metric-experiment"
+            }
+          },
+          "required": [
+            "selection"
+          ]
+        },
+        "legacyArtifact": {
+          "$ref": "structural-metric-experiment.schema.json"
+        }
+      }
+    }
+  ]
+}

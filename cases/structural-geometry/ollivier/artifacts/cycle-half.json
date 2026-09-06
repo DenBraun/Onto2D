@@ -1,0 +1,456 @@
+{
+  "analysis": {
+    "id": "structural-ollivier",
+    "version": "1"
+  },
+  "artifactHash": "sha256:6ee7992d8d4d8b8ca651bf1bf73c538167f40c751f20de526bf0c5977595af89",
+  "model": {
+    "manifestHash": "sha256:b76c17b1a3be01e2897a5c9796d7b084a3444520bcc2249799f1350061ad1c3b",
+    "modelId": "ollivier-cycle",
+    "modelRootHash": "sha256:c9e382cde62da0d8f1802a5ed78fbb4b6af4aa364b2fbe2b8e0552882996c0bf",
+    "modelVersion": "1"
+  },
+  "request": {
+    "analysis": {
+      "id": "structural-ollivier",
+      "version": "1"
+    },
+    "graph": {
+      "edges": [
+        {
+          "id": "a->b",
+          "source": "a",
+          "sourceRecordHash": "sha256:67900d12d3e68dc53b0b71f8a281c215aaaad9a1910f18282cef9e7776966cac",
+          "target": "b"
+        },
+        {
+          "id": "b->c",
+          "source": "b",
+          "sourceRecordHash": "sha256:39088f1cf72980fb6ab3e550e209ffbfabd1ebfa62e542c52b519ff6696dd336",
+          "target": "c"
+        },
+        {
+          "id": "c->d",
+          "source": "c",
+          "sourceRecordHash": "sha256:ce194cbe577c79779dd2dd4aafd06ef0cd96e4e548d8ac76b450cc3b53d41354",
+          "target": "d"
+        },
+        {
+          "id": "d->a",
+          "source": "d",
+          "sourceRecordHash": "sha256:72991ce5bdfe96355d6659b0f363b0090c1e709eab0ffa4b6810a3985d0d2569",
+          "target": "a"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "a",
+          "sourceRecordHash": "sha256:fb2ffb6fa4dae2e67f6a0834a90b470ed122e65f0359b3bfdd89502ccc5e77c3"
+        },
+        {
+          "id": "b",
+          "sourceRecordHash": "sha256:2332c4d138d6a39cc5cc07eaab946d54b3c40b0f1fe6818bd12cfb1a3dbe0d4e"
+        },
+        {
+          "id": "c",
+          "sourceRecordHash": "sha256:bcb315a979f0dc09431d3ce778eacd28c829329e29c183d0b26d578cad486aef"
+        },
+        {
+          "id": "d",
+          "sourceRecordHash": "sha256:25824e67b9a03b9a517620405bb748166559e736ce72fe1dc16f6e301dd1066c"
+        }
+      ]
+    },
+    "model": {
+      "manifestHash": "sha256:b76c17b1a3be01e2897a5c9796d7b084a3444520bcc2249799f1350061ad1c3b",
+      "modelId": "ollivier-cycle",
+      "modelRootHash": "sha256:c9e382cde62da0d8f1802a5ed78fbb4b6af4aa364b2fbe2b8e0552882996c0bf",
+      "modelVersion": "1"
+    },
+    "parameters": {
+      "edgeIds": [
+        "a->b",
+        "b->c",
+        "c->d",
+        "d->a"
+      ],
+      "idleness": "half",
+      "scope": {
+        "kind": "full"
+      }
+    },
+    "policy": {
+      "defaultIdleness": "zero",
+      "denominator": "directed-endpoint-distance",
+      "disconnectedSupport": "reject-unreachable-pair",
+      "distance": "directed-shortest-path-in-scoped-graph",
+      "edgeLength": 1,
+      "emptyNeighborhood": "dirac-at-endpoint",
+      "id": "ollivier-directed-in-out-unit-v1",
+      "idleness": [
+        "zero",
+        "half"
+      ],
+      "limits": {
+        "maxAnalyzedEdges": 32,
+        "maxEdges": 256,
+        "maxMassDenominator": 512,
+        "maxNodes": 64,
+        "maxPotentialMagnitude": 4096,
+        "maxSupportSize": 16,
+        "maxTotalTransportCells": 4096,
+        "maxTransportBytes": 1048576,
+        "maxTransportCells": 256
+      },
+      "numeric": "exact-integer-transport-rational-curvature",
+      "ordering": "utf16-code-unit",
+      "sourceMeasure": "uniform-predecessors",
+      "sourceWeights": "ignored",
+      "targetMeasure": "uniform-successors",
+      "verification": "primal-dual-equality",
+      "version": "1"
+    },
+    "policyHash": "sha256:d8cfaff53c8257431a8df5fea0909b0a25c2e4f11c3ddd77c27307aca590b4bd",
+    "problems": [
+      {
+        "costs": [
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        "distance": 1,
+        "edgeId": "a->b",
+        "massDenominator": 2,
+        "source": "a",
+        "sourceMeasure": [
+          {
+            "nodeId": "a",
+            "units": 1
+          },
+          {
+            "nodeId": "d",
+            "units": 1
+          }
+        ],
+        "target": "b",
+        "targetMeasure": [
+          {
+            "nodeId": "b",
+            "units": 1
+          },
+          {
+            "nodeId": "c",
+            "units": 1
+          }
+        ]
+      },
+      {
+        "costs": [
+          [
+            2,
+            3
+          ],
+          [
+            1,
+            2
+          ]
+        ],
+        "distance": 1,
+        "edgeId": "b->c",
+        "massDenominator": 2,
+        "source": "b",
+        "sourceMeasure": [
+          {
+            "nodeId": "a",
+            "units": 1
+          },
+          {
+            "nodeId": "b",
+            "units": 1
+          }
+        ],
+        "target": "c",
+        "targetMeasure": [
+          {
+            "nodeId": "c",
+            "units": 1
+          },
+          {
+            "nodeId": "d",
+            "units": 1
+          }
+        ]
+      },
+      {
+        "costs": [
+          [
+            3,
+            2
+          ],
+          [
+            2,
+            1
+          ]
+        ],
+        "distance": 1,
+        "edgeId": "c->d",
+        "massDenominator": 2,
+        "source": "c",
+        "sourceMeasure": [
+          {
+            "nodeId": "b",
+            "units": 1
+          },
+          {
+            "nodeId": "c",
+            "units": 1
+          }
+        ],
+        "target": "d",
+        "targetMeasure": [
+          {
+            "nodeId": "a",
+            "units": 1
+          },
+          {
+            "nodeId": "d",
+            "units": 1
+          }
+        ]
+      },
+      {
+        "costs": [
+          [
+            2,
+            3
+          ],
+          [
+            1,
+            2
+          ]
+        ],
+        "distance": 1,
+        "edgeId": "d->a",
+        "massDenominator": 2,
+        "source": "d",
+        "sourceMeasure": [
+          {
+            "nodeId": "c",
+            "units": 1
+          },
+          {
+            "nodeId": "d",
+            "units": 1
+          }
+        ],
+        "target": "a",
+        "targetMeasure": [
+          {
+            "nodeId": "a",
+            "units": 1
+          },
+          {
+            "nodeId": "b",
+            "units": 1
+          }
+        ]
+      }
+    ],
+    "projectionHash": "sha256:04edb3475327c271ea671b3d79f6e14d1f03e9bfd6dd031e9f04dcbce5b1cea1",
+    "requestHash": "sha256:e221af8bed566705184647eea83c01e3ab15be7738fedd3565a156fa5152462a",
+    "schemaVersion": "1",
+    "scope": {
+      "boundaryEdgeCount": 0,
+      "excludedEdgeCount": 0,
+      "excludedNodeCount": 0,
+      "kind": "full"
+    },
+    "solver": {
+      "id": "onto2d-python-ollivier-reference",
+      "method": "integer-successive-shortest-path-primal-dual-v1",
+      "version": "1"
+    },
+    "sourceProjectionHash": "sha256:b8a4adb994b4da2f1352cf79c8d118b7fe9b1484d08ab5b5ea2bb8c51ac4294f"
+  },
+  "response": {
+    "requestHash": "sha256:e221af8bed566705184647eea83c01e3ab15be7738fedd3565a156fa5152462a",
+    "schemaVersion": "1",
+    "solutions": [
+      {
+        "costNumerator": 4,
+        "edgeId": "a->b",
+        "flow": [
+          [
+            1,
+            0
+          ],
+          [
+            0,
+            1
+          ]
+        ],
+        "sourcePotentials": [
+          2,
+          3
+        ],
+        "targetPotentials": [
+          -1,
+          0
+        ]
+      },
+      {
+        "costNumerator": 4,
+        "edgeId": "b->c",
+        "flow": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "sourcePotentials": [
+          3,
+          2
+        ],
+        "targetPotentials": [
+          -1,
+          0
+        ]
+      },
+      {
+        "costNumerator": 4,
+        "edgeId": "c->d",
+        "flow": [
+          [
+            1,
+            0
+          ],
+          [
+            0,
+            1
+          ]
+        ],
+        "sourcePotentials": [
+          3,
+          2
+        ],
+        "targetPotentials": [
+          0,
+          -1
+        ]
+      },
+      {
+        "costNumerator": 4,
+        "edgeId": "d->a",
+        "flow": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "sourcePotentials": [
+          3,
+          2
+        ],
+        "targetPotentials": [
+          -1,
+          0
+        ]
+      }
+    ],
+    "solver": {
+      "id": "onto2d-python-ollivier-reference",
+      "method": "integer-successive-shortest-path-primal-dual-v1",
+      "version": "1"
+    }
+  },
+  "result": {
+    "edges": [
+      {
+        "curvature": {
+          "denominator": "1",
+          "numerator": "-1"
+        },
+        "id": "a->b",
+        "sign": "negative",
+        "source": "a",
+        "target": "b",
+        "wasserstein": {
+          "denominator": "1",
+          "numerator": "2"
+        }
+      },
+      {
+        "curvature": {
+          "denominator": "1",
+          "numerator": "-1"
+        },
+        "id": "b->c",
+        "sign": "negative",
+        "source": "b",
+        "target": "c",
+        "wasserstein": {
+          "denominator": "1",
+          "numerator": "2"
+        }
+      },
+      {
+        "curvature": {
+          "denominator": "1",
+          "numerator": "-1"
+        },
+        "id": "c->d",
+        "sign": "negative",
+        "source": "c",
+        "target": "d",
+        "wasserstein": {
+          "denominator": "1",
+          "numerator": "2"
+        }
+      },
+      {
+        "curvature": {
+          "denominator": "1",
+          "numerator": "-1"
+        },
+        "id": "d->a",
+        "sign": "negative",
+        "source": "d",
+        "target": "a",
+        "wasserstein": {
+          "denominator": "1",
+          "numerator": "2"
+        }
+      }
+    ],
+    "summary": {
+      "count": 4,
+      "mean": {
+        "denominator": "1",
+        "numerator": "-1"
+      },
+      "signs": {
+        "negative": 4,
+        "positive": 0,
+        "zero": 0
+      },
+      "sum": {
+        "denominator": "1",
+        "numerator": "-4"
+      }
+    }
+  },
+  "schemaVersion": "1"
+}

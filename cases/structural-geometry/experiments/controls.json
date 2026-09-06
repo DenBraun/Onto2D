@@ -1,0 +1,299 @@
+{
+  "schemaVersion": "1",
+  "cases": [
+    {
+      "id": "typed-diamond",
+      "nodes": [
+        {
+          "id": "a"
+        },
+        {
+          "id": "b"
+        },
+        {
+          "id": "c"
+        },
+        {
+          "id": "d"
+        }
+      ],
+      "edges": [
+        {
+          "id": "a->b",
+          "source": "a",
+          "target": "b",
+          "weight": 1,
+          "necessity": "necessary",
+          "ontologicalRole": "arising",
+          "dependencyTypeId": 0,
+          "interactionModeIds": [
+            0,
+            1
+          ],
+          "causalDirectionIds": [
+            0
+          ]
+        },
+        {
+          "id": "a->c",
+          "source": "a",
+          "target": "c",
+          "weight": 1,
+          "necessity": "enabling",
+          "ontologicalRole": "maintenance",
+          "dependencyTypeId": 1,
+          "interactionModeIds": [
+            1
+          ],
+          "causalDirectionIds": [
+            0
+          ]
+        },
+        {
+          "id": "b->d",
+          "source": "b",
+          "target": "d",
+          "weight": 0.25,
+          "necessity": "contextual",
+          "ontologicalRole": "modulation",
+          "dependencyTypeId": 0,
+          "interactionModeIds": [
+            0
+          ],
+          "causalDirectionIds": [
+            0
+          ]
+        },
+        {
+          "id": "c->d",
+          "source": "c",
+          "target": "d",
+          "weight": 0.75,
+          "necessity": "optional",
+          "ontologicalRole": "arising",
+          "dependencyTypeId": 1,
+          "interactionModeIds": [
+            0,
+            1
+          ],
+          "causalDirectionIds": [
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rational-root",
+      "nodes": [
+        {
+          "id": "a"
+        },
+        {
+          "id": "b"
+        },
+        {
+          "id": "c"
+        }
+      ],
+      "edges": [
+        {
+          "id": "a->b",
+          "source": "a",
+          "target": "b",
+          "weight": 1,
+          "necessity": "necessary",
+          "ontologicalRole": "arising",
+          "dependencyTypeId": 0,
+          "interactionModeIds": [
+            0
+          ],
+          "causalDirectionIds": [
+            0
+          ]
+        },
+        {
+          "id": "b->c",
+          "source": "b",
+          "target": "c",
+          "weight": 0.25,
+          "necessity": "necessary",
+          "ontologicalRole": "maintenance",
+          "dependencyTypeId": 1,
+          "interactionModeIds": [
+            1
+          ],
+          "causalDirectionIds": [
+            0
+          ]
+        },
+        {
+          "id": "a->c",
+          "source": "a",
+          "target": "c",
+          "weight": 0.75,
+          "necessity": "optional",
+          "ontologicalRole": "modulation",
+          "dependencyTypeId": 0,
+          "interactionModeIds": [
+            0,
+            1
+          ],
+          "causalDirectionIds": [
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "irrational-feedback",
+      "nodes": [
+        {
+          "id": "a"
+        },
+        {
+          "id": "b"
+        },
+        {
+          "id": "c"
+        }
+      ],
+      "edges": [
+        {
+          "id": "a->b",
+          "source": "a",
+          "target": "b",
+          "weight": 0.3,
+          "necessity": "necessary",
+          "ontologicalRole": "arising",
+          "dependencyTypeId": 0,
+          "interactionModeIds": [
+            0
+          ],
+          "causalDirectionIds": [
+            0
+          ]
+        },
+        {
+          "id": "c->b",
+          "source": "c",
+          "target": "b",
+          "weight": 0.6,
+          "necessity": "enabling",
+          "ontologicalRole": "maintenance",
+          "dependencyTypeId": 1,
+          "interactionModeIds": [
+            1
+          ],
+          "causalDirectionIds": [
+            0
+          ]
+        },
+        {
+          "id": "b->c",
+          "source": "b",
+          "target": "c",
+          "weight": 1,
+          "necessity": "contextual",
+          "ontologicalRole": "modulation",
+          "dependencyTypeId": 0,
+          "interactionModeIds": [
+            0,
+            1
+          ],
+          "causalDirectionIds": [
+            0
+          ]
+        },
+        {
+          "id": "c->a",
+          "source": "c",
+          "target": "a",
+          "weight": 1,
+          "necessity": "optional",
+          "ontologicalRole": "arising",
+          "dependencyTypeId": 1,
+          "interactionModeIds": [
+            1
+          ],
+          "causalDirectionIds": [
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "non-unit-sums",
+      "nodes": [
+        {
+          "id": "a"
+        },
+        {
+          "id": "b"
+        },
+        {
+          "id": "c"
+        },
+        {
+          "id": "d"
+        }
+      ],
+      "edges": [
+        {
+          "id": "a->c",
+          "source": "a",
+          "target": "c",
+          "weight": 0.2,
+          "necessity": "necessary",
+          "ontologicalRole": "arising",
+          "dependencyTypeId": 0,
+          "interactionModeIds": [
+            0
+          ],
+          "causalDirectionIds": [
+            0
+          ]
+        },
+        {
+          "id": "b->c",
+          "source": "b",
+          "target": "c",
+          "weight": 0.4,
+          "necessity": "enabling",
+          "ontologicalRole": "maintenance",
+          "dependencyTypeId": 1,
+          "interactionModeIds": [
+            1
+          ],
+          "causalDirectionIds": [
+            0
+          ]
+        },
+        {
+          "id": "c->d",
+          "source": "c",
+          "target": "d",
+          "weight": 0.9,
+          "necessity": "contextual",
+          "ontologicalRole": "modulation",
+          "dependencyTypeId": 0,
+          "interactionModeIds": [
+            0,
+            1
+          ],
+          "causalDirectionIds": [
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "isolated",
+      "nodes": [
+        {
+          "id": "a"
+        }
+      ],
+      "edges": []
+    }
+  ]
+}

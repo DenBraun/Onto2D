@@ -1,0 +1,157 @@
+{
+  "analysis": {
+    "id": "structural-metric-provider",
+    "version": "1"
+  },
+  "artifactHash": "sha256:a8204c7e335a67ecc9dfd8a79d9473c2216be219de9259888ac3fa9942297522",
+  "context": {
+    "contextHash": "sha256:ecb03cb3d5b63d1ca02378c64c735173d9f6d54e7f45e5ed7127ca3368f6545b",
+    "dictionaryHash": "sha256:c7cd166f910f4e619ad8fbf7d2ef37c7d4d9decd7f6340899bcd28cdf679c1d9",
+    "model": {
+      "manifestHash": "sha256:e1aed8851c5b6d7d2837dfb063aab6c863fe5ecc414231eff457b42589ebe7c5",
+      "modelId": "provider-typed-diamond",
+      "modelRootHash": "sha256:0841175f0b96d35d36b3786502771cdcc1900a830e19c64b2cbc700b65991352",
+      "modelVersion": "1"
+    },
+    "normalizationContext": "full-source-projection",
+    "projectionPolicyHash": "sha256:25f5cdb778b7fdf05ff071dd9d8c672a9726ca50958a6192066e72a8523172d1",
+    "schemaVersion": "1",
+    "sourceProjectionHash": "sha256:4dd42f6e18db8386a84a8261ad9904451743df150f1ff4db92025eb1058ca9c5"
+  },
+  "provider": {
+    "capabilities": [
+      "positive-edge-lengths",
+      "vertex-weights",
+      "edge-weights"
+    ],
+    "context": {
+      "dictionaryMeaning": "model-local",
+      "normalization": "full-source-projection",
+      "source": "verified-full-model",
+      "sourceWeights": "required-and-audited"
+    },
+    "id": "inverse-target-share-v1",
+    "kind": "metric-values",
+    "limits": {
+      "maxArtifactBytes": 8388608,
+      "maxCanonicalEntries": 500000,
+      "maxEdges": 16384,
+      "maxNodes": 4096,
+      "maxTotalViewEdges": 32768,
+      "maxViews": 32
+    },
+    "numeric": "exact-positive-rational",
+    "origin": "existing-structural-geometry-v1",
+    "representationPolicyId": "source-parent-directed-v1",
+    "version": "1"
+  },
+  "providerHash": "sha256:b293ddbb9f7d4386afd7f5782dacbe190eb19e090cc6eaaf4c89712b49b2f3c0",
+  "request": {
+    "parameters": {},
+    "providerId": "inverse-target-share-v1"
+  },
+  "result": {
+    "edges": [
+      {
+        "id": "a->b",
+        "length": {
+          "denominator": "1",
+          "numerator": "1"
+        },
+        "source": "a",
+        "target": "b",
+        "weight": {
+          "denominator": "1",
+          "numerator": "1"
+        }
+      },
+      {
+        "id": "a->c",
+        "length": {
+          "denominator": "1",
+          "numerator": "1"
+        },
+        "source": "a",
+        "target": "c",
+        "weight": {
+          "denominator": "1",
+          "numerator": "1"
+        }
+      },
+      {
+        "id": "b->d",
+        "length": {
+          "denominator": "1",
+          "numerator": "4"
+        },
+        "source": "b",
+        "target": "d",
+        "weight": {
+          "denominator": "1",
+          "numerator": "4"
+        }
+      },
+      {
+        "id": "c->d",
+        "length": {
+          "denominator": "3",
+          "numerator": "4"
+        },
+        "source": "c",
+        "target": "d",
+        "weight": {
+          "denominator": "3",
+          "numerator": "4"
+        }
+      }
+    ],
+    "kind": "metric-values",
+    "metricContextHash": "sha256:43c2d2cf877c294ac2cbd1f791448f896c830d1396acd0e4d80e040d8f9b9dea",
+    "metricPolicy": {
+      "edgeLength": "incoming-source-weight-sum-divided-by-source-weight",
+      "edgeWeight": "edge-length",
+      "id": "inverse-target-share-v1",
+      "invalidWeight": "reject",
+      "maximumSourceWeight": 1,
+      "minimumSourceWeight": 0.000001,
+      "normalizationContext": "full-source-projection",
+      "sourceMutation": "none",
+      "status": "experimental",
+      "version": "1",
+      "vertexWeight": 1
+    },
+    "metricPolicyHash": "sha256:1c480b47143387b0a974416b2210b535950a4ed639eaac77d7ee235a76303e9e",
+    "nodes": [
+      {
+        "id": "a",
+        "weight": {
+          "denominator": "1",
+          "numerator": "1"
+        }
+      },
+      {
+        "id": "b",
+        "weight": {
+          "denominator": "1",
+          "numerator": "1"
+        }
+      },
+      {
+        "id": "c",
+        "weight": {
+          "denominator": "1",
+          "numerator": "1"
+        }
+      },
+      {
+        "id": "d",
+        "weight": {
+          "denominator": "1",
+          "numerator": "1"
+        }
+      }
+    ],
+    "weightAuditHash": "sha256:0bb35cf79be2c90b4e02c9ba9ded5f4071c77e797b96cbf7f8435a66358def5b"
+  },
+  "schemaVersion": "1"
+}

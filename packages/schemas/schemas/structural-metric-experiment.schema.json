@@ -1,0 +1,981 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/structural-metric-experiment.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": "1"
+    },
+    "analysis": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "const": "structural-metric-experiment"
+        },
+        "version": {
+          "const": "1"
+        }
+      },
+      "required": [
+        "id",
+        "version"
+      ]
+    },
+    "model": {
+      "$ref": "structural-projection.schema.json#/$defs/modelBinding"
+    },
+    "sourceProjectionHash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "request": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "selection": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "kind": {
+                  "const": "all"
+                }
+              },
+              "required": [
+                "kind"
+              ]
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "kind": {
+                  "const": "necessity"
+                },
+                "through": {
+                  "enum": [
+                    "necessary",
+                    "enabling",
+                    "contextual",
+                    "optional"
+                  ]
+                }
+              },
+              "required": [
+                "kind",
+                "through"
+              ]
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "kind": {
+                  "const": "roles"
+                },
+                "roles": {
+                  "type": "array",
+                  "items": {
+                    "enum": [
+                      "arising",
+                      "maintenance",
+                      "modulation"
+                    ]
+                  },
+                  "maxItems": 3,
+                  "minItems": 1,
+                  "uniqueItems": true
+                }
+              },
+              "required": [
+                "kind",
+                "roles"
+              ]
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "kind": {
+                  "const": "channel"
+                },
+                "field": {
+                  "enum": [
+                    "dependencyTypeId",
+                    "interactionModeIds",
+                    "causalDirectionIds"
+                  ]
+                },
+                "value": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                }
+              },
+              "required": [
+                "kind",
+                "field",
+                "value"
+              ]
+            }
+          ]
+        },
+        "metricPolicyId": {
+          "enum": [
+            "unit-v1",
+            "inverse-target-share-v1"
+          ]
+        }
+      },
+      "required": [
+        "selection",
+        "metricPolicyId"
+      ]
+    },
+    "selectionPolicy": {
+      "$ref": "structural-selection-policy.schema.json"
+    },
+    "selectionPolicyHash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "projectionHash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "accounting": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "sourceNodeCount": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4096
+        },
+        "sourceEdgeCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 16384
+        },
+        "selectedEdgeIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024
+          },
+          "maxItems": 16384
+        },
+        "excludedEdgeIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024
+          },
+          "maxItems": 16384
+        },
+        "missingChannelEdgeIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024
+          },
+          "maxItems": 16384
+        }
+      },
+      "required": [
+        "sourceNodeCount",
+        "sourceEdgeCount",
+        "selectedEdgeIds",
+        "excludedEdgeIds",
+        "missingChannelEdgeIds"
+      ]
+    },
+    "metricPolicy": {
+      "oneOf": [
+        {
+          "$ref": "structural-metric-policy.schema.json"
+        },
+        {
+          "$ref": "structural-experimental-metric-policy.schema.json"
+        }
+      ]
+    },
+    "metricPolicyHash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "metricContextHash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "weightAuditHash": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        }
+      ]
+    },
+    "algorithm": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "const": "forman-directed-interval"
+        },
+        "version": {
+          "const": "1"
+        }
+      },
+      "required": [
+        "id",
+        "version"
+      ]
+    },
+    "numericPolicy": {
+      "$ref": "structural-interval-policy.schema.json"
+    },
+    "numericPolicyHash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {},
+      "required": []
+    },
+    "parametersHash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "result": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "incidenceCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100000
+        },
+        "connectivity": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "weakComponentCount": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4096
+            },
+            "strongComponentCount": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4096
+            },
+            "cyclicNodeCount": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4096
+            },
+            "isolatedNodeCount": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4096
+            }
+          },
+          "required": [
+            "weakComponentCount",
+            "strongComponentCount",
+            "cyclicNodeCount",
+            "isolatedNodeCount"
+          ]
+        },
+        "nodes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1024
+              },
+              "inDegree": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 16384
+              },
+              "outDegree": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 16384
+              },
+              "incomingCurvature": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "lowerTicks": {
+                    "type": "string",
+                    "pattern": "^(0|-?[1-9][0-9]*)$",
+                    "maxLength": 64
+                  },
+                  "upperTicks": {
+                    "type": "string",
+                    "pattern": "^(0|-?[1-9][0-9]*)$",
+                    "maxLength": 64
+                  }
+                },
+                "required": [
+                  "lowerTicks",
+                  "upperTicks"
+                ]
+              },
+              "outgoingCurvature": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "lowerTicks": {
+                    "type": "string",
+                    "pattern": "^(0|-?[1-9][0-9]*)$",
+                    "maxLength": 64
+                  },
+                  "upperTicks": {
+                    "type": "string",
+                    "pattern": "^(0|-?[1-9][0-9]*)$",
+                    "maxLength": 64
+                  }
+                },
+                "required": [
+                  "lowerTicks",
+                  "upperTicks"
+                ]
+              },
+              "balance": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "lowerTicks": {
+                    "type": "string",
+                    "pattern": "^(0|-?[1-9][0-9]*)$",
+                    "maxLength": 64
+                  },
+                  "upperTicks": {
+                    "type": "string",
+                    "pattern": "^(0|-?[1-9][0-9]*)$",
+                    "maxLength": 64
+                  }
+                },
+                "required": [
+                  "lowerTicks",
+                  "upperTicks"
+                ]
+              }
+            },
+            "required": [
+              "id",
+              "inDegree",
+              "outDegree",
+              "incomingCurvature",
+              "outgoingCurvature",
+              "balance"
+            ]
+          },
+          "maxItems": 4096
+        },
+        "edges": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1024
+              },
+              "source": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1024
+              },
+              "target": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1024
+              },
+              "length": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "numerator": {
+                    "type": "string",
+                    "pattern": "^[1-9][0-9]*$",
+                    "maxLength": 1024
+                  },
+                  "denominator": {
+                    "type": "string",
+                    "pattern": "^[1-9][0-9]*$",
+                    "maxLength": 1024
+                  }
+                },
+                "required": [
+                  "numerator",
+                  "denominator"
+                ]
+              },
+              "curvature": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "lowerTicks": {
+                    "type": "string",
+                    "pattern": "^(0|-?[1-9][0-9]*)$",
+                    "maxLength": 64
+                  },
+                  "upperTicks": {
+                    "type": "string",
+                    "pattern": "^(0|-?[1-9][0-9]*)$",
+                    "maxLength": 64
+                  }
+                },
+                "required": [
+                  "lowerTicks",
+                  "upperTicks"
+                ]
+              },
+              "unitCurvature": {
+                "type": "integer"
+              },
+              "sign": {
+                "enum": [
+                  "negative",
+                  "zero",
+                  "positive",
+                  "unresolved"
+                ]
+              },
+              "unitComparison": {
+                "enum": [
+                  "lower",
+                  "equal",
+                  "higher",
+                  "overlapping"
+                ]
+              }
+            },
+            "required": [
+              "id",
+              "source",
+              "target",
+              "length",
+              "curvature",
+              "unitCurvature",
+              "sign",
+              "unitComparison"
+            ]
+          },
+          "maxItems": 16384
+        },
+        "summary": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "count": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 16384
+            },
+            "sum": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "lowerTicks": {
+                  "type": "string",
+                  "pattern": "^(0|-?[1-9][0-9]*)$",
+                  "maxLength": 64
+                },
+                "upperTicks": {
+                  "type": "string",
+                  "pattern": "^(0|-?[1-9][0-9]*)$",
+                  "maxLength": 64
+                }
+              },
+              "required": [
+                "lowerTicks",
+                "upperTicks"
+              ]
+            },
+            "minimum": {
+              "oneOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "lowerTicks": {
+                      "type": "string",
+                      "pattern": "^(0|-?[1-9][0-9]*)$",
+                      "maxLength": 64
+                    },
+                    "upperTicks": {
+                      "type": "string",
+                      "pattern": "^(0|-?[1-9][0-9]*)$",
+                      "maxLength": 64
+                    }
+                  },
+                  "required": [
+                    "lowerTicks",
+                    "upperTicks"
+                  ]
+                }
+              ]
+            },
+            "maximum": {
+              "oneOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "lowerTicks": {
+                      "type": "string",
+                      "pattern": "^(0|-?[1-9][0-9]*)$",
+                      "maxLength": 64
+                    },
+                    "upperTicks": {
+                      "type": "string",
+                      "pattern": "^(0|-?[1-9][0-9]*)$",
+                      "maxLength": 64
+                    }
+                  },
+                  "required": [
+                    "lowerTicks",
+                    "upperTicks"
+                  ]
+                }
+              ]
+            },
+            "mean": {
+              "oneOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "lowerNumeratorTicks": {
+                      "type": "string",
+                      "pattern": "^(0|-?[1-9][0-9]*)$",
+                      "maxLength": 64
+                    },
+                    "upperNumeratorTicks": {
+                      "type": "string",
+                      "pattern": "^(0|-?[1-9][0-9]*)$",
+                      "maxLength": 64
+                    },
+                    "denominator": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 16384
+                    }
+                  },
+                  "required": [
+                    "lowerNumeratorTicks",
+                    "upperNumeratorTicks",
+                    "denominator"
+                  ]
+                }
+              ]
+            },
+            "signs": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "negative": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 16384
+                },
+                "zero": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 16384
+                },
+                "positive": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 16384
+                },
+                "unresolved": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 16384
+                }
+              },
+              "required": [
+                "negative",
+                "zero",
+                "positive",
+                "unresolved"
+              ]
+            },
+            "unitComparison": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "lower": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 16384
+                },
+                "equal": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 16384
+                },
+                "higher": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 16384
+                },
+                "overlapping": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 16384
+                }
+              },
+              "required": [
+                "lower",
+                "equal",
+                "higher",
+                "overlapping"
+              ]
+            }
+          },
+          "required": [
+            "count",
+            "sum",
+            "minimum",
+            "maximum",
+            "mean",
+            "signs",
+            "unitComparison"
+          ]
+        }
+      },
+      "required": [
+        "incidenceCount",
+        "connectivity",
+        "nodes",
+        "edges",
+        "summary"
+      ]
+    },
+    "artifactHash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "analysis",
+    "model",
+    "sourceProjectionHash",
+    "request",
+    "selectionPolicy",
+    "selectionPolicyHash",
+    "projectionHash",
+    "accounting",
+    "metricPolicy",
+    "metricPolicyHash",
+    "metricContextHash",
+    "weightAuditHash",
+    "algorithm",
+    "numericPolicy",
+    "numericPolicyHash",
+    "parameters",
+    "parametersHash",
+    "result",
+    "artifactHash"
+  ],
+  "$defs": {
+    "fraction": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "numerator": {
+          "type": "string",
+          "pattern": "^(0|-?[1-9][0-9]*)$",
+          "maxLength": 1024
+        },
+        "denominator": {
+          "type": "string",
+          "pattern": "^[1-9][0-9]*$",
+          "maxLength": 1024
+        }
+      },
+      "required": [
+        "numerator",
+        "denominator"
+      ]
+    },
+    "interval": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "lowerTicks": {
+          "type": "string",
+          "pattern": "^(0|-?[1-9][0-9]*)$",
+          "maxLength": 64
+        },
+        "upperTicks": {
+          "type": "string",
+          "pattern": "^(0|-?[1-9][0-9]*)$",
+          "maxLength": 64
+        }
+      },
+      "required": [
+        "lowerTicks",
+        "upperTicks"
+      ]
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "count": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 16384
+        },
+        "sum": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "lowerTicks": {
+              "type": "string",
+              "pattern": "^(0|-?[1-9][0-9]*)$",
+              "maxLength": 64
+            },
+            "upperTicks": {
+              "type": "string",
+              "pattern": "^(0|-?[1-9][0-9]*)$",
+              "maxLength": 64
+            }
+          },
+          "required": [
+            "lowerTicks",
+            "upperTicks"
+          ]
+        },
+        "minimum": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "lowerTicks": {
+                  "type": "string",
+                  "pattern": "^(0|-?[1-9][0-9]*)$",
+                  "maxLength": 64
+                },
+                "upperTicks": {
+                  "type": "string",
+                  "pattern": "^(0|-?[1-9][0-9]*)$",
+                  "maxLength": 64
+                }
+              },
+              "required": [
+                "lowerTicks",
+                "upperTicks"
+              ]
+            }
+          ]
+        },
+        "maximum": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "lowerTicks": {
+                  "type": "string",
+                  "pattern": "^(0|-?[1-9][0-9]*)$",
+                  "maxLength": 64
+                },
+                "upperTicks": {
+                  "type": "string",
+                  "pattern": "^(0|-?[1-9][0-9]*)$",
+                  "maxLength": 64
+                }
+              },
+              "required": [
+                "lowerTicks",
+                "upperTicks"
+              ]
+            }
+          ]
+        },
+        "mean": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "lowerNumeratorTicks": {
+                  "type": "string",
+                  "pattern": "^(0|-?[1-9][0-9]*)$",
+                  "maxLength": 64
+                },
+                "upperNumeratorTicks": {
+                  "type": "string",
+                  "pattern": "^(0|-?[1-9][0-9]*)$",
+                  "maxLength": 64
+                },
+                "denominator": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 16384
+                }
+              },
+              "required": [
+                "lowerNumeratorTicks",
+                "upperNumeratorTicks",
+                "denominator"
+              ]
+            }
+          ]
+        },
+        "signs": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "negative": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 16384
+            },
+            "zero": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 16384
+            },
+            "positive": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 16384
+            },
+            "unresolved": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 16384
+            }
+          },
+          "required": [
+            "negative",
+            "zero",
+            "positive",
+            "unresolved"
+          ]
+        },
+        "unitComparison": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "lower": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 16384
+            },
+            "equal": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 16384
+            },
+            "higher": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 16384
+            },
+            "overlapping": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 16384
+            }
+          },
+          "required": [
+            "lower",
+            "equal",
+            "higher",
+            "overlapping"
+          ]
+        }
+      },
+      "required": [
+        "count",
+        "sum",
+        "minimum",
+        "maximum",
+        "mean",
+        "signs",
+        "unitComparison"
+      ]
+    },
+    "connectivity": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "weakComponentCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4096
+        },
+        "strongComponentCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4096
+        },
+        "cyclicNodeCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4096
+        },
+        "isolatedNodeCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4096
+        }
+      },
+      "required": [
+        "weakComponentCount",
+        "strongComponentCount",
+        "cyclicNodeCount",
+        "isolatedNodeCount"
+      ]
+    }
+  }
+}

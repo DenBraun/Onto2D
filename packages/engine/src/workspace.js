@@ -1,4 +1,4 @@
-import { canonicalClone, deepFreeze } from "@onto2d/kernel";
+import { canonicalClone, deepFreeze } from "@onto2d/kernel/canonical";
 import { engineFail } from "./errors.js";
 
 function requireIdentifier(value, name) {

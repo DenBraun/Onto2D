@@ -85,6 +85,118 @@ check.
 
 ## Generated output
 
+The Structural Geometry computational milestone has a separate reproducible
+check and an inspection command:
+
+```sh
+npm run structural-geometry:check
+npm run structural-geometry:report
+npm run structural-geometry:experiments:check
+npm run structural-geometry:experiments:report
+npm run structural-geometry:providers:check
+npm run structural-geometry:providers:report
+npm run structural-geometry:regimes:check
+npm run structural-geometry:regimes:report
+npm run structural-geometry:canonical:check
+npm run structural-geometry:canonical:report
+npm run structural-geometry:topology:check
+npm run structural-geometry:topology:report
+npm run structural-geometry:typed:check
+npm run structural-geometry:typed:report
+npm run structural-geometry:ollivier:check
+npm run structural-geometry:ollivier:report
+npm run structural-geometry:flow:check
+npm run structural-geometry:flow:report
+npm run structural-geometry:flow:controls:check
+npm run structural-geometry:flow:controls:report
+```
+
+The check verifies the source lock, frozen projection/result, Python incidence
+goldens, full-model cross-check, schemas and portable package behavior. The report
+prints descriptive results after verification. Use
+`npm run structural-geometry:build` only to regenerate full-model fixtures for
+review; synthetic reference regeneration is the explicit Python `--write` mode
+documented in the [case](../cases/structural-geometry/README.md).
+The combined geometry check also runs stage-three source audits, the 72-run
+suite and weighted interval references. The experiment-specific commands are
+documented in the [stage-three case](../cases/structural-geometry/experiments/README.md).
+It also reruns the stage-four Python oracle, verifies exact transport certificates
+and compares the 40-run Ollivier suite with frozen independent NetworkX values.
+The [Ollivier case](../cases/structural-geometry/ollivier/README.md) explains the
+separate isolated NetworkX verification, CI gate and deliberate regeneration.
+Normal geometry checks require Python 3.9+ and its standard library; NetworkX is
+an isolated reference dependency, not a JavaScript runtime dependency.
+
+The combined check also includes the [stage-five flow suite](../cases/structural-geometry/flow/README.md):
+11 trajectories, exact history replay and the published analytical recurrence.
+Use `npm run structural-geometry:flow:check` for focused verification and
+`npm run structural-geometry:flow:report` to inspect stopping/cut results.
+`structural-geometry:flow:build` deliberately regenerates runtime artifacts;
+the independent NetworkX writer must agree before its expected output changes.
+The flow check also verifies the separate [R1 control supplement](../cases/structural-geometry/flow-controls/README.md):
+nine star/bridge trajectories, analytic expectations, 33 states / 506 edge
+calculations, strict cut-boundary tests and the pinned legacy compatibility
+inventory. `flow:controls:check` focuses on this supplement and
+`flow:controls:report` prints its verified results. The separate CI reference job
+executes Ollivier and both flow suites with NetworkX 3.2.1.
+
+Further Structural Geometry work follows the
+[revised task ledger](structural-geometry/REVISED_ROADMAP.md). The
+[implemented provider layer](structural-geometry/METRIC_PROVIDERS.md) adds 13
+full-source profiles, 73 exact legacy analysis envelopes and seven examples.
+Its focused check includes 20 behavioral/schema/browser tests; the full build
+includes the compatibility suite. Use `structural-geometry:providers:build`
+only for deliberate reviewed regeneration. The existing independent numeric
+references still apply to the shared metric implementation.
+
+The [SG2-010 contract foundation](structural-geometry/REGIME_CONTRACTS.md) adds
+three regime profiles, nine observable specs and six source/scope preparations.
+`structural-geometry:regimes:check` runs 19 behavioral/schema/browser tests plus
+exact case and legacy compatibility replay; the combined geometry check includes
+it. Preparations explicitly record `not-run`, without fabricated observations,
+comparison status or distance. Use `structural-geometry:regimes:build` only for
+deliberate reviewed regeneration.
+
+The [SG2-011 evaluator](structural-geometry/CANONICAL_OBSERVATIONS.md) now supplies
+exact canonical observations. Its focused check covers 17 artifacts, an
+independent 4,165-graph census / 238 classes, 720 six-node relabelings and 20
+API/schema/browser tests. `npm test` also exposes the three independent/reference
+checks as tests. Canonical values exclude source labels and metadata; the full
+artifact retains them in preparation and mapping provenance. Observation
+regeneration uses `structural-geometry:canonical:build`;
+the independent reference has its own explicit generation command in the contract.
+
+The [SG2-012 evaluator](structural-geometry/TOPOLOGY_OBSERVATIONS.md) supplies
+seven directed topology summaries and 23 artifacts, including explicit maximum
+work and Causal fragment controls. Its focused check runs 21 API/schema/browser
+tests plus independent matrix closure and a 4,165-graph collision census;
+`npm test` also exposes two reference tests. The report verifies before printing.
+Use `structural-geometry:topology:build` only for reviewed regeneration after the
+independent reference, as documented in the contract.
+
+The [SG2-013 evaluator](structural-geometry/TYPED_OBSERVATIONS.md) supplies joint
+five-field observations, explicit missing evidence and separately authorized
+vocabulary alignment. Its focused check runs 37 API/schema/browser tests,
+independent permutations over 739 colored graphs / 145 classes, 720 six-node
+relabelings and exact replay of 26 observations, five mappings and eight
+alignments. `npm test` also exposes three independent reference tests.
+Regeneration uses `structural-geometry:typed:build` after deliberate independent
+reference regeneration. Final comparison/status/coverage is the next gate.
+
+Before further refactoring, inspect the [baseline](structural-geometry/BASELINE.md):
+
+```sh
+python3 -B docs/structural-geometry/baselines/verify_baseline.py
+python3 -B docs/structural-geometry/baselines/verify_baseline.py --compatibility
+```
+
+The first checks the captured implementation/test/input inventory; the second
+checks only pinned legacy scientific inputs, contracts and goldens during an
+intentional implementation migration. Neither regenerates or approves output.
+Run normal semantic/reference replay as well. New provider/regime artifacts
+must coexist with the legacy v1 values; never rewrite goldens to hide a refactor
+regression. New schemes in the planning documents are not published APIs.
+
 `node_modules/`, `coverage/`, `dist/`, and `runs/*` are ignored. Commit only
 reproducible fixtures with their source and policy identities. The generated
 `assets/js/model-pack-worker.js` is an explicit exception because the static

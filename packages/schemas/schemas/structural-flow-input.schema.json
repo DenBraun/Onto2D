@@ -1,0 +1,186 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/structural-flow-input.schema.json",
+  "title": "Structural flow input",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "scope": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "full"
+            }
+          },
+          "required": [
+            "kind"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "induced"
+            },
+            "nodeIds": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1024
+              },
+              "minItems": 2,
+              "maxItems": 64,
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "kind",
+            "nodeIds"
+          ]
+        }
+      ]
+    },
+    "initialLengths": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "edgeId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024
+          },
+          "length": {
+            "$ref": "structural-flow-input.schema.json#/$defs/positiveRational"
+          }
+        },
+        "required": [
+          "edgeId",
+          "length"
+        ]
+      },
+      "minItems": 1,
+      "maxItems": 64
+    },
+    "maxIterations": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 24
+    },
+    "step": {
+      "enum": [
+        "half",
+        "one"
+      ]
+    },
+    "idleness": {
+      "enum": [
+        "zero",
+        "half"
+      ]
+    },
+    "stableSteps": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 8
+    },
+    "tolerance": {
+      "$ref": "structural-flow-input.schema.json#/$defs/positiveRational"
+    },
+    "cut": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "none"
+            }
+          },
+          "required": [
+            "kind"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "final-length"
+            },
+            "threshold": {
+              "$ref": "structural-flow-input.schema.json#/$defs/positiveRational"
+            }
+          },
+          "required": [
+            "kind",
+            "threshold"
+          ]
+        }
+      ]
+    }
+  },
+  "required": [],
+  "$defs": {
+    "rational": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "numerator": {
+          "type": "string",
+          "pattern": "^(0|-?[1-9][0-9]{0,255})$"
+        },
+        "denominator": {
+          "type": "string",
+          "pattern": "^[1-9][0-9]{0,255}$"
+        }
+      },
+      "required": [
+        "numerator",
+        "denominator"
+      ]
+    },
+    "positiveRational": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "numerator": {
+          "type": "string",
+          "pattern": "^[1-9][0-9]{0,255}$"
+        },
+        "denominator": {
+          "type": "string",
+          "pattern": "^[1-9][0-9]{0,255}$"
+        }
+      },
+      "required": [
+        "numerator",
+        "denominator"
+      ]
+    },
+    "nonnegativeRational": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "numerator": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,255})$"
+        },
+        "denominator": {
+          "type": "string",
+          "pattern": "^[1-9][0-9]{0,255}$"
+        }
+      },
+      "required": [
+        "numerator",
+        "denominator"
+      ]
+    }
+  }
+}

@@ -2,6 +2,71 @@
 
 All notable user-visible changes are recorded in this file.
 
+## Unreleased
+
+### Added
+
+- SG2-013 joint typed directed observations, explicit missing-field evidence,
+  exact local vocabulary bindings and separately approved partial-bijection
+  mappings. Added five closed schemas, readonly/browser/engine APIs, 26
+  observations, five mappings and eight alignment controls. Independent
+  permutations agree on 739 colored graphs / 145 classes and 720 relabelings.
+
+- SG2-012 directed topology observations: seven frozen summaries, source-bound
+  component/reachability diagnostics, 23 artifacts, two additive schemas and
+  readonly/browser/engine APIs. Independent matrix closure agrees on all 4,165
+  small graphs; 238 isomorphism classes yield 69 summary classes, retaining
+  explicit collisions and exact-canonical controls. Earlier contracts remain.
+
+- SG2-011 exact canonical directed observations with source-bound mapping
+  witnesses, 17 measured artifacts, two additive schemas and browser/engine APIs.
+  Independent permutation enumeration agrees on 4,165 small graphs / 238 classes
+  and all 720 relabelings of a six-node control. A portable kernel graph export
+  routes to the existing canonicalizer without changing its implementation.
+- SG2-010 distinguishability contract foundation: three content-bound regimes,
+  nine observable specs, bounded matching/scope policies, four additive schemas,
+  readonly/browser/engine preparation APIs and six source-bound examples.
+  Preparations explicitly record `not-run`; comparison evaluators remain planned.
+- Compatible MetricProvider layer with five metric/view capabilities, verified
+  full-source and dictionary contexts, additive legacy analysis envelopes, six
+  closed schemas and readonly/browser/engine APIs. Thirteen provider profiles
+  preserve all 73 existing full-source analyses; seven small examples show usage.
+- SG2-004 supplemental flow controls: nine frozen directed-star/single-bridge
+  trajectories, analytic optimality witnesses, independent NetworkX agreement,
+  strict cut-boundary tests and enforced legacy artifact compatibility. The
+  original flow suite and public numeric/API contracts remain unchanged.
+- Adopted Structural Geometry R0–R12 research revision: preserved source proposal,
+  implementation baseline inventory, compatible-provider migration plan,
+  distinguishability/probe/pseudometric design, revised falsification gates and
+  a separate gated website plan. New comparison APIs remain unimplemented.
+- Normalized shadow geometry flow with immutable source graphs, separate rational
+  lengths, metric closure, certified weighted Ollivier transport, explicit
+  convergence/cycle/degeneracy records and optional final component cuts.
+- Seven flow contracts, portable full-history verification, opt-in engine/Node
+  APIs and an 11-run suite of 68 states / 1089 exact edge calculations checked
+  with NetworkX and a published three-group analytical recurrence.
+- Bounded directed Ollivier curvature with explicit scope/idleness rules, an
+  external standard-library Python solver, exact primal/dual certificates,
+  source-bound request caching, portable verification and opt-in engine analysis.
+- Closed Ollivier schemas/types and a 40-run suite of 242 exact edge values
+  independently checked with NetworkX shortest paths and network simplex.
+- Stage-three structural geometry experiments with necessity/role selections,
+  separate typed channels, exact source weight audits, deterministic outward
+  bounds for the inverse-target-share metric, and a frozen 72-run comparison.
+- Read-only Structural Geometry foundation: verified source-parent projections,
+  unit directed Forman curvature, exact source replay and opt-in engine analysis.
+- Closed geometry schemas, public TypeScript declarations, 16 synthetic controls
+  with a separate Python incidence reference, and a frozen descriptive result
+  for the complete Causal Emergence snapshot.
+- Adopted geometry contracts and staged research gates, including the limits of
+  the degree-derived unit baseline and source-parent interpretation.
+
+### Fixed
+
+- Structural regime scopes now preserve exact Model Pack identifiers, including
+  surrounding whitespace. Full and induced observations agree with their JSON
+  schemas; node/edge witnesses and all boundary partitions retain source spelling.
+
 ## [0.1.0] - 2026-08-15
 
 ### Added

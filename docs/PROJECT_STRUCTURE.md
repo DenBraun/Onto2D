@@ -32,6 +32,7 @@ Emergence snapshot.
 | `packages/engine` | Headless model access, traversal, workspaces, analyses, diff, and verified presentation composition |
 | `packages/history-benchmark` | History Matters contracts, exact census contrasts, unit-disjoint regression preparation, nulls and replay |
 | `packages/canonical-identity-analysis` | Replayable kernel-backed identity analysis |
+| `packages/structural-geometry` | Immutable projections, metric/view providers, regime preparation, exact canonical, directed topology and typed observations with explicit vocabulary alignment, directed Forman experiments, certified Ollivier transport and normalized shadow flow |
 | `packages/view` | Deterministic presentation projections, lazy pages, explicit inspection, and graph layout |
 | `packages/rdf-import` | Bounded RDF 1.1 import artifacts and semantics-neutral graph projection |
 | `packages/shacl-validation` | Closed SHACL 1.0 Core validation plans and reports over exact RDF imports |
@@ -50,6 +51,7 @@ Emergence snapshot.
 | `test` | Behavioral, schema, integration, case, and golden evidence |
 | `docs/adr` | Accepted architectural decisions |
 | `docs/history` | Authoritative History Model taxonomy, portfolio, evidence, identity, reachability, and reconstruction documentation |
+| `docs/structural-geometry` | Implemented geometry contracts, baseline inventory, revised R0–R12 research/task ledger, distinguishability design and gated website plan |
 | `docs/cases` | Canonical case-specific implementation plans |
 | `docs/external-cases` | Compatibility pointers for the superseded software-first program paths |
 
@@ -75,6 +77,13 @@ Emergence snapshot.
 - Applications do not become authorities for scientific values or canonical
   identity; they project disclosed models or tested artifacts.
 - View layouts are derived presentation output and never enter model identity.
+- Structural geometry consumes complete verified Model Packs, retains source
+  interpretation, and binds derived policies and results separately from source
+  identity. It never writes shadow metric values back into source relations.
+- The planned distinguishability/probe/comparison layers stay in the existing
+  structural-geometry package. Their scientific descriptors are separate from
+  provenance identity; missing observations are not equality, and a filtration
+  or typed channel is not automatically a length metric.
 - Lazy presentation may omit non-visible records, but complete semantic
   execution must use a fully materialized and verified Model Pack.
 - RDF import preserves RDF terms and predicates without assigning Onto2D

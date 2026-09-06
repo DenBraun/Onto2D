@@ -4,7 +4,7 @@ import {
   deepFreeze,
   hashCanonical,
   isContentHash
-} from "@onto2d/kernel";
+} from "@onto2d/kernel/canonical";
 import { engineFail } from "./errors.js";
 
 export const MODEL_LINEAGE_VERSION = "1";

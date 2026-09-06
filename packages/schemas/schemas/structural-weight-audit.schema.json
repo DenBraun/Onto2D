@@ -1,0 +1,167 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/structural-weight-audit.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": "1"
+    },
+    "model": {
+      "$ref": "structural-projection.schema.json#/$defs/modelBinding"
+    },
+    "sourceProjectionHash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "algorithm": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "const": "incoming-source-weight-audit"
+        },
+        "version": {
+          "const": "1"
+        }
+      },
+      "required": [
+        "id",
+        "version"
+      ]
+    },
+    "policy": {
+      "$ref": "structural-experimental-metric-policy.schema.json"
+    },
+    "policyHash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "sourceNumberInterpretation": {
+      "const": "canonical-json-decimal"
+    },
+    "eligibleForInverseShare": {
+      "type": "boolean"
+    },
+    "invalidWeights": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "edgeId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024
+          },
+          "reason": {
+            "enum": [
+              "missing",
+              "not-a-number",
+              "zero",
+              "out-of-range",
+              "below-minimum"
+            ]
+          }
+        },
+        "required": [
+          "edgeId",
+          "reason"
+        ]
+      },
+      "maxItems": 16384
+    },
+    "targets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "nodeId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024
+          },
+          "incomingEdgeIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 1024
+            },
+            "maxItems": 16384
+          },
+          "sourceWeightSum": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "numerator": {
+                    "type": "string",
+                    "pattern": "^(0|-?[1-9][0-9]*)$",
+                    "maxLength": 1024
+                  },
+                  "denominator": {
+                    "type": "string",
+                    "pattern": "^[1-9][0-9]*$",
+                    "maxLength": 1024
+                  }
+                },
+                "required": [
+                  "numerator",
+                  "denominator"
+                ]
+              }
+            ]
+          },
+          "disposition": {
+            "enum": [
+              "no-parents",
+              "invalid",
+              "normalized",
+              "non-unit-sum"
+            ]
+          }
+        },
+        "required": [
+          "nodeId",
+          "incomingEdgeIds",
+          "sourceWeightSum",
+          "disposition"
+        ]
+      },
+      "maxItems": 4096
+    },
+    "nonUnitTargetIds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 1024
+      },
+      "maxItems": 4096
+    },
+    "artifactHash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "model",
+    "sourceProjectionHash",
+    "algorithm",
+    "policy",
+    "policyHash",
+    "sourceNumberInterpretation",
+    "eligibleForInverseShare",
+    "invalidWeights",
+    "targets",
+    "nonUnitTargetIds",
+    "artifactHash"
+  ]
+}

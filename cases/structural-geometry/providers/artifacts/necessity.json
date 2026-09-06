@@ -1,0 +1,225 @@
+{
+  "analysis": {
+    "id": "structural-metric-provider",
+    "version": "1"
+  },
+  "artifactHash": "sha256:bc8c635f3d772e4b36d2a5c11a9af958a7b5b0e742499b37b24e596649ce7148",
+  "context": {
+    "contextHash": "sha256:ecb03cb3d5b63d1ca02378c64c735173d9f6d54e7f45e5ed7127ca3368f6545b",
+    "dictionaryHash": "sha256:c7cd166f910f4e619ad8fbf7d2ef37c7d4d9decd7f6340899bcd28cdf679c1d9",
+    "model": {
+      "manifestHash": "sha256:e1aed8851c5b6d7d2837dfb063aab6c863fe5ecc414231eff457b42589ebe7c5",
+      "modelId": "provider-typed-diamond",
+      "modelRootHash": "sha256:0841175f0b96d35d36b3786502771cdcc1900a830e19c64b2cbc700b65991352",
+      "modelVersion": "1"
+    },
+    "normalizationContext": "full-source-projection",
+    "projectionPolicyHash": "sha256:25f5cdb778b7fdf05ff071dd9d8c672a9726ca50958a6192066e72a8523172d1",
+    "schemaVersion": "1",
+    "sourceProjectionHash": "sha256:4dd42f6e18db8386a84a8261ad9904451743df150f1ff4db92025eb1058ca9c5"
+  },
+  "provider": {
+    "capabilities": [
+      "nested-edge-views"
+    ],
+    "context": {
+      "dictionaryMeaning": "model-local",
+      "normalization": "full-source-projection",
+      "source": "verified-full-model",
+      "sourceWeights": "unused"
+    },
+    "id": "necessity-filtration-v1",
+    "kind": "filtration",
+    "limits": {
+      "maxArtifactBytes": 8388608,
+      "maxCanonicalEntries": 500000,
+      "maxEdges": 16384,
+      "maxNodes": 4096,
+      "maxTotalViewEdges": 32768,
+      "maxViews": 32
+    },
+    "numeric": "discrete-membership",
+    "origin": "existing-structural-geometry-v1",
+    "representationPolicyId": "source-parent-directed-v1",
+    "version": "1"
+  },
+  "providerHash": "sha256:1e6921f30a486a50cc0940643b10305582f0b6ac918e33362b0f77574d59de78",
+  "request": {
+    "parameters": {},
+    "providerId": "necessity-filtration-v1"
+  },
+  "result": {
+    "kind": "filtration",
+    "nodeIds": [
+      "a",
+      "b",
+      "c",
+      "d"
+    ],
+    "selectionPolicy": {
+      "channels": [
+        "dependencyTypeId",
+        "interactionModeIds",
+        "causalDirectionIds"
+      ],
+      "id": "typed-source-parent-subgraph-v1",
+      "missingCategory": "reject",
+      "missingChannel": "exclude-and-account",
+      "necessityOrder": [
+        "necessary",
+        "enabling",
+        "contextual",
+        "optional"
+      ],
+      "nodePopulation": "all-source-nodes",
+      "roleOrder": "subset-lattice",
+      "roleUniverse": [
+        "arising",
+        "maintenance",
+        "modulation"
+      ],
+      "version": "1"
+    },
+    "selectionPolicyHash": "sha256:19c266351895ee05760ea8791d6880a4587966271182e28252c8afc89e5aab7d",
+    "stages": [
+      {
+        "accounting": {
+          "excludedEdgeIds": [
+            "a->c",
+            "b->d",
+            "c->d"
+          ],
+          "missingChannelEdgeIds": [],
+          "selectedEdgeIds": [
+            "a->b"
+          ],
+          "sourceEdgeCount": 4,
+          "sourceNodeCount": 4
+        },
+        "edges": [
+          {
+            "id": "a->b",
+            "source": "a",
+            "target": "b"
+          }
+        ],
+        "projectionHash": "sha256:22eb4a32506ef187d37d47424d8a304d085f0c4758a4792cb547c83d213adfc8",
+        "selection": {
+          "kind": "necessity",
+          "through": "necessary"
+        }
+      },
+      {
+        "accounting": {
+          "excludedEdgeIds": [
+            "b->d",
+            "c->d"
+          ],
+          "missingChannelEdgeIds": [],
+          "selectedEdgeIds": [
+            "a->b",
+            "a->c"
+          ],
+          "sourceEdgeCount": 4,
+          "sourceNodeCount": 4
+        },
+        "edges": [
+          {
+            "id": "a->b",
+            "source": "a",
+            "target": "b"
+          },
+          {
+            "id": "a->c",
+            "source": "a",
+            "target": "c"
+          }
+        ],
+        "projectionHash": "sha256:33037e5f6fed11bc0d0698d3647f522469bddf4807a2c1dad33ee6724ffb2c1e",
+        "selection": {
+          "kind": "necessity",
+          "through": "enabling"
+        }
+      },
+      {
+        "accounting": {
+          "excludedEdgeIds": [
+            "c->d"
+          ],
+          "missingChannelEdgeIds": [],
+          "selectedEdgeIds": [
+            "a->b",
+            "a->c",
+            "b->d"
+          ],
+          "sourceEdgeCount": 4,
+          "sourceNodeCount": 4
+        },
+        "edges": [
+          {
+            "id": "a->b",
+            "source": "a",
+            "target": "b"
+          },
+          {
+            "id": "a->c",
+            "source": "a",
+            "target": "c"
+          },
+          {
+            "id": "b->d",
+            "source": "b",
+            "target": "d"
+          }
+        ],
+        "projectionHash": "sha256:7d8f8e789b6f97b35c88d4321b6b6f2169b14fc332536699683ca12ed5187237",
+        "selection": {
+          "kind": "necessity",
+          "through": "contextual"
+        }
+      },
+      {
+        "accounting": {
+          "excludedEdgeIds": [],
+          "missingChannelEdgeIds": [],
+          "selectedEdgeIds": [
+            "a->b",
+            "a->c",
+            "b->d",
+            "c->d"
+          ],
+          "sourceEdgeCount": 4,
+          "sourceNodeCount": 4
+        },
+        "edges": [
+          {
+            "id": "a->b",
+            "source": "a",
+            "target": "b"
+          },
+          {
+            "id": "a->c",
+            "source": "a",
+            "target": "c"
+          },
+          {
+            "id": "b->d",
+            "source": "b",
+            "target": "d"
+          },
+          {
+            "id": "c->d",
+            "source": "c",
+            "target": "d"
+          }
+        ],
+        "projectionHash": "sha256:726c87bacdbf1dbc4b4ef4a77db484df35aaa2dd1434051ddec9c1871983e2dc",
+        "selection": {
+          "kind": "necessity",
+          "through": "optional"
+        }
+      }
+    ]
+  },
+  "schemaVersion": "1"
+}

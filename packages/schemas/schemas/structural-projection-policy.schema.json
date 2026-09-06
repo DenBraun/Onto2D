@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/structural-projection-policy.schema.json",
+  "title": "Structural Projection Policy",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "const": "source-parent-directed-v1"
+    },
+    "version": {
+      "const": "1"
+    },
+    "scope": {
+      "const": "full-model"
+    },
+    "direction": {
+      "const": "native"
+    },
+    "relationLayer": {
+      "const": "source-parent"
+    },
+    "includedOntologicalRoles": {
+      "const": "all"
+    },
+    "includedNecessities": {
+      "const": "all"
+    },
+    "includedDependencyTypes": {
+      "const": "all"
+    },
+    "includeQuantization": {
+      "const": true
+    },
+    "higherOrderPolicy": {
+      "const": "none"
+    },
+    "selfLoops": {
+      "const": "reject"
+    },
+    "parallelEdges": {
+      "const": "reject"
+    },
+    "nodeAttributes": {
+      "const": [
+        "level",
+        "phase",
+        "phaseId",
+        "typeRole",
+        "typeRoleId",
+        "scienceIds",
+        "scientificStatus",
+        "requirements"
+      ]
+    },
+    "edgeAttributes": {
+      "const": [
+        "relationLayer",
+        "causalDirections",
+        "causalDirectionIds",
+        "interactionModes",
+        "interactionModeIds",
+        "weight",
+        "necessity",
+        "dependencyType",
+        "dependencyTypeId",
+        "ontologicalRole",
+        "quantization"
+      ]
+    },
+    "limits": {
+      "const": {
+        "maxNodes": 4096,
+        "maxEdges": 16384
+      }
+    }
+  },
+  "required": [
+    "id",
+    "version",
+    "scope",
+    "direction",
+    "relationLayer",
+    "includedOntologicalRoles",
+    "includedNecessities",
+    "includedDependencyTypes",
+    "includeQuantization",
+    "higherOrderPolicy",
+    "selfLoops",
+    "parallelEdges",
+    "nodeAttributes",
+    "edgeAttributes",
+    "limits"
+  ]
+}

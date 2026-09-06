@@ -1,0 +1,642 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/structural-typed-alignment.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": "1"
+    },
+    "analysis": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "const": "structural-typed-alignment"
+        },
+        "version": {
+          "const": "1"
+        }
+      },
+      "required": [
+        "id",
+        "version"
+      ]
+    },
+    "policy": {
+      "const": {
+        "id": "explicit-typed-vocabulary-alignment-v1",
+        "version": "1",
+        "sameSource": "exact-model-binding-and-full-dictionary-hash",
+        "crossSource": "explicit-approved-mapping-hash",
+        "approval": "external-caller-allowance-not-self-asserted-by-mapping",
+        "mapping": "partial-bijection-per-field",
+        "requiredCoverage": "every-scoped-value-on-both-sides",
+        "targetVocabulary": "left-source",
+        "recanonicalization": "joint-fields-after-right-to-left-remapping",
+        "missingCompatibility": "unresolved-no-aligned-values",
+        "maxMappingEntries": 1024,
+        "maxCanonicalizerCalls": 5,
+        "maxSearchStatesPerCall": 100000,
+        "maxArtifactBytes": 1048576,
+        "contentHash": "sha256:7bf83509995ef0a3b6e520596b674caacd0052148a0b09c4c2adb6f0d73bbb6c"
+      }
+    },
+    "regime": {
+      "const": {
+        "id": "typed-relations-v1",
+        "version": "1",
+        "contentHash": "sha256:5fe49b9439e107998e170cf8cf1e690598dfe8937321f5202ac4c2f270414868"
+      }
+    },
+    "request": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "approvedMappingHash": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "approvedMappingHash"
+      ]
+    },
+    "mapping": {
+      "anyOf": [
+        {
+          "$ref": "structural-vocabulary-mapping.schema.json"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "sources": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "left": {
+          "$ref": "structural-typed-observation.schema.json"
+        },
+        "right": {
+          "$ref": "structural-typed-observation.schema.json"
+        }
+      },
+      "required": [
+        "left",
+        "right"
+      ]
+    },
+    "compatibility": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "state": {
+              "const": "compatible"
+            },
+            "basis": {
+              "enum": [
+                "same-source",
+                "approved-mapping"
+              ]
+            },
+            "reasons": {
+              "type": "array",
+              "minItems": 0,
+              "maxItems": 0,
+              "items": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "code": {
+                        "const": "missing-typed-observation"
+                      },
+                      "side": {
+                        "enum": [
+                          "left",
+                          "right"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "code",
+                      "side"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "code": {
+                        "enum": [
+                          "mapping-not-approved",
+                          "cross-source-mapping-required"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "code"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "code": {
+                        "const": "mapping-value-uncovered"
+                      },
+                      "side": {
+                        "enum": [
+                          "left",
+                          "right"
+                        ]
+                      },
+                      "field": {
+                        "const": "dependencyTypeId"
+                      },
+                      "value": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 9007199254740991
+                      }
+                    },
+                    "required": [
+                      "code",
+                      "side",
+                      "field",
+                      "value"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "code": {
+                        "const": "mapping-value-uncovered"
+                      },
+                      "side": {
+                        "enum": [
+                          "left",
+                          "right"
+                        ]
+                      },
+                      "field": {
+                        "const": "interactionModeIds"
+                      },
+                      "value": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 9007199254740991
+                      }
+                    },
+                    "required": [
+                      "code",
+                      "side",
+                      "field",
+                      "value"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "code": {
+                        "const": "mapping-value-uncovered"
+                      },
+                      "side": {
+                        "enum": [
+                          "left",
+                          "right"
+                        ]
+                      },
+                      "field": {
+                        "const": "ontologicalRole"
+                      },
+                      "value": {
+                        "enum": [
+                          "arising",
+                          "maintenance",
+                          "modulation"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "code",
+                      "side",
+                      "field",
+                      "value"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "code": {
+                        "const": "mapping-value-uncovered"
+                      },
+                      "side": {
+                        "enum": [
+                          "left",
+                          "right"
+                        ]
+                      },
+                      "field": {
+                        "const": "necessity"
+                      },
+                      "value": {
+                        "enum": [
+                          "necessary",
+                          "enabling",
+                          "contextual",
+                          "optional"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "code",
+                      "side",
+                      "field",
+                      "value"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "code": {
+                        "const": "mapping-value-uncovered"
+                      },
+                      "side": {
+                        "enum": [
+                          "left",
+                          "right"
+                        ]
+                      },
+                      "field": {
+                        "const": "causalDirectionIds"
+                      },
+                      "value": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 9007199254740991
+                      }
+                    },
+                    "required": [
+                      "code",
+                      "side",
+                      "field",
+                      "value"
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          "required": [
+            "state",
+            "basis",
+            "reasons"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "state": {
+              "const": "unresolved"
+            },
+            "basis": {
+              "type": "null"
+            },
+            "reasons": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "code": {
+                        "const": "missing-typed-observation"
+                      },
+                      "side": {
+                        "enum": [
+                          "left",
+                          "right"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "code",
+                      "side"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "code": {
+                        "enum": [
+                          "mapping-not-approved",
+                          "cross-source-mapping-required"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "code"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "code": {
+                        "const": "mapping-value-uncovered"
+                      },
+                      "side": {
+                        "enum": [
+                          "left",
+                          "right"
+                        ]
+                      },
+                      "field": {
+                        "const": "dependencyTypeId"
+                      },
+                      "value": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 9007199254740991
+                      }
+                    },
+                    "required": [
+                      "code",
+                      "side",
+                      "field",
+                      "value"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "code": {
+                        "const": "mapping-value-uncovered"
+                      },
+                      "side": {
+                        "enum": [
+                          "left",
+                          "right"
+                        ]
+                      },
+                      "field": {
+                        "const": "interactionModeIds"
+                      },
+                      "value": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 9007199254740991
+                      }
+                    },
+                    "required": [
+                      "code",
+                      "side",
+                      "field",
+                      "value"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "code": {
+                        "const": "mapping-value-uncovered"
+                      },
+                      "side": {
+                        "enum": [
+                          "left",
+                          "right"
+                        ]
+                      },
+                      "field": {
+                        "const": "ontologicalRole"
+                      },
+                      "value": {
+                        "enum": [
+                          "arising",
+                          "maintenance",
+                          "modulation"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "code",
+                      "side",
+                      "field",
+                      "value"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "code": {
+                        "const": "mapping-value-uncovered"
+                      },
+                      "side": {
+                        "enum": [
+                          "left",
+                          "right"
+                        ]
+                      },
+                      "field": {
+                        "const": "necessity"
+                      },
+                      "value": {
+                        "enum": [
+                          "necessary",
+                          "enabling",
+                          "contextual",
+                          "optional"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "code",
+                      "side",
+                      "field",
+                      "value"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "code": {
+                        "const": "mapping-value-uncovered"
+                      },
+                      "side": {
+                        "enum": [
+                          "left",
+                          "right"
+                        ]
+                      },
+                      "field": {
+                        "const": "causalDirectionIds"
+                      },
+                      "value": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 9007199254740991
+                      }
+                    },
+                    "required": [
+                      "code",
+                      "side",
+                      "field",
+                      "value"
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          "required": [
+            "state",
+            "basis",
+            "reasons"
+          ]
+        }
+      ]
+    },
+    "aligned": {
+      "anyOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "domainHash": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            },
+            "left": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "value": {
+                  "$ref": "structural-typed-observation.schema.json#/$defs/typedValue"
+                },
+                "witness": {
+                  "$ref": "structural-typed-observation.schema.json#/$defs/typedWitness"
+                }
+              },
+              "required": [
+                "value",
+                "witness"
+              ]
+            },
+            "right": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "value": {
+                  "$ref": "structural-typed-observation.schema.json#/$defs/typedValue"
+                },
+                "witness": {
+                  "$ref": "structural-typed-observation.schema.json#/$defs/typedWitness"
+                }
+              },
+              "required": [
+                "value",
+                "witness"
+              ]
+            }
+          },
+          "required": [
+            "domainHash",
+            "left",
+            "right"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "artifactHash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "analysis",
+    "policy",
+    "regime",
+    "request",
+    "mapping",
+    "sources",
+    "compatibility",
+    "aligned",
+    "artifactHash"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "compatibility": {
+            "properties": {
+              "state": {
+                "const": "unresolved"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "aligned": {
+            "type": "null"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "aligned": {
+            "type": "object"
+          },
+          "sources": {
+            "properties": {
+              "left": {
+                "properties": {
+                  "evaluation": {
+                    "const": "measured"
+                  }
+                }
+              },
+              "right": {
+                "properties": {
+                  "evaluation": {
+                    "const": "measured"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-import { hashCanonical } from "@onto2d/kernel";
+import { hashCanonical } from "@onto2d/kernel/canonical";
 import { verifyModelPack } from "@onto2d/model-pack";
 import { createModel } from "./model.js";
 import { diffModels } from "./diff.js";

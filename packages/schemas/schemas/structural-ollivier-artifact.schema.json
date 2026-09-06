@@ -1,0 +1,214 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/structural-ollivier-artifact.schema.json",
+  "title": "Structural Ollivier artifact",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": "1"
+    },
+    "analysis": {
+      "const": {
+        "id": "structural-ollivier",
+        "version": "1"
+      }
+    },
+    "model": {
+      "$ref": "structural-projection.schema.json#/$defs/modelBinding"
+    },
+    "request": {
+      "$ref": "structural-ollivier-request.schema.json"
+    },
+    "response": {
+      "$ref": "structural-ollivier-response.schema.json"
+    },
+    "result": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "edges": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1024
+              },
+              "source": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1024
+              },
+              "target": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1024
+              },
+              "wasserstein": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "numerator": {
+                    "type": "string",
+                    "pattern": "^(0|[1-9][0-9]*)$",
+                    "maxLength": 64
+                  },
+                  "denominator": {
+                    "type": "string",
+                    "pattern": "^[1-9][0-9]*$",
+                    "maxLength": 64
+                  }
+                },
+                "required": [
+                  "numerator",
+                  "denominator"
+                ]
+              },
+              "curvature": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "numerator": {
+                    "type": "string",
+                    "pattern": "^(0|-?[1-9][0-9]*)$",
+                    "maxLength": 64
+                  },
+                  "denominator": {
+                    "type": "string",
+                    "pattern": "^[1-9][0-9]*$",
+                    "maxLength": 64
+                  }
+                },
+                "required": [
+                  "numerator",
+                  "denominator"
+                ]
+              },
+              "sign": {
+                "enum": [
+                  "negative",
+                  "zero",
+                  "positive"
+                ]
+              }
+            },
+            "required": [
+              "id",
+              "source",
+              "target",
+              "wasserstein",
+              "curvature",
+              "sign"
+            ]
+          },
+          "minItems": 1,
+          "maxItems": 32
+        },
+        "summary": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "count": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 32
+            },
+            "sum": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "numerator": {
+                  "type": "string",
+                  "pattern": "^(0|-?[1-9][0-9]*)$",
+                  "maxLength": 64
+                },
+                "denominator": {
+                  "type": "string",
+                  "pattern": "^[1-9][0-9]*$",
+                  "maxLength": 64
+                }
+              },
+              "required": [
+                "numerator",
+                "denominator"
+              ]
+            },
+            "mean": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "numerator": {
+                  "type": "string",
+                  "pattern": "^(0|-?[1-9][0-9]*)$",
+                  "maxLength": 64
+                },
+                "denominator": {
+                  "type": "string",
+                  "pattern": "^[1-9][0-9]*$",
+                  "maxLength": 64
+                }
+              },
+              "required": [
+                "numerator",
+                "denominator"
+              ]
+            },
+            "signs": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "negative": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 32
+                },
+                "zero": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 32
+                },
+                "positive": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 32
+                }
+              },
+              "required": [
+                "negative",
+                "zero",
+                "positive"
+              ]
+            }
+          },
+          "required": [
+            "count",
+            "sum",
+            "mean",
+            "signs"
+          ]
+        }
+      },
+      "required": [
+        "edges",
+        "summary"
+      ]
+    },
+    "artifactHash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "analysis",
+    "model",
+    "request",
+    "response",
+    "result",
+    "artifactHash"
+  ]
+}

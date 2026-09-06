@@ -1,0 +1,194 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/structural-vocabulary-mapping-input.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^\\S(?:[\\s\\S]*\\S)?$"
+    },
+    "version": {
+      "const": "1"
+    },
+    "fields": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "dependencyTypeId": {
+          "type": "array",
+          "minItems": 0,
+          "maxItems": 1024,
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "left": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "right": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              }
+            },
+            "required": [
+              "left",
+              "right"
+            ]
+          }
+        },
+        "interactionModeIds": {
+          "type": "array",
+          "minItems": 0,
+          "maxItems": 1024,
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "left": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "right": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              }
+            },
+            "required": [
+              "left",
+              "right"
+            ]
+          }
+        },
+        "ontologicalRole": {
+          "type": "array",
+          "minItems": 0,
+          "maxItems": 1024,
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "left": {
+                "enum": [
+                  "arising",
+                  "maintenance",
+                  "modulation"
+                ]
+              },
+              "right": {
+                "enum": [
+                  "arising",
+                  "maintenance",
+                  "modulation"
+                ]
+              }
+            },
+            "required": [
+              "left",
+              "right"
+            ]
+          }
+        },
+        "necessity": {
+          "type": "array",
+          "minItems": 0,
+          "maxItems": 1024,
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "left": {
+                "enum": [
+                  "necessary",
+                  "enabling",
+                  "contextual",
+                  "optional"
+                ]
+              },
+              "right": {
+                "enum": [
+                  "necessary",
+                  "enabling",
+                  "contextual",
+                  "optional"
+                ]
+              }
+            },
+            "required": [
+              "left",
+              "right"
+            ]
+          }
+        },
+        "causalDirectionIds": {
+          "type": "array",
+          "minItems": 0,
+          "maxItems": 1024,
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "left": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "right": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              }
+            },
+            "required": [
+              "left",
+              "right"
+            ]
+          }
+        }
+      },
+      "required": [
+        "dependencyTypeId",
+        "interactionModeIds",
+        "ontologicalRole",
+        "necessity",
+        "causalDirectionIds"
+      ]
+    },
+    "reviewEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "reference": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^\\S(?:[\\s\\S]*\\S)?$"
+        },
+        "contentHash": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "reference",
+        "contentHash"
+      ]
+    }
+  },
+  "required": [
+    "id",
+    "version",
+    "fields",
+    "reviewEvidence"
+  ]
+}

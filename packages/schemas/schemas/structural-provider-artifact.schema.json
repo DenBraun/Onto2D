@@ -1,0 +1,560 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/structural-provider-artifact.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": "1"
+    },
+    "analysis": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "const": "structural-metric-provider"
+        },
+        "version": {
+          "const": "1"
+        }
+      },
+      "required": [
+        "id",
+        "version"
+      ]
+    },
+    "provider": {
+      "$ref": "structural-provider-descriptor.schema.json"
+    },
+    "providerHash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "context": {
+      "$ref": "structural-metric-context.schema.json"
+    },
+    "request": {
+      "allOf": [
+        {
+          "$ref": "structural-provider-input.schema.json"
+        },
+        {
+          "required": [
+            "parameters"
+          ]
+        }
+      ]
+    },
+    "result": {},
+    "artifactHash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "analysis",
+    "provider",
+    "providerHash",
+    "context",
+    "request",
+    "result",
+    "artifactHash"
+  ],
+  "$defs": {
+    "view": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "selection": {
+          "$ref": "structural-metric-experiment.schema.json#/properties/request/properties/selection"
+        },
+        "projectionHash": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "accounting": {
+          "$ref": "structural-metric-experiment.schema.json#/properties/accounting"
+        },
+        "edges": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1024
+              },
+              "source": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1024
+              },
+              "target": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1024
+              }
+            },
+            "required": [
+              "id",
+              "source",
+              "target"
+            ]
+          },
+          "maxItems": 16384,
+          "minItems": 0
+        }
+      },
+      "required": [
+        "selection",
+        "projectionHash",
+        "accounting",
+        "edges"
+      ]
+    },
+    "metricValues": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "const": "metric-values"
+        },
+        "metricPolicy": {
+          "oneOf": [
+            {
+              "$ref": "structural-metric-policy.schema.json"
+            },
+            {
+              "$ref": "structural-experimental-metric-policy.schema.json"
+            }
+          ]
+        },
+        "metricPolicyHash": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "metricContextHash": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "weightAuditHash": {
+          "oneOf": [
+            {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "nodes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1024
+              },
+              "weight": {
+                "$ref": "structural-flow-input.schema.json#/$defs/positiveRational"
+              }
+            },
+            "required": [
+              "id",
+              "weight"
+            ]
+          },
+          "maxItems": 4096,
+          "minItems": 0
+        },
+        "edges": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1024
+              },
+              "source": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1024
+              },
+              "target": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1024
+              },
+              "length": {
+                "$ref": "structural-flow-input.schema.json#/$defs/positiveRational"
+              },
+              "weight": {
+                "$ref": "structural-flow-input.schema.json#/$defs/positiveRational"
+              }
+            },
+            "required": [
+              "id",
+              "source",
+              "target",
+              "length",
+              "weight"
+            ]
+          },
+          "maxItems": 16384,
+          "minItems": 0
+        }
+      },
+      "required": [
+        "kind",
+        "metricPolicy",
+        "metricPolicyHash",
+        "metricContextHash",
+        "weightAuditHash",
+        "nodes",
+        "edges"
+      ]
+    },
+    "filtration": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "const": "filtration"
+        },
+        "nodeIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024
+          },
+          "maxItems": 4096,
+          "minItems": 0,
+          "uniqueItems": true
+        },
+        "selectionPolicy": {
+          "$ref": "structural-selection-policy.schema.json"
+        },
+        "selectionPolicyHash": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "stages": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/view"
+          },
+          "maxItems": 4,
+          "minItems": 4
+        }
+      },
+      "required": [
+        "kind",
+        "nodeIds",
+        "selectionPolicy",
+        "selectionPolicyHash",
+        "stages"
+      ]
+    },
+    "selection": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "const": "selection"
+        },
+        "nodeIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024
+          },
+          "maxItems": 4096,
+          "minItems": 0,
+          "uniqueItems": true
+        },
+        "selectionPolicy": {
+          "$ref": "structural-selection-policy.schema.json"
+        },
+        "selectionPolicyHash": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "view": {
+          "$ref": "#/$defs/view"
+        }
+      },
+      "required": [
+        "kind",
+        "nodeIds",
+        "selectionPolicy",
+        "selectionPolicyHash",
+        "view"
+      ]
+    },
+    "channels": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "const": "channels"
+        },
+        "nodeIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024
+          },
+          "maxItems": 4096,
+          "minItems": 0,
+          "uniqueItems": true
+        },
+        "selectionPolicy": {
+          "$ref": "structural-selection-policy.schema.json"
+        },
+        "selectionPolicyHash": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "channels": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/view"
+          },
+          "maxItems": 32,
+          "minItems": 1
+        }
+      },
+      "required": [
+        "kind",
+        "nodeIds",
+        "selectionPolicy",
+        "selectionPolicyHash",
+        "channels"
+      ]
+    }
+  },
+  "oneOf": [
+    {
+      "properties": {
+        "provider": {
+          "const": {
+            "id": "unit-v1",
+            "version": "1",
+            "kind": "metric-values",
+            "origin": "existing-structural-geometry-v1",
+            "representationPolicyId": "source-parent-directed-v1",
+            "numeric": "exact-positive-rational",
+            "capabilities": [
+              "positive-edge-lengths",
+              "vertex-weights",
+              "edge-weights"
+            ],
+            "context": {
+              "source": "verified-full-model",
+              "normalization": "full-source-projection",
+              "dictionaryMeaning": "model-local",
+              "sourceWeights": "ignored"
+            },
+            "limits": {
+              "maxNodes": 4096,
+              "maxEdges": 16384,
+              "maxViews": 32,
+              "maxTotalViewEdges": 32768,
+              "maxCanonicalEntries": 500000,
+              "maxArtifactBytes": 8388608
+            }
+          }
+        },
+        "request": {
+          "properties": {
+            "providerId": {
+              "const": "unit-v1"
+            }
+          }
+        },
+        "result": {
+          "$ref": "#/$defs/metricValues"
+        }
+      }
+    },
+    {
+      "properties": {
+        "provider": {
+          "const": {
+            "id": "inverse-target-share-v1",
+            "version": "1",
+            "kind": "metric-values",
+            "origin": "existing-structural-geometry-v1",
+            "representationPolicyId": "source-parent-directed-v1",
+            "numeric": "exact-positive-rational",
+            "capabilities": [
+              "positive-edge-lengths",
+              "vertex-weights",
+              "edge-weights"
+            ],
+            "context": {
+              "source": "verified-full-model",
+              "normalization": "full-source-projection",
+              "dictionaryMeaning": "model-local",
+              "sourceWeights": "required-and-audited"
+            },
+            "limits": {
+              "maxNodes": 4096,
+              "maxEdges": 16384,
+              "maxViews": 32,
+              "maxTotalViewEdges": 32768,
+              "maxCanonicalEntries": 500000,
+              "maxArtifactBytes": 8388608
+            }
+          }
+        },
+        "request": {
+          "properties": {
+            "providerId": {
+              "const": "inverse-target-share-v1"
+            }
+          }
+        },
+        "result": {
+          "$ref": "#/$defs/metricValues"
+        }
+      }
+    },
+    {
+      "properties": {
+        "provider": {
+          "const": {
+            "id": "necessity-filtration-v1",
+            "version": "1",
+            "kind": "filtration",
+            "origin": "existing-structural-geometry-v1",
+            "representationPolicyId": "source-parent-directed-v1",
+            "numeric": "discrete-membership",
+            "capabilities": [
+              "nested-edge-views"
+            ],
+            "context": {
+              "source": "verified-full-model",
+              "normalization": "full-source-projection",
+              "dictionaryMeaning": "model-local",
+              "sourceWeights": "unused"
+            },
+            "limits": {
+              "maxNodes": 4096,
+              "maxEdges": 16384,
+              "maxViews": 32,
+              "maxTotalViewEdges": 32768,
+              "maxCanonicalEntries": 500000,
+              "maxArtifactBytes": 8388608
+            }
+          }
+        },
+        "request": {
+          "properties": {
+            "providerId": {
+              "const": "necessity-filtration-v1"
+            }
+          }
+        },
+        "result": {
+          "$ref": "#/$defs/filtration"
+        }
+      }
+    },
+    {
+      "properties": {
+        "provider": {
+          "const": {
+            "id": "role-subset-v1",
+            "version": "1",
+            "kind": "selection",
+            "origin": "existing-structural-geometry-v1",
+            "representationPolicyId": "source-parent-directed-v1",
+            "numeric": "discrete-membership",
+            "capabilities": [
+              "role-selection"
+            ],
+            "context": {
+              "source": "verified-full-model",
+              "normalization": "full-source-projection",
+              "dictionaryMeaning": "model-local",
+              "sourceWeights": "unused"
+            },
+            "limits": {
+              "maxNodes": 4096,
+              "maxEdges": 16384,
+              "maxViews": 32,
+              "maxTotalViewEdges": 32768,
+              "maxCanonicalEntries": 500000,
+              "maxArtifactBytes": 8388608
+            }
+          }
+        },
+        "request": {
+          "properties": {
+            "providerId": {
+              "const": "role-subset-v1"
+            }
+          }
+        },
+        "result": {
+          "$ref": "#/$defs/selection"
+        }
+      }
+    },
+    {
+      "properties": {
+        "provider": {
+          "const": {
+            "id": "typed-channel-v1",
+            "version": "1",
+            "kind": "channels",
+            "origin": "existing-structural-geometry-v1",
+            "representationPolicyId": "source-parent-directed-v1",
+            "numeric": "discrete-membership",
+            "capabilities": [
+              "overlapping-typed-channels"
+            ],
+            "context": {
+              "source": "verified-full-model",
+              "normalization": "full-source-projection",
+              "dictionaryMeaning": "model-local",
+              "sourceWeights": "unused"
+            },
+            "limits": {
+              "maxNodes": 4096,
+              "maxEdges": 16384,
+              "maxViews": 32,
+              "maxTotalViewEdges": 32768,
+              "maxCanonicalEntries": 500000,
+              "maxArtifactBytes": 8388608
+            }
+          }
+        },
+        "request": {
+          "properties": {
+            "providerId": {
+              "const": "typed-channel-v1"
+            }
+          }
+        },
+        "result": {
+          "$ref": "#/$defs/channels"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,271 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/structural-metric-suite.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": "1"
+    },
+    "suiteId": {
+      "const": "causal-emergence-stage-three-v1"
+    },
+    "status": {
+      "const": "descriptive-no-metric-promotion"
+    },
+    "model": {
+      "$ref": "structural-projection.schema.json#/$defs/modelBinding"
+    },
+    "sourceProjectionHash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "weightAuditHash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "defaultMetricPolicyId": {
+      "const": "unit-v1"
+    },
+    "runs": {
+      "type": "array",
+      "minItems": 72,
+      "maxItems": 72,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "request": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "selection": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "kind": {
+                        "const": "all"
+                      }
+                    },
+                    "required": [
+                      "kind"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "kind": {
+                        "const": "necessity"
+                      },
+                      "through": {
+                        "enum": [
+                          "necessary",
+                          "enabling",
+                          "contextual",
+                          "optional"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "kind",
+                      "through"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "kind": {
+                        "const": "roles"
+                      },
+                      "roles": {
+                        "type": "array",
+                        "items": {
+                          "enum": [
+                            "arising",
+                            "maintenance",
+                            "modulation"
+                          ]
+                        },
+                        "maxItems": 3,
+                        "minItems": 1,
+                        "uniqueItems": true
+                      }
+                    },
+                    "required": [
+                      "kind",
+                      "roles"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "kind": {
+                        "const": "channel"
+                      },
+                      "field": {
+                        "enum": [
+                          "dependencyTypeId",
+                          "interactionModeIds",
+                          "causalDirectionIds"
+                        ]
+                      },
+                      "value": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 9007199254740991
+                      }
+                    },
+                    "required": [
+                      "kind",
+                      "field",
+                      "value"
+                    ]
+                  }
+                ]
+              },
+              "metricPolicyId": {
+                "enum": [
+                  "unit-v1",
+                  "inverse-target-share-v1"
+                ]
+              }
+            },
+            "required": [
+              "selection",
+              "metricPolicyId"
+            ]
+          },
+          "artifactHash": {
+            "type": "string",
+            "pattern": "^sha256:[0-9a-f]{64}$"
+          },
+          "projectionHash": {
+            "type": "string",
+            "pattern": "^sha256:[0-9a-f]{64}$"
+          },
+          "metricContextHash": {
+            "type": "string",
+            "pattern": "^sha256:[0-9a-f]{64}$"
+          },
+          "nodeCount": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 4096
+          },
+          "edgeCount": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 16384
+          },
+          "connectivity": {
+            "$ref": "structural-metric-experiment.schema.json#/$defs/connectivity"
+          },
+          "summary": {
+            "$ref": "structural-metric-experiment.schema.json#/$defs/summary"
+          }
+        },
+        "required": [
+          "request",
+          "artifactHash",
+          "projectionHash",
+          "metricContextHash",
+          "nodeCount",
+          "edgeCount",
+          "connectivity",
+          "summary"
+        ]
+      }
+    },
+    "necessityTransitions": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "metricPolicyId": {
+            "enum": [
+              "unit-v1",
+              "inverse-target-share-v1"
+            ]
+          },
+          "from": {
+            "enum": [
+              "necessary",
+              "enabling",
+              "contextual"
+            ]
+          },
+          "to": {
+            "enum": [
+              "enabling",
+              "contextual",
+              "optional"
+            ]
+          },
+          "persistentEdgeCount": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 16384
+          },
+          "addedEdgeIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 1024
+            },
+            "maxItems": 16384
+          },
+          "unchangedIntervalCount": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 16384
+          },
+          "decreasedIntervalCount": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 16384
+          },
+          "overlappingIntervalCount": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 16384
+          }
+        },
+        "required": [
+          "metricPolicyId",
+          "from",
+          "to",
+          "persistentEdgeCount",
+          "addedEdgeIds",
+          "unchangedIntervalCount",
+          "decreasedIntervalCount",
+          "overlappingIntervalCount"
+        ]
+      }
+    },
+    "artifactHash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "suiteId",
+    "status",
+    "model",
+    "sourceProjectionHash",
+    "weightAuditHash",
+    "defaultMetricPolicyId",
+    "runs",
+    "necessityTransitions",
+    "artifactHash"
+  ]
+}

@@ -9,6 +9,39 @@ permissions:
   contents: read
 
 jobs:
+  ollivier-reference:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - name: Set up reference Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install workspace
+        run: npm ci --ignore-scripts
+      - name: Verify certified Ollivier replay
+        run: npm run structural-geometry:ollivier:check
+      - name: Install pinned independent reference
+        run: python -m pip install -r cases/structural-geometry/ollivier/requirements-reference.txt
+      - name: Verify independent NetworkX transport
+        run: python -B cases/structural-geometry/ollivier/networkx_reference.py --verify
+      - name: Verify provider compatibility with independent weighted references
+        run: |
+          npm run structural-geometry:experiments:check
+          npm run structural-geometry:providers:check
+      - name: Replay certified shadow flow and published recurrence
+        run: npm run structural-geometry:flow:check
+      - name: Verify independent NetworkX flow reference
+        run: python -B cases/structural-geometry/flow/networkx_reference.py --verify
+      - name: Verify independent supplemental star and bridge flow
+        run: python -B cases/structural-geometry/flow-controls/networkx_reference.py --verify
+
   verify:
     runs-on: ${{ matrix.os }}
     strategy:

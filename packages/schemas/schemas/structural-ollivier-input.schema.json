@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/structural-ollivier-input.schema.json",
+  "title": "Structural Ollivier input",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "scope": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "full"
+            }
+          },
+          "required": [
+            "kind"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "induced"
+            },
+            "nodeIds": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1024
+              },
+              "minItems": 2,
+              "maxItems": 64,
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "kind",
+            "nodeIds"
+          ]
+        }
+      ]
+    },
+    "edgeIds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 1024
+      },
+      "minItems": 1,
+      "maxItems": 32,
+      "uniqueItems": true
+    },
+    "idleness": {
+      "enum": [
+        "zero",
+        "half"
+      ]
+    }
+  },
+  "required": [
+    "edgeIds"
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/structural-provider-analysis-input.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "analysis": {
+      "enum": [
+        "structural-geometry",
+        "structural-metric-experiment"
+      ]
+    },
+    "metricProviderId": {
+      "enum": [
+        "unit-v1",
+        "inverse-target-share-v1"
+      ]
+    },
+    "selection": {
+      "$ref": "structural-metric-experiment.schema.json#/properties/request/properties/selection"
+    }
+  },
+  "required": [
+    "analysis",
+    "metricProviderId"
+  ],
+  "oneOf": [
+    {
+      "properties": {
+        "analysis": {
+          "const": "structural-geometry"
+        },
+        "metricProviderId": {
+          "const": "unit-v1"
+        },
+        "selection": false
+      }
+    },
+    {
+      "properties": {
+        "analysis": {
+          "const": "structural-metric-experiment"
+        }
+      }
+    }
+  ]
+}

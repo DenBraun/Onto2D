@@ -1,0 +1,550 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/structural-geometry-artifact.schema.json",
+  "title": "Structural Geometry Artifact",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": "1"
+    },
+    "analysis": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "const": "structural-geometry"
+        },
+        "version": {
+          "const": "1"
+        }
+      },
+      "required": [
+        "id",
+        "version"
+      ]
+    },
+    "model": {
+      "$ref": "structural-projection.schema.json#/$defs/modelBinding"
+    },
+    "projectionPolicy": {
+      "$ref": "structural-projection-policy.schema.json"
+    },
+    "projectionPolicyHash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "metricPolicy": {
+      "$ref": "structural-metric-policy.schema.json"
+    },
+    "metricPolicyHash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "projectionHash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "algorithm": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "const": "forman-directed-unit"
+        },
+        "version": {
+          "const": "1"
+        }
+      },
+      "required": [
+        "id",
+        "version"
+      ]
+    },
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {},
+      "required": []
+    },
+    "parametersHash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "result": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "nodes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1024
+              },
+              "inDegree": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 16384
+              },
+              "outDegree": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 16384
+              },
+              "incomingCurvature": {
+                "type": "integer"
+              },
+              "outgoingCurvature": {
+                "type": "integer"
+              },
+              "balance": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "id",
+              "inDegree",
+              "outDegree",
+              "incomingCurvature",
+              "outgoingCurvature",
+              "balance"
+            ]
+          },
+          "minItems": 1,
+          "maxItems": 4096
+        },
+        "edges": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1024
+              },
+              "source": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1024
+              },
+              "target": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1024
+              },
+              "inDegreeAtSource": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 16384
+              },
+              "outDegreeAtTarget": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 16384
+              },
+              "curvature": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "id",
+              "source",
+              "target",
+              "inDegreeAtSource",
+              "outDegreeAtTarget",
+              "curvature"
+            ]
+          },
+          "maxItems": 16384
+        },
+        "summary": {
+          "$ref": "#/$defs/summary"
+        },
+        "groups": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "bySourceLevel": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "key": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "present": {
+                            "const": false
+                          }
+                        },
+                        "required": [
+                          "present"
+                        ]
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "present": {
+                            "const": true
+                          },
+                          "value": {}
+                        },
+                        "required": [
+                          "present",
+                          "value"
+                        ]
+                      }
+                    ]
+                  },
+                  "summary": {
+                    "$ref": "#/$defs/summary"
+                  }
+                },
+                "required": [
+                  "key",
+                  "summary"
+                ]
+              }
+            },
+            "byTargetLevel": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "key": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "present": {
+                            "const": false
+                          }
+                        },
+                        "required": [
+                          "present"
+                        ]
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "present": {
+                            "const": true
+                          },
+                          "value": {}
+                        },
+                        "required": [
+                          "present",
+                          "value"
+                        ]
+                      }
+                    ]
+                  },
+                  "summary": {
+                    "$ref": "#/$defs/summary"
+                  }
+                },
+                "required": [
+                  "key",
+                  "summary"
+                ]
+              }
+            },
+            "byDependencyType": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "key": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "present": {
+                            "const": false
+                          }
+                        },
+                        "required": [
+                          "present"
+                        ]
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "present": {
+                            "const": true
+                          },
+                          "value": {}
+                        },
+                        "required": [
+                          "present",
+                          "value"
+                        ]
+                      }
+                    ]
+                  },
+                  "summary": {
+                    "$ref": "#/$defs/summary"
+                  }
+                },
+                "required": [
+                  "key",
+                  "summary"
+                ]
+              }
+            },
+            "byNecessity": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "key": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "present": {
+                            "const": false
+                          }
+                        },
+                        "required": [
+                          "present"
+                        ]
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "present": {
+                            "const": true
+                          },
+                          "value": {}
+                        },
+                        "required": [
+                          "present",
+                          "value"
+                        ]
+                      }
+                    ]
+                  },
+                  "summary": {
+                    "$ref": "#/$defs/summary"
+                  }
+                },
+                "required": [
+                  "key",
+                  "summary"
+                ]
+              }
+            },
+            "byOntologicalRole": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "key": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "present": {
+                            "const": false
+                          }
+                        },
+                        "required": [
+                          "present"
+                        ]
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "present": {
+                            "const": true
+                          },
+                          "value": {}
+                        },
+                        "required": [
+                          "present",
+                          "value"
+                        ]
+                      }
+                    ]
+                  },
+                  "summary": {
+                    "$ref": "#/$defs/summary"
+                  }
+                },
+                "required": [
+                  "key",
+                  "summary"
+                ]
+              }
+            }
+          },
+          "required": [
+            "bySourceLevel",
+            "byTargetLevel",
+            "byDependencyType",
+            "byNecessity",
+            "byOntologicalRole"
+          ]
+        },
+        "extrema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "minimumEdgeIds": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1024
+              }
+            },
+            "maximumEdgeIds": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1024
+              }
+            }
+          },
+          "required": [
+            "minimumEdgeIds",
+            "maximumEdgeIds"
+          ]
+        }
+      },
+      "required": [
+        "nodes",
+        "edges",
+        "summary",
+        "groups",
+        "extrema"
+      ]
+    },
+    "artifactHash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "analysis",
+    "model",
+    "projectionPolicy",
+    "projectionPolicyHash",
+    "metricPolicy",
+    "metricPolicyHash",
+    "projectionHash",
+    "algorithm",
+    "parameters",
+    "parametersHash",
+    "result",
+    "artifactHash"
+  ],
+  "$defs": {
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "count": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 16384
+        },
+        "sum": {
+          "type": "integer"
+        },
+        "minimum": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "maximum": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "mean": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "numerator": {
+                  "type": "integer"
+                },
+                "denominator": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 16384
+                }
+              },
+              "required": [
+                "numerator",
+                "denominator"
+              ]
+            }
+          ]
+        },
+        "histogram": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "curvature": {
+                "type": "integer"
+              },
+              "count": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 16384
+              }
+            },
+            "required": [
+              "curvature",
+              "count"
+            ]
+          }
+        }
+      },
+      "required": [
+        "count",
+        "sum",
+        "minimum",
+        "maximum",
+        "mean",
+        "histogram"
+      ]
+    }
+  }
+}

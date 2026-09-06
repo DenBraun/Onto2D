@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/structural-experimental-metric-policy.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "const": "inverse-target-share-v1"
+    },
+    "version": {
+      "const": "1"
+    },
+    "vertexWeight": {
+      "const": 1
+    },
+    "edgeLength": {
+      "const": "incoming-source-weight-sum-divided-by-source-weight"
+    },
+    "edgeWeight": {
+      "const": "edge-length"
+    },
+    "normalizationContext": {
+      "const": "full-source-projection"
+    },
+    "minimumSourceWeight": {
+      "const": 0.000001
+    },
+    "maximumSourceWeight": {
+      "const": 1
+    },
+    "invalidWeight": {
+      "const": "reject"
+    },
+    "sourceMutation": {
+      "const": "none"
+    },
+    "status": {
+      "const": "experimental"
+    }
+  },
+  "required": [
+    "id",
+    "version",
+    "vertexWeight",
+    "edgeLength",
+    "edgeWeight",
+    "normalizationContext",
+    "minimumSourceWeight",
+    "maximumSourceWeight",
+    "invalidWeight",
+    "sourceMutation",
+    "status"
+  ]
+}

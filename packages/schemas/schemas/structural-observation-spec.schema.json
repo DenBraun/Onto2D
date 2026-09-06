@@ -1,0 +1,255 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/structural-observation-spec.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {},
+    "id": {},
+    "version": {},
+    "valueType": {},
+    "scope": {},
+    "units": {},
+    "normalization": {},
+    "mandatory": {},
+    "requiredEvidence": {},
+    "supplier": {},
+    "definition": {},
+    "contentHash": {}
+  },
+  "required": [
+    "schemaVersion",
+    "id",
+    "version",
+    "valueType",
+    "scope",
+    "units",
+    "normalization",
+    "mandatory",
+    "requiredEvidence",
+    "supplier",
+    "definition",
+    "contentHash"
+  ],
+  "oneOf": [
+    {
+      "const": {
+        "schemaVersion": "1",
+        "id": "canonical-directed-structure-v1",
+        "version": "1",
+        "valueType": "canonical-directed-graph",
+        "scope": "whole-scoped-directed-graph",
+        "units": "discrete-structure",
+        "normalization": "none",
+        "mandatory": true,
+        "requiredEvidence": [
+          "verified-scoped-directed-projection"
+        ],
+        "supplier": {
+          "id": "structural-canonical-observation-v1",
+          "version": "1",
+          "operation": "canonical-directed-structure-v1",
+          "definition": "Canonical directed adjacency including isolated nodes, modulo node relabeling; all source attributes excluded.",
+          "contentHash": "sha256:79e2978d134774168a5b534027caeb6709fe3ae8d18a97af21118982d07fb62e"
+        },
+        "definition": "Canonical directed adjacency including isolated nodes, modulo node relabeling; all source attributes excluded.",
+        "contentHash": "sha256:48f137781781c54724e172256925e44c9a2be42a08610c88abaca8a9f6016e7b"
+      }
+    },
+    {
+      "const": {
+        "schemaVersion": "1",
+        "id": "node-count-v1",
+        "version": "1",
+        "valueType": "nonnegative-integer",
+        "scope": "whole-scoped-directed-graph",
+        "units": "nodes",
+        "normalization": "none",
+        "mandatory": true,
+        "requiredEvidence": [
+          "verified-scoped-directed-projection"
+        ],
+        "supplier": {
+          "id": "structural-topology-observation-v1",
+          "version": "1",
+          "operation": "node-count-v1",
+          "definition": "Number of scoped nodes including isolates.",
+          "contentHash": "sha256:1c5bbf5a89ecc2227c3ce8561d05db27899d9eb7c358f2499ff92482bc0a3094"
+        },
+        "definition": "Number of scoped nodes including isolates.",
+        "contentHash": "sha256:fcde1a54025bdc9f964cdfb6cbd9f015fb94cc473949584abe8ba01031d9d983"
+      }
+    },
+    {
+      "const": {
+        "schemaVersion": "1",
+        "id": "edge-count-v1",
+        "version": "1",
+        "valueType": "nonnegative-integer",
+        "scope": "whole-scoped-directed-graph",
+        "units": "edges",
+        "normalization": "none",
+        "mandatory": true,
+        "requiredEvidence": [
+          "verified-scoped-directed-projection"
+        ],
+        "supplier": {
+          "id": "structural-topology-observation-v1",
+          "version": "1",
+          "operation": "edge-count-v1",
+          "definition": "Number of directed edges with both endpoints in scope.",
+          "contentHash": "sha256:e7eaf1950c48a34a7e090bac19514e4b643745091f421af4bf8f4fa94e866ea3"
+        },
+        "definition": "Number of directed edges with both endpoints in scope.",
+        "contentHash": "sha256:13f1db7824b26dd6ec1d8ff6ca169670637dd780b11db2ba308c6356e24197c5"
+      }
+    },
+    {
+      "const": {
+        "schemaVersion": "1",
+        "id": "weak-component-sizes-v1",
+        "version": "1",
+        "valueType": "sorted-positive-integer-vector",
+        "scope": "whole-scoped-directed-graph",
+        "units": "nodes",
+        "normalization": "none",
+        "mandatory": true,
+        "requiredEvidence": [
+          "verified-scoped-directed-projection"
+        ],
+        "supplier": {
+          "id": "structural-topology-observation-v1",
+          "version": "1",
+          "operation": "weak-component-sizes-v1",
+          "definition": "Ascending multiset of weak-component sizes, including singleton isolates.",
+          "contentHash": "sha256:fa82e6697a161dc291b14236e0c03239a263a8e2880aa618bade7878f5cd650f"
+        },
+        "definition": "Ascending multiset of weak-component sizes, including singleton isolates.",
+        "contentHash": "sha256:bd3c0c2440644cb1da3251a1b3b585d061e172fa6e674aca0de8250b1f800ee1"
+      }
+    },
+    {
+      "const": {
+        "schemaVersion": "1",
+        "id": "strong-component-sizes-v1",
+        "version": "1",
+        "valueType": "sorted-positive-integer-vector",
+        "scope": "whole-scoped-directed-graph",
+        "units": "nodes",
+        "normalization": "none",
+        "mandatory": true,
+        "requiredEvidence": [
+          "verified-scoped-directed-projection"
+        ],
+        "supplier": {
+          "id": "structural-topology-observation-v1",
+          "version": "1",
+          "operation": "strong-component-sizes-v1",
+          "definition": "Ascending multiset of strongly connected component sizes, including singletons.",
+          "contentHash": "sha256:22c1527afc6086e99bb4863fb8b8f01314508cfecfde7d29a6712ac5a4b482cf"
+        },
+        "definition": "Ascending multiset of strongly connected component sizes, including singletons.",
+        "contentHash": "sha256:9ee44d035a7da8c0bb040c0a2d4dc39a91bdc8fa0f08a588aff4955931e12671"
+      }
+    },
+    {
+      "const": {
+        "schemaVersion": "1",
+        "id": "reachable-ordered-pair-count-v1",
+        "version": "1",
+        "valueType": "nonnegative-integer",
+        "scope": "whole-scoped-directed-graph",
+        "units": "ordered-node-pairs",
+        "normalization": "none",
+        "mandatory": true,
+        "requiredEvidence": [
+          "verified-scoped-directed-projection"
+        ],
+        "supplier": {
+          "id": "structural-topology-observation-v1",
+          "version": "1",
+          "operation": "reachable-ordered-pair-count-v1",
+          "definition": "Number of distinct ordered pairs (u,v), u != v, connected by a directed path; each pair counted once.",
+          "contentHash": "sha256:dd96075c23dbfad7dcbb7a7bb1b3c22f3ab09eedda86ae55a17f63781e81deda"
+        },
+        "definition": "Number of distinct ordered pairs (u,v), u != v, connected by a directed path; each pair counted once.",
+        "contentHash": "sha256:0d267b9b833a0a7b7e341190e4522a1c9fac9792d651d10081ea82468618f74f"
+      }
+    },
+    {
+      "const": {
+        "schemaVersion": "1",
+        "id": "cyclic-node-count-v1",
+        "version": "1",
+        "valueType": "nonnegative-integer",
+        "scope": "whole-scoped-directed-graph",
+        "units": "nodes",
+        "normalization": "none",
+        "mandatory": true,
+        "requiredEvidence": [
+          "verified-scoped-directed-projection"
+        ],
+        "supplier": {
+          "id": "structural-topology-observation-v1",
+          "version": "1",
+          "operation": "cyclic-node-count-v1",
+          "definition": "Number of nodes in a strongly connected component of size greater than one; source policy excludes self-loops.",
+          "contentHash": "sha256:fe124df3bc0c701397ef34c0e928c041c73864bc2a4643e6d87d38af9ea716b9"
+        },
+        "definition": "Number of nodes in a strongly connected component of size greater than one; source policy excludes self-loops.",
+        "contentHash": "sha256:325e52ae7471466b4e032c7067585331bb1ce4c49be9e10b28d4685874aacbd6"
+      }
+    },
+    {
+      "const": {
+        "schemaVersion": "1",
+        "id": "isolated-node-count-v1",
+        "version": "1",
+        "valueType": "nonnegative-integer",
+        "scope": "whole-scoped-directed-graph",
+        "units": "nodes",
+        "normalization": "none",
+        "mandatory": true,
+        "requiredEvidence": [
+          "verified-scoped-directed-projection"
+        ],
+        "supplier": {
+          "id": "structural-topology-observation-v1",
+          "version": "1",
+          "operation": "isolated-node-count-v1",
+          "definition": "Number of nodes with zero incoming and zero outgoing scoped edges.",
+          "contentHash": "sha256:b91ef0b7bb6e72876cf1c81a04a2e451d16966920ee2d89c330bb8659a70d248"
+        },
+        "definition": "Number of nodes with zero incoming and zero outgoing scoped edges.",
+        "contentHash": "sha256:df7729800602b4a29082552fbcdd36d9f44cf2851024cc3396196b94f95823d6"
+      }
+    },
+    {
+      "const": {
+        "schemaVersion": "1",
+        "id": "canonical-typed-directed-structure-v1",
+        "version": "1",
+        "valueType": "canonical-typed-directed-graph",
+        "scope": "whole-scoped-directed-graph",
+        "units": "discrete-structure",
+        "normalization": "none",
+        "mandatory": true,
+        "requiredEvidence": [
+          "verified-scoped-directed-projection",
+          "complete-declared-edge-types",
+          "bound-local-dictionaries",
+          "compatible-vocabulary-for-comparison"
+        ],
+        "supplier": {
+          "id": "structural-typed-observation-v1",
+          "version": "1",
+          "operation": "canonical-typed-directed-structure-v1",
+          "definition": "Canonical directed adjacency with all five declared edge fields under one common node bijection; ID arrays are sets, and code meanings require the vocabulary policy.",
+          "contentHash": "sha256:ff770375783816fc2110a575f18c551de1b3f6657f35b4a7483d57f7823e6c40"
+        },
+        "definition": "Canonical directed adjacency with all five declared edge fields under one common node bijection; ID arrays are sets, and code meanings require the vocabulary policy.",
+        "contentHash": "sha256:3df933040d1a5002b2338cf07b11eefd68e63f76597e72873d897fd3ea86efd3"
+      }
+    }
+  ]
+}

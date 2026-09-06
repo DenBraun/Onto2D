@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/structural-flow-policy.schema.json",
+  "title": "Structural flow policy",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "const": "directed-ollivier-shadow-flow-v1"
+    },
+    "version": {
+      "const": "1"
+    },
+    "sourceGraph": {
+      "const": "immutable-source-parent-induced-scope"
+    },
+    "lengths": {
+      "const": "separate-positive-rational-state"
+    },
+    "measures": {
+      "const": "uniform-predecessors-to-uniform-successors"
+    },
+    "emptyNeighborhood": {
+      "const": "dirac-at-endpoint"
+    },
+    "distance": {
+      "const": "directed-shortest-path"
+    },
+    "update": {
+      "const": "simultaneous-(1-step)*distance+step*wasserstein"
+    },
+    "metricClosure": {
+      "const": "shortest-endpoint-distances-before-normalization"
+    },
+    "normalization": {
+      "const": "total-length-equals-scoped-edge-count"
+    },
+    "numeric": {
+      "const": "exact-rational-primal-dual"
+    },
+    "sourceWeights": {
+      "const": "ignored"
+    },
+    "ordering": {
+      "const": "utf16-code-unit"
+    },
+    "convergence": {
+      "const": "fixed-point-or-consecutive-length-and-curvature-deltas"
+    },
+    "cycleDetection": {
+      "const": "exact-normalized-length-vector"
+    },
+    "degenerateLength": {
+      "const": "stop-before-zero-length-update"
+    },
+    "cuts": {
+      "const": "optional-final-strict-length-threshold-no-feedback"
+    },
+    "defaults": {
+      "const": {
+        "maxIterations": 16,
+        "step": "half",
+        "idleness": "half",
+        "stableSteps": 2,
+        "tolerance": {
+          "numerator": "1",
+          "denominator": "1000000"
+        },
+        "cut": {
+          "kind": "none"
+        }
+      }
+    },
+    "limits": {
+      "const": {
+        "maxNodes": 64,
+        "maxEdges": 64,
+        "maxIterations": 24,
+        "maxStableSteps": 8,
+        "maxSupportSize": 16,
+        "maxTransportCells": 4096,
+        "maxHistoryTransportCells": 32768,
+        "maxMassDenominator": 512,
+        "maxRationalDigits": 256,
+        "maxTransportBytes": 1048576,
+        "maxArtifactBytes": 8388608,
+        "maxCanonicalEntries": 500000
+      }
+    }
+  },
+  "required": [
+    "id",
+    "version",
+    "sourceGraph",
+    "lengths",
+    "measures",
+    "emptyNeighborhood",
+    "distance",
+    "update",
+    "metricClosure",
+    "normalization",
+    "numeric",
+    "sourceWeights",
+    "ordering",
+    "convergence",
+    "cycleDetection",
+    "degenerateLength",
+    "cuts",
+    "defaults",
+    "limits"
+  ]
+}

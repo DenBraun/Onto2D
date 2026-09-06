@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/structural-interval-policy.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "const": "outward-decimal-interval-v1"
+    },
+    "version": {
+      "const": "1"
+    },
+    "decimalPlaces": {
+      "const": 12
+    },
+    "sourceNumberInterpretation": {
+      "const": "canonical-json-decimal"
+    },
+    "squareRoot": {
+      "const": "integer-isqrt"
+    },
+    "rounding": {
+      "const": "outward-per-incidence"
+    },
+    "maxIncidences": {
+      "const": 100000
+    }
+  },
+  "required": [
+    "id",
+    "version",
+    "decimalPlaces",
+    "sourceNumberInterpretation",
+    "squareRoot",
+    "rounding",
+    "maxIncidences"
+  ]
+}

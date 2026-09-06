@@ -1,0 +1,388 @@
+{
+  "analysis": {
+    "id": "structural-flow",
+    "version": "1"
+  },
+  "artifactHash": "sha256:d882a01e9622bc2d1c51eadc07e9026e53f10241117a2a12feccc48ee0765b0c",
+  "cuts": {
+    "connectivity": {
+      "cyclicNodeCount": 3,
+      "isolatedNodeCount": 0,
+      "strongComponentCount": 1,
+      "weakComponentCount": 1
+    },
+    "iteration": 0,
+    "policy": {
+      "kind": "none"
+    },
+    "removedEdgeIds": [],
+    "strongComponents": [
+      [
+        "a",
+        "b",
+        "c"
+      ]
+    ],
+    "weakComponents": [
+      [
+        "a",
+        "b",
+        "c"
+      ]
+    ]
+  },
+  "model": {
+    "manifestHash": "sha256:09b46cf42052df9a8f78b02ff05c1ba982e94fe152dca26b7708d4e5e2e319e8",
+    "modelId": "flow-feedback-triangle",
+    "modelRootHash": "sha256:e0a29c8271edae0ae3b5b9bdb1822b1d2741fab47a08e6956aa9722eb7fb5417",
+    "modelVersion": "1"
+  },
+  "request": {
+    "analysis": {
+      "id": "structural-flow",
+      "version": "1"
+    },
+    "graph": {
+      "edges": [
+        {
+          "id": "a->b",
+          "source": "a",
+          "sourceRecordHash": "sha256:67900d12d3e68dc53b0b71f8a281c215aaaad9a1910f18282cef9e7776966cac",
+          "target": "b"
+        },
+        {
+          "id": "b->c",
+          "source": "b",
+          "sourceRecordHash": "sha256:39088f1cf72980fb6ab3e550e209ffbfabd1ebfa62e542c52b519ff6696dd336",
+          "target": "c"
+        },
+        {
+          "id": "c->a",
+          "source": "c",
+          "sourceRecordHash": "sha256:e2fd16b59f07c25f5fb6a1d72f6713c06c9f546f24746afd3515ad24ff630697",
+          "target": "a"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "a",
+          "sourceRecordHash": "sha256:fb2ffb6fa4dae2e67f6a0834a90b470ed122e65f0359b3bfdd89502ccc5e77c3"
+        },
+        {
+          "id": "b",
+          "sourceRecordHash": "sha256:2332c4d138d6a39cc5cc07eaab946d54b3c40b0f1fe6818bd12cfb1a3dbe0d4e"
+        },
+        {
+          "id": "c",
+          "sourceRecordHash": "sha256:bcb315a979f0dc09431d3ce778eacd28c829329e29c183d0b26d578cad486aef"
+        }
+      ]
+    },
+    "model": {
+      "manifestHash": "sha256:09b46cf42052df9a8f78b02ff05c1ba982e94fe152dca26b7708d4e5e2e319e8",
+      "modelId": "flow-feedback-triangle",
+      "modelRootHash": "sha256:e0a29c8271edae0ae3b5b9bdb1822b1d2741fab47a08e6956aa9722eb7fb5417",
+      "modelVersion": "1"
+    },
+    "parameters": {
+      "cut": {
+        "kind": "none"
+      },
+      "idleness": "zero",
+      "initialLengths": [
+        {
+          "edgeId": "a->b",
+          "length": {
+            "denominator": "1",
+            "numerator": "1"
+          }
+        },
+        {
+          "edgeId": "b->c",
+          "length": {
+            "denominator": "1",
+            "numerator": "1"
+          }
+        },
+        {
+          "edgeId": "c->a",
+          "length": {
+            "denominator": "1",
+            "numerator": "1"
+          }
+        }
+      ],
+      "maxIterations": 8,
+      "scope": {
+        "kind": "full"
+      },
+      "stableSteps": 2,
+      "step": "one",
+      "tolerance": {
+        "denominator": "1000000",
+        "numerator": "1"
+      }
+    },
+    "policy": {
+      "convergence": "fixed-point-or-consecutive-length-and-curvature-deltas",
+      "cuts": "optional-final-strict-length-threshold-no-feedback",
+      "cycleDetection": "exact-normalized-length-vector",
+      "defaults": {
+        "cut": {
+          "kind": "none"
+        },
+        "idleness": "half",
+        "maxIterations": 16,
+        "stableSteps": 2,
+        "step": "half",
+        "tolerance": {
+          "denominator": "1000000",
+          "numerator": "1"
+        }
+      },
+      "degenerateLength": "stop-before-zero-length-update",
+      "distance": "directed-shortest-path",
+      "emptyNeighborhood": "dirac-at-endpoint",
+      "id": "directed-ollivier-shadow-flow-v1",
+      "lengths": "separate-positive-rational-state",
+      "limits": {
+        "maxArtifactBytes": 8388608,
+        "maxCanonicalEntries": 500000,
+        "maxEdges": 64,
+        "maxHistoryTransportCells": 32768,
+        "maxIterations": 24,
+        "maxMassDenominator": 512,
+        "maxNodes": 64,
+        "maxRationalDigits": 256,
+        "maxStableSteps": 8,
+        "maxSupportSize": 16,
+        "maxTransportBytes": 1048576,
+        "maxTransportCells": 4096
+      },
+      "measures": "uniform-predecessors-to-uniform-successors",
+      "metricClosure": "shortest-endpoint-distances-before-normalization",
+      "normalization": "total-length-equals-scoped-edge-count",
+      "numeric": "exact-rational-primal-dual",
+      "ordering": "utf16-code-unit",
+      "sourceGraph": "immutable-source-parent-induced-scope",
+      "sourceWeights": "ignored",
+      "update": "simultaneous-(1-step)*distance+step*wasserstein",
+      "version": "1"
+    },
+    "policyHash": "sha256:cb60665be0085bbb9d85a2089c9bd54a7070bb58c409e7f5b2a2761f99defe35",
+    "projectionHash": "sha256:d8ed0547b540d8b51afabe52455048194b2404ae8d49f2a55f7f299d57f0cdea",
+    "requestHash": "sha256:b419b85f339b0bccf2a57e16bdd6d4372819c16b4ce608b0d1144b1319000c19",
+    "schemaVersion": "1",
+    "scope": {
+      "boundaryEdgeCount": 0,
+      "excludedEdgeCount": 0,
+      "excludedNodeCount": 0,
+      "kind": "full"
+    },
+    "sourceProjectionHash": "sha256:3c6bdb7207aa0d6a7475ad45c65919222ce7ad716f71a6c234b627827156983d"
+  },
+  "schemaVersion": "1",
+  "states": [
+    {
+      "edges": [
+        {
+          "curvature": {
+            "denominator": "1",
+            "numerator": "1"
+          },
+          "id": "a->b",
+          "length": {
+            "denominator": "1",
+            "numerator": "1"
+          },
+          "wasserstein": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "curvature": {
+            "denominator": "1",
+            "numerator": "1"
+          },
+          "id": "b->c",
+          "length": {
+            "denominator": "1",
+            "numerator": "1"
+          },
+          "wasserstein": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        },
+        {
+          "curvature": {
+            "denominator": "1",
+            "numerator": "1"
+          },
+          "id": "c->a",
+          "length": {
+            "denominator": "1",
+            "numerator": "1"
+          },
+          "wasserstein": {
+            "denominator": "1",
+            "numerator": "0"
+          }
+        }
+      ],
+      "iteration": 0,
+      "metricHash": "sha256:78f9ddf754e2ea09d2ab6e428cb926fc8377c3bef8e5b1354cdfc2e92cb62f5b",
+      "normalization": {
+        "closureSum": {
+          "denominator": "1",
+          "numerator": "3"
+        },
+        "factor": {
+          "denominator": "1",
+          "numerator": "1"
+        },
+        "rawSum": {
+          "denominator": "1",
+          "numerator": "3"
+        },
+        "shortenedEdgeIds": []
+      },
+      "previousStateHash": null,
+      "stateHash": "sha256:f83861e0f57201c09cae1d7e5e016a5899837f4ee7b855a4cffccb8d767a3f31",
+      "summary": {
+        "curvatureSum": {
+          "denominator": "1",
+          "numerator": "3"
+        },
+        "lengthSum": {
+          "denominator": "1",
+          "numerator": "3"
+        },
+        "maxCurvatureChange": null,
+        "maxLengthChange": null,
+        "maximumCurvature": {
+          "denominator": "1",
+          "numerator": "1"
+        },
+        "maximumLength": {
+          "denominator": "1",
+          "numerator": "1"
+        },
+        "maximumLengthEdgeIds": [
+          "a->b",
+          "b->c",
+          "c->a"
+        ],
+        "minimumCurvature": {
+          "denominator": "1",
+          "numerator": "1"
+        },
+        "minimumLength": {
+          "denominator": "1",
+          "numerator": "1"
+        },
+        "signs": {
+          "negative": 0,
+          "positive": 3,
+          "zero": 0
+        },
+        "stableStepCount": 0
+      },
+      "transportResponse": {
+        "requestHash": "sha256:4004692b1ae90c26591f3891b21e932f38b8acc3fb66770ab37949ae184013b0",
+        "schemaVersion": "1",
+        "solutions": [
+          {
+            "costNumerator": {
+              "denominator": "1",
+              "numerator": "0"
+            },
+            "edgeId": "a->b",
+            "flow": [
+              [
+                1
+              ]
+            ],
+            "sourcePotentials": [
+              {
+                "denominator": "1",
+                "numerator": "0"
+              }
+            ],
+            "targetPotentials": [
+              {
+                "denominator": "1",
+                "numerator": "0"
+              }
+            ]
+          },
+          {
+            "costNumerator": {
+              "denominator": "1",
+              "numerator": "0"
+            },
+            "edgeId": "b->c",
+            "flow": [
+              [
+                1
+              ]
+            ],
+            "sourcePotentials": [
+              {
+                "denominator": "1",
+                "numerator": "0"
+              }
+            ],
+            "targetPotentials": [
+              {
+                "denominator": "1",
+                "numerator": "0"
+              }
+            ]
+          },
+          {
+            "costNumerator": {
+              "denominator": "1",
+              "numerator": "0"
+            },
+            "edgeId": "c->a",
+            "flow": [
+              [
+                1
+              ]
+            ],
+            "sourcePotentials": [
+              {
+                "denominator": "1",
+                "numerator": "0"
+              }
+            ],
+            "targetPotentials": [
+              {
+                "denominator": "1",
+                "numerator": "0"
+              }
+            ]
+          }
+        ],
+        "solver": {
+          "id": "onto2d-python-flow-transport-reference",
+          "method": "rational-cost-integer-mass-primal-dual-v1",
+          "version": "1"
+        }
+      }
+    }
+  ],
+  "termination": {
+    "cyclePeriod": null,
+    "cycleStart": null,
+    "edgeIds": [
+      "a->b",
+      "b->c",
+      "c->a"
+    ],
+    "iteration": 0,
+    "reason": "degenerate-length"
+  }
+}

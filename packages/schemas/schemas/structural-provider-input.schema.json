@@ -1,0 +1,145 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/structural-provider-input.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "providerId": {
+      "enum": [
+        "unit-v1",
+        "inverse-target-share-v1",
+        "necessity-filtration-v1",
+        "role-subset-v1",
+        "typed-channel-v1"
+      ]
+    },
+    "parameters": {
+      "type": "object"
+    }
+  },
+  "required": [
+    "providerId"
+  ],
+  "oneOf": [
+    {
+      "properties": {
+        "providerId": {
+          "const": "unit-v1"
+        },
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {},
+          "required": []
+        }
+      },
+      "required": [
+        "providerId"
+      ]
+    },
+    {
+      "properties": {
+        "providerId": {
+          "const": "inverse-target-share-v1"
+        },
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {},
+          "required": []
+        }
+      },
+      "required": [
+        "providerId"
+      ]
+    },
+    {
+      "properties": {
+        "providerId": {
+          "const": "necessity-filtration-v1"
+        },
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {},
+          "required": []
+        }
+      },
+      "required": [
+        "providerId"
+      ]
+    },
+    {
+      "properties": {
+        "providerId": {
+          "const": "role-subset-v1"
+        },
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "roles": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "arising",
+                  "maintenance",
+                  "modulation"
+                ]
+              },
+              "maxItems": 3,
+              "minItems": 1,
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "roles"
+          ]
+        }
+      },
+      "required": [
+        "providerId",
+        "parameters"
+      ]
+    },
+    {
+      "properties": {
+        "providerId": {
+          "const": "typed-channel-v1"
+        },
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "field": {
+              "enum": [
+                "dependencyTypeId",
+                "interactionModeIds",
+                "causalDirectionIds"
+              ]
+            },
+            "values": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "maxItems": 32,
+              "minItems": 1,
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "field",
+            "values"
+          ]
+        }
+      },
+      "required": [
+        "providerId",
+        "parameters"
+      ]
+    }
+  ]
+}

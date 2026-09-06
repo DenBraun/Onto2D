@@ -33,6 +33,20 @@ const bytes = canonicalize({ b: 2, a: 1 });
 const hash = hashCanonical("onto2d:artifact:v1", { b: 2, a: 1 });
 ```
 
+Graph matching also has a portable entrypoint:
+
+```js
+import { canonicalizeCandidate, canonicalizeSkeleton }
+  from "@onto2d/kernel/graph-canonicalizer";
+```
+
+It exports the existing graph operations, option normalizer and default policies
+directly, with the same types, limits and results as the full kernel. Browser
+bundles can use it without importing Node-only Oracle validation. Candidate
+matching retains directed edge roles and declared attributes; skeleton matching
+uses its established undirected simple-graph contract. This is export routing,
+not an additional kernel operation or an altered canonical identity policy.
+
 ## Public capability groups
 
 - canonical JSON, domain-separated hashes, graph and skeleton identity;

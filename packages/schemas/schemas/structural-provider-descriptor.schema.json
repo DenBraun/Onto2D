@@ -1,0 +1,169 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/structural-provider-descriptor.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "id": {},
+    "version": {},
+    "kind": {},
+    "origin": {},
+    "representationPolicyId": {},
+    "numeric": {},
+    "capabilities": {},
+    "context": {},
+    "limits": {}
+  },
+  "required": [
+    "id",
+    "version",
+    "kind",
+    "origin",
+    "representationPolicyId",
+    "numeric",
+    "capabilities",
+    "context",
+    "limits"
+  ],
+  "oneOf": [
+    {
+      "const": {
+        "id": "unit-v1",
+        "version": "1",
+        "kind": "metric-values",
+        "origin": "existing-structural-geometry-v1",
+        "representationPolicyId": "source-parent-directed-v1",
+        "numeric": "exact-positive-rational",
+        "capabilities": [
+          "positive-edge-lengths",
+          "vertex-weights",
+          "edge-weights"
+        ],
+        "context": {
+          "source": "verified-full-model",
+          "normalization": "full-source-projection",
+          "dictionaryMeaning": "model-local",
+          "sourceWeights": "ignored"
+        },
+        "limits": {
+          "maxNodes": 4096,
+          "maxEdges": 16384,
+          "maxViews": 32,
+          "maxTotalViewEdges": 32768,
+          "maxCanonicalEntries": 500000,
+          "maxArtifactBytes": 8388608
+        }
+      }
+    },
+    {
+      "const": {
+        "id": "inverse-target-share-v1",
+        "version": "1",
+        "kind": "metric-values",
+        "origin": "existing-structural-geometry-v1",
+        "representationPolicyId": "source-parent-directed-v1",
+        "numeric": "exact-positive-rational",
+        "capabilities": [
+          "positive-edge-lengths",
+          "vertex-weights",
+          "edge-weights"
+        ],
+        "context": {
+          "source": "verified-full-model",
+          "normalization": "full-source-projection",
+          "dictionaryMeaning": "model-local",
+          "sourceWeights": "required-and-audited"
+        },
+        "limits": {
+          "maxNodes": 4096,
+          "maxEdges": 16384,
+          "maxViews": 32,
+          "maxTotalViewEdges": 32768,
+          "maxCanonicalEntries": 500000,
+          "maxArtifactBytes": 8388608
+        }
+      }
+    },
+    {
+      "const": {
+        "id": "necessity-filtration-v1",
+        "version": "1",
+        "kind": "filtration",
+        "origin": "existing-structural-geometry-v1",
+        "representationPolicyId": "source-parent-directed-v1",
+        "numeric": "discrete-membership",
+        "capabilities": [
+          "nested-edge-views"
+        ],
+        "context": {
+          "source": "verified-full-model",
+          "normalization": "full-source-projection",
+          "dictionaryMeaning": "model-local",
+          "sourceWeights": "unused"
+        },
+        "limits": {
+          "maxNodes": 4096,
+          "maxEdges": 16384,
+          "maxViews": 32,
+          "maxTotalViewEdges": 32768,
+          "maxCanonicalEntries": 500000,
+          "maxArtifactBytes": 8388608
+        }
+      }
+    },
+    {
+      "const": {
+        "id": "role-subset-v1",
+        "version": "1",
+        "kind": "selection",
+        "origin": "existing-structural-geometry-v1",
+        "representationPolicyId": "source-parent-directed-v1",
+        "numeric": "discrete-membership",
+        "capabilities": [
+          "role-selection"
+        ],
+        "context": {
+          "source": "verified-full-model",
+          "normalization": "full-source-projection",
+          "dictionaryMeaning": "model-local",
+          "sourceWeights": "unused"
+        },
+        "limits": {
+          "maxNodes": 4096,
+          "maxEdges": 16384,
+          "maxViews": 32,
+          "maxTotalViewEdges": 32768,
+          "maxCanonicalEntries": 500000,
+          "maxArtifactBytes": 8388608
+        }
+      }
+    },
+    {
+      "const": {
+        "id": "typed-channel-v1",
+        "version": "1",
+        "kind": "channels",
+        "origin": "existing-structural-geometry-v1",
+        "representationPolicyId": "source-parent-directed-v1",
+        "numeric": "discrete-membership",
+        "capabilities": [
+          "overlapping-typed-channels"
+        ],
+        "context": {
+          "source": "verified-full-model",
+          "normalization": "full-source-projection",
+          "dictionaryMeaning": "model-local",
+          "sourceWeights": "unused"
+        },
+        "limits": {
+          "maxNodes": 4096,
+          "maxEdges": 16384,
+          "maxViews": 32,
+          "maxTotalViewEdges": 32768,
+          "maxCanonicalEntries": 500000,
+          "maxArtifactBytes": 8388608
+        }
+      }
+    }
+  ]
+}

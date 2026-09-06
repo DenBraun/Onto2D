@@ -1,0 +1,164 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/structural-flow-transport-request.schema.json",
+  "title": "Structural flow transport-request",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": "1"
+    },
+    "flowRequestHash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "iteration": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 24
+    },
+    "previousStateHash": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "metricHash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "solver": {
+      "const": {
+        "id": "onto2d-python-flow-transport-reference",
+        "version": "1",
+        "method": "rational-cost-integer-mass-primal-dual-v1"
+      }
+    },
+    "problems": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "edgeId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024
+          },
+          "source": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024
+          },
+          "target": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024
+          },
+          "distance": {
+            "$ref": "structural-flow-input.schema.json#/$defs/positiveRational"
+          },
+          "massDenominator": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 512
+          },
+          "sourceMeasure": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "nodeId": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 1024
+                },
+                "units": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 512
+                }
+              },
+              "required": [
+                "nodeId",
+                "units"
+              ]
+            },
+            "minItems": 1,
+            "maxItems": 16
+          },
+          "targetMeasure": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "nodeId": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 1024
+                },
+                "units": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 512
+                }
+              },
+              "required": [
+                "nodeId",
+                "units"
+              ]
+            },
+            "minItems": 1,
+            "maxItems": 16
+          },
+          "costs": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": {
+                "$ref": "structural-flow-input.schema.json#/$defs/nonnegativeRational"
+              },
+              "minItems": 1,
+              "maxItems": 16
+            },
+            "minItems": 1,
+            "maxItems": 16
+          }
+        },
+        "required": [
+          "edgeId",
+          "source",
+          "target",
+          "distance",
+          "massDenominator",
+          "sourceMeasure",
+          "targetMeasure",
+          "costs"
+        ]
+      },
+      "minItems": 1,
+      "maxItems": 64
+    },
+    "requestHash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "flowRequestHash",
+    "iteration",
+    "previousStateHash",
+    "metricHash",
+    "solver",
+    "problems",
+    "requestHash"
+  ]
+}

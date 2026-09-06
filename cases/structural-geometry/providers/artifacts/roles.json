@@ -1,0 +1,131 @@
+{
+  "analysis": {
+    "id": "structural-metric-provider",
+    "version": "1"
+  },
+  "artifactHash": "sha256:c20f47433bbbc6416551710dfb6cd8dd2ac6e33ae9c3d8215f4b29df839716fd",
+  "context": {
+    "contextHash": "sha256:ecb03cb3d5b63d1ca02378c64c735173d9f6d54e7f45e5ed7127ca3368f6545b",
+    "dictionaryHash": "sha256:c7cd166f910f4e619ad8fbf7d2ef37c7d4d9decd7f6340899bcd28cdf679c1d9",
+    "model": {
+      "manifestHash": "sha256:e1aed8851c5b6d7d2837dfb063aab6c863fe5ecc414231eff457b42589ebe7c5",
+      "modelId": "provider-typed-diamond",
+      "modelRootHash": "sha256:0841175f0b96d35d36b3786502771cdcc1900a830e19c64b2cbc700b65991352",
+      "modelVersion": "1"
+    },
+    "normalizationContext": "full-source-projection",
+    "projectionPolicyHash": "sha256:25f5cdb778b7fdf05ff071dd9d8c672a9726ca50958a6192066e72a8523172d1",
+    "schemaVersion": "1",
+    "sourceProjectionHash": "sha256:4dd42f6e18db8386a84a8261ad9904451743df150f1ff4db92025eb1058ca9c5"
+  },
+  "provider": {
+    "capabilities": [
+      "role-selection"
+    ],
+    "context": {
+      "dictionaryMeaning": "model-local",
+      "normalization": "full-source-projection",
+      "source": "verified-full-model",
+      "sourceWeights": "unused"
+    },
+    "id": "role-subset-v1",
+    "kind": "selection",
+    "limits": {
+      "maxArtifactBytes": 8388608,
+      "maxCanonicalEntries": 500000,
+      "maxEdges": 16384,
+      "maxNodes": 4096,
+      "maxTotalViewEdges": 32768,
+      "maxViews": 32
+    },
+    "numeric": "discrete-membership",
+    "origin": "existing-structural-geometry-v1",
+    "representationPolicyId": "source-parent-directed-v1",
+    "version": "1"
+  },
+  "providerHash": "sha256:541cc02171eb8d3b79e3ed3a62753e974f3905460406822932834d1497fdaca8",
+  "request": {
+    "parameters": {
+      "roles": [
+        "arising",
+        "modulation"
+      ]
+    },
+    "providerId": "role-subset-v1"
+  },
+  "result": {
+    "kind": "selection",
+    "nodeIds": [
+      "a",
+      "b",
+      "c",
+      "d"
+    ],
+    "selectionPolicy": {
+      "channels": [
+        "dependencyTypeId",
+        "interactionModeIds",
+        "causalDirectionIds"
+      ],
+      "id": "typed-source-parent-subgraph-v1",
+      "missingCategory": "reject",
+      "missingChannel": "exclude-and-account",
+      "necessityOrder": [
+        "necessary",
+        "enabling",
+        "contextual",
+        "optional"
+      ],
+      "nodePopulation": "all-source-nodes",
+      "roleOrder": "subset-lattice",
+      "roleUniverse": [
+        "arising",
+        "maintenance",
+        "modulation"
+      ],
+      "version": "1"
+    },
+    "selectionPolicyHash": "sha256:19c266351895ee05760ea8791d6880a4587966271182e28252c8afc89e5aab7d",
+    "view": {
+      "accounting": {
+        "excludedEdgeIds": [
+          "a->c"
+        ],
+        "missingChannelEdgeIds": [],
+        "selectedEdgeIds": [
+          "a->b",
+          "b->d",
+          "c->d"
+        ],
+        "sourceEdgeCount": 4,
+        "sourceNodeCount": 4
+      },
+      "edges": [
+        {
+          "id": "a->b",
+          "source": "a",
+          "target": "b"
+        },
+        {
+          "id": "b->d",
+          "source": "b",
+          "target": "d"
+        },
+        {
+          "id": "c->d",
+          "source": "c",
+          "target": "d"
+        }
+      ],
+      "projectionHash": "sha256:a1dbbd6ae61a6a8c7dc6aa174cd69b7064911c2e643d84c90e23f22958403a72",
+      "selection": {
+        "kind": "roles",
+        "roles": [
+          "arising",
+          "modulation"
+        ]
+      }
+    }
+  },
+  "schemaVersion": "1"
+}

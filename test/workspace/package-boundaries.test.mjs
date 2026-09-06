@@ -4,7 +4,42 @@ import { schemaUrls, SCHEMA_VERSION } from "../../packages/schemas/src/index.js"
 
 test("schema package exposes every initial contract as a file URL", () => {
   assert.equal(SCHEMA_VERSION, "1");
-  assert.equal(Object.keys(schemaUrls).length, 158);
+  assert.equal(Object.keys(schemaUrls).length, 201);
+  for (const [name, file] of [["structuralTypedInput", "structural-typed-input"], ["structuralTypedObservation", "structural-typed-observation"],
+    ["structuralVocabularyMappingInput", "structural-vocabulary-mapping-input"], ["structuralVocabularyMapping", "structural-vocabulary-mapping"],
+    ["structuralTypedAlignment", "structural-typed-alignment"]]) assert.ok(schemaUrls[name].pathname.endsWith(`${file}.schema.json`));
+  assert.ok(schemaUrls.structuralTopologyInput.pathname.endsWith("structural-topology-input.schema.json"));
+  assert.ok(schemaUrls.structuralTopologyObservation.pathname.endsWith("structural-topology-observation.schema.json"));
+  assert.ok(schemaUrls.structuralCanonicalInput.pathname.endsWith("structural-canonical-input.schema.json"));
+  assert.ok(schemaUrls.structuralCanonicalObservation.pathname.endsWith("structural-canonical-observation.schema.json"));
+  for (const [name, file] of [["structuralObservationSpec", "structural-observation-spec"],
+    ["distinguishabilityRegime", "distinguishability-regime"], ["structuralRegimeInput", "structural-regime-input"],
+    ["structuralRegimePreparation", "structural-regime-preparation"]]) {
+    assert.ok(schemaUrls[name].pathname.endsWith(`${file}.schema.json`));
+  }
+  for (const [name, file] of [["structuralProviderDescriptor", "structural-provider-descriptor"],
+    ["structuralMetricContext", "structural-metric-context"], ["structuralProviderInput", "structural-provider-input"],
+    ["structuralProviderArtifact", "structural-provider-artifact"], ["structuralProviderAnalysisInput", "structural-provider-analysis-input"],
+    ["structuralProviderAnalysisArtifact", "structural-provider-analysis-artifact"]]) {
+    assert.ok(schemaUrls[name].pathname.endsWith(`${file}.schema.json`));
+  }
+  for (const [suffix, file] of [["Policy", "policy"], ["Input", "input"], ["Request", "request"],
+    ["TransportRequest", "transport-request"], ["TransportResponse", "transport-response"], ["State", "state"], ["Artifact", "artifact"]]) {
+    assert.ok(schemaUrls[`structuralFlow${suffix}`].pathname.endsWith(`structural-flow-${file}.schema.json`));
+  }
+  assert.ok(schemaUrls.structuralOllivierPolicy.pathname.endsWith("structural-ollivier-policy.schema.json"));
+  assert.ok(schemaUrls.structuralOllivierInput.pathname.endsWith("structural-ollivier-input.schema.json"));
+  assert.ok(schemaUrls.structuralOllivierRequest.pathname.endsWith("structural-ollivier-request.schema.json"));
+  assert.ok(schemaUrls.structuralOllivierResponse.pathname.endsWith("structural-ollivier-response.schema.json"));
+  assert.ok(schemaUrls.structuralOllivierArtifact.pathname.endsWith("structural-ollivier-artifact.schema.json"));
+  assert.ok(schemaUrls.structuralMetricExperiment.pathname.endsWith("structural-metric-experiment.schema.json"));
+  assert.ok(schemaUrls.structuralWeightAudit.pathname.endsWith("structural-weight-audit.schema.json"));
+  assert.ok(schemaUrls.structuralMetricSuite.pathname.endsWith("structural-metric-suite.schema.json"));
+  assert.ok(schemaUrls.structuralProjectionPolicy.pathname.endsWith("structural-projection-policy.schema.json"));
+  assert.ok(schemaUrls.structuralMetricPolicy.pathname.endsWith("structural-metric-policy.schema.json"));
+  assert.ok(schemaUrls.structuralProjection.pathname.endsWith("structural-projection.schema.json"));
+  assert.ok(schemaUrls.structuralGeometryRequest.pathname.endsWith("structural-geometry-request.schema.json"));
+  assert.ok(schemaUrls.structuralGeometryArtifact.pathname.endsWith("structural-geometry-artifact.schema.json"));
   assert.ok(
     schemaUrls.modelPackManifest.pathname.endsWith("model-pack-manifest.schema.json")
   );

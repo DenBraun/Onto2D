@@ -1,0 +1,1257 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/structural-typed-observation.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": "1"
+    },
+    "analysis": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "const": "structural-typed-observation"
+        },
+        "version": {
+          "const": "1"
+        }
+      },
+      "required": [
+        "id",
+        "version"
+      ]
+    },
+    "evaluation": {
+      "enum": [
+        "measured",
+        "incomplete"
+      ]
+    },
+    "implementation": {
+      "const": {
+        "id": "typed-directed-observation-v1",
+        "version": "1",
+        "kernelOperation": "canonicalizeCandidate",
+        "kernelCanonicalSchemaVersion": "1",
+        "inputOrdering": "source-id-ascending",
+        "valueEncoding": "node-count-and-directed-endpoints-with-five-joint-edge-fields",
+        "setEncoding": "canonical-json-string-of-numeric-sorted-distinct-integers",
+        "sourceAudit": "all-present-fields-before-scoped-measurement",
+        "missingScopedField": "null-typed-value-with-explicit-evidence-gaps",
+        "vocabularyMeaning": "source-local-codes-require-separate-comparison-compatibility",
+        "witnessMeaning": "one-common-bijection-not-canonical-orbits",
+        "otherAttributes": "excluded",
+        "contentHash": "sha256:953f5ae6ad1fee7069058ac66116848c7b3981850feaf9a1c84d216325ba60e3"
+      }
+    },
+    "preparation": {
+      "allOf": [
+        {
+          "$ref": "structural-regime-preparation.schema.json"
+        },
+        {
+          "properties": {
+            "request": {
+              "properties": {
+                "regimeId": {
+                  "const": "typed-relations-v1"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "vocabulary": {
+      "$ref": "#/$defs/vocabulary"
+    },
+    "observations": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "prefixItems": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "regime": {
+              "const": {
+                "id": "typed-relations-v1",
+                "version": "1",
+                "contentHash": "sha256:5fe49b9439e107998e170cf8cf1e690598dfe8937321f5202ac4c2f270414868"
+              }
+            },
+            "observable": {
+              "const": {
+                "id": "canonical-directed-structure-v1",
+                "version": "1",
+                "contentHash": "sha256:48f137781781c54724e172256925e44c9a2be42a08610c88abaca8a9f6016e7b"
+              }
+            },
+            "implementation": {
+              "const": {
+                "id": "typed-directed-observation-v1",
+                "version": "1",
+                "contentHash": "sha256:953f5ae6ad1fee7069058ac66116848c7b3981850feaf9a1c84d216325ba60e3"
+              }
+            },
+            "availability": {
+              "const": "observed"
+            },
+            "value": {
+              "$ref": "#/$defs/untypedValue"
+            },
+            "valueHash": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            },
+            "witness": {
+              "$ref": "#/$defs/untypedWitness"
+            }
+          },
+          "required": [
+            "regime",
+            "observable",
+            "implementation",
+            "availability",
+            "value",
+            "valueHash",
+            "witness"
+          ]
+        },
+        {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "regime": {
+                  "const": {
+                    "id": "typed-relations-v1",
+                    "version": "1",
+                    "contentHash": "sha256:5fe49b9439e107998e170cf8cf1e690598dfe8937321f5202ac4c2f270414868"
+                  }
+                },
+                "observable": {
+                  "const": {
+                    "id": "canonical-typed-directed-structure-v1",
+                    "version": "1",
+                    "contentHash": "sha256:3df933040d1a5002b2338cf07b11eefd68e63f76597e72873d897fd3ea86efd3"
+                  }
+                },
+                "implementation": {
+                  "const": {
+                    "id": "typed-directed-observation-v1",
+                    "version": "1",
+                    "contentHash": "sha256:953f5ae6ad1fee7069058ac66116848c7b3981850feaf9a1c84d216325ba60e3"
+                  }
+                },
+                "availability": {
+                  "const": "observed"
+                },
+                "value": {
+                  "$ref": "#/$defs/typedValue"
+                },
+                "valueHash": {
+                  "type": "string",
+                  "pattern": "^sha256:[0-9a-f]{64}$"
+                },
+                "witness": {
+                  "$ref": "#/$defs/typedWitness"
+                }
+              },
+              "required": [
+                "regime",
+                "observable",
+                "implementation",
+                "availability",
+                "value",
+                "valueHash",
+                "witness"
+              ]
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "regime": {
+                  "const": {
+                    "id": "typed-relations-v1",
+                    "version": "1",
+                    "contentHash": "sha256:5fe49b9439e107998e170cf8cf1e690598dfe8937321f5202ac4c2f270414868"
+                  }
+                },
+                "observable": {
+                  "const": {
+                    "id": "canonical-typed-directed-structure-v1",
+                    "version": "1",
+                    "contentHash": "sha256:3df933040d1a5002b2338cf07b11eefd68e63f76597e72873d897fd3ea86efd3"
+                  }
+                },
+                "implementation": {
+                  "const": {
+                    "id": "typed-directed-observation-v1",
+                    "version": "1",
+                    "contentHash": "sha256:953f5ae6ad1fee7069058ac66116848c7b3981850feaf9a1c84d216325ba60e3"
+                  }
+                },
+                "availability": {
+                  "const": "missing"
+                },
+                "value": {
+                  "type": "null"
+                },
+                "valueHash": {
+                  "type": "null"
+                },
+                "witness": {
+                  "type": "null"
+                }
+              },
+              "required": [
+                "regime",
+                "observable",
+                "implementation",
+                "availability",
+                "value",
+                "valueHash",
+                "witness"
+              ]
+            }
+          ]
+        }
+      ],
+      "items": false
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "requiredFieldCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 150
+        },
+        "observedFieldCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 150
+        },
+        "missing": {
+          "type": "array",
+          "minItems": 0,
+          "maxItems": 150,
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "sourceEdgeId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "field": {
+                "enum": [
+                  "dependencyTypeId",
+                  "interactionModeIds",
+                  "ontologicalRole",
+                  "necessity",
+                  "causalDirectionIds"
+                ]
+              }
+            },
+            "required": [
+              "sourceEdgeId",
+              "field"
+            ]
+          }
+        }
+      },
+      "required": [
+        "requiredFieldCount",
+        "observedFieldCount",
+        "missing"
+      ]
+    },
+    "artifactHash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "analysis",
+    "evaluation",
+    "implementation",
+    "preparation",
+    "vocabulary",
+    "observations",
+    "evidence",
+    "artifactHash"
+  ],
+  "$defs": {
+    "untypedValue": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "nodeCount": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 6
+        },
+        "edges": {
+          "type": "array",
+          "maxItems": 30,
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "from": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 5
+              },
+              "to": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 5
+              }
+            },
+            "required": [
+              "from",
+              "to"
+            ],
+            "allOf": [
+              {
+                "not": {
+                  "properties": {
+                    "from": {
+                      "const": 0
+                    },
+                    "to": {
+                      "const": 0
+                    }
+                  }
+                }
+              },
+              {
+                "not": {
+                  "properties": {
+                    "from": {
+                      "const": 1
+                    },
+                    "to": {
+                      "const": 1
+                    }
+                  }
+                }
+              },
+              {
+                "not": {
+                  "properties": {
+                    "from": {
+                      "const": 2
+                    },
+                    "to": {
+                      "const": 2
+                    }
+                  }
+                }
+              },
+              {
+                "not": {
+                  "properties": {
+                    "from": {
+                      "const": 3
+                    },
+                    "to": {
+                      "const": 3
+                    }
+                  }
+                }
+              },
+              {
+                "not": {
+                  "properties": {
+                    "from": {
+                      "const": 4
+                    },
+                    "to": {
+                      "const": 4
+                    }
+                  }
+                }
+              },
+              {
+                "not": {
+                  "properties": {
+                    "from": {
+                      "const": 5
+                    },
+                    "to": {
+                      "const": 5
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "required": [
+        "nodeCount",
+        "edges"
+      ],
+      "oneOf": [
+        {
+          "properties": {
+            "nodeCount": {
+              "const": 1
+            },
+            "edges": {
+              "maxItems": 0,
+              "items": {
+                "properties": {
+                  "from": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 0
+                  },
+                  "to": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 0
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "nodeCount": {
+              "const": 2
+            },
+            "edges": {
+              "maxItems": 2,
+              "items": {
+                "properties": {
+                  "from": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 1
+                  },
+                  "to": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "nodeCount": {
+              "const": 3
+            },
+            "edges": {
+              "maxItems": 6,
+              "items": {
+                "properties": {
+                  "from": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 2
+                  },
+                  "to": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 2
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "nodeCount": {
+              "const": 4
+            },
+            "edges": {
+              "maxItems": 12,
+              "items": {
+                "properties": {
+                  "from": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 3
+                  },
+                  "to": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 3
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "nodeCount": {
+              "const": 5
+            },
+            "edges": {
+              "maxItems": 20,
+              "items": {
+                "properties": {
+                  "from": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 4
+                  },
+                  "to": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 4
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "nodeCount": {
+              "const": 6
+            },
+            "edges": {
+              "maxItems": 30,
+              "items": {
+                "properties": {
+                  "from": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 5
+                  },
+                  "to": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 5
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "untypedWitness": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "nodes": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 6,
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "sourceNodeId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "canonicalNode": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 5
+              }
+            },
+            "required": [
+              "sourceNodeId",
+              "canonicalNode"
+            ]
+          }
+        },
+        "edges": {
+          "type": "array",
+          "maxItems": 30,
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "sourceEdgeId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "from": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 5
+              },
+              "to": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 5
+              }
+            },
+            "required": [
+              "sourceEdgeId",
+              "from",
+              "to"
+            ]
+          }
+        },
+        "candidateHash": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "skeletonHash": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "statistics": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "searchStates": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100000
+            },
+            "leaves": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100000
+            },
+            "refinementRounds": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 600000
+            }
+          },
+          "required": [
+            "searchStates",
+            "leaves",
+            "refinementRounds"
+          ]
+        }
+      },
+      "required": [
+        "nodes",
+        "edges",
+        "candidateHash",
+        "skeletonHash",
+        "statistics"
+      ]
+    },
+    "typedValue": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "nodeCount": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 6
+        },
+        "edges": {
+          "type": "array",
+          "maxItems": 30,
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "from": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 5
+              },
+              "to": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 5
+              },
+              "types": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "dependencyTypeId": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "interactionModeIds": {
+                    "type": "array",
+                    "uniqueItems": true,
+                    "items": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "ontologicalRole": {
+                    "enum": [
+                      "arising",
+                      "maintenance",
+                      "modulation"
+                    ]
+                  },
+                  "necessity": {
+                    "enum": [
+                      "necessary",
+                      "enabling",
+                      "contextual",
+                      "optional"
+                    ]
+                  },
+                  "causalDirectionIds": {
+                    "type": "array",
+                    "uniqueItems": true,
+                    "items": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  }
+                },
+                "required": [
+                  "dependencyTypeId",
+                  "interactionModeIds",
+                  "ontologicalRole",
+                  "necessity",
+                  "causalDirectionIds"
+                ]
+              }
+            },
+            "required": [
+              "from",
+              "to",
+              "types"
+            ],
+            "allOf": [
+              {
+                "not": {
+                  "properties": {
+                    "from": {
+                      "const": 0
+                    },
+                    "to": {
+                      "const": 0
+                    }
+                  }
+                }
+              },
+              {
+                "not": {
+                  "properties": {
+                    "from": {
+                      "const": 1
+                    },
+                    "to": {
+                      "const": 1
+                    }
+                  }
+                }
+              },
+              {
+                "not": {
+                  "properties": {
+                    "from": {
+                      "const": 2
+                    },
+                    "to": {
+                      "const": 2
+                    }
+                  }
+                }
+              },
+              {
+                "not": {
+                  "properties": {
+                    "from": {
+                      "const": 3
+                    },
+                    "to": {
+                      "const": 3
+                    }
+                  }
+                }
+              },
+              {
+                "not": {
+                  "properties": {
+                    "from": {
+                      "const": 4
+                    },
+                    "to": {
+                      "const": 4
+                    }
+                  }
+                }
+              },
+              {
+                "not": {
+                  "properties": {
+                    "from": {
+                      "const": 5
+                    },
+                    "to": {
+                      "const": 5
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "required": [
+        "nodeCount",
+        "edges"
+      ],
+      "oneOf": [
+        {
+          "properties": {
+            "nodeCount": {
+              "const": 1
+            },
+            "edges": {
+              "maxItems": 0,
+              "items": {
+                "properties": {
+                  "from": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 0
+                  },
+                  "to": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 0
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "nodeCount": {
+              "const": 2
+            },
+            "edges": {
+              "maxItems": 2,
+              "items": {
+                "properties": {
+                  "from": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 1
+                  },
+                  "to": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "nodeCount": {
+              "const": 3
+            },
+            "edges": {
+              "maxItems": 6,
+              "items": {
+                "properties": {
+                  "from": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 2
+                  },
+                  "to": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 2
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "nodeCount": {
+              "const": 4
+            },
+            "edges": {
+              "maxItems": 12,
+              "items": {
+                "properties": {
+                  "from": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 3
+                  },
+                  "to": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 3
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "nodeCount": {
+              "const": 5
+            },
+            "edges": {
+              "maxItems": 20,
+              "items": {
+                "properties": {
+                  "from": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 4
+                  },
+                  "to": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 4
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "nodeCount": {
+              "const": 6
+            },
+            "edges": {
+              "maxItems": 30,
+              "items": {
+                "properties": {
+                  "from": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 5
+                  },
+                  "to": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 5
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "typedWitness": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "nodes": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 6,
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "sourceNodeId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "canonicalNode": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 5
+              }
+            },
+            "required": [
+              "sourceNodeId",
+              "canonicalNode"
+            ]
+          }
+        },
+        "edges": {
+          "type": "array",
+          "maxItems": 30,
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "sourceEdgeId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "from": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 5
+              },
+              "to": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 5
+              },
+              "types": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "dependencyTypeId": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 9007199254740991
+                  },
+                  "interactionModeIds": {
+                    "type": "array",
+                    "uniqueItems": true,
+                    "items": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "ontologicalRole": {
+                    "enum": [
+                      "arising",
+                      "maintenance",
+                      "modulation"
+                    ]
+                  },
+                  "necessity": {
+                    "enum": [
+                      "necessary",
+                      "enabling",
+                      "contextual",
+                      "optional"
+                    ]
+                  },
+                  "causalDirectionIds": {
+                    "type": "array",
+                    "uniqueItems": true,
+                    "items": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  }
+                },
+                "required": [
+                  "dependencyTypeId",
+                  "interactionModeIds",
+                  "ontologicalRole",
+                  "necessity",
+                  "causalDirectionIds"
+                ]
+              }
+            },
+            "required": [
+              "sourceEdgeId",
+              "from",
+              "to",
+              "types"
+            ]
+          }
+        },
+        "candidateHash": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "skeletonHash": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "statistics": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "searchStates": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100000
+            },
+            "leaves": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100000
+            },
+            "refinementRounds": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 600000
+            }
+          },
+          "required": [
+            "searchStates",
+            "leaves",
+            "refinementRounds"
+          ]
+        }
+      },
+      "required": [
+        "nodes",
+        "edges",
+        "candidateHash",
+        "skeletonHash",
+        "statistics"
+      ]
+    },
+    "vocabulary": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "policy": {
+          "const": {
+            "id": "model-local-typed-vocabulary-v1",
+            "version": "1",
+            "contentHash": "sha256:91ebf209a30d17662c00b8d1c28105d7d1bad3f4b3fabad59ab667479ccc900f"
+          }
+        },
+        "model": {
+          "$ref": "structural-projection.schema.json#/$defs/modelBinding"
+        },
+        "dictionaryHash": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "policy",
+        "model",
+        "dictionaryHash"
+      ]
+    },
+    "types": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "dependencyTypeId": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "interactionModeIds": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "ontologicalRole": {
+          "enum": [
+            "arising",
+            "maintenance",
+            "modulation"
+          ]
+        },
+        "necessity": {
+          "enum": [
+            "necessary",
+            "enabling",
+            "contextual",
+            "optional"
+          ]
+        },
+        "causalDirectionIds": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          }
+        }
+      },
+      "required": [
+        "dependencyTypeId",
+        "interactionModeIds",
+        "ontologicalRole",
+        "necessity",
+        "causalDirectionIds"
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "evaluation": {
+            "const": "measured"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "observations": {
+            "prefixItems": [
+              {},
+              {
+                "properties": {
+                  "availability": {
+                    "const": "observed"
+                  }
+                }
+              }
+            ]
+          },
+          "evidence": {
+            "properties": {
+              "missing": {
+                "maxItems": 0
+              }
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "observations": {
+            "prefixItems": [
+              {},
+              {
+                "properties": {
+                  "availability": {
+                    "const": "missing"
+                  }
+                }
+              }
+            ]
+          },
+          "evidence": {
+            "properties": {
+              "missing": {
+                "minItems": 1
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

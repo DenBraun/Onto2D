@@ -1,0 +1,3270 @@
+{
+  "analysis": {
+    "id": "structural-flow",
+    "version": "1"
+  },
+  "artifactHash": "sha256:1f95c6c4e5168af78b72b6a9cca098ed19210f367274559f2b9b285daf270320",
+  "cuts": {
+    "connectivity": {
+      "cyclicNodeCount": 4,
+      "isolatedNodeCount": 0,
+      "strongComponentCount": 2,
+      "weakComponentCount": 1
+    },
+    "iteration": 8,
+    "policy": {
+      "kind": "none"
+    },
+    "removedEdgeIds": [],
+    "strongComponents": [
+      [
+        "a",
+        "b",
+        "c",
+        "d"
+      ],
+      [
+        "e"
+      ]
+    ],
+    "weakComponents": [
+      [
+        "a",
+        "b",
+        "c",
+        "d",
+        "e"
+      ]
+    ]
+  },
+  "model": {
+    "manifestHash": "sha256:f3da70b254278f4f84952aed0160c3ac81b652dd80814aa6a3ac20bc0483cf3e",
+    "modelId": "flow-asymmetric-neighborhood",
+    "modelRootHash": "sha256:4c345a699e8e1e73e124cf1b785205266bda52ee8c6caa6253b224a45884a166",
+    "modelVersion": "1"
+  },
+  "request": {
+    "analysis": {
+      "id": "structural-flow",
+      "version": "1"
+    },
+    "graph": {
+      "edges": [
+        {
+          "id": "a->b",
+          "source": "a",
+          "sourceRecordHash": "sha256:67900d12d3e68dc53b0b71f8a281c215aaaad9a1910f18282cef9e7776966cac",
+          "target": "b"
+        },
+        {
+          "id": "b->d",
+          "source": "b",
+          "sourceRecordHash": "sha256:41097cebb4d539843387460ad85b403bdafb3b9724885966d2801df50c900abc",
+          "target": "d"
+        },
+        {
+          "id": "b->e",
+          "source": "b",
+          "sourceRecordHash": "sha256:a9a015a05882fcbbc5d8473c8c4873694c9e359d8389845ef2b896237dff67a5",
+          "target": "e"
+        },
+        {
+          "id": "c->a",
+          "source": "c",
+          "sourceRecordHash": "sha256:e2fd16b59f07c25f5fb6a1d72f6713c06c9f546f24746afd3515ad24ff630697",
+          "target": "a"
+        },
+        {
+          "id": "d->c",
+          "source": "d",
+          "sourceRecordHash": "sha256:485aef2375bd873c162aa51ef7a7da889fbd5fda0042b954fb965120994f074b",
+          "target": "c"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "a",
+          "sourceRecordHash": "sha256:fb2ffb6fa4dae2e67f6a0834a90b470ed122e65f0359b3bfdd89502ccc5e77c3"
+        },
+        {
+          "id": "b",
+          "sourceRecordHash": "sha256:2332c4d138d6a39cc5cc07eaab946d54b3c40b0f1fe6818bd12cfb1a3dbe0d4e"
+        },
+        {
+          "id": "c",
+          "sourceRecordHash": "sha256:bcb315a979f0dc09431d3ce778eacd28c829329e29c183d0b26d578cad486aef"
+        },
+        {
+          "id": "d",
+          "sourceRecordHash": "sha256:25824e67b9a03b9a517620405bb748166559e736ce72fe1dc16f6e301dd1066c"
+        },
+        {
+          "id": "e",
+          "sourceRecordHash": "sha256:18fd88c08259e0be83536b71ac1838b89998f75a9963c4848efab545962aa001"
+        }
+      ]
+    },
+    "model": {
+      "manifestHash": "sha256:f3da70b254278f4f84952aed0160c3ac81b652dd80814aa6a3ac20bc0483cf3e",
+      "modelId": "flow-asymmetric-neighborhood",
+      "modelRootHash": "sha256:4c345a699e8e1e73e124cf1b785205266bda52ee8c6caa6253b224a45884a166",
+      "modelVersion": "1"
+    },
+    "parameters": {
+      "cut": {
+        "kind": "none"
+      },
+      "idleness": "half",
+      "initialLengths": [
+        {
+          "edgeId": "a->b",
+          "length": {
+            "denominator": "1",
+            "numerator": "1"
+          }
+        },
+        {
+          "edgeId": "b->d",
+          "length": {
+            "denominator": "1",
+            "numerator": "1"
+          }
+        },
+        {
+          "edgeId": "b->e",
+          "length": {
+            "denominator": "1",
+            "numerator": "1"
+          }
+        },
+        {
+          "edgeId": "c->a",
+          "length": {
+            "denominator": "1",
+            "numerator": "1"
+          }
+        },
+        {
+          "edgeId": "d->c",
+          "length": {
+            "denominator": "1",
+            "numerator": "1"
+          }
+        }
+      ],
+      "maxIterations": 8,
+      "scope": {
+        "kind": "full"
+      },
+      "stableSteps": 2,
+      "step": "half",
+      "tolerance": {
+        "denominator": "1000000",
+        "numerator": "1"
+      }
+    },
+    "policy": {
+      "convergence": "fixed-point-or-consecutive-length-and-curvature-deltas",
+      "cuts": "optional-final-strict-length-threshold-no-feedback",
+      "cycleDetection": "exact-normalized-length-vector",
+      "defaults": {
+        "cut": {
+          "kind": "none"
+        },
+        "idleness": "half",
+        "maxIterations": 16,
+        "stableSteps": 2,
+        "step": "half",
+        "tolerance": {
+          "denominator": "1000000",
+          "numerator": "1"
+        }
+      },
+      "degenerateLength": "stop-before-zero-length-update",
+      "distance": "directed-shortest-path",
+      "emptyNeighborhood": "dirac-at-endpoint",
+      "id": "directed-ollivier-shadow-flow-v1",
+      "lengths": "separate-positive-rational-state",
+      "limits": {
+        "maxArtifactBytes": 8388608,
+        "maxCanonicalEntries": 500000,
+        "maxEdges": 64,
+        "maxHistoryTransportCells": 32768,
+        "maxIterations": 24,
+        "maxMassDenominator": 512,
+        "maxNodes": 64,
+        "maxRationalDigits": 256,
+        "maxStableSteps": 8,
+        "maxSupportSize": 16,
+        "maxTransportBytes": 1048576,
+        "maxTransportCells": 4096
+      },
+      "measures": "uniform-predecessors-to-uniform-successors",
+      "metricClosure": "shortest-endpoint-distances-before-normalization",
+      "normalization": "total-length-equals-scoped-edge-count",
+      "numeric": "exact-rational-primal-dual",
+      "ordering": "utf16-code-unit",
+      "sourceGraph": "immutable-source-parent-induced-scope",
+      "sourceWeights": "ignored",
+      "update": "simultaneous-(1-step)*distance+step*wasserstein",
+      "version": "1"
+    },
+    "policyHash": "sha256:cb60665be0085bbb9d85a2089c9bd54a7070bb58c409e7f5b2a2761f99defe35",
+    "projectionHash": "sha256:d9d0aa53d21e800f60751d771f8487192ac2b74b9eb76906e81dddb105346497",
+    "requestHash": "sha256:bda8e01234ec57dcc2bbdffc66dd140ecadc8900019d8fae68a32cc8942b922d",
+    "schemaVersion": "1",
+    "scope": {
+      "boundaryEdgeCount": 0,
+      "excludedEdgeCount": 0,
+      "excludedNodeCount": 0,
+      "kind": "full"
+    },
+    "sourceProjectionHash": "sha256:fc380956bee320091181653afa40fb982feeb462b1206e85aaf826929831dcd7"
+  },
+  "schemaVersion": "1",
+  "states": [
+    {
+      "edges": [
+        {
+          "curvature": {
+            "denominator": "1",
+            "numerator": "-1"
+          },
+          "id": "a->b",
+          "length": {
+            "denominator": "1",
+            "numerator": "1"
+          },
+          "wasserstein": {
+            "denominator": "1",
+            "numerator": "2"
+          }
+        },
+        {
+          "curvature": {
+            "denominator": "1",
+            "numerator": "-1"
+          },
+          "id": "b->d",
+          "length": {
+            "denominator": "1",
+            "numerator": "1"
+          },
+          "wasserstein": {
+            "denominator": "1",
+            "numerator": "2"
+          }
+        },
+        {
+          "curvature": {
+            "denominator": "2",
+            "numerator": "-1"
+          },
+          "id": "b->e",
+          "length": {
+            "denominator": "1",
+            "numerator": "1"
+          },
+          "wasserstein": {
+            "denominator": "2",
+            "numerator": "3"
+          }
+        },
+        {
+          "curvature": {
+            "denominator": "1",
+            "numerator": "-1"
+          },
+          "id": "c->a",
+          "length": {
+            "denominator": "1",
+            "numerator": "1"
+          },
+          "wasserstein": {
+            "denominator": "1",
+            "numerator": "2"
+          }
+        },
+        {
+          "curvature": {
+            "denominator": "1",
+            "numerator": "-1"
+          },
+          "id": "d->c",
+          "length": {
+            "denominator": "1",
+            "numerator": "1"
+          },
+          "wasserstein": {
+            "denominator": "1",
+            "numerator": "2"
+          }
+        }
+      ],
+      "iteration": 0,
+      "metricHash": "sha256:4c0ca98d49ddafbfbe9a2a2cdb928c3d44da1058ec4c642230456d6f3373bbf9",
+      "normalization": {
+        "closureSum": {
+          "denominator": "1",
+          "numerator": "5"
+        },
+        "factor": {
+          "denominator": "1",
+          "numerator": "1"
+        },
+        "rawSum": {
+          "denominator": "1",
+          "numerator": "5"
+        },
+        "shortenedEdgeIds": []
+      },
+      "previousStateHash": null,
+      "stateHash": "sha256:a9404eb8b1f45e090974f89fe63d7ad6a6b88805565a0b3a8d6a61ade4bc47f7",
+      "summary": {
+        "curvatureSum": {
+          "denominator": "2",
+          "numerator": "-9"
+        },
+        "lengthSum": {
+          "denominator": "1",
+          "numerator": "5"
+        },
+        "maxCurvatureChange": null,
+        "maxLengthChange": null,
+        "maximumCurvature": {
+          "denominator": "2",
+          "numerator": "-1"
+        },
+        "maximumLength": {
+          "denominator": "1",
+          "numerator": "1"
+        },
+        "maximumLengthEdgeIds": [
+          "a->b",
+          "b->d",
+          "b->e",
+          "c->a",
+          "d->c"
+        ],
+        "minimumCurvature": {
+          "denominator": "1",
+          "numerator": "-1"
+        },
+        "minimumLength": {
+          "denominator": "1",
+          "numerator": "1"
+        },
+        "signs": {
+          "negative": 5,
+          "positive": 0,
+          "zero": 0
+        },
+        "stableStepCount": 0
+      },
+      "transportResponse": {
+        "requestHash": "sha256:e13da8ae7f2ab67383f6682b29daa5c5b712689c75f6e6c022748a10f3be9de6",
+        "schemaVersion": "1",
+        "solutions": [
+          {
+            "costNumerator": {
+              "denominator": "1",
+              "numerator": "8"
+            },
+            "edgeId": "a->b",
+            "flow": [
+              [
+                2,
+                0,
+                0
+              ],
+              [
+                0,
+                1,
+                1
+              ]
+            ],
+            "sourcePotentials": [
+              {
+                "denominator": "1",
+                "numerator": "2"
+              },
+              {
+                "denominator": "1",
+                "numerator": "3"
+              }
+            ],
+            "targetPotentials": [
+              {
+                "denominator": "1",
+                "numerator": "-1"
+              },
+              {
+                "denominator": "1",
+                "numerator": "0"
+              },
+              {
+                "denominator": "1",
+                "numerator": "0"
+              }
+            ]
+          },
+          {
+            "costNumerator": {
+              "denominator": "1",
+              "numerator": "4"
+            },
+            "edgeId": "b->d",
+            "flow": [
+              [
+                1,
+                0
+              ],
+              [
+                0,
+                1
+              ]
+            ],
+            "sourcePotentials": [
+              {
+                "denominator": "1",
+                "numerator": "3"
+              },
+              {
+                "denominator": "1",
+                "numerator": "2"
+              }
+            ],
+            "targetPotentials": [
+              {
+                "denominator": "1",
+                "numerator": "0"
+              },
+              {
+                "denominator": "1",
+                "numerator": "-1"
+              }
+            ]
+          },
+          {
+            "costNumerator": {
+              "denominator": "1",
+              "numerator": "3"
+            },
+            "edgeId": "b->e",
+            "flow": [
+              [
+                1
+              ],
+              [
+                1
+              ]
+            ],
+            "sourcePotentials": [
+              {
+                "denominator": "1",
+                "numerator": "2"
+              },
+              {
+                "denominator": "1",
+                "numerator": "1"
+              }
+            ],
+            "targetPotentials": [
+              {
+                "denominator": "1",
+                "numerator": "0"
+              }
+            ]
+          },
+          {
+            "costNumerator": {
+              "denominator": "1",
+              "numerator": "4"
+            },
+            "edgeId": "c->a",
+            "flow": [
+              [
+                1,
+                0
+              ],
+              [
+                0,
+                1
+              ]
+            ],
+            "sourcePotentials": [
+              {
+                "denominator": "1",
+                "numerator": "2"
+              },
+              {
+                "denominator": "1",
+                "numerator": "3"
+              }
+            ],
+            "targetPotentials": [
+              {
+                "denominator": "1",
+                "numerator": "-1"
+              },
+              {
+                "denominator": "1",
+                "numerator": "0"
+              }
+            ]
+          },
+          {
+            "costNumerator": {
+              "denominator": "1",
+              "numerator": "4"
+            },
+            "edgeId": "d->c",
+            "flow": [
+              [
+                1,
+                0
+              ],
+              [
+                0,
+                1
+              ]
+            ],
+            "sourcePotentials": [
+              {
+                "denominator": "1",
+                "numerator": "3"
+              },
+              {
+                "denominator": "1",
+                "numerator": "2"
+              }
+            ],
+            "targetPotentials": [
+              {
+                "denominator": "1",
+                "numerator": "0"
+              },
+              {
+                "denominator": "1",
+                "numerator": "-1"
+              }
+            ]
+          }
+        ],
+        "solver": {
+          "id": "onto2d-python-flow-transport-reference",
+          "method": "rational-cost-integer-mass-primal-dual-v1",
+          "version": "1"
+        }
+      }
+    },
+    {
+      "edges": [
+        {
+          "curvature": {
+            "denominator": "24",
+            "numerator": "-23"
+          },
+          "id": "a->b",
+          "length": {
+            "denominator": "29",
+            "numerator": "30"
+          },
+          "wasserstein": {
+            "denominator": "116",
+            "numerator": "235"
+          }
+        },
+        {
+          "curvature": {
+            "denominator": "1",
+            "numerator": "-1"
+          },
+          "id": "b->d",
+          "length": {
+            "denominator": "29",
+            "numerator": "30"
+          },
+          "wasserstein": {
+            "denominator": "29",
+            "numerator": "60"
+          }
+        },
+        {
+          "curvature": {
+            "denominator": "5",
+            "numerator": "-3"
+          },
+          "id": "b->e",
+          "length": {
+            "denominator": "29",
+            "numerator": "25"
+          },
+          "wasserstein": {
+            "denominator": "29",
+            "numerator": "40"
+          }
+        },
+        {
+          "curvature": {
+            "denominator": "1",
+            "numerator": "-1"
+          },
+          "id": "c->a",
+          "length": {
+            "denominator": "29",
+            "numerator": "30"
+          },
+          "wasserstein": {
+            "denominator": "29",
+            "numerator": "60"
+          }
+        },
+        {
+          "curvature": {
+            "denominator": "1",
+            "numerator": "-1"
+          },
+          "id": "d->c",
+          "length": {
+            "denominator": "29",
+            "numerator": "30"
+          },
+          "wasserstein": {
+            "denominator": "29",
+            "numerator": "60"
+          }
+        }
+      ],
+      "iteration": 1,
+      "metricHash": "sha256:b6e51a7ebcaf0764e98e6cc30c88d991d2a37989394b067b9bb47df3f9b87fce",
+      "normalization": {
+        "closureSum": {
+          "denominator": "4",
+          "numerator": "29"
+        },
+        "factor": {
+          "denominator": "29",
+          "numerator": "20"
+        },
+        "rawSum": {
+          "denominator": "4",
+          "numerator": "29"
+        },
+        "shortenedEdgeIds": []
+      },
+      "previousStateHash": "sha256:a9404eb8b1f45e090974f89fe63d7ad6a6b88805565a0b3a8d6a61ade4bc47f7",
+      "stateHash": "sha256:fd7c249db6846b18e6d7baa29ae3a689b0e9e8ff662145f721b696e55c212321",
+      "summary": {
+        "curvatureSum": {
+          "denominator": "120",
+          "numerator": "-547"
+        },
+        "lengthSum": {
+          "denominator": "1",
+          "numerator": "5"
+        },
+        "maxCurvatureChange": {
+          "denominator": "10",
+          "numerator": "1"
+        },
+        "maxLengthChange": {
+          "denominator": "29",
+          "numerator": "4"
+        },
+        "maximumCurvature": {
+          "denominator": "5",
+          "numerator": "-3"
+        },
+        "maximumLength": {
+          "denominator": "29",
+          "numerator": "30"
+        },
+        "maximumLengthEdgeIds": [
+          "a->b",
+          "b->d",
+          "c->a",
+          "d->c"
+        ],
+        "minimumCurvature": {
+          "denominator": "1",
+          "numerator": "-1"
+        },
+        "minimumLength": {
+          "denominator": "29",
+          "numerator": "25"
+        },
+        "signs": {
+          "negative": 5,
+          "positive": 0,
+          "zero": 0
+        },
+        "stableStepCount": 0
+      },
+      "transportResponse": {
+        "requestHash": "sha256:dbbb791b394cf98ba4c7f74f903b487415448499eb7dad4aab7ff9ffae5b885b",
+        "schemaVersion": "1",
+        "solutions": [
+          {
+            "costNumerator": {
+              "denominator": "29",
+              "numerator": "235"
+            },
+            "edgeId": "a->b",
+            "flow": [
+              [
+                2,
+                0,
+                0
+              ],
+              [
+                0,
+                1,
+                1
+              ]
+            ],
+            "sourcePotentials": [
+              {
+                "denominator": "29",
+                "numerator": "60"
+              },
+              {
+                "denominator": "29",
+                "numerator": "90"
+              }
+            ],
+            "targetPotentials": [
+              {
+                "denominator": "29",
+                "numerator": "-30"
+              },
+              {
+                "denominator": "1",
+                "numerator": "0"
+              },
+              {
+                "denominator": "29",
+                "numerator": "-5"
+              }
+            ]
+          },
+          {
+            "costNumerator": {
+              "denominator": "29",
+              "numerator": "120"
+            },
+            "edgeId": "b->d",
+            "flow": [
+              [
+                1,
+                0
+              ],
+              [
+                0,
+                1
+              ]
+            ],
+            "sourcePotentials": [
+              {
+                "denominator": "29",
+                "numerator": "90"
+              },
+              {
+                "denominator": "29",
+                "numerator": "60"
+              }
+            ],
+            "targetPotentials": [
+              {
+                "denominator": "1",
+                "numerator": "0"
+              },
+              {
+                "denominator": "29",
+                "numerator": "-30"
+              }
+            ]
+          },
+          {
+            "costNumerator": {
+              "denominator": "29",
+              "numerator": "80"
+            },
+            "edgeId": "b->e",
+            "flow": [
+              [
+                1
+              ],
+              [
+                1
+              ]
+            ],
+            "sourcePotentials": [
+              {
+                "denominator": "29",
+                "numerator": "55"
+              },
+              {
+                "denominator": "29",
+                "numerator": "25"
+              }
+            ],
+            "targetPotentials": [
+              {
+                "denominator": "1",
+                "numerator": "0"
+              }
+            ]
+          },
+          {
+            "costNumerator": {
+              "denominator": "29",
+              "numerator": "120"
+            },
+            "edgeId": "c->a",
+            "flow": [
+              [
+                1,
+                0
+              ],
+              [
+                0,
+                1
+              ]
+            ],
+            "sourcePotentials": [
+              {
+                "denominator": "29",
+                "numerator": "60"
+              },
+              {
+                "denominator": "29",
+                "numerator": "90"
+              }
+            ],
+            "targetPotentials": [
+              {
+                "denominator": "29",
+                "numerator": "-30"
+              },
+              {
+                "denominator": "1",
+                "numerator": "0"
+              }
+            ]
+          },
+          {
+            "costNumerator": {
+              "denominator": "29",
+              "numerator": "120"
+            },
+            "edgeId": "d->c",
+            "flow": [
+              [
+                1,
+                0
+              ],
+              [
+                0,
+                1
+              ]
+            ],
+            "sourcePotentials": [
+              {
+                "denominator": "29",
+                "numerator": "90"
+              },
+              {
+                "denominator": "29",
+                "numerator": "60"
+              }
+            ],
+            "targetPotentials": [
+              {
+                "denominator": "1",
+                "numerator": "0"
+              },
+              {
+                "denominator": "29",
+                "numerator": "-30"
+              }
+            ]
+          }
+        ],
+        "solver": {
+          "id": "onto2d-python-flow-transport-reference",
+          "method": "rational-cost-integer-mass-primal-dual-v1",
+          "version": "1"
+        }
+      }
+    },
+    {
+      "edges": [
+        {
+          "curvature": {
+            "denominator": "71",
+            "numerator": "-67"
+          },
+          "id": "a->b",
+          "length": {
+            "denominator": "339",
+            "numerator": "355"
+          },
+          "wasserstein": {
+            "denominator": "113",
+            "numerator": "230"
+          }
+        },
+        {
+          "curvature": {
+            "denominator": "144",
+            "numerator": "-143"
+          },
+          "id": "b->d",
+          "length": {
+            "denominator": "113",
+            "numerator": "120"
+          },
+          "wasserstein": {
+            "denominator": "678",
+            "numerator": "1435"
+          }
+        },
+        {
+          "curvature": {
+            "denominator": "104",
+            "numerator": "-71"
+          },
+          "id": "b->e",
+          "length": {
+            "denominator": "339",
+            "numerator": "260"
+          },
+          "wasserstein": {
+            "denominator": "678",
+            "numerator": "875"
+          }
+        },
+        {
+          "curvature": {
+            "denominator": "144",
+            "numerator": "-143"
+          },
+          "id": "c->a",
+          "length": {
+            "denominator": "113",
+            "numerator": "120"
+          },
+          "wasserstein": {
+            "denominator": "678",
+            "numerator": "1435"
+          }
+        },
+        {
+          "curvature": {
+            "denominator": "1",
+            "numerator": "-1"
+          },
+          "id": "d->c",
+          "length": {
+            "denominator": "113",
+            "numerator": "120"
+          },
+          "wasserstein": {
+            "denominator": "113",
+            "numerator": "240"
+          }
+        }
+      ],
+      "iteration": 2,
+      "metricHash": "sha256:9c8727b01881f2d62462ffb1a0d13461be6db4a6a075b515c9b8e7aff5f7b558",
+      "normalization": {
+        "closureSum": {
+          "denominator": "232",
+          "numerator": "1695"
+        },
+        "factor": {
+          "denominator": "339",
+          "numerator": "232"
+        },
+        "rawSum": {
+          "denominator": "232",
+          "numerator": "1695"
+        },
+        "shortenedEdgeIds": []
+      },
+      "previousStateHash": "sha256:fd7c249db6846b18e6d7baa29ae3a689b0e9e8ff662145f721b696e55c212321",
+      "stateHash": "sha256:d74c675d66f9c9f5014bed5122968113b6bcc98ab0de5b2ee0a241bafe835365",
+      "summary": {
+        "curvatureSum": {
+          "denominator": "33228",
+          "numerator": "-153263"
+        },
+        "lengthSum": {
+          "denominator": "1",
+          "numerator": "5"
+        },
+        "maxCurvatureChange": {
+          "denominator": "520",
+          "numerator": "43"
+        },
+        "maxLengthChange": {
+          "denominator": "9831",
+          "numerator": "935"
+        },
+        "maximumCurvature": {
+          "denominator": "104",
+          "numerator": "-71"
+        },
+        "maximumLength": {
+          "denominator": "113",
+          "numerator": "120"
+        },
+        "maximumLengthEdgeIds": [
+          "b->d",
+          "c->a",
+          "d->c"
+        ],
+        "minimumCurvature": {
+          "denominator": "1",
+          "numerator": "-1"
+        },
+        "minimumLength": {
+          "denominator": "339",
+          "numerator": "260"
+        },
+        "signs": {
+          "negative": 5,
+          "positive": 0,
+          "zero": 0
+        },
+        "stableStepCount": 0
+      },
+      "transportResponse": {
+        "requestHash": "sha256:423be7d5baef2122d906a872c2e6d412d03ecf8de5f74302d882290146b9bafc",
+        "schemaVersion": "1",
+        "solutions": [
+          {
+            "costNumerator": {
+              "denominator": "113",
+              "numerator": "920"
+            },
+            "edgeId": "a->b",
+            "flow": [
+              [
+                2,
+                0,
+                0
+              ],
+              [
+                0,
+                1,
+                1
+              ]
+            ],
+            "sourcePotentials": [
+              {
+                "denominator": "339",
+                "numerator": "715"
+              },
+              {
+                "denominator": "339",
+                "numerator": "1075"
+              }
+            ],
+            "targetPotentials": [
+              {
+                "denominator": "113",
+                "numerator": "-120"
+              },
+              {
+                "denominator": "1",
+                "numerator": "0"
+              },
+              {
+                "denominator": "339",
+                "numerator": "-100"
+              }
+            ]
+          },
+          {
+            "costNumerator": {
+              "denominator": "339",
+              "numerator": "1435"
+            },
+            "edgeId": "b->d",
+            "flow": [
+              [
+                1,
+                0
+              ],
+              [
+                0,
+                1
+              ]
+            ],
+            "sourcePotentials": [
+              {
+                "denominator": "339",
+                "numerator": "1075"
+              },
+              {
+                "denominator": "113",
+                "numerator": "240"
+              }
+            ],
+            "targetPotentials": [
+              {
+                "denominator": "1",
+                "numerator": "0"
+              },
+              {
+                "denominator": "113",
+                "numerator": "-120"
+              }
+            ]
+          },
+          {
+            "costNumerator": {
+              "denominator": "339",
+              "numerator": "875"
+            },
+            "edgeId": "b->e",
+            "flow": [
+              [
+                1
+              ],
+              [
+                1
+              ]
+            ],
+            "sourcePotentials": [
+              {
+                "denominator": "113",
+                "numerator": "205"
+              },
+              {
+                "denominator": "339",
+                "numerator": "260"
+              }
+            ],
+            "targetPotentials": [
+              {
+                "denominator": "1",
+                "numerator": "0"
+              }
+            ]
+          },
+          {
+            "costNumerator": {
+              "denominator": "339",
+              "numerator": "1435"
+            },
+            "edgeId": "c->a",
+            "flow": [
+              [
+                1,
+                0
+              ],
+              [
+                0,
+                1
+              ]
+            ],
+            "sourcePotentials": [
+              {
+                "denominator": "339",
+                "numerator": "715"
+              },
+              {
+                "denominator": "339",
+                "numerator": "1075"
+              }
+            ],
+            "targetPotentials": [
+              {
+                "denominator": "339",
+                "numerator": "-355"
+              },
+              {
+                "denominator": "1",
+                "numerator": "0"
+              }
+            ]
+          },
+          {
+            "costNumerator": {
+              "denominator": "113",
+              "numerator": "480"
+            },
+            "edgeId": "d->c",
+            "flow": [
+              [
+                1,
+                0
+              ],
+              [
+                0,
+                1
+              ]
+            ],
+            "sourcePotentials": [
+              {
+                "denominator": "113",
+                "numerator": "360"
+              },
+              {
+                "denominator": "113",
+                "numerator": "240"
+              }
+            ],
+            "targetPotentials": [
+              {
+                "denominator": "1",
+                "numerator": "0"
+              },
+              {
+                "denominator": "113",
+                "numerator": "-120"
+              }
+            ]
+          }
+        ],
+        "solver": {
+          "id": "onto2d-python-flow-transport-reference",
+          "method": "rational-cost-integer-mass-primal-dual-v1",
+          "version": "1"
+        }
+      }
+    },
+    {
+      "edges": [
+        {
+          "curvature": {
+            "denominator": "418",
+            "numerator": "-393"
+          },
+          "id": "a->b",
+          "length": {
+            "denominator": "181",
+            "numerator": "190"
+          },
+          "wasserstein": {
+            "denominator": "1991",
+            "numerator": "4055"
+          }
+        },
+        {
+          "curvature": {
+            "denominator": "431",
+            "numerator": "-425"
+          },
+          "id": "b->d",
+          "length": {
+            "denominator": "1991",
+            "numerator": "2155"
+          },
+          "wasserstein": {
+            "denominator": "1991",
+            "numerator": "4280"
+          }
+        },
+        {
+          "curvature": {
+            "denominator": "279",
+            "numerator": "-209"
+          },
+          "id": "b->e",
+          "length": {
+            "denominator": "1991",
+            "numerator": "1395"
+          },
+          "wasserstein": {
+            "denominator": "1991",
+            "numerator": "2440"
+          }
+        },
+        {
+          "curvature": {
+            "denominator": "431",
+            "numerator": "-425"
+          },
+          "id": "c->a",
+          "length": {
+            "denominator": "1991",
+            "numerator": "2155"
+          },
+          "wasserstein": {
+            "denominator": "1991",
+            "numerator": "4280"
+          }
+        },
+        {
+          "curvature": {
+            "denominator": "432",
+            "numerator": "-431"
+          },
+          "id": "d->c",
+          "length": {
+            "denominator": "1991",
+            "numerator": "2160"
+          },
+          "wasserstein": {
+            "denominator": "1991",
+            "numerator": "4315"
+          }
+        }
+      ],
+      "iteration": 3,
+      "metricHash": "sha256:344fbab4cdeccd157c3c844c58f5b4cb39a59ed7d38379f7de7b9beba359b0bb",
+      "normalization": {
+        "closureSum": {
+          "denominator": "1356",
+          "numerator": "9955"
+        },
+        "factor": {
+          "denominator": "1991",
+          "numerator": "1356"
+        },
+        "rawSum": {
+          "denominator": "1356",
+          "numerator": "9955"
+        },
+        "shortenedEdgeIds": []
+      },
+      "previousStateHash": "sha256:d74c675d66f9c9f5014bed5122968113b6bcc98ab0de5b2ee0a241bafe835365",
+      "stateHash": "sha256:69af65d7263d11bf94af20672846789a143d5e2aa723f3650d221e956e873b94",
+      "summary": {
+        "curvatureSum": {
+          "denominator": "1206337968",
+          "numerator": "-5620495415"
+        },
+        "lengthSum": {
+          "denominator": "1",
+          "numerator": "5"
+        },
+        "maxCurvatureChange": {
+          "denominator": "29016",
+          "numerator": "1927"
+        },
+        "maxLengthChange": {
+          "denominator": "674949",
+          "numerator": "44755"
+        },
+        "maximumCurvature": {
+          "denominator": "279",
+          "numerator": "-209"
+        },
+        "maximumLength": {
+          "denominator": "1991",
+          "numerator": "2160"
+        },
+        "maximumLengthEdgeIds": [
+          "d->c"
+        ],
+        "minimumCurvature": {
+          "denominator": "432",
+          "numerator": "-431"
+        },
+        "minimumLength": {
+          "denominator": "1991",
+          "numerator": "1395"
+        },
+        "signs": {
+          "negative": 5,
+          "positive": 0,
+          "zero": 0
+        },
+        "stableStepCount": 0
+      },
+      "transportResponse": {
+        "requestHash": "sha256:b833adf1dbf232bfda3822d63daee802e90536af27a285d4a7f8ab649d25b33d",
+        "schemaVersion": "1",
+        "solutions": [
+          {
+            "costNumerator": {
+              "denominator": "1991",
+              "numerator": "16220"
+            },
+            "edgeId": "a->b",
+            "flow": [
+              [
+                2,
+                0,
+                0
+              ],
+              [
+                0,
+                1,
+                1
+              ]
+            ],
+            "sourcePotentials": [
+              {
+                "denominator": "1991",
+                "numerator": "4245"
+              },
+              {
+                "denominator": "1991",
+                "numerator": "6400"
+              }
+            ],
+            "targetPotentials": [
+              {
+                "denominator": "1991",
+                "numerator": "-2155"
+              },
+              {
+                "denominator": "1",
+                "numerator": "0"
+              },
+              {
+                "denominator": "1991",
+                "numerator": "-760"
+              }
+            ]
+          },
+          {
+            "costNumerator": {
+              "denominator": "1991",
+              "numerator": "8560"
+            },
+            "edgeId": "b->d",
+            "flow": [
+              [
+                1,
+                0
+              ],
+              [
+                0,
+                1
+              ]
+            ],
+            "sourcePotentials": [
+              {
+                "denominator": "1991",
+                "numerator": "6405"
+              },
+              {
+                "denominator": "1991",
+                "numerator": "4315"
+              }
+            ],
+            "targetPotentials": [
+              {
+                "denominator": "1",
+                "numerator": "0"
+              },
+              {
+                "denominator": "1991",
+                "numerator": "-2160"
+              }
+            ]
+          },
+          {
+            "costNumerator": {
+              "denominator": "1991",
+              "numerator": "4880"
+            },
+            "edgeId": "b->e",
+            "flow": [
+              [
+                1
+              ],
+              [
+                1
+              ]
+            ],
+            "sourcePotentials": [
+              {
+                "denominator": "1991",
+                "numerator": "3485"
+              },
+              {
+                "denominator": "1991",
+                "numerator": "1395"
+              }
+            ],
+            "targetPotentials": [
+              {
+                "denominator": "1",
+                "numerator": "0"
+              }
+            ]
+          },
+          {
+            "costNumerator": {
+              "denominator": "1991",
+              "numerator": "8560"
+            },
+            "edgeId": "c->a",
+            "flow": [
+              [
+                1,
+                0
+              ],
+              [
+                0,
+                1
+              ]
+            ],
+            "sourcePotentials": [
+              {
+                "denominator": "1991",
+                "numerator": "4245"
+              },
+              {
+                "denominator": "1991",
+                "numerator": "6405"
+              }
+            ],
+            "targetPotentials": [
+              {
+                "denominator": "181",
+                "numerator": "-190"
+              },
+              {
+                "denominator": "1",
+                "numerator": "0"
+              }
+            ]
+          },
+          {
+            "costNumerator": {
+              "denominator": "1991",
+              "numerator": "8630"
+            },
+            "edgeId": "d->c",
+            "flow": [
+              [
+                1,
+                0
+              ],
+              [
+                0,
+                1
+              ]
+            ],
+            "sourcePotentials": [
+              {
+                "denominator": "1991",
+                "numerator": "6470"
+              },
+              {
+                "denominator": "1991",
+                "numerator": "4315"
+              }
+            ],
+            "targetPotentials": [
+              {
+                "denominator": "1",
+                "numerator": "0"
+              },
+              {
+                "denominator": "1991",
+                "numerator": "-2155"
+              }
+            ]
+          }
+        ],
+        "solver": {
+          "id": "onto2d-python-flow-transport-reference",
+          "method": "rational-cost-integer-mass-primal-dual-v1",
+          "version": "1"
+        }
+      }
+    },
+    {
+      "edges": [
+        {
+          "curvature": {
+            "denominator": "1229",
+            "numerator": "-1157"
+          },
+          "id": "a->b",
+          "length": {
+            "denominator": "1173",
+            "numerator": "1229"
+          },
+          "wasserstein": {
+            "denominator": "1173",
+            "numerator": "2386"
+          }
+        },
+        {
+          "curvature": {
+            "denominator": "1287",
+            "numerator": "-1262"
+          },
+          "id": "b->d",
+          "length": {
+            "denominator": "391",
+            "numerator": "429"
+          },
+          "wasserstein": {
+            "denominator": "1173",
+            "numerator": "2549"
+          }
+        },
+        {
+          "curvature": {
+            "denominator": "1534",
+            "numerator": "-1229"
+          },
+          "id": "b->e",
+          "length": {
+            "denominator": "1173",
+            "numerator": "767"
+          },
+          "wasserstein": {
+            "denominator": "782",
+            "numerator": "921"
+          }
+        },
+        {
+          "curvature": {
+            "denominator": "1287",
+            "numerator": "-1262"
+          },
+          "id": "c->a",
+          "length": {
+            "denominator": "391",
+            "numerator": "429"
+          },
+          "wasserstein": {
+            "denominator": "1173",
+            "numerator": "2549"
+          }
+        },
+        {
+          "curvature": {
+            "denominator": "1295",
+            "numerator": "-1287"
+          },
+          "id": "d->c",
+          "length": {
+            "denominator": "1173",
+            "numerator": "1295"
+          },
+          "wasserstein": {
+            "denominator": "1173",
+            "numerator": "2582"
+          }
+        }
+      ],
+      "iteration": 4,
+      "metricHash": "sha256:a7885de153919182d9724f503d2fd0c38a9c12ea3de2712e784c43c3813f94ad",
+      "normalization": {
+        "closureSum": {
+          "denominator": "3982",
+          "numerator": "29325"
+        },
+        "factor": {
+          "denominator": "5865",
+          "numerator": "3982"
+        },
+        "rawSum": {
+          "denominator": "3982",
+          "numerator": "29325"
+        },
+        "shortenedEdgeIds": []
+      },
+      "previousStateHash": "sha256:69af65d7263d11bf94af20672846789a143d5e2aa723f3650d221e956e873b94",
+      "stateHash": "sha256:50f08ab5005f42942d2da3587367bdd57b34c116148eadf978e0c4660f1b0737",
+      "summary": {
+        "curvatureSum": {
+          "denominator": "241703091630",
+          "numerator": "-1135415148073"
+        },
+        "lengthSum": {
+          "denominator": "1",
+          "numerator": "5"
+        },
+        "maxCurvatureChange": {
+          "denominator": "427986",
+          "numerator": "22285"
+        },
+        "maxLengthChange": {
+          "denominator": "2335443",
+          "numerator": "109238"
+        },
+        "maximumCurvature": {
+          "denominator": "1534",
+          "numerator": "-1229"
+        },
+        "maximumLength": {
+          "denominator": "1173",
+          "numerator": "1295"
+        },
+        "maximumLengthEdgeIds": [
+          "d->c"
+        ],
+        "minimumCurvature": {
+          "denominator": "1295",
+          "numerator": "-1287"
+        },
+        "minimumLength": {
+          "denominator": "1173",
+          "numerator": "767"
+        },
+        "signs": {
+          "negative": 5,
+          "positive": 0,
+          "zero": 0
+        },
+        "stableStepCount": 0
+      },
+      "transportResponse": {
+        "requestHash": "sha256:b972019a8ad55a2defc523141f7ca55634618cb910772d5f1e4544730a501d1b",
+        "schemaVersion": "1",
+        "solutions": [
+          {
+            "costNumerator": {
+              "denominator": "1173",
+              "numerator": "9544"
+            },
+            "edgeId": "a->b",
+            "flow": [
+              [
+                2,
+                0,
+                0
+              ],
+              [
+                0,
+                1,
+                1
+              ]
+            ],
+            "sourcePotentials": [
+              {
+                "denominator": "69",
+                "numerator": "148"
+              },
+              {
+                "denominator": "1173",
+                "numerator": "3803"
+              }
+            ],
+            "targetPotentials": [
+              {
+                "denominator": "391",
+                "numerator": "-429"
+              },
+              {
+                "denominator": "1",
+                "numerator": "0"
+              },
+              {
+                "denominator": "1173",
+                "numerator": "-520"
+              }
+            ]
+          },
+          {
+            "costNumerator": {
+              "denominator": "1173",
+              "numerator": "5098"
+            },
+            "edgeId": "b->d",
+            "flow": [
+              [
+                1,
+                0
+              ],
+              [
+                0,
+                1
+              ]
+            ],
+            "sourcePotentials": [
+              {
+                "denominator": "1173",
+                "numerator": "3811"
+              },
+              {
+                "denominator": "1173",
+                "numerator": "2582"
+              }
+            ],
+            "targetPotentials": [
+              {
+                "denominator": "1",
+                "numerator": "0"
+              },
+              {
+                "denominator": "1173",
+                "numerator": "-1295"
+              }
+            ]
+          },
+          {
+            "costNumerator": {
+              "denominator": "391",
+              "numerator": "921"
+            },
+            "edgeId": "b->e",
+            "flow": [
+              [
+                1
+              ],
+              [
+                1
+              ]
+            ],
+            "sourcePotentials": [
+              {
+                "denominator": "1173",
+                "numerator": "1996"
+              },
+              {
+                "denominator": "1173",
+                "numerator": "767"
+              }
+            ],
+            "targetPotentials": [
+              {
+                "denominator": "1",
+                "numerator": "0"
+              }
+            ]
+          },
+          {
+            "costNumerator": {
+              "denominator": "1173",
+              "numerator": "5098"
+            },
+            "edgeId": "c->a",
+            "flow": [
+              [
+                1,
+                0
+              ],
+              [
+                0,
+                1
+              ]
+            ],
+            "sourcePotentials": [
+              {
+                "denominator": "69",
+                "numerator": "148"
+              },
+              {
+                "denominator": "1173",
+                "numerator": "3811"
+              }
+            ],
+            "targetPotentials": [
+              {
+                "denominator": "1173",
+                "numerator": "-1229"
+              },
+              {
+                "denominator": "1",
+                "numerator": "0"
+              }
+            ]
+          },
+          {
+            "costNumerator": {
+              "denominator": "1173",
+              "numerator": "5164"
+            },
+            "edgeId": "d->c",
+            "flow": [
+              [
+                1,
+                0
+              ],
+              [
+                0,
+                1
+              ]
+            ],
+            "sourcePotentials": [
+              {
+                "denominator": "1173",
+                "numerator": "3869"
+              },
+              {
+                "denominator": "1173",
+                "numerator": "2582"
+              }
+            ],
+            "targetPotentials": [
+              {
+                "denominator": "1",
+                "numerator": "0"
+              },
+              {
+                "denominator": "391",
+                "numerator": "-429"
+              }
+            ]
+          }
+        ],
+        "solver": {
+          "id": "onto2d-python-flow-transport-reference",
+          "method": "rational-cost-integer-mass-primal-dual-v1",
+          "version": "1"
+        }
+      }
+    },
+    {
+      "edges": [
+        {
+          "curvature": {
+            "denominator": "28920",
+            "numerator": "-27313"
+          },
+          "id": "a->b",
+          "length": {
+            "denominator": "1385",
+            "numerator": "1446"
+          },
+          "wasserstein": {
+            "denominator": "27700",
+            "numerator": "56233"
+          }
+        },
+        {
+          "curvature": {
+            "denominator": "1918",
+            "numerator": "-1873"
+          },
+          "id": "b->d",
+          "length": {
+            "denominator": "6925",
+            "numerator": "7672"
+          },
+          "wasserstein": {
+            "denominator": "6925",
+            "numerator": "15164"
+          }
+        },
+        {
+          "curvature": {
+            "denominator": "4297",
+            "numerator": "-3615"
+          },
+          "id": "b->e",
+          "length": {
+            "denominator": "6925",
+            "numerator": "4297"
+          },
+          "wasserstein": {
+            "denominator": "6925",
+            "numerator": "7912"
+          }
+        },
+        {
+          "curvature": {
+            "denominator": "1918",
+            "numerator": "-1873"
+          },
+          "id": "c->a",
+          "length": {
+            "denominator": "6925",
+            "numerator": "7672"
+          },
+          "wasserstein": {
+            "denominator": "6925",
+            "numerator": "15164"
+          }
+        },
+        {
+          "curvature": {
+            "denominator": "3877",
+            "numerator": "-3836"
+          },
+          "id": "d->c",
+          "length": {
+            "denominator": "6925",
+            "numerator": "7754"
+          },
+          "wasserstein": {
+            "denominator": "6925",
+            "numerator": "15426"
+          }
+        }
+      ],
+      "iteration": 5,
+      "metricHash": "sha256:544c9d0773377755e2df8cb343e87cc234e49be6d6ad50d7b99fc67a7c1f8387",
+      "normalization": {
+        "closureSum": {
+          "denominator": "4692",
+          "numerator": "34625"
+        },
+        "factor": {
+          "denominator": "6925",
+          "numerator": "4692"
+        },
+        "rawSum": {
+          "denominator": "4692",
+          "numerator": "34625"
+        },
+        "shortenedEdgeIds": []
+      },
+      "previousStateHash": "sha256:50f08ab5005f42942d2da3587367bdd57b34c116148eadf978e0c4660f1b0737",
+      "stateHash": "sha256:12f1b2d1ebf970ebbcf0158be8bb7ac0b0f73c0587493b7957ed93323b4373fd",
+      "summary": {
+        "curvatureSum": {
+          "denominator": "462038377897320",
+          "numerator": "-2184618392005523"
+        },
+        "lengthSum": {
+          "denominator": "1",
+          "numerator": "5"
+        },
+        "maxCurvatureChange": {
+          "denominator": "6591598",
+          "numerator": "264397"
+        },
+        "maxLengthChange": {
+          "denominator": "8123025",
+          "numerator": "271094"
+        },
+        "maximumCurvature": {
+          "denominator": "4297",
+          "numerator": "-3615"
+        },
+        "maximumLength": {
+          "denominator": "6925",
+          "numerator": "7754"
+        },
+        "maximumLengthEdgeIds": [
+          "d->c"
+        ],
+        "minimumCurvature": {
+          "denominator": "3877",
+          "numerator": "-3836"
+        },
+        "minimumLength": {
+          "denominator": "6925",
+          "numerator": "4297"
+        },
+        "signs": {
+          "negative": 5,
+          "positive": 0,
+          "zero": 0
+        },
+        "stableStepCount": 0
+      },
+      "transportResponse": {
+        "requestHash": "sha256:7e267150f94791a4a047bd8da230be0cdec1736734b6912bcc5962b0ab66ef1a",
+        "schemaVersion": "1",
+        "solutions": [
+          {
+            "costNumerator": {
+              "denominator": "6925",
+              "numerator": "56233"
+            },
+            "edgeId": "a->b",
+            "flow": [
+              [
+                2,
+                0,
+                0
+              ],
+              [
+                0,
+                1,
+                1
+              ]
+            ],
+            "sourcePotentials": [
+              {
+                "denominator": "6925",
+                "numerator": "14902"
+              },
+              {
+                "denominator": "6925",
+                "numerator": "22574"
+              }
+            ],
+            "targetPotentials": [
+              {
+                "denominator": "6925",
+                "numerator": "-7672"
+              },
+              {
+                "denominator": "1",
+                "numerator": "0"
+              },
+              {
+                "denominator": "277",
+                "numerator": "-135"
+              }
+            ]
+          },
+          {
+            "costNumerator": {
+              "denominator": "6925",
+              "numerator": "30328"
+            },
+            "edgeId": "b->d",
+            "flow": [
+              [
+                1,
+                0
+              ],
+              [
+                0,
+                1
+              ]
+            ],
+            "sourcePotentials": [
+              {
+                "denominator": "6925",
+                "numerator": "22656"
+              },
+              {
+                "denominator": "6925",
+                "numerator": "15426"
+              }
+            ],
+            "targetPotentials": [
+              {
+                "denominator": "1",
+                "numerator": "0"
+              },
+              {
+                "denominator": "6925",
+                "numerator": "-7754"
+              }
+            ]
+          },
+          {
+            "costNumerator": {
+              "denominator": "6925",
+              "numerator": "15824"
+            },
+            "edgeId": "b->e",
+            "flow": [
+              [
+                1
+              ],
+              [
+                1
+              ]
+            ],
+            "sourcePotentials": [
+              {
+                "denominator": "6925",
+                "numerator": "11527"
+              },
+              {
+                "denominator": "6925",
+                "numerator": "4297"
+              }
+            ],
+            "targetPotentials": [
+              {
+                "denominator": "1",
+                "numerator": "0"
+              }
+            ]
+          },
+          {
+            "costNumerator": {
+              "denominator": "6925",
+              "numerator": "30328"
+            },
+            "edgeId": "c->a",
+            "flow": [
+              [
+                1,
+                0
+              ],
+              [
+                0,
+                1
+              ]
+            ],
+            "sourcePotentials": [
+              {
+                "denominator": "6925",
+                "numerator": "14902"
+              },
+              {
+                "denominator": "6925",
+                "numerator": "22656"
+              }
+            ],
+            "targetPotentials": [
+              {
+                "denominator": "1385",
+                "numerator": "-1446"
+              },
+              {
+                "denominator": "1",
+                "numerator": "0"
+              }
+            ]
+          },
+          {
+            "costNumerator": {
+              "denominator": "6925",
+              "numerator": "30852"
+            },
+            "edgeId": "d->c",
+            "flow": [
+              [
+                1,
+                0
+              ],
+              [
+                0,
+                1
+              ]
+            ],
+            "sourcePotentials": [
+              {
+                "denominator": "6925",
+                "numerator": "23098"
+              },
+              {
+                "denominator": "6925",
+                "numerator": "15426"
+              }
+            ],
+            "targetPotentials": [
+              {
+                "denominator": "1",
+                "numerator": "0"
+              },
+              {
+                "denominator": "6925",
+                "numerator": "-7672"
+              }
+            ]
+          }
+        ],
+        "solver": {
+          "id": "onto2d-python-flow-transport-reference",
+          "method": "rational-cost-integer-mass-primal-dual-v1",
+          "version": "1"
+        }
+      }
+    },
+    {
+      "edges": [
+        {
+          "curvature": {
+            "denominator": "85153",
+            "numerator": "-80717"
+          },
+          "id": "a->b",
+          "length": {
+            "denominator": "409397",
+            "numerator": "425765"
+          },
+          "wasserstein": {
+            "denominator": "409397",
+            "numerator": "829350"
+          }
+        },
+        {
+          "curvature": {
+            "denominator": "60896",
+            "numerator": "-59291"
+          },
+          "id": "b->d",
+          "length": {
+            "denominator": "409397",
+            "numerator": "456720"
+          },
+          "wasserstein": {
+            "denominator": "818794",
+            "numerator": "1802805"
+          }
+        },
+        {
+          "curvature": {
+            "denominator": "97672",
+            "numerator": "-85153"
+          },
+          "id": "b->e",
+          "length": {
+            "denominator": "409397",
+            "numerator": "244180"
+          },
+          "wasserstein": {
+            "denominator": "818794",
+            "numerator": "914125"
+          }
+        },
+        {
+          "curvature": {
+            "denominator": "60896",
+            "numerator": "-59291"
+          },
+          "id": "c->a",
+          "length": {
+            "denominator": "409397",
+            "numerator": "456720"
+          },
+          "wasserstein": {
+            "denominator": "818794",
+            "numerator": "1802805"
+          }
+        },
+        {
+          "curvature": {
+            "denominator": "5795",
+            "numerator": "-5709"
+          },
+          "id": "d->c",
+          "length": {
+            "denominator": "409397",
+            "numerator": "463600"
+          },
+          "wasserstein": {
+            "denominator": "409397",
+            "numerator": "920320"
+          }
+        }
+      ],
+      "iteration": 6,
+      "metricHash": "sha256:ed302483fc110ad71e2032da854460e0dd7c4e95343232ed6f7d44f851d3ff1e",
+      "normalization": {
+        "closureSum": {
+          "denominator": "55400",
+          "numerator": "409397"
+        },
+        "factor": {
+          "denominator": "409397",
+          "numerator": "277000"
+        },
+        "rawSum": {
+          "denominator": "55400",
+          "numerator": "409397"
+        },
+        "shortenedEdgeIds": []
+      },
+      "previousStateHash": "sha256:12f1b2d1ebf970ebbcf0158be8bb7ac0b0f73c0587493b7957ed93323b4373fd",
+      "stateHash": "sha256:7b9af80b26660965e18a9f0895b7203adbf0e4845663ba5a3567a0158a341e5a",
+      "summary": {
+        "curvatureSum": {
+          "denominator": "183439246601018320",
+          "numerator": "-871736033688278939"
+        },
+        "lengthSum": {
+          "denominator": "1",
+          "numerator": "5"
+        },
+        "maxCurvatureChange": {
+          "denominator": "419696584",
+          "numerator": "12818161"
+        },
+        "maxLengthChange": {
+          "denominator": "2835074225",
+          "numerator": "68232409"
+        },
+        "maximumCurvature": {
+          "denominator": "97672",
+          "numerator": "-85153"
+        },
+        "maximumLength": {
+          "denominator": "409397",
+          "numerator": "463600"
+        },
+        "maximumLengthEdgeIds": [
+          "d->c"
+        ],
+        "minimumCurvature": {
+          "denominator": "5795",
+          "numerator": "-5709"
+        },
+        "minimumLength": {
+          "denominator": "409397",
+          "numerator": "244180"
+        },
+        "signs": {
+          "negative": 5,
+          "positive": 0,
+          "zero": 0
+        },
+        "stableStepCount": 0
+      },
+      "transportResponse": {
+        "requestHash": "sha256:f86ab464a8786cf8729bf5bd218625b73cfce9f470caabeb82482e948deaf3fe",
+        "schemaVersion": "1",
+        "solutions": [
+          {
+            "costNumerator": {
+              "denominator": "409397",
+              "numerator": "3317400"
+            },
+            "edgeId": "a->b",
+            "flow": [
+              [
+                2,
+                0,
+                0
+              ],
+              [
+                0,
+                1,
+                1
+              ]
+            ],
+            "sourcePotentials": [
+              {
+                "denominator": "409397",
+                "numerator": "882485"
+              },
+              {
+                "denominator": "409397",
+                "numerator": "1339205"
+              }
+            ],
+            "targetPotentials": [
+              {
+                "denominator": "409397",
+                "numerator": "-456720"
+              },
+              {
+                "denominator": "1",
+                "numerator": "0"
+              },
+              {
+                "denominator": "409397",
+                "numerator": "-212540"
+              }
+            ]
+          },
+          {
+            "costNumerator": {
+              "denominator": "409397",
+              "numerator": "1802805"
+            },
+            "edgeId": "b->d",
+            "flow": [
+              [
+                1,
+                0
+              ],
+              [
+                0,
+                1
+              ]
+            ],
+            "sourcePotentials": [
+              {
+                "denominator": "409397",
+                "numerator": "1346085"
+              },
+              {
+                "denominator": "409397",
+                "numerator": "920320"
+              }
+            ],
+            "targetPotentials": [
+              {
+                "denominator": "1",
+                "numerator": "0"
+              },
+              {
+                "denominator": "409397",
+                "numerator": "-463600"
+              }
+            ]
+          },
+          {
+            "costNumerator": {
+              "denominator": "409397",
+              "numerator": "914125"
+            },
+            "edgeId": "b->e",
+            "flow": [
+              [
+                1
+              ],
+              [
+                1
+              ]
+            ],
+            "sourcePotentials": [
+              {
+                "denominator": "409397",
+                "numerator": "669945"
+              },
+              {
+                "denominator": "409397",
+                "numerator": "244180"
+              }
+            ],
+            "targetPotentials": [
+              {
+                "denominator": "1",
+                "numerator": "0"
+              }
+            ]
+          },
+          {
+            "costNumerator": {
+              "denominator": "409397",
+              "numerator": "1802805"
+            },
+            "edgeId": "c->a",
+            "flow": [
+              [
+                1,
+                0
+              ],
+              [
+                0,
+                1
+              ]
+            ],
+            "sourcePotentials": [
+              {
+                "denominator": "409397",
+                "numerator": "882485"
+              },
+              {
+                "denominator": "409397",
+                "numerator": "1346085"
+              }
+            ],
+            "targetPotentials": [
+              {
+                "denominator": "409397",
+                "numerator": "-425765"
+              },
+              {
+                "denominator": "1",
+                "numerator": "0"
+              }
+            ]
+          },
+          {
+            "costNumerator": {
+              "denominator": "409397",
+              "numerator": "1840640"
+            },
+            "edgeId": "d->c",
+            "flow": [
+              [
+                1,
+                0
+              ],
+              [
+                0,
+                1
+              ]
+            ],
+            "sourcePotentials": [
+              {
+                "denominator": "409397",
+                "numerator": "1377040"
+              },
+              {
+                "denominator": "409397",
+                "numerator": "920320"
+              }
+            ],
+            "targetPotentials": [
+              {
+                "denominator": "1",
+                "numerator": "0"
+              },
+              {
+                "denominator": "409397",
+                "numerator": "-456720"
+              }
+            ]
+          }
+        ],
+        "solver": {
+          "id": "onto2d-python-flow-transport-reference",
+          "method": "rational-cost-integer-mass-primal-dual-v1",
+          "version": "1"
+        }
+      }
+    },
+    {
+      "edges": [
+        {
+          "curvature": {
+            "denominator": "502046",
+            "numerator": "-477561"
+          },
+          "id": "a->b",
+          "length": {
+            "denominator": "2422609",
+            "numerator": "2510230"
+          },
+          "wasserstein": {
+            "denominator": "2422609",
+            "numerator": "4898035"
+          }
+        },
+        {
+          "curvature": {
+            "denominator": "77607",
+            "numerator": "-75401"
+          },
+          "id": "b->d",
+          "length": {
+            "denominator": "346087",
+            "numerator": "388035"
+          },
+          "wasserstein": {
+            "denominator": "346087",
+            "numerator": "765040"
+          }
+        },
+        {
+          "curvature": {
+            "denominator": "280497",
+            "numerator": "-251023"
+          },
+          "id": "b->e",
+          "length": {
+            "denominator": "346087",
+            "numerator": "200355"
+          },
+          "wasserstein": {
+            "denominator": "2422609",
+            "numerator": "2657600"
+          }
+        },
+        {
+          "curvature": {
+            "denominator": "77607",
+            "numerator": "-75401"
+          },
+          "id": "c->a",
+          "length": {
+            "denominator": "346087",
+            "numerator": "388035"
+          },
+          "wasserstein": {
+            "denominator": "346087",
+            "numerator": "765040"
+          }
+        },
+        {
+          "curvature": {
+            "denominator": "553568",
+            "numerator": "-543249"
+          },
+          "id": "d->c",
+          "length": {
+            "denominator": "2422609",
+            "numerator": "2767840"
+          },
+          "wasserstein": {
+            "denominator": "2422609",
+            "numerator": "5484085"
+          }
+        }
+      ],
+      "iteration": 7,
+      "metricHash": "sha256:549a97608f1ceabcc53cc98aab552df6490d799b8f56c336efb8b99624b5e396",
+      "normalization": {
+        "closureSum": {
+          "denominator": "1637588",
+          "numerator": "12113045"
+        },
+        "factor": {
+          "denominator": "2422609",
+          "numerator": "1637588"
+        },
+        "rawSum": {
+          "denominator": "1637588",
+          "numerator": "12113045"
+        },
+        "shortenedEdgeIds": []
+      },
+      "previousStateHash": "sha256:7b9af80b26660965e18a9f0895b7203adbf0e4845663ba5a3567a0158a341e5a",
+      "stateHash": "sha256:57d83390c030f43a2a21f3aebe8ff1db9e7a4c3c9ea77f2b6fa7153316c9323d",
+      "summary": {
+        "curvatureSum": {
+          "denominator": "1008306006014957221152",
+          "numerator": "-4810285498140606820883"
+        },
+        "lengthSum": {
+          "denominator": "1",
+          "numerator": "5"
+        },
+        "maxCurvatureChange": {
+          "denominator": "27396702984",
+          "numerator": "632757415"
+        },
+        "maxLengthChange": {
+          "denominator": "141686979539",
+          "numerator": "2482787725"
+        },
+        "maximumCurvature": {
+          "denominator": "280497",
+          "numerator": "-251023"
+        },
+        "maximumLength": {
+          "denominator": "2422609",
+          "numerator": "2767840"
+        },
+        "maximumLengthEdgeIds": [
+          "d->c"
+        ],
+        "minimumCurvature": {
+          "denominator": "553568",
+          "numerator": "-543249"
+        },
+        "minimumLength": {
+          "denominator": "346087",
+          "numerator": "200355"
+        },
+        "signs": {
+          "negative": 5,
+          "positive": 0,
+          "zero": 0
+        },
+        "stableStepCount": 0
+      },
+      "transportResponse": {
+        "requestHash": "sha256:0582d794be605dfd6aca30165887cdb1f4a6521aae9f532c5263b015585d8368",
+        "schemaVersion": "1",
+        "solutions": [
+          {
+            "costNumerator": {
+              "denominator": "2422609",
+              "numerator": "19592140"
+            },
+            "edgeId": "a->b",
+            "flow": [
+              [
+                2,
+                0,
+                0
+              ],
+              [
+                0,
+                1,
+                1
+              ]
+            ],
+            "sourcePotentials": [
+              {
+                "denominator": "2422609",
+                "numerator": "5226475"
+              },
+              {
+                "denominator": "2422609",
+                "numerator": "7942720"
+              }
+            ],
+            "targetPotentials": [
+              {
+                "denominator": "346087",
+                "numerator": "-388035"
+              },
+              {
+                "denominator": "1",
+                "numerator": "0"
+              },
+              {
+                "denominator": "346087",
+                "numerator": "-187680"
+              }
+            ]
+          },
+          {
+            "costNumerator": {
+              "denominator": "346087",
+              "numerator": "1530080"
+            },
+            "edgeId": "b->d",
+            "flow": [
+              [
+                1,
+                0
+              ],
+              [
+                0,
+                1
+              ]
+            ],
+            "sourcePotentials": [
+              {
+                "denominator": "346087",
+                "numerator": "1142045"
+              },
+              {
+                "denominator": "2422609",
+                "numerator": "5484085"
+              }
+            ],
+            "targetPotentials": [
+              {
+                "denominator": "1",
+                "numerator": "0"
+              },
+              {
+                "denominator": "2422609",
+                "numerator": "-2767840"
+              }
+            ]
+          },
+          {
+            "costNumerator": {
+              "denominator": "2422609",
+              "numerator": "5315200"
+            },
+            "edgeId": "b->e",
+            "flow": [
+              [
+                1
+              ],
+              [
+                1
+              ]
+            ],
+            "sourcePotentials": [
+              {
+                "denominator": "2422609",
+                "numerator": "3912715"
+              },
+              {
+                "denominator": "346087",
+                "numerator": "200355"
+              }
+            ],
+            "targetPotentials": [
+              {
+                "denominator": "1",
+                "numerator": "0"
+              }
+            ]
+          },
+          {
+            "costNumerator": {
+              "denominator": "346087",
+              "numerator": "1530080"
+            },
+            "edgeId": "c->a",
+            "flow": [
+              [
+                1,
+                0
+              ],
+              [
+                0,
+                1
+              ]
+            ],
+            "sourcePotentials": [
+              {
+                "denominator": "2422609",
+                "numerator": "5226475"
+              },
+              {
+                "denominator": "346087",
+                "numerator": "1142045"
+              }
+            ],
+            "targetPotentials": [
+              {
+                "denominator": "2422609",
+                "numerator": "-2510230"
+              },
+              {
+                "denominator": "1",
+                "numerator": "0"
+              }
+            ]
+          },
+          {
+            "costNumerator": {
+              "denominator": "2422609",
+              "numerator": "10968170"
+            },
+            "edgeId": "d->c",
+            "flow": [
+              [
+                1,
+                0
+              ],
+              [
+                0,
+                1
+              ]
+            ],
+            "sourcePotentials": [
+              {
+                "denominator": "2422609",
+                "numerator": "8200330"
+              },
+              {
+                "denominator": "2422609",
+                "numerator": "5484085"
+              }
+            ],
+            "targetPotentials": [
+              {
+                "denominator": "1",
+                "numerator": "0"
+              },
+              {
+                "denominator": "346087",
+                "numerator": "-388035"
+              }
+            ]
+          }
+        ],
+        "solver": {
+          "id": "onto2d-python-flow-transport-reference",
+          "method": "rational-cost-integer-mass-primal-dual-v1",
+          "version": "1"
+        }
+      }
+    },
+    {
+      "edges": [
+        {
+          "curvature": {
+            "denominator": "1481653",
+            "numerator": "-1413733"
+          },
+          "id": "a->b",
+          "length": {
+            "denominator": "1434533",
+            "numerator": "1481653"
+          },
+          "wasserstein": {
+            "denominator": "1434533",
+            "numerator": "2895386"
+          }
+        },
+        {
+          "curvature": {
+            "denominator": "230615",
+            "numerator": "-223717"
+          },
+          "id": "b->d",
+          "length": {
+            "denominator": "1434533",
+            "numerator": "1614305"
+          },
+          "wasserstein": {
+            "denominator": "1434533",
+            "numerator": "3180324"
+          }
+        },
+        {
+          "curvature": {
+            "denominator": "1624034",
+            "numerator": "-1481653"
+          },
+          "id": "b->e",
+          "length": {
+            "denominator": "1434533",
+            "numerator": "812017"
+          },
+          "wasserstein": {
+            "denominator": "2869066",
+            "numerator": "3105687"
+          }
+        },
+        {
+          "curvature": {
+            "denominator": "230615",
+            "numerator": "-223717"
+          },
+          "id": "c->a",
+          "length": {
+            "denominator": "1434533",
+            "numerator": "1614305"
+          },
+          "wasserstein": {
+            "denominator": "1434533",
+            "numerator": "3180324"
+          }
+        },
+        {
+          "curvature": {
+            "denominator": "30007",
+            "numerator": "-29351"
+          },
+          "id": "d->c",
+          "length": {
+            "denominator": "1434533",
+            "numerator": "1650385"
+          },
+          "wasserstein": {
+            "denominator": "1434533",
+            "numerator": "3264690"
+          }
+        }
+      ],
+      "iteration": 8,
+      "metricHash": "sha256:ed58795bc7f8a17b69e72b4ba631642f140ee8aa8f185d9e663142a286751812",
+      "normalization": {
+        "closureSum": {
+          "denominator": "4845218",
+          "numerator": "35863325"
+        },
+        "factor": {
+          "denominator": "7172665",
+          "numerator": "4845218"
+        },
+        "rawSum": {
+          "denominator": "4845218",
+          "numerator": "35863325"
+        },
+        "shortenedEdgeIds": []
+      },
+      "previousStateHash": "sha256:57d83390c030f43a2a21f3aebe8ff1db9e7a4c3c9ea77f2b6fa7153316c9323d",
+      "stateHash": "sha256:8746251fb74a53efedd64464f389bd3e4c8b4377ea1fa750ef8c3b652b966005",
+      "summary": {
+        "curvatureSum": {
+          "denominator": "16651438283775853629610",
+          "numerator": "-79673866830146977130361"
+        },
+        "lengthSum": {
+          "denominator": "1",
+          "numerator": "5"
+        },
+        "maxCurvatureChange": {
+          "denominator": "455536664898",
+          "numerator": "7929334759"
+        },
+        "maxLengthChange": {
+          "denominator": "496473222371",
+          "numerator": "6387331736"
+        },
+        "maximumCurvature": {
+          "denominator": "1624034",
+          "numerator": "-1481653"
+        },
+        "maximumLength": {
+          "denominator": "1434533",
+          "numerator": "1650385"
+        },
+        "maximumLengthEdgeIds": [
+          "d->c"
+        ],
+        "minimumCurvature": {
+          "denominator": "30007",
+          "numerator": "-29351"
+        },
+        "minimumLength": {
+          "denominator": "1434533",
+          "numerator": "812017"
+        },
+        "signs": {
+          "negative": 5,
+          "positive": 0,
+          "zero": 0
+        },
+        "stableStepCount": 0
+      },
+      "transportResponse": {
+        "requestHash": "sha256:2184fd10201ac4b073e777cac5ff138e97b8ae8b085f196d46a0b6424c4e8ce2",
+        "schemaVersion": "1",
+        "solutions": [
+          {
+            "costNumerator": {
+              "denominator": "1434533",
+              "numerator": "11581544"
+            },
+            "edgeId": "a->b",
+            "flow": [
+              [
+                2,
+                0,
+                0
+              ],
+              [
+                0,
+                1,
+                1
+              ]
+            ],
+            "sourcePotentials": [
+              {
+                "denominator": "1434533",
+                "numerator": "3095958"
+              },
+              {
+                "denominator": "1434533",
+                "numerator": "4710263"
+              }
+            ],
+            "targetPotentials": [
+              {
+                "denominator": "1434533",
+                "numerator": "-1614305"
+              },
+              {
+                "denominator": "1",
+                "numerator": "0"
+              },
+              {
+                "denominator": "1434533",
+                "numerator": "-802288"
+              }
+            ]
+          },
+          {
+            "costNumerator": {
+              "denominator": "1434533",
+              "numerator": "6360648"
+            },
+            "edgeId": "b->d",
+            "flow": [
+              [
+                1,
+                0
+              ],
+              [
+                0,
+                1
+              ]
+            ],
+            "sourcePotentials": [
+              {
+                "denominator": "1434533",
+                "numerator": "4746343"
+              },
+              {
+                "denominator": "1434533",
+                "numerator": "3264690"
+              }
+            ],
+            "targetPotentials": [
+              {
+                "denominator": "1",
+                "numerator": "0"
+              },
+              {
+                "denominator": "1434533",
+                "numerator": "-1650385"
+              }
+            ]
+          },
+          {
+            "costNumerator": {
+              "denominator": "1434533",
+              "numerator": "3105687"
+            },
+            "edgeId": "b->e",
+            "flow": [
+              [
+                1
+              ],
+              [
+                1
+              ]
+            ],
+            "sourcePotentials": [
+              {
+                "denominator": "1434533",
+                "numerator": "2293670"
+              },
+              {
+                "denominator": "1434533",
+                "numerator": "812017"
+              }
+            ],
+            "targetPotentials": [
+              {
+                "denominator": "1",
+                "numerator": "0"
+              }
+            ]
+          },
+          {
+            "costNumerator": {
+              "denominator": "1434533",
+              "numerator": "6360648"
+            },
+            "edgeId": "c->a",
+            "flow": [
+              [
+                1,
+                0
+              ],
+              [
+                0,
+                1
+              ]
+            ],
+            "sourcePotentials": [
+              {
+                "denominator": "1434533",
+                "numerator": "3095958"
+              },
+              {
+                "denominator": "1434533",
+                "numerator": "4746343"
+              }
+            ],
+            "targetPotentials": [
+              {
+                "denominator": "1434533",
+                "numerator": "-1481653"
+              },
+              {
+                "denominator": "1",
+                "numerator": "0"
+              }
+            ]
+          },
+          {
+            "costNumerator": {
+              "denominator": "1434533",
+              "numerator": "6529380"
+            },
+            "edgeId": "d->c",
+            "flow": [
+              [
+                1,
+                0
+              ],
+              [
+                0,
+                1
+              ]
+            ],
+            "sourcePotentials": [
+              {
+                "denominator": "1434533",
+                "numerator": "4878995"
+              },
+              {
+                "denominator": "1434533",
+                "numerator": "3264690"
+              }
+            ],
+            "targetPotentials": [
+              {
+                "denominator": "1",
+                "numerator": "0"
+              },
+              {
+                "denominator": "1434533",
+                "numerator": "-1614305"
+              }
+            ]
+          }
+        ],
+        "solver": {
+          "id": "onto2d-python-flow-transport-reference",
+          "method": "rational-cost-integer-mass-primal-dual-v1",
+          "version": "1"
+        }
+      }
+    }
+  ],
+  "termination": {
+    "cyclePeriod": null,
+    "cycleStart": null,
+    "edgeIds": [],
+    "iteration": 8,
+    "reason": "iteration-limit"
+  }
+}

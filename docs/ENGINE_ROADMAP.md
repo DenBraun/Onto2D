@@ -1,6 +1,6 @@
 # Engine Roadmap
 
-Updated: 2026-09-05.
+Updated: 2026-09-06.
 
 ## Completed foundation
 
@@ -68,6 +68,50 @@ Before publishing the root facade:
    integration facade.
 
 ## Shared analysis and visualization
+
+The first [Structural Geometry milestone](structural-geometry/README.md) adds a
+separate opt-in analysis package: full-model `source-parent-directed-v1`
+projection, `unit-v1` metric, directed Forman curvature, exact source replay,
+synthetic incidence-reference controls and a frozen Causal Emergence artifact.
+Its output is descriptive and does not extend kernel or source semantics.
+Further metric experiments, flow, topology and UI retain explicit research gates.
+
+Stage 3 now adds `@onto2d/structural-geometry/experiments`: typed subgraph
+selections, an incoming-weight audit and a bounded inverse-target-share metric.
+Its 72-run suite retains exact source identity, full node populations, fixed
+normalization context and deterministic outward curvature bounds. Unit remains
+default.
+
+Stage 4 now adds portable Ollivier request preparation/certificate verification
+and an explicit Node adapter for a bounded external Python solver. Exact model,
+scope, unit metric, idleness and solver identity bind requests and the bounded
+LRU cache. Forty fixed runs agree with independent NetworkX transport.
+
+Stage 5 adds [normalized shadow flow](structural-geometry/SHADOW_FLOW.md) with
+separate rational lengths, exact transport certificates at every state,
+metric closure, normalization and explicit stopping/cut records. Its 11-run
+suite agrees with independent NetworkX reconstruction and reproduces the
+published three-group recurrence.
+
+The [revised R0–R12 program](structural-geometry/REVISED_ROADMAP.md) now supersedes
+the old post-flow execution order. The baseline, star/single-bridge supplement
+and [compatible providers](structural-geometry/METRIC_PROVIDERS.md) are implemented.
+Five provider capabilities and verified contexts preserve the original 73
+full-source analyses. [SG2-010](structural-geometry/REGIME_CONTRACTS.md) now adds
+three frozen regime contracts and bounded source/scope preparation.
+[SG2-011 exact observations](structural-geometry/CANONICAL_OBSERVATIONS.md) are
+implemented with independent permutation checks and source mapping witnesses.
+[SG2-012 topology observations](structural-geometry/TOPOLOGY_OBSERVATIONS.md) now
+measure seven summaries, independently checked on 4,165 graphs and 23 artifacts
+with known collisions retained. [SG2-013 typed observations](structural-geometry/TYPED_OBSERVATIONS.md)
+now preserve all five fields under one common bijection and expose explicit
+vocabulary approval/coverage gates. Final comparison/status/coverage is next; finite probes,
+response-only signatures and a complete-domain pseudometric precede
+geometric added-value tests, persistence and cross-domain evaluation. Those
+comparison APIs remain planned; preparations explicitly record `not-run`.
+Existing v1 artifacts and public behavior
+must replay exactly through the migration; provider identity belongs in additive
+contracts. The [website plan](structural-geometry/WEBSITE_PLAN.md) remains gated.
 
 1. Keep Historical Load illustrative until empirical values and preprocessing
    are reviewed.
