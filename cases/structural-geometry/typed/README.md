@@ -1,7 +1,7 @@
 # Frozen typed observation and vocabulary cases
 
 SG2-013 implements the two frozen typed-regime observations and explicit
-vocabulary alignment. See the [contract](../../../docs/structural-geometry/TYPED_OBSERVATIONS.md)
+vocabulary alignment. See the [contract](../../../docs/structural-geometry/OBSERVATIONS.md#typed-directed-observations-and-vocabulary-alignment)
 and the [declared control protocol](PROTOCOL.md).
 
 [controls.json](controls.json) freezes 25 synthetic graphs, the six-node Causal

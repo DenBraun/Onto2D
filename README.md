@@ -1,33 +1,54 @@
 # Onto2D
 
 Onto2D is a JavaScript toolkit for deterministic, finite admissibility-closure
-models. It turns declared structures, rules, and construction steps into
+models. Declared structures, rules and construction steps become
 content-addressed artifacts that can be replayed and compared.
 
-## Status
+The project is **in development; the first project release has not been
+published**. Package version fields and frozen Model Pack versions identify
+working contracts and datasets; they are not a project release announcement.
 
-The schema-v1 kernel is locally closed: its public capability registry has no
-pending kernel operations, and the repository includes conformance tests,
-independent canonicalization goldens, JSON Schemas, and TypeScript declarations.
-The implementation baseline passes the supported CI matrix. Tagging `v0.1.0`
-still requires independent review of the canonical identity fixtures and a
-green run on the exact release commit.
+## Start here
 
-The repository includes a bounded external Phase-B reference solver, but no
-general scientific solver or empirical validation of the foundational theory.
-Those claims require explicit external evidence through the scientific-adapter
-boundary.
+- [Documentation](docs/README.md): architecture, research, examples and development.
+- [Current roadmap](docs/ROADMAP.md): implemented capabilities and remaining work.
+- [Development guide](docs/DEVELOPMENT.md): setup, checks and local testing.
+- [History case portfolio](docs/history/PORTFOLIO.md): examples and their evidence boundaries.
+- [Structural Geometry](docs/structural-geometry/README.md): methods, results and the DREAM4 / C. elegans research program.
 
-The repository also contains a private engine preview: a deterministic Model
-Pack contract, separate frozen Causal Emergence, live-bootstrap provenance,
-Nix derivation, OCI layer-provenance, in-toto, chemical-reaction, reproducible-build,
-artwork-provenance, language-transmission, manuscript-transmission,
-operational-aging, ecological-memory, legal-precedent-history,
-clinical-trajectories, galactic-archaeology, material-process-history,
-mineral-formation-history, cell-lineage-history, ltee-lineage-history, and
-airflow-dependency-constraints releases,
-and a headless API for exact model queries and traversal. It is not yet a
-published npm package.
+## Run locally
+
+Use Node.js 22+ and Python 3.9+.
+
+```sh
+npm ci
+npm test
+npm run build
+npm run dev:site
+```
+
+The development server prints its local URL. `npm run build` includes repository
+checks. Independent NetworkX verification has a separate environment described
+in the [development guide](docs/DEVELOPMENT.md).
+
+## What is implemented
+
+The schema-v1 kernel has a closed capability registry for canonical identity,
+exact quantities, bounded candidate generation, admissibility, closure,
+null-model execution and verified evidence bundles. Closure of this software
+contract does not establish the foundational theory empirically.
+
+The engine verifies Model Packs and provides exact-version queries, traversal,
+isolated workspaces, declared-lineage diff and registered analyses. Model Studio
+and the case explorers present verified inputs and disclosed interpretations.
+
+History Matters implements replayable semantic controls and empirical study
+preparation. Structural Geometry implements directed Forman and certified
+Ollivier curvature, normalized shadow flow, observation regimes, probes,
+signatures and bounded comparisons. Its finite synthetic study found zero
+additional discrimination on 210 eligible pairs; general usefulness is open.
+The next research work uses independent response targets from DREAM4 and
+C. elegans, with source acquisition and applicability gates before scoring.
 
 ## Engine preview
 
@@ -37,361 +58,16 @@ import { Onto2D } from "onto2d";
 const engine = await Onto2D.create();
 const node = engine.model.require("0.8");
 const parents = engine.model.parents(node.id);
-
-const identity = await engine.analyze("canonical-identity", {
-  candidate: myCandidate
-});
 ```
 
-The bundled release preserves source relations as `source-parent` and records
-known catalogue findings; it does not silently upgrade them into reviewed
-generative semantics. See the
-[Engine Architecture](docs/ONTO2D_ENGINE_ARCHITECTURE.md).
+The private root facade selects the bundled Causal Emergence Model Pack.
+Source-parent relations retain their source meaning. Graph structure alone
+is not a reviewed generative or causal interpretation.
 
-## Structural Geometry
+See [package ownership](docs/PROJECT_STRUCTURE.md) and
+[engine contracts](docs/architecture/ENGINE.md) for integration.
 
-The [Structural Geometry workstream](docs/structural-geometry/README.md) adds an
-immutable directed projection and unit Forman curvature above verified Model
-Packs, with exact source replay, 16 synthetic controls and a frozen full Causal
-Emergence result. This is descriptive graph analysis; source-parent relations
-retain their source interpretation, and no causal or emergence claim is inferred.
+## License and source attribution
 
-Run `npm run structural-geometry:check` to verify the implementation and
-`npm run structural-geometry:report` to inspect the full-model result.
-
-The [stage-three experiments](cases/structural-geometry/experiments/README.md)
-add necessity/role selections, separate typed channels, a source weight audit
-and an optional local-weight metric. Run
-`npm run structural-geometry:experiments:report` for the verified comparison;
-unit remains the default metric.
-
-The [Ollivier reference path](cases/structural-geometry/ollivier/README.md) adds
-bounded directed neighborhood transport through an external Python oracle,
-exact optimality certificates, request caching and 242 edge values checked with
-independent NetworkX transport. Use `npm run structural-geometry:ollivier:report`
-to inspect the verified controls and explicit source-bound fragments.
-
-The [shadow flow reference](cases/structural-geometry/flow/README.md) evolves
-separate rational edge lengths with exact normalization, convergence traces and
-optional final cuts. Its 11 trajectories agree with independent NetworkX and
-reproduce a published three-group example. Run
-`npm run structural-geometry:flow:report` to inspect the verified results.
-
-The separate [flow control supplement](cases/structural-geometry/flow-controls/README.md)
-adds nine directed-star and single-bridge runs, checked against analytic and
-NetworkX references. Use `npm run structural-geometry:flow:controls:report` to
-inspect them. The original suite remains unchanged.
-
-The [MetricProvider layer](docs/structural-geometry/METRIC_PROVIDERS.md) now exposes
-five metric/view capabilities with verified source contexts and separate legacy
-envelopes. Run `npm run structural-geometry:providers:report` for 13 provider
-profiles and exact compatibility with 73 existing analyses.
-
-The [regime contract foundation](docs/structural-geometry/REGIME_CONTRACTS.md)
-now declares three observation profiles and prepares verified source scopes.
-Run `npm run structural-geometry:regimes:report` for six reproducible preparations;
-their observations are explicitly `not-run`. The separate
-[exact canonical evaluator](docs/structural-geometry/CANONICAL_OBSERVATIONS.md)
-now supplies 17 measured examples and independent checks over 4,165 small
-directed graphs. Run `npm run structural-geometry:canonical:report` to inspect
-them. The [topology evaluator](docs/structural-geometry/TOPOLOGY_OBSERVATIONS.md)
-adds seven directed summaries, 23 artifacts and an exhaustive collision census.
-Run `npm run structural-geometry:topology:report` to inspect them.
-The [typed evaluator](docs/structural-geometry/TYPED_OBSERVATIONS.md) now adds
-joint five-field observations, explicit evidence gaps and vocabulary alignment
-under separately approved mappings. Run `npm run structural-geometry:typed:report`
-for 26 observations and eight compatibility controls. Next come strict comparison
-and coverage under the [revised research plan](docs/structural-geometry/REVISED_ROADMAP.md),
-then probes, response signatures and geometric added-value tests.
-Directed persistence and the public Lab follow the revised research gates.
-
-## History Matters pilot
-
-The [History Matters Benchmark](docs/history/HISTORY_MATTERS_BENCHMARK.md) adds
-replayable present-only versus present-plus-history comparisons. Its v0 pilot
-contains three synthetic controls (positive, negative and neutral) and exact
-Git, OCI and reproducible-build contrasts, with a
-[verified Explorer](apps/history-matters-benchmark/index.html). Operational Aging
-now has a [full-cohort preparation](cases/operational-aging/history-benchmark/README.md)
-with 972 training prefixes and 100 test endpoints. Its held-out scoring awaits
-independent protocol review; LTEE has [three frozen protocol contracts and an
-eligibility audit](cases/ltee-evolutionary-contingency/history-benchmark/README.md),
-with no scored present/history comparison under this source profile. No global score or
-empirical predictive advantage is claimed.
-
-Run `npm run history-benchmark:check` to verify the complete pilot.
-
-## Try the studies
-
-- [Historical Load Explorer](https://denbraun.github.io/Onto2D/apps/historical-load-explorer/)
-  uses a disclosed finite toy model ([source notes](apps/historical-load-explorer/README.md)).
-- [Three-Node Motif Explorer](https://denbraun.github.io/Onto2D/apps/three-node-motif-explorer/)
-  projects a frozen reproduction of the published *E. coli* motif result
-  ([source notes](apps/three-node-motif-explorer/README.md)).
-- [Canonical Identity Lab](https://denbraun.github.io/Onto2D/apps/canonical-identity-lab/)
-  replays tested candidate-identity fixtures
-  ([source notes](apps/canonical-identity-lab/README.md)).
-
-The [Level-0 Numerical Validation](https://denbraun.github.io/Onto2D/apps/level-zero-validation/)
-presents the expanded bounded negative result as an artifact-backed gate
-sequence, interactive branch comparison, and asymmetric complex search
-([source notes](apps/level-zero-validation/README.md)).
-
-The [Model Studio](https://denbraun.github.io/Onto2D/apps/model-studio/)
-bounds and fully verifies its hash-pinned registry and selected exact Model
-Pack in the browser before exposing lazy catalogue pages, directed
-neighborhoods, and explicit source-record inspection. It can switch between
-the separate Causal Emergence and Live Bootstrap Provenance releases without
-reusing incompatible workspace selection.
-Its `+` action also opens an exact local `data.nt` + `shapes.nt` +
-`mapping-policy.json` set after replaying the complete RDF verification chain
-([source notes](apps/model-studio/README.md)).
-
-The [Bootstrap Provenance Explorer](https://denbraun.github.io/Onto2D/apps/bootstrap-provenance-explorer/)
-reads the pinned live-bootstrap trace, evidence classes, trust roots, and
-separately disclosed finite counterfactual analysis
-([method](docs/LIVE_BOOTSTRAP_PROVENANCE_METHOD.md)).
-
-The [Git History Identity Lab](https://denbraun.github.io/Onto2D/apps/git-history-identity-lab/)
-compares six deterministic native Git histories under tree, commit, ancestry,
-and declared history-class identity without rewriting their object IDs
-([method](cases/git-history-identity/README.md)).
-
-The [Nix Derivation Identity Lab](https://denbraun.github.io/Onto2D/apps/nix-derivation-explorer/)
-compares native Nix derivations under output-content, derivation, input-closure,
-builder-environment, and output-relative history regimes
-([method](cases/nix-derivation-identity/README.md)).
-
-The [OCI Layer History Lab](https://denbraun.github.io/Onto2D/apps/oci-layer-history-lab/)
-shows four verified native OCI layer histories converging to one normalized
-rootfs while retaining different manifests, hidden deletions, and four
-cost-relative Historical Load results
-([method](cases/oci-layer-history/README.md)).
-
-The [in-toto Admissibility Explorer](https://denbraun.github.io/Onto2D/apps/in-toto-admissibility-explorer/)
-compares five signed executions with identical final bytes, preserves native
-warning semantics, and explains four bounded `+1` Historical Load results
-([method](cases/in-toto-admissibility/README.md)).
-
-The [Chemical Synthesis History Explorer](https://denbraun.github.io/Onto2D/apps/synthesis-route-explorer/)
-compares source-locked ORD records that share exact product identifiers,
-preserves native cross-reaction continuity in the islatravir cascade, and
-explains two bounded `+2` Historical Load results
-([method](cases/chemical-synthesis-history/README.md)).
-
-The [History Equivalence Lab](https://denbraun.github.io/Onto2D/apps/history-equivalence-lab/)
-compares four captured builds under five explicit regimes. The same Node.js 22
-and 24 outputs are byte-equivalent while their toolchain and provenance
-histories remain distinct
-([method](cases/reproducible-build-equivalence/README.md)).
-
-The [Artwork Provenance Identity Lab](https://denbraun.github.io/Onto2D/apps/artwork-provenance-identity-lab/)
-follows a source-locked Getty record through two recorded activities, preserves
-the later evidence gap without inventing a chain, and compares two history views
-under five explicit identity regimes
-([method](cases/getty-artwork-provenance/README.md)).
-
-The [Language Lineage & Borrowing Lab](https://denbraun.github.io/Onto2D/apps/language-lineage-borrowing-lab/)
-joins six WOLD/Lexibank forms to exact Glottolog 5.3 classification paths,
-overlays form-local borrowing evidence, and keeps surface similarity, cognacy,
-genealogy, and source uncertainty distinct
-([method](cases/historical-linguistics/README.md)).
-
-The [Textual Transmission Lab](https://denbraun.github.io/Onto2D/apps/textual-transmission-lab/)
-shows why the Caxton second edition needs both an attributed base-text source
-and a distinct contamination relation, then exposes selected readings,
-evidence ablation, regime-relative equality, and the undefined Historical Load
-boundary
-([method](cases/manuscript-stemmatics/README.md)).
-
-The [Operational Aging Lab](https://denbraun.github.io/Onto2D/apps/operational-aging-lab/)
-compares two source-locked NASA C-MAPSS FD001 endpoints that rank in the nearest
-1.58 percent by their current frame yet differ by 95 supplied RUL cycles, then
-shows how observed-history windows change that rank without leaking outcomes or
-inventing latent health
-([method](cases/operational-aging/README.md)).
-
-The [Ecological Memory Lab](https://denbraun.github.io/Onto2D/apps/ecological-memory-lab/)
-compares 7,275 source-locked NEON SOAP LiDAR cells before and after recorded
-Creek Fire context, then shows why one equal rounded vegetation-height signature
-does not establish exact measurement, ecosystem identity, causation, or a
-recovery trajectory
-([method](cases/ecological-memory/README.md)).
-
-The [Legal Precedent History Lab](https://denbraun.github.io/Onto2D/apps/legal-precedent-history-lab/)
-places seven source-locked Supreme Court school-desegregation opinions on one
-official chronology, reconstructs the four selected opinions available at the
-`Green` decision date, and keeps native citation, attributed treatment, unknown
-binding status, provider date conflicts, and counterfactual graph ablation as
-separate layers. It is a research visualization, not legal advice
-([method](cases/legal-precedent-history/README.md)).
-
-The [Clinical Trajectory Lab](https://denbraun.github.io/Onto2D/apps/clinical-trajectory-lab/)
-separates five source-deidentified MIMIC-IV Demo observation frames from 1,981
-cutoff-safe recorded events. Its nearest complete pair has distance `0.09`
-under one declared four-lab metric, without promoting that number into patient
-identity, clinical equivalence, diagnosis, prediction, or treatment guidance
-([method](cases/clinical-trajectories/README.md)).
-
-The [Galactic Archaeology Lab](https://denbraun.github.io/Onto2D/apps/galactic-archaeology-lab/)
-projects 64 source-locked Gaia DR3 stars through five explicit evidence layers,
-then replays Medium and High quality views across four chemo-kinematic rule
-profiles. Present-day patterns support candidate historical compatibility,
-without becoming native Gaia labels, birth origins, common ancestry, or one
-true Galactic formation history
-([method](cases/galactic-archaeology/README.md)).
-
-The [Material Process History Lab](https://denbraun.github.io/Onto2D/apps/material-process-history-lab/)
-compares three source-locked NIST AM-Bench IN718 build and P3 part identities
-under one exact nominal recipe, then exposes the 2,248-coordinate B7-P3
-residual-strain field without copying it to sibling parts, repairing source
-metadata, inventing causality, or rendering undefined Historical Load as zero
-([method](cases/material-process-history/README.md)).
-
-The [Mineral Formation History Explorer](https://denbraun.github.io/Onto2D/apps/mineral-history-explorer/)
-keeps one conventional pyrite species key, ten native sample records, 95 exact
-LA-ICP-MS rows, three qualified published growth interpretations, and seven
-case-local unresolved mappings in separate layers. Age, locality, and chemistry
-never become automatic formation claims, and Historical Load remains undefined
-without a finite path-and-cost model
-([method](cases/mineral-formation-history/README.md)).
-
-The [Cell Lineage Identity Lab](https://denbraun.github.io/Onto2D/apps/cell-lineage-identity-lab/)
-keeps all 750 source-matched ZF1 cells distinct from 56 transcriptomic clusters,
-192 exact reported HMID states, and 133 signatures over HMID target positions
-1-4. Target position is not treated as edit time. It
-exposes cross-regime comparisons while treating shared cluster, shared barcode,
-bounded reconstruction, and a complete developmental pedigree as different
-claims; Historical Load remains undefined
-([method](cases/cell-lineage-identity/README.md)).
-
-The [Evolutionary Contingency Lab](https://denbraun.github.io/Onto2D/apps/evolutionary-contingency-lab/)
-compares sixteen recorded Ara-3 source generations across three separate
-citrate replay protocols. Seven generations yielded Cit+ in at least one
-bounded replay; nine remain unresolved rather than inaccessible. Published
-statistics stay attributed, a source arithmetic discrepancy remains visible,
-and LTEE is marked as a candidate Historical Load extension while the current
-undefined value is never rendered as zero
-([method](cases/ltee-evolutionary-contingency/README.md)).
-
-The [Airflow Constraint Resolution Lab](https://denbraun.github.io/Onto2D/apps/airflow-constraint-resolution-lab/)
-exhaustively enumerates a source-locked Airflow Core 3.3.1 / Python 3.12
-dependency projection: 128 candidate assignments, 64 complete solutions, and
-one solution admitted by the selected official pins. Three predeclared costs
-produce Historical Load values of +144,596 compatible-wheel bytes, +7 baseline
-version changes, and zero selected wheels. Resolver work remains diagnostic,
-and the result is explicitly not a complete Airflow installation
-([method](cases/airflow-dependency-constraints/README.md)).
-
-The [History Atlas](https://denbraun.github.io/Onto2D/apps/history-atlas/)
-organizes 24 registered cases by two independent axes: how history is available
-(Recorded, Embodied, or Reconstructed) and what it changes (Identity, Present
-State, or Future). Domain is a filter rather than the primary taxonomy. Every
-case has a stable page and explicit maturity, evidence, analysis, Model Pack,
-and Explorer metadata
-([portfolio](docs/history/HISTORY_CASE_PORTFOLIO.md)).
-
-Run the static site:
-
-```sh
-npm run dev:site
-```
-
-Then open `http://127.0.0.1:8080/`, or use the
-[published GitHub Pages site](https://denbraun.github.io/Onto2D/).
-
-## Verify the repository
-
-Node.js 22 or newer is required; Node.js 24 LTS is recommended.
-
-```sh
-npm ci
-npm test
-npm run check
-npm run build
-```
-
-`npm run build` is a validation build; packages run from source and no `dist/`
-tree is generated. See the [Development Guide](docs/DEVELOPMENT.md) for focused
-commands and fixture policy.
-
-The read-only CLI can verify and inspect a transparent local Model Pack from
-either its split directory or a bounded ZIP transport:
-
-```sh
-node packages/cli/src/bin.js verify ./models/causal-emergence/releases/2026.08.15
-node packages/cli/src/bin.js verify ./causal-emergence.onto2d.zip
-node packages/cli/src/bin.js node ./models/causal-emergence/releases/2026.08.15 0.8
-```
-
-## Packages
-
-| Package | Responsibility |
-|---|---|
-| [`@onto2d/kernel`](packages/kernel/README.md) | Deterministic model, identity, evaluation, closure, and artifacts |
-| [`@onto2d/cli`](packages/cli/README.md) | Read-only local Model Pack verification and engine queries |
-| [`@onto2d/schemas`](packages/schemas/README.md) | JSON Schema Draft 2020-12 transport contracts |
-| [`@onto2d/model-pack`](packages/model-pack/README.md) | Canonical releases plus bounded transports, workers, verified caching, and read-only registry resolution |
-| [`@onto2d/engine`](packages/engine/README.md) | Headless exact-version model API, workspaces, analyses, diff, and verified presentation composition |
-| [`@onto2d/canonical-identity-analysis`](packages/canonical-identity-analysis/README.md) | Replayable kernel-backed candidate identity analysis |
-| [`@onto2d/view`](packages/view/README.md) | Browser-safe paged catalogue, explicit inspection, neighborhood, and deterministic layout projections |
-| [`@onto2d/rdf-import`](packages/rdf-import/README.md) | Bounded RDF 1.1 N-Triples import artifacts and semantics-neutral graph projections |
-| [`@onto2d/shacl-validation`](packages/shacl-validation/README.md) | Closed, deterministic SHACL 1.0 Core validation over exact RDF import artifacts |
-| [`@onto2d/rdf-mapping`](packages/rdf-mapping/README.md) | Reviewed RDF-to-Onto2D policy, complete source accounting, and Model Pack projection |
-| [`@onto2d/catalog-adapter`](packages/catalog-adapter/README.md) | Source-catalogue audit and reviewed migration replay |
-| [`@onto2d/scientific-adapter`](packages/scientific-adapter/README.md) | Boundary for external numerical implementations |
-| [`@onto2d/level-zero-solver`](packages/level-zero-solver/README.md) | Bounded external Phase-B reference solver |
-| [`@onto2d/run-store`](packages/run-store/README.md) | Verified local persistence of semantic run bundles |
-
-Research inputs and reproductions live in [`cases/`](cases). The
-[Level-0 oscillator case](cases/level-0-oscillator/README.md) contains a bounded
-Phase-B numerical reference benchmark and a negative Phase-C boundedness
-preflight, a bounded objecthood search, a real-time persistence probe, and a
-preregistered asymmetric/complex extension; the
-[three-node-motif case](cases/three-node-motifs/README.md) is an executable,
-frozen empirical reproduction. The
-[RDF mapping reference](cases/rdf-mapping-reference/README.md) replays a
-W3C-derived conforming graph through import, SHACL validation, explicit mapping,
-and complete Model Pack verification. The
-[live-bootstrap provenance case](cases/live-bootstrap-provenance/README.md)
-pins exact upstream bytes, preserves 205 manifest events and 442 classified
-evidence records, builds a separate content-addressed Model Pack, and keeps its
-finite counterfactual analysis outside extracted upstream facts. The
-[Nix derivation identity case](cases/nix-derivation-identity/README.md)
-cross-checks nine native derivations, separates direct inputs from derived
-closure, and preserves equal output content without collapsing construction
-identity.
-
-## Documentation
-
-- [Architecture](docs/KERNEL_ARCHITECTURE.md) explains the system boundaries and
-  execution model.
-- [Engine Architecture](docs/ONTO2D_ENGINE_ARCHITECTURE.md) defines Model Packs,
-  model access, workspace state, and comparison boundaries.
-- [Engine Roadmap](docs/ENGINE_ROADMAP.md) separates the implemented foundation
-  from Studio, adapters, loaders, and operational work.
-- [Implementation Status](docs/KERNEL_IMPLEMENTATION_STATUS.md) separates the
-  closed kernel from remaining external work.
-- [Scientific Roadmap](docs/SCIENTIFIC_ROADMAP.md) defines the numerical,
-  catalogue-migration, solver, and empirical work that follows kernel closure.
-- [Project Structure](docs/PROJECT_STRUCTURE.md) defines dependency and ownership
-  rules.
-- [Foundational Paper Analysis](docs/FOUNDATIONAL_PAPER_ANALYSIS.md) records
-  theory traceability and scientific limitations.
-- [Live Bootstrap Provenance Method](docs/LIVE_BOOTSTRAP_PROVENANCE_METHOD.md)
-  defines the pinned source, evidence classes, finite analysis, and trust
-  boundary for the external bootstrap case.
-- [History Model Documentation](docs/history/README.md) defines the taxonomy,
-  evidence boundaries, analysis families, and 24-case portfolio.
-- [History Case Implementation Plans](docs/cases/README.md) preserve one
-  status-honest plan per registered case.
-- [Review Guide](docs/REVIEW_GUIDE.md) defines the independent golden review
-  required for release.
-- [ADRs](docs/adr) preserve decisions that affect identity, evidence, or package
-  boundaries.
-- [Release Checklist](docs/RELEASE_CHECKLIST.md) lists release evidence.
-
-## License
-
-Onto2D is developed by Denis Britov as part of the Causal Emergence Catalogue
-project and is distributed under the [MIT License](LICENSE).
+Project code is covered by [LICENSE](LICENSE). Source datasets retain their own
+terms and attribution; see case source locks, notices and case guides.

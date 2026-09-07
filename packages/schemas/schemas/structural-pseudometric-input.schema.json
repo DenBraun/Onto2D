@@ -1,0 +1,311 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/structural-pseudometric-input.schema.json",
+  "title": "Fixed-domain structural pseudometric input",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "regimeId": {},
+    "leftScope": {},
+    "rightScope": {},
+    "diagnostics": {
+      "enum": [
+        "coverage-only",
+        "partial-with-coverage"
+      ]
+    }
+  },
+  "required": [
+    "regimeId"
+  ],
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "regimeId": {
+          "const": "canonical-structure-v1"
+        },
+        "leftScope": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "kind": {
+                  "const": "full"
+                }
+              },
+              "required": [
+                "kind"
+              ]
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "kind": {
+                  "const": "induced"
+                },
+                "nodeIds": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "minItems": 1,
+                  "maxItems": 6,
+                  "uniqueItems": true
+                }
+              },
+              "required": [
+                "kind",
+                "nodeIds"
+              ]
+            }
+          ]
+        },
+        "rightScope": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "kind": {
+                  "const": "full"
+                }
+              },
+              "required": [
+                "kind"
+              ]
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "kind": {
+                  "const": "induced"
+                },
+                "nodeIds": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "minItems": 1,
+                  "maxItems": 6,
+                  "uniqueItems": true
+                }
+              },
+              "required": [
+                "kind",
+                "nodeIds"
+              ]
+            }
+          ]
+        },
+        "diagnostics": {
+          "enum": [
+            "coverage-only",
+            "partial-with-coverage"
+          ]
+        }
+      },
+      "required": [
+        "regimeId"
+      ]
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "regimeId": {
+          "const": "topology-only-v1"
+        },
+        "leftScope": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "kind": {
+                  "const": "full"
+                }
+              },
+              "required": [
+                "kind"
+              ]
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "kind": {
+                  "const": "induced"
+                },
+                "nodeIds": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "minItems": 1,
+                  "maxItems": 64,
+                  "uniqueItems": true
+                }
+              },
+              "required": [
+                "kind",
+                "nodeIds"
+              ]
+            }
+          ]
+        },
+        "rightScope": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "kind": {
+                  "const": "full"
+                }
+              },
+              "required": [
+                "kind"
+              ]
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "kind": {
+                  "const": "induced"
+                },
+                "nodeIds": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "minItems": 1,
+                  "maxItems": 64,
+                  "uniqueItems": true
+                }
+              },
+              "required": [
+                "kind",
+                "nodeIds"
+              ]
+            }
+          ]
+        },
+        "diagnostics": {
+          "enum": [
+            "coverage-only",
+            "partial-with-coverage"
+          ]
+        }
+      },
+      "required": [
+        "regimeId"
+      ]
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "regimeId": {
+          "const": "typed-relations-v1"
+        },
+        "leftScope": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "kind": {
+                  "const": "full"
+                }
+              },
+              "required": [
+                "kind"
+              ]
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "kind": {
+                  "const": "induced"
+                },
+                "nodeIds": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "minItems": 1,
+                  "maxItems": 6,
+                  "uniqueItems": true
+                }
+              },
+              "required": [
+                "kind",
+                "nodeIds"
+              ]
+            }
+          ]
+        },
+        "rightScope": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "kind": {
+                  "const": "full"
+                }
+              },
+              "required": [
+                "kind"
+              ]
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "kind": {
+                  "const": "induced"
+                },
+                "nodeIds": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "minItems": 1,
+                  "maxItems": 6,
+                  "uniqueItems": true
+                }
+              },
+              "required": [
+                "kind",
+                "nodeIds"
+              ]
+            }
+          ]
+        },
+        "diagnostics": {
+          "enum": [
+            "coverage-only",
+            "partial-with-coverage"
+          ]
+        }
+      },
+      "required": [
+        "regimeId"
+      ]
+    }
+  ]
+}

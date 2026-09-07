@@ -67,5 +67,5 @@ edges. Their values describe these induced graphs, not the full 249-node graph.
 The selection is illustrative and fixed, not a statistically representative
 sample. Source snapshot findings and source-parent semantics are unchanged.
 
-See the [method contract](../../../docs/structural-geometry/OLLIVIER_CURVATURE.md)
-and [review](../../../docs/structural-geometry/OLLIVIER_REVIEW.md).
+See the [method contract](../../../docs/structural-geometry/GEOMETRY.md#directed-ollivier-reference-contract)
+and [review](../../../docs/structural-geometry/EVIDENCE.md).

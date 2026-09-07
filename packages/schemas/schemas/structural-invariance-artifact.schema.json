@@ -1,0 +1,3587 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/structural-invariance-artifact.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {},
+    "analysis": {},
+    "evaluation": {},
+    "policy": {},
+    "registry": {},
+    "adapter": {},
+    "sandbox": {},
+    "request": {},
+    "preparation": {},
+    "baseline": {},
+    "runs": {},
+    "summary": {},
+    "work": {},
+    "artifactHash": {}
+  },
+  "$defs": {
+    "representation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "payload": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1048576,
+          "description": "Exact JSON bytes encoded as a string; use source-bound replay to validate contents and hashes."
+        },
+        "payloadHash": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "graphHash": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        }
+      },
+      "required": [
+        "payload",
+        "payloadHash",
+        "graphHash"
+      ]
+    },
+    "policy": {
+      "const": {
+        "id": "measured-structural-invariance-v1",
+        "version": "1",
+        "registry": {
+          "id": "structural-invariance-probes-v1",
+          "version": "1",
+          "contentHash": "sha256:bec1366254a158eb1df77ad709cb229fb8cd636dc0411a1a5c2c5b4f4f6b4862"
+        },
+        "source": "verified-identity-sandbox",
+        "copies": "every-probe-starts-from-baseline",
+        "targets": "all-scoped-records",
+        "payload": "exact-json-string-with-synthetic-presentation",
+        "graphHash": "identifier-sensitive-provenance-excludes-presentation",
+        "comparison": "all-mandatory-observables-exact-values",
+        "missingness": "strict-indeterminate-retain-differences",
+        "emptyProfile": "indeterminate",
+        "emptyEdgeRename": "explicit-no-op",
+        "vocabulary": "same-source-context-only",
+        "codeExecution": "closed-data-transformations-only",
+        "errors": "throw-no-partial-artifact",
+        "limits": {
+          "maxRepresentations": 5,
+          "maxObservationEvaluations": 5,
+          "maxCanonicalizerCalls": 10,
+          "maxCanonicalEntries": 500000,
+          "maxArtifactBytes": 4194304
+        },
+        "contentHash": "sha256:34c87772235e3c8f0f0d01384c063a8a95c1d81ab9cb58c0ed22d1a3f3b013c3"
+      }
+    },
+    "registry": {
+      "const": {
+        "id": "structural-invariance-probes-v1",
+        "version": "1",
+        "regimeIds": [
+          "canonical-structure-v1",
+          "topology-only-v1",
+          "typed-relations-v1"
+        ],
+        "probes": [
+          {
+            "id": "record-order-probe-v1",
+            "version": "1",
+            "family": "invariance",
+            "mandatory": true,
+            "transformation": "record-order",
+            "target": "whole-scoped-representation",
+            "parameters": {
+              "records": "reverse-node-and-edge-arrays",
+              "keys": "reverse-recursively",
+              "whitespace": "two-space-indentation"
+            },
+            "contentHash": "sha256:418c8184b377acf5bf73ad19f5b0e7d103624aac4a87f6c4a7461362f2224851"
+          },
+          {
+            "id": "bijective-node-id-renaming-probe-v1",
+            "version": "1",
+            "family": "invariance",
+            "mandatory": true,
+            "transformation": "bijective-node-id-renaming",
+            "target": "whole-scoped-representation",
+            "parameters": {
+              "namespace": "vertex:",
+              "ordinal": "reversed-zero-based-padded-three",
+              "endpoints": "transport-both"
+            },
+            "contentHash": "sha256:a69c1e750d074e5aa529b5c75b7b9149d63d292e44463e7aa915c24ea2c665d3"
+          },
+          {
+            "id": "bijective-edge-id-renaming-probe-v1",
+            "version": "1",
+            "family": "invariance",
+            "mandatory": true,
+            "transformation": "bijective-edge-id-renaming",
+            "target": "whole-scoped-representation",
+            "parameters": {
+              "namespace": "link:",
+              "ordinal": "reversed-zero-based-padded-three"
+            },
+            "contentHash": "sha256:3476096b64e3c82a6844cfaad862536d800c531486ed756a90fc71d37538491c"
+          },
+          {
+            "id": "presentation-only-changes-probe-v1",
+            "version": "1",
+            "family": "invariance",
+            "mandatory": true,
+            "transformation": "presentation-only-changes",
+            "target": "whole-scoped-representation",
+            "parameters": {
+              "labels": "replace",
+              "positions": "reflect-and-translate",
+              "colors": "replace",
+              "zoom": "replace"
+            },
+            "contentHash": "sha256:a23a0ab9cd7c305a11d7a64f2a96dd9536c29824b3c88effb4b397db575c852b"
+          }
+        ],
+        "contentHash": "sha256:bec1366254a158eb1df77ad709cb229fb8cd636dc0411a1a5c2c5b4f4f6b4862"
+      }
+    },
+    "adapter": {
+      "const": {
+        "id": "invariance-shadow-observation-adapter-v1",
+        "version": "1",
+        "input": "private-source-bound-representation",
+        "decoding": "parse-each-exact-json-payload-before-evaluation",
+        "presentation": "exclude-node-and-edge-presentation-and-viewport",
+        "graph": "preserve-all-node-ids-directed-endpoints-and-five-present-typed-fields",
+        "typedVocabulary": "unchanged-verified-source-context",
+        "missing": "source-edge-and-field-with-null-value",
+        "implementations": [
+          {
+            "id": "canonical-directed-observation-v1",
+            "version": "1",
+            "contentHash": "sha256:c24eb843608db1252a279b2f48f717f13d675680cd7607cec6d46d84c26d9a4d"
+          },
+          {
+            "id": "directed-topology-observation-v1",
+            "version": "1",
+            "contentHash": "sha256:56e0a358ae1c6f3618fb792c319bedc2d1e06db637b8410de1a39d4a69f3a4e8"
+          },
+          {
+            "id": "typed-directed-observation-v1",
+            "version": "1",
+            "contentHash": "sha256:953f5ae6ad1fee7069058ac66116848c7b3981850feaf9a1c84d216325ba60e3"
+          }
+        ],
+        "contentHash": "sha256:f50bd13d6e5af467781922e8c1586916532face8b8fd11ac2a69961f318d75df"
+      }
+    },
+    "observation-canonical-structure-v1": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "adapter": {
+          "const": {
+            "id": "invariance-shadow-observation-adapter-v1",
+            "version": "1",
+            "contentHash": "sha256:f50bd13d6e5af467781922e8c1586916532face8b8fd11ac2a69961f318d75df"
+          }
+        },
+        "source": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "contextHash": {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            },
+            "scopeHash": {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            }
+          },
+          "required": [
+            "contextHash",
+            "scopeHash"
+          ]
+        },
+        "payloadHash": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "observations": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "observable": {
+                  "const": {
+                    "id": "canonical-directed-structure-v1",
+                    "version": "1",
+                    "contentHash": "sha256:48f137781781c54724e172256925e44c9a2be42a08610c88abaca8a9f6016e7b"
+                  }
+                },
+                "implementation": {
+                  "const": {
+                    "id": "canonical-directed-observation-v1",
+                    "version": "1",
+                    "contentHash": "sha256:c24eb843608db1252a279b2f48f717f13d675680cd7607cec6d46d84c26d9a4d"
+                  }
+                },
+                "availability": {
+                  "const": "observed"
+                },
+                "value": {
+                  "$ref": "https://onto2d.dev/schemas/v1/structural-canonical-observation.schema.json#/properties/observation/properties/value"
+                },
+                "valueHash": {
+                  "type": "string",
+                  "pattern": "^sha256:[a-f0-9]{64}$"
+                },
+                "missing": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "sourceEdgeId": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "field": {
+                        "enum": [
+                          "dependencyTypeId",
+                          "interactionModeIds",
+                          "ontologicalRole",
+                          "necessity",
+                          "causalDirectionIds"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "sourceEdgeId",
+                      "field"
+                    ]
+                  },
+                  "minItems": 0,
+                  "maxItems": 0
+                }
+              },
+              "required": [
+                "observable",
+                "implementation",
+                "availability",
+                "value",
+                "valueHash",
+                "missing"
+              ]
+            }
+          ],
+          "items": false,
+          "minItems": 1,
+          "maxItems": 1
+        },
+        "work": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "canonicalizerCalls": {
+              "const": 1
+            }
+          },
+          "required": [
+            "canonicalizerCalls"
+          ]
+        },
+        "artifactHash": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        }
+      },
+      "required": [
+        "adapter",
+        "source",
+        "payloadHash",
+        "observations",
+        "work",
+        "artifactHash"
+      ]
+    },
+    "mapping-canonical-structure-v1": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "nodes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "sourceNodeId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "beforeId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "afterId": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "sourceNodeId",
+              "beforeId",
+              "afterId"
+            ]
+          },
+          "minItems": 1,
+          "maxItems": 6
+        },
+        "edges": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "sourceEdgeId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "beforeId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "afterId": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "sourceEdgeId",
+              "beforeId",
+              "afterId"
+            ]
+          },
+          "minItems": 0,
+          "maxItems": 30
+        }
+      },
+      "required": [
+        "nodes",
+        "edges"
+      ]
+    },
+    "comparison-canonical-structure-v1": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "enum": [
+            "passed",
+            "failed",
+            "indeterminate"
+          ]
+        },
+        "coverage": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "numerator": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "denominator": {
+              "const": 1
+            }
+          },
+          "required": [
+            "numerator",
+            "denominator"
+          ]
+        },
+        "components": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "observableId": {
+                  "const": "canonical-directed-structure-v1"
+                },
+                "state": {
+                  "enum": [
+                    "equal",
+                    "different",
+                    "indeterminate"
+                  ]
+                }
+              },
+              "required": [
+                "observableId",
+                "state"
+              ]
+            }
+          ],
+          "items": false,
+          "minItems": 1,
+          "maxItems": 1
+        }
+      },
+      "required": [
+        "status",
+        "coverage",
+        "components"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "components": {
+                "contains": {
+                  "properties": {
+                    "state": {
+                      "const": "indeterminate"
+                    }
+                  },
+                  "required": [
+                    "state"
+                  ]
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "status": {
+                "const": "indeterminate"
+              },
+              "coverage": {
+                "properties": {
+                  "numerator": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 0
+                  }
+                }
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "coverage": {
+                "properties": {
+                  "numerator": {
+                    "const": 1
+                  }
+                }
+              }
+            },
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "components": {
+                      "contains": {
+                        "properties": {
+                          "state": {
+                            "const": "different"
+                          }
+                        },
+                        "required": [
+                          "state"
+                        ]
+                      }
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "status": {
+                      "const": "failed"
+                    }
+                  }
+                },
+                "else": {
+                  "properties": {
+                    "status": {
+                      "const": "passed"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "observation-topology-only-v1": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "adapter": {
+          "const": {
+            "id": "invariance-shadow-observation-adapter-v1",
+            "version": "1",
+            "contentHash": "sha256:f50bd13d6e5af467781922e8c1586916532face8b8fd11ac2a69961f318d75df"
+          }
+        },
+        "source": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "contextHash": {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            },
+            "scopeHash": {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            }
+          },
+          "required": [
+            "contextHash",
+            "scopeHash"
+          ]
+        },
+        "payloadHash": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "observations": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "observable": {
+                  "const": {
+                    "id": "node-count-v1",
+                    "version": "1",
+                    "contentHash": "sha256:fcde1a54025bdc9f964cdfb6cbd9f015fb94cc473949584abe8ba01031d9d983"
+                  }
+                },
+                "implementation": {
+                  "const": {
+                    "id": "directed-topology-observation-v1",
+                    "version": "1",
+                    "contentHash": "sha256:56e0a358ae1c6f3618fb792c319bedc2d1e06db637b8410de1a39d4a69f3a4e8"
+                  }
+                },
+                "availability": {
+                  "const": "observed"
+                },
+                "value": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 64
+                },
+                "valueHash": {
+                  "type": "string",
+                  "pattern": "^sha256:[a-f0-9]{64}$"
+                },
+                "missing": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "sourceEdgeId": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "field": {
+                        "enum": [
+                          "dependencyTypeId",
+                          "interactionModeIds",
+                          "ontologicalRole",
+                          "necessity",
+                          "causalDirectionIds"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "sourceEdgeId",
+                      "field"
+                    ]
+                  },
+                  "minItems": 0,
+                  "maxItems": 0
+                }
+              },
+              "required": [
+                "observable",
+                "implementation",
+                "availability",
+                "value",
+                "valueHash",
+                "missing"
+              ]
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "observable": {
+                  "const": {
+                    "id": "edge-count-v1",
+                    "version": "1",
+                    "contentHash": "sha256:13f1db7824b26dd6ec1d8ff6ca169670637dd780b11db2ba308c6356e24197c5"
+                  }
+                },
+                "implementation": {
+                  "const": {
+                    "id": "directed-topology-observation-v1",
+                    "version": "1",
+                    "contentHash": "sha256:56e0a358ae1c6f3618fb792c319bedc2d1e06db637b8410de1a39d4a69f3a4e8"
+                  }
+                },
+                "availability": {
+                  "const": "observed"
+                },
+                "value": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 256
+                },
+                "valueHash": {
+                  "type": "string",
+                  "pattern": "^sha256:[a-f0-9]{64}$"
+                },
+                "missing": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "sourceEdgeId": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "field": {
+                        "enum": [
+                          "dependencyTypeId",
+                          "interactionModeIds",
+                          "ontologicalRole",
+                          "necessity",
+                          "causalDirectionIds"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "sourceEdgeId",
+                      "field"
+                    ]
+                  },
+                  "minItems": 0,
+                  "maxItems": 0
+                }
+              },
+              "required": [
+                "observable",
+                "implementation",
+                "availability",
+                "value",
+                "valueHash",
+                "missing"
+              ]
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "observable": {
+                  "const": {
+                    "id": "weak-component-sizes-v1",
+                    "version": "1",
+                    "contentHash": "sha256:bd3c0c2440644cb1da3251a1b3b585d061e172fa6e674aca0de8250b1f800ee1"
+                  }
+                },
+                "implementation": {
+                  "const": {
+                    "id": "directed-topology-observation-v1",
+                    "version": "1",
+                    "contentHash": "sha256:56e0a358ae1c6f3618fb792c319bedc2d1e06db637b8410de1a39d4a69f3a4e8"
+                  }
+                },
+                "availability": {
+                  "const": "observed"
+                },
+                "value": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 64
+                  },
+                  "minItems": 1,
+                  "maxItems": 64
+                },
+                "valueHash": {
+                  "type": "string",
+                  "pattern": "^sha256:[a-f0-9]{64}$"
+                },
+                "missing": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "sourceEdgeId": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "field": {
+                        "enum": [
+                          "dependencyTypeId",
+                          "interactionModeIds",
+                          "ontologicalRole",
+                          "necessity",
+                          "causalDirectionIds"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "sourceEdgeId",
+                      "field"
+                    ]
+                  },
+                  "minItems": 0,
+                  "maxItems": 0
+                }
+              },
+              "required": [
+                "observable",
+                "implementation",
+                "availability",
+                "value",
+                "valueHash",
+                "missing"
+              ]
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "observable": {
+                  "const": {
+                    "id": "strong-component-sizes-v1",
+                    "version": "1",
+                    "contentHash": "sha256:9ee44d035a7da8c0bb040c0a2d4dc39a91bdc8fa0f08a588aff4955931e12671"
+                  }
+                },
+                "implementation": {
+                  "const": {
+                    "id": "directed-topology-observation-v1",
+                    "version": "1",
+                    "contentHash": "sha256:56e0a358ae1c6f3618fb792c319bedc2d1e06db637b8410de1a39d4a69f3a4e8"
+                  }
+                },
+                "availability": {
+                  "const": "observed"
+                },
+                "value": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 64
+                  },
+                  "minItems": 1,
+                  "maxItems": 64
+                },
+                "valueHash": {
+                  "type": "string",
+                  "pattern": "^sha256:[a-f0-9]{64}$"
+                },
+                "missing": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "sourceEdgeId": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "field": {
+                        "enum": [
+                          "dependencyTypeId",
+                          "interactionModeIds",
+                          "ontologicalRole",
+                          "necessity",
+                          "causalDirectionIds"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "sourceEdgeId",
+                      "field"
+                    ]
+                  },
+                  "minItems": 0,
+                  "maxItems": 0
+                }
+              },
+              "required": [
+                "observable",
+                "implementation",
+                "availability",
+                "value",
+                "valueHash",
+                "missing"
+              ]
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "observable": {
+                  "const": {
+                    "id": "reachable-ordered-pair-count-v1",
+                    "version": "1",
+                    "contentHash": "sha256:0d267b9b833a0a7b7e341190e4522a1c9fac9792d651d10081ea82468618f74f"
+                  }
+                },
+                "implementation": {
+                  "const": {
+                    "id": "directed-topology-observation-v1",
+                    "version": "1",
+                    "contentHash": "sha256:56e0a358ae1c6f3618fb792c319bedc2d1e06db637b8410de1a39d4a69f3a4e8"
+                  }
+                },
+                "availability": {
+                  "const": "observed"
+                },
+                "value": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 4032
+                },
+                "valueHash": {
+                  "type": "string",
+                  "pattern": "^sha256:[a-f0-9]{64}$"
+                },
+                "missing": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "sourceEdgeId": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "field": {
+                        "enum": [
+                          "dependencyTypeId",
+                          "interactionModeIds",
+                          "ontologicalRole",
+                          "necessity",
+                          "causalDirectionIds"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "sourceEdgeId",
+                      "field"
+                    ]
+                  },
+                  "minItems": 0,
+                  "maxItems": 0
+                }
+              },
+              "required": [
+                "observable",
+                "implementation",
+                "availability",
+                "value",
+                "valueHash",
+                "missing"
+              ]
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "observable": {
+                  "const": {
+                    "id": "cyclic-node-count-v1",
+                    "version": "1",
+                    "contentHash": "sha256:325e52ae7471466b4e032c7067585331bb1ce4c49be9e10b28d4685874aacbd6"
+                  }
+                },
+                "implementation": {
+                  "const": {
+                    "id": "directed-topology-observation-v1",
+                    "version": "1",
+                    "contentHash": "sha256:56e0a358ae1c6f3618fb792c319bedc2d1e06db637b8410de1a39d4a69f3a4e8"
+                  }
+                },
+                "availability": {
+                  "const": "observed"
+                },
+                "value": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 64
+                },
+                "valueHash": {
+                  "type": "string",
+                  "pattern": "^sha256:[a-f0-9]{64}$"
+                },
+                "missing": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "sourceEdgeId": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "field": {
+                        "enum": [
+                          "dependencyTypeId",
+                          "interactionModeIds",
+                          "ontologicalRole",
+                          "necessity",
+                          "causalDirectionIds"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "sourceEdgeId",
+                      "field"
+                    ]
+                  },
+                  "minItems": 0,
+                  "maxItems": 0
+                }
+              },
+              "required": [
+                "observable",
+                "implementation",
+                "availability",
+                "value",
+                "valueHash",
+                "missing"
+              ]
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "observable": {
+                  "const": {
+                    "id": "isolated-node-count-v1",
+                    "version": "1",
+                    "contentHash": "sha256:df7729800602b4a29082552fbcdd36d9f44cf2851024cc3396196b94f95823d6"
+                  }
+                },
+                "implementation": {
+                  "const": {
+                    "id": "directed-topology-observation-v1",
+                    "version": "1",
+                    "contentHash": "sha256:56e0a358ae1c6f3618fb792c319bedc2d1e06db637b8410de1a39d4a69f3a4e8"
+                  }
+                },
+                "availability": {
+                  "const": "observed"
+                },
+                "value": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 64
+                },
+                "valueHash": {
+                  "type": "string",
+                  "pattern": "^sha256:[a-f0-9]{64}$"
+                },
+                "missing": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "sourceEdgeId": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "field": {
+                        "enum": [
+                          "dependencyTypeId",
+                          "interactionModeIds",
+                          "ontologicalRole",
+                          "necessity",
+                          "causalDirectionIds"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "sourceEdgeId",
+                      "field"
+                    ]
+                  },
+                  "minItems": 0,
+                  "maxItems": 0
+                }
+              },
+              "required": [
+                "observable",
+                "implementation",
+                "availability",
+                "value",
+                "valueHash",
+                "missing"
+              ]
+            }
+          ],
+          "items": false,
+          "minItems": 7,
+          "maxItems": 7
+        },
+        "work": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "canonicalizerCalls": {
+              "const": 0
+            }
+          },
+          "required": [
+            "canonicalizerCalls"
+          ]
+        },
+        "artifactHash": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        }
+      },
+      "required": [
+        "adapter",
+        "source",
+        "payloadHash",
+        "observations",
+        "work",
+        "artifactHash"
+      ]
+    },
+    "mapping-topology-only-v1": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "nodes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "sourceNodeId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "beforeId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "afterId": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "sourceNodeId",
+              "beforeId",
+              "afterId"
+            ]
+          },
+          "minItems": 1,
+          "maxItems": 64
+        },
+        "edges": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "sourceEdgeId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "beforeId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "afterId": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "sourceEdgeId",
+              "beforeId",
+              "afterId"
+            ]
+          },
+          "minItems": 0,
+          "maxItems": 256
+        }
+      },
+      "required": [
+        "nodes",
+        "edges"
+      ]
+    },
+    "comparison-topology-only-v1": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "enum": [
+            "passed",
+            "failed",
+            "indeterminate"
+          ]
+        },
+        "coverage": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "numerator": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 7
+            },
+            "denominator": {
+              "const": 7
+            }
+          },
+          "required": [
+            "numerator",
+            "denominator"
+          ]
+        },
+        "components": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "observableId": {
+                  "const": "node-count-v1"
+                },
+                "state": {
+                  "enum": [
+                    "equal",
+                    "different",
+                    "indeterminate"
+                  ]
+                }
+              },
+              "required": [
+                "observableId",
+                "state"
+              ]
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "observableId": {
+                  "const": "edge-count-v1"
+                },
+                "state": {
+                  "enum": [
+                    "equal",
+                    "different",
+                    "indeterminate"
+                  ]
+                }
+              },
+              "required": [
+                "observableId",
+                "state"
+              ]
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "observableId": {
+                  "const": "weak-component-sizes-v1"
+                },
+                "state": {
+                  "enum": [
+                    "equal",
+                    "different",
+                    "indeterminate"
+                  ]
+                }
+              },
+              "required": [
+                "observableId",
+                "state"
+              ]
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "observableId": {
+                  "const": "strong-component-sizes-v1"
+                },
+                "state": {
+                  "enum": [
+                    "equal",
+                    "different",
+                    "indeterminate"
+                  ]
+                }
+              },
+              "required": [
+                "observableId",
+                "state"
+              ]
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "observableId": {
+                  "const": "reachable-ordered-pair-count-v1"
+                },
+                "state": {
+                  "enum": [
+                    "equal",
+                    "different",
+                    "indeterminate"
+                  ]
+                }
+              },
+              "required": [
+                "observableId",
+                "state"
+              ]
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "observableId": {
+                  "const": "cyclic-node-count-v1"
+                },
+                "state": {
+                  "enum": [
+                    "equal",
+                    "different",
+                    "indeterminate"
+                  ]
+                }
+              },
+              "required": [
+                "observableId",
+                "state"
+              ]
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "observableId": {
+                  "const": "isolated-node-count-v1"
+                },
+                "state": {
+                  "enum": [
+                    "equal",
+                    "different",
+                    "indeterminate"
+                  ]
+                }
+              },
+              "required": [
+                "observableId",
+                "state"
+              ]
+            }
+          ],
+          "items": false,
+          "minItems": 7,
+          "maxItems": 7
+        }
+      },
+      "required": [
+        "status",
+        "coverage",
+        "components"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "components": {
+                "contains": {
+                  "properties": {
+                    "state": {
+                      "const": "indeterminate"
+                    }
+                  },
+                  "required": [
+                    "state"
+                  ]
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "status": {
+                "const": "indeterminate"
+              },
+              "coverage": {
+                "properties": {
+                  "numerator": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 6
+                  }
+                }
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "coverage": {
+                "properties": {
+                  "numerator": {
+                    "const": 7
+                  }
+                }
+              }
+            },
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "components": {
+                      "contains": {
+                        "properties": {
+                          "state": {
+                            "const": "different"
+                          }
+                        },
+                        "required": [
+                          "state"
+                        ]
+                      }
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "status": {
+                      "const": "failed"
+                    }
+                  }
+                },
+                "else": {
+                  "properties": {
+                    "status": {
+                      "const": "passed"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "observation-typed-relations-v1": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "adapter": {
+          "const": {
+            "id": "invariance-shadow-observation-adapter-v1",
+            "version": "1",
+            "contentHash": "sha256:f50bd13d6e5af467781922e8c1586916532face8b8fd11ac2a69961f318d75df"
+          }
+        },
+        "source": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "contextHash": {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            },
+            "scopeHash": {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            }
+          },
+          "required": [
+            "contextHash",
+            "scopeHash"
+          ]
+        },
+        "payloadHash": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "observations": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "observable": {
+                  "const": {
+                    "id": "canonical-directed-structure-v1",
+                    "version": "1",
+                    "contentHash": "sha256:48f137781781c54724e172256925e44c9a2be42a08610c88abaca8a9f6016e7b"
+                  }
+                },
+                "implementation": {
+                  "const": {
+                    "id": "typed-directed-observation-v1",
+                    "version": "1",
+                    "contentHash": "sha256:953f5ae6ad1fee7069058ac66116848c7b3981850feaf9a1c84d216325ba60e3"
+                  }
+                },
+                "availability": {
+                  "const": "observed"
+                },
+                "value": {
+                  "$ref": "https://onto2d.dev/schemas/v1/structural-canonical-observation.schema.json#/properties/observation/properties/value"
+                },
+                "valueHash": {
+                  "type": "string",
+                  "pattern": "^sha256:[a-f0-9]{64}$"
+                },
+                "missing": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "sourceEdgeId": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "field": {
+                        "enum": [
+                          "dependencyTypeId",
+                          "interactionModeIds",
+                          "ontologicalRole",
+                          "necessity",
+                          "causalDirectionIds"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "sourceEdgeId",
+                      "field"
+                    ]
+                  },
+                  "minItems": 0,
+                  "maxItems": 0
+                }
+              },
+              "required": [
+                "observable",
+                "implementation",
+                "availability",
+                "value",
+                "valueHash",
+                "missing"
+              ]
+            },
+            {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "observable": {
+                      "const": {
+                        "id": "canonical-typed-directed-structure-v1",
+                        "version": "1",
+                        "contentHash": "sha256:3df933040d1a5002b2338cf07b11eefd68e63f76597e72873d897fd3ea86efd3"
+                      }
+                    },
+                    "implementation": {
+                      "const": {
+                        "id": "typed-directed-observation-v1",
+                        "version": "1",
+                        "contentHash": "sha256:953f5ae6ad1fee7069058ac66116848c7b3981850feaf9a1c84d216325ba60e3"
+                      }
+                    },
+                    "availability": {
+                      "const": "observed"
+                    },
+                    "value": {
+                      "$ref": "https://onto2d.dev/schemas/v1/structural-typed-observation.schema.json#/$defs/typedValue"
+                    },
+                    "valueHash": {
+                      "type": "string",
+                      "pattern": "^sha256:[a-f0-9]{64}$"
+                    },
+                    "missing": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "sourceEdgeId": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "field": {
+                            "enum": [
+                              "dependencyTypeId",
+                              "interactionModeIds",
+                              "ontologicalRole",
+                              "necessity",
+                              "causalDirectionIds"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "sourceEdgeId",
+                          "field"
+                        ]
+                      },
+                      "minItems": 0,
+                      "maxItems": 0
+                    }
+                  },
+                  "required": [
+                    "observable",
+                    "implementation",
+                    "availability",
+                    "value",
+                    "valueHash",
+                    "missing"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "observable": {
+                      "const": {
+                        "id": "canonical-typed-directed-structure-v1",
+                        "version": "1",
+                        "contentHash": "sha256:3df933040d1a5002b2338cf07b11eefd68e63f76597e72873d897fd3ea86efd3"
+                      }
+                    },
+                    "implementation": {
+                      "const": {
+                        "id": "typed-directed-observation-v1",
+                        "version": "1",
+                        "contentHash": "sha256:953f5ae6ad1fee7069058ac66116848c7b3981850feaf9a1c84d216325ba60e3"
+                      }
+                    },
+                    "availability": {
+                      "const": "missing"
+                    },
+                    "value": {
+                      "type": "null"
+                    },
+                    "valueHash": {
+                      "type": "null"
+                    },
+                    "missing": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "sourceEdgeId": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "field": {
+                            "enum": [
+                              "dependencyTypeId",
+                              "interactionModeIds",
+                              "ontologicalRole",
+                              "necessity",
+                              "causalDirectionIds"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "sourceEdgeId",
+                          "field"
+                        ]
+                      },
+                      "minItems": 1,
+                      "maxItems": 150,
+                      "uniqueItems": true
+                    }
+                  },
+                  "required": [
+                    "observable",
+                    "implementation",
+                    "availability",
+                    "value",
+                    "valueHash",
+                    "missing"
+                  ]
+                }
+              ]
+            }
+          ],
+          "items": false,
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "work": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "canonicalizerCalls": {
+              "enum": [
+                1,
+                2
+              ]
+            }
+          },
+          "required": [
+            "canonicalizerCalls"
+          ]
+        },
+        "artifactHash": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        }
+      },
+      "required": [
+        "adapter",
+        "source",
+        "payloadHash",
+        "observations",
+        "work",
+        "artifactHash"
+      ]
+    },
+    "mapping-typed-relations-v1": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "nodes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "sourceNodeId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "beforeId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "afterId": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "sourceNodeId",
+              "beforeId",
+              "afterId"
+            ]
+          },
+          "minItems": 1,
+          "maxItems": 6
+        },
+        "edges": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "sourceEdgeId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "beforeId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "afterId": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "sourceEdgeId",
+              "beforeId",
+              "afterId"
+            ]
+          },
+          "minItems": 0,
+          "maxItems": 30
+        }
+      },
+      "required": [
+        "nodes",
+        "edges"
+      ]
+    },
+    "comparison-typed-relations-v1": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "enum": [
+            "passed",
+            "failed",
+            "indeterminate"
+          ]
+        },
+        "coverage": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "numerator": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2
+            },
+            "denominator": {
+              "const": 2
+            }
+          },
+          "required": [
+            "numerator",
+            "denominator"
+          ]
+        },
+        "components": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "observableId": {
+                  "const": "canonical-directed-structure-v1"
+                },
+                "state": {
+                  "enum": [
+                    "equal",
+                    "different",
+                    "indeterminate"
+                  ]
+                }
+              },
+              "required": [
+                "observableId",
+                "state"
+              ]
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "observableId": {
+                  "const": "canonical-typed-directed-structure-v1"
+                },
+                "state": {
+                  "enum": [
+                    "equal",
+                    "different",
+                    "indeterminate"
+                  ]
+                }
+              },
+              "required": [
+                "observableId",
+                "state"
+              ]
+            }
+          ],
+          "items": false,
+          "minItems": 2,
+          "maxItems": 2
+        }
+      },
+      "required": [
+        "status",
+        "coverage",
+        "components"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "components": {
+                "contains": {
+                  "properties": {
+                    "state": {
+                      "const": "indeterminate"
+                    }
+                  },
+                  "required": [
+                    "state"
+                  ]
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "status": {
+                "const": "indeterminate"
+              },
+              "coverage": {
+                "properties": {
+                  "numerator": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 1
+                  }
+                }
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "coverage": {
+                "properties": {
+                  "numerator": {
+                    "const": 2
+                  }
+                }
+              }
+            },
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "components": {
+                      "contains": {
+                        "properties": {
+                          "state": {
+                            "const": "different"
+                          }
+                        },
+                        "required": [
+                          "state"
+                        ]
+                      }
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "status": {
+                      "const": "failed"
+                    }
+                  }
+                },
+                "else": {
+                  "properties": {
+                    "status": {
+                      "const": "passed"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schemaVersion": {
+          "const": "1"
+        },
+        "analysis": {
+          "const": {
+            "id": "structural-invariance-probes",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "const": "measured"
+        },
+        "policy": {
+          "$ref": "#/$defs/policy"
+        },
+        "registry": {
+          "$ref": "#/$defs/registry"
+        },
+        "adapter": {
+          "$ref": "#/$defs/adapter"
+        },
+        "sandbox": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "policy": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "id": {
+                  "const": "immutable-structural-probe-sandbox-v1"
+                },
+                "version": {
+                  "const": "1"
+                },
+                "contentHash": {
+                  "type": "string",
+                  "pattern": "^sha256:[a-f0-9]{64}$"
+                }
+              },
+              "required": [
+                "id",
+                "version",
+                "contentHash"
+              ]
+            },
+            "artifactHash": {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            }
+          },
+          "required": [
+            "policy",
+            "artifactHash"
+          ]
+        },
+        "request": {
+          "allOf": [
+            {
+              "$ref": "https://onto2d.dev/schemas/v1/structural-regime-input.schema.json"
+            },
+            {
+              "required": [
+                "scope"
+              ],
+              "properties": {
+                "regimeId": {
+                  "const": "canonical-structure-v1"
+                }
+              }
+            }
+          ]
+        },
+        "preparation": {
+          "allOf": [
+            {
+              "$ref": "https://onto2d.dev/schemas/v1/structural-regime-preparation.schema.json"
+            },
+            {
+              "properties": {
+                "request": {
+                  "properties": {
+                    "regimeId": {
+                      "const": "canonical-structure-v1"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "baseline": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "sourceShadowGraphHash": {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            },
+            "mapping": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "nodes": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "sourceNodeId": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "shadowNodeId": {
+                        "type": "string",
+                        "pattern": "^n[0-9]{3}$"
+                      }
+                    },
+                    "required": [
+                      "sourceNodeId",
+                      "shadowNodeId"
+                    ]
+                  },
+                  "minItems": 1,
+                  "maxItems": 6
+                },
+                "edges": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "sourceEdgeId": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "shadowEdgeId": {
+                        "type": "string",
+                        "pattern": "^e[0-9]{3}$"
+                      }
+                    },
+                    "required": [
+                      "sourceEdgeId",
+                      "shadowEdgeId"
+                    ]
+                  },
+                  "minItems": 0,
+                  "maxItems": 30
+                }
+              },
+              "required": [
+                "nodes",
+                "edges"
+              ]
+            },
+            "representation": {
+              "$ref": "#/$defs/representation"
+            },
+            "observation": {
+              "$ref": "#/$defs/observation-canonical-structure-v1"
+            }
+          },
+          "required": [
+            "sourceShadowGraphHash",
+            "mapping",
+            "representation",
+            "observation"
+          ]
+        },
+        "runs": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "probe": {
+                  "const": {
+                    "id": "record-order-probe-v1",
+                    "version": "1",
+                    "contentHash": "sha256:418c8184b377acf5bf73ad19f5b0e7d103624aac4a87f6c4a7461362f2224851"
+                  }
+                },
+                "target": {
+                  "const": "whole-scoped-representation"
+                },
+                "beforePayloadHash": {
+                  "type": "string",
+                  "pattern": "^sha256:[a-f0-9]{64}$"
+                },
+                "representation": {
+                  "$ref": "#/$defs/representation"
+                },
+                "mapping": {
+                  "$ref": "#/$defs/mapping-canonical-structure-v1"
+                },
+                "observation": {
+                  "$ref": "#/$defs/observation-canonical-structure-v1"
+                },
+                "payloadChanged": {
+                  "const": true
+                },
+                "comparison": {
+                  "$ref": "#/$defs/comparison-canonical-structure-v1"
+                },
+                "runHash": {
+                  "type": "string",
+                  "pattern": "^sha256:[a-f0-9]{64}$"
+                }
+              },
+              "required": [
+                "probe",
+                "target",
+                "beforePayloadHash",
+                "representation",
+                "mapping",
+                "observation",
+                "payloadChanged",
+                "comparison",
+                "runHash"
+              ]
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "probe": {
+                  "const": {
+                    "id": "bijective-node-id-renaming-probe-v1",
+                    "version": "1",
+                    "contentHash": "sha256:a69c1e750d074e5aa529b5c75b7b9149d63d292e44463e7aa915c24ea2c665d3"
+                  }
+                },
+                "target": {
+                  "const": "whole-scoped-representation"
+                },
+                "beforePayloadHash": {
+                  "type": "string",
+                  "pattern": "^sha256:[a-f0-9]{64}$"
+                },
+                "representation": {
+                  "$ref": "#/$defs/representation"
+                },
+                "mapping": {
+                  "$ref": "#/$defs/mapping-canonical-structure-v1"
+                },
+                "observation": {
+                  "$ref": "#/$defs/observation-canonical-structure-v1"
+                },
+                "payloadChanged": {
+                  "const": true
+                },
+                "comparison": {
+                  "$ref": "#/$defs/comparison-canonical-structure-v1"
+                },
+                "runHash": {
+                  "type": "string",
+                  "pattern": "^sha256:[a-f0-9]{64}$"
+                }
+              },
+              "required": [
+                "probe",
+                "target",
+                "beforePayloadHash",
+                "representation",
+                "mapping",
+                "observation",
+                "payloadChanged",
+                "comparison",
+                "runHash"
+              ]
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "probe": {
+                  "const": {
+                    "id": "bijective-edge-id-renaming-probe-v1",
+                    "version": "1",
+                    "contentHash": "sha256:3476096b64e3c82a6844cfaad862536d800c531486ed756a90fc71d37538491c"
+                  }
+                },
+                "target": {
+                  "const": "whole-scoped-representation"
+                },
+                "beforePayloadHash": {
+                  "type": "string",
+                  "pattern": "^sha256:[a-f0-9]{64}$"
+                },
+                "representation": {
+                  "$ref": "#/$defs/representation"
+                },
+                "mapping": {
+                  "$ref": "#/$defs/mapping-canonical-structure-v1"
+                },
+                "observation": {
+                  "$ref": "#/$defs/observation-canonical-structure-v1"
+                },
+                "payloadChanged": {
+                  "type": "boolean"
+                },
+                "comparison": {
+                  "$ref": "#/$defs/comparison-canonical-structure-v1"
+                },
+                "runHash": {
+                  "type": "string",
+                  "pattern": "^sha256:[a-f0-9]{64}$"
+                }
+              },
+              "required": [
+                "probe",
+                "target",
+                "beforePayloadHash",
+                "representation",
+                "mapping",
+                "observation",
+                "payloadChanged",
+                "comparison",
+                "runHash"
+              ]
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "probe": {
+                  "const": {
+                    "id": "presentation-only-changes-probe-v1",
+                    "version": "1",
+                    "contentHash": "sha256:a23a0ab9cd7c305a11d7a64f2a96dd9536c29824b3c88effb4b397db575c852b"
+                  }
+                },
+                "target": {
+                  "const": "whole-scoped-representation"
+                },
+                "beforePayloadHash": {
+                  "type": "string",
+                  "pattern": "^sha256:[a-f0-9]{64}$"
+                },
+                "representation": {
+                  "$ref": "#/$defs/representation"
+                },
+                "mapping": {
+                  "$ref": "#/$defs/mapping-canonical-structure-v1"
+                },
+                "observation": {
+                  "$ref": "#/$defs/observation-canonical-structure-v1"
+                },
+                "payloadChanged": {
+                  "const": true
+                },
+                "comparison": {
+                  "$ref": "#/$defs/comparison-canonical-structure-v1"
+                },
+                "runHash": {
+                  "type": "string",
+                  "pattern": "^sha256:[a-f0-9]{64}$"
+                }
+              },
+              "required": [
+                "probe",
+                "target",
+                "beforePayloadHash",
+                "representation",
+                "mapping",
+                "observation",
+                "payloadChanged",
+                "comparison",
+                "runHash"
+              ]
+            }
+          ],
+          "items": false,
+          "minItems": 4,
+          "maxItems": 4
+        },
+        "summary": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "status": {
+              "enum": [
+                "passed",
+                "failed",
+                "indeterminate"
+              ]
+            },
+            "coverage": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "numerator": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 4
+                },
+                "denominator": {
+                  "const": 4
+                }
+              },
+              "required": [
+                "numerator",
+                "denominator"
+              ]
+            }
+          },
+          "required": [
+            "status",
+            "coverage"
+          ]
+        },
+        "work": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "representationCount": {
+              "const": 5
+            },
+            "observationEvaluations": {
+              "const": 5
+            },
+            "canonicalizerCalls": {
+              "const": 5
+            }
+          },
+          "required": [
+            "representationCount",
+            "observationEvaluations",
+            "canonicalizerCalls"
+          ]
+        },
+        "artifactHash": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "analysis",
+        "evaluation",
+        "policy",
+        "registry",
+        "adapter",
+        "sandbox",
+        "request",
+        "preparation",
+        "baseline",
+        "runs",
+        "summary",
+        "work",
+        "artifactHash"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "runs": {
+                "contains": {
+                  "properties": {
+                    "comparison": {
+                      "properties": {
+                        "status": {
+                          "const": "indeterminate"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "summary": {
+                "properties": {
+                  "status": {
+                    "const": "indeterminate"
+                  },
+                  "coverage": {
+                    "properties": {
+                      "numerator": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 3
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "summary": {
+                "properties": {
+                  "coverage": {
+                    "properties": {
+                      "numerator": {
+                        "const": 4
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "runs": {
+                      "contains": {
+                        "properties": {
+                          "comparison": {
+                            "properties": {
+                              "status": {
+                                "const": "failed"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "summary": {
+                      "properties": {
+                        "status": {
+                          "const": "failed"
+                        }
+                      }
+                    }
+                  }
+                },
+                "else": {
+                  "properties": {
+                    "summary": {
+                      "properties": {
+                        "status": {
+                          "const": "passed"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schemaVersion": {
+          "const": "1"
+        },
+        "analysis": {
+          "const": {
+            "id": "structural-invariance-probes",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "const": "measured"
+        },
+        "policy": {
+          "$ref": "#/$defs/policy"
+        },
+        "registry": {
+          "$ref": "#/$defs/registry"
+        },
+        "adapter": {
+          "$ref": "#/$defs/adapter"
+        },
+        "sandbox": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "policy": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "id": {
+                  "const": "immutable-structural-probe-sandbox-v1"
+                },
+                "version": {
+                  "const": "1"
+                },
+                "contentHash": {
+                  "type": "string",
+                  "pattern": "^sha256:[a-f0-9]{64}$"
+                }
+              },
+              "required": [
+                "id",
+                "version",
+                "contentHash"
+              ]
+            },
+            "artifactHash": {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            }
+          },
+          "required": [
+            "policy",
+            "artifactHash"
+          ]
+        },
+        "request": {
+          "allOf": [
+            {
+              "$ref": "https://onto2d.dev/schemas/v1/structural-regime-input.schema.json"
+            },
+            {
+              "required": [
+                "scope"
+              ],
+              "properties": {
+                "regimeId": {
+                  "const": "topology-only-v1"
+                }
+              }
+            }
+          ]
+        },
+        "preparation": {
+          "allOf": [
+            {
+              "$ref": "https://onto2d.dev/schemas/v1/structural-regime-preparation.schema.json"
+            },
+            {
+              "properties": {
+                "request": {
+                  "properties": {
+                    "regimeId": {
+                      "const": "topology-only-v1"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "baseline": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "sourceShadowGraphHash": {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            },
+            "mapping": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "nodes": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "sourceNodeId": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "shadowNodeId": {
+                        "type": "string",
+                        "pattern": "^n[0-9]{3}$"
+                      }
+                    },
+                    "required": [
+                      "sourceNodeId",
+                      "shadowNodeId"
+                    ]
+                  },
+                  "minItems": 1,
+                  "maxItems": 64
+                },
+                "edges": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "sourceEdgeId": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "shadowEdgeId": {
+                        "type": "string",
+                        "pattern": "^e[0-9]{3}$"
+                      }
+                    },
+                    "required": [
+                      "sourceEdgeId",
+                      "shadowEdgeId"
+                    ]
+                  },
+                  "minItems": 0,
+                  "maxItems": 256
+                }
+              },
+              "required": [
+                "nodes",
+                "edges"
+              ]
+            },
+            "representation": {
+              "$ref": "#/$defs/representation"
+            },
+            "observation": {
+              "$ref": "#/$defs/observation-topology-only-v1"
+            }
+          },
+          "required": [
+            "sourceShadowGraphHash",
+            "mapping",
+            "representation",
+            "observation"
+          ]
+        },
+        "runs": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "probe": {
+                  "const": {
+                    "id": "record-order-probe-v1",
+                    "version": "1",
+                    "contentHash": "sha256:418c8184b377acf5bf73ad19f5b0e7d103624aac4a87f6c4a7461362f2224851"
+                  }
+                },
+                "target": {
+                  "const": "whole-scoped-representation"
+                },
+                "beforePayloadHash": {
+                  "type": "string",
+                  "pattern": "^sha256:[a-f0-9]{64}$"
+                },
+                "representation": {
+                  "$ref": "#/$defs/representation"
+                },
+                "mapping": {
+                  "$ref": "#/$defs/mapping-topology-only-v1"
+                },
+                "observation": {
+                  "$ref": "#/$defs/observation-topology-only-v1"
+                },
+                "payloadChanged": {
+                  "const": true
+                },
+                "comparison": {
+                  "$ref": "#/$defs/comparison-topology-only-v1"
+                },
+                "runHash": {
+                  "type": "string",
+                  "pattern": "^sha256:[a-f0-9]{64}$"
+                }
+              },
+              "required": [
+                "probe",
+                "target",
+                "beforePayloadHash",
+                "representation",
+                "mapping",
+                "observation",
+                "payloadChanged",
+                "comparison",
+                "runHash"
+              ]
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "probe": {
+                  "const": {
+                    "id": "bijective-node-id-renaming-probe-v1",
+                    "version": "1",
+                    "contentHash": "sha256:a69c1e750d074e5aa529b5c75b7b9149d63d292e44463e7aa915c24ea2c665d3"
+                  }
+                },
+                "target": {
+                  "const": "whole-scoped-representation"
+                },
+                "beforePayloadHash": {
+                  "type": "string",
+                  "pattern": "^sha256:[a-f0-9]{64}$"
+                },
+                "representation": {
+                  "$ref": "#/$defs/representation"
+                },
+                "mapping": {
+                  "$ref": "#/$defs/mapping-topology-only-v1"
+                },
+                "observation": {
+                  "$ref": "#/$defs/observation-topology-only-v1"
+                },
+                "payloadChanged": {
+                  "const": true
+                },
+                "comparison": {
+                  "$ref": "#/$defs/comparison-topology-only-v1"
+                },
+                "runHash": {
+                  "type": "string",
+                  "pattern": "^sha256:[a-f0-9]{64}$"
+                }
+              },
+              "required": [
+                "probe",
+                "target",
+                "beforePayloadHash",
+                "representation",
+                "mapping",
+                "observation",
+                "payloadChanged",
+                "comparison",
+                "runHash"
+              ]
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "probe": {
+                  "const": {
+                    "id": "bijective-edge-id-renaming-probe-v1",
+                    "version": "1",
+                    "contentHash": "sha256:3476096b64e3c82a6844cfaad862536d800c531486ed756a90fc71d37538491c"
+                  }
+                },
+                "target": {
+                  "const": "whole-scoped-representation"
+                },
+                "beforePayloadHash": {
+                  "type": "string",
+                  "pattern": "^sha256:[a-f0-9]{64}$"
+                },
+                "representation": {
+                  "$ref": "#/$defs/representation"
+                },
+                "mapping": {
+                  "$ref": "#/$defs/mapping-topology-only-v1"
+                },
+                "observation": {
+                  "$ref": "#/$defs/observation-topology-only-v1"
+                },
+                "payloadChanged": {
+                  "type": "boolean"
+                },
+                "comparison": {
+                  "$ref": "#/$defs/comparison-topology-only-v1"
+                },
+                "runHash": {
+                  "type": "string",
+                  "pattern": "^sha256:[a-f0-9]{64}$"
+                }
+              },
+              "required": [
+                "probe",
+                "target",
+                "beforePayloadHash",
+                "representation",
+                "mapping",
+                "observation",
+                "payloadChanged",
+                "comparison",
+                "runHash"
+              ]
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "probe": {
+                  "const": {
+                    "id": "presentation-only-changes-probe-v1",
+                    "version": "1",
+                    "contentHash": "sha256:a23a0ab9cd7c305a11d7a64f2a96dd9536c29824b3c88effb4b397db575c852b"
+                  }
+                },
+                "target": {
+                  "const": "whole-scoped-representation"
+                },
+                "beforePayloadHash": {
+                  "type": "string",
+                  "pattern": "^sha256:[a-f0-9]{64}$"
+                },
+                "representation": {
+                  "$ref": "#/$defs/representation"
+                },
+                "mapping": {
+                  "$ref": "#/$defs/mapping-topology-only-v1"
+                },
+                "observation": {
+                  "$ref": "#/$defs/observation-topology-only-v1"
+                },
+                "payloadChanged": {
+                  "const": true
+                },
+                "comparison": {
+                  "$ref": "#/$defs/comparison-topology-only-v1"
+                },
+                "runHash": {
+                  "type": "string",
+                  "pattern": "^sha256:[a-f0-9]{64}$"
+                }
+              },
+              "required": [
+                "probe",
+                "target",
+                "beforePayloadHash",
+                "representation",
+                "mapping",
+                "observation",
+                "payloadChanged",
+                "comparison",
+                "runHash"
+              ]
+            }
+          ],
+          "items": false,
+          "minItems": 4,
+          "maxItems": 4
+        },
+        "summary": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "status": {
+              "enum": [
+                "passed",
+                "failed",
+                "indeterminate"
+              ]
+            },
+            "coverage": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "numerator": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 28
+                },
+                "denominator": {
+                  "const": 28
+                }
+              },
+              "required": [
+                "numerator",
+                "denominator"
+              ]
+            }
+          },
+          "required": [
+            "status",
+            "coverage"
+          ]
+        },
+        "work": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "representationCount": {
+              "const": 5
+            },
+            "observationEvaluations": {
+              "const": 5
+            },
+            "canonicalizerCalls": {
+              "const": 0
+            }
+          },
+          "required": [
+            "representationCount",
+            "observationEvaluations",
+            "canonicalizerCalls"
+          ]
+        },
+        "artifactHash": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "analysis",
+        "evaluation",
+        "policy",
+        "registry",
+        "adapter",
+        "sandbox",
+        "request",
+        "preparation",
+        "baseline",
+        "runs",
+        "summary",
+        "work",
+        "artifactHash"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "runs": {
+                "contains": {
+                  "properties": {
+                    "comparison": {
+                      "properties": {
+                        "status": {
+                          "const": "indeterminate"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "summary": {
+                "properties": {
+                  "status": {
+                    "const": "indeterminate"
+                  },
+                  "coverage": {
+                    "properties": {
+                      "numerator": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 27
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "summary": {
+                "properties": {
+                  "coverage": {
+                    "properties": {
+                      "numerator": {
+                        "const": 28
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "runs": {
+                      "contains": {
+                        "properties": {
+                          "comparison": {
+                            "properties": {
+                              "status": {
+                                "const": "failed"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "summary": {
+                      "properties": {
+                        "status": {
+                          "const": "failed"
+                        }
+                      }
+                    }
+                  }
+                },
+                "else": {
+                  "properties": {
+                    "summary": {
+                      "properties": {
+                        "status": {
+                          "const": "passed"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schemaVersion": {
+          "const": "1"
+        },
+        "analysis": {
+          "const": {
+            "id": "structural-invariance-probes",
+            "version": "1"
+          }
+        },
+        "evaluation": {
+          "const": "measured"
+        },
+        "policy": {
+          "$ref": "#/$defs/policy"
+        },
+        "registry": {
+          "$ref": "#/$defs/registry"
+        },
+        "adapter": {
+          "$ref": "#/$defs/adapter"
+        },
+        "sandbox": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "policy": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "id": {
+                  "const": "immutable-structural-probe-sandbox-v1"
+                },
+                "version": {
+                  "const": "1"
+                },
+                "contentHash": {
+                  "type": "string",
+                  "pattern": "^sha256:[a-f0-9]{64}$"
+                }
+              },
+              "required": [
+                "id",
+                "version",
+                "contentHash"
+              ]
+            },
+            "artifactHash": {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            }
+          },
+          "required": [
+            "policy",
+            "artifactHash"
+          ]
+        },
+        "request": {
+          "allOf": [
+            {
+              "$ref": "https://onto2d.dev/schemas/v1/structural-regime-input.schema.json"
+            },
+            {
+              "required": [
+                "scope"
+              ],
+              "properties": {
+                "regimeId": {
+                  "const": "typed-relations-v1"
+                }
+              }
+            }
+          ]
+        },
+        "preparation": {
+          "allOf": [
+            {
+              "$ref": "https://onto2d.dev/schemas/v1/structural-regime-preparation.schema.json"
+            },
+            {
+              "properties": {
+                "request": {
+                  "properties": {
+                    "regimeId": {
+                      "const": "typed-relations-v1"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "baseline": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "sourceShadowGraphHash": {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            },
+            "mapping": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "nodes": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "sourceNodeId": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "shadowNodeId": {
+                        "type": "string",
+                        "pattern": "^n[0-9]{3}$"
+                      }
+                    },
+                    "required": [
+                      "sourceNodeId",
+                      "shadowNodeId"
+                    ]
+                  },
+                  "minItems": 1,
+                  "maxItems": 6
+                },
+                "edges": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "sourceEdgeId": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "shadowEdgeId": {
+                        "type": "string",
+                        "pattern": "^e[0-9]{3}$"
+                      }
+                    },
+                    "required": [
+                      "sourceEdgeId",
+                      "shadowEdgeId"
+                    ]
+                  },
+                  "minItems": 0,
+                  "maxItems": 30
+                }
+              },
+              "required": [
+                "nodes",
+                "edges"
+              ]
+            },
+            "representation": {
+              "$ref": "#/$defs/representation"
+            },
+            "observation": {
+              "$ref": "#/$defs/observation-typed-relations-v1"
+            }
+          },
+          "required": [
+            "sourceShadowGraphHash",
+            "mapping",
+            "representation",
+            "observation"
+          ]
+        },
+        "runs": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "probe": {
+                  "const": {
+                    "id": "record-order-probe-v1",
+                    "version": "1",
+                    "contentHash": "sha256:418c8184b377acf5bf73ad19f5b0e7d103624aac4a87f6c4a7461362f2224851"
+                  }
+                },
+                "target": {
+                  "const": "whole-scoped-representation"
+                },
+                "beforePayloadHash": {
+                  "type": "string",
+                  "pattern": "^sha256:[a-f0-9]{64}$"
+                },
+                "representation": {
+                  "$ref": "#/$defs/representation"
+                },
+                "mapping": {
+                  "$ref": "#/$defs/mapping-typed-relations-v1"
+                },
+                "observation": {
+                  "$ref": "#/$defs/observation-typed-relations-v1"
+                },
+                "payloadChanged": {
+                  "const": true
+                },
+                "comparison": {
+                  "$ref": "#/$defs/comparison-typed-relations-v1"
+                },
+                "runHash": {
+                  "type": "string",
+                  "pattern": "^sha256:[a-f0-9]{64}$"
+                }
+              },
+              "required": [
+                "probe",
+                "target",
+                "beforePayloadHash",
+                "representation",
+                "mapping",
+                "observation",
+                "payloadChanged",
+                "comparison",
+                "runHash"
+              ]
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "probe": {
+                  "const": {
+                    "id": "bijective-node-id-renaming-probe-v1",
+                    "version": "1",
+                    "contentHash": "sha256:a69c1e750d074e5aa529b5c75b7b9149d63d292e44463e7aa915c24ea2c665d3"
+                  }
+                },
+                "target": {
+                  "const": "whole-scoped-representation"
+                },
+                "beforePayloadHash": {
+                  "type": "string",
+                  "pattern": "^sha256:[a-f0-9]{64}$"
+                },
+                "representation": {
+                  "$ref": "#/$defs/representation"
+                },
+                "mapping": {
+                  "$ref": "#/$defs/mapping-typed-relations-v1"
+                },
+                "observation": {
+                  "$ref": "#/$defs/observation-typed-relations-v1"
+                },
+                "payloadChanged": {
+                  "const": true
+                },
+                "comparison": {
+                  "$ref": "#/$defs/comparison-typed-relations-v1"
+                },
+                "runHash": {
+                  "type": "string",
+                  "pattern": "^sha256:[a-f0-9]{64}$"
+                }
+              },
+              "required": [
+                "probe",
+                "target",
+                "beforePayloadHash",
+                "representation",
+                "mapping",
+                "observation",
+                "payloadChanged",
+                "comparison",
+                "runHash"
+              ]
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "probe": {
+                  "const": {
+                    "id": "bijective-edge-id-renaming-probe-v1",
+                    "version": "1",
+                    "contentHash": "sha256:3476096b64e3c82a6844cfaad862536d800c531486ed756a90fc71d37538491c"
+                  }
+                },
+                "target": {
+                  "const": "whole-scoped-representation"
+                },
+                "beforePayloadHash": {
+                  "type": "string",
+                  "pattern": "^sha256:[a-f0-9]{64}$"
+                },
+                "representation": {
+                  "$ref": "#/$defs/representation"
+                },
+                "mapping": {
+                  "$ref": "#/$defs/mapping-typed-relations-v1"
+                },
+                "observation": {
+                  "$ref": "#/$defs/observation-typed-relations-v1"
+                },
+                "payloadChanged": {
+                  "type": "boolean"
+                },
+                "comparison": {
+                  "$ref": "#/$defs/comparison-typed-relations-v1"
+                },
+                "runHash": {
+                  "type": "string",
+                  "pattern": "^sha256:[a-f0-9]{64}$"
+                }
+              },
+              "required": [
+                "probe",
+                "target",
+                "beforePayloadHash",
+                "representation",
+                "mapping",
+                "observation",
+                "payloadChanged",
+                "comparison",
+                "runHash"
+              ]
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "probe": {
+                  "const": {
+                    "id": "presentation-only-changes-probe-v1",
+                    "version": "1",
+                    "contentHash": "sha256:a23a0ab9cd7c305a11d7a64f2a96dd9536c29824b3c88effb4b397db575c852b"
+                  }
+                },
+                "target": {
+                  "const": "whole-scoped-representation"
+                },
+                "beforePayloadHash": {
+                  "type": "string",
+                  "pattern": "^sha256:[a-f0-9]{64}$"
+                },
+                "representation": {
+                  "$ref": "#/$defs/representation"
+                },
+                "mapping": {
+                  "$ref": "#/$defs/mapping-typed-relations-v1"
+                },
+                "observation": {
+                  "$ref": "#/$defs/observation-typed-relations-v1"
+                },
+                "payloadChanged": {
+                  "const": true
+                },
+                "comparison": {
+                  "$ref": "#/$defs/comparison-typed-relations-v1"
+                },
+                "runHash": {
+                  "type": "string",
+                  "pattern": "^sha256:[a-f0-9]{64}$"
+                }
+              },
+              "required": [
+                "probe",
+                "target",
+                "beforePayloadHash",
+                "representation",
+                "mapping",
+                "observation",
+                "payloadChanged",
+                "comparison",
+                "runHash"
+              ]
+            }
+          ],
+          "items": false,
+          "minItems": 4,
+          "maxItems": 4
+        },
+        "summary": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "status": {
+              "enum": [
+                "passed",
+                "failed",
+                "indeterminate"
+              ]
+            },
+            "coverage": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "numerator": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 8
+                },
+                "denominator": {
+                  "const": 8
+                }
+              },
+              "required": [
+                "numerator",
+                "denominator"
+              ]
+            }
+          },
+          "required": [
+            "status",
+            "coverage"
+          ]
+        },
+        "work": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "representationCount": {
+              "const": 5
+            },
+            "observationEvaluations": {
+              "const": 5
+            },
+            "canonicalizerCalls": {
+              "enum": [
+                5,
+                10
+              ]
+            }
+          },
+          "required": [
+            "representationCount",
+            "observationEvaluations",
+            "canonicalizerCalls"
+          ]
+        },
+        "artifactHash": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "analysis",
+        "evaluation",
+        "policy",
+        "registry",
+        "adapter",
+        "sandbox",
+        "request",
+        "preparation",
+        "baseline",
+        "runs",
+        "summary",
+        "work",
+        "artifactHash"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "runs": {
+                "contains": {
+                  "properties": {
+                    "comparison": {
+                      "properties": {
+                        "status": {
+                          "const": "indeterminate"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "summary": {
+                "properties": {
+                  "status": {
+                    "const": "indeterminate"
+                  },
+                  "coverage": {
+                    "properties": {
+                      "numerator": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 7
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "summary": {
+                "properties": {
+                  "coverage": {
+                    "properties": {
+                      "numerator": {
+                        "const": 8
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "runs": {
+                      "contains": {
+                        "properties": {
+                          "comparison": {
+                            "properties": {
+                              "status": {
+                                "const": "failed"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "summary": {
+                      "properties": {
+                        "status": {
+                          "const": "failed"
+                        }
+                      }
+                    }
+                  }
+                },
+                "else": {
+                  "properties": {
+                    "summary": {
+                      "properties": {
+                        "status": {
+                          "const": "passed"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

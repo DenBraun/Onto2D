@@ -260,7 +260,7 @@ const ANALYSIS_FIELDS = Object.freeze(["historicalLoad", "historyEquivalence", "
 const PLACEMENT_FIELDS = Object.freeze(["mode", "effect", "role"]);
 const ID_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const VERSION_PATTERN = /^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$/;
-const IMPLEMENTATION_DOC_PATTERN = /^docs\/cases\/[A-Z0-9_]+_IMPLEMENTATION\.md$/;
+const IMPLEMENTATION_DOC_PATTERN = /^cases\/[a-z0-9]+(?:-[a-z0-9]+)*\/README\.md$/;
 
 function registryFailure(message) {
   throw new Error(`History case registry is invalid: ${message}`);

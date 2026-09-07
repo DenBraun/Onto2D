@@ -1,6 +1,13 @@
 # Git History Identity
 
-Status: implemented and reproducible as of 2026-08-18.
+Case ID: `git-history-identity`. [History case registry](../history-case-registry.json).
+
+- [Git History Identity — use and reproduction](#git-history-identity--use-and-reproduction)
+- [Git History Identity — source and interpretation](#git-history-identity--source-and-interpretation)
+
+<a id="git-history-identity--use-and-reproduction"></a>
+
+## Git History Identity — use and reproduction
 
 This bounded case demonstrates one precise result with native Git objects:
 
@@ -15,7 +22,9 @@ records their native object IDs, and independently recomputes Git's
 temporary repository is not the evidence artifact; the normalized, committed
 JSON output is.
 
-## Result
+<a id="git-history-identity--use-and-reproduction--result"></a>
+
+### Result
 
 The fixture contains 7 blobs, 8 trees, 14 commits, 6 named histories, and 4
 controlled comparisons. Every comparison ends at the same native Git tree
@@ -33,7 +42,9 @@ while both the final tree and the exact parent closure below the selected head
 remain unchanged. The first three comparisons then isolate genuine ancestry or
 topology differences.
 
-## Identity regimes
+<a id="git-history-identity--use-and-reproduction--identity-regimes"></a>
+
+### Identity regimes
 
 - **Tree identity** compares the native tree object ID referenced by each head.
 - **Commit identity** compares the complete native commit object ID.
@@ -46,7 +57,9 @@ topology differences.
 These are four different questions. The interface changes the active question;
 it never changes an object, ID, or extracted relationship.
 
-## Reproduce and verify
+<a id="git-history-identity--use-and-reproduction--reproduce-and-verify"></a>
+
+### Reproduce and verify
 
 Node.js 22 or newer and a Git executable with SHA-1 object-format support are
 required.
@@ -69,7 +82,9 @@ Run `npm run dev:site`, then open
 The browser verifies a pinned SHA-256 digest of the complete artifact before it
 renders any result.
 
-## Evidence boundary
+<a id="git-history-identity--use-and-reproduction--evidence-boundary"></a>
+
+### Evidence boundary
 
 The case establishes state/history separation only for this finite,
 deterministic fixture. Git commit parentage is retained as a native Git
@@ -83,7 +98,9 @@ be unjustified. The case also does not generalize from the fixture to arbitrary
 repositories, signatures, replace refs, shallow clones, alternate object
 formats, submodules, or working-tree state.
 
-## Files
+<a id="git-history-identity--use-and-reproduction--files"></a>
+
+### Files
 
 - `fixture-spec.json` is the only editable fixture source.
 - `build-fixture.mjs` validates the source and constructs native Git objects.
@@ -94,12 +111,90 @@ formats, submodules, or working-tree state.
 - `../../apps/git-history-identity-lab/` is the verified browser projection.
 
 The approved design and falsification criterion remain in
-[`../../docs/external-cases/GIT_HISTORY_IDENTITY_IMPLEMENTATION.md`](../../docs/external-cases/GIT_HISTORY_IDENTITY_IMPLEMENTATION.md).
+[`../../cases/git-history-identity/README.md`](#git-history-identity--source-and-interpretation).
 
-## History Matters pilot
+<a id="git-history-identity--use-and-reproduction--history-matters-pilot"></a>
+
+### History Matters pilot
 
 The [frozen benchmark contract](history-benchmark/contract.json) compares the
 complete source-fixture census under an exact semantic identity regime.
 `npm run history-benchmark:check` replays its P/H/target artifacts, wrong-history
 nulls and [result](history-benchmark/result.json). This is a regime-relative
 semantic result, not empirical prediction or an independent review.
+
+<a id="git-history-identity--source-and-interpretation"></a>
+
+## Git History Identity — source and interpretation
+
+<a id="git-history-identity--source-and-interpretation--purpose"></a>
+
+### Purpose
+
+Create the smallest rigorous external case showing that identical current state
+does not uniquely determine history.
+
+Primary distinction:
+
+```text
+same tree state
+    !=
+same commit identity
+    !=
+same ancestry
+```
+
+This case should become the canonical introductory Onto2D demonstration of
+state/history separation.
+
+<a id="git-history-identity--source-and-interpretation--scope"></a>
+
+### Scope
+
+Use a deterministic local fixture repository created entirely by test code.
+
+Do not depend on a large public Git repository for the canonical experiment.
+
+The fixture must create at least two histories converging to the same final tree.
+
+<a id="git-history-identity--source-and-interpretation--canonical-fixture"></a>
+
+### Canonical Fixture
+
+Target:
+
+```text
+History A                 History B
+
+A0                        B0
+ |                         |
+A1                        B1
+ |                         |
+A2                        B2
+  \                       /
+   +--- same final tree --+
+```
+
+Required:
+
+```text
+tree(A2) == tree(B2)
+commit(A2) != commit(B2)
+ancestry(A2) != ancestry(B2)
+```
+
+The fixture builder must record exact object IDs.
+
+<a id="git-history-identity--source-and-interpretation--falsification-criterion"></a>
+
+### Falsification Criterion
+
+The case fails if Onto2D cannot represent:
+
+```text
+same current structure
++
+different historical identity
+```
+
+without duplicating or corrupting the current-state structure.

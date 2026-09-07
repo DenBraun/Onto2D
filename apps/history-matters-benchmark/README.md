@@ -47,4 +47,4 @@ prediction links; its held-out error remains unavailable pending independent
 review. LTEE has three frozen protocols and an eligibility audit; this
 aggregate-table profile remains ineligible for scoring pending an appropriate
 reviewed evaluation design. See the
-[method](../../docs/history/HISTORY_MATTERS_BENCHMARK.md).
+[method](../../docs/history/BENCHMARK.md).

@@ -34,7 +34,7 @@ const profileUrl = new URL("../selection-profile.json", import.meta.url);
 const availabilityUrl = new URL("../data-availability.json", import.meta.url);
 const authorityUrl = new URL("../source/authority-boundary.json", import.meta.url);
 const schemaUrl = new URL("../schema/seshat-epistemic-provenance.schema.json", import.meta.url);
-const roadmapUrl = new URL("../../../docs/cases/SESHAT_FULL_DEPENDENCY_EXPERIMENT.md", import.meta.url);
+const roadmapUrl = new URL("../README.md", import.meta.url);
 const load = () => readFile(artifactUrl, "utf8").then(JSON.parse);
 const resign = (artifact) => {
   const { caseIdentity: ignored, ...basis } = artifact;

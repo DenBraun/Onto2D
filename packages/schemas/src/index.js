@@ -3,6 +3,22 @@ const schema = (name) => new URL(`../schemas/${name}.schema.json`, import.meta.u
 export const SCHEMA_VERSION = "1";
 
 export const schemaUrls = Object.freeze({
+  geometricAddedValueUnit: schema("geometric-added-value-unit"),
+  geometricAddedValueSuite: schema("geometric-added-value-suite"),
+  geometricSignatureInput: schema("geometric-signature-input"),
+  geometricSignatureArtifact: schema("geometric-signature-artifact"),
+  structuralResponseSignatureInput: schema("structural-response-signature-input"),
+  structuralResponseSignatureArtifact: schema("structural-response-signature-artifact"),
+  structuralPseudometricInput: schema("structural-pseudometric-input"),
+  structuralPseudometricArtifact: schema("structural-pseudometric-artifact"),
+  structuralResponseInput: schema("structural-response-input"),
+  structuralResponseArtifact: schema("structural-response-artifact"),
+  structuralInvarianceInput: schema("structural-invariance-input"),
+  structuralInvarianceArtifact: schema("structural-invariance-artifact"),
+  structuralProbeSandboxInput: schema("structural-probe-sandbox-input"),
+  structuralProbeSandboxArtifact: schema("structural-probe-sandbox-artifact"),
+  structuralComparisonInput: schema("structural-comparison-input"),
+  structuralComparisonArtifact: schema("structural-comparison-artifact"),
   structuralTypedInput: schema("structural-typed-input"),
   structuralTypedObservation: schema("structural-typed-observation"),
   structuralVocabularyMappingInput: schema("structural-vocabulary-mapping-input"),

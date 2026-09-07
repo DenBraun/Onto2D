@@ -7,8 +7,8 @@ numeric contract remain separate from the original unit results below.
 Status: computational controls and descriptive source-snapshot analysis.
 No empirical benchmark result or independently reviewed scientific conclusion.
 
-The [revised program](../../docs/structural-geometry/REVISED_ROADMAP.md) preserves
-these cases as the [pre-regime baseline](../../docs/structural-geometry/BASELINE.md).
+The [revised program](../../docs/structural-geometry/RESEARCH.md) preserves
+these cases as the [pre-regime baseline](../../docs/structural-geometry/EVIDENCE.md).
 The [flow control supplement](flow-controls/README.md) completes the revised R1
 star/single-bridge gate in its own suite. Future response and cross-domain suites
 have separate policies and do not replace these goldens.
@@ -70,7 +70,7 @@ command. The source snapshot retains its `source-snapshot-known-findings`
 status. Source weights and scientific annotations are preserved, and its
 parent relations are not upgraded to reviewed causality.
 
-Read the [definition and limits](../../docs/structural-geometry/METRIC_POLICIES.md)
+Read the [definition and limits](../../docs/structural-geometry/GEOMETRY.md#metric-and-algorithm-policies)
 before interpreting signs or comparing values. These cases are separate from
 the History Matters predictive benchmark and do not add to its score or cards.
 

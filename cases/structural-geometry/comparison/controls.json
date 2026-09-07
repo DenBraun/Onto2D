@@ -1,0 +1,376 @@
+{
+  "schemaVersion": "1",
+  "graphs": [
+    {
+      "id": "outward-star",
+      "nodes": 3,
+      "edges": [
+        {
+          "from": 0,
+          "to": 1,
+          "types": {
+            "dependencyTypeId": 0,
+            "interactionModeIds": [
+              0
+            ],
+            "causalDirectionIds": [
+              0
+            ],
+            "ontologicalRole": "arising",
+            "necessity": "necessary"
+          }
+        },
+        {
+          "from": 0,
+          "to": 2,
+          "types": {
+            "dependencyTypeId": 0,
+            "interactionModeIds": [
+              0
+            ],
+            "causalDirectionIds": [
+              0
+            ],
+            "ontologicalRole": "arising",
+            "necessity": "necessary"
+          }
+        }
+      ]
+    },
+    {
+      "id": "inward-star",
+      "nodes": 3,
+      "edges": [
+        {
+          "from": 1,
+          "to": 0,
+          "types": {
+            "dependencyTypeId": 0,
+            "interactionModeIds": [
+              0
+            ],
+            "causalDirectionIds": [
+              0
+            ],
+            "ontologicalRole": "arising",
+            "necessity": "necessary"
+          }
+        },
+        {
+          "from": 2,
+          "to": 0,
+          "types": {
+            "dependencyTypeId": 0,
+            "interactionModeIds": [
+              0
+            ],
+            "causalDirectionIds": [
+              0
+            ],
+            "ontologicalRole": "arising",
+            "necessity": "necessary"
+          }
+        }
+      ]
+    }
+  ],
+  "pairs": [
+    {
+      "id": "self",
+      "left": "single-edge",
+      "right": "single-edge",
+      "regimes": [
+        "canonical-structure-v1",
+        "topology-only-v1",
+        "typed-relations-v1"
+      ],
+      "mapping": "identity",
+      "approve": true
+    },
+    {
+      "id": "relabel",
+      "left": "asymmetric-six",
+      "right": "asymmetric-six-renamed",
+      "regimes": [
+        "canonical-structure-v1",
+        "topology-only-v1",
+        "typed-relations-v1"
+      ],
+      "mapping": "identity",
+      "approve": true
+    },
+    {
+      "id": "annotations",
+      "left": "asymmetric-six",
+      "right": "asymmetric-six-annotations",
+      "regimes": [
+        "canonical-structure-v1",
+        "topology-only-v1",
+        "typed-relations-v1"
+      ],
+      "mapping": "identity",
+      "approve": true
+    },
+    {
+      "id": "topology-collision",
+      "left": "outward-star",
+      "right": "inward-star",
+      "regimes": [
+        "canonical-structure-v1",
+        "topology-only-v1",
+        "typed-relations-v1"
+      ],
+      "mapping": "identity",
+      "approve": true
+    },
+    {
+      "id": "joint-fields",
+      "left": "reciprocal-correlated",
+      "right": "reciprocal-crossed",
+      "regimes": [
+        "canonical-structure-v1",
+        "topology-only-v1",
+        "typed-relations-v1"
+      ],
+      "mapping": "identity",
+      "approve": true
+    },
+    {
+      "id": "set-order",
+      "left": "set-order",
+      "right": "set-reordered",
+      "regimes": [
+        "canonical-structure-v1",
+        "topology-only-v1",
+        "typed-relations-v1"
+      ],
+      "mapping": "identity",
+      "approve": true
+    },
+    {
+      "id": "missing-evidence",
+      "left": "missing-field",
+      "right": "single-edge",
+      "regimes": [
+        "canonical-structure-v1",
+        "topology-only-v1",
+        "typed-relations-v1"
+      ],
+      "mapping": "identity",
+      "approve": true
+    },
+    {
+      "id": "missing-with-difference",
+      "left": "all-fields-missing",
+      "right": "two-isolates",
+      "regimes": [
+        "canonical-structure-v1",
+        "topology-only-v1",
+        "typed-relations-v1"
+      ],
+      "mapping": "identity",
+      "approve": true
+    },
+    {
+      "id": "dictionary-change",
+      "left": "single-edge",
+      "right": "changed-dictionary",
+      "regimes": [
+        "canonical-structure-v1",
+        "topology-only-v1",
+        "typed-relations-v1"
+      ]
+    },
+    {
+      "id": "causal-self",
+      "left": "causal-fragment",
+      "right": "causal-fragment",
+      "regimes": [
+        "canonical-structure-v1",
+        "topology-only-v1",
+        "typed-relations-v1"
+      ]
+    },
+    {
+      "id": "causal-scopes",
+      "left": "causal-fragment",
+      "right": "causal-fragment",
+      "regimes": [
+        "canonical-structure-v1",
+        "topology-only-v1",
+        "typed-relations-v1"
+      ],
+      "rightScope": {
+        "kind": "induced",
+        "nodeIds": [
+          "0.0",
+          "0.1",
+          "0.2",
+          "0.3",
+          "0.4"
+        ]
+      }
+    },
+    {
+      "id": "renumbered-approved",
+      "left": "reciprocal-correlated",
+      "right": "reciprocal-renumbered",
+      "regimes": [
+        "typed-relations-v1"
+      ],
+      "mapping": "renumbered",
+      "approve": true
+    },
+    {
+      "id": "renumbered-unapproved",
+      "left": "reciprocal-correlated",
+      "right": "reciprocal-renumbered",
+      "regimes": [
+        "typed-relations-v1"
+      ],
+      "mapping": "renumbered",
+      "approve": false
+    },
+    {
+      "id": "partial-approved",
+      "left": "reciprocal-correlated",
+      "right": "reciprocal-renumbered",
+      "regimes": [
+        "typed-relations-v1"
+      ],
+      "mapping": "partial",
+      "approve": true
+    },
+    {
+      "id": "cross-source-unbound",
+      "left": "single-edge",
+      "right": "same-dictionary-other-source",
+      "regimes": [
+        "typed-relations-v1"
+      ]
+    },
+    {
+      "id": "same-source-scopes",
+      "left": "single-edge",
+      "right": "single-edge",
+      "regimes": [
+        "typed-relations-v1"
+      ],
+      "rightScope": {
+        "kind": "induced",
+        "nodeIds": [
+          "n0"
+        ]
+      }
+    },
+    {
+      "id": "unavailable-summary",
+      "left": "outward-star",
+      "right": "inward-star",
+      "regimes": [
+        "topology-only-v1"
+      ],
+      "evidenceGaps": [
+        {
+          "side": "left",
+          "observableId": "node-count-v1",
+          "disposition": "unavailable"
+        }
+      ]
+    },
+    {
+      "id": "rejected-summary-with-difference",
+      "left": "single-edge",
+      "right": "two-isolates",
+      "regimes": [
+        "topology-only-v1"
+      ],
+      "evidenceGaps": [
+        {
+          "side": "right",
+          "observableId": "node-count-v1",
+          "disposition": "rejected"
+        }
+      ]
+    },
+    {
+      "id": "all-summary-evidence-unavailable",
+      "left": "single-edge",
+      "right": "single-edge",
+      "regimes": [
+        "topology-only-v1"
+      ],
+      "evidenceGaps": [
+        {
+          "side": "left",
+          "observableId": "node-count-v1",
+          "disposition": "unavailable"
+        },
+        {
+          "side": "left",
+          "observableId": "edge-count-v1",
+          "disposition": "unavailable"
+        },
+        {
+          "side": "left",
+          "observableId": "weak-component-sizes-v1",
+          "disposition": "unavailable"
+        },
+        {
+          "side": "left",
+          "observableId": "strong-component-sizes-v1",
+          "disposition": "unavailable"
+        },
+        {
+          "side": "left",
+          "observableId": "reachable-ordered-pair-count-v1",
+          "disposition": "unavailable"
+        },
+        {
+          "side": "left",
+          "observableId": "cyclic-node-count-v1",
+          "disposition": "unavailable"
+        },
+        {
+          "side": "left",
+          "observableId": "isolated-node-count-v1",
+          "disposition": "unavailable"
+        }
+      ]
+    },
+    {
+      "id": "rejected-typed-evidence",
+      "left": "reciprocal-correlated",
+      "right": "reciprocal-crossed",
+      "regimes": [
+        "typed-relations-v1"
+      ],
+      "mapping": "identity",
+      "approve": true,
+      "evidenceGaps": [
+        {
+          "side": "right",
+          "observableId": "canonical-typed-directed-structure-v1",
+          "disposition": "rejected"
+        }
+      ]
+    },
+    {
+      "id": "missing-and-rejected",
+      "left": "missing-field",
+      "right": "single-edge",
+      "regimes": [
+        "typed-relations-v1"
+      ],
+      "mapping": "identity",
+      "approve": true,
+      "evidenceGaps": [
+        {
+          "side": "left",
+          "observableId": "canonical-typed-directed-structure-v1",
+          "disposition": "rejected"
+        }
+      ]
+    }
+  ]
+}

@@ -41,6 +41,26 @@ The package covers:
   diagnostics and fixed input bounds under the preserved topology regime.
 - joint five-field typed observations with explicit missing evidence, source-bound
   vocabulary mappings and separately authorized compatible/unresolved alignments.
+- strict structural comparison inputs and artifacts, with complete 0/1 or
+  indeterminate-null results, mandatory coverage and explicit evidence-use gaps.
+- measured invariance inputs and artifacts with fixed registries, exact payloads,
+  source-bound observations, transported mappings and strict result coverage;
+- measured response inputs and artifacts with fixed compatible probes, exhaustive
+  edge/path targets, before/after observations, diagnostic histograms and distinct
+  missing-selector, absent-target, rejected and incomplete-result states;
+- response signature inputs and complete evidence composites with fixed joint
+  feature multisets, null gaps, exact multiplicities and a separate invariance gate;
+- fixed-domain pseudometric inputs and comparison artifacts with both full
+  signatures, exact reduced fractions, source-local typed authority, strict
+  missingness and explicitly exploratory partial coverage;
+- geometric signature inputs and certified composites with exact interval
+  multisets/extrema, joint flow frames, explicit unavailable tails, strict
+  threshold persistence and complete/partial/unavailable family coverage;
+- finite prospective geometric added-value study units and suite, with full
+  nested evidence, fixed baseline order, raw/matched exact distances, complete
+  pair accounting, source/helper locks and null zero-denominator outcomes;
+- immutable sandbox inputs and source-bound shadow graphs, exhaustive targets,
+  applied/rejected transformations, empty-target unavailability and work bounds.
 
 `schemaUrls` is the authoritative exported registry. Repository checks compile
 every schema, resolve references, and verify export coverage.

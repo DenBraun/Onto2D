@@ -1,211 +1,101 @@
-# Development Guide
+# Development
 
-## Prerequisites
+## Setup
 
-- Node.js 22 or newer;
-- npm;
-- Git.
-
-Python 3.9 or newer is needed only when regenerating independent conformance
-fixtures.
-
-## Setup and required checks
+Use Node.js 22+ with npm, Git, and Python 3.9+. Normal tests and Structural
+Geometry checks invoke Python standard-library references. NetworkX belongs in
+a separate reference environment; it is not a JavaScript runtime dependency.
 
 ```sh
 npm ci
 npm test
-npm run check
 npm run build
+npm run dev:site
 ```
 
-`npm test` runs every repository test. `npm run check` validates source files,
-public module cache revisions, workspace boundaries, TypeScript declarations,
-the committed browser-worker bundle, the pinned Model Pack registry, schemas,
-the frozen kernel closure contract, documentation, and the catalogue audit.
-`npm run build` confirms the published source packages and generated static
-worker asset.
+`npm test` runs the repository test suite. `npm run build` runs the repository
+checks and validates publishable source packages and the static worker asset;
+it includes `npm run check`, so running both consecutively is unnecessary.
+The development server prints its address. For local browser testing, open the
+case or app from the site navigation after the checks pass.
 
-Focused commands:
+## Check the relevant boundary
 
 | Command | Purpose |
 |---|---|
-| `npm run history-benchmark:aging:verify` | Full-cohort FD001 prediction preparation without held-out scoring |
-| `npm run history-benchmark:ltee:verify` | Three separate LTEE protocol contracts and eligibility audit without scoring |
-| `npm run history-benchmark:check` | Source-bound History Matters pilot and benchmark registry |
-| `npm run test:kernel` | Kernel behavior |
-| `npm run check:closure` | Capability evidence and release-closure contract |
-| `npm run check:goldens` | Independent canonical and skeleton fixtures |
-| `npm run check:public-revisions` | Coherent Model Studio module cache revisions |
-| `npm run check:schemas` | Schema compilation and export coverage |
+| `npm run check:docs` | Documentation files, local links and fences |
 | `npm run check:types` | Published TypeScript entrypoints |
-| `npm run check:registry` | Exact registry releases and Studio pin |
-| `npm run check:worker` | Reproducible Model Pack worker bundle |
-| `npm run check:workspace` | Package names, exports, and dependency boundaries |
-| `npm run check:docs` | Markdown links and code fences |
-| `npm run audit:catalogue` | Current source-catalogue audit |
-| `npm run model:causal-emergence` | Rebuild the bundled Model Pack |
-| `npm run model:causal-emergence:verify` | Verify its committed release without writing |
-| `npm run case:rdf-mapping` | Rebuild the public RDF mapping reference |
-| `npm run case:rdf-mapping:verify` | Replay its frozen evidence without writing |
-| `npm run dev:site` | Local static project site |
-| `npm run build:worker` | Regenerate the committed static worker asset |
-| `npm run revision:model-studio -- YYYYMMDD.N` | Update the complete Model Studio module graph to one cache revision |
+| `npm run check:schemas` | Schema compilation and export coverage |
+| `npm run check:workspace` | Package and dependency boundaries |
+| `npm run check:closure` | Kernel capability and closure evidence |
+| `npm run check:goldens` | Independent canonicalization and skeleton fixtures |
+| `npm run check:registry` | Model Pack registry and Studio pin |
+| `npm run check:public-revisions` | Coherent public module revisions |
+| `npm run check:worker` | Reproducible browser worker bundle |
+| `npm run audit:catalogue` | Preserved source-catalogue audit |
+| `npm run structural-geometry:check` | Combined geometry evidence and independent references |
+| `npm run structural-geometry:added-value:check` | Frozen synthetic added-value study, coverage and baselines |
+| `npm run history-benchmark:check` | History Matters sources, replay and registry |
+| `npm run history-benchmark:aging:verify` | Full FD001 preparation without held-out scoring |
+| `npm run history-benchmark:ltee:verify` | Three LTEE contracts and eligibility audit |
 
-## Change workflow
+Case READMEs give focused commands, expected results, source terms and external
+requirements. [Structural Geometry evidence](structural-geometry/EVIDENCE.md)
+links all of its independent reference suites, including NetworkX setup.
+Use `npm run` or [package.json](../package.json) for the complete command list.
 
-1. Identify the owning package or case in [Project Structure](PROJECT_STRUCTURE.md).
-2. Add or update behavioral tests before changing a semantic contract.
-3. Update schemas and public declarations when the external shape changes.
-4. Add an ADR for identity, evidence, scientific-boundary, or dependency changes.
-5. Run the focused checks, then the required repository checks.
+## Change and review workflow
 
-The kernel fails closed: incomplete inputs, exhausted semantic budgets, stale
-hashes, and unverifiable artifacts must remain distinguishable from negative
-scientific results.
+1. Find the owner in [Project structure](PROJECT_STRUCTURE.md) and read its
+   current contract. Preserve unrelated working-tree changes.
+2. For semantic behavior changes, add meaningful behavioral or independent
+   reference coverage. Update schemas and public declarations together.
+3. Update the owning subject guide, case README and roadmap status where needed.
+   Do not create a separate fix history, ADR or per-stage review document.
+4. Review the complete diff, error/missingness paths, budgets, source binding,
+   exact arithmetic, browser/Node boundaries and artifact provenance affected by
+   the change. A schema-valid or self-consistently hashed artifact still needs
+   semantic verification.
+5. Run focused checks. For runtime/contract changes run the full tests and build;
+   for documentation-only changes run documentation and affected registry checks
+   plus build. Report what was actually run and any remaining verification.
 
-## Conformance fixtures
+The kernel fails closed. Incomplete evidence, unavailable observations,
+exhausted budgets, invalid inputs and negative scientific outcomes are distinct.
+Never change frozen expected results solely to make a check pass.
 
-Canonical-byte/hash and connected-skeleton fixtures are generated by an
-independent Python standard-library implementation:
+## Frozen inputs and deliberate regeneration
 
-```sh
-python3 scripts/reference/generate-conformance-fixtures.py
-```
+Scientific protocols, source locks and reference results live beside cases.
+Some Markdown protocols are hashed experimental inputs, so a documentation move
+must not rewrite their bytes. Keep linked mathematical contracts available.
+A protocol revision starts a separately identified study and preserves the
+reported result of the prior study.
 
-Use `npm run check:goldens` for a non-mutating comparison. Regenerate committed
-fixtures only when the contract change is intentional and independently
-reviewed.
+`python3 scripts/reference/generate-conformance-fixtures.py` deliberately writes
+canonicalization/skeleton fixtures. `npm run check:goldens` compares without
+writing. Use case-specific `:verify` or `:check` commands for normal work;
+`:build`, writers and explicit `--write` modes are intentional regeneration.
 
-## Catalogue fixtures
+Source facts in `references/` and upstream archives retain their exact content
+and terms. Model Pack `releases/` directories are immutable dataset artifacts;
+they are not a software changelog. The geometry baseline verifier's
+`--compatibility` mode checks its pinned compatibility subset; its complete
+pre-regime inventory is an earlier computational snapshot, not the current
+repository file census.
 
-`test/fixtures/catalogue-audit.expected.json` freezes observed source facts, not
-desired scientific answers. Investigate a difference before updating it; do
-not normalize anomalous weights or remove cycles merely to restore a passing
-check.
+## Browser and publication checks
 
-## Generated output
+Verify selection, navigation, evidence disclosure, loading failures, worker
+cancellation and comparison/missingness states for the affected interface.
+Confirm that displayed results come from the verified artifact and that a
+planned study appears as unevaluated. Inspect at narrow and wide widths when
+layout changes. Rebuild and check worker/public revisions when their inputs
+change.
 
-The Structural Geometry computational milestone has a separate reproducible
-check and an inspection command:
-
-```sh
-npm run structural-geometry:check
-npm run structural-geometry:report
-npm run structural-geometry:experiments:check
-npm run structural-geometry:experiments:report
-npm run structural-geometry:providers:check
-npm run structural-geometry:providers:report
-npm run structural-geometry:regimes:check
-npm run structural-geometry:regimes:report
-npm run structural-geometry:canonical:check
-npm run structural-geometry:canonical:report
-npm run structural-geometry:topology:check
-npm run structural-geometry:topology:report
-npm run structural-geometry:typed:check
-npm run structural-geometry:typed:report
-npm run structural-geometry:ollivier:check
-npm run structural-geometry:ollivier:report
-npm run structural-geometry:flow:check
-npm run structural-geometry:flow:report
-npm run structural-geometry:flow:controls:check
-npm run structural-geometry:flow:controls:report
-```
-
-The check verifies the source lock, frozen projection/result, Python incidence
-goldens, full-model cross-check, schemas and portable package behavior. The report
-prints descriptive results after verification. Use
-`npm run structural-geometry:build` only to regenerate full-model fixtures for
-review; synthetic reference regeneration is the explicit Python `--write` mode
-documented in the [case](../cases/structural-geometry/README.md).
-The combined geometry check also runs stage-three source audits, the 72-run
-suite and weighted interval references. The experiment-specific commands are
-documented in the [stage-three case](../cases/structural-geometry/experiments/README.md).
-It also reruns the stage-four Python oracle, verifies exact transport certificates
-and compares the 40-run Ollivier suite with frozen independent NetworkX values.
-The [Ollivier case](../cases/structural-geometry/ollivier/README.md) explains the
-separate isolated NetworkX verification, CI gate and deliberate regeneration.
-Normal geometry checks require Python 3.9+ and its standard library; NetworkX is
-an isolated reference dependency, not a JavaScript runtime dependency.
-
-The combined check also includes the [stage-five flow suite](../cases/structural-geometry/flow/README.md):
-11 trajectories, exact history replay and the published analytical recurrence.
-Use `npm run structural-geometry:flow:check` for focused verification and
-`npm run structural-geometry:flow:report` to inspect stopping/cut results.
-`structural-geometry:flow:build` deliberately regenerates runtime artifacts;
-the independent NetworkX writer must agree before its expected output changes.
-The flow check also verifies the separate [R1 control supplement](../cases/structural-geometry/flow-controls/README.md):
-nine star/bridge trajectories, analytic expectations, 33 states / 506 edge
-calculations, strict cut-boundary tests and the pinned legacy compatibility
-inventory. `flow:controls:check` focuses on this supplement and
-`flow:controls:report` prints its verified results. The separate CI reference job
-executes Ollivier and both flow suites with NetworkX 3.2.1.
-
-Further Structural Geometry work follows the
-[revised task ledger](structural-geometry/REVISED_ROADMAP.md). The
-[implemented provider layer](structural-geometry/METRIC_PROVIDERS.md) adds 13
-full-source profiles, 73 exact legacy analysis envelopes and seven examples.
-Its focused check includes 20 behavioral/schema/browser tests; the full build
-includes the compatibility suite. Use `structural-geometry:providers:build`
-only for deliberate reviewed regeneration. The existing independent numeric
-references still apply to the shared metric implementation.
-
-The [SG2-010 contract foundation](structural-geometry/REGIME_CONTRACTS.md) adds
-three regime profiles, nine observable specs and six source/scope preparations.
-`structural-geometry:regimes:check` runs 19 behavioral/schema/browser tests plus
-exact case and legacy compatibility replay; the combined geometry check includes
-it. Preparations explicitly record `not-run`, without fabricated observations,
-comparison status or distance. Use `structural-geometry:regimes:build` only for
-deliberate reviewed regeneration.
-
-The [SG2-011 evaluator](structural-geometry/CANONICAL_OBSERVATIONS.md) now supplies
-exact canonical observations. Its focused check covers 17 artifacts, an
-independent 4,165-graph census / 238 classes, 720 six-node relabelings and 20
-API/schema/browser tests. `npm test` also exposes the three independent/reference
-checks as tests. Canonical values exclude source labels and metadata; the full
-artifact retains them in preparation and mapping provenance. Observation
-regeneration uses `structural-geometry:canonical:build`;
-the independent reference has its own explicit generation command in the contract.
-
-The [SG2-012 evaluator](structural-geometry/TOPOLOGY_OBSERVATIONS.md) supplies
-seven directed topology summaries and 23 artifacts, including explicit maximum
-work and Causal fragment controls. Its focused check runs 21 API/schema/browser
-tests plus independent matrix closure and a 4,165-graph collision census;
-`npm test` also exposes two reference tests. The report verifies before printing.
-Use `structural-geometry:topology:build` only for reviewed regeneration after the
-independent reference, as documented in the contract.
-
-The [SG2-013 evaluator](structural-geometry/TYPED_OBSERVATIONS.md) supplies joint
-five-field observations, explicit missing evidence and separately authorized
-vocabulary alignment. Its focused check runs 37 API/schema/browser tests,
-independent permutations over 739 colored graphs / 145 classes, 720 six-node
-relabelings and exact replay of 26 observations, five mappings and eight
-alignments. `npm test` also exposes three independent reference tests.
-Regeneration uses `structural-geometry:typed:build` after deliberate independent
-reference regeneration. Final comparison/status/coverage is the next gate.
-
-Before further refactoring, inspect the [baseline](structural-geometry/BASELINE.md):
-
-```sh
-python3 -B docs/structural-geometry/baselines/verify_baseline.py
-python3 -B docs/structural-geometry/baselines/verify_baseline.py --compatibility
-```
-
-The first checks the captured implementation/test/input inventory; the second
-checks only pinned legacy scientific inputs, contracts and goldens during an
-intentional implementation migration. Neither regenerates or approves output.
-Run normal semantic/reference replay as well. New provider/regime artifacts
-must coexist with the legacy v1 values; never rewrite goldens to hide a refactor
-regression. New schemes in the planning documents are not published APIs.
-
-`node_modules/`, `coverage/`, `dist/`, and `runs/*` are ignored. Commit only
-reproducible fixtures with their source and policy identities. The generated
-`assets/js/model-pack-worker.js` is an explicit exception because the static
-GitHub Pages application cannot use the document import map inside a worker;
-commit it together with its modular source and verify it with
-`npm run check:worker`. Committed Model Pack candidates under `models/` must be
-rebuilt and have their source audit and hash changes reviewed before release.
-
-Model Studio's entrypoint, import map, direct module imports, dynamic imports,
-and worker URL share one cache revision. Do not edit those `?v=` values
-individually. Use `npm run revision:model-studio -- YYYYMMDD.N`; the updater
-changes the complete graph in one command, and `npm run check` rejects drift.
+The project has no first published release. Before publishing: independently
+review identity fixtures and source audits; run Node.js 22/24 CI on the exact
+commit; inspect `npm pack --dry-run`, public declarations, licenses and source
+notices; confirm package visibility and publication scope. Report observed local
+checks separately from CI and independent scientific review. Package version
+fields alone do not authorize or establish publication.

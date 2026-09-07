@@ -1,0 +1,523 @@
+{
+  "analysis": {
+    "id": "structural-probe-sandbox",
+    "version": "1"
+  },
+  "artifactHash": "sha256:105079779351cdef49c493be19f79420cca60b0ea76f6869de21f822bedbbed8",
+  "baseline": {
+    "graph": {
+      "edges": [
+        {
+          "id": "e000",
+          "source": "n000",
+          "target": "n001",
+          "types": {
+            "causalDirectionIds": [
+              0
+            ],
+            "dependencyTypeId": 0,
+            "interactionModeIds": [
+              0
+            ],
+            "necessity": "necessary",
+            "ontologicalRole": "arising"
+          }
+        },
+        {
+          "id": "e001",
+          "source": "n001",
+          "target": "n000",
+          "types": {
+            "causalDirectionIds": [
+              1
+            ],
+            "dependencyTypeId": 1,
+            "interactionModeIds": [
+              1
+            ],
+            "necessity": "optional",
+            "ontologicalRole": "maintenance"
+          }
+        }
+      ],
+      "graphHash": "sha256:f2cef87ab7cd920d04a8b3fac5dbfb748aa321f52dcdd9107d21329822f42f8e",
+      "kind": "structural-shadow-graph",
+      "nodes": [
+        {
+          "id": "n000"
+        },
+        {
+          "id": "n001"
+        }
+      ],
+      "regime": {
+        "contentHash": "sha256:5fe49b9439e107998e170cf8cf1e690598dfe8937321f5202ac4c2f270414868",
+        "id": "typed-relations-v1",
+        "version": "1"
+      },
+      "schemaVersion": "1",
+      "source": {
+        "contextHash": "sha256:32c9ab1461e8e5cb30701e772a62c8a294c3deb19764cc60710f4f65396a642f",
+        "scopeHash": "sha256:4e8db5e20e72b35a5db63e0b706623c2dfa4ebe5c462be0073fa62218d74f612"
+      }
+    },
+    "mapping": {
+      "edges": [
+        {
+          "shadowEdgeId": "e000",
+          "sourceEdgeId": "e0"
+        },
+        {
+          "shadowEdgeId": "e001",
+          "sourceEdgeId": "e1"
+        }
+      ],
+      "nodes": [
+        {
+          "shadowNodeId": "n000",
+          "sourceNodeId": "n0"
+        },
+        {
+          "shadowNodeId": "n001",
+          "sourceNodeId": "n1"
+        }
+      ]
+    }
+  },
+  "execution": {
+    "appliedCount": 1,
+    "reason": null,
+    "rejectedCount": 0,
+    "state": "completed",
+    "targetCount": 1
+  },
+  "observationEvaluation": "not-run",
+  "policy": {
+    "annotations": "untyped-excludes-typed-preserves-five-present-fields",
+    "codeExecution": "closed-data-operations-only",
+    "contentHash": "sha256:5ca0df781b98fcf114d7d4889e0663f99722672763c3c340ff34ea0e5d81f2fe",
+    "copies": "every-target-starts-from-baseline",
+    "derivedGraph": "separate-source-bound-shadow-graph",
+    "emptyTargets": "unavailable-zero-runs",
+    "id": "immutable-structural-probe-sandbox-v1",
+    "invalidInput": "error-no-partial-result",
+    "limits": {
+      "maxArtifactBytes": 4194304,
+      "maxCanonicalEntries": 500000,
+      "maxTargets": 32,
+      "maxTransformationEdgeVisits": 1024
+    },
+    "nodes": "retain-all-scoped-nodes",
+    "observations": "not-run",
+    "operations": [
+      "identity",
+      "remove-edges",
+      "reverse-edges"
+    ],
+    "ordering": "source-id-serialization-only-no-tie-selection",
+    "parallelEdges": "reject-target-without-merging",
+    "reversalTypes": "carried-without-semantic-recoding",
+    "source": "verified-full-model-with-unchanged-regime-preparation",
+    "targets": "whole-scope-or-exhaustive-all-each-internal-edge",
+    "version": "1",
+    "work": "baseline-edges-examined-once-per-target-excludes-source-validation-and-serialization"
+  },
+  "preparation": {
+    "analysis": {
+      "id": "structural-regime-preparation",
+      "version": "1"
+    },
+    "artifactHash": "sha256:9fa92940e9f02362ea8c3e2e3a11662782d1c3e58929e48981a0abca9b051121",
+    "context": {
+      "contextHash": "sha256:32c9ab1461e8e5cb30701e772a62c8a294c3deb19764cc60710f4f65396a642f",
+      "dictionaryHash": "sha256:19e99088899e959ec8cdc75e442b071a99c5aa0f177b32574de84bcc40a2ab7f",
+      "model": {
+        "manifestHash": "sha256:cab247a0cf6851d58815040d3125c1cde95d1287fc2c1111ccf210eb436bb2ab",
+        "modelId": "typed-reciprocal-correlated",
+        "modelRootHash": "sha256:8544f143c4b6d73738dfbedb07ec1fed054cc8c5dd6f63d21bc003f261ae30a7",
+        "modelVersion": "1"
+      },
+      "normalizationContext": "full-source-projection",
+      "projectionPolicyHash": "sha256:25f5cdb778b7fdf05ff071dd9d8c672a9726ca50958a6192066e72a8523172d1",
+      "schemaVersion": "1",
+      "sourceProjectionHash": "sha256:8f6e66d441671393565d17af5f96b4015589691a6c3b9e937e3dfa6f998961c8"
+    },
+    "evaluation": "not-run",
+    "observableSpecs": [
+      {
+        "contentHash": "sha256:48f137781781c54724e172256925e44c9a2be42a08610c88abaca8a9f6016e7b",
+        "definition": "Canonical directed adjacency including isolated nodes, modulo node relabeling; all source attributes excluded.",
+        "id": "canonical-directed-structure-v1",
+        "mandatory": true,
+        "normalization": "none",
+        "requiredEvidence": [
+          "verified-scoped-directed-projection"
+        ],
+        "schemaVersion": "1",
+        "scope": "whole-scoped-directed-graph",
+        "supplier": {
+          "contentHash": "sha256:79e2978d134774168a5b534027caeb6709fe3ae8d18a97af21118982d07fb62e",
+          "definition": "Canonical directed adjacency including isolated nodes, modulo node relabeling; all source attributes excluded.",
+          "id": "structural-canonical-observation-v1",
+          "operation": "canonical-directed-structure-v1",
+          "version": "1"
+        },
+        "units": "discrete-structure",
+        "valueType": "canonical-directed-graph",
+        "version": "1"
+      },
+      {
+        "contentHash": "sha256:3df933040d1a5002b2338cf07b11eefd68e63f76597e72873d897fd3ea86efd3",
+        "definition": "Canonical directed adjacency with all five declared edge fields under one common node bijection; ID arrays are sets, and code meanings require the vocabulary policy.",
+        "id": "canonical-typed-directed-structure-v1",
+        "mandatory": true,
+        "normalization": "none",
+        "requiredEvidence": [
+          "verified-scoped-directed-projection",
+          "complete-declared-edge-types",
+          "bound-local-dictionaries",
+          "compatible-vocabulary-for-comparison"
+        ],
+        "schemaVersion": "1",
+        "scope": "whole-scoped-directed-graph",
+        "supplier": {
+          "contentHash": "sha256:ff770375783816fc2110a575f18c551de1b3f6657f35b4a7483d57f7823e6c40",
+          "definition": "Canonical directed adjacency with all five declared edge fields under one common node bijection; ID arrays are sets, and code meanings require the vocabulary policy.",
+          "id": "structural-typed-observation-v1",
+          "operation": "canonical-typed-directed-structure-v1",
+          "version": "1"
+        },
+        "units": "discrete-structure",
+        "valueType": "canonical-typed-directed-graph",
+        "version": "1"
+      }
+    ],
+    "regime": {
+      "aggregationPolicy": {
+        "completeDifferentStatus": "distinguishable-under-regime",
+        "completeEqualStatus": "indistinguishable-under-regime",
+        "contentHash": "sha256:b736a798a746914cbbcb1ca38fd90f265fb33288c9b4d29619bb2c977bd0ccaf",
+        "distanceConstruction": "deferred-to-comparison-contract",
+        "id": "exact-profile-equality-v1",
+        "intervals": "unsupported",
+        "numericPolicy": "exact-discrete",
+        "tolerance": "none",
+        "version": "1"
+      },
+      "contentHash": "sha256:5fe49b9439e107998e170cf8cf1e690598dfe8937321f5202ac4c2f270414868",
+      "id": "typed-relations-v1",
+      "invariancePolicy": {
+        "actsOn": "scoped-graph-with-transported-scope-membership",
+        "contentHash": "sha256:8d129f942e399ea18826590ba932a9a80b9eb4eb4a321dfa4fb6eefee8a8c002",
+        "id": "structural-relabeling-invariances-v1",
+        "probeExecution": "not-implied-by-declaration",
+        "provenanceHashes": "may-change",
+        "transformations": [
+          "record-order",
+          "bijective-node-id-renaming",
+          "bijective-edge-id-renaming",
+          "presentation-only-changes"
+        ],
+        "version": "1"
+      },
+      "limits": {
+        "maxArtifactBytes": 1048576,
+        "maxCanonicalEntries": 100000,
+        "maxEdges": 30,
+        "maxNodes": 6,
+        "maxReachabilityPairVisits": 0,
+        "maxSearchStates": 100000,
+        "minNodes": 1
+      },
+      "matchingPolicy": {
+        "algorithm": "kernel-canonicalizeCandidate",
+        "candidateTranslation": {
+          "domain": "single-candidate",
+          "edgeAttributes": [
+            "dependencyTypeId",
+            "interactionModeIds",
+            "ontologicalRole",
+            "necessity",
+            "causalDirectionIds"
+          ],
+          "edgeRole": "source-parent",
+          "nodeAttributes": [],
+          "nodeRef": "sha256:33c6a7c3f6336627a0abdcd75cde0e59a81e7e5353723bac2d3a35df1c89cbde",
+          "setAttributeEncoding": "canonical-json-string-of-sorted-integer-array"
+        },
+        "contentHash": "sha256:c1ea90617a3b81550d56300d5dc5b23b9010a1c1761b9e6262d0b406eb9037c6",
+        "direction": "preserved",
+        "disconnectedGraphs": "allowed",
+        "edgeMatching": "mapped-ordered-endpoints",
+        "equivalence": "edge-annotated-directed-graph-isomorphism",
+        "exhaustion": "error-no-heuristic-identity",
+        "graphPolicy": {
+          "allowParallelEdges": false,
+          "allowSelfLoops": false,
+          "connected": false,
+          "connectivityProjection": "directed-weak",
+          "structuralEdgeAttributes": [
+            "dependencyTypeId",
+            "interactionModeIds",
+            "ontologicalRole",
+            "necessity",
+            "causalDirectionIds"
+          ],
+          "structuralNodeAttributes": []
+        },
+        "id": "directed-typed-candidate-matching-v1",
+        "nodeMatching": "one-common-bijection-for-topology-and-types",
+        "setOrdering": "ascending-distinct-integer-codes",
+        "setValuedFields": [
+          "interactionModeIds",
+          "causalDirectionIds"
+        ],
+        "sourceIdentifiers": "provenance-only",
+        "version": "1"
+      },
+      "missingnessPolicy": {
+        "contentHash": "sha256:b2bdf91b18bc4da156f9e8f49977e1f59d55e32712baeb3fadb1f8bdcb66e7c8",
+        "coverage": "per-component-with-reasons",
+        "emptyProfile": "indeterminate",
+        "id": "strict-indeterminate-v1",
+        "incompleteDistance": null,
+        "incompleteStatus": "indeterminate",
+        "invalidArtifact": "validation-error",
+        "mandatoryGaps": [
+          "missing",
+          "unavailable",
+          "rejected",
+          "unresolved"
+        ],
+        "observedDifferences": "retain-as-diagnostics",
+        "partialDistance": "not-supported",
+        "version": "1"
+      },
+      "observables": [
+        {
+          "contentHash": "sha256:48f137781781c54724e172256925e44c9a2be42a08610c88abaca8a9f6016e7b",
+          "id": "canonical-directed-structure-v1",
+          "version": "1"
+        },
+        {
+          "contentHash": "sha256:3df933040d1a5002b2338cf07b11eefd68e63f76597e72873d897fd3ea86efd3",
+          "id": "canonical-typed-directed-structure-v1",
+          "version": "1"
+        }
+      ],
+      "probeSets": {
+        "invariance": {
+          "contentHash": "sha256:aef895be35a566818dc1be7a75be99cee6f3678b7cabc5bdcf48c5dff4ade705",
+          "execution": "none",
+          "id": "empty-invariance-probe-set-v1",
+          "probes": [],
+          "version": "1"
+        },
+        "response": {
+          "contentHash": "sha256:88406c5d44694471e7ae217b6811d3b4e8fb74b11b86269fd777c2323e1a6326",
+          "execution": "none",
+          "id": "empty-response-probe-set-v1",
+          "probes": [],
+          "version": "1"
+        }
+      },
+      "projectionPolicy": {
+        "contentHash": "sha256:25f5cdb778b7fdf05ff071dd9d8c672a9726ca50958a6192066e72a8523172d1",
+        "id": "source-parent-directed-v1",
+        "version": "1"
+      },
+      "schemaVersion": "1",
+      "scopePolicy": {
+        "boundary": "partition-incoming-outgoing-external-edges",
+        "contentHash": "sha256:93ae51edd5049b84399b0483423e21cc67b9f78778bffee279ef5f256e6b5671",
+        "edges": "both-endpoints-in-scope",
+        "id": "verified-source-induced-scope-v1",
+        "implicitTruncation": "forbidden",
+        "isolatedNodes": "retained",
+        "membership": "explicit-node-set-or-full-source",
+        "sourceVerification": "complete-model-before-scoping",
+        "version": "1"
+      },
+      "version": "1",
+      "vocabularyPolicy": {
+        "codeType": "nonnegative-safe-integer",
+        "contentHash": "sha256:91ebf209a30d17662c00b8d1c28105d7d1bad3f4b3fabad59ab667479ccc900f",
+        "crossModel": "requires-explicit-reviewed-shared-vocabulary-or-mapping",
+        "emptyDeclaredSet": "observed-empty-set",
+        "epistemicStatus": "excluded-from-observations",
+        "equalDictionaryBytesAlone": "insufficient-cross-model-authority",
+        "fields": [
+          "dependencyTypeId",
+          "interactionModeIds",
+          "ontologicalRole",
+          "necessity",
+          "causalDirectionIds"
+        ],
+        "id": "model-local-typed-vocabulary-v1",
+        "invalidField": "validation-error",
+        "localBinding": "verified-full-model-dictionary-hash",
+        "missingCompatibility": "indeterminate",
+        "missingField": "missing-mandatory-evidence",
+        "necessityUniverse": [
+          "necessary",
+          "enabling",
+          "contextual",
+          "optional"
+        ],
+        "roleUniverse": [
+          "arising",
+          "maintenance",
+          "modulation"
+        ],
+        "setDuplicates": "validation-error",
+        "version": "1"
+      }
+    },
+    "request": {
+      "regimeId": "typed-relations-v1",
+      "scope": {
+        "kind": "full"
+      }
+    },
+    "schemaVersion": "1",
+    "scope": {
+      "edgeIds": [
+        "e0",
+        "e1"
+      ],
+      "externalEdgeIds": [],
+      "incomingBoundaryEdgeIds": [],
+      "kind": "full",
+      "nodeIds": [
+        "n0",
+        "n1"
+      ],
+      "outgoingBoundaryEdgeIds": [],
+      "scopeHash": "sha256:4e8db5e20e72b35a5db63e0b706623c2dfa4ebe5c462be0073fa62218d74f612",
+      "sourceEdgeCount": 2,
+      "sourceNodeCount": 2,
+      "sourceProjectionHash": "sha256:8f6e66d441671393565d17af5f96b4015589691a6c3b9e937e3dfa6f998961c8"
+    }
+  },
+  "request": {
+    "regimeId": "typed-relations-v1",
+    "scope": {
+      "kind": "full"
+    },
+    "transformation": {
+      "kind": "identity"
+    }
+  },
+  "runs": [
+    {
+      "beforeGraphHash": "sha256:f2cef87ab7cd920d04a8b3fac5dbfb748aa321f52dcdd9107d21329822f42f8e",
+      "changes": {
+        "removedSourceEdgeIds": [],
+        "reversedSourceEdgeIds": []
+      },
+      "edgeMapping": [
+        {
+          "action": "preserved",
+          "afterEdgeId": "e000",
+          "beforeEdgeId": "e000",
+          "sourceEdgeId": "e0"
+        },
+        {
+          "action": "preserved",
+          "afterEdgeId": "e001",
+          "beforeEdgeId": "e001",
+          "sourceEdgeId": "e1"
+        }
+      ],
+      "execution": "applied",
+      "graph": {
+        "edges": [
+          {
+            "id": "e000",
+            "source": "n000",
+            "target": "n001",
+            "types": {
+              "causalDirectionIds": [
+                0
+              ],
+              "dependencyTypeId": 0,
+              "interactionModeIds": [
+                0
+              ],
+              "necessity": "necessary",
+              "ontologicalRole": "arising"
+            }
+          },
+          {
+            "id": "e001",
+            "source": "n001",
+            "target": "n000",
+            "types": {
+              "causalDirectionIds": [
+                1
+              ],
+              "dependencyTypeId": 1,
+              "interactionModeIds": [
+                1
+              ],
+              "necessity": "optional",
+              "ontologicalRole": "maintenance"
+            }
+          }
+        ],
+        "graphHash": "sha256:f2cef87ab7cd920d04a8b3fac5dbfb748aa321f52dcdd9107d21329822f42f8e",
+        "kind": "structural-shadow-graph",
+        "nodes": [
+          {
+            "id": "n000"
+          },
+          {
+            "id": "n001"
+          }
+        ],
+        "regime": {
+          "contentHash": "sha256:5fe49b9439e107998e170cf8cf1e690598dfe8937321f5202ac4c2f270414868",
+          "id": "typed-relations-v1",
+          "version": "1"
+        },
+        "schemaVersion": "1",
+        "source": {
+          "contextHash": "sha256:32c9ab1461e8e5cb30701e772a62c8a294c3deb19764cc60710f4f65396a642f",
+          "scopeHash": "sha256:4e8db5e20e72b35a5db63e0b706623c2dfa4ebe5c462be0073fa62218d74f612"
+        }
+      },
+      "rejection": null,
+      "runHash": "sha256:acde38ac084db34c551a0920ff349ca4c62d0ce0a89c6ba3caa4165821c9254a",
+      "target": {
+        "kind": "whole-scope",
+        "shadowEdgeIds": [
+          "e000",
+          "e001"
+        ],
+        "sourceEdgeIds": [
+          "e0",
+          "e1"
+        ]
+      },
+      "transformation": {
+        "kind": "identity"
+      }
+    }
+  ],
+  "schemaVersion": "1",
+  "selection": {
+    "eligibleShadowEdgeIds": [
+      "e000",
+      "e001"
+    ],
+    "eligibleSourceEdgeIds": [
+      "e0",
+      "e1"
+    ],
+    "kind": "whole-scope"
+  },
+  "work": {
+    "outputGraphCount": 2,
+    "transformationEdgeVisits": 2
+  }
+}

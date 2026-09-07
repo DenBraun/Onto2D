@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/geometric-signature-input.schema.json",
+  "title": "Geometric signature input",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "forman": {
+      "anyOf": [
+        {
+          "$ref": "https://onto2d.dev/schemas/v1/structural-provider-analysis-input.schema.json"
+        },
+        {
+          "const": null
+        }
+      ]
+    },
+    "ollivier": {
+      "anyOf": [
+        {
+          "$ref": "https://onto2d.dev/schemas/v1/structural-ollivier-input.schema.json"
+        },
+        {
+          "const": null
+        }
+      ]
+    },
+    "flow": {
+      "anyOf": [
+        {
+          "$ref": "https://onto2d.dev/schemas/v1/structural-flow-input.schema.json"
+        },
+        {
+          "const": null
+        }
+      ]
+    }
+  },
+  "required": [
+    "forman",
+    "ollivier",
+    "flow"
+  ]
+}

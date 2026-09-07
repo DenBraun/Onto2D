@@ -1,0 +1,22 @@
+{
+  "schemaVersion": "1",
+  "studyId": "geometric-added-value-v1",
+  "seed": "onto2d-sg2-041-prospective-v1",
+  "proposalBudget": 4096,
+  "evaluationUnits": 32,
+  "nodes": 6,
+  "edges": 8,
+  "regimeId": "topology-only-v1",
+  "geometry": {
+    "forman": { "analysis": "structural-geometry", "metricProviderId": "unit-v1" },
+    "ollivier": { "idleness": "half" },
+    "flow": {
+      "maxIterations": 4,
+      "step": "half",
+      "idleness": "half",
+      "tolerance": { "numerator": "1", "denominator": "1000000" },
+      "stableSteps": 2,
+      "cut": { "kind": "final-length", "threshold": { "numerator": "2", "denominator": "1" } }
+    }
+  }
+}

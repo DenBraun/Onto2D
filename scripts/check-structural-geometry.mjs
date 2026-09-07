@@ -13,6 +13,14 @@ const commands = [
   [process.execPath, ["scripts/check-structural-canonical.mjs"]],
   [process.execPath, ["scripts/check-structural-topology.mjs"]],
   [process.execPath, ["scripts/check-structural-typed.mjs"]],
+  [process.execPath, ["scripts/check-structural-comparison.mjs"]],
+  [process.execPath, ["scripts/check-structural-sandbox.mjs"]],
+  [process.execPath, ["scripts/check-structural-invariance.mjs"]],
+  [process.execPath, ["scripts/check-structural-responses.mjs"]],
+  [process.execPath, ["scripts/check-structural-signature.mjs"]],
+  [process.execPath, ["scripts/check-structural-pseudometric.mjs"]],
+  [process.execPath, ["scripts/check-geometric-signature.mjs"]],
+  [process.execPath, ["scripts/check-geometric-added-value.mjs"]],
   [process.execPath, ["scripts/check-structural-ollivier.mjs"]],
   [process.execPath, ["scripts/check-structural-flow.mjs"]]
 ];

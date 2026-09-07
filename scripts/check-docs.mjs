@@ -6,13 +6,14 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 const REPOSITORY_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const DOCUMENT_ROOTS = [
   "README.md",
-  "CHANGELOG.md",
   "CONTRIBUTING.md",
   "SECURITY.md",
   "apps",
   "docs",
   "cases",
-  "packages"
+  "packages",
+  "models",
+  "tools"
 ];
 const IGNORED_DIRECTORIES = new Set(["dist", "node_modules"]);
 
@@ -43,15 +44,32 @@ async function exists(file) {
   }
 }
 
-function localLinkTargets(markdown) {
+export function localLinkTargets(markdown) {
   const targets = [];
   const pattern = /!?(?:\[[^\]]*\])\(([^)]+)\)/g;
   for (const match of markdown.matchAll(pattern)) {
     const raw = match[1].trim().replace(/^<|>$/g, "").split(/\s+[\"']/)[0];
-    if (!raw || raw.startsWith("#") || /^(?:https?:|mailto:|data:)/.test(raw)) continue;
-    targets.push(decodeURIComponent(raw.split("#")[0]));
+    if (!raw || /^(?:https?:|mailto:|data:)/.test(raw)) continue;
+    targets.push(decodeURIComponent(raw));
   }
   return targets;
+}
+
+export function markdownAnchors(markdown) {
+  const anchors = new Set();
+  const occurrences = new Map();
+  // Fenced examples are not document headings or HTML anchors.
+  const prose = markdown.replace(/^```[^\n]*\n[\s\S]*?^```[^\n]*$/gm, "");
+  for (const match of prose.matchAll(/\bid=["']([^"']+)["']/g)) anchors.add(match[1]);
+  for (const match of prose.matchAll(/^#{1,6} (.+)$/gm)) {
+    const base = match[1].replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+      .replace(/<[^>]+>/g, "").toLowerCase()
+      .replace(/[^\p{L}\p{N}\p{M}_\- ]/gu, "").replace(/ /g, "-");
+    const count = occurrences.get(base) ?? 0;
+    occurrences.set(base, count + 1);
+    anchors.add(count === 0 ? base : `${base}-${count}`);
+  }
+  return anchors;
 }
 
 export async function run() {
@@ -64,6 +82,7 @@ export async function run() {
   }
 
   const failures = [];
+  const anchorCache = new Map();
   for (const file of [...new Set(files)].sort()) {
     const markdown = await readFile(file, "utf8");
     const relative = path.relative(REPOSITORY_ROOT, file);
@@ -72,11 +91,19 @@ export async function run() {
     if (!markdown.endsWith("\n")) failures.push(`${relative}: missing final newline`);
 
     for (const target of localLinkTargets(markdown)) {
-      const resolved = path.resolve(path.dirname(file), target);
+      const [targetPath, fragment] = target.split("#");
+      const resolved = targetPath ? path.resolve(path.dirname(file), targetPath) : file;
       if (!resolved.startsWith(`${REPOSITORY_ROOT}${path.sep}`) && resolved !== REPOSITORY_ROOT) {
         failures.push(`${relative}: local link escapes repository: ${target}`);
       } else if (!await exists(resolved)) {
         failures.push(`${relative}: broken local link: ${target}`);
+      } else if (fragment && resolved.endsWith(".md")) {
+        if (!anchorCache.has(resolved)) {
+          anchorCache.set(resolved, markdownAnchors(await readFile(resolved, "utf8")));
+        }
+        if (!anchorCache.get(resolved).has(fragment)) {
+          failures.push(`${relative}: broken Markdown anchor: ${target}`);
+        }
       }
     }
   }

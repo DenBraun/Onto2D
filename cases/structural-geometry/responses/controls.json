@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "1",
+  "types": {
+    "necessary": {"dependencyTypeId": 0, "interactionModeIds": [2, 0], "ontologicalRole": "arising", "necessity": "necessary", "causalDirectionIds": [0]},
+    "enabling": {"dependencyTypeId": 1, "interactionModeIds": [1], "ontologicalRole": "maintenance", "necessity": "enabling", "causalDirectionIds": [1]},
+    "contextual": {"dependencyTypeId": 2, "interactionModeIds": [], "ontologicalRole": "modulation", "necessity": "contextual", "causalDirectionIds": []},
+    "optional": {"dependencyTypeId": 0, "interactionModeIds": [0], "ontologicalRole": "modulation", "necessity": "optional", "causalDirectionIds": [0]},
+    "missing-necessity": {"dependencyTypeId": 0, "interactionModeIds": [0], "ontologicalRole": "arising", "causalDirectionIds": [0]},
+    "missing-role": {"dependencyTypeId": 0, "interactionModeIds": [0], "necessity": "necessary", "causalDirectionIds": [0]}
+  },
+  "graphs": [
+    {"id": "chain", "nodes": 3, "edges": [[0, 1, "necessary"], [1, 2, "enabling"]]},
+    {"id": "cycle", "nodes": 3, "edges": [[0, 1, "necessary"], [1, 2, "enabling"], [2, 0, "contextual"]]},
+    {"id": "reciprocal", "nodes": 2, "edges": [[0, 1, "necessary"], [1, 0, "enabling"]]},
+    {"id": "diamond", "nodes": 4, "edges": [[0, 1, "necessary"], [1, 3, "enabling"], [0, 2, "contextual"], [2, 3, "optional"]]},
+    {"id": "diamond-feedback", "nodes": 4, "edges": [[0, 1, "necessary"], [1, 3, "enabling"], [0, 2, "contextual"], [2, 3, "optional"], [3, 0, "necessary"]]},
+    {"id": "transitive", "nodes": 3, "edges": [[0, 1, "necessary"], [1, 2, "enabling"], [0, 2, "optional"]]},
+    {"id": "mixed", "nodes": 3, "edges": [[0, 1, "necessary"], [1, 0, "enabling"], [1, 2, "contextual"], [0, 2, "optional"]]},
+    {"id": "missing-necessity", "nodes": 4, "edges": [[0, 1, "missing-necessity"], [1, 3, "enabling"], [0, 2, "contextual"], [2, 3, "optional"], [3, 0, "necessary"]]},
+    {"id": "missing-role", "nodes": 4, "edges": [[0, 1, "missing-role"], [1, 3, "enabling"], [0, 2, "contextual"], [2, 3, "optional"], [3, 0, "necessary"]]},
+    {"id": "isolates", "nodes": 2, "edges": []},
+    {"id": "opaque", "nodes": 2, "labels": [" left ", "right\n"], "edges": [[0, 1, "necessary"]]},
+    {"id": "boundary", "nodes": 5, "edges": [[0, 1, "necessary"], [1, 2, "enabling"], [2, 3, "contextual"], [3, 0, "optional"]]}
+  ],
+  "maximumCycle": {"cycleNodes": 32, "isolates": 32, "type": "necessary"},
+  "causalScope": ["0.0", "0.1", "0.2"],
+  "censusType": "necessary",
+  "scenarios": [
+    {"id": "chain-topology", "source": "chain", "regimeId": "topology-only-v1"},
+    {"id": "chain-canonical", "source": "chain", "regimeId": "canonical-structure-v1"},
+    {"id": "cycle-topology", "source": "cycle", "regimeId": "topology-only-v1"},
+    {"id": "cycle-typed", "source": "cycle", "regimeId": "typed-relations-v1"},
+    {"id": "reciprocal-typed", "source": "reciprocal", "regimeId": "typed-relations-v1"},
+    {"id": "diamond-topology", "source": "diamond", "regimeId": "topology-only-v1"},
+    {"id": "diamond-feedback-typed", "source": "diamond-feedback", "regimeId": "typed-relations-v1"},
+    {"id": "transitive-canonical", "source": "transitive", "regimeId": "canonical-structure-v1"},
+    {"id": "mixed-topology", "source": "mixed", "regimeId": "topology-only-v1"},
+    {"id": "missing-necessity", "source": "missing-necessity", "regimeId": "typed-relations-v1"},
+    {"id": "missing-role", "source": "missing-role", "regimeId": "typed-relations-v1"},
+    {"id": "isolates", "source": "isolates", "regimeId": "topology-only-v1"},
+    {"id": "opaque", "source": "opaque", "regimeId": "typed-relations-v1"},
+    {"id": "boundary", "source": "boundary", "regimeId": "topology-only-v1", "scope": {"kind": "induced", "nodeIds": ["n4", "n1", "n0"]}},
+    {"id": "causal", "source": "causal", "regimeId": "typed-relations-v1"},
+    {"id": "maximum", "source": "maximum", "regimeId": "topology-only-v1"}
+  ]
+}

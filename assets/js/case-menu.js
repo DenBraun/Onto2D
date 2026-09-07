@@ -2,7 +2,7 @@ import {
   HISTORY_MODES,
   createHistoryCases,
   loadHistoryRegistry
-} from "../../apps/external-cases/external-cases-catalog.js?v=20260905.1";
+} from "../../apps/external-cases/external-cases-catalog.js?v=20260907.1";
 
 const caseMenu = document.querySelector(".cases-menu");
 

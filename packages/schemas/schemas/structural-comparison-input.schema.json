@@ -1,0 +1,456 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/structural-comparison-input.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "regimeId": {},
+    "leftScope": {},
+    "rightScope": {},
+    "vocabulary": {},
+    "evidenceGaps": {}
+  },
+  "required": [
+    "regimeId"
+  ],
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "regimeId": {
+          "const": "canonical-structure-v1"
+        },
+        "leftScope": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "kind": {
+                  "const": "full"
+                }
+              },
+              "required": [
+                "kind"
+              ]
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "kind": {
+                  "const": "induced"
+                },
+                "nodeIds": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "minItems": 1,
+                  "maxItems": 6,
+                  "uniqueItems": true
+                }
+              },
+              "required": [
+                "kind",
+                "nodeIds"
+              ]
+            }
+          ]
+        },
+        "rightScope": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "kind": {
+                  "const": "full"
+                }
+              },
+              "required": [
+                "kind"
+              ]
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "kind": {
+                  "const": "induced"
+                },
+                "nodeIds": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "minItems": 1,
+                  "maxItems": 6,
+                  "uniqueItems": true
+                }
+              },
+              "required": [
+                "kind",
+                "nodeIds"
+              ]
+            }
+          ]
+        },
+        "evidenceGaps": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "side": {
+                "enum": [
+                  "left",
+                  "right"
+                ]
+              },
+              "observableId": {
+                "enum": [
+                  "canonical-directed-structure-v1"
+                ]
+              },
+              "disposition": {
+                "enum": [
+                  "unavailable",
+                  "rejected"
+                ]
+              },
+              "reference": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^\\S(?:[\\s\\S]*\\S)?$(?![\\s\\S])"
+              },
+              "contentHash": {
+                "type": "string",
+                "pattern": "^sha256:[0-9a-f]{64}$(?![\\s\\S])"
+              }
+            },
+            "required": [
+              "side",
+              "observableId",
+              "disposition",
+              "reference",
+              "contentHash"
+            ]
+          },
+          "minItems": 0,
+          "maxItems": 2,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "regimeId"
+      ]
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "regimeId": {
+          "const": "topology-only-v1"
+        },
+        "leftScope": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "kind": {
+                  "const": "full"
+                }
+              },
+              "required": [
+                "kind"
+              ]
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "kind": {
+                  "const": "induced"
+                },
+                "nodeIds": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "minItems": 1,
+                  "maxItems": 64,
+                  "uniqueItems": true
+                }
+              },
+              "required": [
+                "kind",
+                "nodeIds"
+              ]
+            }
+          ]
+        },
+        "rightScope": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "kind": {
+                  "const": "full"
+                }
+              },
+              "required": [
+                "kind"
+              ]
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "kind": {
+                  "const": "induced"
+                },
+                "nodeIds": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "minItems": 1,
+                  "maxItems": 64,
+                  "uniqueItems": true
+                }
+              },
+              "required": [
+                "kind",
+                "nodeIds"
+              ]
+            }
+          ]
+        },
+        "evidenceGaps": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "side": {
+                "enum": [
+                  "left",
+                  "right"
+                ]
+              },
+              "observableId": {
+                "enum": [
+                  "node-count-v1",
+                  "edge-count-v1",
+                  "weak-component-sizes-v1",
+                  "strong-component-sizes-v1",
+                  "reachable-ordered-pair-count-v1",
+                  "cyclic-node-count-v1",
+                  "isolated-node-count-v1"
+                ]
+              },
+              "disposition": {
+                "enum": [
+                  "unavailable",
+                  "rejected"
+                ]
+              },
+              "reference": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^\\S(?:[\\s\\S]*\\S)?$(?![\\s\\S])"
+              },
+              "contentHash": {
+                "type": "string",
+                "pattern": "^sha256:[0-9a-f]{64}$(?![\\s\\S])"
+              }
+            },
+            "required": [
+              "side",
+              "observableId",
+              "disposition",
+              "reference",
+              "contentHash"
+            ]
+          },
+          "minItems": 0,
+          "maxItems": 14,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "regimeId"
+      ]
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "regimeId": {
+          "const": "typed-relations-v1"
+        },
+        "leftScope": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "kind": {
+                  "const": "full"
+                }
+              },
+              "required": [
+                "kind"
+              ]
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "kind": {
+                  "const": "induced"
+                },
+                "nodeIds": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "minItems": 1,
+                  "maxItems": 6,
+                  "uniqueItems": true
+                }
+              },
+              "required": [
+                "kind",
+                "nodeIds"
+              ]
+            }
+          ]
+        },
+        "rightScope": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "kind": {
+                  "const": "full"
+                }
+              },
+              "required": [
+                "kind"
+              ]
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "kind": {
+                  "const": "induced"
+                },
+                "nodeIds": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "minItems": 1,
+                  "maxItems": 6,
+                  "uniqueItems": true
+                }
+              },
+              "required": [
+                "kind",
+                "nodeIds"
+              ]
+            }
+          ]
+        },
+        "evidenceGaps": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "side": {
+                "enum": [
+                  "left",
+                  "right"
+                ]
+              },
+              "observableId": {
+                "enum": [
+                  "canonical-directed-structure-v1",
+                  "canonical-typed-directed-structure-v1"
+                ]
+              },
+              "disposition": {
+                "enum": [
+                  "unavailable",
+                  "rejected"
+                ]
+              },
+              "reference": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^\\S(?:[\\s\\S]*\\S)?$(?![\\s\\S])"
+              },
+              "contentHash": {
+                "type": "string",
+                "pattern": "^sha256:[0-9a-f]{64}$(?![\\s\\S])"
+              }
+            },
+            "required": [
+              "side",
+              "observableId",
+              "disposition",
+              "reference",
+              "contentHash"
+            ]
+          },
+          "minItems": 0,
+          "maxItems": 4,
+          "uniqueItems": true
+        },
+        "vocabulary": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {},
+              "required": []
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "mapping": {
+                  "$ref": "https://onto2d.dev/schemas/v1/structural-vocabulary-mapping.schema.json"
+                },
+                "approvedMappingHash": {
+                  "type": "string",
+                  "pattern": "^sha256:[0-9a-f]{64}$(?![\\s\\S])"
+                }
+              },
+              "required": [
+                "mapping"
+              ]
+            }
+          ]
+        }
+      },
+      "required": [
+        "regimeId"
+      ]
+    }
+  ]
+}

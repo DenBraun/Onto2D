@@ -12,7 +12,7 @@ and other annotations never become lengths or probabilities. The complete
 source is verified before scope selection; excluded nodes, excluded edges and
 boundary edges are counted. Scoped isolates remain throughout the analysis.
 
-The [stage-four in/out convention](OLLIVIER_CURVATURE.md) extends to current
+The [Ollivier in/out convention](GEOMETRY.md#directed-ollivier-reference-contract) extends to current
 weighted directed shortest paths. For `u -> v`, the source distribution uses
 predecessors of `u`, and the target distribution uses successors of `v`.
 `idleness: "half"` retains half the mass at each endpoint; `"zero"` distributes
@@ -161,7 +161,7 @@ and cuts agree. The two six-step Causal Emergence fragments illustrate relative
 length changes after this computational gate. They are bounded induced graphs
 with disclosed boundary counts, and both stop at their iteration limit.
 
-The separate [R1 control supplement](../../cases/structural-geometry/flow-controls/README.md)
+The separate [star and bridge controls](../../cases/structural-geometry/flow-controls/README.md)
 adds eight inward/outward-star profiles and one two-K4 single-bridge profile.
 All 33 states / 506 edge calculations agree with a separate analytic derivation
 and NetworkX. Stars preserve their normalized unequal lengths with zero
@@ -171,6 +171,6 @@ threshold. It reaches `iteration-limit`, not a convergence result. The original
 
 These outputs describe the selected representation under the declared flow.
 Community truth, causal significance, full-model scalability and empirical
-usefulness remain open. The [revised roadmap](REVISED_ROADMAP.md) inserts
-the completed supplemental flow controls, metric providers, distinguishability/probes and
-response-versus-geometry comparison before directed persistence at R8.
+usefulness remain open. Remaining response-versus-geometry evaluation follows the
+[research plan](RESEARCH.md).
+Directed persistence is conditional on a concrete unmet task.

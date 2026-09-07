@@ -49,9 +49,9 @@ authenticity, hidden proxies, semantic labels, and independent preregistration
 remain review responsibilities. This pilot does not claim to prevent arbitrary
 upstream encodings of target information.
 
-See the [method](../../docs/history/HISTORY_MATTERS_BENCHMARK.md),
-[contract](../../docs/history/HISTORY_BENCHMARK_CONTRACT.md) and
-[leakage boundary](../../docs/history/HISTORY_BENCHMARK_LEAKAGE_MODEL.md).
+See the [method](../../docs/history/BENCHMARK.md),
+[contract](../../docs/history/BENCHMARK.md#history-benchmark-contract-v1--pilot-profile) and
+[leakage boundary](../../docs/history/BENCHMARK.md#history-benchmark-leakage-boundary).
 
 ```sh
 npm run history-benchmark:test
@@ -60,7 +60,7 @@ npm run history-benchmark:check
 
 ## Predictive preparation
 
-See the [regression profile](../../docs/history/HISTORY_REGRESSION_PREPARATION.md)
+See the [regression profile](../../docs/history/BENCHMARK.md#history-regression-preparation-v1)
 for typed preparation, exact replay and separated scoring APIs. The first
 [FD001 preparation](../../cases/operational-aging/history-benchmark/README.md)
 is evaluation-ready with 100 training engines, 972 prefixes, 100 test endpoints

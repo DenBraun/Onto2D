@@ -1,0 +1,566 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/geometric-added-value-unit.schema.json",
+  "title": "Geometric added-value study unit",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": "1"
+    },
+    "analysis": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "const": "geometric-added-value-unit"
+        },
+        "version": {
+          "const": "1"
+        }
+      },
+      "required": [
+        "id",
+        "version"
+      ]
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "studyHash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}(?![\\s\\S])"
+    },
+    "source": {
+      "$ref": "https://onto2d.dev/schemas/v1/structural-metric-context.schema.json"
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "response": {
+          "$ref": "https://onto2d.dev/schemas/v1/structural-response-signature-artifact.schema.json"
+        },
+        "geometry": {
+          "$ref": "https://onto2d.dev/schemas/v1/geometric-signature-artifact.schema.json"
+        }
+      },
+      "required": [
+        "response",
+        "geometry"
+      ]
+    },
+    "baselines": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "counts": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "type": "integer",
+              "minimum": 3,
+              "maximum": 6
+            },
+            {
+              "type": "integer",
+              "minimum": 2,
+              "maximum": 8
+            }
+          ],
+          "items": false,
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "degrees": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "value": {
+                "type": "array",
+                "prefixItems": [
+                  {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 5
+                  },
+                  {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 5
+                  }
+                ],
+                "items": false,
+                "minItems": 2,
+                "maxItems": 2
+              },
+              "count": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 6
+              }
+            },
+            "required": [
+              "value",
+              "count"
+            ]
+          },
+          "minItems": 0,
+          "maxItems": 6
+        },
+        "topology": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "nodeCount": {
+              "type": "integer",
+              "minimum": 3,
+              "maximum": 6
+            },
+            "edgeCount": {
+              "type": "integer",
+              "minimum": 2,
+              "maximum": 8
+            },
+            "weakComponentSizes": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 6
+              },
+              "minItems": 1,
+              "maxItems": 6
+            },
+            "strongComponentSizes": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 6
+              },
+              "minItems": 1,
+              "maxItems": 6
+            },
+            "reachableOrderedPairCount": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 30
+            },
+            "cyclicNodeCount": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 6
+            },
+            "isolatedNodeCount": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 6
+            }
+          },
+          "required": [
+            "nodeCount",
+            "edgeCount",
+            "weakComponentSizes",
+            "strongComponentSizes",
+            "reachableOrderedPairCount",
+            "cyclicNodeCount",
+            "isolatedNodeCount"
+          ]
+        },
+        "motifs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "value": {
+                "type": "string",
+                "pattern": "^[01]{6}(?![\\s\\S])"
+              },
+              "count": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 20
+              }
+            },
+            "required": [
+              "value",
+              "count"
+            ]
+          },
+          "minItems": 0,
+          "maxItems": 16
+        },
+        "spectrum": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000000
+          },
+          "minItems": 6,
+          "maxItems": 6
+        },
+        "refinement": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "value": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 407
+                },
+                "count": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 6
+                }
+              },
+              "required": [
+                "value",
+                "count"
+              ]
+            },
+            "minItems": 0,
+            "maxItems": 6
+          },
+          "minItems": 7,
+          "maxItems": 7
+        },
+        "canonical": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "nodeCount": {
+              "type": "integer",
+              "minimum": 3,
+              "maximum": 6
+            },
+            "code": {
+              "type": "string",
+              "pattern": "^[01]{6,30}(?![\\s\\S])"
+            }
+          },
+          "required": [
+            "nodeCount",
+            "code"
+          ]
+        }
+      },
+      "required": [
+        "counts",
+        "degrees",
+        "topology",
+        "motifs",
+        "spectrum",
+        "refinement",
+        "canonical"
+      ]
+    },
+    "eligibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "response": {
+          "type": "boolean"
+        },
+        "static": {
+          "type": "boolean"
+        },
+        "combined": {
+          "type": "boolean"
+        },
+        "reasons": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "minItems": 0,
+          "maxItems": 10
+        }
+      },
+      "required": [
+        "response",
+        "static",
+        "combined",
+        "reasons"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "combined": {
+                "const": true
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "response": {
+                "const": true
+              },
+              "static": {
+                "const": true
+              },
+              "reasons": {
+                "maxItems": 0
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "static": {
+                "const": true
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "response": {
+                "const": true
+              }
+            }
+          }
+        }
+      ]
+    },
+    "work": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "responseObservations": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000
+        },
+        "responseTargets": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000
+        },
+        "responseCanonicalizerCalls": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000
+        },
+        "transportProblems": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000
+        },
+        "flowFrames": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000
+        },
+        "scalarSamples": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000
+        },
+        "jointSamples": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000
+        },
+        "canonicalPermutations": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000
+        },
+        "triadPermutations": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000
+        },
+        "refinementRounds": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000
+        }
+      },
+      "required": [
+        "responseObservations",
+        "responseTargets",
+        "responseCanonicalizerCalls",
+        "transportProblems",
+        "flowFrames",
+        "scalarSamples",
+        "jointSamples",
+        "canonicalPermutations",
+        "triadPermutations",
+        "refinementRounds"
+      ]
+    },
+    "unitHash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}(?![\\s\\S])"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "analysis",
+    "id",
+    "studyHash",
+    "source",
+    "evidence",
+    "baselines",
+    "eligibility",
+    "work",
+    "unitHash"
+  ],
+  "$defs": {
+    "work": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "responseObservations": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000
+        },
+        "responseTargets": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000
+        },
+        "responseCanonicalizerCalls": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000
+        },
+        "transportProblems": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000
+        },
+        "flowFrames": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000
+        },
+        "scalarSamples": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000
+        },
+        "jointSamples": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000
+        },
+        "canonicalPermutations": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000
+        },
+        "triadPermutations": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000
+        },
+        "refinementRounds": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000
+        }
+      },
+      "required": [
+        "responseObservations",
+        "responseTargets",
+        "responseCanonicalizerCalls",
+        "transportProblems",
+        "flowFrames",
+        "scalarSamples",
+        "jointSamples",
+        "canonicalPermutations",
+        "triadPermutations",
+        "refinementRounds"
+      ]
+    },
+    "eligibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "response": {
+          "type": "boolean"
+        },
+        "static": {
+          "type": "boolean"
+        },
+        "combined": {
+          "type": "boolean"
+        },
+        "reasons": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "minItems": 0,
+          "maxItems": 10
+        }
+      },
+      "required": [
+        "response",
+        "static",
+        "combined",
+        "reasons"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "combined": {
+                "const": true
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "response": {
+                "const": true
+              },
+              "static": {
+                "const": true
+              },
+              "reasons": {
+                "maxItems": 0
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "static": {
+                "const": true
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "response": {
+                "const": true
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,6 +1,6 @@
 # Exact canonical directed observations
 
-This suite checks the [SG2-011 evaluator](../../../docs/structural-geometry/CANONICAL_OBSERVATIONS.md).
+This suite checks the [SG2-011 evaluator](../../../docs/structural-geometry/OBSERVATIONS.md#exact-canonical-directed-observations).
 The 17 stored observations are measured; their nested SG2-010 preparations remain
 unchanged, with the preparatory `not-run` marker. No pairwise distance, tri-state
 comparison, response signature or probe result is fabricated.

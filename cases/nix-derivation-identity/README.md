@@ -1,5 +1,14 @@
 # Nix Derivation Identity
 
+Case ID: `nix-derivation-identity`. [History case registry](../history-case-registry.json).
+
+- [Nix Derivation Identity — use and reproduction](#nix-derivation-identity--use-and-reproduction)
+- [Nix Derivation Identity — source and interpretation](#nix-derivation-identity--source-and-interpretation)
+
+<a id="nix-derivation-identity--use-and-reproduction"></a>
+
+## Nix Derivation Identity — use and reproduction
+
 This bounded external case demonstrates one precise result:
 
 ```text
@@ -14,7 +23,9 @@ to one Nix-materialized 61-byte content object with SHA-256
 but their native `.drv` store paths, transitive input-closure identities, and
 declared builder-environment identities differ.
 
-## Evidence boundary
+<a id="nix-derivation-identity--use-and-reproduction--evidence-boundary"></a>
+
+### Evidence boundary
 
 The committed capture was created with the official Nix 2.31.0
 `aarch64-darwin` release archive. Its URL and SHA-256 are recorded in
@@ -36,7 +47,9 @@ representation:
 - [Input-addressed outputs](https://nix.dev/manual/nix/2.34/store/derivation/outputs/input-address)
 - [Content-addressed outputs](https://nix.dev/manual/nix/2.32/store/derivation/outputs/content-address)
 
-## Fixture and projections
+<a id="nix-derivation-identity--use-and-reproduction--fixture-and-projections"></a>
+
+### Fixture and projections
 
 The fixture contains nine derivations, eight native direct `inputDrv`
 relations, and five transitive-only relations derived by Onto2D. A second-level
@@ -55,7 +68,9 @@ The four experiments cover the flagship same-content pair, partially shared
 closure, an environment-only mutation, and fixed-content versus
 input-addressed output semantics.
 
-## Reproduce and verify
+<a id="nix-derivation-identity--use-and-reproduction--reproduce-and-verify"></a>
+
+### Reproduce and verify
 
 The standard verification path uses the committed native capture and requires
 only the repository's Node.js dependencies:
@@ -78,7 +93,9 @@ ONTO2D_NIX_BIN=/absolute/path/to/nix npm run case:nix-derivation:capture:verify
 The capture uses an isolated root-remapped local store and disables
 substituters. A different Nix version or any byte drift fails closed.
 
-## Artifacts
+<a id="nix-derivation-identity--use-and-reproduction--artifacts"></a>
+
+### Artifacts
 
 - `capture/` — Nix-native JSON, raw `.drv` bytes, output path evidence, and the
   exact runtime/source lock;
@@ -94,3 +111,58 @@ counterfactual construction space or cost function, so presenting such a
 number would exceed the evidence.
 
 Nix and NixOS do not endorse Onto2D or this interpretation.
+
+<a id="nix-derivation-identity--source-and-interpretation"></a>
+
+## Nix Derivation Identity — source and interpretation
+
+<a id="nix-derivation-identity--source-and-interpretation--purpose"></a>
+
+### Purpose
+
+Study a real engineering system where construction derivation and output
+content are represented as distinct identity-relevant concepts.
+
+Primary distinction:
+
+```text
+what was produced
+    vs
+how it was produced
+```
+
+<a id="nix-derivation-identity--source-and-interpretation--initial-scope"></a>
+
+### Initial Scope
+
+Use a bounded frozen fixture set.
+
+Do not start with all of Nixpkgs.
+
+Capture enough data to represent:
+
+```text
+derivation
+outputs
+input derivations
+input sources
+builder
+arguments
+system
+environment
+output content identity
+```
+
+<a id="nix-derivation-identity--source-and-interpretation--falsification-criterion"></a>
+
+### Falsification Criterion
+
+The case fails if Onto2D collapses:
+
+```text
+content identity
+and
+construction/derivation identity
+```
+
+into a single undifferentiated relation.

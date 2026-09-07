@@ -1,0 +1,2314 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/geometric-signature-artifact.schema.json",
+  "title": "Verified geometric signature artifact",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": "1"
+    },
+    "analysis": {
+      "const": {
+        "id": "geometric-signature",
+        "version": "1"
+      }
+    },
+    "evaluation": {
+      "const": "measured"
+    },
+    "policy": {
+      "const": {
+        "id": "geometric-signature-v1",
+        "version": "1",
+        "source": "expected-verified-model-pack",
+        "layers": [
+          "forman-curvature-v1",
+          "ollivier-curvature-v1",
+          "flow-trajectory-v1"
+        ],
+        "population": "same-exact-scoped-nodes-and-edges-for-all-requested-layers",
+        "scalar": "exact-multiset-of-closed-rational-intervals",
+        "intervals": "retain-certified-endpoints-no-midpoints",
+        "extrema": "possible-and-certain-attainment-with-inclusive-ties",
+        "roles": "source-target-in-out-degree-multisets",
+        "provenance": "exact-edge-ids-excluded-from-values",
+        "flow": "joint-normalized-length-curvature-multisets",
+        "alignment": "absolute-iteration-through-requested-cap-no-padding",
+        "earlyStop": "unavailable-tail-partial-horizon-never-convergence-substitution",
+        "cuts": "strict-threshold-events-and-terminal-consecutive-run-lengths",
+        "missingness": "observed-partial-unavailable-whole-value-only-if-all-three-observed",
+        "comparison": "no-distance-or-cross-source-comparability-authority",
+        "verification": "expected-source-request-and-external-evidence-replay",
+        "errors": "throw-no-partial-success",
+        "limits": {
+          "maxNodes": 64,
+          "maxEdges": 64,
+          "maxFrames": 25,
+          "maxScalarSamples": 3328,
+          "maxJointSamples": 1600,
+          "maxCanonicalEntries": 2000000,
+          "maxArtifactBytes": 25165824
+        },
+        "contentHash": "sha256:0f9af7849baee9674666e82ea0022e716f841d73cfd0dc40500f0a1f4fe884dd"
+      }
+    },
+    "source": {
+      "$ref": "https://onto2d.dev/schemas/v1/structural-metric-context.schema.json"
+    },
+    "population": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "nodeIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 0,
+          "maxItems": 64,
+          "uniqueItems": true
+        },
+        "edgeIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 0,
+          "maxItems": 64,
+          "uniqueItems": true
+        },
+        "populationHash": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}(?![\\s\\S])"
+        }
+      },
+      "required": [
+        "nodeIds",
+        "edgeIds",
+        "populationHash"
+      ]
+    },
+    "request": {
+      "$ref": "https://onto2d.dev/schemas/v1/geometric-signature-input.schema.json"
+    },
+    "profile": {
+      "$ref": "#/$defs/profile"
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "forman": {
+          "anyOf": [
+            {
+              "$ref": "https://onto2d.dev/schemas/v1/structural-provider-analysis-artifact.schema.json"
+            },
+            {
+              "const": null
+            }
+          ]
+        },
+        "ollivier": {
+          "anyOf": [
+            {
+              "$ref": "https://onto2d.dev/schemas/v1/structural-ollivier-artifact.schema.json"
+            },
+            {
+              "const": null
+            }
+          ]
+        },
+        "flow": {
+          "anyOf": [
+            {
+              "$ref": "https://onto2d.dev/schemas/v1/structural-flow-artifact.schema.json"
+            },
+            {
+              "const": null
+            }
+          ]
+        }
+      },
+      "required": [
+        "forman",
+        "ollivier",
+        "flow"
+      ]
+    },
+    "features": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": false,
+      "prefixItems": [
+        {
+          "$ref": "#/$defs/feature0"
+        },
+        {
+          "$ref": "#/$defs/feature1"
+        },
+        {
+          "$ref": "#/$defs/feature2"
+        }
+      ]
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "enum": [
+            "complete",
+            "indeterminate"
+          ]
+        },
+        "coverage": {
+          "$ref": "#/$defs/coverage"
+        },
+        "partialFeatureIds": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "forman-curvature-v1",
+              "ollivier-curvature-v1",
+              "flow-trajectory-v1"
+            ]
+          },
+          "minItems": 0,
+          "maxItems": 3,
+          "uniqueItems": true
+        },
+        "unavailableFeatureIds": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "forman-curvature-v1",
+              "ollivier-curvature-v1",
+              "flow-trajectory-v1"
+            ]
+          },
+          "minItems": 0,
+          "maxItems": 3,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "status",
+        "coverage",
+        "partialFeatureIds",
+        "unavailableFeatureIds"
+      ]
+    },
+    "value": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/value"
+        },
+        {
+          "const": null
+        }
+      ]
+    },
+    "valueHash": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}(?![\\s\\S])"
+        },
+        {
+          "const": null
+        }
+      ]
+    },
+    "work": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "scalarSamples": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3328
+        },
+        "jointSamples": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1600
+        },
+        "trajectoryFrames": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 25
+        }
+      },
+      "required": [
+        "scalarSamples",
+        "jointSamples",
+        "trajectoryFrames"
+      ]
+    },
+    "artifactHash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}(?![\\s\\S])"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "analysis",
+    "evaluation",
+    "policy",
+    "source",
+    "population",
+    "request",
+    "profile",
+    "evidence",
+    "features",
+    "summary",
+    "value",
+    "valueHash",
+    "work",
+    "artifactHash"
+  ],
+  "$defs": {
+    "rational": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "numerator": {
+          "type": "string",
+          "maxLength": 257,
+          "pattern": "^(0|-?[1-9][0-9]{0,255})(?![\\s\\S])"
+        },
+        "denominator": {
+          "type": "string",
+          "maxLength": 256,
+          "pattern": "^[1-9][0-9]{0,255}(?![\\s\\S])"
+        }
+      },
+      "required": [
+        "numerator",
+        "denominator"
+      ]
+    },
+    "interval": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "lower": {
+          "$ref": "#/$defs/rational"
+        },
+        "upper": {
+          "$ref": "#/$defs/rational"
+        }
+      },
+      "required": [
+        "lower",
+        "upper"
+      ]
+    },
+    "role": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "sourceInDegree": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 64
+        },
+        "sourceOutDegree": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 64
+        },
+        "targetInDegree": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 64
+        },
+        "targetOutDegree": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 64
+        }
+      },
+      "required": [
+        "sourceInDegree",
+        "sourceOutDegree",
+        "targetInDegree",
+        "targetOutDegree"
+      ]
+    },
+    "extreme": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "lower": {
+          "$ref": "#/$defs/rational"
+        },
+        "upper": {
+          "$ref": "#/$defs/rational"
+        },
+        "possibleRoles": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "value": {
+                "$ref": "#/$defs/role"
+              },
+              "count": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 64
+              }
+            },
+            "required": [
+              "value",
+              "count"
+            ]
+          },
+          "minItems": 1,
+          "maxItems": 64
+        },
+        "certainRoles": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "value": {
+                "$ref": "#/$defs/role"
+              },
+              "count": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 64
+              }
+            },
+            "required": [
+              "value",
+              "count"
+            ]
+          },
+          "minItems": 0,
+          "maxItems": 64
+        }
+      },
+      "required": [
+        "lower",
+        "upper",
+        "possibleRoles",
+        "certainRoles"
+      ]
+    },
+    "attainment": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "possibleEdgeIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "maxItems": 64,
+          "uniqueItems": true
+        },
+        "certainEdgeIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 0,
+          "maxItems": 64,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "possibleEdgeIds",
+        "certainEdgeIds"
+      ]
+    },
+    "scalarProvenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "minimum": {
+          "$ref": "#/$defs/attainment"
+        },
+        "maximum": {
+          "$ref": "#/$defs/attainment"
+        }
+      },
+      "required": [
+        "minimum",
+        "maximum"
+      ]
+    },
+    "scalar": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "numeric": {
+          "enum": [
+            "exact-rational",
+            "certified-interval"
+          ]
+        },
+        "count": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 64
+        },
+        "distribution": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "value": {
+                "$ref": "#/$defs/interval"
+              },
+              "count": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 64
+              }
+            },
+            "required": [
+              "value",
+              "count"
+            ]
+          },
+          "minItems": 1,
+          "maxItems": 64
+        },
+        "signs": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "negative": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 64
+            },
+            "zero": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 64
+            },
+            "positive": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 64
+            },
+            "unresolved": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 64
+            }
+          },
+          "required": [
+            "negative",
+            "zero",
+            "positive",
+            "unresolved"
+          ]
+        },
+        "minimum": {
+          "$ref": "#/$defs/extreme"
+        },
+        "maximum": {
+          "$ref": "#/$defs/extreme"
+        }
+      },
+      "required": [
+        "numeric",
+        "count",
+        "distribution",
+        "signs",
+        "minimum",
+        "maximum"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "numeric": {
+                "const": "exact-rational"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "signs": {
+                "properties": {
+                  "unresolved": {
+                    "const": 0
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "coverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "numerator": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 64
+        },
+        "denominator": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 64
+        },
+        "complete": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "numerator",
+        "denominator",
+        "complete"
+      ]
+    },
+    "frameValue": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "jointDistribution": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "value": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "length": {
+                    "$ref": "#/$defs/rational"
+                  },
+                  "curvature": {
+                    "$ref": "#/$defs/rational"
+                  }
+                },
+                "required": [
+                  "length",
+                  "curvature"
+                ]
+              },
+              "count": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 64
+              }
+            },
+            "required": [
+              "value",
+              "count"
+            ]
+          },
+          "minItems": 1,
+          "maxItems": 64
+        },
+        "lengths": {
+          "$ref": "#/$defs/scalar"
+        },
+        "curvatures": {
+          "$ref": "#/$defs/scalar"
+        },
+        "maxLengthChange": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/rational"
+            },
+            {
+              "const": null
+            }
+          ]
+        },
+        "maxCurvatureChange": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/rational"
+            },
+            {
+              "const": null
+            }
+          ]
+        },
+        "stableStepCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 24
+        }
+      },
+      "required": [
+        "jointDistribution",
+        "lengths",
+        "curvatures",
+        "maxLengthChange",
+        "maxCurvatureChange",
+        "stableStepCount"
+      ]
+    },
+    "frame": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "iteration": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 24
+        },
+        "value": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/frameValue"
+            },
+            {
+              "const": null
+            }
+          ]
+        },
+        "reason": {
+          "enum": [
+            null,
+            "after-fixed-point",
+            "after-cycle",
+            "after-tolerance",
+            "after-iteration-limit",
+            "after-degenerate-length"
+          ]
+        }
+      },
+      "required": [
+        "iteration",
+        "value",
+        "reason"
+      ],
+      "oneOf": [
+        {
+          "properties": {
+            "value": {
+              "$ref": "#/$defs/frameValue"
+            },
+            "reason": {
+              "const": null
+            }
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "const": null
+            },
+            "reason": {
+              "enum": [
+                "after-fixed-point",
+                "after-cycle",
+                "after-tolerance",
+                "after-iteration-limit",
+                "after-degenerate-length"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "events": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "threshold": {
+          "$ref": "#/$defs/rational"
+        },
+        "frames": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "iteration": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 24
+              },
+              "aboveCount": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 64
+              },
+              "enteredCount": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 64
+              },
+              "exitedCount": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 64
+              }
+            },
+            "required": [
+              "iteration",
+              "aboveCount",
+              "enteredCount",
+              "exitedCount"
+            ]
+          },
+          "minItems": 1,
+          "maxItems": 25
+        },
+        "terminalRunLengths": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "value": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 25
+              },
+              "count": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 64
+              }
+            },
+            "required": [
+              "value",
+              "count"
+            ]
+          },
+          "minItems": 0,
+          "maxItems": 64
+        }
+      },
+      "required": [
+        "threshold",
+        "frames",
+        "terminalRunLengths"
+      ]
+    },
+    "flow": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "horizon": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 24
+        },
+        "frames": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/frame"
+          },
+          "minItems": 2,
+          "maxItems": 25,
+          "prefixItems": [
+            {
+              "properties": {
+                "iteration": {
+                  "const": 0
+                },
+                "value": {
+                  "$ref": "#/$defs/frameValue"
+                },
+                "reason": {
+                  "const": null
+                }
+              }
+            }
+          ]
+        },
+        "termination": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "reason": {
+              "enum": [
+                "fixed-point",
+                "cycle",
+                "tolerance",
+                "iteration-limit",
+                "degenerate-length"
+              ]
+            },
+            "iteration": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 24
+            },
+            "cycleStart": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 24
+                },
+                {
+                  "const": null
+                }
+              ]
+            },
+            "cyclePeriod": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 24
+                },
+                {
+                  "const": null
+                }
+              ]
+            },
+            "degenerateEdgeCount": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 64
+            }
+          },
+          "required": [
+            "reason",
+            "iteration",
+            "cycleStart",
+            "cyclePeriod",
+            "degenerateEdgeCount"
+          ]
+        },
+        "cuts": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "policy": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "kind": {
+                      "const": "none"
+                    }
+                  },
+                  "required": [
+                    "kind"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "kind": {
+                      "const": "final-length"
+                    },
+                    "threshold": {
+                      "$ref": "https://onto2d.dev/schemas/v1/structural-flow-input.schema.json#/$defs/positiveRational"
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "threshold"
+                  ]
+                }
+              ]
+            },
+            "iteration": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 24
+            },
+            "removedEdgeCount": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 64
+            },
+            "weakComponentSizes": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 64
+              },
+              "minItems": 1,
+              "maxItems": 64
+            },
+            "strongComponentSizes": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 64
+              },
+              "minItems": 1,
+              "maxItems": 64
+            },
+            "connectivity": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "weakComponentCount": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 64
+                },
+                "strongComponentCount": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 64
+                },
+                "cyclicNodeCount": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 64
+                },
+                "isolatedNodeCount": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 64
+                }
+              },
+              "required": [
+                "weakComponentCount",
+                "strongComponentCount",
+                "cyclicNodeCount",
+                "isolatedNodeCount"
+              ]
+            }
+          },
+          "required": [
+            "policy",
+            "iteration",
+            "removedEdgeCount",
+            "weakComponentSizes",
+            "strongComponentSizes",
+            "connectivity"
+          ]
+        },
+        "thresholdEvents": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/events"
+            },
+            {
+              "const": null
+            }
+          ]
+        }
+      },
+      "required": [
+        "horizon",
+        "frames",
+        "termination",
+        "cuts",
+        "thresholdEvents"
+      ]
+    },
+    "flowProvenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "frames": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "iteration": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 24
+              },
+              "lengths": {
+                "$ref": "#/$defs/scalarProvenance"
+              },
+              "curvatures": {
+                "$ref": "#/$defs/scalarProvenance"
+              },
+              "stateHash": {
+                "type": "string",
+                "pattern": "^sha256:[0-9a-f]{64}(?![\\s\\S])"
+              }
+            },
+            "required": [
+              "iteration",
+              "lengths",
+              "curvatures",
+              "stateHash"
+            ]
+          },
+          "minItems": 1,
+          "maxItems": 25
+        },
+        "thresholdEvents": {
+          "anyOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "iteration": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 24
+                  },
+                  "aboveEdgeIds": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "minItems": 0,
+                    "maxItems": 64,
+                    "uniqueItems": true
+                  },
+                  "enteredEdgeIds": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "minItems": 0,
+                    "maxItems": 64,
+                    "uniqueItems": true
+                  },
+                  "exitedEdgeIds": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "minItems": 0,
+                    "maxItems": 64,
+                    "uniqueItems": true
+                  }
+                },
+                "required": [
+                  "iteration",
+                  "aboveEdgeIds",
+                  "enteredEdgeIds",
+                  "exitedEdgeIds"
+                ]
+              },
+              "minItems": 1,
+              "maxItems": 25
+            },
+            {
+              "const": null
+            }
+          ]
+        },
+        "degenerateEdgeIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 0,
+          "maxItems": 64,
+          "uniqueItems": true
+        },
+        "cuts": {
+          "$ref": "https://onto2d.dev/schemas/v1/structural-flow-artifact.schema.json#/properties/cuts"
+        }
+      },
+      "required": [
+        "frames",
+        "thresholdEvents",
+        "degenerateEdgeIds",
+        "cuts"
+      ]
+    },
+    "profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "policy": {
+          "const": {
+            "contentHash": "sha256:0f9af7849baee9674666e82ea0022e716f841d73cfd0dc40500f0a1f4fe884dd",
+            "id": "geometric-signature-v1",
+            "version": "1"
+          }
+        },
+        "forman": {
+          "anyOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "request": {
+                  "$ref": "https://onto2d.dev/schemas/v1/structural-provider-analysis-input.schema.json"
+                },
+                "providerHash": {
+                  "type": "string",
+                  "pattern": "^sha256:[0-9a-f]{64}(?![\\s\\S])"
+                },
+                "metricPolicyHash": {
+                  "type": "string",
+                  "pattern": "^sha256:[0-9a-f]{64}(?![\\s\\S])"
+                },
+                "algorithm": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "id": {
+                      "enum": [
+                        "forman-directed-unit",
+                        "forman-directed-interval"
+                      ]
+                    },
+                    "version": {
+                      "const": "1"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "version"
+                  ]
+                },
+                "numericPolicy": {
+                  "enum": [
+                    {
+                      "id": "exact-unit-integer",
+                      "version": "1"
+                    },
+                    {
+                      "decimalPlaces": 12,
+                      "id": "outward-decimal-interval-v1",
+                      "maxIncidences": 100000,
+                      "rounding": "outward-per-incidence",
+                      "sourceNumberInterpretation": "canonical-json-decimal",
+                      "squareRoot": "integer-isqrt",
+                      "version": "1"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "request",
+                "providerHash",
+                "metricPolicyHash",
+                "algorithm",
+                "numericPolicy"
+              ]
+            },
+            {
+              "const": null
+            }
+          ]
+        },
+        "ollivier": {
+          "anyOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "policyHash": {
+                  "const": "sha256:d8cfaff53c8257431a8df5fea0909b0a25c2e4f11c3ddd77c27307aca590b4bd"
+                },
+                "idleness": {
+                  "enum": [
+                    "zero",
+                    "half"
+                  ]
+                },
+                "coverage": {
+                  "const": "all-common-edges"
+                }
+              },
+              "required": [
+                "policyHash",
+                "idleness",
+                "coverage"
+              ]
+            },
+            {
+              "const": null
+            }
+          ]
+        },
+        "flow": {
+          "anyOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "policyHash": {
+                  "const": "sha256:cb60665be0085bbb9d85a2089c9bd54a7070bb58c409e7f5b2a2761f99defe35"
+                },
+                "parameters": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "maxIterations": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 24
+                    },
+                    "step": {
+                      "enum": [
+                        "half",
+                        "one"
+                      ]
+                    },
+                    "idleness": {
+                      "enum": [
+                        "zero",
+                        "half"
+                      ]
+                    },
+                    "stableSteps": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 8
+                    },
+                    "tolerance": {
+                      "$ref": "https://onto2d.dev/schemas/v1/structural-flow-input.schema.json#/$defs/positiveRational"
+                    },
+                    "cut": {
+                      "oneOf": [
+                        {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "kind": {
+                              "const": "none"
+                            }
+                          },
+                          "required": [
+                            "kind"
+                          ]
+                        },
+                        {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "kind": {
+                              "const": "final-length"
+                            },
+                            "threshold": {
+                              "$ref": "https://onto2d.dev/schemas/v1/structural-flow-input.schema.json#/$defs/positiveRational"
+                            }
+                          },
+                          "required": [
+                            "kind",
+                            "threshold"
+                          ]
+                        }
+                      ]
+                    }
+                  },
+                  "required": [
+                    "maxIterations",
+                    "step",
+                    "idleness",
+                    "stableSteps",
+                    "tolerance",
+                    "cut"
+                  ]
+                },
+                "initialization": {
+                  "enum": [
+                    "unit",
+                    "explicit-source-lengths"
+                  ]
+                }
+              },
+              "required": [
+                "policyHash",
+                "parameters",
+                "initialization"
+              ]
+            },
+            {
+              "const": null
+            }
+          ]
+        },
+        "profileHash": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}(?![\\s\\S])"
+        }
+      },
+      "required": [
+        "policy",
+        "forman",
+        "ollivier",
+        "flow",
+        "profileHash"
+      ]
+    },
+    "value": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "features": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": false,
+          "prefixItems": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "id": {
+                  "const": "forman-curvature-v1"
+                },
+                "value": {
+                  "$ref": "#/$defs/scalar"
+                }
+              },
+              "required": [
+                "id",
+                "value"
+              ]
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "id": {
+                  "const": "ollivier-curvature-v1"
+                },
+                "value": {
+                  "$ref": "#/$defs/scalar"
+                }
+              },
+              "required": [
+                "id",
+                "value"
+              ]
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "id": {
+                  "const": "flow-trajectory-v1"
+                },
+                "value": {
+                  "$ref": "#/$defs/flow"
+                }
+              },
+              "required": [
+                "id",
+                "value"
+              ]
+            }
+          ]
+        }
+      },
+      "required": [
+        "features"
+      ]
+    },
+    "feature0": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "const": "forman-curvature-v1"
+        },
+        "state": {
+          "enum": [
+            "observed",
+            "unavailable"
+          ]
+        },
+        "coverage": {
+          "$ref": "#/$defs/coverage"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/scalar"
+            },
+            {
+              "const": null
+            }
+          ]
+        },
+        "provenance": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/scalarProvenance"
+            },
+            {
+              "const": null
+            }
+          ]
+        },
+        "reasons": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "not-requested",
+              "missing-evidence",
+              "empty-population",
+              "partial-edge-coverage",
+              "after-fixed-point",
+              "after-cycle",
+              "after-tolerance",
+              "after-iteration-limit",
+              "after-degenerate-length"
+            ]
+          },
+          "minItems": 0,
+          "maxItems": 1,
+          "uniqueItems": true
+        },
+        "valueHash": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}(?![\\s\\S])"
+            },
+            {
+              "const": null
+            }
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "state",
+        "coverage",
+        "value",
+        "provenance",
+        "reasons",
+        "valueHash"
+      ],
+      "oneOf": [
+        {
+          "properties": {
+            "state": {
+              "const": "observed"
+            },
+            "coverage": {
+              "properties": {
+                "complete": {
+                  "const": true
+                },
+                "numerator": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 64
+                },
+                "denominator": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 64
+                }
+              }
+            },
+            "value": {
+              "$ref": "#/$defs/scalar"
+            },
+            "provenance": {
+              "$ref": "#/$defs/scalarProvenance"
+            },
+            "valueHash": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}(?![\\s\\S])"
+            },
+            "reasons": {
+              "maxItems": 0
+            }
+          }
+        },
+        {
+          "properties": {
+            "state": {
+              "const": "partial"
+            },
+            "coverage": {
+              "properties": {
+                "complete": {
+                  "const": false
+                },
+                "numerator": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 64
+                },
+                "denominator": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 64
+                }
+              }
+            },
+            "value": {
+              "$ref": "#/$defs/scalar"
+            },
+            "provenance": {
+              "$ref": "#/$defs/scalarProvenance"
+            },
+            "valueHash": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}(?![\\s\\S])"
+            },
+            "reasons": {
+              "minItems": 1,
+              "items": {
+                "enum": [
+                  "partial-edge-coverage"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "state": {
+              "const": "unavailable"
+            },
+            "coverage": {
+              "properties": {
+                "complete": {
+                  "const": false
+                },
+                "numerator": {
+                  "const": 0
+                }
+              }
+            },
+            "value": {
+              "const": null
+            },
+            "provenance": {
+              "const": null
+            },
+            "valueHash": {
+              "const": null
+            },
+            "reasons": {
+              "minItems": 1,
+              "items": {
+                "enum": [
+                  "not-requested",
+                  "missing-evidence",
+                  "empty-population"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    "feature1": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "const": "ollivier-curvature-v1"
+        },
+        "state": {
+          "enum": [
+            "observed",
+            "partial",
+            "unavailable"
+          ]
+        },
+        "coverage": {
+          "$ref": "#/$defs/coverage"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/scalar"
+            },
+            {
+              "const": null
+            }
+          ]
+        },
+        "provenance": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/scalarProvenance"
+            },
+            {
+              "const": null
+            }
+          ]
+        },
+        "reasons": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "not-requested",
+              "missing-evidence",
+              "empty-population",
+              "partial-edge-coverage",
+              "after-fixed-point",
+              "after-cycle",
+              "after-tolerance",
+              "after-iteration-limit",
+              "after-degenerate-length"
+            ]
+          },
+          "minItems": 0,
+          "maxItems": 1,
+          "uniqueItems": true
+        },
+        "valueHash": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}(?![\\s\\S])"
+            },
+            {
+              "const": null
+            }
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "state",
+        "coverage",
+        "value",
+        "provenance",
+        "reasons",
+        "valueHash"
+      ],
+      "oneOf": [
+        {
+          "properties": {
+            "state": {
+              "const": "observed"
+            },
+            "coverage": {
+              "properties": {
+                "complete": {
+                  "const": true
+                },
+                "numerator": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 64
+                },
+                "denominator": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 64
+                }
+              }
+            },
+            "value": {
+              "$ref": "#/$defs/scalar"
+            },
+            "provenance": {
+              "$ref": "#/$defs/scalarProvenance"
+            },
+            "valueHash": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}(?![\\s\\S])"
+            },
+            "reasons": {
+              "maxItems": 0
+            }
+          }
+        },
+        {
+          "properties": {
+            "state": {
+              "const": "partial"
+            },
+            "coverage": {
+              "properties": {
+                "complete": {
+                  "const": false
+                },
+                "numerator": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 64
+                },
+                "denominator": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 64
+                }
+              }
+            },
+            "value": {
+              "$ref": "#/$defs/scalar"
+            },
+            "provenance": {
+              "$ref": "#/$defs/scalarProvenance"
+            },
+            "valueHash": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}(?![\\s\\S])"
+            },
+            "reasons": {
+              "minItems": 1,
+              "items": {
+                "enum": [
+                  "partial-edge-coverage"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "state": {
+              "const": "unavailable"
+            },
+            "coverage": {
+              "properties": {
+                "complete": {
+                  "const": false
+                },
+                "numerator": {
+                  "const": 0
+                }
+              }
+            },
+            "value": {
+              "const": null
+            },
+            "provenance": {
+              "const": null
+            },
+            "valueHash": {
+              "const": null
+            },
+            "reasons": {
+              "minItems": 1,
+              "items": {
+                "enum": [
+                  "not-requested",
+                  "missing-evidence",
+                  "empty-population"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    "feature2": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "const": "flow-trajectory-v1"
+        },
+        "state": {
+          "enum": [
+            "observed",
+            "partial",
+            "unavailable"
+          ]
+        },
+        "coverage": {
+          "$ref": "#/$defs/coverage"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/flow"
+            },
+            {
+              "const": null
+            }
+          ]
+        },
+        "provenance": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/flowProvenance"
+            },
+            {
+              "const": null
+            }
+          ]
+        },
+        "reasons": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "not-requested",
+              "missing-evidence",
+              "empty-population",
+              "partial-edge-coverage",
+              "after-fixed-point",
+              "after-cycle",
+              "after-tolerance",
+              "after-iteration-limit",
+              "after-degenerate-length"
+            ]
+          },
+          "minItems": 0,
+          "maxItems": 1,
+          "uniqueItems": true
+        },
+        "valueHash": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}(?![\\s\\S])"
+            },
+            {
+              "const": null
+            }
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "state",
+        "coverage",
+        "value",
+        "provenance",
+        "reasons",
+        "valueHash"
+      ],
+      "oneOf": [
+        {
+          "properties": {
+            "state": {
+              "const": "observed"
+            },
+            "coverage": {
+              "properties": {
+                "complete": {
+                  "const": true
+                },
+                "numerator": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 25
+                },
+                "denominator": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 25
+                }
+              }
+            },
+            "value": {
+              "$ref": "#/$defs/flow"
+            },
+            "provenance": {
+              "$ref": "#/$defs/flowProvenance"
+            },
+            "valueHash": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}(?![\\s\\S])"
+            },
+            "reasons": {
+              "maxItems": 0
+            }
+          }
+        },
+        {
+          "properties": {
+            "state": {
+              "const": "partial"
+            },
+            "coverage": {
+              "properties": {
+                "complete": {
+                  "const": false
+                },
+                "numerator": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 25
+                },
+                "denominator": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 25
+                }
+              }
+            },
+            "value": {
+              "$ref": "#/$defs/flow"
+            },
+            "provenance": {
+              "$ref": "#/$defs/flowProvenance"
+            },
+            "valueHash": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}(?![\\s\\S])"
+            },
+            "reasons": {
+              "minItems": 1,
+              "items": {
+                "enum": [
+                  "after-fixed-point",
+                  "after-cycle",
+                  "after-tolerance",
+                  "after-iteration-limit",
+                  "after-degenerate-length"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "state": {
+              "const": "unavailable"
+            },
+            "coverage": {
+              "properties": {
+                "complete": {
+                  "const": false
+                },
+                "numerator": {
+                  "const": 0
+                }
+              }
+            },
+            "value": {
+              "const": null
+            },
+            "provenance": {
+              "const": null
+            },
+            "valueHash": {
+              "const": null
+            },
+            "reasons": {
+              "minItems": 1,
+              "items": {
+                "enum": [
+                  "not-requested",
+                  "missing-evidence",
+                  "empty-population"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "properties": {
+        "summary": {
+          "properties": {
+            "coverage": {
+              "properties": {
+                "denominator": {
+                  "const": 3
+                },
+                "numerator": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 3
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "summary": {
+            "properties": {
+              "status": {
+                "const": "complete"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "value": {
+            "$ref": "#/$defs/value"
+          },
+          "valueHash": {
+            "type": "string",
+            "pattern": "^sha256:[0-9a-f]{64}(?![\\s\\S])"
+          },
+          "summary": {
+            "properties": {
+              "coverage": {
+                "const": {
+                  "numerator": 3,
+                  "denominator": 3,
+                  "complete": true
+                }
+              },
+              "partialFeatureIds": {
+                "maxItems": 0
+              },
+              "unavailableFeatureIds": {
+                "maxItems": 0
+              }
+            }
+          },
+          "features": {
+            "prefixItems": [
+              {
+                "properties": {
+                  "state": {
+                    "const": "observed"
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "state": {
+                    "const": "observed"
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "state": {
+                    "const": "observed"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "value": {
+            "const": null
+          },
+          "valueHash": {
+            "const": null
+          },
+          "summary": {
+            "properties": {
+              "coverage": {
+                "properties": {
+                  "numerator": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 2
+                  },
+                  "complete": {
+                    "const": false
+                  }
+                }
+              }
+            }
+          },
+          "features": {
+            "contains": {
+              "properties": {
+                "state": {
+                  "enum": [
+                    "partial",
+                    "unavailable"
+                  ]
+                }
+              }
+            },
+            "minContains": 1
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "request": {
+            "properties": {
+              "forman": {
+                "const": null
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "profile": {
+            "properties": {
+              "forman": {
+                "const": null
+              }
+            }
+          },
+          "evidence": {
+            "properties": {
+              "forman": {
+                "const": null
+              }
+            }
+          },
+          "features": {
+            "prefixItems": [
+              {
+                "properties": {
+                  "state": {
+                    "const": "unavailable"
+                  },
+                  "reasons": {
+                    "const": [
+                      "not-requested"
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "profile": {
+            "properties": {
+              "forman": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "request": {
+            "properties": {
+              "ollivier": {
+                "const": null
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "profile": {
+            "properties": {
+              "ollivier": {
+                "const": null
+              }
+            }
+          },
+          "evidence": {
+            "properties": {
+              "ollivier": {
+                "const": null
+              }
+            }
+          },
+          "features": {
+            "prefixItems": [
+              {},
+              {
+                "properties": {
+                  "state": {
+                    "const": "unavailable"
+                  },
+                  "reasons": {
+                    "const": [
+                      "not-requested"
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "profile": {
+            "properties": {
+              "ollivier": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "request": {
+            "properties": {
+              "flow": {
+                "const": null
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "profile": {
+            "properties": {
+              "flow": {
+                "const": null
+              }
+            }
+          },
+          "evidence": {
+            "properties": {
+              "flow": {
+                "const": null
+              }
+            }
+          },
+          "features": {
+            "prefixItems": [
+              {},
+              {},
+              {
+                "properties": {
+                  "state": {
+                    "const": "unavailable"
+                  },
+                  "reasons": {
+                    "const": [
+                      "not-requested"
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "profile": {
+            "properties": {
+              "flow": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,431 @@
+{
+  "analysis": {
+    "id": "geometric-signature",
+    "version": "1"
+  },
+  "artifactHash": "sha256:22c33cbbb783009253cbbc889790a0edfe3bc2273fc717805eaadbfb80c7c665",
+  "evaluation": "measured",
+  "evidence": {
+    "flow": null,
+    "forman": {
+      "analysis": {
+        "id": "structural-provider-analysis",
+        "version": "1"
+      },
+      "artifactHash": "sha256:6bd8faa40a103cafc6a4bd470801bc3a614f1f38089812541ff5b6fd7d3a85d6",
+      "context": {
+        "contextHash": "sha256:431f51d384a1d6209cfd9fb4b2753383d89a1432e8b819187663d919a1e96a3c",
+        "dictionaryHash": "sha256:c7cd166f910f4e619ad8fbf7d2ef37c7d4d9decd7f6340899bcd28cdf679c1d9",
+        "model": {
+          "manifestHash": "sha256:6720726d48bb203645e8f97827d02e163a65c43f3f46a890fa6447dbbaf5716b",
+          "modelId": "flow-isolated",
+          "modelRootHash": "sha256:e04c3ca05ba678dfd14a7b8fcfb35b46bcdfe3df068524d11e6756805d617584",
+          "modelVersion": "1"
+        },
+        "normalizationContext": "full-source-projection",
+        "projectionPolicyHash": "sha256:25f5cdb778b7fdf05ff071dd9d8c672a9726ca50958a6192066e72a8523172d1",
+        "schemaVersion": "1",
+        "sourceProjectionHash": "sha256:ece8525edea58b76c5afaf88fd79f5fcac4a62d55aa6f10075541b9970e0e0e6"
+      },
+      "legacyArtifact": {
+        "accounting": {
+          "excludedEdgeIds": [],
+          "missingChannelEdgeIds": [],
+          "selectedEdgeIds": [],
+          "sourceEdgeCount": 0,
+          "sourceNodeCount": 1
+        },
+        "algorithm": {
+          "id": "forman-directed-interval",
+          "version": "1"
+        },
+        "analysis": {
+          "id": "structural-metric-experiment",
+          "version": "1"
+        },
+        "artifactHash": "sha256:f24c90f1374cbce94b4de21e07e97a3f7b857351a4246c832557f8f3337cbd8c",
+        "metricContextHash": "sha256:a21531970e01ae98ab01ccbf1d1a9853e689276f4a7ea606872bd74b7c6442ef",
+        "metricPolicy": {
+          "edgeLength": "incoming-source-weight-sum-divided-by-source-weight",
+          "edgeWeight": "edge-length",
+          "id": "inverse-target-share-v1",
+          "invalidWeight": "reject",
+          "maximumSourceWeight": 1,
+          "minimumSourceWeight": 0.000001,
+          "normalizationContext": "full-source-projection",
+          "sourceMutation": "none",
+          "status": "experimental",
+          "version": "1",
+          "vertexWeight": 1
+        },
+        "metricPolicyHash": "sha256:1c480b47143387b0a974416b2210b535950a4ed639eaac77d7ee235a76303e9e",
+        "model": {
+          "manifestHash": "sha256:6720726d48bb203645e8f97827d02e163a65c43f3f46a890fa6447dbbaf5716b",
+          "modelId": "flow-isolated",
+          "modelRootHash": "sha256:e04c3ca05ba678dfd14a7b8fcfb35b46bcdfe3df068524d11e6756805d617584",
+          "modelVersion": "1"
+        },
+        "numericPolicy": {
+          "decimalPlaces": 12,
+          "id": "outward-decimal-interval-v1",
+          "maxIncidences": 100000,
+          "rounding": "outward-per-incidence",
+          "sourceNumberInterpretation": "canonical-json-decimal",
+          "squareRoot": "integer-isqrt",
+          "version": "1"
+        },
+        "numericPolicyHash": "sha256:8760d4d2c1fe233508914d4ba6b66f87e8849b5b051694c79c0f5ab12ea6e517",
+        "parameters": {},
+        "parametersHash": "sha256:b548afe8f45bf170a9fa1325aca825e0dfed84d6f1be6cfd503004e7c2d06f46",
+        "projectionHash": "sha256:4d8205b8cc831bde531961292c50d5c550a047644d7996ce1b5fd2eb75759d32",
+        "request": {
+          "metricPolicyId": "inverse-target-share-v1",
+          "selection": {
+            "kind": "all"
+          }
+        },
+        "result": {
+          "connectivity": {
+            "cyclicNodeCount": 0,
+            "isolatedNodeCount": 1,
+            "strongComponentCount": 1,
+            "weakComponentCount": 1
+          },
+          "edges": [],
+          "incidenceCount": 0,
+          "nodes": [
+            {
+              "balance": {
+                "lowerTicks": "0",
+                "upperTicks": "0"
+              },
+              "id": "a",
+              "inDegree": 0,
+              "incomingCurvature": {
+                "lowerTicks": "0",
+                "upperTicks": "0"
+              },
+              "outDegree": 0,
+              "outgoingCurvature": {
+                "lowerTicks": "0",
+                "upperTicks": "0"
+              }
+            }
+          ],
+          "summary": {
+            "count": 0,
+            "maximum": null,
+            "mean": null,
+            "minimum": null,
+            "signs": {
+              "negative": 0,
+              "positive": 0,
+              "unresolved": 0,
+              "zero": 0
+            },
+            "sum": {
+              "lowerTicks": "0",
+              "upperTicks": "0"
+            },
+            "unitComparison": {
+              "equal": 0,
+              "higher": 0,
+              "lower": 0,
+              "overlapping": 0
+            }
+          }
+        },
+        "schemaVersion": "1",
+        "selectionPolicy": {
+          "channels": [
+            "dependencyTypeId",
+            "interactionModeIds",
+            "causalDirectionIds"
+          ],
+          "id": "typed-source-parent-subgraph-v1",
+          "missingCategory": "reject",
+          "missingChannel": "exclude-and-account",
+          "necessityOrder": [
+            "necessary",
+            "enabling",
+            "contextual",
+            "optional"
+          ],
+          "nodePopulation": "all-source-nodes",
+          "roleOrder": "subset-lattice",
+          "roleUniverse": [
+            "arising",
+            "maintenance",
+            "modulation"
+          ],
+          "version": "1"
+        },
+        "selectionPolicyHash": "sha256:19c266351895ee05760ea8791d6880a4587966271182e28252c8afc89e5aab7d",
+        "sourceProjectionHash": "sha256:ece8525edea58b76c5afaf88fd79f5fcac4a62d55aa6f10075541b9970e0e0e6",
+        "weightAuditHash": "sha256:2b884956005500a8b2702d2156cc45bb7c5a6cb8f749043a97e436bd124efe43"
+      },
+      "metricArtifact": {
+        "analysis": {
+          "id": "structural-metric-provider",
+          "version": "1"
+        },
+        "artifactHash": "sha256:db2c3031fceb72a4272935086fd54f7a622525773a7aef2577b1661c6d46f878",
+        "context": {
+          "contextHash": "sha256:431f51d384a1d6209cfd9fb4b2753383d89a1432e8b819187663d919a1e96a3c",
+          "dictionaryHash": "sha256:c7cd166f910f4e619ad8fbf7d2ef37c7d4d9decd7f6340899bcd28cdf679c1d9",
+          "model": {
+            "manifestHash": "sha256:6720726d48bb203645e8f97827d02e163a65c43f3f46a890fa6447dbbaf5716b",
+            "modelId": "flow-isolated",
+            "modelRootHash": "sha256:e04c3ca05ba678dfd14a7b8fcfb35b46bcdfe3df068524d11e6756805d617584",
+            "modelVersion": "1"
+          },
+          "normalizationContext": "full-source-projection",
+          "projectionPolicyHash": "sha256:25f5cdb778b7fdf05ff071dd9d8c672a9726ca50958a6192066e72a8523172d1",
+          "schemaVersion": "1",
+          "sourceProjectionHash": "sha256:ece8525edea58b76c5afaf88fd79f5fcac4a62d55aa6f10075541b9970e0e0e6"
+        },
+        "provider": {
+          "capabilities": [
+            "positive-edge-lengths",
+            "vertex-weights",
+            "edge-weights"
+          ],
+          "context": {
+            "dictionaryMeaning": "model-local",
+            "normalization": "full-source-projection",
+            "source": "verified-full-model",
+            "sourceWeights": "required-and-audited"
+          },
+          "id": "inverse-target-share-v1",
+          "kind": "metric-values",
+          "limits": {
+            "maxArtifactBytes": 8388608,
+            "maxCanonicalEntries": 500000,
+            "maxEdges": 16384,
+            "maxNodes": 4096,
+            "maxTotalViewEdges": 32768,
+            "maxViews": 32
+          },
+          "numeric": "exact-positive-rational",
+          "origin": "existing-structural-geometry-v1",
+          "representationPolicyId": "source-parent-directed-v1",
+          "version": "1"
+        },
+        "providerHash": "sha256:b293ddbb9f7d4386afd7f5782dacbe190eb19e090cc6eaaf4c89712b49b2f3c0",
+        "request": {
+          "parameters": {},
+          "providerId": "inverse-target-share-v1"
+        },
+        "result": {
+          "edges": [],
+          "kind": "metric-values",
+          "metricContextHash": "sha256:a21531970e01ae98ab01ccbf1d1a9853e689276f4a7ea606872bd74b7c6442ef",
+          "metricPolicy": {
+            "edgeLength": "incoming-source-weight-sum-divided-by-source-weight",
+            "edgeWeight": "edge-length",
+            "id": "inverse-target-share-v1",
+            "invalidWeight": "reject",
+            "maximumSourceWeight": 1,
+            "minimumSourceWeight": 0.000001,
+            "normalizationContext": "full-source-projection",
+            "sourceMutation": "none",
+            "status": "experimental",
+            "version": "1",
+            "vertexWeight": 1
+          },
+          "metricPolicyHash": "sha256:1c480b47143387b0a974416b2210b535950a4ed639eaac77d7ee235a76303e9e",
+          "nodes": [
+            {
+              "id": "a",
+              "weight": {
+                "denominator": "1",
+                "numerator": "1"
+              }
+            }
+          ],
+          "weightAuditHash": "sha256:2b884956005500a8b2702d2156cc45bb7c5a6cb8f749043a97e436bd124efe43"
+        },
+        "schemaVersion": "1"
+      },
+      "request": {
+        "analysis": "structural-metric-experiment",
+        "metricProviderId": "inverse-target-share-v1",
+        "selection": {
+          "kind": "all"
+        }
+      },
+      "schemaVersion": "1",
+      "viewArtifact": null
+    },
+    "ollivier": null
+  },
+  "features": [
+    {
+      "coverage": {
+        "complete": false,
+        "denominator": 0,
+        "numerator": 0
+      },
+      "id": "forman-curvature-v1",
+      "provenance": null,
+      "reasons": [
+        "empty-population"
+      ],
+      "state": "unavailable",
+      "value": null,
+      "valueHash": null
+    },
+    {
+      "coverage": {
+        "complete": false,
+        "denominator": 0,
+        "numerator": 0
+      },
+      "id": "ollivier-curvature-v1",
+      "provenance": null,
+      "reasons": [
+        "not-requested"
+      ],
+      "state": "unavailable",
+      "value": null,
+      "valueHash": null
+    },
+    {
+      "coverage": {
+        "complete": false,
+        "denominator": 0,
+        "numerator": 0
+      },
+      "id": "flow-trajectory-v1",
+      "provenance": null,
+      "reasons": [
+        "not-requested"
+      ],
+      "state": "unavailable",
+      "value": null,
+      "valueHash": null
+    }
+  ],
+  "policy": {
+    "alignment": "absolute-iteration-through-requested-cap-no-padding",
+    "comparison": "no-distance-or-cross-source-comparability-authority",
+    "contentHash": "sha256:0f9af7849baee9674666e82ea0022e716f841d73cfd0dc40500f0a1f4fe884dd",
+    "cuts": "strict-threshold-events-and-terminal-consecutive-run-lengths",
+    "earlyStop": "unavailable-tail-partial-horizon-never-convergence-substitution",
+    "errors": "throw-no-partial-success",
+    "extrema": "possible-and-certain-attainment-with-inclusive-ties",
+    "flow": "joint-normalized-length-curvature-multisets",
+    "id": "geometric-signature-v1",
+    "intervals": "retain-certified-endpoints-no-midpoints",
+    "layers": [
+      "forman-curvature-v1",
+      "ollivier-curvature-v1",
+      "flow-trajectory-v1"
+    ],
+    "limits": {
+      "maxArtifactBytes": 25165824,
+      "maxCanonicalEntries": 2000000,
+      "maxEdges": 64,
+      "maxFrames": 25,
+      "maxJointSamples": 1600,
+      "maxNodes": 64,
+      "maxScalarSamples": 3328
+    },
+    "missingness": "observed-partial-unavailable-whole-value-only-if-all-three-observed",
+    "population": "same-exact-scoped-nodes-and-edges-for-all-requested-layers",
+    "provenance": "exact-edge-ids-excluded-from-values",
+    "roles": "source-target-in-out-degree-multisets",
+    "scalar": "exact-multiset-of-closed-rational-intervals",
+    "source": "expected-verified-model-pack",
+    "verification": "expected-source-request-and-external-evidence-replay",
+    "version": "1"
+  },
+  "population": {
+    "edgeIds": [],
+    "nodeIds": [
+      "a"
+    ],
+    "populationHash": "sha256:1416451e1b874d49b37c3570c4ff730d4123a6a039dd5d58f8e2eacae9808913"
+  },
+  "profile": {
+    "flow": null,
+    "forman": {
+      "algorithm": {
+        "id": "forman-directed-interval",
+        "version": "1"
+      },
+      "metricPolicyHash": "sha256:1c480b47143387b0a974416b2210b535950a4ed639eaac77d7ee235a76303e9e",
+      "numericPolicy": {
+        "decimalPlaces": 12,
+        "id": "outward-decimal-interval-v1",
+        "maxIncidences": 100000,
+        "rounding": "outward-per-incidence",
+        "sourceNumberInterpretation": "canonical-json-decimal",
+        "squareRoot": "integer-isqrt",
+        "version": "1"
+      },
+      "providerHash": "sha256:b293ddbb9f7d4386afd7f5782dacbe190eb19e090cc6eaaf4c89712b49b2f3c0",
+      "request": {
+        "analysis": "structural-metric-experiment",
+        "metricProviderId": "inverse-target-share-v1",
+        "selection": {
+          "kind": "all"
+        }
+      }
+    },
+    "ollivier": null,
+    "policy": {
+      "contentHash": "sha256:0f9af7849baee9674666e82ea0022e716f841d73cfd0dc40500f0a1f4fe884dd",
+      "id": "geometric-signature-v1",
+      "version": "1"
+    },
+    "profileHash": "sha256:08e11ff6d8f42c654e4e4b336edc9459ec0f51b3ab8991cb57516621bd72abc7"
+  },
+  "request": {
+    "flow": null,
+    "forman": {
+      "analysis": "structural-metric-experiment",
+      "metricProviderId": "inverse-target-share-v1",
+      "selection": {
+        "kind": "all"
+      }
+    },
+    "ollivier": null
+  },
+  "schemaVersion": "1",
+  "source": {
+    "contextHash": "sha256:431f51d384a1d6209cfd9fb4b2753383d89a1432e8b819187663d919a1e96a3c",
+    "dictionaryHash": "sha256:c7cd166f910f4e619ad8fbf7d2ef37c7d4d9decd7f6340899bcd28cdf679c1d9",
+    "model": {
+      "manifestHash": "sha256:6720726d48bb203645e8f97827d02e163a65c43f3f46a890fa6447dbbaf5716b",
+      "modelId": "flow-isolated",
+      "modelRootHash": "sha256:e04c3ca05ba678dfd14a7b8fcfb35b46bcdfe3df068524d11e6756805d617584",
+      "modelVersion": "1"
+    },
+    "normalizationContext": "full-source-projection",
+    "projectionPolicyHash": "sha256:25f5cdb778b7fdf05ff071dd9d8c672a9726ca50958a6192066e72a8523172d1",
+    "schemaVersion": "1",
+    "sourceProjectionHash": "sha256:ece8525edea58b76c5afaf88fd79f5fcac4a62d55aa6f10075541b9970e0e0e6"
+  },
+  "summary": {
+    "coverage": {
+      "complete": false,
+      "denominator": 3,
+      "numerator": 0
+    },
+    "partialFeatureIds": [],
+    "status": "indeterminate",
+    "unavailableFeatureIds": [
+      "forman-curvature-v1",
+      "ollivier-curvature-v1",
+      "flow-trajectory-v1"
+    ]
+  },
+  "value": null,
+  "valueHash": null,
+  "work": {
+    "jointSamples": 0,
+    "scalarSamples": 0,
+    "trajectoryFrames": 0
+  }
+}

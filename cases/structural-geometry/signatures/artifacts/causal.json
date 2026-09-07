@@ -1,0 +1,5359 @@
+{
+  "analysis": {
+    "id": "structural-response-signature",
+    "version": "1"
+  },
+  "artifactHash": "sha256:eeffc3cabeee8c7acb76faad23401984a661adce19ee22a97422b0a05307f68d",
+  "comparisonContext": {
+    "contextHash": "sha256:00eb66ecfb169ba5a49a10d5107d83861a2b1fd0555c52ea9c8d0832889b359d",
+    "kind": "source-local-typed"
+  },
+  "evaluation": "measured",
+  "evidence": {
+    "invariance": {
+      "adapter": {
+        "contentHash": "sha256:f50bd13d6e5af467781922e8c1586916532face8b8fd11ac2a69961f318d75df",
+        "decoding": "parse-each-exact-json-payload-before-evaluation",
+        "graph": "preserve-all-node-ids-directed-endpoints-and-five-present-typed-fields",
+        "id": "invariance-shadow-observation-adapter-v1",
+        "implementations": [
+          {
+            "contentHash": "sha256:c24eb843608db1252a279b2f48f717f13d675680cd7607cec6d46d84c26d9a4d",
+            "id": "canonical-directed-observation-v1",
+            "version": "1"
+          },
+          {
+            "contentHash": "sha256:56e0a358ae1c6f3618fb792c319bedc2d1e06db637b8410de1a39d4a69f3a4e8",
+            "id": "directed-topology-observation-v1",
+            "version": "1"
+          },
+          {
+            "contentHash": "sha256:953f5ae6ad1fee7069058ac66116848c7b3981850feaf9a1c84d216325ba60e3",
+            "id": "typed-directed-observation-v1",
+            "version": "1"
+          }
+        ],
+        "input": "private-source-bound-representation",
+        "missing": "source-edge-and-field-with-null-value",
+        "presentation": "exclude-node-and-edge-presentation-and-viewport",
+        "typedVocabulary": "unchanged-verified-source-context",
+        "version": "1"
+      },
+      "analysis": {
+        "id": "structural-invariance-probes",
+        "version": "1"
+      },
+      "artifactHash": "sha256:a860c4fc499f0eb1da0fffafd11fa0b161774b18927e2da9ccbed8c72afe901d",
+      "baseline": {
+        "mapping": {
+          "edges": [
+            {
+              "shadowEdgeId": "e000",
+              "sourceEdgeId": "0.0->0.1"
+            },
+            {
+              "shadowEdgeId": "e001",
+              "sourceEdgeId": "0.0->0.2"
+            }
+          ],
+          "nodes": [
+            {
+              "shadowNodeId": "n000",
+              "sourceNodeId": "0.0"
+            },
+            {
+              "shadowNodeId": "n001",
+              "sourceNodeId": "0.1"
+            },
+            {
+              "shadowNodeId": "n002",
+              "sourceNodeId": "0.2"
+            }
+          ]
+        },
+        "observation": {
+          "adapter": {
+            "contentHash": "sha256:f50bd13d6e5af467781922e8c1586916532face8b8fd11ac2a69961f318d75df",
+            "id": "invariance-shadow-observation-adapter-v1",
+            "version": "1"
+          },
+          "artifactHash": "sha256:87a52f834cddef1ddb30d9fa767447a353bee1d454a469074891fb4011d1d388",
+          "observations": [
+            {
+              "availability": "observed",
+              "implementation": {
+                "contentHash": "sha256:953f5ae6ad1fee7069058ac66116848c7b3981850feaf9a1c84d216325ba60e3",
+                "id": "typed-directed-observation-v1",
+                "version": "1"
+              },
+              "missing": [],
+              "observable": {
+                "contentHash": "sha256:48f137781781c54724e172256925e44c9a2be42a08610c88abaca8a9f6016e7b",
+                "id": "canonical-directed-structure-v1",
+                "version": "1"
+              },
+              "value": {
+                "edges": [
+                  {
+                    "from": 2,
+                    "to": 0
+                  },
+                  {
+                    "from": 2,
+                    "to": 1
+                  }
+                ],
+                "nodeCount": 3
+              },
+              "valueHash": "sha256:1d55436bc5dddb800ae3d5519f9d926de7a45fc48c28a5243da4e624a9c23bf4"
+            },
+            {
+              "availability": "observed",
+              "implementation": {
+                "contentHash": "sha256:953f5ae6ad1fee7069058ac66116848c7b3981850feaf9a1c84d216325ba60e3",
+                "id": "typed-directed-observation-v1",
+                "version": "1"
+              },
+              "missing": [],
+              "observable": {
+                "contentHash": "sha256:3df933040d1a5002b2338cf07b11eefd68e63f76597e72873d897fd3ea86efd3",
+                "id": "canonical-typed-directed-structure-v1",
+                "version": "1"
+              },
+              "value": {
+                "edges": [
+                  {
+                    "from": 2,
+                    "to": 0,
+                    "types": {
+                      "causalDirectionIds": [
+                        0
+                      ],
+                      "dependencyTypeId": 10,
+                      "interactionModeIds": [
+                        3
+                      ],
+                      "necessity": "necessary",
+                      "ontologicalRole": "arising"
+                    }
+                  },
+                  {
+                    "from": 2,
+                    "to": 1,
+                    "types": {
+                      "causalDirectionIds": [
+                        0
+                      ],
+                      "dependencyTypeId": 10,
+                      "interactionModeIds": [
+                        3
+                      ],
+                      "necessity": "necessary",
+                      "ontologicalRole": "arising"
+                    }
+                  }
+                ],
+                "nodeCount": 3
+              },
+              "valueHash": "sha256:e2645f4b0c83fa9ab2e4ff34ecaea9290a20a6e047805b881a47e352837f3298"
+            }
+          ],
+          "payloadHash": "sha256:a9143524631ac3f80c9dc4c87aa33a73b6403479efd62e0c9e7f2d77f7467ee9",
+          "source": {
+            "contextHash": "sha256:00eb66ecfb169ba5a49a10d5107d83861a2b1fd0555c52ea9c8d0832889b359d",
+            "scopeHash": "sha256:935e73da4f997dc2900f8db323b57b3e771ac536dfbee931fd131d84abdac5e9"
+          },
+          "work": {
+            "canonicalizerCalls": 2
+          }
+        },
+        "representation": {
+          "graphHash": "sha256:585d63f97000e86fc0822a589478ceb973ba9130eb753152163efd152f6eae65",
+          "payload": "{\"nodes\":[{\"id\":\"n000\",\"presentation\":{\"label\":\"Node 0\",\"x\":0,\"y\":0}},{\"id\":\"n001\",\"presentation\":{\"label\":\"Node 1\",\"x\":1,\"y\":-1}},{\"id\":\"n002\",\"presentation\":{\"label\":\"Node 2\",\"x\":2,\"y\":-2}}],\"edges\":[{\"id\":\"e000\",\"source\":\"n000\",\"target\":\"n001\",\"types\":{\"dependencyTypeId\":10,\"interactionModeIds\":[3],\"ontologicalRole\":\"arising\",\"necessity\":\"necessary\",\"causalDirectionIds\":[0]},\"presentation\":{\"label\":\"Edge 0\",\"color\":\"#334155\"}},{\"id\":\"e001\",\"source\":\"n000\",\"target\":\"n002\",\"types\":{\"dependencyTypeId\":10,\"interactionModeIds\":[3],\"ontologicalRole\":\"arising\",\"necessity\":\"necessary\",\"causalDirectionIds\":[0]},\"presentation\":{\"label\":\"Edge 1\",\"color\":\"#334155\"}}],\"viewport\":{\"zoom\":1}}",
+          "payloadHash": "sha256:a9143524631ac3f80c9dc4c87aa33a73b6403479efd62e0c9e7f2d77f7467ee9"
+        },
+        "sourceShadowGraphHash": "sha256:216594deb103df53549c88d70455bc82fd1fcce44e354c6780a8ba2091379bc4"
+      },
+      "evaluation": "measured",
+      "policy": {
+        "codeExecution": "closed-data-transformations-only",
+        "comparison": "all-mandatory-observables-exact-values",
+        "contentHash": "sha256:34c87772235e3c8f0f0d01384c063a8a95c1d81ab9cb58c0ed22d1a3f3b013c3",
+        "copies": "every-probe-starts-from-baseline",
+        "emptyEdgeRename": "explicit-no-op",
+        "emptyProfile": "indeterminate",
+        "errors": "throw-no-partial-artifact",
+        "graphHash": "identifier-sensitive-provenance-excludes-presentation",
+        "id": "measured-structural-invariance-v1",
+        "limits": {
+          "maxArtifactBytes": 4194304,
+          "maxCanonicalEntries": 500000,
+          "maxCanonicalizerCalls": 10,
+          "maxObservationEvaluations": 5,
+          "maxRepresentations": 5
+        },
+        "missingness": "strict-indeterminate-retain-differences",
+        "payload": "exact-json-string-with-synthetic-presentation",
+        "registry": {
+          "contentHash": "sha256:bec1366254a158eb1df77ad709cb229fb8cd636dc0411a1a5c2c5b4f4f6b4862",
+          "id": "structural-invariance-probes-v1",
+          "version": "1"
+        },
+        "source": "verified-identity-sandbox",
+        "targets": "all-scoped-records",
+        "version": "1",
+        "vocabulary": "same-source-context-only"
+      },
+      "preparation": {
+        "analysis": {
+          "id": "structural-regime-preparation",
+          "version": "1"
+        },
+        "artifactHash": "sha256:8ca93efce7cc2909d608d1867f1675f5b27a740916f4bc2eaed939f8b3d2b5a4",
+        "context": {
+          "contextHash": "sha256:00eb66ecfb169ba5a49a10d5107d83861a2b1fd0555c52ea9c8d0832889b359d",
+          "dictionaryHash": "sha256:77798eee0ae2cbe90c6e54e48ce8f8d39659472b16c900056e106c8bf8a85cff",
+          "model": {
+            "manifestHash": "sha256:39203e307d7c55582946fce0037682141acae31cdec54640202874d943c7c213",
+            "modelId": "causal-emergence",
+            "modelRootHash": "sha256:1364547211fc56dbcfb7962612458d12cb40ee92aa30b11ccb819151015cd2ab",
+            "modelVersion": "2026.08.15"
+          },
+          "normalizationContext": "full-source-projection",
+          "projectionPolicyHash": "sha256:25f5cdb778b7fdf05ff071dd9d8c672a9726ca50958a6192066e72a8523172d1",
+          "schemaVersion": "1",
+          "sourceProjectionHash": "sha256:55ff170ca681151f93e2fc1d3bedb91acf34d158930f7d37e1453b7b671168d8"
+        },
+        "evaluation": "not-run",
+        "observableSpecs": [
+          {
+            "contentHash": "sha256:48f137781781c54724e172256925e44c9a2be42a08610c88abaca8a9f6016e7b",
+            "definition": "Canonical directed adjacency including isolated nodes, modulo node relabeling; all source attributes excluded.",
+            "id": "canonical-directed-structure-v1",
+            "mandatory": true,
+            "normalization": "none",
+            "requiredEvidence": [
+              "verified-scoped-directed-projection"
+            ],
+            "schemaVersion": "1",
+            "scope": "whole-scoped-directed-graph",
+            "supplier": {
+              "contentHash": "sha256:79e2978d134774168a5b534027caeb6709fe3ae8d18a97af21118982d07fb62e",
+              "definition": "Canonical directed adjacency including isolated nodes, modulo node relabeling; all source attributes excluded.",
+              "id": "structural-canonical-observation-v1",
+              "operation": "canonical-directed-structure-v1",
+              "version": "1"
+            },
+            "units": "discrete-structure",
+            "valueType": "canonical-directed-graph",
+            "version": "1"
+          },
+          {
+            "contentHash": "sha256:3df933040d1a5002b2338cf07b11eefd68e63f76597e72873d897fd3ea86efd3",
+            "definition": "Canonical directed adjacency with all five declared edge fields under one common node bijection; ID arrays are sets, and code meanings require the vocabulary policy.",
+            "id": "canonical-typed-directed-structure-v1",
+            "mandatory": true,
+            "normalization": "none",
+            "requiredEvidence": [
+              "verified-scoped-directed-projection",
+              "complete-declared-edge-types",
+              "bound-local-dictionaries",
+              "compatible-vocabulary-for-comparison"
+            ],
+            "schemaVersion": "1",
+            "scope": "whole-scoped-directed-graph",
+            "supplier": {
+              "contentHash": "sha256:ff770375783816fc2110a575f18c551de1b3f6657f35b4a7483d57f7823e6c40",
+              "definition": "Canonical directed adjacency with all five declared edge fields under one common node bijection; ID arrays are sets, and code meanings require the vocabulary policy.",
+              "id": "structural-typed-observation-v1",
+              "operation": "canonical-typed-directed-structure-v1",
+              "version": "1"
+            },
+            "units": "discrete-structure",
+            "valueType": "canonical-typed-directed-graph",
+            "version": "1"
+          }
+        ],
+        "regime": {
+          "aggregationPolicy": {
+            "completeDifferentStatus": "distinguishable-under-regime",
+            "completeEqualStatus": "indistinguishable-under-regime",
+            "contentHash": "sha256:b736a798a746914cbbcb1ca38fd90f265fb33288c9b4d29619bb2c977bd0ccaf",
+            "distanceConstruction": "deferred-to-comparison-contract",
+            "id": "exact-profile-equality-v1",
+            "intervals": "unsupported",
+            "numericPolicy": "exact-discrete",
+            "tolerance": "none",
+            "version": "1"
+          },
+          "contentHash": "sha256:5fe49b9439e107998e170cf8cf1e690598dfe8937321f5202ac4c2f270414868",
+          "id": "typed-relations-v1",
+          "invariancePolicy": {
+            "actsOn": "scoped-graph-with-transported-scope-membership",
+            "contentHash": "sha256:8d129f942e399ea18826590ba932a9a80b9eb4eb4a321dfa4fb6eefee8a8c002",
+            "id": "structural-relabeling-invariances-v1",
+            "probeExecution": "not-implied-by-declaration",
+            "provenanceHashes": "may-change",
+            "transformations": [
+              "record-order",
+              "bijective-node-id-renaming",
+              "bijective-edge-id-renaming",
+              "presentation-only-changes"
+            ],
+            "version": "1"
+          },
+          "limits": {
+            "maxArtifactBytes": 1048576,
+            "maxCanonicalEntries": 100000,
+            "maxEdges": 30,
+            "maxNodes": 6,
+            "maxReachabilityPairVisits": 0,
+            "maxSearchStates": 100000,
+            "minNodes": 1
+          },
+          "matchingPolicy": {
+            "algorithm": "kernel-canonicalizeCandidate",
+            "candidateTranslation": {
+              "domain": "single-candidate",
+              "edgeAttributes": [
+                "dependencyTypeId",
+                "interactionModeIds",
+                "ontologicalRole",
+                "necessity",
+                "causalDirectionIds"
+              ],
+              "edgeRole": "source-parent",
+              "nodeAttributes": [],
+              "nodeRef": "sha256:33c6a7c3f6336627a0abdcd75cde0e59a81e7e5353723bac2d3a35df1c89cbde",
+              "setAttributeEncoding": "canonical-json-string-of-sorted-integer-array"
+            },
+            "contentHash": "sha256:c1ea90617a3b81550d56300d5dc5b23b9010a1c1761b9e6262d0b406eb9037c6",
+            "direction": "preserved",
+            "disconnectedGraphs": "allowed",
+            "edgeMatching": "mapped-ordered-endpoints",
+            "equivalence": "edge-annotated-directed-graph-isomorphism",
+            "exhaustion": "error-no-heuristic-identity",
+            "graphPolicy": {
+              "allowParallelEdges": false,
+              "allowSelfLoops": false,
+              "connected": false,
+              "connectivityProjection": "directed-weak",
+              "structuralEdgeAttributes": [
+                "dependencyTypeId",
+                "interactionModeIds",
+                "ontologicalRole",
+                "necessity",
+                "causalDirectionIds"
+              ],
+              "structuralNodeAttributes": []
+            },
+            "id": "directed-typed-candidate-matching-v1",
+            "nodeMatching": "one-common-bijection-for-topology-and-types",
+            "setOrdering": "ascending-distinct-integer-codes",
+            "setValuedFields": [
+              "interactionModeIds",
+              "causalDirectionIds"
+            ],
+            "sourceIdentifiers": "provenance-only",
+            "version": "1"
+          },
+          "missingnessPolicy": {
+            "contentHash": "sha256:b2bdf91b18bc4da156f9e8f49977e1f59d55e32712baeb3fadb1f8bdcb66e7c8",
+            "coverage": "per-component-with-reasons",
+            "emptyProfile": "indeterminate",
+            "id": "strict-indeterminate-v1",
+            "incompleteDistance": null,
+            "incompleteStatus": "indeterminate",
+            "invalidArtifact": "validation-error",
+            "mandatoryGaps": [
+              "missing",
+              "unavailable",
+              "rejected",
+              "unresolved"
+            ],
+            "observedDifferences": "retain-as-diagnostics",
+            "partialDistance": "not-supported",
+            "version": "1"
+          },
+          "observables": [
+            {
+              "contentHash": "sha256:48f137781781c54724e172256925e44c9a2be42a08610c88abaca8a9f6016e7b",
+              "id": "canonical-directed-structure-v1",
+              "version": "1"
+            },
+            {
+              "contentHash": "sha256:3df933040d1a5002b2338cf07b11eefd68e63f76597e72873d897fd3ea86efd3",
+              "id": "canonical-typed-directed-structure-v1",
+              "version": "1"
+            }
+          ],
+          "probeSets": {
+            "invariance": {
+              "contentHash": "sha256:aef895be35a566818dc1be7a75be99cee6f3678b7cabc5bdcf48c5dff4ade705",
+              "execution": "none",
+              "id": "empty-invariance-probe-set-v1",
+              "probes": [],
+              "version": "1"
+            },
+            "response": {
+              "contentHash": "sha256:88406c5d44694471e7ae217b6811d3b4e8fb74b11b86269fd777c2323e1a6326",
+              "execution": "none",
+              "id": "empty-response-probe-set-v1",
+              "probes": [],
+              "version": "1"
+            }
+          },
+          "projectionPolicy": {
+            "contentHash": "sha256:25f5cdb778b7fdf05ff071dd9d8c672a9726ca50958a6192066e72a8523172d1",
+            "id": "source-parent-directed-v1",
+            "version": "1"
+          },
+          "schemaVersion": "1",
+          "scopePolicy": {
+            "boundary": "partition-incoming-outgoing-external-edges",
+            "contentHash": "sha256:93ae51edd5049b84399b0483423e21cc67b9f78778bffee279ef5f256e6b5671",
+            "edges": "both-endpoints-in-scope",
+            "id": "verified-source-induced-scope-v1",
+            "implicitTruncation": "forbidden",
+            "isolatedNodes": "retained",
+            "membership": "explicit-node-set-or-full-source",
+            "sourceVerification": "complete-model-before-scoping",
+            "version": "1"
+          },
+          "version": "1",
+          "vocabularyPolicy": {
+            "codeType": "nonnegative-safe-integer",
+            "contentHash": "sha256:91ebf209a30d17662c00b8d1c28105d7d1bad3f4b3fabad59ab667479ccc900f",
+            "crossModel": "requires-explicit-reviewed-shared-vocabulary-or-mapping",
+            "emptyDeclaredSet": "observed-empty-set",
+            "epistemicStatus": "excluded-from-observations",
+            "equalDictionaryBytesAlone": "insufficient-cross-model-authority",
+            "fields": [
+              "dependencyTypeId",
+              "interactionModeIds",
+              "ontologicalRole",
+              "necessity",
+              "causalDirectionIds"
+            ],
+            "id": "model-local-typed-vocabulary-v1",
+            "invalidField": "validation-error",
+            "localBinding": "verified-full-model-dictionary-hash",
+            "missingCompatibility": "indeterminate",
+            "missingField": "missing-mandatory-evidence",
+            "necessityUniverse": [
+              "necessary",
+              "enabling",
+              "contextual",
+              "optional"
+            ],
+            "roleUniverse": [
+              "arising",
+              "maintenance",
+              "modulation"
+            ],
+            "setDuplicates": "validation-error",
+            "version": "1"
+          }
+        },
+        "request": {
+          "regimeId": "typed-relations-v1",
+          "scope": {
+            "kind": "induced",
+            "nodeIds": [
+              "0.0",
+              "0.1",
+              "0.2"
+            ]
+          }
+        },
+        "schemaVersion": "1",
+        "scope": {
+          "edgeIds": [
+            "0.0->0.1",
+            "0.0->0.2"
+          ],
+          "externalEdgeIds": [
+            "0.10->0.11",
+            "0.10->0.12",
+            "0.11->0.12",
+            "0.11->0.13",
+            "0.12->0.13",
+            "0.13->0.14",
+            "0.14->1.0",
+            "0.14->1.26",
+            "0.15->0.16",
+            "0.16->0.17",
+            "0.16->0.19",
+            "0.16->0.3",
+            "0.16->0.4",
+            "0.17->0.10",
+            "0.17->0.18",
+            "0.17->0.19",
+            "0.17->0.4",
+            "0.17->0.5",
+            "0.18->0.20",
+            "0.18->0.21",
+            "0.18->0.7",
+            "0.18->0.8",
+            "0.19->0.18",
+            "0.19->0.20",
+            "0.19->0.21",
+            "0.19->0.22",
+            "0.19->0.6",
+            "0.19->0.7",
+            "0.19->0.8",
+            "0.20->0.10",
+            "0.20->0.13",
+            "0.20->0.14",
+            "0.20->0.21",
+            "0.20->0.22",
+            "0.20->0.23",
+            "0.20->0.8",
+            "0.21->0.10",
+            "0.21->0.12",
+            "0.21->0.13",
+            "0.21->0.14",
+            "0.21->0.22",
+            "0.21->0.23",
+            "0.21->0.8",
+            "0.22->0.10",
+            "0.22->0.12",
+            "0.22->0.13",
+            "0.22->0.14",
+            "0.22->0.23",
+            "0.22->0.8",
+            "0.22->1.32",
+            "0.22->1.33",
+            "0.23->0.10",
+            "0.23->0.12",
+            "0.23->0.13",
+            "0.23->0.14",
+            "0.23->1.34",
+            "0.3->0.17",
+            "0.3->0.4",
+            "0.3->0.5",
+            "0.4->0.18",
+            "0.4->0.5",
+            "0.4->0.6",
+            "0.5->0.18",
+            "0.5->0.19",
+            "0.5->0.6",
+            "0.5->0.9",
+            "0.6->0.20",
+            "0.6->0.21",
+            "0.6->0.7",
+            "0.6->0.8",
+            "0.7->0.20",
+            "0.7->0.8",
+            "0.8->0.10",
+            "0.8->0.21",
+            "0.8->0.23",
+            "0.8->0.9",
+            "0.9->0.10",
+            "0.9->0.11",
+            "1.0->1.1",
+            "1.0->1.2",
+            "1.0->1.21",
+            "1.0->1.26",
+            "1.0->1.27",
+            "1.0->1.29",
+            "1.0->1.32",
+            "1.0->1.4",
+            "1.0->1.8",
+            "1.1->1.10",
+            "1.1->1.19",
+            "1.1->1.30",
+            "1.10->1.11",
+            "1.10->1.16",
+            "1.11->1.19",
+            "1.11->2.17",
+            "1.11->2.20",
+            "1.12->2.18",
+            "1.2->1.12",
+            "1.2->1.17",
+            "1.2->1.25",
+            "1.21->1.12",
+            "1.21->1.30",
+            "1.22->1.12",
+            "1.25->1.17",
+            "1.26->1.12",
+            "1.26->1.22",
+            "1.26->1.23",
+            "1.26->1.27",
+            "1.26->1.28",
+            "1.26->1.29",
+            "1.26->1.3",
+            "1.26->1.31",
+            "1.26->1.32",
+            "1.26->1.33",
+            "1.26->1.34",
+            "1.26->1.5",
+            "1.27->1.22",
+            "1.27->1.28",
+            "1.27->1.32",
+            "1.27->1.33",
+            "1.27->1.5",
+            "1.27->1.8",
+            "1.28->1.14",
+            "1.28->1.8",
+            "1.28->1.9",
+            "1.29->1.1",
+            "1.29->1.2",
+            "1.29->1.23",
+            "1.29->1.24",
+            "1.29->1.3",
+            "1.3->1.10",
+            "1.3->1.18",
+            "1.3->1.30",
+            "1.3->1.31",
+            "1.3->1.6",
+            "1.3->1.7",
+            "1.30->1.10",
+            "1.30->1.31",
+            "1.30->1.6",
+            "1.30->1.7",
+            "1.31->1.10",
+            "1.31->1.18",
+            "1.31->1.7",
+            "1.32->1.22",
+            "1.32->1.33",
+            "1.32->1.34",
+            "1.33->1.34",
+            "1.5->1.13",
+            "1.5->1.20",
+            "1.5->2.1",
+            "1.5->2.19",
+            "1.6->2.1",
+            "1.7->1.10",
+            "1.7->1.11",
+            "1.7->1.15",
+            "1.7->2.0",
+            "1.8->1.24",
+            "1.8->1.9",
+            "1.8->2.0",
+            "1.8->2.1",
+            "1.9->1.12",
+            "1.9->1.14",
+            "1.9->1.24",
+            "2.0->2.2",
+            "2.1->2.19",
+            "2.1->2.2",
+            "2.1->2.21",
+            "2.1->2.22",
+            "2.11->3.32",
+            "2.11->3.39",
+            "2.11->3.49",
+            "2.12->2.13",
+            "2.12->2.15",
+            "2.12->3.0",
+            "2.12->3.18",
+            "2.12->3.21",
+            "2.12->3.27",
+            "2.12->3.28",
+            "2.12->3.3",
+            "2.12->3.31",
+            "2.12->3.41",
+            "2.12->3.43",
+            "2.12->3.44",
+            "2.12->3.7",
+            "2.12->3.9",
+            "2.13->2.15",
+            "2.13->3.43",
+            "2.15->2.16",
+            "2.15->3.46",
+            "2.18->3.37",
+            "2.2->2.18",
+            "2.2->2.20",
+            "2.2->2.3",
+            "2.2->2.4",
+            "2.3->2.10",
+            "2.3->2.11",
+            "2.3->2.14",
+            "2.3->2.4",
+            "2.3->2.5",
+            "2.3->2.6",
+            "2.3->2.7",
+            "2.3->2.8",
+            "2.3->3.0",
+            "2.3->3.1",
+            "2.3->3.32",
+            "2.3->3.33",
+            "2.3->3.35",
+            "2.3->3.36",
+            "2.3->3.39",
+            "2.3->3.4",
+            "2.3->3.7",
+            "2.3->3.9",
+            "2.4->2.5",
+            "2.4->2.6",
+            "2.4->2.7",
+            "2.4->2.8",
+            "2.4->2.9",
+            "2.4->3.3",
+            "2.4->3.38",
+            "2.4->3.39",
+            "2.4->3.44",
+            "2.5->2.10",
+            "2.5->2.11",
+            "2.5->2.14",
+            "2.5->2.6",
+            "2.5->3.0",
+            "2.5->3.1",
+            "2.5->3.4",
+            "2.5->3.40",
+            "2.5->3.49",
+            "2.5->3.7",
+            "2.5->3.9",
+            "2.6->2.12",
+            "2.6->2.7",
+            "2.6->2.8",
+            "2.6->2.9",
+            "2.6->3.0",
+            "2.6->3.42",
+            "2.6->3.43",
+            "2.6->3.6",
+            "2.7->2.12",
+            "2.7->2.8",
+            "2.7->3.0",
+            "2.7->3.11",
+            "2.7->3.12",
+            "2.7->3.19",
+            "2.7->3.2",
+            "2.7->3.3",
+            "2.7->3.31",
+            "2.7->3.34",
+            "2.7->3.4",
+            "2.7->3.40",
+            "2.7->3.5",
+            "2.7->3.7",
+            "2.8->2.11",
+            "2.8->2.12",
+            "2.8->2.13",
+            "2.8->2.22",
+            "2.8->2.9",
+            "2.8->3.11",
+            "2.8->3.2",
+            "2.8->3.3",
+            "2.8->3.33",
+            "2.8->3.40",
+            "2.8->3.7",
+            "2.8->3.8",
+            "2.9->2.13",
+            "2.9->2.15",
+            "2.9->2.16",
+            "2.9->2.17",
+            "2.9->2.21",
+            "2.9->3.9",
+            "3.0->3.1",
+            "3.0->3.11",
+            "3.0->3.12",
+            "3.0->3.13",
+            "3.0->3.14",
+            "3.0->3.15",
+            "3.0->3.17",
+            "3.0->3.18",
+            "3.0->3.2",
+            "3.0->3.20",
+            "3.0->3.24",
+            "3.0->3.25",
+            "3.0->3.27",
+            "3.0->3.3",
+            "3.0->3.31",
+            "3.0->3.36",
+            "3.0->3.42",
+            "3.0->3.49",
+            "3.0->3.5",
+            "3.0->4.0",
+            "3.0->4.18",
+            "3.1->3.10",
+            "3.1->3.12",
+            "3.1->3.13",
+            "3.1->3.14",
+            "3.1->3.15",
+            "3.1->3.17",
+            "3.1->3.18",
+            "3.1->3.2",
+            "3.1->3.20",
+            "3.1->3.21",
+            "3.1->3.24",
+            "3.1->3.25",
+            "3.1->3.27",
+            "3.1->3.32",
+            "3.1->3.4",
+            "3.1->3.5",
+            "3.1->3.6",
+            "3.1->4.2",
+            "3.1->4.22",
+            "3.10->3.16",
+            "3.10->3.29",
+            "3.10->3.30",
+            "3.10->3.35",
+            "3.11->4.12",
+            "3.12->3.14",
+            "3.12->3.15",
+            "3.12->3.33",
+            "3.12->4.4",
+            "3.13->3.14",
+            "3.13->3.45",
+            "3.13->3.48",
+            "3.13->4.0",
+            "3.14->3.15",
+            "3.14->3.17",
+            "3.14->3.21",
+            "3.14->3.24",
+            "3.14->3.25",
+            "3.14->3.28",
+            "3.14->4.0",
+            "3.14->4.13",
+            "3.14->4.17",
+            "3.14->4.2",
+            "3.15->3.16",
+            "3.15->3.19",
+            "3.15->3.26",
+            "3.15->3.34",
+            "3.15->3.35",
+            "3.15->4.16",
+            "3.15->4.22",
+            "3.15->4.3",
+            "3.17->3.18",
+            "3.17->3.27",
+            "3.17->4.0",
+            "3.17->4.1",
+            "3.18->3.45",
+            "3.19->3.23",
+            "3.19->3.34",
+            "3.19->4.10",
+            "3.19->4.26",
+            "3.19->4.5",
+            "3.2->3.5",
+            "3.2->3.6",
+            "3.20->3.36",
+            "3.20->4.11",
+            "3.20->4.15",
+            "3.20->4.18",
+            "3.20->4.20",
+            "3.20->4.6",
+            "3.21->3.1",
+            "3.21->3.22",
+            "3.21->3.23",
+            "3.21->3.24",
+            "3.21->3.39",
+            "3.21->3.42",
+            "3.22->3.26",
+            "3.22->3.35",
+            "3.22->4.0",
+            "3.23->4.8",
+            "3.24->3.25",
+            "3.24->3.38",
+            "3.24->3.47",
+            "3.24->4.0",
+            "3.24->4.2",
+            "3.24->4.31",
+            "3.25->3.28",
+            "3.25->3.31",
+            "3.25->4.19",
+            "3.25->4.2",
+            "3.25->4.24",
+            "3.25->4.31",
+            "3.25->4.4",
+            "3.25->4.6",
+            "3.26->3.36",
+            "3.27->3.43",
+            "3.27->3.46",
+            "3.27->4.0",
+            "3.27->4.1",
+            "3.27->4.14",
+            "3.27->4.7",
+            "3.27->4.9",
+            "3.28->3.30",
+            "3.28->3.38",
+            "3.28->3.44",
+            "3.28->3.47",
+            "3.28->4.0",
+            "3.28->4.2",
+            "3.28->4.6",
+            "3.3->3.10",
+            "3.3->3.16",
+            "3.3->3.28",
+            "3.3->3.30",
+            "3.3->3.38",
+            "3.3->4.21",
+            "3.3->4.22",
+            "3.31->3.32",
+            "3.31->3.33",
+            "3.31->3.49",
+            "3.32->3.49",
+            "3.38->3.47",
+            "3.39->3.41",
+            "3.4->3.10",
+            "3.4->3.16",
+            "3.4->3.19",
+            "3.4->3.22",
+            "3.4->3.23",
+            "3.4->3.29",
+            "3.4->3.34",
+            "3.4->3.8",
+            "3.4->4.0",
+            "3.4->4.1",
+            "3.4->4.10",
+            "3.4->4.5",
+            "3.4->4.8",
+            "3.40->3.4",
+            "3.40->3.41",
+            "3.40->3.42",
+            "3.43->3.44",
+            "3.43->3.45",
+            "3.43->3.46",
+            "3.44->3.45",
+            "3.44->3.47",
+            "3.44->4.0",
+            "3.45->3.46",
+            "3.45->3.48",
+            "3.46->3.48",
+            "3.49->4.22",
+            "3.5->3.11",
+            "3.5->3.12",
+            "3.5->3.13",
+            "3.5->3.19",
+            "3.5->3.20",
+            "3.5->3.21",
+            "3.5->3.22",
+            "3.5->3.26",
+            "3.5->3.6",
+            "3.5->3.9",
+            "3.5->4.19",
+            "3.5->4.8",
+            "3.6->3.17",
+            "3.6->3.20",
+            "3.6->3.26",
+            "3.6->4.1",
+            "3.6->4.20",
+            "3.7->3.13",
+            "3.7->3.22",
+            "3.7->3.23",
+            "3.7->3.29",
+            "3.7->3.8",
+            "3.9->3.10",
+            "3.9->3.16",
+            "3.9->3.29",
+            "3.9->3.30",
+            "4.0->4.1",
+            "4.0->4.10",
+            "4.0->4.11",
+            "4.0->4.12",
+            "4.0->4.2",
+            "4.0->4.20",
+            "4.0->4.3",
+            "4.0->4.4",
+            "4.0->4.6",
+            "4.0->4.7",
+            "4.0->4.8",
+            "4.0->4.9",
+            "4.1->4.11",
+            "4.1->4.14",
+            "4.1->4.15",
+            "4.1->4.20",
+            "4.1->4.3",
+            "4.1->4.5",
+            "4.1->4.9",
+            "4.10->4.26",
+            "4.10->5.3",
+            "4.11->4.15",
+            "4.11->4.18",
+            "4.12->4.23",
+            "4.12->4.25",
+            "4.12->4.27",
+            "4.12->4.28",
+            "4.12->4.29",
+            "4.12->4.30",
+            "4.12->4.32",
+            "4.12->5.25",
+            "4.12->5.9",
+            "4.13->4.14",
+            "4.13->4.16",
+            "4.13->4.17",
+            "4.2->4.14",
+            "4.2->4.17",
+            "4.2->4.21",
+            "4.2->4.3",
+            "4.2->4.31",
+            "4.2->5.14",
+            "4.2->5.27",
+            "4.20->4.24",
+            "4.20->4.31",
+            "4.21->4.22",
+            "4.21->5.21",
+            "4.23->4.12",
+            "4.23->4.24",
+            "4.23->4.28",
+            "4.23->4.32",
+            "4.23->4.6",
+            "4.23->5.9",
+            "4.24->4.12",
+            "4.24->4.25",
+            "4.24->5.9",
+            "4.24->6.15",
+            "4.24->6.16",
+            "4.25->4.27",
+            "4.25->4.28",
+            "4.25->4.29",
+            "4.25->4.30",
+            "4.25->4.32",
+            "4.25->5.22",
+            "4.25->5.24",
+            "4.25->5.5",
+            "4.25->5.9",
+            "4.25->6.15",
+            "4.25->6.16",
+            "4.25->6.6",
+            "4.26->4.23",
+            "4.26->4.24",
+            "4.26->4.25",
+            "4.26->4.27",
+            "4.26->4.31",
+            "4.26->5.9",
+            "4.27->4.25",
+            "4.27->5.22",
+            "4.27->5.24",
+            "4.27->5.33",
+            "4.27->5.5",
+            "4.27->5.9",
+            "4.27->6.15",
+            "4.27->6.16",
+            "4.28->5.13",
+            "4.28->5.15",
+            "4.28->5.22",
+            "4.28->5.23",
+            "4.28->5.28",
+            "4.28->5.3",
+            "4.28->5.5",
+            "4.28->5.9",
+            "4.29->5.32",
+            "4.29->5.9",
+            "4.29->6.15",
+            "4.29->6.16",
+            "4.3->4.11",
+            "4.3->4.12",
+            "4.3->4.13",
+            "4.3->4.16",
+            "4.3->4.21",
+            "4.3->4.23",
+            "4.3->4.25",
+            "4.3->4.4",
+            "4.3->4.5",
+            "4.3->4.6",
+            "4.3->4.7",
+            "4.3->4.9",
+            "4.3->5.0",
+            "4.3->5.1",
+            "4.3->5.11",
+            "4.3->5.2",
+            "4.3->5.20",
+            "4.3->5.21",
+            "4.3->5.26",
+            "4.3->5.5",
+            "4.3->5.6",
+            "4.3->5.7",
+            "4.3->5.8",
+            "4.3->5.9",
+            "4.3->6.0",
+            "4.3->6.1",
+            "4.30->5.24",
+            "4.30->5.25",
+            "4.30->5.30",
+            "4.30->5.9",
+            "4.30->6.15",
+            "4.30->6.16",
+            "4.31->4.20",
+            "4.31->4.26",
+            "4.31->4.6",
+            "4.31->5.3",
+            "4.31->5.5",
+            "4.32->4.28",
+            "4.32->5.22",
+            "4.32->5.24",
+            "4.32->5.27",
+            "4.32->5.31",
+            "4.32->5.32",
+            "4.4->4.19",
+            "4.4->4.26",
+            "4.4->5.17",
+            "4.5->4.7",
+            "4.5->5.0",
+            "4.5->5.1",
+            "4.5->5.10",
+            "4.5->5.11",
+            "4.5->5.15",
+            "4.5->5.7",
+            "4.5->5.8",
+            "4.6->4.11",
+            "4.6->4.13",
+            "4.6->4.16",
+            "4.6->4.17",
+            "4.6->4.20",
+            "4.6->4.21",
+            "4.6->4.23",
+            "4.6->4.24",
+            "4.6->4.26",
+            "4.6->4.28",
+            "4.6->4.29",
+            "4.6->4.30",
+            "4.6->4.32",
+            "4.6->4.9",
+            "4.6->5.13",
+            "4.6->5.23",
+            "4.6->5.26",
+            "4.6->5.3",
+            "4.6->5.4",
+            "4.6->5.5",
+            "4.6->5.6",
+            "4.7->4.12",
+            "4.7->5.0",
+            "4.7->5.10",
+            "4.7->5.18",
+            "4.7->5.19",
+            "4.7->5.2",
+            "4.7->5.23",
+            "4.7->5.4",
+            "4.8->4.10",
+            "4.8->4.13",
+            "4.8->4.29",
+            "4.8->4.32",
+            "4.8->5.16",
+            "4.8->6.14",
+            "4.9->4.15",
+            "5.0->5.1",
+            "5.0->5.10",
+            "5.0->5.13",
+            "5.0->5.18",
+            "5.0->5.2",
+            "5.0->5.3",
+            "5.0->5.4",
+            "5.0->5.5",
+            "5.0->5.6",
+            "5.0->5.7",
+            "5.0->5.8",
+            "5.0->5.9",
+            "5.1->5.18",
+            "5.10->5.19",
+            "5.10->5.20",
+            "5.18->5.19",
+            "5.19->5.20",
+            "5.20->5.21",
+            "5.20->6.23",
+            "5.21->6.22",
+            "5.22->5.14",
+            "5.22->5.24",
+            "5.22->5.28",
+            "5.22->5.29",
+            "5.22->5.33",
+            "5.22->5.5",
+            "5.22->5.9",
+            "5.22->6.15",
+            "5.22->6.16",
+            "5.23->4.23",
+            "5.23->4.25",
+            "5.23->5.22",
+            "5.23->5.24",
+            "5.23->5.29",
+            "5.23->5.9",
+            "5.24->5.14",
+            "5.24->5.25",
+            "5.24->5.27",
+            "5.24->5.29",
+            "5.24->5.30",
+            "5.24->5.31",
+            "5.24->5.32",
+            "5.24->5.33",
+            "5.24->5.5",
+            "5.24->6.15",
+            "5.24->6.16",
+            "5.24->6.6",
+            "5.24->6.9",
+            "5.25->5.14",
+            "5.25->5.30",
+            "5.25->5.5",
+            "5.25->5.9",
+            "5.25->6.15",
+            "5.25->6.16",
+            "5.25->6.9",
+            "5.26->5.22",
+            "5.26->5.23",
+            "5.26->5.24",
+            "5.26->5.25",
+            "5.26->5.30",
+            "5.26->5.31",
+            "5.26->5.33",
+            "5.27->5.14",
+            "5.27->5.24",
+            "5.27->5.25",
+            "5.27->5.28",
+            "5.27->5.31",
+            "5.27->6.15",
+            "5.27->6.16",
+            "5.28->5.24",
+            "5.28->5.27",
+            "5.28->5.9",
+            "5.29->5.24",
+            "5.29->5.27",
+            "5.29->5.30",
+            "5.29->5.31",
+            "5.29->5.32",
+            "5.3->5.11",
+            "5.3->5.13",
+            "5.3->6.17",
+            "5.30->5.25",
+            "5.30->5.31",
+            "5.30->5.9",
+            "5.30->6.15",
+            "5.30->6.16",
+            "5.31->5.24",
+            "5.31->5.25",
+            "5.31->5.26",
+            "5.31->5.30",
+            "5.32->5.25",
+            "5.32->5.30",
+            "5.32->5.31",
+            "5.33->5.31",
+            "5.4->5.15",
+            "5.4->5.22",
+            "5.4->5.23",
+            "5.5->5.12",
+            "5.5->5.14",
+            "5.5->5.22",
+            "5.5->5.23",
+            "5.5->5.26",
+            "5.5->5.27",
+            "5.5->5.28",
+            "5.5->6.0",
+            "5.7->5.12",
+            "5.7->5.16",
+            "5.7->5.17",
+            "5.7->6.0",
+            "5.7->6.1",
+            "5.7->6.13",
+            "5.7->6.14",
+            "5.7->6.2",
+            "5.7->6.4",
+            "5.7->6.5",
+            "5.7->6.7",
+            "5.7->7.0",
+            "5.7->7.1",
+            "5.7->7.3",
+            "5.7->7.7",
+            "5.8->5.12",
+            "5.8->5.16",
+            "5.9->5.24",
+            "5.9->5.25",
+            "5.9->5.26",
+            "5.9->6.15",
+            "5.9->6.16",
+            "5.9->6.21",
+            "6.0->6.1",
+            "6.0->6.10",
+            "6.0->6.11",
+            "6.0->6.12",
+            "6.0->6.13",
+            "6.0->6.15",
+            "6.0->6.16",
+            "6.0->6.17",
+            "6.0->6.2",
+            "6.0->6.23",
+            "6.0->6.3",
+            "6.0->6.4",
+            "6.0->6.5",
+            "6.0->6.6",
+            "6.0->6.7",
+            "6.0->6.8",
+            "6.0->6.9",
+            "6.0->7.0",
+            "6.1->6.14",
+            "6.1->6.17",
+            "6.1->6.18",
+            "6.1->6.2",
+            "6.1->6.3",
+            "6.1->6.4",
+            "6.1->6.5",
+            "6.1->6.6",
+            "6.1->6.7",
+            "6.1->7.2",
+            "6.11->6.12",
+            "6.11->6.19",
+            "6.11->7.0",
+            "6.11->7.1",
+            "6.11->7.20",
+            "6.12->7.10",
+            "6.12->7.14",
+            "6.12->7.15",
+            "6.12->7.16",
+            "6.12->7.2",
+            "6.12->7.3",
+            "6.12->7.5",
+            "6.12->7.6",
+            "6.12->7.8",
+            "6.18->6.19",
+            "6.18->6.20",
+            "6.19->7.12",
+            "6.19->7.18",
+            "6.19->7.19",
+            "6.2->6.10",
+            "6.2->6.18",
+            "6.2->6.22",
+            "6.2->6.3",
+            "6.2->6.8",
+            "6.20->7.1",
+            "6.22->6.23",
+            "6.22->6.24",
+            "6.23->6.24",
+            "6.3->6.11",
+            "6.3->6.18",
+            "6.3->6.19",
+            "6.3->6.21",
+            "6.3->6.24",
+            "6.3->6.6",
+            "6.3->6.9",
+            "6.3->7.23",
+            "6.4->6.20",
+            "6.6->6.20",
+            "6.6->6.21",
+            "6.6->7.20",
+            "6.7->6.10",
+            "6.7->6.13",
+            "6.7->6.15",
+            "6.7->6.16",
+            "6.7->6.22",
+            "6.7->6.8",
+            "6.8->6.11",
+            "6.8->6.12",
+            "6.8->6.9",
+            "6.8->7.13",
+            "6.8->7.14",
+            "6.8->7.4",
+            "6.8->7.6",
+            "6.8->7.7",
+            "6.8->7.9",
+            "7.0->7.1",
+            "7.0->7.2",
+            "7.0->7.7",
+            "7.1->7.2",
+            "7.1->7.3",
+            "7.1->7.4",
+            "7.1->7.5",
+            "7.1->7.7",
+            "7.1->7.8",
+            "7.10->7.11",
+            "7.10->7.13",
+            "7.10->7.17",
+            "7.10->7.20",
+            "7.10->7.24",
+            "7.11->7.12",
+            "7.11->7.22",
+            "7.11->7.24",
+            "7.12->7.14",
+            "7.12->7.18",
+            "7.12->7.19",
+            "7.12->7.22",
+            "7.14->7.15",
+            "7.14->7.16",
+            "7.14->7.18",
+            "7.14->7.21",
+            "7.14->7.22",
+            "7.14->7.23",
+            "7.15->7.16",
+            "7.15->7.21",
+            "7.16->7.18",
+            "7.16->7.21",
+            "7.16->7.22",
+            "7.17->7.24",
+            "7.18->7.21",
+            "7.18->7.23",
+            "7.19->7.17",
+            "7.19->7.20",
+            "7.19->7.22",
+            "7.19->7.23",
+            "7.2->7.11",
+            "7.2->7.12",
+            "7.2->7.13",
+            "7.2->7.3",
+            "7.2->7.4",
+            "7.2->7.5",
+            "7.2->7.6",
+            "7.2->7.7",
+            "7.2->7.8",
+            "7.21->7.22",
+            "7.21->7.23",
+            "7.21->7.24",
+            "7.3->7.10",
+            "7.3->7.17",
+            "7.3->7.4",
+            "7.3->7.5",
+            "7.3->7.6",
+            "7.3->7.7",
+            "7.3->7.9",
+            "7.4->7.10",
+            "7.4->7.14",
+            "7.4->7.15",
+            "7.4->7.5",
+            "7.4->7.6",
+            "7.4->7.8",
+            "7.4->7.9",
+            "7.5->7.10",
+            "7.5->7.11",
+            "7.5->7.13",
+            "7.5->7.14",
+            "7.5->7.15",
+            "7.5->7.19",
+            "7.5->7.20",
+            "7.6->7.10",
+            "7.6->7.11",
+            "7.6->7.12",
+            "7.6->7.14",
+            "7.6->7.15",
+            "7.6->7.16",
+            "7.6->7.17",
+            "7.6->7.18",
+            "7.6->7.19",
+            "7.6->7.20",
+            "7.6->7.8",
+            "7.6->7.9",
+            "7.8->7.10",
+            "7.8->7.11",
+            "7.8->7.12",
+            "7.8->7.13",
+            "7.8->7.14",
+            "7.8->7.15",
+            "7.8->7.16",
+            "7.8->7.17",
+            "7.8->7.18",
+            "7.8->7.19",
+            "7.8->7.20",
+            "7.8->7.21",
+            "7.8->7.9",
+            "7.9->7.11",
+            "7.9->7.13",
+            "7.9->7.17",
+            "7.9->7.24"
+          ],
+          "incomingBoundaryEdgeIds": [
+            "0.15->0.0",
+            "0.16->0.1",
+            "0.16->0.2"
+          ],
+          "kind": "induced",
+          "nodeIds": [
+            "0.0",
+            "0.1",
+            "0.2"
+          ],
+          "outgoingBoundaryEdgeIds": [
+            "0.1->0.3",
+            "0.1->0.4",
+            "0.1->0.5",
+            "0.2->0.3",
+            "0.2->0.4",
+            "0.2->0.5"
+          ],
+          "scopeHash": "sha256:935e73da4f997dc2900f8db323b57b3e771ac536dfbee931fd131d84abdac5e9",
+          "sourceEdgeCount": 971,
+          "sourceNodeCount": 249,
+          "sourceProjectionHash": "sha256:55ff170ca681151f93e2fc1d3bedb91acf34d158930f7d37e1453b7b671168d8"
+        }
+      },
+      "registry": {
+        "contentHash": "sha256:bec1366254a158eb1df77ad709cb229fb8cd636dc0411a1a5c2c5b4f4f6b4862",
+        "id": "structural-invariance-probes-v1",
+        "probes": [
+          {
+            "contentHash": "sha256:418c8184b377acf5bf73ad19f5b0e7d103624aac4a87f6c4a7461362f2224851",
+            "family": "invariance",
+            "id": "record-order-probe-v1",
+            "mandatory": true,
+            "parameters": {
+              "keys": "reverse-recursively",
+              "records": "reverse-node-and-edge-arrays",
+              "whitespace": "two-space-indentation"
+            },
+            "target": "whole-scoped-representation",
+            "transformation": "record-order",
+            "version": "1"
+          },
+          {
+            "contentHash": "sha256:a69c1e750d074e5aa529b5c75b7b9149d63d292e44463e7aa915c24ea2c665d3",
+            "family": "invariance",
+            "id": "bijective-node-id-renaming-probe-v1",
+            "mandatory": true,
+            "parameters": {
+              "endpoints": "transport-both",
+              "namespace": "vertex:",
+              "ordinal": "reversed-zero-based-padded-three"
+            },
+            "target": "whole-scoped-representation",
+            "transformation": "bijective-node-id-renaming",
+            "version": "1"
+          },
+          {
+            "contentHash": "sha256:3476096b64e3c82a6844cfaad862536d800c531486ed756a90fc71d37538491c",
+            "family": "invariance",
+            "id": "bijective-edge-id-renaming-probe-v1",
+            "mandatory": true,
+            "parameters": {
+              "namespace": "link:",
+              "ordinal": "reversed-zero-based-padded-three"
+            },
+            "target": "whole-scoped-representation",
+            "transformation": "bijective-edge-id-renaming",
+            "version": "1"
+          },
+          {
+            "contentHash": "sha256:a23a0ab9cd7c305a11d7a64f2a96dd9536c29824b3c88effb4b397db575c852b",
+            "family": "invariance",
+            "id": "presentation-only-changes-probe-v1",
+            "mandatory": true,
+            "parameters": {
+              "colors": "replace",
+              "labels": "replace",
+              "positions": "reflect-and-translate",
+              "zoom": "replace"
+            },
+            "target": "whole-scoped-representation",
+            "transformation": "presentation-only-changes",
+            "version": "1"
+          }
+        ],
+        "regimeIds": [
+          "canonical-structure-v1",
+          "topology-only-v1",
+          "typed-relations-v1"
+        ],
+        "version": "1"
+      },
+      "request": {
+        "regimeId": "typed-relations-v1",
+        "scope": {
+          "kind": "induced",
+          "nodeIds": [
+            "0.0",
+            "0.1",
+            "0.2"
+          ]
+        }
+      },
+      "runs": [
+        {
+          "beforePayloadHash": "sha256:a9143524631ac3f80c9dc4c87aa33a73b6403479efd62e0c9e7f2d77f7467ee9",
+          "comparison": {
+            "components": [
+              {
+                "observableId": "canonical-directed-structure-v1",
+                "state": "equal"
+              },
+              {
+                "observableId": "canonical-typed-directed-structure-v1",
+                "state": "equal"
+              }
+            ],
+            "coverage": {
+              "denominator": 2,
+              "numerator": 2
+            },
+            "status": "passed"
+          },
+          "mapping": {
+            "edges": [
+              {
+                "afterId": "e000",
+                "beforeId": "e000",
+                "sourceEdgeId": "0.0->0.1"
+              },
+              {
+                "afterId": "e001",
+                "beforeId": "e001",
+                "sourceEdgeId": "0.0->0.2"
+              }
+            ],
+            "nodes": [
+              {
+                "afterId": "n000",
+                "beforeId": "n000",
+                "sourceNodeId": "0.0"
+              },
+              {
+                "afterId": "n001",
+                "beforeId": "n001",
+                "sourceNodeId": "0.1"
+              },
+              {
+                "afterId": "n002",
+                "beforeId": "n002",
+                "sourceNodeId": "0.2"
+              }
+            ]
+          },
+          "observation": {
+            "adapter": {
+              "contentHash": "sha256:f50bd13d6e5af467781922e8c1586916532face8b8fd11ac2a69961f318d75df",
+              "id": "invariance-shadow-observation-adapter-v1",
+              "version": "1"
+            },
+            "artifactHash": "sha256:286367273bffc9e742b04993ef97036fd4f72e4bea3dd27f80e264737b9f23b3",
+            "observations": [
+              {
+                "availability": "observed",
+                "implementation": {
+                  "contentHash": "sha256:953f5ae6ad1fee7069058ac66116848c7b3981850feaf9a1c84d216325ba60e3",
+                  "id": "typed-directed-observation-v1",
+                  "version": "1"
+                },
+                "missing": [],
+                "observable": {
+                  "contentHash": "sha256:48f137781781c54724e172256925e44c9a2be42a08610c88abaca8a9f6016e7b",
+                  "id": "canonical-directed-structure-v1",
+                  "version": "1"
+                },
+                "value": {
+                  "edges": [
+                    {
+                      "from": 2,
+                      "to": 0
+                    },
+                    {
+                      "from": 2,
+                      "to": 1
+                    }
+                  ],
+                  "nodeCount": 3
+                },
+                "valueHash": "sha256:1d55436bc5dddb800ae3d5519f9d926de7a45fc48c28a5243da4e624a9c23bf4"
+              },
+              {
+                "availability": "observed",
+                "implementation": {
+                  "contentHash": "sha256:953f5ae6ad1fee7069058ac66116848c7b3981850feaf9a1c84d216325ba60e3",
+                  "id": "typed-directed-observation-v1",
+                  "version": "1"
+                },
+                "missing": [],
+                "observable": {
+                  "contentHash": "sha256:3df933040d1a5002b2338cf07b11eefd68e63f76597e72873d897fd3ea86efd3",
+                  "id": "canonical-typed-directed-structure-v1",
+                  "version": "1"
+                },
+                "value": {
+                  "edges": [
+                    {
+                      "from": 2,
+                      "to": 0,
+                      "types": {
+                        "causalDirectionIds": [
+                          0
+                        ],
+                        "dependencyTypeId": 10,
+                        "interactionModeIds": [
+                          3
+                        ],
+                        "necessity": "necessary",
+                        "ontologicalRole": "arising"
+                      }
+                    },
+                    {
+                      "from": 2,
+                      "to": 1,
+                      "types": {
+                        "causalDirectionIds": [
+                          0
+                        ],
+                        "dependencyTypeId": 10,
+                        "interactionModeIds": [
+                          3
+                        ],
+                        "necessity": "necessary",
+                        "ontologicalRole": "arising"
+                      }
+                    }
+                  ],
+                  "nodeCount": 3
+                },
+                "valueHash": "sha256:e2645f4b0c83fa9ab2e4ff34ecaea9290a20a6e047805b881a47e352837f3298"
+              }
+            ],
+            "payloadHash": "sha256:1174782d3c56fe0a85179a47c4159afe125901104b6802402dec1bf8ff5bf808",
+            "source": {
+              "contextHash": "sha256:00eb66ecfb169ba5a49a10d5107d83861a2b1fd0555c52ea9c8d0832889b359d",
+              "scopeHash": "sha256:935e73da4f997dc2900f8db323b57b3e771ac536dfbee931fd131d84abdac5e9"
+            },
+            "work": {
+              "canonicalizerCalls": 2
+            }
+          },
+          "payloadChanged": true,
+          "probe": {
+            "contentHash": "sha256:418c8184b377acf5bf73ad19f5b0e7d103624aac4a87f6c4a7461362f2224851",
+            "id": "record-order-probe-v1",
+            "version": "1"
+          },
+          "representation": {
+            "graphHash": "sha256:585d63f97000e86fc0822a589478ceb973ba9130eb753152163efd152f6eae65",
+            "payload": "{\n  \"viewport\": {\n    \"zoom\": 1\n  },\n  \"edges\": [\n    {\n      \"presentation\": {\n        \"color\": \"#334155\",\n        \"label\": \"Edge 1\"\n      },\n      \"types\": {\n        \"causalDirectionIds\": [\n          0\n        ],\n        \"necessity\": \"necessary\",\n        \"ontologicalRole\": \"arising\",\n        \"interactionModeIds\": [\n          3\n        ],\n        \"dependencyTypeId\": 10\n      },\n      \"target\": \"n002\",\n      \"source\": \"n000\",\n      \"id\": \"e001\"\n    },\n    {\n      \"presentation\": {\n        \"color\": \"#334155\",\n        \"label\": \"Edge 0\"\n      },\n      \"types\": {\n        \"causalDirectionIds\": [\n          0\n        ],\n        \"necessity\": \"necessary\",\n        \"ontologicalRole\": \"arising\",\n        \"interactionModeIds\": [\n          3\n        ],\n        \"dependencyTypeId\": 10\n      },\n      \"target\": \"n001\",\n      \"source\": \"n000\",\n      \"id\": \"e000\"\n    }\n  ],\n  \"nodes\": [\n    {\n      \"presentation\": {\n        \"y\": -2,\n        \"x\": 2,\n        \"label\": \"Node 2\"\n      },\n      \"id\": \"n002\"\n    },\n    {\n      \"presentation\": {\n        \"y\": -1,\n        \"x\": 1,\n        \"label\": \"Node 1\"\n      },\n      \"id\": \"n001\"\n    },\n    {\n      \"presentation\": {\n        \"y\": 0,\n        \"x\": 0,\n        \"label\": \"Node 0\"\n      },\n      \"id\": \"n000\"\n    }\n  ]\n}",
+            "payloadHash": "sha256:1174782d3c56fe0a85179a47c4159afe125901104b6802402dec1bf8ff5bf808"
+          },
+          "runHash": "sha256:538376509a20fa7b4f20c468b54edd7137ebbc016133dcefd7e93cf397964b4c",
+          "target": "whole-scoped-representation"
+        },
+        {
+          "beforePayloadHash": "sha256:a9143524631ac3f80c9dc4c87aa33a73b6403479efd62e0c9e7f2d77f7467ee9",
+          "comparison": {
+            "components": [
+              {
+                "observableId": "canonical-directed-structure-v1",
+                "state": "equal"
+              },
+              {
+                "observableId": "canonical-typed-directed-structure-v1",
+                "state": "equal"
+              }
+            ],
+            "coverage": {
+              "denominator": 2,
+              "numerator": 2
+            },
+            "status": "passed"
+          },
+          "mapping": {
+            "edges": [
+              {
+                "afterId": "e000",
+                "beforeId": "e000",
+                "sourceEdgeId": "0.0->0.1"
+              },
+              {
+                "afterId": "e001",
+                "beforeId": "e001",
+                "sourceEdgeId": "0.0->0.2"
+              }
+            ],
+            "nodes": [
+              {
+                "afterId": "vertex:002",
+                "beforeId": "n000",
+                "sourceNodeId": "0.0"
+              },
+              {
+                "afterId": "vertex:001",
+                "beforeId": "n001",
+                "sourceNodeId": "0.1"
+              },
+              {
+                "afterId": "vertex:000",
+                "beforeId": "n002",
+                "sourceNodeId": "0.2"
+              }
+            ]
+          },
+          "observation": {
+            "adapter": {
+              "contentHash": "sha256:f50bd13d6e5af467781922e8c1586916532face8b8fd11ac2a69961f318d75df",
+              "id": "invariance-shadow-observation-adapter-v1",
+              "version": "1"
+            },
+            "artifactHash": "sha256:fa88723e5075c6fac063ed144088445314e85c609a5f988d1e4a3c225d3af168",
+            "observations": [
+              {
+                "availability": "observed",
+                "implementation": {
+                  "contentHash": "sha256:953f5ae6ad1fee7069058ac66116848c7b3981850feaf9a1c84d216325ba60e3",
+                  "id": "typed-directed-observation-v1",
+                  "version": "1"
+                },
+                "missing": [],
+                "observable": {
+                  "contentHash": "sha256:48f137781781c54724e172256925e44c9a2be42a08610c88abaca8a9f6016e7b",
+                  "id": "canonical-directed-structure-v1",
+                  "version": "1"
+                },
+                "value": {
+                  "edges": [
+                    {
+                      "from": 2,
+                      "to": 0
+                    },
+                    {
+                      "from": 2,
+                      "to": 1
+                    }
+                  ],
+                  "nodeCount": 3
+                },
+                "valueHash": "sha256:1d55436bc5dddb800ae3d5519f9d926de7a45fc48c28a5243da4e624a9c23bf4"
+              },
+              {
+                "availability": "observed",
+                "implementation": {
+                  "contentHash": "sha256:953f5ae6ad1fee7069058ac66116848c7b3981850feaf9a1c84d216325ba60e3",
+                  "id": "typed-directed-observation-v1",
+                  "version": "1"
+                },
+                "missing": [],
+                "observable": {
+                  "contentHash": "sha256:3df933040d1a5002b2338cf07b11eefd68e63f76597e72873d897fd3ea86efd3",
+                  "id": "canonical-typed-directed-structure-v1",
+                  "version": "1"
+                },
+                "value": {
+                  "edges": [
+                    {
+                      "from": 2,
+                      "to": 0,
+                      "types": {
+                        "causalDirectionIds": [
+                          0
+                        ],
+                        "dependencyTypeId": 10,
+                        "interactionModeIds": [
+                          3
+                        ],
+                        "necessity": "necessary",
+                        "ontologicalRole": "arising"
+                      }
+                    },
+                    {
+                      "from": 2,
+                      "to": 1,
+                      "types": {
+                        "causalDirectionIds": [
+                          0
+                        ],
+                        "dependencyTypeId": 10,
+                        "interactionModeIds": [
+                          3
+                        ],
+                        "necessity": "necessary",
+                        "ontologicalRole": "arising"
+                      }
+                    }
+                  ],
+                  "nodeCount": 3
+                },
+                "valueHash": "sha256:e2645f4b0c83fa9ab2e4ff34ecaea9290a20a6e047805b881a47e352837f3298"
+              }
+            ],
+            "payloadHash": "sha256:e65abdf0d60a8a427d44a9b620806b223e668511f0af6b28177ab06b095070de",
+            "source": {
+              "contextHash": "sha256:00eb66ecfb169ba5a49a10d5107d83861a2b1fd0555c52ea9c8d0832889b359d",
+              "scopeHash": "sha256:935e73da4f997dc2900f8db323b57b3e771ac536dfbee931fd131d84abdac5e9"
+            },
+            "work": {
+              "canonicalizerCalls": 2
+            }
+          },
+          "payloadChanged": true,
+          "probe": {
+            "contentHash": "sha256:a69c1e750d074e5aa529b5c75b7b9149d63d292e44463e7aa915c24ea2c665d3",
+            "id": "bijective-node-id-renaming-probe-v1",
+            "version": "1"
+          },
+          "representation": {
+            "graphHash": "sha256:e5e4bcee0fcfc3864074aed43db23e64e3b6f5328a1e6b40235230baf8d63307",
+            "payload": "{\"nodes\":[{\"id\":\"vertex:002\",\"presentation\":{\"label\":\"Node 0\",\"x\":0,\"y\":0}},{\"id\":\"vertex:001\",\"presentation\":{\"label\":\"Node 1\",\"x\":1,\"y\":-1}},{\"id\":\"vertex:000\",\"presentation\":{\"label\":\"Node 2\",\"x\":2,\"y\":-2}}],\"edges\":[{\"id\":\"e000\",\"source\":\"vertex:002\",\"target\":\"vertex:001\",\"types\":{\"dependencyTypeId\":10,\"interactionModeIds\":[3],\"ontologicalRole\":\"arising\",\"necessity\":\"necessary\",\"causalDirectionIds\":[0]},\"presentation\":{\"label\":\"Edge 0\",\"color\":\"#334155\"}},{\"id\":\"e001\",\"source\":\"vertex:002\",\"target\":\"vertex:000\",\"types\":{\"dependencyTypeId\":10,\"interactionModeIds\":[3],\"ontologicalRole\":\"arising\",\"necessity\":\"necessary\",\"causalDirectionIds\":[0]},\"presentation\":{\"label\":\"Edge 1\",\"color\":\"#334155\"}}],\"viewport\":{\"zoom\":1}}",
+            "payloadHash": "sha256:e65abdf0d60a8a427d44a9b620806b223e668511f0af6b28177ab06b095070de"
+          },
+          "runHash": "sha256:24eb7b02a9b55654211d1005869cdf0dfd9153f16212c72ab227ff4ec8f85f79",
+          "target": "whole-scoped-representation"
+        },
+        {
+          "beforePayloadHash": "sha256:a9143524631ac3f80c9dc4c87aa33a73b6403479efd62e0c9e7f2d77f7467ee9",
+          "comparison": {
+            "components": [
+              {
+                "observableId": "canonical-directed-structure-v1",
+                "state": "equal"
+              },
+              {
+                "observableId": "canonical-typed-directed-structure-v1",
+                "state": "equal"
+              }
+            ],
+            "coverage": {
+              "denominator": 2,
+              "numerator": 2
+            },
+            "status": "passed"
+          },
+          "mapping": {
+            "edges": [
+              {
+                "afterId": "link:001",
+                "beforeId": "e000",
+                "sourceEdgeId": "0.0->0.1"
+              },
+              {
+                "afterId": "link:000",
+                "beforeId": "e001",
+                "sourceEdgeId": "0.0->0.2"
+              }
+            ],
+            "nodes": [
+              {
+                "afterId": "n000",
+                "beforeId": "n000",
+                "sourceNodeId": "0.0"
+              },
+              {
+                "afterId": "n001",
+                "beforeId": "n001",
+                "sourceNodeId": "0.1"
+              },
+              {
+                "afterId": "n002",
+                "beforeId": "n002",
+                "sourceNodeId": "0.2"
+              }
+            ]
+          },
+          "observation": {
+            "adapter": {
+              "contentHash": "sha256:f50bd13d6e5af467781922e8c1586916532face8b8fd11ac2a69961f318d75df",
+              "id": "invariance-shadow-observation-adapter-v1",
+              "version": "1"
+            },
+            "artifactHash": "sha256:155adb831c17aab13c4a58648b9d8077c91c3d0216a29ade3146c7ce4401816a",
+            "observations": [
+              {
+                "availability": "observed",
+                "implementation": {
+                  "contentHash": "sha256:953f5ae6ad1fee7069058ac66116848c7b3981850feaf9a1c84d216325ba60e3",
+                  "id": "typed-directed-observation-v1",
+                  "version": "1"
+                },
+                "missing": [],
+                "observable": {
+                  "contentHash": "sha256:48f137781781c54724e172256925e44c9a2be42a08610c88abaca8a9f6016e7b",
+                  "id": "canonical-directed-structure-v1",
+                  "version": "1"
+                },
+                "value": {
+                  "edges": [
+                    {
+                      "from": 2,
+                      "to": 0
+                    },
+                    {
+                      "from": 2,
+                      "to": 1
+                    }
+                  ],
+                  "nodeCount": 3
+                },
+                "valueHash": "sha256:1d55436bc5dddb800ae3d5519f9d926de7a45fc48c28a5243da4e624a9c23bf4"
+              },
+              {
+                "availability": "observed",
+                "implementation": {
+                  "contentHash": "sha256:953f5ae6ad1fee7069058ac66116848c7b3981850feaf9a1c84d216325ba60e3",
+                  "id": "typed-directed-observation-v1",
+                  "version": "1"
+                },
+                "missing": [],
+                "observable": {
+                  "contentHash": "sha256:3df933040d1a5002b2338cf07b11eefd68e63f76597e72873d897fd3ea86efd3",
+                  "id": "canonical-typed-directed-structure-v1",
+                  "version": "1"
+                },
+                "value": {
+                  "edges": [
+                    {
+                      "from": 2,
+                      "to": 0,
+                      "types": {
+                        "causalDirectionIds": [
+                          0
+                        ],
+                        "dependencyTypeId": 10,
+                        "interactionModeIds": [
+                          3
+                        ],
+                        "necessity": "necessary",
+                        "ontologicalRole": "arising"
+                      }
+                    },
+                    {
+                      "from": 2,
+                      "to": 1,
+                      "types": {
+                        "causalDirectionIds": [
+                          0
+                        ],
+                        "dependencyTypeId": 10,
+                        "interactionModeIds": [
+                          3
+                        ],
+                        "necessity": "necessary",
+                        "ontologicalRole": "arising"
+                      }
+                    }
+                  ],
+                  "nodeCount": 3
+                },
+                "valueHash": "sha256:e2645f4b0c83fa9ab2e4ff34ecaea9290a20a6e047805b881a47e352837f3298"
+              }
+            ],
+            "payloadHash": "sha256:a27aea6d2f4ff84efa173098c7bc415d720690bffe387c07748365165f3ae428",
+            "source": {
+              "contextHash": "sha256:00eb66ecfb169ba5a49a10d5107d83861a2b1fd0555c52ea9c8d0832889b359d",
+              "scopeHash": "sha256:935e73da4f997dc2900f8db323b57b3e771ac536dfbee931fd131d84abdac5e9"
+            },
+            "work": {
+              "canonicalizerCalls": 2
+            }
+          },
+          "payloadChanged": true,
+          "probe": {
+            "contentHash": "sha256:3476096b64e3c82a6844cfaad862536d800c531486ed756a90fc71d37538491c",
+            "id": "bijective-edge-id-renaming-probe-v1",
+            "version": "1"
+          },
+          "representation": {
+            "graphHash": "sha256:5acd4758211ab44b442a66a38143642597af1c260f928ed6cbffc85d5ab4bc7d",
+            "payload": "{\"nodes\":[{\"id\":\"n000\",\"presentation\":{\"label\":\"Node 0\",\"x\":0,\"y\":0}},{\"id\":\"n001\",\"presentation\":{\"label\":\"Node 1\",\"x\":1,\"y\":-1}},{\"id\":\"n002\",\"presentation\":{\"label\":\"Node 2\",\"x\":2,\"y\":-2}}],\"edges\":[{\"id\":\"link:001\",\"source\":\"n000\",\"target\":\"n001\",\"types\":{\"dependencyTypeId\":10,\"interactionModeIds\":[3],\"ontologicalRole\":\"arising\",\"necessity\":\"necessary\",\"causalDirectionIds\":[0]},\"presentation\":{\"label\":\"Edge 0\",\"color\":\"#334155\"}},{\"id\":\"link:000\",\"source\":\"n000\",\"target\":\"n002\",\"types\":{\"dependencyTypeId\":10,\"interactionModeIds\":[3],\"ontologicalRole\":\"arising\",\"necessity\":\"necessary\",\"causalDirectionIds\":[0]},\"presentation\":{\"label\":\"Edge 1\",\"color\":\"#334155\"}}],\"viewport\":{\"zoom\":1}}",
+            "payloadHash": "sha256:a27aea6d2f4ff84efa173098c7bc415d720690bffe387c07748365165f3ae428"
+          },
+          "runHash": "sha256:0eba4bbee5b3b3b1c667c27559530bc5e72c717729f9a5c31c85bde4faa1ca53",
+          "target": "whole-scoped-representation"
+        },
+        {
+          "beforePayloadHash": "sha256:a9143524631ac3f80c9dc4c87aa33a73b6403479efd62e0c9e7f2d77f7467ee9",
+          "comparison": {
+            "components": [
+              {
+                "observableId": "canonical-directed-structure-v1",
+                "state": "equal"
+              },
+              {
+                "observableId": "canonical-typed-directed-structure-v1",
+                "state": "equal"
+              }
+            ],
+            "coverage": {
+              "denominator": 2,
+              "numerator": 2
+            },
+            "status": "passed"
+          },
+          "mapping": {
+            "edges": [
+              {
+                "afterId": "e000",
+                "beforeId": "e000",
+                "sourceEdgeId": "0.0->0.1"
+              },
+              {
+                "afterId": "e001",
+                "beforeId": "e001",
+                "sourceEdgeId": "0.0->0.2"
+              }
+            ],
+            "nodes": [
+              {
+                "afterId": "n000",
+                "beforeId": "n000",
+                "sourceNodeId": "0.0"
+              },
+              {
+                "afterId": "n001",
+                "beforeId": "n001",
+                "sourceNodeId": "0.1"
+              },
+              {
+                "afterId": "n002",
+                "beforeId": "n002",
+                "sourceNodeId": "0.2"
+              }
+            ]
+          },
+          "observation": {
+            "adapter": {
+              "contentHash": "sha256:f50bd13d6e5af467781922e8c1586916532face8b8fd11ac2a69961f318d75df",
+              "id": "invariance-shadow-observation-adapter-v1",
+              "version": "1"
+            },
+            "artifactHash": "sha256:a49a1a75a8afeeaf0859a4e9d627e66ed9738c47a4036b9f52950794b60ba8ee",
+            "observations": [
+              {
+                "availability": "observed",
+                "implementation": {
+                  "contentHash": "sha256:953f5ae6ad1fee7069058ac66116848c7b3981850feaf9a1c84d216325ba60e3",
+                  "id": "typed-directed-observation-v1",
+                  "version": "1"
+                },
+                "missing": [],
+                "observable": {
+                  "contentHash": "sha256:48f137781781c54724e172256925e44c9a2be42a08610c88abaca8a9f6016e7b",
+                  "id": "canonical-directed-structure-v1",
+                  "version": "1"
+                },
+                "value": {
+                  "edges": [
+                    {
+                      "from": 2,
+                      "to": 0
+                    },
+                    {
+                      "from": 2,
+                      "to": 1
+                    }
+                  ],
+                  "nodeCount": 3
+                },
+                "valueHash": "sha256:1d55436bc5dddb800ae3d5519f9d926de7a45fc48c28a5243da4e624a9c23bf4"
+              },
+              {
+                "availability": "observed",
+                "implementation": {
+                  "contentHash": "sha256:953f5ae6ad1fee7069058ac66116848c7b3981850feaf9a1c84d216325ba60e3",
+                  "id": "typed-directed-observation-v1",
+                  "version": "1"
+                },
+                "missing": [],
+                "observable": {
+                  "contentHash": "sha256:3df933040d1a5002b2338cf07b11eefd68e63f76597e72873d897fd3ea86efd3",
+                  "id": "canonical-typed-directed-structure-v1",
+                  "version": "1"
+                },
+                "value": {
+                  "edges": [
+                    {
+                      "from": 2,
+                      "to": 0,
+                      "types": {
+                        "causalDirectionIds": [
+                          0
+                        ],
+                        "dependencyTypeId": 10,
+                        "interactionModeIds": [
+                          3
+                        ],
+                        "necessity": "necessary",
+                        "ontologicalRole": "arising"
+                      }
+                    },
+                    {
+                      "from": 2,
+                      "to": 1,
+                      "types": {
+                        "causalDirectionIds": [
+                          0
+                        ],
+                        "dependencyTypeId": 10,
+                        "interactionModeIds": [
+                          3
+                        ],
+                        "necessity": "necessary",
+                        "ontologicalRole": "arising"
+                      }
+                    }
+                  ],
+                  "nodeCount": 3
+                },
+                "valueHash": "sha256:e2645f4b0c83fa9ab2e4ff34ecaea9290a20a6e047805b881a47e352837f3298"
+              }
+            ],
+            "payloadHash": "sha256:4f57a2aa2f78f3c87c5f373738febdcc94f60790f3a74bd702c10ee774d1ce76",
+            "source": {
+              "contextHash": "sha256:00eb66ecfb169ba5a49a10d5107d83861a2b1fd0555c52ea9c8d0832889b359d",
+              "scopeHash": "sha256:935e73da4f997dc2900f8db323b57b3e771ac536dfbee931fd131d84abdac5e9"
+            },
+            "work": {
+              "canonicalizerCalls": 2
+            }
+          },
+          "payloadChanged": true,
+          "probe": {
+            "contentHash": "sha256:a23a0ab9cd7c305a11d7a64f2a96dd9536c29824b3c88effb4b397db575c852b",
+            "id": "presentation-only-changes-probe-v1",
+            "version": "1"
+          },
+          "representation": {
+            "graphHash": "sha256:585d63f97000e86fc0822a589478ceb973ba9130eb753152163efd152f6eae65",
+            "payload": "{\"nodes\":[{\"id\":\"n000\",\"presentation\":{\"label\":\"Changed vertex 0\",\"x\":100,\"y\":50}},{\"id\":\"n001\",\"presentation\":{\"label\":\"Changed vertex 1\",\"x\":99,\"y\":51}},{\"id\":\"n002\",\"presentation\":{\"label\":\"Changed vertex 2\",\"x\":98,\"y\":52}}],\"edges\":[{\"id\":\"e000\",\"source\":\"n000\",\"target\":\"n001\",\"types\":{\"dependencyTypeId\":10,\"interactionModeIds\":[3],\"ontologicalRole\":\"arising\",\"necessity\":\"necessary\",\"causalDirectionIds\":[0]},\"presentation\":{\"label\":\"Changed link 0\",\"color\":\"#e11d48\"}},{\"id\":\"e001\",\"source\":\"n000\",\"target\":\"n002\",\"types\":{\"dependencyTypeId\":10,\"interactionModeIds\":[3],\"ontologicalRole\":\"arising\",\"necessity\":\"necessary\",\"causalDirectionIds\":[0]},\"presentation\":{\"label\":\"Changed link 1\",\"color\":\"#e11d48\"}}],\"viewport\":{\"zoom\":2}}",
+            "payloadHash": "sha256:4f57a2aa2f78f3c87c5f373738febdcc94f60790f3a74bd702c10ee774d1ce76"
+          },
+          "runHash": "sha256:bba9072081b02770b5d7cf0154265fa514bcda9200162dae0b4c91ff4d92fc5e",
+          "target": "whole-scoped-representation"
+        }
+      ],
+      "sandbox": {
+        "artifactHash": "sha256:67385d08bf52cc3f9c3f64fc6271ff2ad117cd0c82a5ea8a396f504ba7a8ab53",
+        "policy": {
+          "contentHash": "sha256:5ca0df781b98fcf114d7d4889e0663f99722672763c3c340ff34ea0e5d81f2fe",
+          "id": "immutable-structural-probe-sandbox-v1",
+          "version": "1"
+        }
+      },
+      "schemaVersion": "1",
+      "summary": {
+        "coverage": {
+          "denominator": 8,
+          "numerator": 8
+        },
+        "status": "passed"
+      },
+      "work": {
+        "canonicalizerCalls": 10,
+        "observationEvaluations": 5,
+        "representationCount": 5
+      }
+    },
+    "responses": {
+      "adapter": {
+        "contentHash": "sha256:dbe19f3c95fb97213d7b4631119124e3e3b3e36237caae0009de867868b0b68b",
+        "delta": "after-minus-before-scalar-integers-only",
+        "graph": "all-retained-nodes-directed-endpoints-and-present-joint-types",
+        "id": "response-shadow-observation-adapter-v1",
+        "implementations": [
+          {
+            "contentHash": "sha256:c24eb843608db1252a279b2f48f717f13d675680cd7607cec6d46d84c26d9a4d",
+            "id": "canonical-directed-observation-v1",
+            "version": "1"
+          },
+          {
+            "contentHash": "sha256:56e0a358ae1c6f3618fb792c319bedc2d1e06db637b8410de1a39d4a69f3a4e8",
+            "id": "directed-topology-observation-v1",
+            "version": "1"
+          },
+          {
+            "contentHash": "sha256:953f5ae6ad1fee7069058ac66116848c7b3981850feaf9a1c84d216325ba60e3",
+            "id": "typed-directed-observation-v1",
+            "version": "1"
+          }
+        ],
+        "input": "private-verified-source-bound-shadow-graph",
+        "missing": "source-edge-and-field-with-null-value",
+        "otherAttributes": "excluded",
+        "profile": "all-ordered-mandatory-regime-observables",
+        "version": "1",
+        "vocabulary": "unchanged-source-context"
+      },
+      "analysis": {
+        "id": "structural-response-probes",
+        "version": "1"
+      },
+      "artifactHash": "sha256:aaf27f081ade5afb003a763c67eaff2da94c7aba31e24a8925cfa4a375a8208d",
+      "baseline": {
+        "graph": {
+          "edges": [
+            {
+              "id": "e000",
+              "source": "n000",
+              "target": "n001",
+              "types": {
+                "causalDirectionIds": [
+                  0
+                ],
+                "dependencyTypeId": 10,
+                "interactionModeIds": [
+                  3
+                ],
+                "necessity": "necessary",
+                "ontologicalRole": "arising"
+              }
+            },
+            {
+              "id": "e001",
+              "source": "n000",
+              "target": "n002",
+              "types": {
+                "causalDirectionIds": [
+                  0
+                ],
+                "dependencyTypeId": 10,
+                "interactionModeIds": [
+                  3
+                ],
+                "necessity": "necessary",
+                "ontologicalRole": "arising"
+              }
+            }
+          ],
+          "graphHash": "sha256:216594deb103df53549c88d70455bc82fd1fcce44e354c6780a8ba2091379bc4",
+          "kind": "structural-shadow-graph",
+          "nodes": [
+            {
+              "id": "n000"
+            },
+            {
+              "id": "n001"
+            },
+            {
+              "id": "n002"
+            }
+          ],
+          "regime": {
+            "contentHash": "sha256:5fe49b9439e107998e170cf8cf1e690598dfe8937321f5202ac4c2f270414868",
+            "id": "typed-relations-v1",
+            "version": "1"
+          },
+          "schemaVersion": "1",
+          "source": {
+            "contextHash": "sha256:00eb66ecfb169ba5a49a10d5107d83861a2b1fd0555c52ea9c8d0832889b359d",
+            "scopeHash": "sha256:935e73da4f997dc2900f8db323b57b3e771ac536dfbee931fd131d84abdac5e9"
+          }
+        },
+        "mapping": {
+          "edges": [
+            {
+              "shadowEdgeId": "e000",
+              "sourceEdgeId": "0.0->0.1"
+            },
+            {
+              "shadowEdgeId": "e001",
+              "sourceEdgeId": "0.0->0.2"
+            }
+          ],
+          "nodes": [
+            {
+              "shadowNodeId": "n000",
+              "sourceNodeId": "0.0"
+            },
+            {
+              "shadowNodeId": "n001",
+              "sourceNodeId": "0.1"
+            },
+            {
+              "shadowNodeId": "n002",
+              "sourceNodeId": "0.2"
+            }
+          ]
+        },
+        "observation": {
+          "adapter": {
+            "contentHash": "sha256:dbe19f3c95fb97213d7b4631119124e3e3b3e36237caae0009de867868b0b68b",
+            "id": "response-shadow-observation-adapter-v1",
+            "version": "1"
+          },
+          "artifactHash": "sha256:ccfe70f8d4d62aec140dc36c21c8ec2d2dda78b732d71de5f18c0d17954c4fdd",
+          "graphHash": "sha256:216594deb103df53549c88d70455bc82fd1fcce44e354c6780a8ba2091379bc4",
+          "observations": [
+            {
+              "availability": "observed",
+              "implementation": {
+                "contentHash": "sha256:953f5ae6ad1fee7069058ac66116848c7b3981850feaf9a1c84d216325ba60e3",
+                "id": "typed-directed-observation-v1",
+                "version": "1"
+              },
+              "missing": [],
+              "observable": {
+                "contentHash": "sha256:48f137781781c54724e172256925e44c9a2be42a08610c88abaca8a9f6016e7b",
+                "id": "canonical-directed-structure-v1",
+                "version": "1"
+              },
+              "value": {
+                "edges": [
+                  {
+                    "from": 2,
+                    "to": 0
+                  },
+                  {
+                    "from": 2,
+                    "to": 1
+                  }
+                ],
+                "nodeCount": 3
+              },
+              "valueHash": "sha256:96797340f5d25d63f4daa1b35782c71c18bb6dbd39311866fb469d51dc634091"
+            },
+            {
+              "availability": "observed",
+              "implementation": {
+                "contentHash": "sha256:953f5ae6ad1fee7069058ac66116848c7b3981850feaf9a1c84d216325ba60e3",
+                "id": "typed-directed-observation-v1",
+                "version": "1"
+              },
+              "missing": [],
+              "observable": {
+                "contentHash": "sha256:3df933040d1a5002b2338cf07b11eefd68e63f76597e72873d897fd3ea86efd3",
+                "id": "canonical-typed-directed-structure-v1",
+                "version": "1"
+              },
+              "value": {
+                "edges": [
+                  {
+                    "from": 2,
+                    "to": 0,
+                    "types": {
+                      "causalDirectionIds": [
+                        0
+                      ],
+                      "dependencyTypeId": 10,
+                      "interactionModeIds": [
+                        3
+                      ],
+                      "necessity": "necessary",
+                      "ontologicalRole": "arising"
+                    }
+                  },
+                  {
+                    "from": 2,
+                    "to": 1,
+                    "types": {
+                      "causalDirectionIds": [
+                        0
+                      ],
+                      "dependencyTypeId": 10,
+                      "interactionModeIds": [
+                        3
+                      ],
+                      "necessity": "necessary",
+                      "ontologicalRole": "arising"
+                    }
+                  }
+                ],
+                "nodeCount": 3
+              },
+              "valueHash": "sha256:bcbd10ea34d856f614e23f7fabcea663224d03d73e8ccd9665ec3b82fa9ad371"
+            }
+          ],
+          "source": {
+            "contextHash": "sha256:00eb66ecfb169ba5a49a10d5107d83861a2b1fd0555c52ea9c8d0832889b359d",
+            "scopeHash": "sha256:935e73da4f997dc2900f8db323b57b3e771ac536dfbee931fd131d84abdac5e9"
+          },
+          "work": {
+            "canonicalizerCalls": 2
+          }
+        }
+      },
+      "evaluation": "measured",
+      "policy": {
+        "codeExecution": "closed-data-operations-only",
+        "constraintMeaning": "declared-necessary-and-enabling-dependencies-only",
+        "contentHash": "sha256:37059b8e846b1d100c3e6599258e223f653746a2df0243a54e220add09ea1b4c",
+        "coordinates": "exclude-source-identifiers-provenance-hashes-and-work",
+        "copies": "every-target-starts-from-baseline",
+        "delta": "after-minus-before-for-scalar-integers-only",
+        "emptySelector": "unavailable-no-measured-zero",
+        "errors": "throw-no-partial-artifact",
+        "histogram": "diagnostic-multiset-of-component-states-scalar-deltas-and-rejections",
+        "id": "graph-native-response-probes-v1",
+        "limits": {
+          "maxArtifactBytes": 4194304,
+          "maxCanonicalEntries": 500000,
+          "maxCanonicalizerCalls": 130,
+          "maxObservationEvaluations": 65,
+          "maxPathExtensions": 4096,
+          "maxSelectionEdgeScans": 131072,
+          "maxTargets": 64,
+          "maxTargetsPerProbe": 32,
+          "maxTransformationEdgeVisits": 2048
+        },
+        "missingSelector": "unresolved-no-partial-target-set",
+        "observation": "all-ordered-mandatory-regime-observables",
+        "overallCoverage": "fully-observed-compatible-probes",
+        "probeCoverage": "comparable-observable-pairs-over-all-targets",
+        "registry": {
+          "contentHash": "sha256:64d61ee79577b6e1239c1a3e7b95387e1bd7e6e330fc156c0a7208f8fd5bde8e",
+          "id": "structural-response-probes-v1",
+          "version": "1"
+        },
+        "response": "complete-changed-or-unchanged-incomplete-indeterminate",
+        "reversal": "carry-types-without-semantic-recoding-reject-parallel-edges",
+        "selection": "exhaustive-preflight-before-observation",
+        "signature": "deferred-to-SG2-024",
+        "source": "verified-identity-sandbox-with-unchanged-preparation",
+        "version": "1"
+      },
+      "preparation": {
+        "analysis": {
+          "id": "structural-regime-preparation",
+          "version": "1"
+        },
+        "artifactHash": "sha256:8ca93efce7cc2909d608d1867f1675f5b27a740916f4bc2eaed939f8b3d2b5a4",
+        "context": {
+          "contextHash": "sha256:00eb66ecfb169ba5a49a10d5107d83861a2b1fd0555c52ea9c8d0832889b359d",
+          "dictionaryHash": "sha256:77798eee0ae2cbe90c6e54e48ce8f8d39659472b16c900056e106c8bf8a85cff",
+          "model": {
+            "manifestHash": "sha256:39203e307d7c55582946fce0037682141acae31cdec54640202874d943c7c213",
+            "modelId": "causal-emergence",
+            "modelRootHash": "sha256:1364547211fc56dbcfb7962612458d12cb40ee92aa30b11ccb819151015cd2ab",
+            "modelVersion": "2026.08.15"
+          },
+          "normalizationContext": "full-source-projection",
+          "projectionPolicyHash": "sha256:25f5cdb778b7fdf05ff071dd9d8c672a9726ca50958a6192066e72a8523172d1",
+          "schemaVersion": "1",
+          "sourceProjectionHash": "sha256:55ff170ca681151f93e2fc1d3bedb91acf34d158930f7d37e1453b7b671168d8"
+        },
+        "evaluation": "not-run",
+        "observableSpecs": [
+          {
+            "contentHash": "sha256:48f137781781c54724e172256925e44c9a2be42a08610c88abaca8a9f6016e7b",
+            "definition": "Canonical directed adjacency including isolated nodes, modulo node relabeling; all source attributes excluded.",
+            "id": "canonical-directed-structure-v1",
+            "mandatory": true,
+            "normalization": "none",
+            "requiredEvidence": [
+              "verified-scoped-directed-projection"
+            ],
+            "schemaVersion": "1",
+            "scope": "whole-scoped-directed-graph",
+            "supplier": {
+              "contentHash": "sha256:79e2978d134774168a5b534027caeb6709fe3ae8d18a97af21118982d07fb62e",
+              "definition": "Canonical directed adjacency including isolated nodes, modulo node relabeling; all source attributes excluded.",
+              "id": "structural-canonical-observation-v1",
+              "operation": "canonical-directed-structure-v1",
+              "version": "1"
+            },
+            "units": "discrete-structure",
+            "valueType": "canonical-directed-graph",
+            "version": "1"
+          },
+          {
+            "contentHash": "sha256:3df933040d1a5002b2338cf07b11eefd68e63f76597e72873d897fd3ea86efd3",
+            "definition": "Canonical directed adjacency with all five declared edge fields under one common node bijection; ID arrays are sets, and code meanings require the vocabulary policy.",
+            "id": "canonical-typed-directed-structure-v1",
+            "mandatory": true,
+            "normalization": "none",
+            "requiredEvidence": [
+              "verified-scoped-directed-projection",
+              "complete-declared-edge-types",
+              "bound-local-dictionaries",
+              "compatible-vocabulary-for-comparison"
+            ],
+            "schemaVersion": "1",
+            "scope": "whole-scoped-directed-graph",
+            "supplier": {
+              "contentHash": "sha256:ff770375783816fc2110a575f18c551de1b3f6657f35b4a7483d57f7823e6c40",
+              "definition": "Canonical directed adjacency with all five declared edge fields under one common node bijection; ID arrays are sets, and code meanings require the vocabulary policy.",
+              "id": "structural-typed-observation-v1",
+              "operation": "canonical-typed-directed-structure-v1",
+              "version": "1"
+            },
+            "units": "discrete-structure",
+            "valueType": "canonical-typed-directed-graph",
+            "version": "1"
+          }
+        ],
+        "regime": {
+          "aggregationPolicy": {
+            "completeDifferentStatus": "distinguishable-under-regime",
+            "completeEqualStatus": "indistinguishable-under-regime",
+            "contentHash": "sha256:b736a798a746914cbbcb1ca38fd90f265fb33288c9b4d29619bb2c977bd0ccaf",
+            "distanceConstruction": "deferred-to-comparison-contract",
+            "id": "exact-profile-equality-v1",
+            "intervals": "unsupported",
+            "numericPolicy": "exact-discrete",
+            "tolerance": "none",
+            "version": "1"
+          },
+          "contentHash": "sha256:5fe49b9439e107998e170cf8cf1e690598dfe8937321f5202ac4c2f270414868",
+          "id": "typed-relations-v1",
+          "invariancePolicy": {
+            "actsOn": "scoped-graph-with-transported-scope-membership",
+            "contentHash": "sha256:8d129f942e399ea18826590ba932a9a80b9eb4eb4a321dfa4fb6eefee8a8c002",
+            "id": "structural-relabeling-invariances-v1",
+            "probeExecution": "not-implied-by-declaration",
+            "provenanceHashes": "may-change",
+            "transformations": [
+              "record-order",
+              "bijective-node-id-renaming",
+              "bijective-edge-id-renaming",
+              "presentation-only-changes"
+            ],
+            "version": "1"
+          },
+          "limits": {
+            "maxArtifactBytes": 1048576,
+            "maxCanonicalEntries": 100000,
+            "maxEdges": 30,
+            "maxNodes": 6,
+            "maxReachabilityPairVisits": 0,
+            "maxSearchStates": 100000,
+            "minNodes": 1
+          },
+          "matchingPolicy": {
+            "algorithm": "kernel-canonicalizeCandidate",
+            "candidateTranslation": {
+              "domain": "single-candidate",
+              "edgeAttributes": [
+                "dependencyTypeId",
+                "interactionModeIds",
+                "ontologicalRole",
+                "necessity",
+                "causalDirectionIds"
+              ],
+              "edgeRole": "source-parent",
+              "nodeAttributes": [],
+              "nodeRef": "sha256:33c6a7c3f6336627a0abdcd75cde0e59a81e7e5353723bac2d3a35df1c89cbde",
+              "setAttributeEncoding": "canonical-json-string-of-sorted-integer-array"
+            },
+            "contentHash": "sha256:c1ea90617a3b81550d56300d5dc5b23b9010a1c1761b9e6262d0b406eb9037c6",
+            "direction": "preserved",
+            "disconnectedGraphs": "allowed",
+            "edgeMatching": "mapped-ordered-endpoints",
+            "equivalence": "edge-annotated-directed-graph-isomorphism",
+            "exhaustion": "error-no-heuristic-identity",
+            "graphPolicy": {
+              "allowParallelEdges": false,
+              "allowSelfLoops": false,
+              "connected": false,
+              "connectivityProjection": "directed-weak",
+              "structuralEdgeAttributes": [
+                "dependencyTypeId",
+                "interactionModeIds",
+                "ontologicalRole",
+                "necessity",
+                "causalDirectionIds"
+              ],
+              "structuralNodeAttributes": []
+            },
+            "id": "directed-typed-candidate-matching-v1",
+            "nodeMatching": "one-common-bijection-for-topology-and-types",
+            "setOrdering": "ascending-distinct-integer-codes",
+            "setValuedFields": [
+              "interactionModeIds",
+              "causalDirectionIds"
+            ],
+            "sourceIdentifiers": "provenance-only",
+            "version": "1"
+          },
+          "missingnessPolicy": {
+            "contentHash": "sha256:b2bdf91b18bc4da156f9e8f49977e1f59d55e32712baeb3fadb1f8bdcb66e7c8",
+            "coverage": "per-component-with-reasons",
+            "emptyProfile": "indeterminate",
+            "id": "strict-indeterminate-v1",
+            "incompleteDistance": null,
+            "incompleteStatus": "indeterminate",
+            "invalidArtifact": "validation-error",
+            "mandatoryGaps": [
+              "missing",
+              "unavailable",
+              "rejected",
+              "unresolved"
+            ],
+            "observedDifferences": "retain-as-diagnostics",
+            "partialDistance": "not-supported",
+            "version": "1"
+          },
+          "observables": [
+            {
+              "contentHash": "sha256:48f137781781c54724e172256925e44c9a2be42a08610c88abaca8a9f6016e7b",
+              "id": "canonical-directed-structure-v1",
+              "version": "1"
+            },
+            {
+              "contentHash": "sha256:3df933040d1a5002b2338cf07b11eefd68e63f76597e72873d897fd3ea86efd3",
+              "id": "canonical-typed-directed-structure-v1",
+              "version": "1"
+            }
+          ],
+          "probeSets": {
+            "invariance": {
+              "contentHash": "sha256:aef895be35a566818dc1be7a75be99cee6f3678b7cabc5bdcf48c5dff4ade705",
+              "execution": "none",
+              "id": "empty-invariance-probe-set-v1",
+              "probes": [],
+              "version": "1"
+            },
+            "response": {
+              "contentHash": "sha256:88406c5d44694471e7ae217b6811d3b4e8fb74b11b86269fd777c2323e1a6326",
+              "execution": "none",
+              "id": "empty-response-probe-set-v1",
+              "probes": [],
+              "version": "1"
+            }
+          },
+          "projectionPolicy": {
+            "contentHash": "sha256:25f5cdb778b7fdf05ff071dd9d8c672a9726ca50958a6192066e72a8523172d1",
+            "id": "source-parent-directed-v1",
+            "version": "1"
+          },
+          "schemaVersion": "1",
+          "scopePolicy": {
+            "boundary": "partition-incoming-outgoing-external-edges",
+            "contentHash": "sha256:93ae51edd5049b84399b0483423e21cc67b9f78778bffee279ef5f256e6b5671",
+            "edges": "both-endpoints-in-scope",
+            "id": "verified-source-induced-scope-v1",
+            "implicitTruncation": "forbidden",
+            "isolatedNodes": "retained",
+            "membership": "explicit-node-set-or-full-source",
+            "sourceVerification": "complete-model-before-scoping",
+            "version": "1"
+          },
+          "version": "1",
+          "vocabularyPolicy": {
+            "codeType": "nonnegative-safe-integer",
+            "contentHash": "sha256:91ebf209a30d17662c00b8d1c28105d7d1bad3f4b3fabad59ab667479ccc900f",
+            "crossModel": "requires-explicit-reviewed-shared-vocabulary-or-mapping",
+            "emptyDeclaredSet": "observed-empty-set",
+            "epistemicStatus": "excluded-from-observations",
+            "equalDictionaryBytesAlone": "insufficient-cross-model-authority",
+            "fields": [
+              "dependencyTypeId",
+              "interactionModeIds",
+              "ontologicalRole",
+              "necessity",
+              "causalDirectionIds"
+            ],
+            "id": "model-local-typed-vocabulary-v1",
+            "invalidField": "validation-error",
+            "localBinding": "verified-full-model-dictionary-hash",
+            "missingCompatibility": "indeterminate",
+            "missingField": "missing-mandatory-evidence",
+            "necessityUniverse": [
+              "necessary",
+              "enabling",
+              "contextual",
+              "optional"
+            ],
+            "roleUniverse": [
+              "arising",
+              "maintenance",
+              "modulation"
+            ],
+            "setDuplicates": "validation-error",
+            "version": "1"
+          }
+        },
+        "request": {
+          "regimeId": "typed-relations-v1",
+          "scope": {
+            "kind": "induced",
+            "nodeIds": [
+              "0.0",
+              "0.1",
+              "0.2"
+            ]
+          }
+        },
+        "schemaVersion": "1",
+        "scope": {
+          "edgeIds": [
+            "0.0->0.1",
+            "0.0->0.2"
+          ],
+          "externalEdgeIds": [
+            "0.10->0.11",
+            "0.10->0.12",
+            "0.11->0.12",
+            "0.11->0.13",
+            "0.12->0.13",
+            "0.13->0.14",
+            "0.14->1.0",
+            "0.14->1.26",
+            "0.15->0.16",
+            "0.16->0.17",
+            "0.16->0.19",
+            "0.16->0.3",
+            "0.16->0.4",
+            "0.17->0.10",
+            "0.17->0.18",
+            "0.17->0.19",
+            "0.17->0.4",
+            "0.17->0.5",
+            "0.18->0.20",
+            "0.18->0.21",
+            "0.18->0.7",
+            "0.18->0.8",
+            "0.19->0.18",
+            "0.19->0.20",
+            "0.19->0.21",
+            "0.19->0.22",
+            "0.19->0.6",
+            "0.19->0.7",
+            "0.19->0.8",
+            "0.20->0.10",
+            "0.20->0.13",
+            "0.20->0.14",
+            "0.20->0.21",
+            "0.20->0.22",
+            "0.20->0.23",
+            "0.20->0.8",
+            "0.21->0.10",
+            "0.21->0.12",
+            "0.21->0.13",
+            "0.21->0.14",
+            "0.21->0.22",
+            "0.21->0.23",
+            "0.21->0.8",
+            "0.22->0.10",
+            "0.22->0.12",
+            "0.22->0.13",
+            "0.22->0.14",
+            "0.22->0.23",
+            "0.22->0.8",
+            "0.22->1.32",
+            "0.22->1.33",
+            "0.23->0.10",
+            "0.23->0.12",
+            "0.23->0.13",
+            "0.23->0.14",
+            "0.23->1.34",
+            "0.3->0.17",
+            "0.3->0.4",
+            "0.3->0.5",
+            "0.4->0.18",
+            "0.4->0.5",
+            "0.4->0.6",
+            "0.5->0.18",
+            "0.5->0.19",
+            "0.5->0.6",
+            "0.5->0.9",
+            "0.6->0.20",
+            "0.6->0.21",
+            "0.6->0.7",
+            "0.6->0.8",
+            "0.7->0.20",
+            "0.7->0.8",
+            "0.8->0.10",
+            "0.8->0.21",
+            "0.8->0.23",
+            "0.8->0.9",
+            "0.9->0.10",
+            "0.9->0.11",
+            "1.0->1.1",
+            "1.0->1.2",
+            "1.0->1.21",
+            "1.0->1.26",
+            "1.0->1.27",
+            "1.0->1.29",
+            "1.0->1.32",
+            "1.0->1.4",
+            "1.0->1.8",
+            "1.1->1.10",
+            "1.1->1.19",
+            "1.1->1.30",
+            "1.10->1.11",
+            "1.10->1.16",
+            "1.11->1.19",
+            "1.11->2.17",
+            "1.11->2.20",
+            "1.12->2.18",
+            "1.2->1.12",
+            "1.2->1.17",
+            "1.2->1.25",
+            "1.21->1.12",
+            "1.21->1.30",
+            "1.22->1.12",
+            "1.25->1.17",
+            "1.26->1.12",
+            "1.26->1.22",
+            "1.26->1.23",
+            "1.26->1.27",
+            "1.26->1.28",
+            "1.26->1.29",
+            "1.26->1.3",
+            "1.26->1.31",
+            "1.26->1.32",
+            "1.26->1.33",
+            "1.26->1.34",
+            "1.26->1.5",
+            "1.27->1.22",
+            "1.27->1.28",
+            "1.27->1.32",
+            "1.27->1.33",
+            "1.27->1.5",
+            "1.27->1.8",
+            "1.28->1.14",
+            "1.28->1.8",
+            "1.28->1.9",
+            "1.29->1.1",
+            "1.29->1.2",
+            "1.29->1.23",
+            "1.29->1.24",
+            "1.29->1.3",
+            "1.3->1.10",
+            "1.3->1.18",
+            "1.3->1.30",
+            "1.3->1.31",
+            "1.3->1.6",
+            "1.3->1.7",
+            "1.30->1.10",
+            "1.30->1.31",
+            "1.30->1.6",
+            "1.30->1.7",
+            "1.31->1.10",
+            "1.31->1.18",
+            "1.31->1.7",
+            "1.32->1.22",
+            "1.32->1.33",
+            "1.32->1.34",
+            "1.33->1.34",
+            "1.5->1.13",
+            "1.5->1.20",
+            "1.5->2.1",
+            "1.5->2.19",
+            "1.6->2.1",
+            "1.7->1.10",
+            "1.7->1.11",
+            "1.7->1.15",
+            "1.7->2.0",
+            "1.8->1.24",
+            "1.8->1.9",
+            "1.8->2.0",
+            "1.8->2.1",
+            "1.9->1.12",
+            "1.9->1.14",
+            "1.9->1.24",
+            "2.0->2.2",
+            "2.1->2.19",
+            "2.1->2.2",
+            "2.1->2.21",
+            "2.1->2.22",
+            "2.11->3.32",
+            "2.11->3.39",
+            "2.11->3.49",
+            "2.12->2.13",
+            "2.12->2.15",
+            "2.12->3.0",
+            "2.12->3.18",
+            "2.12->3.21",
+            "2.12->3.27",
+            "2.12->3.28",
+            "2.12->3.3",
+            "2.12->3.31",
+            "2.12->3.41",
+            "2.12->3.43",
+            "2.12->3.44",
+            "2.12->3.7",
+            "2.12->3.9",
+            "2.13->2.15",
+            "2.13->3.43",
+            "2.15->2.16",
+            "2.15->3.46",
+            "2.18->3.37",
+            "2.2->2.18",
+            "2.2->2.20",
+            "2.2->2.3",
+            "2.2->2.4",
+            "2.3->2.10",
+            "2.3->2.11",
+            "2.3->2.14",
+            "2.3->2.4",
+            "2.3->2.5",
+            "2.3->2.6",
+            "2.3->2.7",
+            "2.3->2.8",
+            "2.3->3.0",
+            "2.3->3.1",
+            "2.3->3.32",
+            "2.3->3.33",
+            "2.3->3.35",
+            "2.3->3.36",
+            "2.3->3.39",
+            "2.3->3.4",
+            "2.3->3.7",
+            "2.3->3.9",
+            "2.4->2.5",
+            "2.4->2.6",
+            "2.4->2.7",
+            "2.4->2.8",
+            "2.4->2.9",
+            "2.4->3.3",
+            "2.4->3.38",
+            "2.4->3.39",
+            "2.4->3.44",
+            "2.5->2.10",
+            "2.5->2.11",
+            "2.5->2.14",
+            "2.5->2.6",
+            "2.5->3.0",
+            "2.5->3.1",
+            "2.5->3.4",
+            "2.5->3.40",
+            "2.5->3.49",
+            "2.5->3.7",
+            "2.5->3.9",
+            "2.6->2.12",
+            "2.6->2.7",
+            "2.6->2.8",
+            "2.6->2.9",
+            "2.6->3.0",
+            "2.6->3.42",
+            "2.6->3.43",
+            "2.6->3.6",
+            "2.7->2.12",
+            "2.7->2.8",
+            "2.7->3.0",
+            "2.7->3.11",
+            "2.7->3.12",
+            "2.7->3.19",
+            "2.7->3.2",
+            "2.7->3.3",
+            "2.7->3.31",
+            "2.7->3.34",
+            "2.7->3.4",
+            "2.7->3.40",
+            "2.7->3.5",
+            "2.7->3.7",
+            "2.8->2.11",
+            "2.8->2.12",
+            "2.8->2.13",
+            "2.8->2.22",
+            "2.8->2.9",
+            "2.8->3.11",
+            "2.8->3.2",
+            "2.8->3.3",
+            "2.8->3.33",
+            "2.8->3.40",
+            "2.8->3.7",
+            "2.8->3.8",
+            "2.9->2.13",
+            "2.9->2.15",
+            "2.9->2.16",
+            "2.9->2.17",
+            "2.9->2.21",
+            "2.9->3.9",
+            "3.0->3.1",
+            "3.0->3.11",
+            "3.0->3.12",
+            "3.0->3.13",
+            "3.0->3.14",
+            "3.0->3.15",
+            "3.0->3.17",
+            "3.0->3.18",
+            "3.0->3.2",
+            "3.0->3.20",
+            "3.0->3.24",
+            "3.0->3.25",
+            "3.0->3.27",
+            "3.0->3.3",
+            "3.0->3.31",
+            "3.0->3.36",
+            "3.0->3.42",
+            "3.0->3.49",
+            "3.0->3.5",
+            "3.0->4.0",
+            "3.0->4.18",
+            "3.1->3.10",
+            "3.1->3.12",
+            "3.1->3.13",
+            "3.1->3.14",
+            "3.1->3.15",
+            "3.1->3.17",
+            "3.1->3.18",
+            "3.1->3.2",
+            "3.1->3.20",
+            "3.1->3.21",
+            "3.1->3.24",
+            "3.1->3.25",
+            "3.1->3.27",
+            "3.1->3.32",
+            "3.1->3.4",
+            "3.1->3.5",
+            "3.1->3.6",
+            "3.1->4.2",
+            "3.1->4.22",
+            "3.10->3.16",
+            "3.10->3.29",
+            "3.10->3.30",
+            "3.10->3.35",
+            "3.11->4.12",
+            "3.12->3.14",
+            "3.12->3.15",
+            "3.12->3.33",
+            "3.12->4.4",
+            "3.13->3.14",
+            "3.13->3.45",
+            "3.13->3.48",
+            "3.13->4.0",
+            "3.14->3.15",
+            "3.14->3.17",
+            "3.14->3.21",
+            "3.14->3.24",
+            "3.14->3.25",
+            "3.14->3.28",
+            "3.14->4.0",
+            "3.14->4.13",
+            "3.14->4.17",
+            "3.14->4.2",
+            "3.15->3.16",
+            "3.15->3.19",
+            "3.15->3.26",
+            "3.15->3.34",
+            "3.15->3.35",
+            "3.15->4.16",
+            "3.15->4.22",
+            "3.15->4.3",
+            "3.17->3.18",
+            "3.17->3.27",
+            "3.17->4.0",
+            "3.17->4.1",
+            "3.18->3.45",
+            "3.19->3.23",
+            "3.19->3.34",
+            "3.19->4.10",
+            "3.19->4.26",
+            "3.19->4.5",
+            "3.2->3.5",
+            "3.2->3.6",
+            "3.20->3.36",
+            "3.20->4.11",
+            "3.20->4.15",
+            "3.20->4.18",
+            "3.20->4.20",
+            "3.20->4.6",
+            "3.21->3.1",
+            "3.21->3.22",
+            "3.21->3.23",
+            "3.21->3.24",
+            "3.21->3.39",
+            "3.21->3.42",
+            "3.22->3.26",
+            "3.22->3.35",
+            "3.22->4.0",
+            "3.23->4.8",
+            "3.24->3.25",
+            "3.24->3.38",
+            "3.24->3.47",
+            "3.24->4.0",
+            "3.24->4.2",
+            "3.24->4.31",
+            "3.25->3.28",
+            "3.25->3.31",
+            "3.25->4.19",
+            "3.25->4.2",
+            "3.25->4.24",
+            "3.25->4.31",
+            "3.25->4.4",
+            "3.25->4.6",
+            "3.26->3.36",
+            "3.27->3.43",
+            "3.27->3.46",
+            "3.27->4.0",
+            "3.27->4.1",
+            "3.27->4.14",
+            "3.27->4.7",
+            "3.27->4.9",
+            "3.28->3.30",
+            "3.28->3.38",
+            "3.28->3.44",
+            "3.28->3.47",
+            "3.28->4.0",
+            "3.28->4.2",
+            "3.28->4.6",
+            "3.3->3.10",
+            "3.3->3.16",
+            "3.3->3.28",
+            "3.3->3.30",
+            "3.3->3.38",
+            "3.3->4.21",
+            "3.3->4.22",
+            "3.31->3.32",
+            "3.31->3.33",
+            "3.31->3.49",
+            "3.32->3.49",
+            "3.38->3.47",
+            "3.39->3.41",
+            "3.4->3.10",
+            "3.4->3.16",
+            "3.4->3.19",
+            "3.4->3.22",
+            "3.4->3.23",
+            "3.4->3.29",
+            "3.4->3.34",
+            "3.4->3.8",
+            "3.4->4.0",
+            "3.4->4.1",
+            "3.4->4.10",
+            "3.4->4.5",
+            "3.4->4.8",
+            "3.40->3.4",
+            "3.40->3.41",
+            "3.40->3.42",
+            "3.43->3.44",
+            "3.43->3.45",
+            "3.43->3.46",
+            "3.44->3.45",
+            "3.44->3.47",
+            "3.44->4.0",
+            "3.45->3.46",
+            "3.45->3.48",
+            "3.46->3.48",
+            "3.49->4.22",
+            "3.5->3.11",
+            "3.5->3.12",
+            "3.5->3.13",
+            "3.5->3.19",
+            "3.5->3.20",
+            "3.5->3.21",
+            "3.5->3.22",
+            "3.5->3.26",
+            "3.5->3.6",
+            "3.5->3.9",
+            "3.5->4.19",
+            "3.5->4.8",
+            "3.6->3.17",
+            "3.6->3.20",
+            "3.6->3.26",
+            "3.6->4.1",
+            "3.6->4.20",
+            "3.7->3.13",
+            "3.7->3.22",
+            "3.7->3.23",
+            "3.7->3.29",
+            "3.7->3.8",
+            "3.9->3.10",
+            "3.9->3.16",
+            "3.9->3.29",
+            "3.9->3.30",
+            "4.0->4.1",
+            "4.0->4.10",
+            "4.0->4.11",
+            "4.0->4.12",
+            "4.0->4.2",
+            "4.0->4.20",
+            "4.0->4.3",
+            "4.0->4.4",
+            "4.0->4.6",
+            "4.0->4.7",
+            "4.0->4.8",
+            "4.0->4.9",
+            "4.1->4.11",
+            "4.1->4.14",
+            "4.1->4.15",
+            "4.1->4.20",
+            "4.1->4.3",
+            "4.1->4.5",
+            "4.1->4.9",
+            "4.10->4.26",
+            "4.10->5.3",
+            "4.11->4.15",
+            "4.11->4.18",
+            "4.12->4.23",
+            "4.12->4.25",
+            "4.12->4.27",
+            "4.12->4.28",
+            "4.12->4.29",
+            "4.12->4.30",
+            "4.12->4.32",
+            "4.12->5.25",
+            "4.12->5.9",
+            "4.13->4.14",
+            "4.13->4.16",
+            "4.13->4.17",
+            "4.2->4.14",
+            "4.2->4.17",
+            "4.2->4.21",
+            "4.2->4.3",
+            "4.2->4.31",
+            "4.2->5.14",
+            "4.2->5.27",
+            "4.20->4.24",
+            "4.20->4.31",
+            "4.21->4.22",
+            "4.21->5.21",
+            "4.23->4.12",
+            "4.23->4.24",
+            "4.23->4.28",
+            "4.23->4.32",
+            "4.23->4.6",
+            "4.23->5.9",
+            "4.24->4.12",
+            "4.24->4.25",
+            "4.24->5.9",
+            "4.24->6.15",
+            "4.24->6.16",
+            "4.25->4.27",
+            "4.25->4.28",
+            "4.25->4.29",
+            "4.25->4.30",
+            "4.25->4.32",
+            "4.25->5.22",
+            "4.25->5.24",
+            "4.25->5.5",
+            "4.25->5.9",
+            "4.25->6.15",
+            "4.25->6.16",
+            "4.25->6.6",
+            "4.26->4.23",
+            "4.26->4.24",
+            "4.26->4.25",
+            "4.26->4.27",
+            "4.26->4.31",
+            "4.26->5.9",
+            "4.27->4.25",
+            "4.27->5.22",
+            "4.27->5.24",
+            "4.27->5.33",
+            "4.27->5.5",
+            "4.27->5.9",
+            "4.27->6.15",
+            "4.27->6.16",
+            "4.28->5.13",
+            "4.28->5.15",
+            "4.28->5.22",
+            "4.28->5.23",
+            "4.28->5.28",
+            "4.28->5.3",
+            "4.28->5.5",
+            "4.28->5.9",
+            "4.29->5.32",
+            "4.29->5.9",
+            "4.29->6.15",
+            "4.29->6.16",
+            "4.3->4.11",
+            "4.3->4.12",
+            "4.3->4.13",
+            "4.3->4.16",
+            "4.3->4.21",
+            "4.3->4.23",
+            "4.3->4.25",
+            "4.3->4.4",
+            "4.3->4.5",
+            "4.3->4.6",
+            "4.3->4.7",
+            "4.3->4.9",
+            "4.3->5.0",
+            "4.3->5.1",
+            "4.3->5.11",
+            "4.3->5.2",
+            "4.3->5.20",
+            "4.3->5.21",
+            "4.3->5.26",
+            "4.3->5.5",
+            "4.3->5.6",
+            "4.3->5.7",
+            "4.3->5.8",
+            "4.3->5.9",
+            "4.3->6.0",
+            "4.3->6.1",
+            "4.30->5.24",
+            "4.30->5.25",
+            "4.30->5.30",
+            "4.30->5.9",
+            "4.30->6.15",
+            "4.30->6.16",
+            "4.31->4.20",
+            "4.31->4.26",
+            "4.31->4.6",
+            "4.31->5.3",
+            "4.31->5.5",
+            "4.32->4.28",
+            "4.32->5.22",
+            "4.32->5.24",
+            "4.32->5.27",
+            "4.32->5.31",
+            "4.32->5.32",
+            "4.4->4.19",
+            "4.4->4.26",
+            "4.4->5.17",
+            "4.5->4.7",
+            "4.5->5.0",
+            "4.5->5.1",
+            "4.5->5.10",
+            "4.5->5.11",
+            "4.5->5.15",
+            "4.5->5.7",
+            "4.5->5.8",
+            "4.6->4.11",
+            "4.6->4.13",
+            "4.6->4.16",
+            "4.6->4.17",
+            "4.6->4.20",
+            "4.6->4.21",
+            "4.6->4.23",
+            "4.6->4.24",
+            "4.6->4.26",
+            "4.6->4.28",
+            "4.6->4.29",
+            "4.6->4.30",
+            "4.6->4.32",
+            "4.6->4.9",
+            "4.6->5.13",
+            "4.6->5.23",
+            "4.6->5.26",
+            "4.6->5.3",
+            "4.6->5.4",
+            "4.6->5.5",
+            "4.6->5.6",
+            "4.7->4.12",
+            "4.7->5.0",
+            "4.7->5.10",
+            "4.7->5.18",
+            "4.7->5.19",
+            "4.7->5.2",
+            "4.7->5.23",
+            "4.7->5.4",
+            "4.8->4.10",
+            "4.8->4.13",
+            "4.8->4.29",
+            "4.8->4.32",
+            "4.8->5.16",
+            "4.8->6.14",
+            "4.9->4.15",
+            "5.0->5.1",
+            "5.0->5.10",
+            "5.0->5.13",
+            "5.0->5.18",
+            "5.0->5.2",
+            "5.0->5.3",
+            "5.0->5.4",
+            "5.0->5.5",
+            "5.0->5.6",
+            "5.0->5.7",
+            "5.0->5.8",
+            "5.0->5.9",
+            "5.1->5.18",
+            "5.10->5.19",
+            "5.10->5.20",
+            "5.18->5.19",
+            "5.19->5.20",
+            "5.20->5.21",
+            "5.20->6.23",
+            "5.21->6.22",
+            "5.22->5.14",
+            "5.22->5.24",
+            "5.22->5.28",
+            "5.22->5.29",
+            "5.22->5.33",
+            "5.22->5.5",
+            "5.22->5.9",
+            "5.22->6.15",
+            "5.22->6.16",
+            "5.23->4.23",
+            "5.23->4.25",
+            "5.23->5.22",
+            "5.23->5.24",
+            "5.23->5.29",
+            "5.23->5.9",
+            "5.24->5.14",
+            "5.24->5.25",
+            "5.24->5.27",
+            "5.24->5.29",
+            "5.24->5.30",
+            "5.24->5.31",
+            "5.24->5.32",
+            "5.24->5.33",
+            "5.24->5.5",
+            "5.24->6.15",
+            "5.24->6.16",
+            "5.24->6.6",
+            "5.24->6.9",
+            "5.25->5.14",
+            "5.25->5.30",
+            "5.25->5.5",
+            "5.25->5.9",
+            "5.25->6.15",
+            "5.25->6.16",
+            "5.25->6.9",
+            "5.26->5.22",
+            "5.26->5.23",
+            "5.26->5.24",
+            "5.26->5.25",
+            "5.26->5.30",
+            "5.26->5.31",
+            "5.26->5.33",
+            "5.27->5.14",
+            "5.27->5.24",
+            "5.27->5.25",
+            "5.27->5.28",
+            "5.27->5.31",
+            "5.27->6.15",
+            "5.27->6.16",
+            "5.28->5.24",
+            "5.28->5.27",
+            "5.28->5.9",
+            "5.29->5.24",
+            "5.29->5.27",
+            "5.29->5.30",
+            "5.29->5.31",
+            "5.29->5.32",
+            "5.3->5.11",
+            "5.3->5.13",
+            "5.3->6.17",
+            "5.30->5.25",
+            "5.30->5.31",
+            "5.30->5.9",
+            "5.30->6.15",
+            "5.30->6.16",
+            "5.31->5.24",
+            "5.31->5.25",
+            "5.31->5.26",
+            "5.31->5.30",
+            "5.32->5.25",
+            "5.32->5.30",
+            "5.32->5.31",
+            "5.33->5.31",
+            "5.4->5.15",
+            "5.4->5.22",
+            "5.4->5.23",
+            "5.5->5.12",
+            "5.5->5.14",
+            "5.5->5.22",
+            "5.5->5.23",
+            "5.5->5.26",
+            "5.5->5.27",
+            "5.5->5.28",
+            "5.5->6.0",
+            "5.7->5.12",
+            "5.7->5.16",
+            "5.7->5.17",
+            "5.7->6.0",
+            "5.7->6.1",
+            "5.7->6.13",
+            "5.7->6.14",
+            "5.7->6.2",
+            "5.7->6.4",
+            "5.7->6.5",
+            "5.7->6.7",
+            "5.7->7.0",
+            "5.7->7.1",
+            "5.7->7.3",
+            "5.7->7.7",
+            "5.8->5.12",
+            "5.8->5.16",
+            "5.9->5.24",
+            "5.9->5.25",
+            "5.9->5.26",
+            "5.9->6.15",
+            "5.9->6.16",
+            "5.9->6.21",
+            "6.0->6.1",
+            "6.0->6.10",
+            "6.0->6.11",
+            "6.0->6.12",
+            "6.0->6.13",
+            "6.0->6.15",
+            "6.0->6.16",
+            "6.0->6.17",
+            "6.0->6.2",
+            "6.0->6.23",
+            "6.0->6.3",
+            "6.0->6.4",
+            "6.0->6.5",
+            "6.0->6.6",
+            "6.0->6.7",
+            "6.0->6.8",
+            "6.0->6.9",
+            "6.0->7.0",
+            "6.1->6.14",
+            "6.1->6.17",
+            "6.1->6.18",
+            "6.1->6.2",
+            "6.1->6.3",
+            "6.1->6.4",
+            "6.1->6.5",
+            "6.1->6.6",
+            "6.1->6.7",
+            "6.1->7.2",
+            "6.11->6.12",
+            "6.11->6.19",
+            "6.11->7.0",
+            "6.11->7.1",
+            "6.11->7.20",
+            "6.12->7.10",
+            "6.12->7.14",
+            "6.12->7.15",
+            "6.12->7.16",
+            "6.12->7.2",
+            "6.12->7.3",
+            "6.12->7.5",
+            "6.12->7.6",
+            "6.12->7.8",
+            "6.18->6.19",
+            "6.18->6.20",
+            "6.19->7.12",
+            "6.19->7.18",
+            "6.19->7.19",
+            "6.2->6.10",
+            "6.2->6.18",
+            "6.2->6.22",
+            "6.2->6.3",
+            "6.2->6.8",
+            "6.20->7.1",
+            "6.22->6.23",
+            "6.22->6.24",
+            "6.23->6.24",
+            "6.3->6.11",
+            "6.3->6.18",
+            "6.3->6.19",
+            "6.3->6.21",
+            "6.3->6.24",
+            "6.3->6.6",
+            "6.3->6.9",
+            "6.3->7.23",
+            "6.4->6.20",
+            "6.6->6.20",
+            "6.6->6.21",
+            "6.6->7.20",
+            "6.7->6.10",
+            "6.7->6.13",
+            "6.7->6.15",
+            "6.7->6.16",
+            "6.7->6.22",
+            "6.7->6.8",
+            "6.8->6.11",
+            "6.8->6.12",
+            "6.8->6.9",
+            "6.8->7.13",
+            "6.8->7.14",
+            "6.8->7.4",
+            "6.8->7.6",
+            "6.8->7.7",
+            "6.8->7.9",
+            "7.0->7.1",
+            "7.0->7.2",
+            "7.0->7.7",
+            "7.1->7.2",
+            "7.1->7.3",
+            "7.1->7.4",
+            "7.1->7.5",
+            "7.1->7.7",
+            "7.1->7.8",
+            "7.10->7.11",
+            "7.10->7.13",
+            "7.10->7.17",
+            "7.10->7.20",
+            "7.10->7.24",
+            "7.11->7.12",
+            "7.11->7.22",
+            "7.11->7.24",
+            "7.12->7.14",
+            "7.12->7.18",
+            "7.12->7.19",
+            "7.12->7.22",
+            "7.14->7.15",
+            "7.14->7.16",
+            "7.14->7.18",
+            "7.14->7.21",
+            "7.14->7.22",
+            "7.14->7.23",
+            "7.15->7.16",
+            "7.15->7.21",
+            "7.16->7.18",
+            "7.16->7.21",
+            "7.16->7.22",
+            "7.17->7.24",
+            "7.18->7.21",
+            "7.18->7.23",
+            "7.19->7.17",
+            "7.19->7.20",
+            "7.19->7.22",
+            "7.19->7.23",
+            "7.2->7.11",
+            "7.2->7.12",
+            "7.2->7.13",
+            "7.2->7.3",
+            "7.2->7.4",
+            "7.2->7.5",
+            "7.2->7.6",
+            "7.2->7.7",
+            "7.2->7.8",
+            "7.21->7.22",
+            "7.21->7.23",
+            "7.21->7.24",
+            "7.3->7.10",
+            "7.3->7.17",
+            "7.3->7.4",
+            "7.3->7.5",
+            "7.3->7.6",
+            "7.3->7.7",
+            "7.3->7.9",
+            "7.4->7.10",
+            "7.4->7.14",
+            "7.4->7.15",
+            "7.4->7.5",
+            "7.4->7.6",
+            "7.4->7.8",
+            "7.4->7.9",
+            "7.5->7.10",
+            "7.5->7.11",
+            "7.5->7.13",
+            "7.5->7.14",
+            "7.5->7.15",
+            "7.5->7.19",
+            "7.5->7.20",
+            "7.6->7.10",
+            "7.6->7.11",
+            "7.6->7.12",
+            "7.6->7.14",
+            "7.6->7.15",
+            "7.6->7.16",
+            "7.6->7.17",
+            "7.6->7.18",
+            "7.6->7.19",
+            "7.6->7.20",
+            "7.6->7.8",
+            "7.6->7.9",
+            "7.8->7.10",
+            "7.8->7.11",
+            "7.8->7.12",
+            "7.8->7.13",
+            "7.8->7.14",
+            "7.8->7.15",
+            "7.8->7.16",
+            "7.8->7.17",
+            "7.8->7.18",
+            "7.8->7.19",
+            "7.8->7.20",
+            "7.8->7.21",
+            "7.8->7.9",
+            "7.9->7.11",
+            "7.9->7.13",
+            "7.9->7.17",
+            "7.9->7.24"
+          ],
+          "incomingBoundaryEdgeIds": [
+            "0.15->0.0",
+            "0.16->0.1",
+            "0.16->0.2"
+          ],
+          "kind": "induced",
+          "nodeIds": [
+            "0.0",
+            "0.1",
+            "0.2"
+          ],
+          "outgoingBoundaryEdgeIds": [
+            "0.1->0.3",
+            "0.1->0.4",
+            "0.1->0.5",
+            "0.2->0.3",
+            "0.2->0.4",
+            "0.2->0.5"
+          ],
+          "scopeHash": "sha256:935e73da4f997dc2900f8db323b57b3e771ac536dfbee931fd131d84abdac5e9",
+          "sourceEdgeCount": 971,
+          "sourceNodeCount": 249,
+          "sourceProjectionHash": "sha256:55ff170ca681151f93e2fc1d3bedb91acf34d158930f7d37e1453b7b671168d8"
+        }
+      },
+      "probes": [
+        {
+          "execution": {
+            "appliedCount": 0,
+            "reason": "no-eligible-targets",
+            "rejectedCount": 0,
+            "state": "unavailable",
+            "targetCount": 0
+          },
+          "probe": {
+            "contentHash": "sha256:e34b09111206809eefb62c085a1579fef8ffd1abd00bcd0668d84970eb39ffb8",
+            "id": "feedback-edge-ablation-v1",
+            "version": "1"
+          },
+          "probeHash": "sha256:8f515165ef61be4f4bcc4c2cc56ce19acc634011c9c0eb2b3c1f242aefd0ab33",
+          "runs": [],
+          "selection": {
+            "knownEligibleSourceEdgeIds": [],
+            "state": "complete",
+            "unknownSourceEdgeIds": []
+          },
+          "summary": {
+            "counts": {
+              "changed": 0,
+              "indeterminate": 0,
+              "rejected": 0,
+              "unchanged": 0
+            },
+            "coverage": {
+              "complete": false,
+              "denominator": 0,
+              "numerator": 0
+            },
+            "diagnostics": {
+              "effectHistogram": []
+            },
+            "status": "indeterminate"
+          }
+        },
+        {
+          "execution": {
+            "appliedCount": 2,
+            "reason": null,
+            "rejectedCount": 0,
+            "state": "completed",
+            "targetCount": 2
+          },
+          "probe": {
+            "contentHash": "sha256:3ee91de04581d927b52be13da134ccb353c9eaa833b19748339d65a59270748b",
+            "id": "necessary-parent-ablation-v1",
+            "version": "1"
+          },
+          "probeHash": "sha256:890463cc9829d2a70eb6b0369e8daef68d1d94627fdb1f6dff8b8dd9d7efb19e",
+          "runs": [
+            {
+              "beforeGraphHash": "sha256:216594deb103df53549c88d70455bc82fd1fcce44e354c6780a8ba2091379bc4",
+              "changes": {
+                "removedSourceEdgeIds": [
+                  "0.0->0.1"
+                ],
+                "reversedSourceEdgeIds": []
+              },
+              "edgeMapping": [
+                {
+                  "action": "removed",
+                  "afterEdgeId": null,
+                  "beforeEdgeId": "e000",
+                  "sourceEdgeId": "0.0->0.1"
+                },
+                {
+                  "action": "preserved",
+                  "afterEdgeId": "e001",
+                  "beforeEdgeId": "e001",
+                  "sourceEdgeId": "0.0->0.2"
+                }
+              ],
+              "execution": "applied",
+              "graph": {
+                "edges": [
+                  {
+                    "id": "e001",
+                    "source": "n000",
+                    "target": "n002",
+                    "types": {
+                      "causalDirectionIds": [
+                        0
+                      ],
+                      "dependencyTypeId": 10,
+                      "interactionModeIds": [
+                        3
+                      ],
+                      "necessity": "necessary",
+                      "ontologicalRole": "arising"
+                    }
+                  }
+                ],
+                "graphHash": "sha256:8e0a6cb92936a327eb9fc8235d3e8681578509f7fb86f3a2fccf1aae69acb8a2",
+                "kind": "structural-shadow-graph",
+                "nodes": [
+                  {
+                    "id": "n000"
+                  },
+                  {
+                    "id": "n001"
+                  },
+                  {
+                    "id": "n002"
+                  }
+                ],
+                "regime": {
+                  "contentHash": "sha256:5fe49b9439e107998e170cf8cf1e690598dfe8937321f5202ac4c2f270414868",
+                  "id": "typed-relations-v1",
+                  "version": "1"
+                },
+                "schemaVersion": "1",
+                "source": {
+                  "contextHash": "sha256:00eb66ecfb169ba5a49a10d5107d83861a2b1fd0555c52ea9c8d0832889b359d",
+                  "scopeHash": "sha256:935e73da4f997dc2900f8db323b57b3e771ac536dfbee931fd131d84abdac5e9"
+                }
+              },
+              "observation": {
+                "adapter": {
+                  "contentHash": "sha256:dbe19f3c95fb97213d7b4631119124e3e3b3e36237caae0009de867868b0b68b",
+                  "id": "response-shadow-observation-adapter-v1",
+                  "version": "1"
+                },
+                "artifactHash": "sha256:d2996c0aac345ef0ed919fe8f49655bb503a64bd58ccfeb2ba2c5e2b68fd4b3f",
+                "graphHash": "sha256:8e0a6cb92936a327eb9fc8235d3e8681578509f7fb86f3a2fccf1aae69acb8a2",
+                "observations": [
+                  {
+                    "availability": "observed",
+                    "implementation": {
+                      "contentHash": "sha256:953f5ae6ad1fee7069058ac66116848c7b3981850feaf9a1c84d216325ba60e3",
+                      "id": "typed-directed-observation-v1",
+                      "version": "1"
+                    },
+                    "missing": [],
+                    "observable": {
+                      "contentHash": "sha256:48f137781781c54724e172256925e44c9a2be42a08610c88abaca8a9f6016e7b",
+                      "id": "canonical-directed-structure-v1",
+                      "version": "1"
+                    },
+                    "value": {
+                      "edges": [
+                        {
+                          "from": 2,
+                          "to": 1
+                        }
+                      ],
+                      "nodeCount": 3
+                    },
+                    "valueHash": "sha256:f973ce09f60382543a7b64bc76e3a6d4014014b35ebc48ce821cc3cc8a398946"
+                  },
+                  {
+                    "availability": "observed",
+                    "implementation": {
+                      "contentHash": "sha256:953f5ae6ad1fee7069058ac66116848c7b3981850feaf9a1c84d216325ba60e3",
+                      "id": "typed-directed-observation-v1",
+                      "version": "1"
+                    },
+                    "missing": [],
+                    "observable": {
+                      "contentHash": "sha256:3df933040d1a5002b2338cf07b11eefd68e63f76597e72873d897fd3ea86efd3",
+                      "id": "canonical-typed-directed-structure-v1",
+                      "version": "1"
+                    },
+                    "value": {
+                      "edges": [
+                        {
+                          "from": 2,
+                          "to": 1,
+                          "types": {
+                            "causalDirectionIds": [
+                              0
+                            ],
+                            "dependencyTypeId": 10,
+                            "interactionModeIds": [
+                              3
+                            ],
+                            "necessity": "necessary",
+                            "ontologicalRole": "arising"
+                          }
+                        }
+                      ],
+                      "nodeCount": 3
+                    },
+                    "valueHash": "sha256:c157828e265fc77cadc378b97f0759df9befabe4038634c19c895895a09ba5d3"
+                  }
+                ],
+                "source": {
+                  "contextHash": "sha256:00eb66ecfb169ba5a49a10d5107d83861a2b1fd0555c52ea9c8d0832889b359d",
+                  "scopeHash": "sha256:935e73da4f997dc2900f8db323b57b3e771ac536dfbee931fd131d84abdac5e9"
+                },
+                "work": {
+                  "canonicalizerCalls": 2
+                }
+              },
+              "rejection": null,
+              "response": {
+                "components": [
+                  {
+                    "delta": null,
+                    "observableId": "canonical-directed-structure-v1",
+                    "state": "different"
+                  },
+                  {
+                    "delta": null,
+                    "observableId": "canonical-typed-directed-structure-v1",
+                    "state": "different"
+                  }
+                ],
+                "coverage": {
+                  "complete": true,
+                  "denominator": 2,
+                  "numerator": 2
+                },
+                "status": "changed"
+              },
+              "runHash": "sha256:9989791a5d92543fb2301b14e67048de67f6e83ff67b5ccf76428cbb551169d4",
+              "target": {
+                "kind": "edge",
+                "shadowEdgeIds": [
+                  "e000"
+                ],
+                "shadowNodeIds": [
+                  "n000",
+                  "n001"
+                ],
+                "sourceEdgeIds": [
+                  "0.0->0.1"
+                ],
+                "sourceNodeIds": [
+                  "0.0",
+                  "0.1"
+                ]
+              },
+              "transformation": "remove-edges"
+            },
+            {
+              "beforeGraphHash": "sha256:216594deb103df53549c88d70455bc82fd1fcce44e354c6780a8ba2091379bc4",
+              "changes": {
+                "removedSourceEdgeIds": [
+                  "0.0->0.2"
+                ],
+                "reversedSourceEdgeIds": []
+              },
+              "edgeMapping": [
+                {
+                  "action": "preserved",
+                  "afterEdgeId": "e000",
+                  "beforeEdgeId": "e000",
+                  "sourceEdgeId": "0.0->0.1"
+                },
+                {
+                  "action": "removed",
+                  "afterEdgeId": null,
+                  "beforeEdgeId": "e001",
+                  "sourceEdgeId": "0.0->0.2"
+                }
+              ],
+              "execution": "applied",
+              "graph": {
+                "edges": [
+                  {
+                    "id": "e000",
+                    "source": "n000",
+                    "target": "n001",
+                    "types": {
+                      "causalDirectionIds": [
+                        0
+                      ],
+                      "dependencyTypeId": 10,
+                      "interactionModeIds": [
+                        3
+                      ],
+                      "necessity": "necessary",
+                      "ontologicalRole": "arising"
+                    }
+                  }
+                ],
+                "graphHash": "sha256:28d2c3b86da6f8afd6fe49ca0f28c5e772302844d3c239306815097ac71c4e57",
+                "kind": "structural-shadow-graph",
+                "nodes": [
+                  {
+                    "id": "n000"
+                  },
+                  {
+                    "id": "n001"
+                  },
+                  {
+                    "id": "n002"
+                  }
+                ],
+                "regime": {
+                  "contentHash": "sha256:5fe49b9439e107998e170cf8cf1e690598dfe8937321f5202ac4c2f270414868",
+                  "id": "typed-relations-v1",
+                  "version": "1"
+                },
+                "schemaVersion": "1",
+                "source": {
+                  "contextHash": "sha256:00eb66ecfb169ba5a49a10d5107d83861a2b1fd0555c52ea9c8d0832889b359d",
+                  "scopeHash": "sha256:935e73da4f997dc2900f8db323b57b3e771ac536dfbee931fd131d84abdac5e9"
+                }
+              },
+              "observation": {
+                "adapter": {
+                  "contentHash": "sha256:dbe19f3c95fb97213d7b4631119124e3e3b3e36237caae0009de867868b0b68b",
+                  "id": "response-shadow-observation-adapter-v1",
+                  "version": "1"
+                },
+                "artifactHash": "sha256:f0d87a51b59a303cda3ceb83ed948251fdf47e7dedd4673b3d518e8f15913868",
+                "graphHash": "sha256:28d2c3b86da6f8afd6fe49ca0f28c5e772302844d3c239306815097ac71c4e57",
+                "observations": [
+                  {
+                    "availability": "observed",
+                    "implementation": {
+                      "contentHash": "sha256:953f5ae6ad1fee7069058ac66116848c7b3981850feaf9a1c84d216325ba60e3",
+                      "id": "typed-directed-observation-v1",
+                      "version": "1"
+                    },
+                    "missing": [],
+                    "observable": {
+                      "contentHash": "sha256:48f137781781c54724e172256925e44c9a2be42a08610c88abaca8a9f6016e7b",
+                      "id": "canonical-directed-structure-v1",
+                      "version": "1"
+                    },
+                    "value": {
+                      "edges": [
+                        {
+                          "from": 2,
+                          "to": 1
+                        }
+                      ],
+                      "nodeCount": 3
+                    },
+                    "valueHash": "sha256:f973ce09f60382543a7b64bc76e3a6d4014014b35ebc48ce821cc3cc8a398946"
+                  },
+                  {
+                    "availability": "observed",
+                    "implementation": {
+                      "contentHash": "sha256:953f5ae6ad1fee7069058ac66116848c7b3981850feaf9a1c84d216325ba60e3",
+                      "id": "typed-directed-observation-v1",
+                      "version": "1"
+                    },
+                    "missing": [],
+                    "observable": {
+                      "contentHash": "sha256:3df933040d1a5002b2338cf07b11eefd68e63f76597e72873d897fd3ea86efd3",
+                      "id": "canonical-typed-directed-structure-v1",
+                      "version": "1"
+                    },
+                    "value": {
+                      "edges": [
+                        {
+                          "from": 2,
+                          "to": 1,
+                          "types": {
+                            "causalDirectionIds": [
+                              0
+                            ],
+                            "dependencyTypeId": 10,
+                            "interactionModeIds": [
+                              3
+                            ],
+                            "necessity": "necessary",
+                            "ontologicalRole": "arising"
+                          }
+                        }
+                      ],
+                      "nodeCount": 3
+                    },
+                    "valueHash": "sha256:c157828e265fc77cadc378b97f0759df9befabe4038634c19c895895a09ba5d3"
+                  }
+                ],
+                "source": {
+                  "contextHash": "sha256:00eb66ecfb169ba5a49a10d5107d83861a2b1fd0555c52ea9c8d0832889b359d",
+                  "scopeHash": "sha256:935e73da4f997dc2900f8db323b57b3e771ac536dfbee931fd131d84abdac5e9"
+                },
+                "work": {
+                  "canonicalizerCalls": 2
+                }
+              },
+              "rejection": null,
+              "response": {
+                "components": [
+                  {
+                    "delta": null,
+                    "observableId": "canonical-directed-structure-v1",
+                    "state": "different"
+                  },
+                  {
+                    "delta": null,
+                    "observableId": "canonical-typed-directed-structure-v1",
+                    "state": "different"
+                  }
+                ],
+                "coverage": {
+                  "complete": true,
+                  "denominator": 2,
+                  "numerator": 2
+                },
+                "status": "changed"
+              },
+              "runHash": "sha256:bc22524081547c57a61344e88a4e19e69dc35b8c8a91f514a9f1876d5a6d61f6",
+              "target": {
+                "kind": "edge",
+                "shadowEdgeIds": [
+                  "e001"
+                ],
+                "shadowNodeIds": [
+                  "n000",
+                  "n002"
+                ],
+                "sourceEdgeIds": [
+                  "0.0->0.2"
+                ],
+                "sourceNodeIds": [
+                  "0.0",
+                  "0.2"
+                ]
+              },
+              "transformation": "remove-edges"
+            }
+          ],
+          "selection": {
+            "knownEligibleSourceEdgeIds": [
+              "0.0->0.1",
+              "0.0->0.2"
+            ],
+            "state": "complete",
+            "unknownSourceEdgeIds": []
+          },
+          "summary": {
+            "counts": {
+              "changed": 2,
+              "indeterminate": 0,
+              "rejected": 0,
+              "unchanged": 0
+            },
+            "coverage": {
+              "complete": true,
+              "denominator": 4,
+              "numerator": 4
+            },
+            "diagnostics": {
+              "effectHistogram": [
+                {
+                  "count": 2,
+                  "effect": {
+                    "components": [
+                      {
+                        "delta": null,
+                        "observableId": "canonical-directed-structure-v1",
+                        "state": "different"
+                      },
+                      {
+                        "delta": null,
+                        "observableId": "canonical-typed-directed-structure-v1",
+                        "state": "different"
+                      }
+                    ],
+                    "rejection": null,
+                    "status": "changed"
+                  }
+                }
+              ]
+            },
+            "status": "observed"
+          }
+        },
+        {
+          "execution": {
+            "appliedCount": 0,
+            "reason": "no-eligible-targets",
+            "rejectedCount": 0,
+            "state": "unavailable",
+            "targetCount": 0
+          },
+          "probe": {
+            "contentHash": "sha256:62b34a1e365e74604705626d28f3e239762f224888d25e9c883c321a262fda04",
+            "id": "enabling-parent-ablation-v1",
+            "version": "1"
+          },
+          "probeHash": "sha256:4ef40b48abdd37e5fc457609c71343eb2552c44fd5f65d6bea487234b2db7a5f",
+          "runs": [],
+          "selection": {
+            "knownEligibleSourceEdgeIds": [],
+            "state": "complete",
+            "unknownSourceEdgeIds": []
+          },
+          "summary": {
+            "counts": {
+              "changed": 0,
+              "indeterminate": 0,
+              "rejected": 0,
+              "unchanged": 0
+            },
+            "coverage": {
+              "complete": false,
+              "denominator": 0,
+              "numerator": 0
+            },
+            "diagnostics": {
+              "effectHistogram": []
+            },
+            "status": "indeterminate"
+          }
+        },
+        {
+          "execution": {
+            "appliedCount": 2,
+            "reason": null,
+            "rejectedCount": 0,
+            "state": "completed",
+            "targetCount": 2
+          },
+          "probe": {
+            "contentHash": "sha256:d9b288a8dfe06aa50f00206edf05900db8d2e2eb7096de222a059917f0904aa9",
+            "id": "edge-direction-reversal-v1",
+            "version": "1"
+          },
+          "probeHash": "sha256:8ab2cf8c600baacc772391999befaa5282e3d5a84ee2ea8c71b4ceac22414762",
+          "runs": [
+            {
+              "beforeGraphHash": "sha256:216594deb103df53549c88d70455bc82fd1fcce44e354c6780a8ba2091379bc4",
+              "changes": {
+                "removedSourceEdgeIds": [],
+                "reversedSourceEdgeIds": [
+                  "0.0->0.1"
+                ]
+              },
+              "edgeMapping": [
+                {
+                  "action": "reversed",
+                  "afterEdgeId": "e000",
+                  "beforeEdgeId": "e000",
+                  "sourceEdgeId": "0.0->0.1"
+                },
+                {
+                  "action": "preserved",
+                  "afterEdgeId": "e001",
+                  "beforeEdgeId": "e001",
+                  "sourceEdgeId": "0.0->0.2"
+                }
+              ],
+              "execution": "applied",
+              "graph": {
+                "edges": [
+                  {
+                    "id": "e000",
+                    "source": "n001",
+                    "target": "n000",
+                    "types": {
+                      "causalDirectionIds": [
+                        0
+                      ],
+                      "dependencyTypeId": 10,
+                      "interactionModeIds": [
+                        3
+                      ],
+                      "necessity": "necessary",
+                      "ontologicalRole": "arising"
+                    }
+                  },
+                  {
+                    "id": "e001",
+                    "source": "n000",
+                    "target": "n002",
+                    "types": {
+                      "causalDirectionIds": [
+                        0
+                      ],
+                      "dependencyTypeId": 10,
+                      "interactionModeIds": [
+                        3
+                      ],
+                      "necessity": "necessary",
+                      "ontologicalRole": "arising"
+                    }
+                  }
+                ],
+                "graphHash": "sha256:f2e9a183e5c05e36f89ce52872f83c13407b77825da3d4ba25b166824479a32d",
+                "kind": "structural-shadow-graph",
+                "nodes": [
+                  {
+                    "id": "n000"
+                  },
+                  {
+                    "id": "n001"
+                  },
+                  {
+                    "id": "n002"
+                  }
+                ],
+                "regime": {
+                  "contentHash": "sha256:5fe49b9439e107998e170cf8cf1e690598dfe8937321f5202ac4c2f270414868",
+                  "id": "typed-relations-v1",
+                  "version": "1"
+                },
+                "schemaVersion": "1",
+                "source": {
+                  "contextHash": "sha256:00eb66ecfb169ba5a49a10d5107d83861a2b1fd0555c52ea9c8d0832889b359d",
+                  "scopeHash": "sha256:935e73da4f997dc2900f8db323b57b3e771ac536dfbee931fd131d84abdac5e9"
+                }
+              },
+              "observation": {
+                "adapter": {
+                  "contentHash": "sha256:dbe19f3c95fb97213d7b4631119124e3e3b3e36237caae0009de867868b0b68b",
+                  "id": "response-shadow-observation-adapter-v1",
+                  "version": "1"
+                },
+                "artifactHash": "sha256:a3bb06a9a32ec985b8f874069fdcf1623d43af1723b3447f5b93a90a6a9234bc",
+                "graphHash": "sha256:f2e9a183e5c05e36f89ce52872f83c13407b77825da3d4ba25b166824479a32d",
+                "observations": [
+                  {
+                    "availability": "observed",
+                    "implementation": {
+                      "contentHash": "sha256:953f5ae6ad1fee7069058ac66116848c7b3981850feaf9a1c84d216325ba60e3",
+                      "id": "typed-directed-observation-v1",
+                      "version": "1"
+                    },
+                    "missing": [],
+                    "observable": {
+                      "contentHash": "sha256:48f137781781c54724e172256925e44c9a2be42a08610c88abaca8a9f6016e7b",
+                      "id": "canonical-directed-structure-v1",
+                      "version": "1"
+                    },
+                    "value": {
+                      "edges": [
+                        {
+                          "from": 0,
+                          "to": 1
+                        },
+                        {
+                          "from": 2,
+                          "to": 0
+                        }
+                      ],
+                      "nodeCount": 3
+                    },
+                    "valueHash": "sha256:e97fe59a4b41bd98132a166a3a9ef599b8f99f4773299fa074e9e7e8c6347153"
+                  },
+                  {
+                    "availability": "observed",
+                    "implementation": {
+                      "contentHash": "sha256:953f5ae6ad1fee7069058ac66116848c7b3981850feaf9a1c84d216325ba60e3",
+                      "id": "typed-directed-observation-v1",
+                      "version": "1"
+                    },
+                    "missing": [],
+                    "observable": {
+                      "contentHash": "sha256:3df933040d1a5002b2338cf07b11eefd68e63f76597e72873d897fd3ea86efd3",
+                      "id": "canonical-typed-directed-structure-v1",
+                      "version": "1"
+                    },
+                    "value": {
+                      "edges": [
+                        {
+                          "from": 0,
+                          "to": 1,
+                          "types": {
+                            "causalDirectionIds": [
+                              0
+                            ],
+                            "dependencyTypeId": 10,
+                            "interactionModeIds": [
+                              3
+                            ],
+                            "necessity": "necessary",
+                            "ontologicalRole": "arising"
+                          }
+                        },
+                        {
+                          "from": 2,
+                          "to": 0,
+                          "types": {
+                            "causalDirectionIds": [
+                              0
+                            ],
+                            "dependencyTypeId": 10,
+                            "interactionModeIds": [
+                              3
+                            ],
+                            "necessity": "necessary",
+                            "ontologicalRole": "arising"
+                          }
+                        }
+                      ],
+                      "nodeCount": 3
+                    },
+                    "valueHash": "sha256:88c6d6d16a121e4823d71d2121a5d11aaed62e7af1ddd875b4f3a74fd151ccb3"
+                  }
+                ],
+                "source": {
+                  "contextHash": "sha256:00eb66ecfb169ba5a49a10d5107d83861a2b1fd0555c52ea9c8d0832889b359d",
+                  "scopeHash": "sha256:935e73da4f997dc2900f8db323b57b3e771ac536dfbee931fd131d84abdac5e9"
+                },
+                "work": {
+                  "canonicalizerCalls": 2
+                }
+              },
+              "rejection": null,
+              "response": {
+                "components": [
+                  {
+                    "delta": null,
+                    "observableId": "canonical-directed-structure-v1",
+                    "state": "different"
+                  },
+                  {
+                    "delta": null,
+                    "observableId": "canonical-typed-directed-structure-v1",
+                    "state": "different"
+                  }
+                ],
+                "coverage": {
+                  "complete": true,
+                  "denominator": 2,
+                  "numerator": 2
+                },
+                "status": "changed"
+              },
+              "runHash": "sha256:a473a7e60131f096d27c2c741f02143a25e922c1f1a5e820f0be10b2d46aa850",
+              "target": {
+                "kind": "edge",
+                "shadowEdgeIds": [
+                  "e000"
+                ],
+                "shadowNodeIds": [
+                  "n000",
+                  "n001"
+                ],
+                "sourceEdgeIds": [
+                  "0.0->0.1"
+                ],
+                "sourceNodeIds": [
+                  "0.0",
+                  "0.1"
+                ]
+              },
+              "transformation": "reverse-edge"
+            },
+            {
+              "beforeGraphHash": "sha256:216594deb103df53549c88d70455bc82fd1fcce44e354c6780a8ba2091379bc4",
+              "changes": {
+                "removedSourceEdgeIds": [],
+                "reversedSourceEdgeIds": [
+                  "0.0->0.2"
+                ]
+              },
+              "edgeMapping": [
+                {
+                  "action": "preserved",
+                  "afterEdgeId": "e000",
+                  "beforeEdgeId": "e000",
+                  "sourceEdgeId": "0.0->0.1"
+                },
+                {
+                  "action": "reversed",
+                  "afterEdgeId": "e001",
+                  "beforeEdgeId": "e001",
+                  "sourceEdgeId": "0.0->0.2"
+                }
+              ],
+              "execution": "applied",
+              "graph": {
+                "edges": [
+                  {
+                    "id": "e000",
+                    "source": "n000",
+                    "target": "n001",
+                    "types": {
+                      "causalDirectionIds": [
+                        0
+                      ],
+                      "dependencyTypeId": 10,
+                      "interactionModeIds": [
+                        3
+                      ],
+                      "necessity": "necessary",
+                      "ontologicalRole": "arising"
+                    }
+                  },
+                  {
+                    "id": "e001",
+                    "source": "n002",
+                    "target": "n000",
+                    "types": {
+                      "causalDirectionIds": [
+                        0
+                      ],
+                      "dependencyTypeId": 10,
+                      "interactionModeIds": [
+                        3
+                      ],
+                      "necessity": "necessary",
+                      "ontologicalRole": "arising"
+                    }
+                  }
+                ],
+                "graphHash": "sha256:e8220e92b517c37e70d6bdbebc771b656b6a99947d0a99eaffccd831958ab118",
+                "kind": "structural-shadow-graph",
+                "nodes": [
+                  {
+                    "id": "n000"
+                  },
+                  {
+                    "id": "n001"
+                  },
+                  {
+                    "id": "n002"
+                  }
+                ],
+                "regime": {
+                  "contentHash": "sha256:5fe49b9439e107998e170cf8cf1e690598dfe8937321f5202ac4c2f270414868",
+                  "id": "typed-relations-v1",
+                  "version": "1"
+                },
+                "schemaVersion": "1",
+                "source": {
+                  "contextHash": "sha256:00eb66ecfb169ba5a49a10d5107d83861a2b1fd0555c52ea9c8d0832889b359d",
+                  "scopeHash": "sha256:935e73da4f997dc2900f8db323b57b3e771ac536dfbee931fd131d84abdac5e9"
+                }
+              },
+              "observation": {
+                "adapter": {
+                  "contentHash": "sha256:dbe19f3c95fb97213d7b4631119124e3e3b3e36237caae0009de867868b0b68b",
+                  "id": "response-shadow-observation-adapter-v1",
+                  "version": "1"
+                },
+                "artifactHash": "sha256:d9ec4264abf999c7bbf071c8360dbae7cb03e00184a597645b5b1ea817ae422d",
+                "graphHash": "sha256:e8220e92b517c37e70d6bdbebc771b656b6a99947d0a99eaffccd831958ab118",
+                "observations": [
+                  {
+                    "availability": "observed",
+                    "implementation": {
+                      "contentHash": "sha256:953f5ae6ad1fee7069058ac66116848c7b3981850feaf9a1c84d216325ba60e3",
+                      "id": "typed-directed-observation-v1",
+                      "version": "1"
+                    },
+                    "missing": [],
+                    "observable": {
+                      "contentHash": "sha256:48f137781781c54724e172256925e44c9a2be42a08610c88abaca8a9f6016e7b",
+                      "id": "canonical-directed-structure-v1",
+                      "version": "1"
+                    },
+                    "value": {
+                      "edges": [
+                        {
+                          "from": 0,
+                          "to": 1
+                        },
+                        {
+                          "from": 2,
+                          "to": 0
+                        }
+                      ],
+                      "nodeCount": 3
+                    },
+                    "valueHash": "sha256:e97fe59a4b41bd98132a166a3a9ef599b8f99f4773299fa074e9e7e8c6347153"
+                  },
+                  {
+                    "availability": "observed",
+                    "implementation": {
+                      "contentHash": "sha256:953f5ae6ad1fee7069058ac66116848c7b3981850feaf9a1c84d216325ba60e3",
+                      "id": "typed-directed-observation-v1",
+                      "version": "1"
+                    },
+                    "missing": [],
+                    "observable": {
+                      "contentHash": "sha256:3df933040d1a5002b2338cf07b11eefd68e63f76597e72873d897fd3ea86efd3",
+                      "id": "canonical-typed-directed-structure-v1",
+                      "version": "1"
+                    },
+                    "value": {
+                      "edges": [
+                        {
+                          "from": 0,
+                          "to": 1,
+                          "types": {
+                            "causalDirectionIds": [
+                              0
+                            ],
+                            "dependencyTypeId": 10,
+                            "interactionModeIds": [
+                              3
+                            ],
+                            "necessity": "necessary",
+                            "ontologicalRole": "arising"
+                          }
+                        },
+                        {
+                          "from": 2,
+                          "to": 0,
+                          "types": {
+                            "causalDirectionIds": [
+                              0
+                            ],
+                            "dependencyTypeId": 10,
+                            "interactionModeIds": [
+                              3
+                            ],
+                            "necessity": "necessary",
+                            "ontologicalRole": "arising"
+                          }
+                        }
+                      ],
+                      "nodeCount": 3
+                    },
+                    "valueHash": "sha256:88c6d6d16a121e4823d71d2121a5d11aaed62e7af1ddd875b4f3a74fd151ccb3"
+                  }
+                ],
+                "source": {
+                  "contextHash": "sha256:00eb66ecfb169ba5a49a10d5107d83861a2b1fd0555c52ea9c8d0832889b359d",
+                  "scopeHash": "sha256:935e73da4f997dc2900f8db323b57b3e771ac536dfbee931fd131d84abdac5e9"
+                },
+                "work": {
+                  "canonicalizerCalls": 2
+                }
+              },
+              "rejection": null,
+              "response": {
+                "components": [
+                  {
+                    "delta": null,
+                    "observableId": "canonical-directed-structure-v1",
+                    "state": "different"
+                  },
+                  {
+                    "delta": null,
+                    "observableId": "canonical-typed-directed-structure-v1",
+                    "state": "different"
+                  }
+                ],
+                "coverage": {
+                  "complete": true,
+                  "denominator": 2,
+                  "numerator": 2
+                },
+                "status": "changed"
+              },
+              "runHash": "sha256:9bf1aba8722ea9eb24da7cfd24e313b570152eb213f6dda2d7fe581a9733e8ef",
+              "target": {
+                "kind": "edge",
+                "shadowEdgeIds": [
+                  "e001"
+                ],
+                "shadowNodeIds": [
+                  "n000",
+                  "n002"
+                ],
+                "sourceEdgeIds": [
+                  "0.0->0.2"
+                ],
+                "sourceNodeIds": [
+                  "0.0",
+                  "0.2"
+                ]
+              },
+              "transformation": "reverse-edge"
+            }
+          ],
+          "selection": {
+            "knownEligibleSourceEdgeIds": [
+              "0.0->0.1",
+              "0.0->0.2"
+            ],
+            "state": "complete",
+            "unknownSourceEdgeIds": []
+          },
+          "summary": {
+            "counts": {
+              "changed": 2,
+              "indeterminate": 0,
+              "rejected": 0,
+              "unchanged": 0
+            },
+            "coverage": {
+              "complete": true,
+              "denominator": 4,
+              "numerator": 4
+            },
+            "diagnostics": {
+              "effectHistogram": [
+                {
+                  "count": 2,
+                  "effect": {
+                    "components": [
+                      {
+                        "delta": null,
+                        "observableId": "canonical-directed-structure-v1",
+                        "state": "different"
+                      },
+                      {
+                        "delta": null,
+                        "observableId": "canonical-typed-directed-structure-v1",
+                        "state": "different"
+                      }
+                    ],
+                    "rejection": null,
+                    "status": "changed"
+                  }
+                }
+              ]
+            },
+            "status": "observed"
+          }
+        },
+        {
+          "execution": {
+            "appliedCount": 0,
+            "reason": "no-eligible-targets",
+            "rejectedCount": 0,
+            "state": "unavailable",
+            "targetCount": 0
+          },
+          "probe": {
+            "contentHash": "sha256:370b3e2fc6cb4f9dcca380a8a4419c9d0dc78d24c9dd9a153dd57e627695bab1",
+            "id": "redundant-support-path-ablation-v1",
+            "version": "1"
+          },
+          "probeHash": "sha256:571b92b4d430fe5b4d7d39bda4f5c0a3487b82da8ad992f9c7d3348866f07e6e",
+          "runs": [],
+          "selection": {
+            "knownEligibleSourceEdgeIds": [],
+            "state": "complete",
+            "unknownSourceEdgeIds": []
+          },
+          "summary": {
+            "counts": {
+              "changed": 0,
+              "indeterminate": 0,
+              "rejected": 0,
+              "unchanged": 0
+            },
+            "coverage": {
+              "complete": false,
+              "denominator": 0,
+              "numerator": 0
+            },
+            "diagnostics": {
+              "effectHistogram": []
+            },
+            "status": "indeterminate"
+          }
+        }
+      ],
+      "profile": {
+        "excludedProbeIds": [],
+        "probeIds": [
+          "feedback-edge-ablation-v1",
+          "necessary-parent-ablation-v1",
+          "enabling-parent-ablation-v1",
+          "edge-direction-reversal-v1",
+          "redundant-support-path-ablation-v1"
+        ],
+        "profileHash": "sha256:e594b1dd12ef8f6652de4fedeabee963131e3e96d26b317f82e14f68655a85a1",
+        "regime": {
+          "contentHash": "sha256:5fe49b9439e107998e170cf8cf1e690598dfe8937321f5202ac4c2f270414868",
+          "id": "typed-relations-v1",
+          "version": "1"
+        }
+      },
+      "registry": {
+        "contentHash": "sha256:64d61ee79577b6e1239c1a3e7b95387e1bd7e6e330fc156c0a7208f8fd5bde8e",
+        "id": "structural-response-probes-v1",
+        "probes": [
+          {
+            "contentHash": "sha256:e34b09111206809eefb62c085a1579fef8ffd1abd00bcd0668d84970eb39ffb8",
+            "family": "response",
+            "id": "feedback-edge-ablation-v1",
+            "mandatoryWhenCompatible": true,
+            "parameters": {
+              "nodes": "retain-all",
+              "path": "single-edge",
+              "scope": "internal-edges-only"
+            },
+            "question": "feedback",
+            "regimeIds": [
+              "canonical-structure-v1",
+              "topology-only-v1",
+              "typed-relations-v1"
+            ],
+            "selector": "return-path",
+            "targets": "every-eligible-target-independently",
+            "transformation": "remove-edges",
+            "version": "1"
+          },
+          {
+            "contentHash": "sha256:3ee91de04581d927b52be13da134ccb353c9eaa833b19748339d65a59270748b",
+            "family": "response",
+            "id": "necessary-parent-ablation-v1",
+            "mandatoryWhenCompatible": true,
+            "parameters": {
+              "nodes": "retain-all",
+              "path": "single-edge",
+              "scope": "internal-edges-only"
+            },
+            "question": "declared-dependency-constraint",
+            "regimeIds": [
+              "typed-relations-v1"
+            ],
+            "selector": "necessity-necessary",
+            "targets": "every-eligible-target-independently",
+            "transformation": "remove-edges",
+            "version": "1"
+          },
+          {
+            "contentHash": "sha256:62b34a1e365e74604705626d28f3e239762f224888d25e9c883c321a262fda04",
+            "family": "response",
+            "id": "enabling-parent-ablation-v1",
+            "mandatoryWhenCompatible": true,
+            "parameters": {
+              "nodes": "retain-all",
+              "path": "single-edge",
+              "scope": "internal-edges-only"
+            },
+            "question": "declared-dependency-constraint",
+            "regimeIds": [
+              "typed-relations-v1"
+            ],
+            "selector": "necessity-enabling",
+            "targets": "every-eligible-target-independently",
+            "transformation": "remove-edges",
+            "version": "1"
+          },
+          {
+            "contentHash": "sha256:d9b288a8dfe06aa50f00206edf05900db8d2e2eb7096de222a059917f0904aa9",
+            "family": "response",
+            "id": "edge-direction-reversal-v1",
+            "mandatoryWhenCompatible": true,
+            "parameters": {
+              "nodes": "retain-all",
+              "path": "single-edge",
+              "scope": "internal-edges-only"
+            },
+            "question": "direction",
+            "regimeIds": [
+              "canonical-structure-v1",
+              "topology-only-v1",
+              "typed-relations-v1"
+            ],
+            "selector": "each-internal-edge",
+            "targets": "every-eligible-target-independently",
+            "transformation": "reverse-edge",
+            "version": "1"
+          },
+          {
+            "contentHash": "sha256:370b3e2fc6cb4f9dcca380a8a4419c9d0dc78d24c9dd9a153dd57e627695bab1",
+            "family": "response",
+            "id": "redundant-support-path-ablation-v1",
+            "mandatoryWhenCompatible": true,
+            "parameters": {
+              "nodes": "retain-all",
+              "path": "nonempty-distinct-vertices-all-lengths",
+              "scope": "internal-edges-only"
+            },
+            "question": "support-path",
+            "regimeIds": [
+              "canonical-structure-v1",
+              "topology-only-v1",
+              "typed-relations-v1"
+            ],
+            "selector": "simple-path-with-edge-disjoint-alternative",
+            "targets": "every-eligible-target-independently",
+            "transformation": "remove-edges",
+            "version": "1"
+          }
+        ],
+        "version": "1"
+      },
+      "request": {
+        "regimeId": "typed-relations-v1",
+        "scope": {
+          "kind": "induced",
+          "nodeIds": [
+            "0.0",
+            "0.1",
+            "0.2"
+          ]
+        }
+      },
+      "sandbox": {
+        "identityArtifactHash": "sha256:67385d08bf52cc3f9c3f64fc6271ff2ad117cd0c82a5ea8a396f504ba7a8ab53",
+        "policy": {
+          "contentHash": "sha256:5ca0df781b98fcf114d7d4889e0663f99722672763c3c340ff34ea0e5d81f2fe",
+          "id": "immutable-structural-probe-sandbox-v1",
+          "version": "1"
+        }
+      },
+      "schemaVersion": "1",
+      "summary": {
+        "coverage": {
+          "complete": false,
+          "denominator": 5,
+          "numerator": 2
+        },
+        "status": "indeterminate",
+        "targets": {
+          "applied": 4,
+          "rejected": 0,
+          "total": 4
+        }
+      },
+      "work": {
+        "canonicalizerCalls": 10,
+        "observationEvaluations": 5,
+        "outputGraphCount": 5,
+        "selection": {
+          "edgeScans": 4,
+          "pathExtensions": 2,
+          "reachabilitySearches": 4
+        },
+        "transformationEdgeVisits": 8
+      }
+    }
+  },
+  "features": [
+    {
+      "coverage": {
+        "complete": false,
+        "denominator": 0,
+        "numerator": 0
+      },
+      "evidence": {
+        "probeHash": "sha256:8f515165ef61be4f4bcc4c2cc56ce19acc634011c9c0eb2b3c1f242aefd0ab33"
+      },
+      "id": "feedback-response-multiset-v0",
+      "probeId": "feedback-edge-ablation-v1",
+      "reasons": [
+        {
+          "code": "no-eligible-targets",
+          "count": 1
+        }
+      ],
+      "state": "indeterminate",
+      "value": null,
+      "valueHash": null
+    },
+    {
+      "coverage": {
+        "complete": true,
+        "denominator": 4,
+        "numerator": 4
+      },
+      "evidence": {
+        "probeHash": "sha256:890463cc9829d2a70eb6b0369e8daef68d1d94627fdb1f6dff8b8dd9d7efb19e"
+      },
+      "id": "necessary-response-multiset-v0",
+      "probeId": "necessary-parent-ablation-v1",
+      "reasons": [],
+      "state": "observed",
+      "value": [
+        {
+          "components": [
+            {
+              "delta": null,
+              "observableId": "canonical-directed-structure-v1",
+              "state": "different"
+            },
+            {
+              "delta": null,
+              "observableId": "canonical-typed-directed-structure-v1",
+              "state": "different"
+            }
+          ],
+          "count": 2
+        }
+      ],
+      "valueHash": "sha256:62788940a0be44737f0fc3690a7f69609ddcffe90825d96b65a764d42a63d09d"
+    },
+    {
+      "coverage": {
+        "complete": false,
+        "denominator": 0,
+        "numerator": 0
+      },
+      "evidence": {
+        "probeHash": "sha256:4ef40b48abdd37e5fc457609c71343eb2552c44fd5f65d6bea487234b2db7a5f"
+      },
+      "id": "enabling-response-multiset-v0",
+      "probeId": "enabling-parent-ablation-v1",
+      "reasons": [
+        {
+          "code": "no-eligible-targets",
+          "count": 1
+        }
+      ],
+      "state": "indeterminate",
+      "value": null,
+      "valueHash": null
+    },
+    {
+      "coverage": {
+        "complete": true,
+        "denominator": 4,
+        "numerator": 4
+      },
+      "evidence": {
+        "probeHash": "sha256:8ab2cf8c600baacc772391999befaa5282e3d5a84ee2ea8c71b4ceac22414762"
+      },
+      "id": "direction-response-multiset-v0",
+      "probeId": "edge-direction-reversal-v1",
+      "reasons": [],
+      "state": "observed",
+      "value": [
+        {
+          "components": [
+            {
+              "delta": null,
+              "observableId": "canonical-directed-structure-v1",
+              "state": "different"
+            },
+            {
+              "delta": null,
+              "observableId": "canonical-typed-directed-structure-v1",
+              "state": "different"
+            }
+          ],
+          "count": 2
+        }
+      ],
+      "valueHash": "sha256:2ec927c7ba59bd053658954a46f701a2fffec2bcd9896f67ebdb50b881586ca0"
+    },
+    {
+      "coverage": {
+        "complete": false,
+        "denominator": 0,
+        "numerator": 0
+      },
+      "evidence": {
+        "probeHash": "sha256:571b92b4d430fe5b4d7d39bda4f5c0a3487b82da8ad992f9c7d3348866f07e6e"
+      },
+      "id": "support-response-multiset-v0",
+      "probeId": "redundant-support-path-ablation-v1",
+      "reasons": [
+        {
+          "code": "no-eligible-targets",
+          "count": 1
+        }
+      ],
+      "state": "indeterminate",
+      "value": null,
+      "valueHash": null
+    }
+  ],
+  "policy": {
+    "aggregation": "canonical-joint-row-grouping-with-multiplicity",
+    "contentHash": "sha256:00d8b7982278d47e633bcae4a8cb5bd8152009760e9e215d33a83b85afd9cb20",
+    "coverage": "observed-features-over-fixed-compatible-profile",
+    "distance": "deferred-to-R6",
+    "eligibility": "all-features-observed-and-all-invariance-controls-passed",
+    "evidence": "complete-source-bound-response-and-invariance-artifacts",
+    "features": [
+      {
+        "applicability": "nonempty-exhaustive-applied-complete-targets",
+        "coordinates": "ordered-observable-id-state-scalar-delta",
+        "id": "feedback-response-multiset-v0",
+        "mandatory": true,
+        "multiplicity": "exact-positive-integer-count",
+        "probe": {
+          "contentHash": "sha256:e34b09111206809eefb62c085a1579fef8ffd1abd00bcd0668d84970eb39ffb8",
+          "id": "feedback-edge-ablation-v1",
+          "version": "1"
+        },
+        "regimeIds": [
+          "canonical-structure-v1",
+          "topology-only-v1",
+          "typed-relations-v1"
+        ],
+        "value": "joint-complete-response-multiset"
+      },
+      {
+        "applicability": "nonempty-exhaustive-applied-complete-targets",
+        "coordinates": "ordered-observable-id-state-scalar-delta",
+        "id": "necessary-response-multiset-v0",
+        "mandatory": true,
+        "multiplicity": "exact-positive-integer-count",
+        "probe": {
+          "contentHash": "sha256:3ee91de04581d927b52be13da134ccb353c9eaa833b19748339d65a59270748b",
+          "id": "necessary-parent-ablation-v1",
+          "version": "1"
+        },
+        "regimeIds": [
+          "typed-relations-v1"
+        ],
+        "value": "joint-complete-response-multiset"
+      },
+      {
+        "applicability": "nonempty-exhaustive-applied-complete-targets",
+        "coordinates": "ordered-observable-id-state-scalar-delta",
+        "id": "enabling-response-multiset-v0",
+        "mandatory": true,
+        "multiplicity": "exact-positive-integer-count",
+        "probe": {
+          "contentHash": "sha256:62b34a1e365e74604705626d28f3e239762f224888d25e9c883c321a262fda04",
+          "id": "enabling-parent-ablation-v1",
+          "version": "1"
+        },
+        "regimeIds": [
+          "typed-relations-v1"
+        ],
+        "value": "joint-complete-response-multiset"
+      },
+      {
+        "applicability": "nonempty-exhaustive-applied-complete-targets",
+        "coordinates": "ordered-observable-id-state-scalar-delta",
+        "id": "direction-response-multiset-v0",
+        "mandatory": true,
+        "multiplicity": "exact-positive-integer-count",
+        "probe": {
+          "contentHash": "sha256:d9b288a8dfe06aa50f00206edf05900db8d2e2eb7096de222a059917f0904aa9",
+          "id": "edge-direction-reversal-v1",
+          "version": "1"
+        },
+        "regimeIds": [
+          "canonical-structure-v1",
+          "topology-only-v1",
+          "typed-relations-v1"
+        ],
+        "value": "joint-complete-response-multiset"
+      },
+      {
+        "applicability": "nonempty-exhaustive-applied-complete-targets",
+        "coordinates": "ordered-observable-id-state-scalar-delta",
+        "id": "support-response-multiset-v0",
+        "mandatory": true,
+        "multiplicity": "exact-positive-integer-count",
+        "probe": {
+          "contentHash": "sha256:370b3e2fc6cb4f9dcca380a8a4419c9d0dc78d24c9dd9a153dd57e627695bab1",
+          "id": "redundant-support-path-ablation-v1",
+          "version": "1"
+        },
+        "regimeIds": [
+          "canonical-structure-v1",
+          "topology-only-v1",
+          "typed-relations-v1"
+        ],
+        "value": "joint-complete-response-multiset"
+      }
+    ],
+    "geometry": "excluded",
+    "id": "graph-native-response-signature-v0",
+    "integrations": "graph-native-only-history-motif-admissibility-identity-unconfigured",
+    "invariance": {
+      "adapter": {
+        "contentHash": "sha256:f50bd13d6e5af467781922e8c1586916532face8b8fd11ac2a69961f318d75df",
+        "id": "invariance-shadow-observation-adapter-v1",
+        "version": "1"
+      },
+      "policy": {
+        "contentHash": "sha256:34c87772235e3c8f0f0d01384c063a8a95c1d81ab9cb58c0ed22d1a3f3b013c3",
+        "id": "measured-structural-invariance-v1",
+        "version": "1"
+      },
+      "registry": {
+        "contentHash": "sha256:bec1366254a158eb1df77ad709cb229fb8cd636dc0411a1a5c2c5b4f4f6b4862",
+        "id": "structural-invariance-probes-v1",
+        "version": "1"
+      }
+    },
+    "limits": {
+      "maxArtifactBytes": 8388608,
+      "maxCanonicalEntries": 1000000,
+      "maxCanonicalizerCalls": 140,
+      "maxFeatureComponentVisits": 448,
+      "maxFeatureRows": 64,
+      "maxFeatures": 5,
+      "maxObservationEvaluations": 70
+    },
+    "missingness": "null-whole-feature-no-partial-histogram-or-default-zero",
+    "response": {
+      "adapter": {
+        "contentHash": "sha256:dbe19f3c95fb97213d7b4631119124e3e3b3e36237caae0009de867868b0b68b",
+        "id": "response-shadow-observation-adapter-v1",
+        "version": "1"
+      },
+      "policy": {
+        "contentHash": "sha256:37059b8e846b1d100c3e6599258e223f653746a2df0243a54e220add09ea1b4c",
+        "id": "graph-native-response-probes-v1",
+        "version": "1"
+      },
+      "registry": {
+        "contentHash": "sha256:64d61ee79577b6e1239c1a3e7b95387e1bd7e6e330fc156c0a7208f8fd5bde8e",
+        "id": "structural-response-probes-v1",
+        "version": "1"
+      }
+    },
+    "typedComparison": "source-local-vocabulary-authority-required-separately",
+    "valueHash": "fixed-profile-and-value-only-no-provenance-or-availability",
+    "version": "1"
+  },
+  "profile": {
+    "features": [
+      {
+        "id": "feedback-response-multiset-v0",
+        "observables": [
+          {
+            "contentHash": "sha256:48f137781781c54724e172256925e44c9a2be42a08610c88abaca8a9f6016e7b",
+            "id": "canonical-directed-structure-v1",
+            "version": "1"
+          },
+          {
+            "contentHash": "sha256:3df933040d1a5002b2338cf07b11eefd68e63f76597e72873d897fd3ea86efd3",
+            "id": "canonical-typed-directed-structure-v1",
+            "version": "1"
+          }
+        ],
+        "probe": {
+          "contentHash": "sha256:e34b09111206809eefb62c085a1579fef8ffd1abd00bcd0668d84970eb39ffb8",
+          "id": "feedback-edge-ablation-v1",
+          "version": "1"
+        }
+      },
+      {
+        "id": "necessary-response-multiset-v0",
+        "observables": [
+          {
+            "contentHash": "sha256:48f137781781c54724e172256925e44c9a2be42a08610c88abaca8a9f6016e7b",
+            "id": "canonical-directed-structure-v1",
+            "version": "1"
+          },
+          {
+            "contentHash": "sha256:3df933040d1a5002b2338cf07b11eefd68e63f76597e72873d897fd3ea86efd3",
+            "id": "canonical-typed-directed-structure-v1",
+            "version": "1"
+          }
+        ],
+        "probe": {
+          "contentHash": "sha256:3ee91de04581d927b52be13da134ccb353c9eaa833b19748339d65a59270748b",
+          "id": "necessary-parent-ablation-v1",
+          "version": "1"
+        }
+      },
+      {
+        "id": "enabling-response-multiset-v0",
+        "observables": [
+          {
+            "contentHash": "sha256:48f137781781c54724e172256925e44c9a2be42a08610c88abaca8a9f6016e7b",
+            "id": "canonical-directed-structure-v1",
+            "version": "1"
+          },
+          {
+            "contentHash": "sha256:3df933040d1a5002b2338cf07b11eefd68e63f76597e72873d897fd3ea86efd3",
+            "id": "canonical-typed-directed-structure-v1",
+            "version": "1"
+          }
+        ],
+        "probe": {
+          "contentHash": "sha256:62b34a1e365e74604705626d28f3e239762f224888d25e9c883c321a262fda04",
+          "id": "enabling-parent-ablation-v1",
+          "version": "1"
+        }
+      },
+      {
+        "id": "direction-response-multiset-v0",
+        "observables": [
+          {
+            "contentHash": "sha256:48f137781781c54724e172256925e44c9a2be42a08610c88abaca8a9f6016e7b",
+            "id": "canonical-directed-structure-v1",
+            "version": "1"
+          },
+          {
+            "contentHash": "sha256:3df933040d1a5002b2338cf07b11eefd68e63f76597e72873d897fd3ea86efd3",
+            "id": "canonical-typed-directed-structure-v1",
+            "version": "1"
+          }
+        ],
+        "probe": {
+          "contentHash": "sha256:d9b288a8dfe06aa50f00206edf05900db8d2e2eb7096de222a059917f0904aa9",
+          "id": "edge-direction-reversal-v1",
+          "version": "1"
+        }
+      },
+      {
+        "id": "support-response-multiset-v0",
+        "observables": [
+          {
+            "contentHash": "sha256:48f137781781c54724e172256925e44c9a2be42a08610c88abaca8a9f6016e7b",
+            "id": "canonical-directed-structure-v1",
+            "version": "1"
+          },
+          {
+            "contentHash": "sha256:3df933040d1a5002b2338cf07b11eefd68e63f76597e72873d897fd3ea86efd3",
+            "id": "canonical-typed-directed-structure-v1",
+            "version": "1"
+          }
+        ],
+        "probe": {
+          "contentHash": "sha256:370b3e2fc6cb4f9dcca380a8a4419c9d0dc78d24c9dd9a153dd57e627695bab1",
+          "id": "redundant-support-path-ablation-v1",
+          "version": "1"
+        }
+      }
+    ],
+    "policy": {
+      "contentHash": "sha256:00d8b7982278d47e633bcae4a8cb5bd8152009760e9e215d33a83b85afd9cb20",
+      "id": "graph-native-response-signature-v0",
+      "version": "1"
+    },
+    "profileHash": "sha256:02ef1abdc97b58c7866605724f22800bbc8fa1b45256a3cea738f0888602c2dc",
+    "regime": {
+      "contentHash": "sha256:5fe49b9439e107998e170cf8cf1e690598dfe8937321f5202ac4c2f270414868",
+      "id": "typed-relations-v1",
+      "version": "1"
+    }
+  },
+  "request": {
+    "regimeId": "typed-relations-v1",
+    "scope": {
+      "kind": "induced",
+      "nodeIds": [
+        "0.0",
+        "0.1",
+        "0.2"
+      ]
+    }
+  },
+  "schemaVersion": "1",
+  "source": {
+    "contextHash": "sha256:00eb66ecfb169ba5a49a10d5107d83861a2b1fd0555c52ea9c8d0832889b359d",
+    "scopeHash": "sha256:935e73da4f997dc2900f8db323b57b3e771ac536dfbee931fd131d84abdac5e9"
+  },
+  "summary": {
+    "coverage": {
+      "complete": false,
+      "denominator": 5,
+      "numerator": 2
+    },
+    "invarianceStatus": "passed",
+    "reasons": [
+      "incomplete-response-features"
+    ],
+    "status": "indeterminate"
+  },
+  "value": null,
+  "valueHash": null,
+  "work": {
+    "canonicalizerCalls": 20,
+    "featureComponentVisits": 8,
+    "featureRows": 2,
+    "observationEvaluations": 10
+  }
+}

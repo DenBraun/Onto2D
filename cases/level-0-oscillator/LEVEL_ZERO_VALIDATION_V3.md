@@ -1,7 +1,5 @@
 # Integrated Level-0 portable validation
 
-Status date: 2026-08-16
-
 ## Result
 
 The complete portable-reporting pipeline reproduces a bounded negative result:
@@ -16,10 +14,10 @@ every required static and dynamic gate. Phase D therefore remains
 `not-run-no-object-qualified-nodes`. This is not empirical validation or a
 claim about all nonlinear completions.
 
-## Numerical identity migration
+## Portable numerical identity
 
-Version 3 depends on solver-v2 successors for objecthood, dynamics, and the
-expanded search. They use `portable-numeric-reporting-v1`:
+The integrated validation binds the declared objecthood, dynamics and expanded
+search solver profiles. They use `portable-numeric-reporting-v1`:
 
 - a converged residual below Newton tolerance is represented by that tolerance
   as a stable upper bound;
@@ -29,8 +27,8 @@ expanded search. They use `portable-numeric-reporting-v1`:
 - raw symmetric and antisymmetric `LDL` minimum pivots are excluded from the
   objecthood identity, while stable gate flags and Rayleigh witnesses remain.
 
-The v1 and v2 integrated models, runners, and artifacts are preserved. Version
-3 is a new contract, not an in-place reinterpretation of an old hash.
+Model and solver versions bind exact numerical contracts. Verification must use
+the versions named by the model rather than reinterpret an existing hash.
 
 ## Reproduce
 

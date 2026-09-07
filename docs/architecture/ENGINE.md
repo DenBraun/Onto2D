@@ -1,0 +1,715 @@
+# Engine
+
+Current contracts. Public APIs and schemas are checked by the repository verification suite.
+
+- [Engine and Model Pack architecture](#engine-and-model-pack-architecture)
+- [Model Pack and Engine Foundation](#model-pack-and-engine-foundation)
+- [Lineage, Local Loading, and First Registered Analysis](#lineage-local-loading-and-first-registered-analysis)
+- [Deterministic View Boundary and Initial Studio](#deterministic-view-boundary-and-initial-studio)
+- [External Level-0 Phase-B solver boundary](#external-level-0-phase-b-solver-boundary)
+- [Read-only Engine CLI composition](#read-only-engine-cli-composition)
+- [Bounded ZIP Model Pack transport](#bounded-zip-model-pack-transport)
+- [Bounded browser Model Pack loading](#bounded-browser-model-pack-loading)
+- [Browser Model Pack worker protocol](#browser-model-pack-worker-protocol)
+- [Verified Model Pack cache](#verified-model-pack-cache)
+- [Read-only Model Pack registry](#read-only-model-pack-registry)
+- [Lazy presentation over verified Model Packs](#lazy-presentation-over-verified-model-packs)
+
+<a id="engine-and-model-pack-architecture"></a>
+
+## Engine and Model Pack architecture
+
+<a id="engine-and-model-pack-architecture--layers"></a>
+
+### Layers
+
+```text
+applications and root facade
+             |
+             v
+      @onto2d/engine --------> @onto2d/view
+             |                       ^
+             v                       |
+   @onto2d/model-pack      applications may also project directly
+             |
+             v
+      kernel + schemas
+
+external RDF 1.1 N-Triples
+             |
+             v
+      @onto2d/rdf-import ----> kernel/canonical
+             |
+             v
+      exact RDF artifacts ----------+
+             |                       |
+             v                       v
+      neutral RDF graph    @onto2d/shacl-validation
+                                    |
+                                    v
+                           exact plan + report
+                                    |
+                                    v
+                            @onto2d/rdf-mapping
+                                    |
+                                    v
+                     mapping artifact + Model Pack
+```
+
+`@onto2d/engine` is a headless, catalogue-independent facade. It resolves an
+exact Model Pack before exposing a model. The repository root facade bundles
+the frozen Causal Emergence snapshot and provides `stable` and `latest`
+aliases for convenience; the root package remains private while this preview
+API is reviewed.
+
+```js
+import { Onto2D } from "onto2d";
+
+const engine = await Onto2D.create();
+const model = engine.model;
+const node = model.require("0.8");
+const parents = model.parents(node.id);
+```
+
+The model API provides immutable reads, deterministic filtering, parent and
+child traversal, ancestors, descendants, bounded neighborhoods, and bounded
+all-shortest directed paths. It does not assign new scientific meaning to
+source relations.
+
+The root facade also registers `canonical-identity`. It calls the kernel's
+canonicalizer and returns a replayable artifact bound to the exact selected
+Model Pack; it does not duplicate canonicalization logic.
+
+<a id="engine-and-model-pack-architecture--command-line-composition"></a>
+
+### Command-line composition
+
+`@onto2d/cli` is a separate read-only operational package. Its `verify`
+command uses the `@onto2d/model-pack/node` source loader for either a split
+directory or a ZIP file; model queries first obtain that verified pack and then
+call the public `@onto2d/engine` API. The CLI never imports the kernel, reads
+semantic files around the loader, repairs a pack, extracts an archive onto the
+filesystem, or writes into the source.
+
+Successful commands emit a versioned deterministic JSON envelope. CLI output
+is an operational projection, not a Model Pack file, semantic artifact, cache,
+or new model identity. Usage failures, rejected data, and internal failures
+have distinct stable exit codes.
+
+`@onto2d/view` is a separate dependency-free presentation boundary. It accepts
+explicit node and edge arrays and returns catalogue, bounded neighborhood, and
+SVG-ready layout projections. It does not authenticate packs, import the
+engine, or place coordinates in semantic hashes. The static Model Studio asks
+a dedicated worker to authenticate the complete bundled release, then passes
+only the verified node and edge arrays into this view layer. If worker startup
+or transport fails, Studio runs the same strict browser verifier on the main
+thread; a Model Pack data failure is never converted into a fallback success.
+
+<a id="engine-and-model-pack-architecture--model-pack-contract"></a>
+
+### Model Pack contract
+
+A transparent Model Pack contains a manifest plus canonical JSON files for
+nodes, edges, dictionaries, and rebuilt indexes. Verification rejects missing,
+extra, stale, or hash-mismatched content.
+
+- `rootHash` identifies semantic model content, compatibility, and exact source.
+- `manifestHash` also binds release metadata and derived indexes.
+- indexes are accelerators only; verification rebuilds them from model files.
+- aliases resolve to an exact model version before a `Model` is returned.
+
+Node.js applications may load the transparent split format through
+`@onto2d/model-pack/node`. The bounded directory loader accepts only the known
+JSON layout and rejects links, unexpected entries, invalid UTF-8, invalid JSON,
+resource-limit violations, stale indexes, and hash drift.
+
+The same subpath accepts a strict single-disk ZIP32 transport containing the
+identical root-relative layout. Only stored and Deflate entries are supported.
+The loader checks central and local metadata, entry types, CRC-32, UTF-8, JSON,
+required and unexpected paths, per-entry compressed and uncompressed sizes,
+total expansion, and compression ratio before normal Model Pack verification.
+It rejects duplicate entries, links, encryption, data descriptors, ZIP64,
+alternative path metadata, non-contiguous records, and changed archive bytes.
+ZIP encoding and transport metadata do not enter `rootHash` or `manifestHash`;
+only the verified extracted Model Pack does. The ZIP loader does not fetch
+remote content.
+
+Browser applications may use `@onto2d/model-pack/browser`. Its HTTP directory
+loader accepts one explicit absolute HTTP(S) base URL and requests only the
+fixed required JSON paths. Credentials in the URL, query strings, fragments,
+redirects, opaque responses, response-URL drift, non-JSON media types,
+malformed `Content-Length`, invalid UTF-8 or JSON, and per-file or cumulative
+stream-limit violations fail closed. A valid declared length is used as an
+early transport bound, but is not compared with the decoded Fetch stream:
+CDNs may report compressed transfer bytes while Fetch exposes decompressed
+content. An optional required `bundle.json` must reproduce the authoritative
+split files exactly. The same entrypoint accepts bounded raw JSON bundle bytes
+or a `Blob`; it does not interpret ZIP data.
+
+The browser verifier reaches kernel identity only through the narrow
+`@onto2d/kernel/canonical` entrypoint. That entrypoint contains the same
+canonicalization and synchronous SHA-256 behavior as the full kernel without
+loading Node-only Oracle or graph modules into the browser module graph.
+
+Both browser sources feed the normal Model Pack verifier. URL layout, transfer
+chunking, response headers, and the choice between split files and bundle bytes
+do not enter model identity. The adapter performs no alias resolution,
+discovery, retries, persistent caching, registry access, or automatic repair.
+Persistent caching is a separate caller-selected layer and does not weaken
+this source contract.
+
+`@onto2d/model-pack/worker` adds a versioned plain-data protocol over that
+browser source contract. Its client owns request identifiers, pending-request
+limits, timeouts, `AbortSignal` cancellation, optional explicit buffer
+transfer, listener cleanup, and stable remote errors. Its endpoint validates a
+closed message shape before calling the browser loader, bounds concurrent work,
+and aborts active HTTP requests on cancellation. Worker results are
+structured-cloned; the client validates and freezes the result envelope while
+trusting the same-origin endpoint to have performed full reconstruction and
+hash verification.
+
+Document import maps do not apply inside workers. Model Studio therefore loads
+a committed self-contained worker asset generated from a small modular
+entrypoint. `npm run check:worker` rebuilds it in memory and rejects stale
+generated bytes. This deployment artifact changes neither the Model Pack
+format nor `rootHash`, `manifestHash`, or kernel canonical identity.
+
+`@onto2d/model-pack/cache` adds a storage-neutral verified cache above the
+browser verifier. A caller must supply the expected exact `rootHash` and
+`manifestHash`; the manifest hash determines the cache key and both hashes are
+checked after full verification. A record contains only canonical Model Pack
+JSON. Every read is parsed, reconstructed, hashed, and compared with the
+expected identity before it can become a hit. Every candidate is verified
+again before an atomic storage commit. Invalid or non-canonical records are
+removed and reported as recovery misses, never returned as model data.
+
+The package provides in-memory and IndexedDB storage adapters. Public limits
+bound entries, each record, total bytes, database names, and storage scans.
+Eviction is deterministic first-in-first-out by a persisted insertion ordinal;
+wall-clock time, access recency, HTTP metadata, and IndexedDB metadata do not
+affect model identity. Concurrent loads for the same exact identity share one
+operation. Closing, clearing, and removing records wait for relevant active
+loads, and storage ownership is explicit.
+
+Model Studio uses the IndexedDB adapter as an optional performance layer. A
+cached bundle is still sent through the worker verifier before presentation;
+the direct browser verifier remains the worker-transport fallback. IndexedDB
+availability or operational failure may bypass caching, but malformed Model
+Pack data, hash drift, and an unexpected exact identity remain hard failures.
+Neither a cache hit nor a cache recovery changes the verified pack exposed to
+the view layer.
+
+`@onto2d/model-pack/registry` is a read-only discovery boundary above these
+transports. A version-1 registry is a bounded flat list keyed by an explicit
+`modelId` and `version`; aliases, ranges, implicit latest selection, retries,
+and mutation are not part of the contract. Each entry supplies exact
+`rootHash` and `manifestHash` values plus an ASCII relative directory path.
+The resolved pack URL must remain on the registry origin and below its
+directory.
+
+Registry JSON is fetched without credentials, redirects, referrer data, or
+HTTP caching and is subject to strict response identity, media type, UTF-8,
+JSON, byte, entry, path, and URL limits. Normalized entries receive a
+domain-separated `registryHash`. Callers may pin that hash; an unpinned result
+is explicitly marked `transport-only`. Registry resolution does not verify a
+Model Pack. The separate matcher binds a previously verified pack to the
+resolved model ID, version, root hash, and manifest hash.
+
+Model Studio pins the committed registry hash, resolves its explicit release,
+then passes the resolution URL to the existing worker/cache composition. Both
+network candidates and cached records must match the complete resolution
+before storage or presentation. The repository registry check also verifies
+every indexed `bundle.json` and rejects a stale Studio pin.
+
+`@onto2d/view/lazy` adds an exact-identity presentation session after full
+verification. Its descriptor, catalogue pages, node details, and neighborhood
+projections all carry the same model ID, version, root hash, and manifest hash.
+Catalogue rows and graph projections omit complete source records; the full
+record is returned only by explicit node inspection. Page sizes, relation
+summaries, graph size, nesting, input shape, and session lifetime are bounded.
+These projections are read-only presentation envelopes, not semantic
+artifacts or partial model executions.
+
+`@onto2d/engine/presentation` is the verified bridge. It re-verifies a complete
+Model Pack, optionally matches all four coordinates of a registry resolution,
+then creates the presentation session from its canonical nodes and edges.
+`@onto2d/view` remains dependency-free and does not authenticate caller data.
+Model Studio composes the bridge only after registry, worker, and cache checks,
+initially materializes 60 catalogue rows, and requests later pages, bounded
+neighborhoods, and full node records separately.
+
+Model Pack v1 is not a chunked semantic format.
+The current split files are still all required for verification, and complete
+analysis still requires a fully materialized verified source population.
+The [Model Pack v2 proposal](../model-pack-v2/README.md) specifies physical ID-ordered
+chunks and manifest-bound optional artifacts, with distinct partial-inspection
+and complete-analysis gates. Its draft schemas and examples do not change this
+implemented v1 contract. Adoption requires format review, explicit version
+dispatch and new release hashes; semantic subgraph slicing remains deferred.
+
+<a id="engine-and-model-pack-architecture--external-rdf-import"></a>
+
+### External RDF import
+
+`@onto2d/rdf-import` is a separate browser-safe adapter for the stable
+[RDF 1.1 N-Triples Recommendation](https://www.w3.org/TR/n-triples/). It does
+not claim conformance to every N-Triples document. Its versioned safe profile
+accepts a bounded line-oriented subset: absolute IRIs, RDF 1.1 blank nodes,
+simple, language, and datatype literals, comments, LF or CRLF, and ASCII
+lexical transport with non-ASCII values expressed through Unicode escapes.
+
+The adapter deliberately rejects relative IRIs, BOMs, malformed UTF-8, Turtle
+directives, RDF/XML, and the `VERSION`, triple-term, and directional-language
+features described by the current
+[RDF 1.2 N-Triples Working Draft](https://www.w3.org/TR/rdf12-n-triples/).
+Choosing the stable RDF 1.1 Recommendation prevents a draft syntax from
+silently changing the import contract.
+
+Every import artifact binds the exact source bytes, source identifier,
+normalized RDF terms, unique statements, and duplicate line occurrences.
+`graphHash` identifies the normalized statement set. `importHash` additionally
+binds exact source provenance. Blank-node term IDs include the exact source
+hash as their scope, so labels never create identity across documents. This is
+an import-local identity, not blank-node graph canonicalization or an RDF
+isomorphism algorithm.
+
+The optional neutral graph projection uses subjects and objects as nodes and
+the RDF predicate as an uninterpreted edge label. It performs no network
+dereferencing, RDFS or OWL inference, source classification, or Onto2D
+level/relation assignment. It does not build a Model Pack. SHACL validation is
+a separate consumer of the exact import artifact, not an import side effect.
+The separate mapping package described below is the only implemented crossing
+from imported RDF statements to Model Pack records; a schema-valid RDF import
+alone is never evidence for such a mapping.
+
+<a id="engine-and-model-pack-architecture--closed-shacl-validation"></a>
+
+### Closed SHACL validation
+
+`@onto2d/shacl-validation` implements profile
+`shacl10-core-structural-v1` over two verified RDF imports: one data graph and
+one shapes graph. The profile follows the stable
+[SHACL 1.0 Recommendation](https://www.w3.org/TR/shacl/) and deliberately does
+not adopt features from the current
+[SHACL 1.2 Core Working Draft](https://www.w3.org/TR/shacl12-core/).
+
+The shapes import is compiled into an immutable plan that binds its exact
+source, graph, and import hashes. The supported Core surface is explicit node
+and property shapes, the four standard target forms, one IRI predicate path,
+and min-count, max-count, datatype, node-kind, and class constraints. Severity,
+messages, and deactivation are preserved. Datatype constraints accept a
+declared lexical subset; a matching datatype IRI with an ill-typed lexical form
+still produces a result.
+
+Class targets and class constraints require SHACL type semantics. The validator
+therefore follows explicit `rdf:type` values and cycle-safe
+`rdfs:subClassOf*` paths inside the exact data artifact. This traversal is
+bounded and permits IRI class nodes only. It is not external entailment,
+general RDFS closure, OWL reasoning, graph repair, or a new RDF graph identity.
+
+The resulting JSON report binds the exact data import, shapes import, and plan.
+Results have content identities and deterministic order; `conforms` is false
+whenever at least one result exists, including a warning or information
+result. A result-limit overflow fails without returning a partial report.
+Verifiers recompute the complete plan or report and compare canonical content.
+
+The profile fails closed on unsupported shape predicates, implicit shape
+typing, complex paths, custom targets, lists and logical constraints, SPARQL,
+JavaScript, rules, draft features, network access, and non-IRI class edges. A
+valid report establishes only conformance to this RDF structural profile. It
+does not assign Onto2D levels, relation roles, causality, Historical Load,
+scientific status, or Model Pack identity.
+
+<a id="engine-and-model-pack-architecture--reviewed-rdf-to-onto2d-mapping"></a>
+
+### Reviewed RDF-to-Onto2D mapping
+
+`@onto2d/rdf-mapping` implements profile
+`rdf-to-model-pack-explicit-v1`. It accepts only verified RDF data and shapes
+imports, an exact replayable SHACL report with `conforms: true`, and a canonical
+policy bound to all three input identities. The mapping remains outside both
+the generic importer and validator.
+
+The first profile makes every semantic choice explicit. Entities are IRIs with
+one directly asserted mapped `rdf:type`; no subclass inference participates in
+entity selection. Source IRIs remain node IDs. One constant level, its meaning,
+class-to-`typeRole` and `scientificStatus` rules, one optional label predicate,
+and directed predicate-to-relation rules are all policy fields. Mapped classes
+and predicates must also have active coverage in the exact SHACL plan.
+
+Every source statement must resolve to exactly one `node-type`, `node-label`,
+`edge`, or `ignored` disposition. An ignored predicate requires a review reason
+and its statement ID remains in the mapping audit. Node records preserve RDF
+term, class-statement, and label-statement identities; edge records preserve
+their source statement and predicate. The policy input binding includes the
+data and shapes source IDs as well as their import hashes and the validation
+report hash. Raw files plus policy are therefore replayable without hidden
+source-ID configuration. The policy itself contains source URI, version,
+license, and adaptation provenance and enters `policyHash`.
+
+The mapping artifact and generated Model Pack are deterministic. The pack uses
+the exact RDF source hashes, places `mappingHash` in `source.auditHash`, and
+retains the complete policy and statement accounting in its dictionaries.
+Runtime verification replays import, SHACL validation, mapping, and normal
+Model Pack construction. JSON Schema validation alone is never trusted.
+
+The public reference under `cases/rdf-mapping-reference` adapts the W3C SHACL
+Person and Company example into a conforming closed-profile fixture. Its level
+0 means only a flat external source layer. It is not kernel Level 0, Historical
+Load zero, or evidence of formation. The fixture proves the boundary and is not
+a general RDF ontology mapper, a W3C conformance test, or an independently
+reviewed scientific dataset.
+
+The bundled Causal Emergence pack is compiled reproducibly from the preserved
+`references/` snapshot. Its 971 relations are labelled `source-parent`: they have not
+yet passed reviewed migration into a stronger generative relation. The pack
+also records the current catalogue audit, including three known weight-sum
+anomalies and uncovered requirements. Compilation does not silently repair
+those source facts.
+
+<a id="engine-and-model-pack-architecture--state-and-comparison"></a>
+
+### State and comparison
+
+Each `Workspace` owns independent model instances and explicit run bindings.
+A referenced model cannot be removed, and a changed root hash cannot replace
+an existing exact version. Structural diff reports added, removed, and changed
+nodes and edges. Without a registered record it reports lineage as
+`not-declared`. A declared lineage record binds both exact release identities,
+has its own hash, and is accepted only when every event is supported by the
+actual diff. Similar labels or identifiers never create implicit lineage.
+
+<a id="engine-and-model-pack-architecture--boundaries"></a>
+
+### Boundaries
+
+This boundary excludes kernel semantics, a UI framework, mutable registry
+operations, registry aliases, RDF/XML or Turtle import, unrestricted SHACL,
+OWL reasoning, automatic ontology mapping, empirical Historical Load values,
+physical semantic chunking, or a fabricated second release for Studio
+comparison. Registry trust, cache limits, storage selection, presentation page
+limits, RDF import, SHACL, and mapping limits, and failure fallback are explicit
+application policy, not verifier behavior.
+Analyses must be registered explicitly.
+Deferred engineering work is listed in the
+[Engine Roadmap](../ROADMAP.md); scientific dependencies remain in the
+[Scientific Roadmap](../ROADMAP.md).
+
+<a id="model-pack-and-engine-foundation"></a>
+
+## Model Pack and Engine Foundation
+
+Add two inward-facing packages:
+
+- `@onto2d/model-pack` builds and verifies transparent, canonical Model Packs;
+- `@onto2d/engine` exposes exact-version model access, traversal, workspaces,
+  registered analyses, and structural diff without embedding a catalogue.
+
+The private root facade composes the generic engine with one frozen Causal
+Emergence pack. `rootHash` binds semantic files, compatibility, and exact
+source; `manifestHash` additionally binds release metadata and derived indexes.
+Indexes are always rebuilt during verification.
+
+Current catalogue relations are published as `source-parent`, not as reviewed
+generative edges. Diff does not infer lineage and reports it as undeclared.
+
+<a id="lineage-local-loading-and-first-registered-analysis"></a>
+
+## Lineage, Local Loading, and First Registered Analysis
+
+- Define content-addressed lineage sidecars that bind ordered model IDs,
+  versions, and semantic root hashes. Registration and diff replay reject
+  nonexistent entities, reversed releases, stale hashes, and events unsupported
+  by the structural change.
+- Keep lineage outside the Model Pack root contract for now. Binding a record
+  into a future pack manifest is deferred until a real second release establishes
+  the required direction and packaging needs without a self-referential root.
+- Add bounded transparent-directory loading only under
+  `@onto2d/model-pack/node`; keep the main verifier and engine browser-safe.
+- Publish Canonical Identity as an analysis package that calls the existing
+  kernel operation. The root facade registers it by default and the static lab
+  remains a projection of frozen fixtures.
+
+<a id="deterministic-view-boundary-and-initial-studio"></a>
+
+## Deterministic View Boundary and Initial Studio
+
+- Add dependency-free `@onto2d/view`. It validates explicit JSON node and edge
+  arrays and produces deterministic catalogue, bounded neighborhood, and
+  SVG-ready layout projections.
+- Keep the package free of DOM, filesystem, engine, and hashing dependencies.
+  Coordinates and routes are derived output and never affect model identity.
+- Add a static Model Studio that reads the transparent Causal Emergence release,
+  checks its declared identity and counts, and exposes search, filters, local
+  graph navigation, and exact source-record inspection.
+- Version comparison requires two exact model releases and explicit reviewed
+  lineage for lineage claims. Browser checks do not replace authoritative
+  Model Pack verification.
+
+<a id="external-level-0-phase-b-solver-boundary"></a>
+
+## External Level-0 Phase-B solver boundary
+
+The unchanged `onto2d-level-0-reference-solver@1.0.0` method is owned by
+`@onto2d/level-zero-solver`. The package depends only on
+`@onto2d/scientific-adapter`; it does not import the kernel. The case owns the
+model, source lock, Oracle request construction, validation, and frozen result.
+
+The solver rejects invalid, mismatched, unsupported, and resource-exceeding
+requests with distinct structured error codes. Grid, mode, quantity, and
+evidence counts are bounded before numerical work begins. The existing
+request, response, and analysis identities remain unchanged because moving an
+implementation does not change its declared algorithm.
+
+<a id="read-only-engine-cli-composition"></a>
+
+## Read-only Engine CLI composition
+
+`@onto2d/cli` exposes `verify`, `node`, `neighborhood`, and `paths`. `verify`
+uses `@onto2d/model-pack/node`. Every model query loads the pack through that
+same boundary and then calls `@onto2d/engine`; the CLI does not import the
+kernel or inspect semantic files directly.
+
+Commands are read-only. Successful results use JSON output schema `1`.
+Argument errors exit `2`, rejected pack or engine data exits `3`, unexpected
+internal failures exit `1`, and success exits `0`. Selectors and traversal
+limits are explicit and bounded.
+
+<a id="bounded-zip-model-pack-transport"></a>
+
+## Bounded ZIP Model Pack transport
+
+`@onto2d/model-pack/node` accepts a deliberately narrow, single-disk ZIP32
+profile. An archive contains the same root-relative required files as a split
+pack, optional known directory entries, and an optional `bundle.json`. Stored
+and Deflate entries are accepted. ZIP64, encryption, data descriptors,
+multi-disk archives, links, alternative Unicode path fields, duplicate or
+unexpected paths, and unreferenced local bytes are rejected.
+
+The loader bounds archive bytes, entry count, compressed entry bytes,
+uncompressed entry bytes, total uncompressed bytes, and per-entry compression
+ratio. It cross-checks central and local headers before asynchronous bounded
+inflation, then checks declared length, CRC-32, UTF-8, and JSON. It never writes
+extracted content to disk. The resulting values pass the existing Model Pack
+reconstruction and identity verification.
+
+`loadModelPackPath` dispatches only from the inspected filesystem type: a real
+directory uses the directory loader and a real regular file uses the archive
+loader. Symbolic links and other entry types fail closed. The CLI composes this
+source loader and therefore accepts either representation without duplicating
+transport logic.
+
+<a id="bounded-browser-model-pack-loading"></a>
+
+## Bounded browser Model Pack loading
+
+`@onto2d/model-pack/browser` provides two bounded sources. The HTTP directory
+loader accepts one explicit absolute HTTP(S) base URL without credentials,
+query, or fragment and requests only the fixed required split JSON paths. An
+optional policy also requires `bundle.json` to reproduce the split files
+exactly. The raw bundle loader accepts a `Blob`, `ArrayBuffer`, or array-buffer
+view containing JSON.
+
+HTTP requests are sequential and use `GET`, `cache: "no-store"`,
+`credentials: "same-origin"`, and `redirect: "error"`. Responses must have
+status 200, the exact requested response URL, a JSON media type, a readable
+byte stream, and a valid optional `Content-Length`. Declared and streamed
+sizes are checked against per-file and cumulative limits before copying or
+parsing, and UTF-8 and JSON parsing are strict. Declared length is not required
+to equal the decoded stream size because a CDN can declare compressed transfer
+bytes while Fetch exposes decompressed content. The decoded stream remains the
+authoritative bounded input. Both sources pass their decoded values to the
+existing full Model Pack reconstruction and hash/index verifier.
+
+Options are plain data with a closed field set. Accessors and symbols are
+rejected without invocation. The published entrypoint contains no Node
+transport dependency and exposes matching TypeScript declarations. It reaches
+identity primitives through the narrow `@onto2d/kernel/canonical` subpath,
+whose portable synchronous SHA-256 is checked against independent Node
+references and the frozen canonical fixtures. Model Studio now uses this
+adapter before constructing any presentation view.
+
+<a id="browser-model-pack-worker-protocol"></a>
+
+## Browser Model Pack worker protocol
+
+`@onto2d/model-pack/worker` publishes protocol version `1` with two operations:
+`load-http-directory` and `load-bundle`. Requests, cancellations, results, and
+errors use exact closed plain-data envelopes containing the protocol name,
+version, bounded request ID, and operation-specific data. Unknown fields,
+accessors, symbols, invalid identifiers, unsupported versions, duplicate active
+IDs, excessive pending or active work, and values outside public browser limits
+fail closed with stable `ModelPackError` codes.
+
+The client supplies per-request timeouts and optional `AbortSignal`
+cancellation. Cancellation removes the local request immediately and asks the
+endpoint to abort its work; HTTP operations use an `AbortController`. Bundle
+verification is synchronous after its bytes have been delivered, so
+cancellation is cooperative and cannot preempt CPU work already executing in
+that worker. Closing a client cancels every pending request, clears timers and
+listeners, and terminates the worker only when `ownsWorker` was declared.
+
+Bundle transport copies the caller's bytes by default. `transfer: "move"` is
+accepted only for a complete `ArrayBuffer`, or a view spanning its complete
+buffer, and explicitly detaches it. A copied buffer is internally transferred
+after the copy to avoid a second copy. `Blob` remains structured-cloned and
+cannot use move semantics.
+
+The endpoint calls the unchanged `@onto2d/model-pack/browser` verifier. It
+serializes only a bounded error name, code, message, and structured details;
+stacks and arbitrary internal exceptions do not cross the boundary. A result
+is structured-cloned back to the client, which checks the protocol envelope,
+Model Pack format and identity fields, exact file layout, structured-data depth
+and entry limits, then freezes it. It does not repeat Model Pack hashing on the
+UI thread; the same-origin endpoint is the verification boundary.
+
+Model Studio commits `assets/js/model-pack-worker.js`, a self-contained module
+worker generated reproducibly from
+`apps/model-studio/model-pack-worker-entry.js`. Repository checks build the
+asset in memory and require byte-for-byte equality. Studio falls back to the
+direct Bounded browser Model Pack loading verifier only for worker availability, protocol, timeout, or
+transport failures. Errors from actual Model Pack verification propagate and
+cannot trigger a second path that treats bad data as valid.
+
+The protocol, structured clone, byte transfer, and generated deployment asset
+are transport concerns. They do not enter canonical bytes, kernel behavior,
+`rootHash`, or `manifestHash`.
+
+<a id="verified-model-pack-cache"></a>
+
+## Verified Model Pack cache
+
+`@onto2d/model-pack/cache` exposes a verified cache and separate storage
+adapters. The caller supplies an exact identity containing both `rootHash` and
+`manifestHash`. The cache key contains the manifest hash; after verification,
+both expected hashes must match. Aliases, labels, URLs, and model versions are
+not cache keys.
+
+Records contain canonical JSON for the complete transparent Model Pack. A read
+does not trust the record: it applies the configured complete bundle verifier,
+checks canonical bytes, reconstructs the actual identity, and compares it with
+the expected exact identity. A write canonicalizes the candidate and sends the
+result through that verifier before committing. A malformed, unverifiable, or
+non-canonical record is deleted and reported as an invalid cache state so an
+explicit loader may recover it. A valid record requested with a conflicting
+root hash is not deleted; the request fails with an identity mismatch.
+
+The default verifier is `loadModelPackBundle` from the bounded browser adapter.
+Applications may inject the equivalent worker-backed verifier, but the worker
+origin remains an application trust boundary as described by Browser Model Pack worker protocol. The
+cache never interprets a storage read as proof of model validity.
+
+The public in-memory and IndexedDB adapters implement the same closed storage
+surface. A commit atomically writes the candidate and enforces explicit limits
+for record count, record bytes, and total bytes. Deterministic first-in-first-
+out eviction uses a monotonic insertion ordinal, preserving the ordinal when a
+key is replaced. It does not use wall-clock time or mutate order on a read.
+Database names and inventory scans are bounded, malformed stored metadata is
+removed, version changes close stale connections, and late successful opens
+after blocking or closure are closed immediately.
+
+Loads for one exact cache key are coalesced. Remove waits for that key, while
+clear and close wait for all active loads. Whether the cache owns and closes
+its storage is explicit. Errors use stable `ModelPackError` codes, and custom
+storage results are validated before use.
+
+Model Studio declares the exact identity of its bundled release. It first asks
+the verified cache, sends cached canonical bytes through the Model Pack worker,
+and only then exposes the model to the view layer. A miss is fetched and
+verified before storage. Cache storage availability and operational failures
+may fall back to uncached loading; Model Pack verification and identity errors
+do not. The UI distinguishes hit, miss, recovery, and unavailable storage for
+diagnostics without changing scientific output.
+
+Cache bytes, keys, insertion ordinals, IndexedDB metadata, eviction, and hit or
+miss state do not enter canonical Model Pack bytes, `rootHash`, `manifestHash`,
+kernel behavior, or analysis artifacts.
+
+<a id="read-only-model-pack-registry"></a>
+
+## Read-only Model Pack registry
+
+`@onto2d/model-pack/registry` publishes a version-1 read-only registry and a
+derived resolution contract. A registry is a flat bounded array of entries.
+Each entry contains exactly `modelId`, `version`, `rootHash`, `manifestHash`,
+and `packPath`. The model/version pair is unique. Identifiers use a narrow
+ASCII grammar, paths are relative ASCII directories, and aliases, version
+ranges, implicit latest selection, timestamps, and mutable state are absent.
+
+Resolution always requires an explicit `modelId` and `version`. Entries are
+normalized into model/version order and receive a domain-separated canonical
+`registryHash`; authoring order does not affect that hash. A caller may provide
+an expected registry hash. A matching pin produces `hash-pinned`; an unpinned
+resolution is marked `transport-only`. A self-reported or transport-only hash
+does not establish registry authority.
+
+The resolved Model Pack URL is relative to the registry document. It must stay
+on the same origin and within the registry directory. This first contract does
+not support CDN indirection or cross-origin pack URLs. Those capabilities need
+an explicit future policy rather than URL inference.
+
+The HTTP resolver accepts one absolute HTTP(S) registry URL without
+credentials, query, or fragment. It performs one `GET` with no credentials,
+redirects, referrer, or HTTP caching. Status, response URL, JSON media type,
+declared and decoded-stream byte limits, UTF-8, JSON, entry count, field sets,
+identifiers, hashes, paths, and final URL length are bounded and fail closed.
+The declared transfer length is not compared with decoded Fetch bytes, so
+transparent CDN compression is supported. Options and direct registry values
+reject accessors and unknown fields without invocation.
+
+A registry resolution is discovery data, not Model Pack verification. The
+separate `matchModelPackRegistryResolution` function binds a previously
+verified pack to all four release coordinates: model ID, version, root hash,
+and manifest hash. It does not duplicate pack reconstruction or hashing.
+
+Model Studio pins the committed `models/registry.json`, resolves the explicit
+Causal Emergence release, and then composes its URL and exact identity with the
+existing worker and verified cache. Network candidates and cache records are
+matched to the resolution before they can be stored or presented. Repository
+checks verify every indexed bundle against its resolution and reject a stale
+Studio registry pin.
+
+Registry documents, registry hashes, paths, URLs, trust labels, and resolution
+objects are operational metadata. They do not enter Model Pack canonical
+bytes, `rootHash`, `manifestHash`, kernel behavior, or analysis artifacts.
+
+<a id="lazy-presentation-over-verified-model-packs"></a>
+
+## Lazy presentation over verified Model Packs
+
+Add `@onto2d/view/lazy` as a browser-safe, dependency-free presentation
+session. A session is created from explicit node and edge arrays plus the exact
+model ID, version, root hash, and manifest hash. It exposes four bounded,
+read-only operations:
+
+- `descriptor` returns identity, counts, facets, and explicit capabilities;
+- `catalog()` returns one deterministic page of lightweight node summaries;
+- `neighborhood()` returns bounded lightweight nodes and edges suitable for
+  deterministic layout;
+- `inspect()` is the only operation that returns a complete node record and it
+  bounds displayed relation summaries.
+
+Every response carries the same exact model identity and uses the versioned
+`onto2d-model-presentation` envelope. Catalogue and neighborhood results omit
+the original `data` records. Limits, input shapes, unknown fields, accessors,
+prototype-sensitive keys, closure, and missing nodes fail with stable
+`ViewError` codes. Descriptor and projection envelopes have published JSON
+Schemas.
+
+The view package still does not authenticate its input. Add the browser-safe
+`@onto2d/engine/presentation` bridge as the authoritative constructor for
+verified applications. It fully verifies the supplied Model Pack again and,
+when supplied, matches the exact read-only registry resolution before creating
+the view session. The bridge then copies all four verified identity coordinates
+into every presentation response.
+
+Model Studio keeps registry resolution, worker verification, and verified
+cache reuse upstream. Only after those checks does it create the presentation
+session. Explorer initially materializes 60 lightweight rows and obtains later
+pages through an explicit `Load next` action. Graph changes request a bounded
+neighborhood; node inspection requests the full record independently. A click
+still inspects and a double-click still changes graph focus.
+
+Presentation paging is operational only. It does not create a model, semantic
+artifact, analysis population, cache identity, or alternate hash. Complete
+analysis still requires a fully materialized and verified source population.

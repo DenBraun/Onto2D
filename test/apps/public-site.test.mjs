@@ -257,7 +257,10 @@ test("the root keeps three study lenses and exposes the registry-backed Case Stu
   assert.match(landing, /href="\.\/apps\/level-zero-validation\/(?:\?v=[^"]+)?"/);
   assert.match(landing, /href="\.\/apps\/model-studio\/(?:\?v=[^"]+)?"/);
   assert.match(landing, /<details class="cases-menu">/);
-  assert.match(landing, /type="module" src="\.\/assets\/js\/case-menu\.js\?v=20260905\.1"/);
+  const menuRevision = landing.match(/type="module" src="\.\/assets\/js\/case-menu\.js\?v=(\d{8}\.\d+)"/);
+  assert.ok(menuRevision, "the case menu must have an explicit cache revision");
+  assert.ok(caseMenuScript.includes(`external-cases-catalog.js?v=${menuRevision[1]}`),
+    "the menu and registry validator must use the same cache revision");
   assert.match(landing, /href="\.\/apps\/history-atlas\/"/);
   assert.match(landing, new RegExp(`${historyCaseRegistry.cases.length} cases mapped by history access and effect`));
   assert.match(landing, /id="history-case-menu-groups"/);

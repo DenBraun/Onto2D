@@ -24,7 +24,7 @@ These are separately preserved observations from Tables 1 and 2 of
 The canonical build consumes the existing exact
 [source projection](../source/ltee-ara3-citrate-replay.json) and
 [upstream lock](../upstream.json), with no network request. The
-[original case](../README.md) and its Model Pack retain their identities.
+[original case](../README.md#ltee-evolutionary-contingency--use-and-reproduction) and its Model Pack retain their identities.
 
 Each contract preserves all 16 published generation labels. A missing
 generation-by-protocol cell has status `not-run`, a null observation ID and
@@ -111,7 +111,7 @@ npm run history-benchmark:check
 In the [Explorer](../../../apps/history-matters-benchmark/index.html#ltee-evolutionary-contingency-history-matters-v1),
 inspect the three-row census, expand each protocol's P/H/Y and blockers, and
 follow all five JSON links. Filtering `empirical` retains LTEE without score
-panels. The [repository testing guide](../../../docs/history/HISTORY_BENCHMARK_TESTING.md)
+panels. The [repository testing guide](../../../docs/history/BENCHMARK.md#history-matters-testing-and-acceptance)
 includes the complete acceptance checks.
-The [implementation review](../../../docs/history/HISTORY_LTEE_PROTOCOL_REVIEW.md)
+The [implementation review](../../../docs/history/BENCHMARK.md)
 records local validation separately from independent scientific review.

@@ -74,7 +74,7 @@ console.log(checked.legacyArtifact.result.summary);
 `pack` is a complete verified-source Model Pack. A context snapshots it and
 binds its projection and model-local dictionaries; copying a context object
 does not copy its authority. Recreate contexts from the expected source when
-loading stored results. See the [full contract](../../../docs/structural-geometry/METRIC_PROVIDERS.md)
+loading stored results. See the [full contract](../../../docs/structural-geometry/GEOMETRY.md#compatible-metric-providers)
 for capabilities, numeric interpretation and limits.
 
 ## Full-source compatibility evidence

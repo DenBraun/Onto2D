@@ -29,6 +29,7 @@ development dependency.
 - Never present a placeholder scientific adapter or a schema-valid artifact as
   scientific validation.
 
-Architecture decisions that alter canonical identity, quantities, relation
-classification, cluster resolution, evidence semantics, or package boundaries
-need an ADR based on [the ADR template](docs/adr/0000-template.md).
+Contract changes to identity, quantities, source classification, evidence or
+package boundaries must update the relevant [architecture guide](docs/README.md)
+and its verification. Keep current requirements in that guide; use Git for
+change history. Python 3.9+ is required for the normal test/reference suite.

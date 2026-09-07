@@ -1,7 +1,7 @@
 # Frozen directed topology cases
 
 SG2-012 implements the seven-observable `topology-only-v1` profile. Read the
-[contract](../../../docs/structural-geometry/TOPOLOGY_OBSERVATIONS.md) for exact
+[contract](../../../docs/structural-geometry/OBSERVATIONS.md#directed-topology-observations) for exact
 semantics, source/scope identities and the limits of summary equality.
 
 [controls.json](controls.json) declares 21 synthetic graphs and two explicit

@@ -16,6 +16,20 @@ const repositoryRoot = new URL("../../", import.meta.url);
 const registry = JSON.parse(await readFile(new URL("../../cases/history-case-registry.json", import.meta.url), "utf8"));
 const cases = createHistoryCases(registry);
 
+test("case documentation uses bounded native README paths", () => {
+  for (const implementationDoc of [
+    "docs/cases/OLD_IMPLEMENTATION.md",
+    "cases/../README.md",
+    "https://example.org/README.md",
+    "cases/git-history-identity/README.md#section"
+  ]) {
+    const invalid = structuredClone(registry);
+    invalid.cases[0].implementationDoc = implementationDoc;
+    assert.throws(() => validateHistoryRegistry(invalid), /implementationDoc/);
+  }
+  assert.equal(validateHistoryRegistry(registry), registry);
+});
+
 test("the history portfolio is complete, stable, and status-honest", async () => {
   assert.equal(cases.length, 24);
   assert.deepEqual(HISTORY_MODES.map((entry) => entry.id), ["recorded", "embodied", "reconstructed"]);

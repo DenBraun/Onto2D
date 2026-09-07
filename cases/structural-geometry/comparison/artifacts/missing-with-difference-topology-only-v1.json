@@ -1,0 +1,1243 @@
+{
+  "analysis": {
+    "id": "structural-comparison",
+    "version": "1"
+  },
+  "artifactHash": "sha256:a043455f9a7cf58b748b208fb26b08df1d3857db219dce2ebb9597eeac45a583",
+  "components": [
+    {
+      "family": "topology",
+      "left": {
+        "availability": "observed",
+        "disposition": "accepted"
+      },
+      "mandatory": true,
+      "observable": {
+        "contentHash": "sha256:fcde1a54025bdc9f964cdfb6cbd9f015fb94cc473949584abe8ba01031d9d983",
+        "id": "node-count-v1",
+        "version": "1"
+      },
+      "reasons": [],
+      "right": {
+        "availability": "observed",
+        "disposition": "accepted"
+      },
+      "state": "equal",
+      "values": {
+        "left": 2,
+        "right": 2
+      }
+    },
+    {
+      "family": "topology",
+      "left": {
+        "availability": "observed",
+        "disposition": "accepted"
+      },
+      "mandatory": true,
+      "observable": {
+        "contentHash": "sha256:13f1db7824b26dd6ec1d8ff6ca169670637dd780b11db2ba308c6356e24197c5",
+        "id": "edge-count-v1",
+        "version": "1"
+      },
+      "reasons": [],
+      "right": {
+        "availability": "observed",
+        "disposition": "accepted"
+      },
+      "state": "different",
+      "values": {
+        "left": 1,
+        "right": 0
+      }
+    },
+    {
+      "family": "topology",
+      "left": {
+        "availability": "observed",
+        "disposition": "accepted"
+      },
+      "mandatory": true,
+      "observable": {
+        "contentHash": "sha256:bd3c0c2440644cb1da3251a1b3b585d061e172fa6e674aca0de8250b1f800ee1",
+        "id": "weak-component-sizes-v1",
+        "version": "1"
+      },
+      "reasons": [],
+      "right": {
+        "availability": "observed",
+        "disposition": "accepted"
+      },
+      "state": "different",
+      "values": {
+        "left": [
+          2
+        ],
+        "right": [
+          1,
+          1
+        ]
+      }
+    },
+    {
+      "family": "topology",
+      "left": {
+        "availability": "observed",
+        "disposition": "accepted"
+      },
+      "mandatory": true,
+      "observable": {
+        "contentHash": "sha256:9ee44d035a7da8c0bb040c0a2d4dc39a91bdc8fa0f08a588aff4955931e12671",
+        "id": "strong-component-sizes-v1",
+        "version": "1"
+      },
+      "reasons": [],
+      "right": {
+        "availability": "observed",
+        "disposition": "accepted"
+      },
+      "state": "equal",
+      "values": {
+        "left": [
+          1,
+          1
+        ],
+        "right": [
+          1,
+          1
+        ]
+      }
+    },
+    {
+      "family": "topology",
+      "left": {
+        "availability": "observed",
+        "disposition": "accepted"
+      },
+      "mandatory": true,
+      "observable": {
+        "contentHash": "sha256:0d267b9b833a0a7b7e341190e4522a1c9fac9792d651d10081ea82468618f74f",
+        "id": "reachable-ordered-pair-count-v1",
+        "version": "1"
+      },
+      "reasons": [],
+      "right": {
+        "availability": "observed",
+        "disposition": "accepted"
+      },
+      "state": "different",
+      "values": {
+        "left": 1,
+        "right": 0
+      }
+    },
+    {
+      "family": "topology",
+      "left": {
+        "availability": "observed",
+        "disposition": "accepted"
+      },
+      "mandatory": true,
+      "observable": {
+        "contentHash": "sha256:325e52ae7471466b4e032c7067585331bb1ce4c49be9e10b28d4685874aacbd6",
+        "id": "cyclic-node-count-v1",
+        "version": "1"
+      },
+      "reasons": [],
+      "right": {
+        "availability": "observed",
+        "disposition": "accepted"
+      },
+      "state": "equal",
+      "values": {
+        "left": 0,
+        "right": 0
+      }
+    },
+    {
+      "family": "topology",
+      "left": {
+        "availability": "observed",
+        "disposition": "accepted"
+      },
+      "mandatory": true,
+      "observable": {
+        "contentHash": "sha256:df7729800602b4a29082552fbcdd36d9f44cf2851024cc3396196b94f95823d6",
+        "id": "isolated-node-count-v1",
+        "version": "1"
+      },
+      "reasons": [],
+      "right": {
+        "availability": "observed",
+        "disposition": "accepted"
+      },
+      "state": "different",
+      "values": {
+        "left": 0,
+        "right": 2
+      }
+    }
+  ],
+  "coverage": {
+    "complete": true,
+    "denominator": 7,
+    "families": [
+      {
+        "denominator": 7,
+        "family": "topology",
+        "numerator": 7
+      }
+    ],
+    "numerator": 7
+  },
+  "diagnostics": {
+    "differentObservableIds": [
+      "edge-count-v1",
+      "weak-component-sizes-v1",
+      "reachable-ordered-pair-count-v1",
+      "isolated-node-count-v1"
+    ],
+    "equalObservableIds": [
+      "node-count-v1",
+      "strong-component-sizes-v1",
+      "cyclic-node-count-v1"
+    ],
+    "incompleteObservableIds": []
+  },
+  "distance": 1,
+  "evidence": {
+    "kind": "topology",
+    "left": {
+      "analysis": {
+        "id": "structural-topology-observation",
+        "version": "1"
+      },
+      "artifactHash": "sha256:32091d87457d6c295169db6fdee0c566e1e650045f52a7087f67df74aa82e9ec",
+      "diagnostics": {
+        "reachablePairsBySource": [
+          {
+            "count": 1,
+            "sourceNodeId": "n0"
+          },
+          {
+            "count": 0,
+            "sourceNodeId": "n1"
+          }
+        ],
+        "strongComponents": [
+          [
+            "n0"
+          ],
+          [
+            "n1"
+          ]
+        ],
+        "weakComponents": [
+          [
+            "n0",
+            "n1"
+          ]
+        ],
+        "work": {
+          "reachabilityEdgeScans": 1,
+          "reachabilityPairVisits": 3
+        }
+      },
+      "evaluation": "measured",
+      "implementation": {
+        "attributes": "excluded",
+        "componentSizeOrdering": "numeric-ascending",
+        "contentHash": "sha256:56e0a358ae1c6f3618fb792c319bedc2d1e06db637b8410de1a39d4a69f3a4e8",
+        "diagnosticOrdering": "source-id-ascending",
+        "edgeScans": "directed-adjacency-entries-scanned-by-reachability-only",
+        "graphIsomorphismClaim": false,
+        "id": "directed-topology-observation-v1",
+        "pairVisits": "distinct-source-target-visits-including-self-seeds",
+        "reachability": "breadth-first-from-each-scoped-node",
+        "strongComponents": "mutual-directed-reachability",
+        "valueFields": [
+          {
+            "field": "nodeCount",
+            "observableId": "node-count-v1"
+          },
+          {
+            "field": "edgeCount",
+            "observableId": "edge-count-v1"
+          },
+          {
+            "field": "weakComponentSizes",
+            "observableId": "weak-component-sizes-v1"
+          },
+          {
+            "field": "strongComponentSizes",
+            "observableId": "strong-component-sizes-v1"
+          },
+          {
+            "field": "reachableOrderedPairCount",
+            "observableId": "reachable-ordered-pair-count-v1"
+          },
+          {
+            "field": "cyclicNodeCount",
+            "observableId": "cyclic-node-count-v1"
+          },
+          {
+            "field": "isolatedNodeCount",
+            "observableId": "isolated-node-count-v1"
+          }
+        ],
+        "version": "1",
+        "weakComponents": "undirected-breadth-first"
+      },
+      "observation": {
+        "implementation": {
+          "contentHash": "sha256:56e0a358ae1c6f3618fb792c319bedc2d1e06db637b8410de1a39d4a69f3a4e8",
+          "id": "directed-topology-observation-v1",
+          "version": "1"
+        },
+        "observables": [
+          {
+            "contentHash": "sha256:fcde1a54025bdc9f964cdfb6cbd9f015fb94cc473949584abe8ba01031d9d983",
+            "id": "node-count-v1",
+            "version": "1"
+          },
+          {
+            "contentHash": "sha256:13f1db7824b26dd6ec1d8ff6ca169670637dd780b11db2ba308c6356e24197c5",
+            "id": "edge-count-v1",
+            "version": "1"
+          },
+          {
+            "contentHash": "sha256:bd3c0c2440644cb1da3251a1b3b585d061e172fa6e674aca0de8250b1f800ee1",
+            "id": "weak-component-sizes-v1",
+            "version": "1"
+          },
+          {
+            "contentHash": "sha256:9ee44d035a7da8c0bb040c0a2d4dc39a91bdc8fa0f08a588aff4955931e12671",
+            "id": "strong-component-sizes-v1",
+            "version": "1"
+          },
+          {
+            "contentHash": "sha256:0d267b9b833a0a7b7e341190e4522a1c9fac9792d651d10081ea82468618f74f",
+            "id": "reachable-ordered-pair-count-v1",
+            "version": "1"
+          },
+          {
+            "contentHash": "sha256:325e52ae7471466b4e032c7067585331bb1ce4c49be9e10b28d4685874aacbd6",
+            "id": "cyclic-node-count-v1",
+            "version": "1"
+          },
+          {
+            "contentHash": "sha256:df7729800602b4a29082552fbcdd36d9f44cf2851024cc3396196b94f95823d6",
+            "id": "isolated-node-count-v1",
+            "version": "1"
+          }
+        ],
+        "regime": {
+          "contentHash": "sha256:41a6fa10321e885da08f671de608de62cb1e51154b05a1c3cc2154d107f7646c",
+          "id": "topology-only-v1",
+          "version": "1"
+        },
+        "value": {
+          "cyclicNodeCount": 0,
+          "edgeCount": 1,
+          "isolatedNodeCount": 0,
+          "nodeCount": 2,
+          "reachableOrderedPairCount": 1,
+          "strongComponentSizes": [
+            1,
+            1
+          ],
+          "weakComponentSizes": [
+            2
+          ]
+        },
+        "valueHash": "sha256:3b0593318cc803bad59b442792e8e5dddec035a8ffaf18e5d53b0e0669abbf01"
+      },
+      "preparation": {
+        "analysis": {
+          "id": "structural-regime-preparation",
+          "version": "1"
+        },
+        "artifactHash": "sha256:af957e085f4b6ba9efa4457202f0111ed5d48a2ecb6b8c24839d825085579e3e",
+        "context": {
+          "contextHash": "sha256:b3b38207bf32b69d3d4f71a6d521fae32d44d2d8ee5d6284d0cade7a7e6fa6aa",
+          "dictionaryHash": "sha256:19e99088899e959ec8cdc75e442b071a99c5aa0f177b32574de84bcc40a2ab7f",
+          "model": {
+            "manifestHash": "sha256:0d01b7eff033629772e258b310d810c006a9137860a72698b16378162e84cf5c",
+            "modelId": "typed-all-fields-missing",
+            "modelRootHash": "sha256:f86d3427d1bb6a272ce1cd93a1c6edc8d22d814bef3d5d37b3b70c878de3dca0",
+            "modelVersion": "1"
+          },
+          "normalizationContext": "full-source-projection",
+          "projectionPolicyHash": "sha256:25f5cdb778b7fdf05ff071dd9d8c672a9726ca50958a6192066e72a8523172d1",
+          "schemaVersion": "1",
+          "sourceProjectionHash": "sha256:6b01eeb87cd2847a3eac0d7b5f0e0e7d08eb865d44936adaf702ea2f52e178ce"
+        },
+        "evaluation": "not-run",
+        "observableSpecs": [
+          {
+            "contentHash": "sha256:fcde1a54025bdc9f964cdfb6cbd9f015fb94cc473949584abe8ba01031d9d983",
+            "definition": "Number of scoped nodes including isolates.",
+            "id": "node-count-v1",
+            "mandatory": true,
+            "normalization": "none",
+            "requiredEvidence": [
+              "verified-scoped-directed-projection"
+            ],
+            "schemaVersion": "1",
+            "scope": "whole-scoped-directed-graph",
+            "supplier": {
+              "contentHash": "sha256:1c5bbf5a89ecc2227c3ce8561d05db27899d9eb7c358f2499ff92482bc0a3094",
+              "definition": "Number of scoped nodes including isolates.",
+              "id": "structural-topology-observation-v1",
+              "operation": "node-count-v1",
+              "version": "1"
+            },
+            "units": "nodes",
+            "valueType": "nonnegative-integer",
+            "version": "1"
+          },
+          {
+            "contentHash": "sha256:13f1db7824b26dd6ec1d8ff6ca169670637dd780b11db2ba308c6356e24197c5",
+            "definition": "Number of directed edges with both endpoints in scope.",
+            "id": "edge-count-v1",
+            "mandatory": true,
+            "normalization": "none",
+            "requiredEvidence": [
+              "verified-scoped-directed-projection"
+            ],
+            "schemaVersion": "1",
+            "scope": "whole-scoped-directed-graph",
+            "supplier": {
+              "contentHash": "sha256:e7eaf1950c48a34a7e090bac19514e4b643745091f421af4bf8f4fa94e866ea3",
+              "definition": "Number of directed edges with both endpoints in scope.",
+              "id": "structural-topology-observation-v1",
+              "operation": "edge-count-v1",
+              "version": "1"
+            },
+            "units": "edges",
+            "valueType": "nonnegative-integer",
+            "version": "1"
+          },
+          {
+            "contentHash": "sha256:bd3c0c2440644cb1da3251a1b3b585d061e172fa6e674aca0de8250b1f800ee1",
+            "definition": "Ascending multiset of weak-component sizes, including singleton isolates.",
+            "id": "weak-component-sizes-v1",
+            "mandatory": true,
+            "normalization": "none",
+            "requiredEvidence": [
+              "verified-scoped-directed-projection"
+            ],
+            "schemaVersion": "1",
+            "scope": "whole-scoped-directed-graph",
+            "supplier": {
+              "contentHash": "sha256:fa82e6697a161dc291b14236e0c03239a263a8e2880aa618bade7878f5cd650f",
+              "definition": "Ascending multiset of weak-component sizes, including singleton isolates.",
+              "id": "structural-topology-observation-v1",
+              "operation": "weak-component-sizes-v1",
+              "version": "1"
+            },
+            "units": "nodes",
+            "valueType": "sorted-positive-integer-vector",
+            "version": "1"
+          },
+          {
+            "contentHash": "sha256:9ee44d035a7da8c0bb040c0a2d4dc39a91bdc8fa0f08a588aff4955931e12671",
+            "definition": "Ascending multiset of strongly connected component sizes, including singletons.",
+            "id": "strong-component-sizes-v1",
+            "mandatory": true,
+            "normalization": "none",
+            "requiredEvidence": [
+              "verified-scoped-directed-projection"
+            ],
+            "schemaVersion": "1",
+            "scope": "whole-scoped-directed-graph",
+            "supplier": {
+              "contentHash": "sha256:22c1527afc6086e99bb4863fb8b8f01314508cfecfde7d29a6712ac5a4b482cf",
+              "definition": "Ascending multiset of strongly connected component sizes, including singletons.",
+              "id": "structural-topology-observation-v1",
+              "operation": "strong-component-sizes-v1",
+              "version": "1"
+            },
+            "units": "nodes",
+            "valueType": "sorted-positive-integer-vector",
+            "version": "1"
+          },
+          {
+            "contentHash": "sha256:0d267b9b833a0a7b7e341190e4522a1c9fac9792d651d10081ea82468618f74f",
+            "definition": "Number of distinct ordered pairs (u,v), u != v, connected by a directed path; each pair counted once.",
+            "id": "reachable-ordered-pair-count-v1",
+            "mandatory": true,
+            "normalization": "none",
+            "requiredEvidence": [
+              "verified-scoped-directed-projection"
+            ],
+            "schemaVersion": "1",
+            "scope": "whole-scoped-directed-graph",
+            "supplier": {
+              "contentHash": "sha256:dd96075c23dbfad7dcbb7a7bb1b3c22f3ab09eedda86ae55a17f63781e81deda",
+              "definition": "Number of distinct ordered pairs (u,v), u != v, connected by a directed path; each pair counted once.",
+              "id": "structural-topology-observation-v1",
+              "operation": "reachable-ordered-pair-count-v1",
+              "version": "1"
+            },
+            "units": "ordered-node-pairs",
+            "valueType": "nonnegative-integer",
+            "version": "1"
+          },
+          {
+            "contentHash": "sha256:325e52ae7471466b4e032c7067585331bb1ce4c49be9e10b28d4685874aacbd6",
+            "definition": "Number of nodes in a strongly connected component of size greater than one; source policy excludes self-loops.",
+            "id": "cyclic-node-count-v1",
+            "mandatory": true,
+            "normalization": "none",
+            "requiredEvidence": [
+              "verified-scoped-directed-projection"
+            ],
+            "schemaVersion": "1",
+            "scope": "whole-scoped-directed-graph",
+            "supplier": {
+              "contentHash": "sha256:fe124df3bc0c701397ef34c0e928c041c73864bc2a4643e6d87d38af9ea716b9",
+              "definition": "Number of nodes in a strongly connected component of size greater than one; source policy excludes self-loops.",
+              "id": "structural-topology-observation-v1",
+              "operation": "cyclic-node-count-v1",
+              "version": "1"
+            },
+            "units": "nodes",
+            "valueType": "nonnegative-integer",
+            "version": "1"
+          },
+          {
+            "contentHash": "sha256:df7729800602b4a29082552fbcdd36d9f44cf2851024cc3396196b94f95823d6",
+            "definition": "Number of nodes with zero incoming and zero outgoing scoped edges.",
+            "id": "isolated-node-count-v1",
+            "mandatory": true,
+            "normalization": "none",
+            "requiredEvidence": [
+              "verified-scoped-directed-projection"
+            ],
+            "schemaVersion": "1",
+            "scope": "whole-scoped-directed-graph",
+            "supplier": {
+              "contentHash": "sha256:b91ef0b7bb6e72876cf1c81a04a2e451d16966920ee2d89c330bb8659a70d248",
+              "definition": "Number of nodes with zero incoming and zero outgoing scoped edges.",
+              "id": "structural-topology-observation-v1",
+              "operation": "isolated-node-count-v1",
+              "version": "1"
+            },
+            "units": "nodes",
+            "valueType": "nonnegative-integer",
+            "version": "1"
+          }
+        ],
+        "regime": {
+          "aggregationPolicy": {
+            "completeDifferentStatus": "distinguishable-under-regime",
+            "completeEqualStatus": "indistinguishable-under-regime",
+            "contentHash": "sha256:b736a798a746914cbbcb1ca38fd90f265fb33288c9b4d29619bb2c977bd0ccaf",
+            "distanceConstruction": "deferred-to-comparison-contract",
+            "id": "exact-profile-equality-v1",
+            "intervals": "unsupported",
+            "numericPolicy": "exact-discrete",
+            "tolerance": "none",
+            "version": "1"
+          },
+          "contentHash": "sha256:41a6fa10321e885da08f671de608de62cb1e51154b05a1c3cc2154d107f7646c",
+          "id": "topology-only-v1",
+          "invariancePolicy": {
+            "actsOn": "scoped-graph-with-transported-scope-membership",
+            "contentHash": "sha256:8d129f942e399ea18826590ba932a9a80b9eb4eb4a321dfa4fb6eefee8a8c002",
+            "id": "structural-relabeling-invariances-v1",
+            "probeExecution": "not-implied-by-declaration",
+            "provenanceHashes": "may-change",
+            "transformations": [
+              "record-order",
+              "bijective-node-id-renaming",
+              "bijective-edge-id-renaming",
+              "presentation-only-changes"
+            ],
+            "version": "1"
+          },
+          "limits": {
+            "maxArtifactBytes": 1048576,
+            "maxCanonicalEntries": 100000,
+            "maxEdges": 256,
+            "maxNodes": 64,
+            "maxReachabilityPairVisits": 4096,
+            "maxSearchStates": 0,
+            "minNodes": 1
+          },
+          "matchingPolicy": {
+            "contentHash": "sha256:acfbaf1dcd4e1c0127485337b30848a09ff64daa4f03a0e508ddc904f999b407",
+            "direction": "preserved",
+            "edgeMatching": "none",
+            "equivalence": "ordered-observable-profile-equality",
+            "exhaustion": "error-no-partial-profile",
+            "graphIsomorphismClaim": false,
+            "id": "directed-summary-matching-v1",
+            "nodeMatching": "none",
+            "sourceIdentifiers": "provenance-only",
+            "version": "1"
+          },
+          "missingnessPolicy": {
+            "contentHash": "sha256:b2bdf91b18bc4da156f9e8f49977e1f59d55e32712baeb3fadb1f8bdcb66e7c8",
+            "coverage": "per-component-with-reasons",
+            "emptyProfile": "indeterminate",
+            "id": "strict-indeterminate-v1",
+            "incompleteDistance": null,
+            "incompleteStatus": "indeterminate",
+            "invalidArtifact": "validation-error",
+            "mandatoryGaps": [
+              "missing",
+              "unavailable",
+              "rejected",
+              "unresolved"
+            ],
+            "observedDifferences": "retain-as-diagnostics",
+            "partialDistance": "not-supported",
+            "version": "1"
+          },
+          "observables": [
+            {
+              "contentHash": "sha256:fcde1a54025bdc9f964cdfb6cbd9f015fb94cc473949584abe8ba01031d9d983",
+              "id": "node-count-v1",
+              "version": "1"
+            },
+            {
+              "contentHash": "sha256:13f1db7824b26dd6ec1d8ff6ca169670637dd780b11db2ba308c6356e24197c5",
+              "id": "edge-count-v1",
+              "version": "1"
+            },
+            {
+              "contentHash": "sha256:bd3c0c2440644cb1da3251a1b3b585d061e172fa6e674aca0de8250b1f800ee1",
+              "id": "weak-component-sizes-v1",
+              "version": "1"
+            },
+            {
+              "contentHash": "sha256:9ee44d035a7da8c0bb040c0a2d4dc39a91bdc8fa0f08a588aff4955931e12671",
+              "id": "strong-component-sizes-v1",
+              "version": "1"
+            },
+            {
+              "contentHash": "sha256:0d267b9b833a0a7b7e341190e4522a1c9fac9792d651d10081ea82468618f74f",
+              "id": "reachable-ordered-pair-count-v1",
+              "version": "1"
+            },
+            {
+              "contentHash": "sha256:325e52ae7471466b4e032c7067585331bb1ce4c49be9e10b28d4685874aacbd6",
+              "id": "cyclic-node-count-v1",
+              "version": "1"
+            },
+            {
+              "contentHash": "sha256:df7729800602b4a29082552fbcdd36d9f44cf2851024cc3396196b94f95823d6",
+              "id": "isolated-node-count-v1",
+              "version": "1"
+            }
+          ],
+          "probeSets": {
+            "invariance": {
+              "contentHash": "sha256:aef895be35a566818dc1be7a75be99cee6f3678b7cabc5bdcf48c5dff4ade705",
+              "execution": "none",
+              "id": "empty-invariance-probe-set-v1",
+              "probes": [],
+              "version": "1"
+            },
+            "response": {
+              "contentHash": "sha256:88406c5d44694471e7ae217b6811d3b4e8fb74b11b86269fd777c2323e1a6326",
+              "execution": "none",
+              "id": "empty-response-probe-set-v1",
+              "probes": [],
+              "version": "1"
+            }
+          },
+          "projectionPolicy": {
+            "contentHash": "sha256:25f5cdb778b7fdf05ff071dd9d8c672a9726ca50958a6192066e72a8523172d1",
+            "id": "source-parent-directed-v1",
+            "version": "1"
+          },
+          "schemaVersion": "1",
+          "scopePolicy": {
+            "boundary": "partition-incoming-outgoing-external-edges",
+            "contentHash": "sha256:93ae51edd5049b84399b0483423e21cc67b9f78778bffee279ef5f256e6b5671",
+            "edges": "both-endpoints-in-scope",
+            "id": "verified-source-induced-scope-v1",
+            "implicitTruncation": "forbidden",
+            "isolatedNodes": "retained",
+            "membership": "explicit-node-set-or-full-source",
+            "sourceVerification": "complete-model-before-scoping",
+            "version": "1"
+          },
+          "version": "1",
+          "vocabularyPolicy": {
+            "contentHash": "sha256:2b8dd35f9ca28b70cd60065e86f004b10ce63b2a3d093956bdba9af20b0b7e72",
+            "id": "untyped-vocabulary-v1",
+            "meaning": "excluded-from-observations",
+            "version": "1"
+          }
+        },
+        "request": {
+          "regimeId": "topology-only-v1",
+          "scope": {
+            "kind": "full"
+          }
+        },
+        "schemaVersion": "1",
+        "scope": {
+          "edgeIds": [
+            "e0"
+          ],
+          "externalEdgeIds": [],
+          "incomingBoundaryEdgeIds": [],
+          "kind": "full",
+          "nodeIds": [
+            "n0",
+            "n1"
+          ],
+          "outgoingBoundaryEdgeIds": [],
+          "scopeHash": "sha256:5a8561e1cad110ff5dfe84cf9bb4c0ff887a23c1606570500167407111dd4d22",
+          "sourceEdgeCount": 1,
+          "sourceNodeCount": 2,
+          "sourceProjectionHash": "sha256:6b01eeb87cd2847a3eac0d7b5f0e0e7d08eb865d44936adaf702ea2f52e178ce"
+        }
+      },
+      "schemaVersion": "1"
+    },
+    "right": {
+      "analysis": {
+        "id": "structural-topology-observation",
+        "version": "1"
+      },
+      "artifactHash": "sha256:c9de38723016cd412ac6f443365fa1682cfce6ec314196c01721f5df80e68311",
+      "diagnostics": {
+        "reachablePairsBySource": [
+          {
+            "count": 0,
+            "sourceNodeId": "n0"
+          },
+          {
+            "count": 0,
+            "sourceNodeId": "n1"
+          }
+        ],
+        "strongComponents": [
+          [
+            "n0"
+          ],
+          [
+            "n1"
+          ]
+        ],
+        "weakComponents": [
+          [
+            "n0"
+          ],
+          [
+            "n1"
+          ]
+        ],
+        "work": {
+          "reachabilityEdgeScans": 0,
+          "reachabilityPairVisits": 2
+        }
+      },
+      "evaluation": "measured",
+      "implementation": {
+        "attributes": "excluded",
+        "componentSizeOrdering": "numeric-ascending",
+        "contentHash": "sha256:56e0a358ae1c6f3618fb792c319bedc2d1e06db637b8410de1a39d4a69f3a4e8",
+        "diagnosticOrdering": "source-id-ascending",
+        "edgeScans": "directed-adjacency-entries-scanned-by-reachability-only",
+        "graphIsomorphismClaim": false,
+        "id": "directed-topology-observation-v1",
+        "pairVisits": "distinct-source-target-visits-including-self-seeds",
+        "reachability": "breadth-first-from-each-scoped-node",
+        "strongComponents": "mutual-directed-reachability",
+        "valueFields": [
+          {
+            "field": "nodeCount",
+            "observableId": "node-count-v1"
+          },
+          {
+            "field": "edgeCount",
+            "observableId": "edge-count-v1"
+          },
+          {
+            "field": "weakComponentSizes",
+            "observableId": "weak-component-sizes-v1"
+          },
+          {
+            "field": "strongComponentSizes",
+            "observableId": "strong-component-sizes-v1"
+          },
+          {
+            "field": "reachableOrderedPairCount",
+            "observableId": "reachable-ordered-pair-count-v1"
+          },
+          {
+            "field": "cyclicNodeCount",
+            "observableId": "cyclic-node-count-v1"
+          },
+          {
+            "field": "isolatedNodeCount",
+            "observableId": "isolated-node-count-v1"
+          }
+        ],
+        "version": "1",
+        "weakComponents": "undirected-breadth-first"
+      },
+      "observation": {
+        "implementation": {
+          "contentHash": "sha256:56e0a358ae1c6f3618fb792c319bedc2d1e06db637b8410de1a39d4a69f3a4e8",
+          "id": "directed-topology-observation-v1",
+          "version": "1"
+        },
+        "observables": [
+          {
+            "contentHash": "sha256:fcde1a54025bdc9f964cdfb6cbd9f015fb94cc473949584abe8ba01031d9d983",
+            "id": "node-count-v1",
+            "version": "1"
+          },
+          {
+            "contentHash": "sha256:13f1db7824b26dd6ec1d8ff6ca169670637dd780b11db2ba308c6356e24197c5",
+            "id": "edge-count-v1",
+            "version": "1"
+          },
+          {
+            "contentHash": "sha256:bd3c0c2440644cb1da3251a1b3b585d061e172fa6e674aca0de8250b1f800ee1",
+            "id": "weak-component-sizes-v1",
+            "version": "1"
+          },
+          {
+            "contentHash": "sha256:9ee44d035a7da8c0bb040c0a2d4dc39a91bdc8fa0f08a588aff4955931e12671",
+            "id": "strong-component-sizes-v1",
+            "version": "1"
+          },
+          {
+            "contentHash": "sha256:0d267b9b833a0a7b7e341190e4522a1c9fac9792d651d10081ea82468618f74f",
+            "id": "reachable-ordered-pair-count-v1",
+            "version": "1"
+          },
+          {
+            "contentHash": "sha256:325e52ae7471466b4e032c7067585331bb1ce4c49be9e10b28d4685874aacbd6",
+            "id": "cyclic-node-count-v1",
+            "version": "1"
+          },
+          {
+            "contentHash": "sha256:df7729800602b4a29082552fbcdd36d9f44cf2851024cc3396196b94f95823d6",
+            "id": "isolated-node-count-v1",
+            "version": "1"
+          }
+        ],
+        "regime": {
+          "contentHash": "sha256:41a6fa10321e885da08f671de608de62cb1e51154b05a1c3cc2154d107f7646c",
+          "id": "topology-only-v1",
+          "version": "1"
+        },
+        "value": {
+          "cyclicNodeCount": 0,
+          "edgeCount": 0,
+          "isolatedNodeCount": 2,
+          "nodeCount": 2,
+          "reachableOrderedPairCount": 0,
+          "strongComponentSizes": [
+            1,
+            1
+          ],
+          "weakComponentSizes": [
+            1,
+            1
+          ]
+        },
+        "valueHash": "sha256:07ae8d4bbd1122acd98be9817783e05cd8e76609f1f278d24593ca988aacd2f6"
+      },
+      "preparation": {
+        "analysis": {
+          "id": "structural-regime-preparation",
+          "version": "1"
+        },
+        "artifactHash": "sha256:04a2ca326cceb434917a609a292b3e1767d3cdd53a1108c8990c4c66ab9966ee",
+        "context": {
+          "contextHash": "sha256:94aeee983ec3a50afc3e6b9e3123831c4c15938d894cb9afef9217a570b82b76",
+          "dictionaryHash": "sha256:19e99088899e959ec8cdc75e442b071a99c5aa0f177b32574de84bcc40a2ab7f",
+          "model": {
+            "manifestHash": "sha256:8d4d52b4ed68ad40594c0bba70925f158227a20f1a342eff3c7f5eb0eb0d56b7",
+            "modelId": "typed-two-isolates",
+            "modelRootHash": "sha256:82037ab244412c9638806f6c0c4efb3e70e4728eceb221967f4088cc077c8774",
+            "modelVersion": "1"
+          },
+          "normalizationContext": "full-source-projection",
+          "projectionPolicyHash": "sha256:25f5cdb778b7fdf05ff071dd9d8c672a9726ca50958a6192066e72a8523172d1",
+          "schemaVersion": "1",
+          "sourceProjectionHash": "sha256:fcdfef61522ceb8f40586fbf8ef1f27fa6651a2eeab81db27703fb525471e5a4"
+        },
+        "evaluation": "not-run",
+        "observableSpecs": [
+          {
+            "contentHash": "sha256:fcde1a54025bdc9f964cdfb6cbd9f015fb94cc473949584abe8ba01031d9d983",
+            "definition": "Number of scoped nodes including isolates.",
+            "id": "node-count-v1",
+            "mandatory": true,
+            "normalization": "none",
+            "requiredEvidence": [
+              "verified-scoped-directed-projection"
+            ],
+            "schemaVersion": "1",
+            "scope": "whole-scoped-directed-graph",
+            "supplier": {
+              "contentHash": "sha256:1c5bbf5a89ecc2227c3ce8561d05db27899d9eb7c358f2499ff92482bc0a3094",
+              "definition": "Number of scoped nodes including isolates.",
+              "id": "structural-topology-observation-v1",
+              "operation": "node-count-v1",
+              "version": "1"
+            },
+            "units": "nodes",
+            "valueType": "nonnegative-integer",
+            "version": "1"
+          },
+          {
+            "contentHash": "sha256:13f1db7824b26dd6ec1d8ff6ca169670637dd780b11db2ba308c6356e24197c5",
+            "definition": "Number of directed edges with both endpoints in scope.",
+            "id": "edge-count-v1",
+            "mandatory": true,
+            "normalization": "none",
+            "requiredEvidence": [
+              "verified-scoped-directed-projection"
+            ],
+            "schemaVersion": "1",
+            "scope": "whole-scoped-directed-graph",
+            "supplier": {
+              "contentHash": "sha256:e7eaf1950c48a34a7e090bac19514e4b643745091f421af4bf8f4fa94e866ea3",
+              "definition": "Number of directed edges with both endpoints in scope.",
+              "id": "structural-topology-observation-v1",
+              "operation": "edge-count-v1",
+              "version": "1"
+            },
+            "units": "edges",
+            "valueType": "nonnegative-integer",
+            "version": "1"
+          },
+          {
+            "contentHash": "sha256:bd3c0c2440644cb1da3251a1b3b585d061e172fa6e674aca0de8250b1f800ee1",
+            "definition": "Ascending multiset of weak-component sizes, including singleton isolates.",
+            "id": "weak-component-sizes-v1",
+            "mandatory": true,
+            "normalization": "none",
+            "requiredEvidence": [
+              "verified-scoped-directed-projection"
+            ],
+            "schemaVersion": "1",
+            "scope": "whole-scoped-directed-graph",
+            "supplier": {
+              "contentHash": "sha256:fa82e6697a161dc291b14236e0c03239a263a8e2880aa618bade7878f5cd650f",
+              "definition": "Ascending multiset of weak-component sizes, including singleton isolates.",
+              "id": "structural-topology-observation-v1",
+              "operation": "weak-component-sizes-v1",
+              "version": "1"
+            },
+            "units": "nodes",
+            "valueType": "sorted-positive-integer-vector",
+            "version": "1"
+          },
+          {
+            "contentHash": "sha256:9ee44d035a7da8c0bb040c0a2d4dc39a91bdc8fa0f08a588aff4955931e12671",
+            "definition": "Ascending multiset of strongly connected component sizes, including singletons.",
+            "id": "strong-component-sizes-v1",
+            "mandatory": true,
+            "normalization": "none",
+            "requiredEvidence": [
+              "verified-scoped-directed-projection"
+            ],
+            "schemaVersion": "1",
+            "scope": "whole-scoped-directed-graph",
+            "supplier": {
+              "contentHash": "sha256:22c1527afc6086e99bb4863fb8b8f01314508cfecfde7d29a6712ac5a4b482cf",
+              "definition": "Ascending multiset of strongly connected component sizes, including singletons.",
+              "id": "structural-topology-observation-v1",
+              "operation": "strong-component-sizes-v1",
+              "version": "1"
+            },
+            "units": "nodes",
+            "valueType": "sorted-positive-integer-vector",
+            "version": "1"
+          },
+          {
+            "contentHash": "sha256:0d267b9b833a0a7b7e341190e4522a1c9fac9792d651d10081ea82468618f74f",
+            "definition": "Number of distinct ordered pairs (u,v), u != v, connected by a directed path; each pair counted once.",
+            "id": "reachable-ordered-pair-count-v1",
+            "mandatory": true,
+            "normalization": "none",
+            "requiredEvidence": [
+              "verified-scoped-directed-projection"
+            ],
+            "schemaVersion": "1",
+            "scope": "whole-scoped-directed-graph",
+            "supplier": {
+              "contentHash": "sha256:dd96075c23dbfad7dcbb7a7bb1b3c22f3ab09eedda86ae55a17f63781e81deda",
+              "definition": "Number of distinct ordered pairs (u,v), u != v, connected by a directed path; each pair counted once.",
+              "id": "structural-topology-observation-v1",
+              "operation": "reachable-ordered-pair-count-v1",
+              "version": "1"
+            },
+            "units": "ordered-node-pairs",
+            "valueType": "nonnegative-integer",
+            "version": "1"
+          },
+          {
+            "contentHash": "sha256:325e52ae7471466b4e032c7067585331bb1ce4c49be9e10b28d4685874aacbd6",
+            "definition": "Number of nodes in a strongly connected component of size greater than one; source policy excludes self-loops.",
+            "id": "cyclic-node-count-v1",
+            "mandatory": true,
+            "normalization": "none",
+            "requiredEvidence": [
+              "verified-scoped-directed-projection"
+            ],
+            "schemaVersion": "1",
+            "scope": "whole-scoped-directed-graph",
+            "supplier": {
+              "contentHash": "sha256:fe124df3bc0c701397ef34c0e928c041c73864bc2a4643e6d87d38af9ea716b9",
+              "definition": "Number of nodes in a strongly connected component of size greater than one; source policy excludes self-loops.",
+              "id": "structural-topology-observation-v1",
+              "operation": "cyclic-node-count-v1",
+              "version": "1"
+            },
+            "units": "nodes",
+            "valueType": "nonnegative-integer",
+            "version": "1"
+          },
+          {
+            "contentHash": "sha256:df7729800602b4a29082552fbcdd36d9f44cf2851024cc3396196b94f95823d6",
+            "definition": "Number of nodes with zero incoming and zero outgoing scoped edges.",
+            "id": "isolated-node-count-v1",
+            "mandatory": true,
+            "normalization": "none",
+            "requiredEvidence": [
+              "verified-scoped-directed-projection"
+            ],
+            "schemaVersion": "1",
+            "scope": "whole-scoped-directed-graph",
+            "supplier": {
+              "contentHash": "sha256:b91ef0b7bb6e72876cf1c81a04a2e451d16966920ee2d89c330bb8659a70d248",
+              "definition": "Number of nodes with zero incoming and zero outgoing scoped edges.",
+              "id": "structural-topology-observation-v1",
+              "operation": "isolated-node-count-v1",
+              "version": "1"
+            },
+            "units": "nodes",
+            "valueType": "nonnegative-integer",
+            "version": "1"
+          }
+        ],
+        "regime": {
+          "aggregationPolicy": {
+            "completeDifferentStatus": "distinguishable-under-regime",
+            "completeEqualStatus": "indistinguishable-under-regime",
+            "contentHash": "sha256:b736a798a746914cbbcb1ca38fd90f265fb33288c9b4d29619bb2c977bd0ccaf",
+            "distanceConstruction": "deferred-to-comparison-contract",
+            "id": "exact-profile-equality-v1",
+            "intervals": "unsupported",
+            "numericPolicy": "exact-discrete",
+            "tolerance": "none",
+            "version": "1"
+          },
+          "contentHash": "sha256:41a6fa10321e885da08f671de608de62cb1e51154b05a1c3cc2154d107f7646c",
+          "id": "topology-only-v1",
+          "invariancePolicy": {
+            "actsOn": "scoped-graph-with-transported-scope-membership",
+            "contentHash": "sha256:8d129f942e399ea18826590ba932a9a80b9eb4eb4a321dfa4fb6eefee8a8c002",
+            "id": "structural-relabeling-invariances-v1",
+            "probeExecution": "not-implied-by-declaration",
+            "provenanceHashes": "may-change",
+            "transformations": [
+              "record-order",
+              "bijective-node-id-renaming",
+              "bijective-edge-id-renaming",
+              "presentation-only-changes"
+            ],
+            "version": "1"
+          },
+          "limits": {
+            "maxArtifactBytes": 1048576,
+            "maxCanonicalEntries": 100000,
+            "maxEdges": 256,
+            "maxNodes": 64,
+            "maxReachabilityPairVisits": 4096,
+            "maxSearchStates": 0,
+            "minNodes": 1
+          },
+          "matchingPolicy": {
+            "contentHash": "sha256:acfbaf1dcd4e1c0127485337b30848a09ff64daa4f03a0e508ddc904f999b407",
+            "direction": "preserved",
+            "edgeMatching": "none",
+            "equivalence": "ordered-observable-profile-equality",
+            "exhaustion": "error-no-partial-profile",
+            "graphIsomorphismClaim": false,
+            "id": "directed-summary-matching-v1",
+            "nodeMatching": "none",
+            "sourceIdentifiers": "provenance-only",
+            "version": "1"
+          },
+          "missingnessPolicy": {
+            "contentHash": "sha256:b2bdf91b18bc4da156f9e8f49977e1f59d55e32712baeb3fadb1f8bdcb66e7c8",
+            "coverage": "per-component-with-reasons",
+            "emptyProfile": "indeterminate",
+            "id": "strict-indeterminate-v1",
+            "incompleteDistance": null,
+            "incompleteStatus": "indeterminate",
+            "invalidArtifact": "validation-error",
+            "mandatoryGaps": [
+              "missing",
+              "unavailable",
+              "rejected",
+              "unresolved"
+            ],
+            "observedDifferences": "retain-as-diagnostics",
+            "partialDistance": "not-supported",
+            "version": "1"
+          },
+          "observables": [
+            {
+              "contentHash": "sha256:fcde1a54025bdc9f964cdfb6cbd9f015fb94cc473949584abe8ba01031d9d983",
+              "id": "node-count-v1",
+              "version": "1"
+            },
+            {
+              "contentHash": "sha256:13f1db7824b26dd6ec1d8ff6ca169670637dd780b11db2ba308c6356e24197c5",
+              "id": "edge-count-v1",
+              "version": "1"
+            },
+            {
+              "contentHash": "sha256:bd3c0c2440644cb1da3251a1b3b585d061e172fa6e674aca0de8250b1f800ee1",
+              "id": "weak-component-sizes-v1",
+              "version": "1"
+            },
+            {
+              "contentHash": "sha256:9ee44d035a7da8c0bb040c0a2d4dc39a91bdc8fa0f08a588aff4955931e12671",
+              "id": "strong-component-sizes-v1",
+              "version": "1"
+            },
+            {
+              "contentHash": "sha256:0d267b9b833a0a7b7e341190e4522a1c9fac9792d651d10081ea82468618f74f",
+              "id": "reachable-ordered-pair-count-v1",
+              "version": "1"
+            },
+            {
+              "contentHash": "sha256:325e52ae7471466b4e032c7067585331bb1ce4c49be9e10b28d4685874aacbd6",
+              "id": "cyclic-node-count-v1",
+              "version": "1"
+            },
+            {
+              "contentHash": "sha256:df7729800602b4a29082552fbcdd36d9f44cf2851024cc3396196b94f95823d6",
+              "id": "isolated-node-count-v1",
+              "version": "1"
+            }
+          ],
+          "probeSets": {
+            "invariance": {
+              "contentHash": "sha256:aef895be35a566818dc1be7a75be99cee6f3678b7cabc5bdcf48c5dff4ade705",
+              "execution": "none",
+              "id": "empty-invariance-probe-set-v1",
+              "probes": [],
+              "version": "1"
+            },
+            "response": {
+              "contentHash": "sha256:88406c5d44694471e7ae217b6811d3b4e8fb74b11b86269fd777c2323e1a6326",
+              "execution": "none",
+              "id": "empty-response-probe-set-v1",
+              "probes": [],
+              "version": "1"
+            }
+          },
+          "projectionPolicy": {
+            "contentHash": "sha256:25f5cdb778b7fdf05ff071dd9d8c672a9726ca50958a6192066e72a8523172d1",
+            "id": "source-parent-directed-v1",
+            "version": "1"
+          },
+          "schemaVersion": "1",
+          "scopePolicy": {
+            "boundary": "partition-incoming-outgoing-external-edges",
+            "contentHash": "sha256:93ae51edd5049b84399b0483423e21cc67b9f78778bffee279ef5f256e6b5671",
+            "edges": "both-endpoints-in-scope",
+            "id": "verified-source-induced-scope-v1",
+            "implicitTruncation": "forbidden",
+            "isolatedNodes": "retained",
+            "membership": "explicit-node-set-or-full-source",
+            "sourceVerification": "complete-model-before-scoping",
+            "version": "1"
+          },
+          "version": "1",
+          "vocabularyPolicy": {
+            "contentHash": "sha256:2b8dd35f9ca28b70cd60065e86f004b10ce63b2a3d093956bdba9af20b0b7e72",
+            "id": "untyped-vocabulary-v1",
+            "meaning": "excluded-from-observations",
+            "version": "1"
+          }
+        },
+        "request": {
+          "regimeId": "topology-only-v1",
+          "scope": {
+            "kind": "full"
+          }
+        },
+        "schemaVersion": "1",
+        "scope": {
+          "edgeIds": [],
+          "externalEdgeIds": [],
+          "incomingBoundaryEdgeIds": [],
+          "kind": "full",
+          "nodeIds": [
+            "n0",
+            "n1"
+          ],
+          "outgoingBoundaryEdgeIds": [],
+          "scopeHash": "sha256:191360eff48ddebf85f5b153eb77f6aaaecb54e47662f7bc2a99c953f51ffd90",
+          "sourceEdgeCount": 0,
+          "sourceNodeCount": 2,
+          "sourceProjectionHash": "sha256:fcdfef61522ceb8f40586fbf8ef1f27fa6651a2eeab81db27703fb525471e5a4"
+        }
+      },
+      "schemaVersion": "1"
+    }
+  },
+  "policy": {
+    "contentHash": "sha256:8a82cfeea8dd4829eca1e071dd002a4bb988831e48520421955d3e9b5f168d98",
+    "diagnostics": "retain-comparable-equalities-and-differences",
+    "distance": "complete-equal-zero-complete-different-one-incomplete-null",
+    "emptyProfile": "indeterminate",
+    "equality": "exact-canonical-value",
+    "errors": "throw-no-partial-success",
+    "evidenceRestrictions": "caller-declared-use-only-never-skip-source-or-mapping-verification",
+    "id": "strict-discrete-structural-comparison-v1",
+    "limits": {
+      "maxArtifactBytes": 4194304,
+      "maxCanonicalEntries": 500000,
+      "maxCanonicalizerCalls": 5,
+      "maxComponents": 7,
+      "maxEvidenceGaps": 14
+    },
+    "metadata": "excluded-from-distance",
+    "missingness": "strict-indeterminate-v1",
+    "ordering": "regime-observable-then-left-right",
+    "partialDistance": "unsupported",
+    "profile": "all-ordered-mandatory-regime-observables",
+    "signaturePseudometric": "deferred-to-R6",
+    "version": "1",
+    "vocabulary": "existing-explicit-typed-alignment"
+  },
+  "regime": {
+    "contentHash": "sha256:41a6fa10321e885da08f671de608de62cb1e51154b05a1c3cc2154d107f7646c",
+    "id": "topology-only-v1",
+    "version": "1"
+  },
+  "request": {
+    "evidenceGaps": [],
+    "leftScope": {
+      "kind": "full"
+    },
+    "regimeId": "topology-only-v1",
+    "rightScope": {
+      "kind": "full"
+    },
+    "vocabulary": null
+  },
+  "schemaVersion": "1",
+  "status": "distinguishable-under-regime"
+}

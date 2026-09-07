@@ -1,0 +1,799 @@
+{
+  "adapter": {
+    "contentHash": "sha256:f50bd13d6e5af467781922e8c1586916532face8b8fd11ac2a69961f318d75df",
+    "decoding": "parse-each-exact-json-payload-before-evaluation",
+    "graph": "preserve-all-node-ids-directed-endpoints-and-five-present-typed-fields",
+    "id": "invariance-shadow-observation-adapter-v1",
+    "implementations": [
+      {
+        "contentHash": "sha256:c24eb843608db1252a279b2f48f717f13d675680cd7607cec6d46d84c26d9a4d",
+        "id": "canonical-directed-observation-v1",
+        "version": "1"
+      },
+      {
+        "contentHash": "sha256:56e0a358ae1c6f3618fb792c319bedc2d1e06db637b8410de1a39d4a69f3a4e8",
+        "id": "directed-topology-observation-v1",
+        "version": "1"
+      },
+      {
+        "contentHash": "sha256:953f5ae6ad1fee7069058ac66116848c7b3981850feaf9a1c84d216325ba60e3",
+        "id": "typed-directed-observation-v1",
+        "version": "1"
+      }
+    ],
+    "input": "private-source-bound-representation",
+    "missing": "source-edge-and-field-with-null-value",
+    "presentation": "exclude-node-and-edge-presentation-and-viewport",
+    "typedVocabulary": "unchanged-verified-source-context",
+    "version": "1"
+  },
+  "analysis": {
+    "id": "structural-invariance-probes",
+    "version": "1"
+  },
+  "artifactHash": "sha256:6c239f1c4a3a047c6026516eebcb59db9ea9a6cee74891d66ec8b06cde2a737b",
+  "baseline": {
+    "mapping": {
+      "edges": [
+        {
+          "shadowEdgeId": "e000",
+          "sourceEdgeId": "e0"
+        }
+      ],
+      "nodes": [
+        {
+          "shadowNodeId": "n000",
+          "sourceNodeId": " left "
+        },
+        {
+          "shadowNodeId": "n001",
+          "sourceNodeId": "right\n"
+        }
+      ]
+    },
+    "observation": {
+      "adapter": {
+        "contentHash": "sha256:f50bd13d6e5af467781922e8c1586916532face8b8fd11ac2a69961f318d75df",
+        "id": "invariance-shadow-observation-adapter-v1",
+        "version": "1"
+      },
+      "artifactHash": "sha256:f5d109762bcf27ef3f62b412464db6919e4c68d30e06e78025986a1add909460",
+      "observations": [
+        {
+          "availability": "observed",
+          "implementation": {
+            "contentHash": "sha256:c24eb843608db1252a279b2f48f717f13d675680cd7607cec6d46d84c26d9a4d",
+            "id": "canonical-directed-observation-v1",
+            "version": "1"
+          },
+          "missing": [],
+          "observable": {
+            "contentHash": "sha256:48f137781781c54724e172256925e44c9a2be42a08610c88abaca8a9f6016e7b",
+            "id": "canonical-directed-structure-v1",
+            "version": "1"
+          },
+          "value": {
+            "edges": [
+              {
+                "from": 1,
+                "to": 0
+              }
+            ],
+            "nodeCount": 2
+          },
+          "valueHash": "sha256:8060acecaee158856fc8c599b0f3899dcc1ddd86ac35ce55aca62843691022d3"
+        }
+      ],
+      "payloadHash": "sha256:e79166841013b7db03d91d592d79708fe2c1be2f4f496153036bf394513e90da",
+      "source": {
+        "contextHash": "sha256:1eaaf9ebc182fb1923a96285da601a8923bb002d766e7af4320a333acebaa16a",
+        "scopeHash": "sha256:3dcfc99d2ce86551e8074e6f6595eb79ab27d6df6e054e3fa6971c9aef6ea3fd"
+      },
+      "work": {
+        "canonicalizerCalls": 1
+      }
+    },
+    "representation": {
+      "graphHash": "sha256:a507fa59ad4de1a597ee4fe79cf9b8751183ab3f62ad150257affb41917f1415",
+      "payload": "{\"nodes\":[{\"id\":\"n000\",\"presentation\":{\"label\":\"Node 0\",\"x\":0,\"y\":0}},{\"id\":\"n001\",\"presentation\":{\"label\":\"Node 1\",\"x\":1,\"y\":-1}}],\"edges\":[{\"id\":\"e000\",\"source\":\"n000\",\"target\":\"n001\",\"presentation\":{\"label\":\"Edge 0\",\"color\":\"#334155\"}}],\"viewport\":{\"zoom\":1}}",
+      "payloadHash": "sha256:e79166841013b7db03d91d592d79708fe2c1be2f4f496153036bf394513e90da"
+    },
+    "sourceShadowGraphHash": "sha256:69a8e3e1e9cc07fc20614faf48114b21569ddc5e2260754a22ec5f194ae29252"
+  },
+  "evaluation": "measured",
+  "policy": {
+    "codeExecution": "closed-data-transformations-only",
+    "comparison": "all-mandatory-observables-exact-values",
+    "contentHash": "sha256:34c87772235e3c8f0f0d01384c063a8a95c1d81ab9cb58c0ed22d1a3f3b013c3",
+    "copies": "every-probe-starts-from-baseline",
+    "emptyEdgeRename": "explicit-no-op",
+    "emptyProfile": "indeterminate",
+    "errors": "throw-no-partial-artifact",
+    "graphHash": "identifier-sensitive-provenance-excludes-presentation",
+    "id": "measured-structural-invariance-v1",
+    "limits": {
+      "maxArtifactBytes": 4194304,
+      "maxCanonicalEntries": 500000,
+      "maxCanonicalizerCalls": 10,
+      "maxObservationEvaluations": 5,
+      "maxRepresentations": 5
+    },
+    "missingness": "strict-indeterminate-retain-differences",
+    "payload": "exact-json-string-with-synthetic-presentation",
+    "registry": {
+      "contentHash": "sha256:bec1366254a158eb1df77ad709cb229fb8cd636dc0411a1a5c2c5b4f4f6b4862",
+      "id": "structural-invariance-probes-v1",
+      "version": "1"
+    },
+    "source": "verified-identity-sandbox",
+    "targets": "all-scoped-records",
+    "version": "1",
+    "vocabulary": "same-source-context-only"
+  },
+  "preparation": {
+    "analysis": {
+      "id": "structural-regime-preparation",
+      "version": "1"
+    },
+    "artifactHash": "sha256:96b5ff9c7e6d51c5d702be9a68e678f317fea77181c21c55fd11587ee096d9c2",
+    "context": {
+      "contextHash": "sha256:1eaaf9ebc182fb1923a96285da601a8923bb002d766e7af4320a333acebaa16a",
+      "dictionaryHash": "sha256:19e99088899e959ec8cdc75e442b071a99c5aa0f177b32574de84bcc40a2ab7f",
+      "model": {
+        "manifestHash": "sha256:0a70489d7f794be9a7d6d7e78ff13bbb232a260be8e8896ce4adc726807f57b2",
+        "modelId": "typed-opaque",
+        "modelRootHash": "sha256:158a19abb614835c941aa73129bf9d4c5ffc67021aa182d57211548314d0fce9",
+        "modelVersion": "1"
+      },
+      "normalizationContext": "full-source-projection",
+      "projectionPolicyHash": "sha256:25f5cdb778b7fdf05ff071dd9d8c672a9726ca50958a6192066e72a8523172d1",
+      "schemaVersion": "1",
+      "sourceProjectionHash": "sha256:a2b2f44ff55c6ae60450e7c7035badf35ff3d7fc37e0269ef459072874099df7"
+    },
+    "evaluation": "not-run",
+    "observableSpecs": [
+      {
+        "contentHash": "sha256:48f137781781c54724e172256925e44c9a2be42a08610c88abaca8a9f6016e7b",
+        "definition": "Canonical directed adjacency including isolated nodes, modulo node relabeling; all source attributes excluded.",
+        "id": "canonical-directed-structure-v1",
+        "mandatory": true,
+        "normalization": "none",
+        "requiredEvidence": [
+          "verified-scoped-directed-projection"
+        ],
+        "schemaVersion": "1",
+        "scope": "whole-scoped-directed-graph",
+        "supplier": {
+          "contentHash": "sha256:79e2978d134774168a5b534027caeb6709fe3ae8d18a97af21118982d07fb62e",
+          "definition": "Canonical directed adjacency including isolated nodes, modulo node relabeling; all source attributes excluded.",
+          "id": "structural-canonical-observation-v1",
+          "operation": "canonical-directed-structure-v1",
+          "version": "1"
+        },
+        "units": "discrete-structure",
+        "valueType": "canonical-directed-graph",
+        "version": "1"
+      }
+    ],
+    "regime": {
+      "aggregationPolicy": {
+        "completeDifferentStatus": "distinguishable-under-regime",
+        "completeEqualStatus": "indistinguishable-under-regime",
+        "contentHash": "sha256:b736a798a746914cbbcb1ca38fd90f265fb33288c9b4d29619bb2c977bd0ccaf",
+        "distanceConstruction": "deferred-to-comparison-contract",
+        "id": "exact-profile-equality-v1",
+        "intervals": "unsupported",
+        "numericPolicy": "exact-discrete",
+        "tolerance": "none",
+        "version": "1"
+      },
+      "contentHash": "sha256:9276d8ad6a0d6e872783a79af4de63727b6452b42db1928ffc9f20111d86a97c",
+      "id": "canonical-structure-v1",
+      "invariancePolicy": {
+        "actsOn": "scoped-graph-with-transported-scope-membership",
+        "contentHash": "sha256:8d129f942e399ea18826590ba932a9a80b9eb4eb4a321dfa4fb6eefee8a8c002",
+        "id": "structural-relabeling-invariances-v1",
+        "probeExecution": "not-implied-by-declaration",
+        "provenanceHashes": "may-change",
+        "transformations": [
+          "record-order",
+          "bijective-node-id-renaming",
+          "bijective-edge-id-renaming",
+          "presentation-only-changes"
+        ],
+        "version": "1"
+      },
+      "limits": {
+        "maxArtifactBytes": 1048576,
+        "maxCanonicalEntries": 100000,
+        "maxEdges": 30,
+        "maxNodes": 6,
+        "maxReachabilityPairVisits": 0,
+        "maxSearchStates": 100000,
+        "minNodes": 1
+      },
+      "matchingPolicy": {
+        "algorithm": "kernel-canonicalizeCandidate",
+        "candidateTranslation": {
+          "domain": "single-candidate",
+          "edgeAttributes": [],
+          "edgeRole": "source-parent",
+          "nodeAttributes": [],
+          "nodeRef": "sha256:33c6a7c3f6336627a0abdcd75cde0e59a81e7e5353723bac2d3a35df1c89cbde"
+        },
+        "contentHash": "sha256:6b0b78c73b1293e2f72f80607c5dea086df4a248f39e78ec462467b13923809e",
+        "direction": "preserved",
+        "disconnectedGraphs": "allowed",
+        "edgeMatching": "mapped-ordered-endpoints",
+        "equivalence": "directed-graph-isomorphism",
+        "exhaustion": "error-no-heuristic-identity",
+        "graphPolicy": {
+          "allowParallelEdges": false,
+          "allowSelfLoops": false,
+          "connected": false,
+          "connectivityProjection": "directed-weak",
+          "structuralEdgeAttributes": [],
+          "structuralNodeAttributes": []
+        },
+        "id": "directed-candidate-matching-v1",
+        "nodeMatching": "all-bijections",
+        "sourceIdentifiers": "provenance-only",
+        "version": "1"
+      },
+      "missingnessPolicy": {
+        "contentHash": "sha256:b2bdf91b18bc4da156f9e8f49977e1f59d55e32712baeb3fadb1f8bdcb66e7c8",
+        "coverage": "per-component-with-reasons",
+        "emptyProfile": "indeterminate",
+        "id": "strict-indeterminate-v1",
+        "incompleteDistance": null,
+        "incompleteStatus": "indeterminate",
+        "invalidArtifact": "validation-error",
+        "mandatoryGaps": [
+          "missing",
+          "unavailable",
+          "rejected",
+          "unresolved"
+        ],
+        "observedDifferences": "retain-as-diagnostics",
+        "partialDistance": "not-supported",
+        "version": "1"
+      },
+      "observables": [
+        {
+          "contentHash": "sha256:48f137781781c54724e172256925e44c9a2be42a08610c88abaca8a9f6016e7b",
+          "id": "canonical-directed-structure-v1",
+          "version": "1"
+        }
+      ],
+      "probeSets": {
+        "invariance": {
+          "contentHash": "sha256:aef895be35a566818dc1be7a75be99cee6f3678b7cabc5bdcf48c5dff4ade705",
+          "execution": "none",
+          "id": "empty-invariance-probe-set-v1",
+          "probes": [],
+          "version": "1"
+        },
+        "response": {
+          "contentHash": "sha256:88406c5d44694471e7ae217b6811d3b4e8fb74b11b86269fd777c2323e1a6326",
+          "execution": "none",
+          "id": "empty-response-probe-set-v1",
+          "probes": [],
+          "version": "1"
+        }
+      },
+      "projectionPolicy": {
+        "contentHash": "sha256:25f5cdb778b7fdf05ff071dd9d8c672a9726ca50958a6192066e72a8523172d1",
+        "id": "source-parent-directed-v1",
+        "version": "1"
+      },
+      "schemaVersion": "1",
+      "scopePolicy": {
+        "boundary": "partition-incoming-outgoing-external-edges",
+        "contentHash": "sha256:93ae51edd5049b84399b0483423e21cc67b9f78778bffee279ef5f256e6b5671",
+        "edges": "both-endpoints-in-scope",
+        "id": "verified-source-induced-scope-v1",
+        "implicitTruncation": "forbidden",
+        "isolatedNodes": "retained",
+        "membership": "explicit-node-set-or-full-source",
+        "sourceVerification": "complete-model-before-scoping",
+        "version": "1"
+      },
+      "version": "1",
+      "vocabularyPolicy": {
+        "contentHash": "sha256:2b8dd35f9ca28b70cd60065e86f004b10ce63b2a3d093956bdba9af20b0b7e72",
+        "id": "untyped-vocabulary-v1",
+        "meaning": "excluded-from-observations",
+        "version": "1"
+      }
+    },
+    "request": {
+      "regimeId": "canonical-structure-v1",
+      "scope": {
+        "kind": "full"
+      }
+    },
+    "schemaVersion": "1",
+    "scope": {
+      "edgeIds": [
+        "e0"
+      ],
+      "externalEdgeIds": [],
+      "incomingBoundaryEdgeIds": [],
+      "kind": "full",
+      "nodeIds": [
+        " left ",
+        "right\n"
+      ],
+      "outgoingBoundaryEdgeIds": [],
+      "scopeHash": "sha256:3dcfc99d2ce86551e8074e6f6595eb79ab27d6df6e054e3fa6971c9aef6ea3fd",
+      "sourceEdgeCount": 1,
+      "sourceNodeCount": 2,
+      "sourceProjectionHash": "sha256:a2b2f44ff55c6ae60450e7c7035badf35ff3d7fc37e0269ef459072874099df7"
+    }
+  },
+  "registry": {
+    "contentHash": "sha256:bec1366254a158eb1df77ad709cb229fb8cd636dc0411a1a5c2c5b4f4f6b4862",
+    "id": "structural-invariance-probes-v1",
+    "probes": [
+      {
+        "contentHash": "sha256:418c8184b377acf5bf73ad19f5b0e7d103624aac4a87f6c4a7461362f2224851",
+        "family": "invariance",
+        "id": "record-order-probe-v1",
+        "mandatory": true,
+        "parameters": {
+          "keys": "reverse-recursively",
+          "records": "reverse-node-and-edge-arrays",
+          "whitespace": "two-space-indentation"
+        },
+        "target": "whole-scoped-representation",
+        "transformation": "record-order",
+        "version": "1"
+      },
+      {
+        "contentHash": "sha256:a69c1e750d074e5aa529b5c75b7b9149d63d292e44463e7aa915c24ea2c665d3",
+        "family": "invariance",
+        "id": "bijective-node-id-renaming-probe-v1",
+        "mandatory": true,
+        "parameters": {
+          "endpoints": "transport-both",
+          "namespace": "vertex:",
+          "ordinal": "reversed-zero-based-padded-three"
+        },
+        "target": "whole-scoped-representation",
+        "transformation": "bijective-node-id-renaming",
+        "version": "1"
+      },
+      {
+        "contentHash": "sha256:3476096b64e3c82a6844cfaad862536d800c531486ed756a90fc71d37538491c",
+        "family": "invariance",
+        "id": "bijective-edge-id-renaming-probe-v1",
+        "mandatory": true,
+        "parameters": {
+          "namespace": "link:",
+          "ordinal": "reversed-zero-based-padded-three"
+        },
+        "target": "whole-scoped-representation",
+        "transformation": "bijective-edge-id-renaming",
+        "version": "1"
+      },
+      {
+        "contentHash": "sha256:a23a0ab9cd7c305a11d7a64f2a96dd9536c29824b3c88effb4b397db575c852b",
+        "family": "invariance",
+        "id": "presentation-only-changes-probe-v1",
+        "mandatory": true,
+        "parameters": {
+          "colors": "replace",
+          "labels": "replace",
+          "positions": "reflect-and-translate",
+          "zoom": "replace"
+        },
+        "target": "whole-scoped-representation",
+        "transformation": "presentation-only-changes",
+        "version": "1"
+      }
+    ],
+    "regimeIds": [
+      "canonical-structure-v1",
+      "topology-only-v1",
+      "typed-relations-v1"
+    ],
+    "version": "1"
+  },
+  "request": {
+    "regimeId": "canonical-structure-v1",
+    "scope": {
+      "kind": "full"
+    }
+  },
+  "runs": [
+    {
+      "beforePayloadHash": "sha256:e79166841013b7db03d91d592d79708fe2c1be2f4f496153036bf394513e90da",
+      "comparison": {
+        "components": [
+          {
+            "observableId": "canonical-directed-structure-v1",
+            "state": "equal"
+          }
+        ],
+        "coverage": {
+          "denominator": 1,
+          "numerator": 1
+        },
+        "status": "passed"
+      },
+      "mapping": {
+        "edges": [
+          {
+            "afterId": "e000",
+            "beforeId": "e000",
+            "sourceEdgeId": "e0"
+          }
+        ],
+        "nodes": [
+          {
+            "afterId": "n000",
+            "beforeId": "n000",
+            "sourceNodeId": " left "
+          },
+          {
+            "afterId": "n001",
+            "beforeId": "n001",
+            "sourceNodeId": "right\n"
+          }
+        ]
+      },
+      "observation": {
+        "adapter": {
+          "contentHash": "sha256:f50bd13d6e5af467781922e8c1586916532face8b8fd11ac2a69961f318d75df",
+          "id": "invariance-shadow-observation-adapter-v1",
+          "version": "1"
+        },
+        "artifactHash": "sha256:71bc02778d7fbd73bfcf00804ad6c5afb17b78945570098b68afe459527e9592",
+        "observations": [
+          {
+            "availability": "observed",
+            "implementation": {
+              "contentHash": "sha256:c24eb843608db1252a279b2f48f717f13d675680cd7607cec6d46d84c26d9a4d",
+              "id": "canonical-directed-observation-v1",
+              "version": "1"
+            },
+            "missing": [],
+            "observable": {
+              "contentHash": "sha256:48f137781781c54724e172256925e44c9a2be42a08610c88abaca8a9f6016e7b",
+              "id": "canonical-directed-structure-v1",
+              "version": "1"
+            },
+            "value": {
+              "edges": [
+                {
+                  "from": 1,
+                  "to": 0
+                }
+              ],
+              "nodeCount": 2
+            },
+            "valueHash": "sha256:8060acecaee158856fc8c599b0f3899dcc1ddd86ac35ce55aca62843691022d3"
+          }
+        ],
+        "payloadHash": "sha256:40c3a2e8309f944db91e7be463b2346eda873998e6084545a9d428c96f0b2032",
+        "source": {
+          "contextHash": "sha256:1eaaf9ebc182fb1923a96285da601a8923bb002d766e7af4320a333acebaa16a",
+          "scopeHash": "sha256:3dcfc99d2ce86551e8074e6f6595eb79ab27d6df6e054e3fa6971c9aef6ea3fd"
+        },
+        "work": {
+          "canonicalizerCalls": 1
+        }
+      },
+      "payloadChanged": true,
+      "probe": {
+        "contentHash": "sha256:418c8184b377acf5bf73ad19f5b0e7d103624aac4a87f6c4a7461362f2224851",
+        "id": "record-order-probe-v1",
+        "version": "1"
+      },
+      "representation": {
+        "graphHash": "sha256:a507fa59ad4de1a597ee4fe79cf9b8751183ab3f62ad150257affb41917f1415",
+        "payload": "{\n  \"viewport\": {\n    \"zoom\": 1\n  },\n  \"edges\": [\n    {\n      \"presentation\": {\n        \"color\": \"#334155\",\n        \"label\": \"Edge 0\"\n      },\n      \"target\": \"n001\",\n      \"source\": \"n000\",\n      \"id\": \"e000\"\n    }\n  ],\n  \"nodes\": [\n    {\n      \"presentation\": {\n        \"y\": -1,\n        \"x\": 1,\n        \"label\": \"Node 1\"\n      },\n      \"id\": \"n001\"\n    },\n    {\n      \"presentation\": {\n        \"y\": 0,\n        \"x\": 0,\n        \"label\": \"Node 0\"\n      },\n      \"id\": \"n000\"\n    }\n  ]\n}",
+        "payloadHash": "sha256:40c3a2e8309f944db91e7be463b2346eda873998e6084545a9d428c96f0b2032"
+      },
+      "runHash": "sha256:b4900f67f51bef516324e61780931849d8e574b28a18ec1250b6a396ffd8c50f",
+      "target": "whole-scoped-representation"
+    },
+    {
+      "beforePayloadHash": "sha256:e79166841013b7db03d91d592d79708fe2c1be2f4f496153036bf394513e90da",
+      "comparison": {
+        "components": [
+          {
+            "observableId": "canonical-directed-structure-v1",
+            "state": "equal"
+          }
+        ],
+        "coverage": {
+          "denominator": 1,
+          "numerator": 1
+        },
+        "status": "passed"
+      },
+      "mapping": {
+        "edges": [
+          {
+            "afterId": "e000",
+            "beforeId": "e000",
+            "sourceEdgeId": "e0"
+          }
+        ],
+        "nodes": [
+          {
+            "afterId": "vertex:001",
+            "beforeId": "n000",
+            "sourceNodeId": " left "
+          },
+          {
+            "afterId": "vertex:000",
+            "beforeId": "n001",
+            "sourceNodeId": "right\n"
+          }
+        ]
+      },
+      "observation": {
+        "adapter": {
+          "contentHash": "sha256:f50bd13d6e5af467781922e8c1586916532face8b8fd11ac2a69961f318d75df",
+          "id": "invariance-shadow-observation-adapter-v1",
+          "version": "1"
+        },
+        "artifactHash": "sha256:ae23cedfe2c111928945d823a2cc7ff180dbdee5322beb25ff3d1bbf1143b6b1",
+        "observations": [
+          {
+            "availability": "observed",
+            "implementation": {
+              "contentHash": "sha256:c24eb843608db1252a279b2f48f717f13d675680cd7607cec6d46d84c26d9a4d",
+              "id": "canonical-directed-observation-v1",
+              "version": "1"
+            },
+            "missing": [],
+            "observable": {
+              "contentHash": "sha256:48f137781781c54724e172256925e44c9a2be42a08610c88abaca8a9f6016e7b",
+              "id": "canonical-directed-structure-v1",
+              "version": "1"
+            },
+            "value": {
+              "edges": [
+                {
+                  "from": 1,
+                  "to": 0
+                }
+              ],
+              "nodeCount": 2
+            },
+            "valueHash": "sha256:8060acecaee158856fc8c599b0f3899dcc1ddd86ac35ce55aca62843691022d3"
+          }
+        ],
+        "payloadHash": "sha256:2164caa2fe48d1fd1a14f55cafc707cb79923a8940228ba4b9fd68908dcf0ef8",
+        "source": {
+          "contextHash": "sha256:1eaaf9ebc182fb1923a96285da601a8923bb002d766e7af4320a333acebaa16a",
+          "scopeHash": "sha256:3dcfc99d2ce86551e8074e6f6595eb79ab27d6df6e054e3fa6971c9aef6ea3fd"
+        },
+        "work": {
+          "canonicalizerCalls": 1
+        }
+      },
+      "payloadChanged": true,
+      "probe": {
+        "contentHash": "sha256:a69c1e750d074e5aa529b5c75b7b9149d63d292e44463e7aa915c24ea2c665d3",
+        "id": "bijective-node-id-renaming-probe-v1",
+        "version": "1"
+      },
+      "representation": {
+        "graphHash": "sha256:14d3e1f772bc936756764cef143a6db15d5db4b3fbfbc7a0f7c581ad264347df",
+        "payload": "{\"nodes\":[{\"id\":\"vertex:001\",\"presentation\":{\"label\":\"Node 0\",\"x\":0,\"y\":0}},{\"id\":\"vertex:000\",\"presentation\":{\"label\":\"Node 1\",\"x\":1,\"y\":-1}}],\"edges\":[{\"id\":\"e000\",\"source\":\"vertex:001\",\"target\":\"vertex:000\",\"presentation\":{\"label\":\"Edge 0\",\"color\":\"#334155\"}}],\"viewport\":{\"zoom\":1}}",
+        "payloadHash": "sha256:2164caa2fe48d1fd1a14f55cafc707cb79923a8940228ba4b9fd68908dcf0ef8"
+      },
+      "runHash": "sha256:c066666fe2d8ed8675e58950352c5bf13640c944d0d0e3b4cddb70b5ae9b98d7",
+      "target": "whole-scoped-representation"
+    },
+    {
+      "beforePayloadHash": "sha256:e79166841013b7db03d91d592d79708fe2c1be2f4f496153036bf394513e90da",
+      "comparison": {
+        "components": [
+          {
+            "observableId": "canonical-directed-structure-v1",
+            "state": "equal"
+          }
+        ],
+        "coverage": {
+          "denominator": 1,
+          "numerator": 1
+        },
+        "status": "passed"
+      },
+      "mapping": {
+        "edges": [
+          {
+            "afterId": "link:000",
+            "beforeId": "e000",
+            "sourceEdgeId": "e0"
+          }
+        ],
+        "nodes": [
+          {
+            "afterId": "n000",
+            "beforeId": "n000",
+            "sourceNodeId": " left "
+          },
+          {
+            "afterId": "n001",
+            "beforeId": "n001",
+            "sourceNodeId": "right\n"
+          }
+        ]
+      },
+      "observation": {
+        "adapter": {
+          "contentHash": "sha256:f50bd13d6e5af467781922e8c1586916532face8b8fd11ac2a69961f318d75df",
+          "id": "invariance-shadow-observation-adapter-v1",
+          "version": "1"
+        },
+        "artifactHash": "sha256:fa461f83167cbc9b9cc53f1fe672c2cbb3b2c0a29442ec69c1cf1e1121e02ab0",
+        "observations": [
+          {
+            "availability": "observed",
+            "implementation": {
+              "contentHash": "sha256:c24eb843608db1252a279b2f48f717f13d675680cd7607cec6d46d84c26d9a4d",
+              "id": "canonical-directed-observation-v1",
+              "version": "1"
+            },
+            "missing": [],
+            "observable": {
+              "contentHash": "sha256:48f137781781c54724e172256925e44c9a2be42a08610c88abaca8a9f6016e7b",
+              "id": "canonical-directed-structure-v1",
+              "version": "1"
+            },
+            "value": {
+              "edges": [
+                {
+                  "from": 1,
+                  "to": 0
+                }
+              ],
+              "nodeCount": 2
+            },
+            "valueHash": "sha256:8060acecaee158856fc8c599b0f3899dcc1ddd86ac35ce55aca62843691022d3"
+          }
+        ],
+        "payloadHash": "sha256:c4ca414c9f625b14d3cb31ffe07d70542c0707ad4d52e6a3a7e034720f03a6bd",
+        "source": {
+          "contextHash": "sha256:1eaaf9ebc182fb1923a96285da601a8923bb002d766e7af4320a333acebaa16a",
+          "scopeHash": "sha256:3dcfc99d2ce86551e8074e6f6595eb79ab27d6df6e054e3fa6971c9aef6ea3fd"
+        },
+        "work": {
+          "canonicalizerCalls": 1
+        }
+      },
+      "payloadChanged": true,
+      "probe": {
+        "contentHash": "sha256:3476096b64e3c82a6844cfaad862536d800c531486ed756a90fc71d37538491c",
+        "id": "bijective-edge-id-renaming-probe-v1",
+        "version": "1"
+      },
+      "representation": {
+        "graphHash": "sha256:ff4612cdf6d50069b49428d49851b08b315af65e1b768812e81ea81242354b80",
+        "payload": "{\"nodes\":[{\"id\":\"n000\",\"presentation\":{\"label\":\"Node 0\",\"x\":0,\"y\":0}},{\"id\":\"n001\",\"presentation\":{\"label\":\"Node 1\",\"x\":1,\"y\":-1}}],\"edges\":[{\"id\":\"link:000\",\"source\":\"n000\",\"target\":\"n001\",\"presentation\":{\"label\":\"Edge 0\",\"color\":\"#334155\"}}],\"viewport\":{\"zoom\":1}}",
+        "payloadHash": "sha256:c4ca414c9f625b14d3cb31ffe07d70542c0707ad4d52e6a3a7e034720f03a6bd"
+      },
+      "runHash": "sha256:80e0f1bf3b92561eeb3a17d54cce4969e60011786b7548bec174c77f02803191",
+      "target": "whole-scoped-representation"
+    },
+    {
+      "beforePayloadHash": "sha256:e79166841013b7db03d91d592d79708fe2c1be2f4f496153036bf394513e90da",
+      "comparison": {
+        "components": [
+          {
+            "observableId": "canonical-directed-structure-v1",
+            "state": "equal"
+          }
+        ],
+        "coverage": {
+          "denominator": 1,
+          "numerator": 1
+        },
+        "status": "passed"
+      },
+      "mapping": {
+        "edges": [
+          {
+            "afterId": "e000",
+            "beforeId": "e000",
+            "sourceEdgeId": "e0"
+          }
+        ],
+        "nodes": [
+          {
+            "afterId": "n000",
+            "beforeId": "n000",
+            "sourceNodeId": " left "
+          },
+          {
+            "afterId": "n001",
+            "beforeId": "n001",
+            "sourceNodeId": "right\n"
+          }
+        ]
+      },
+      "observation": {
+        "adapter": {
+          "contentHash": "sha256:f50bd13d6e5af467781922e8c1586916532face8b8fd11ac2a69961f318d75df",
+          "id": "invariance-shadow-observation-adapter-v1",
+          "version": "1"
+        },
+        "artifactHash": "sha256:debab2b0518b29d8002c0f53d59b188dfd95385b81ceb1c2635a99c7247ac583",
+        "observations": [
+          {
+            "availability": "observed",
+            "implementation": {
+              "contentHash": "sha256:c24eb843608db1252a279b2f48f717f13d675680cd7607cec6d46d84c26d9a4d",
+              "id": "canonical-directed-observation-v1",
+              "version": "1"
+            },
+            "missing": [],
+            "observable": {
+              "contentHash": "sha256:48f137781781c54724e172256925e44c9a2be42a08610c88abaca8a9f6016e7b",
+              "id": "canonical-directed-structure-v1",
+              "version": "1"
+            },
+            "value": {
+              "edges": [
+                {
+                  "from": 1,
+                  "to": 0
+                }
+              ],
+              "nodeCount": 2
+            },
+            "valueHash": "sha256:8060acecaee158856fc8c599b0f3899dcc1ddd86ac35ce55aca62843691022d3"
+          }
+        ],
+        "payloadHash": "sha256:a3cbaca3388908138cf1742b23fca41cc183af0c0bab670db03a26e6443eef9d",
+        "source": {
+          "contextHash": "sha256:1eaaf9ebc182fb1923a96285da601a8923bb002d766e7af4320a333acebaa16a",
+          "scopeHash": "sha256:3dcfc99d2ce86551e8074e6f6595eb79ab27d6df6e054e3fa6971c9aef6ea3fd"
+        },
+        "work": {
+          "canonicalizerCalls": 1
+        }
+      },
+      "payloadChanged": true,
+      "probe": {
+        "contentHash": "sha256:a23a0ab9cd7c305a11d7a64f2a96dd9536c29824b3c88effb4b397db575c852b",
+        "id": "presentation-only-changes-probe-v1",
+        "version": "1"
+      },
+      "representation": {
+        "graphHash": "sha256:a507fa59ad4de1a597ee4fe79cf9b8751183ab3f62ad150257affb41917f1415",
+        "payload": "{\"nodes\":[{\"id\":\"n000\",\"presentation\":{\"label\":\"Changed vertex 0\",\"x\":100,\"y\":50}},{\"id\":\"n001\",\"presentation\":{\"label\":\"Changed vertex 1\",\"x\":99,\"y\":51}}],\"edges\":[{\"id\":\"e000\",\"source\":\"n000\",\"target\":\"n001\",\"presentation\":{\"label\":\"Changed link 0\",\"color\":\"#e11d48\"}}],\"viewport\":{\"zoom\":2}}",
+        "payloadHash": "sha256:a3cbaca3388908138cf1742b23fca41cc183af0c0bab670db03a26e6443eef9d"
+      },
+      "runHash": "sha256:813b18193e6f334b749f0cf671523be90253def0db20ef2baf2d544d7a1821c4",
+      "target": "whole-scoped-representation"
+    }
+  ],
+  "sandbox": {
+    "artifactHash": "sha256:68f47ffba5f2918cc1d584959e813d09bb8c8af646d9c0c50b2a242163c28bb0",
+    "policy": {
+      "contentHash": "sha256:5ca0df781b98fcf114d7d4889e0663f99722672763c3c340ff34ea0e5d81f2fe",
+      "id": "immutable-structural-probe-sandbox-v1",
+      "version": "1"
+    }
+  },
+  "schemaVersion": "1",
+  "summary": {
+    "coverage": {
+      "denominator": 4,
+      "numerator": 4
+    },
+    "status": "passed"
+  },
+  "work": {
+    "canonicalizerCalls": 5,
+    "observationEvaluations": 5,
+    "representationCount": 5
+  }
+}

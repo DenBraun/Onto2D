@@ -1,6 +1,6 @@
 # Regime contract preparations
 
-Six frozen preparations demonstrate the [SG2-010 contract](../../../docs/structural-geometry/REGIME_CONTRACTS.md).
+Six frozen preparations demonstrate the [SG2-010 contract](../../../docs/structural-geometry/OBSERVATIONS.md#distinguishability-regime-and-observable-contracts).
 They contain source/scope bindings and observation specifications. Every artifact
 has `evaluation: "not-run"`; these are not graph comparisons or benchmark scores.
 

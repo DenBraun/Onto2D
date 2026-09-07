@@ -132,17 +132,12 @@ export async function run() {
     }
 
     const doc = await readFile(repositoryPath(entry.implementationDoc, entry.caseId, "implementationDoc"), "utf8");
-    for (const heading of [
-      "History modes:",
-      "Primary effects:",
-      "Domain:",
-      "Evidence profile:",
-      "Historical Load:",
-      "History Equivalence:",
-      "Reachability:",
-      "Reconstruction:"
-    ]) {
-      if (!doc.includes(heading)) fail(`${entry.implementationDoc} is missing ${heading}`);
+    // Taxonomy and maturity belong to this registry. The case guide is bound
+    // to its identity without maintaining a second copy of the metadata.
+    if (!doc.startsWith(`# ${entry.title}\n`)
+      || !doc.includes(`Case ID: \`${entry.caseId}\``)
+      || !doc.includes("[History case registry](../history-case-registry.json)")) {
+      fail(`${entry.implementationDoc} is not bound to its case identity and registry`);
     }
 
     const rank = maturityRank.get(entry.status);

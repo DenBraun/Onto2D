@@ -32,7 +32,7 @@ Emergence snapshot.
 | `packages/engine` | Headless model access, traversal, workspaces, analyses, diff, and verified presentation composition |
 | `packages/history-benchmark` | History Matters contracts, exact census contrasts, unit-disjoint regression preparation, nulls and replay |
 | `packages/canonical-identity-analysis` | Replayable kernel-backed identity analysis |
-| `packages/structural-geometry` | Immutable projections, metric/view providers, regime preparation, exact canonical, directed topology and typed observations with explicit vocabulary alignment, directed Forman experiments, certified Ollivier transport and normalized shadow flow |
+| `packages/structural-geometry` | Immutable projections, providers, regime observations, vocabulary alignment, strict comparison, scoped sandbox, measured probes, response/geometric signatures and fixed-domain pseudometrics, directed Forman experiments, certified Ollivier transport and normalized shadow flow |
 | `packages/view` | Deterministic presentation projections, lazy pages, explicit inspection, and graph layout |
 | `packages/rdf-import` | Bounded RDF 1.1 import artifacts and semantics-neutral graph projection |
 | `packages/shacl-validation` | Closed SHACL 1.0 Core validation plans and reports over exact RDF imports |
@@ -49,11 +49,10 @@ Emergence snapshot.
 | `scripts` | Repository checks and independent conformance tooling |
 | `tools` | Standalone local prototypes that remain independent of case interpretation |
 | `test` | Behavioral, schema, integration, case, and golden evidence |
-| `docs/adr` | Accepted architectural decisions |
+| `docs/architecture` | Current thematic contracts for the kernel, engine, evidence, numeric policies and source mapping |
 | `docs/history` | Authoritative History Model taxonomy, portfolio, evidence, identity, reachability, and reconstruction documentation |
-| `docs/structural-geometry` | Implemented geometry contracts, baseline inventory, revised R0–R12 research/task ledger, distinguishability design and gated website plan |
-| `docs/cases` | Canonical case-specific implementation plans |
-| `docs/external-cases` | Compatibility pointers for the superseded software-first program paths |
+| `docs/structural-geometry` | Geometry, observation and signature contracts, reproducible evidence and the DREAM4 / C. elegans research plan |
+| `cases/structural-geometry/added-value` | Frozen prospective A/B study, source/pair plan, exact graph baselines, independent numerical/descriptor locks and coverage-aware result artifacts |
 
 ## Boundary rules
 
@@ -80,7 +79,7 @@ Emergence snapshot.
 - Structural geometry consumes complete verified Model Packs, retains source
   interpretation, and binds derived policies and results separately from source
   identity. It never writes shadow metric values back into source relations.
-- The planned distinguishability/probe/comparison layers stay in the existing
+- The implemented distinguishability/probe/comparison layers stay in the existing
   structural-geometry package. Their scientific descriptors are separate from
   provenance identity; missing observations are not equality, and a filtration
   or typed channel is not automatically a length metric.
@@ -107,5 +106,5 @@ Emergence snapshot.
 - A neutral tool must not import the engine or acquire case-specific analysis
   vocabulary merely because one case is its first consumer.
 
-Use an ADR when a change affects canonical identity, evidence semantics,
-scientific trust boundaries, or dependency direction.
+Update the relevant architecture guide when a change affects canonical identity,
+evidence semantics, scientific trust boundaries or dependency direction.

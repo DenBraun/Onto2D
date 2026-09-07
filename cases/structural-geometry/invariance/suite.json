@@ -1,0 +1,242 @@
+{
+  "artifactHash": "sha256:3276ba16846267e60171367882753b8405325457dddf4bacc646d20770b1f004",
+  "census": {
+    "aggregationProfiles": 3280,
+    "graphs": 69,
+    "probes": 828,
+    "requests": 207
+  },
+  "negativeControls": [
+    {
+      "comparison": {
+        "components": [
+          {
+            "observableId": "canonical-directed-structure-v1",
+            "state": "different"
+          }
+        ],
+        "coverage": {
+          "denominator": 1,
+          "numerator": 1
+        },
+        "status": "failed"
+      },
+      "id": "remove-one-chain-edge"
+    },
+    {
+      "comparison": {
+        "components": [
+          {
+            "observableId": "canonical-directed-structure-v1",
+            "state": "equal"
+          },
+          {
+            "observableId": "canonical-typed-directed-structure-v1",
+            "state": "different"
+          }
+        ],
+        "coverage": {
+          "denominator": 2,
+          "numerator": 2
+        },
+        "status": "failed"
+      },
+      "id": "change-reciprocal-necessity"
+    },
+    {
+      "comparison": {
+        "components": [
+          {
+            "observableId": "canonical-directed-structure-v1",
+            "state": "different"
+          },
+          {
+            "observableId": "canonical-typed-directed-structure-v1",
+            "state": "indeterminate"
+          }
+        ],
+        "coverage": {
+          "denominator": 2,
+          "numerator": 1
+        },
+        "status": "indeterminate"
+      },
+      "id": "remove-edge-with-missing-types"
+    }
+  ],
+  "referenceHash": "sha256:1907f5df0045d7ebc06627a5292f1a0fdd76ad789bd391c48f58f36e301822e6",
+  "runs": [
+    {
+      "artifactHash": "sha256:ca44dcdf0a14a82f70d7e5356b0d235d074ac736d02e94990e13ba48c66b4546",
+      "file": "artifacts/chain.json",
+      "id": "chain",
+      "regimeId": "canonical-structure-v1",
+      "summary": {
+        "coverage": {
+          "denominator": 4,
+          "numerator": 4
+        },
+        "status": "passed"
+      }
+    },
+    {
+      "artifactHash": "sha256:dee1520625b5ca914c29949512aba642ac50525d91fe87894811b06f4ac29396",
+      "file": "artifacts/star.json",
+      "id": "star",
+      "regimeId": "topology-only-v1",
+      "summary": {
+        "coverage": {
+          "denominator": 28,
+          "numerator": 28
+        },
+        "status": "passed"
+      }
+    },
+    {
+      "artifactHash": "sha256:c387e4c1aecdf4b56591acf66e8d7e969ed98921b896b56ef9fa46d045a7b607",
+      "file": "artifacts/reciprocal.json",
+      "id": "reciprocal",
+      "regimeId": "typed-relations-v1",
+      "summary": {
+        "coverage": {
+          "denominator": 8,
+          "numerator": 8
+        },
+        "status": "passed"
+      }
+    },
+    {
+      "artifactHash": "sha256:5f86fb6ec25b3e65264adc9f3ab554ae72b9cdef5172b471e2480a5c77f857f5",
+      "file": "artifacts/isolates.json",
+      "id": "isolates",
+      "regimeId": "topology-only-v1",
+      "summary": {
+        "coverage": {
+          "denominator": 28,
+          "numerator": 28
+        },
+        "status": "passed"
+      }
+    },
+    {
+      "artifactHash": "sha256:2018157654c201e1dcd1221f9c571ab34bd1117d5d5af0f4de272550ce8f4001",
+      "file": "artifacts/missing.json",
+      "id": "missing",
+      "regimeId": "typed-relations-v1",
+      "summary": {
+        "coverage": {
+          "denominator": 8,
+          "numerator": 4
+        },
+        "status": "indeterminate"
+      }
+    },
+    {
+      "artifactHash": "sha256:967e119736d727488f74385c4224fbdb09a3ad1c7d1906e7233173e4627df6f3",
+      "file": "artifacts/sets.json",
+      "id": "sets",
+      "regimeId": "typed-relations-v1",
+      "summary": {
+        "coverage": {
+          "denominator": 8,
+          "numerator": 8
+        },
+        "status": "passed"
+      }
+    },
+    {
+      "artifactHash": "sha256:e467183219a6323b34e5b4a800dc50f929ec910b3ac333d2b36be171fea74cd6",
+      "file": "artifacts/mixed.json",
+      "id": "mixed",
+      "regimeId": "typed-relations-v1",
+      "summary": {
+        "coverage": {
+          "denominator": 8,
+          "numerator": 8
+        },
+        "status": "passed"
+      }
+    },
+    {
+      "artifactHash": "sha256:94315c35c44b7240639cf3097d94d16842dcf3c1d276a708a795d446c6be614b",
+      "file": "artifacts/boundary.json",
+      "id": "boundary",
+      "regimeId": "topology-only-v1",
+      "summary": {
+        "coverage": {
+          "denominator": 28,
+          "numerator": 28
+        },
+        "status": "passed"
+      }
+    },
+    {
+      "artifactHash": "sha256:6c239f1c4a3a047c6026516eebcb59db9ea9a6cee74891d66ec8b06cde2a737b",
+      "file": "artifacts/opaque.json",
+      "id": "opaque",
+      "regimeId": "canonical-structure-v1",
+      "summary": {
+        "coverage": {
+          "denominator": 4,
+          "numerator": 4
+        },
+        "status": "passed"
+      }
+    },
+    {
+      "artifactHash": "sha256:9800b60ac5431ff1918b01de53808c736a26fd3f8695393360158359656560d7",
+      "file": "artifacts/causal.json",
+      "id": "causal",
+      "regimeId": "typed-relations-v1",
+      "summary": {
+        "coverage": {
+          "denominator": 8,
+          "numerator": 8
+        },
+        "status": "passed"
+      }
+    },
+    {
+      "artifactHash": "sha256:540adb4489af801629ee8a171f67f572c8350633f1d26206596022a5e081d3d3",
+      "file": "artifacts/singleton.json",
+      "id": "singleton",
+      "regimeId": "typed-relations-v1",
+      "summary": {
+        "coverage": {
+          "denominator": 8,
+          "numerator": 8
+        },
+        "status": "passed"
+      }
+    },
+    {
+      "artifactHash": "sha256:035bf2b38922d786d727847845632af557f6b47f9ba38465f38af3c1cdb67caa",
+      "file": "artifacts/complete-six.json",
+      "id": "complete-six",
+      "regimeId": "typed-relations-v1",
+      "summary": {
+        "coverage": {
+          "denominator": 8,
+          "numerator": 8
+        },
+        "status": "passed"
+      }
+    },
+    {
+      "artifactHash": "sha256:590b51b8483fbf46af630b55ffeeb669d10d8a473a3917a0d3bab2903e488e57",
+      "file": "artifacts/topology-limit.json",
+      "id": "topology-limit",
+      "regimeId": "topology-only-v1",
+      "summary": {
+        "coverage": {
+          "denominator": 28,
+          "numerator": 28
+        },
+        "status": "passed"
+      }
+    }
+  ],
+  "schemaVersion": "1",
+  "status": "bounded-computational-agreement",
+  "suiteId": "structural-invariance-probes-v1"
+}

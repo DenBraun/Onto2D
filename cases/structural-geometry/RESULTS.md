@@ -28,7 +28,7 @@ the number leaving `v`. The result reports exactly those two counts alongside
 `curvature`. A negative value therefore says that their sum exceeds 2 under
 this metric. It does not establish weakness, causal importance or emergence.
 This is the unit specialization of the directed definition documented in the
-[metric policy](../../docs/structural-geometry/METRIC_POLICIES.md).
+[metric policy](../../docs/structural-geometry/GEOMETRY.md#metric-and-algorithm-policies).
 
 For example, edge `4.0->4.3` has the minimum value -34. Its result can be traced
 through its original edge ID and the projection's source record hash to the

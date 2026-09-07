@@ -1,0 +1,2035 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/structural-probe-sandbox-artifact.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": "1"
+    },
+    "analysis": {
+      "const": {
+        "id": "structural-probe-sandbox",
+        "version": "1"
+      }
+    },
+    "policy": {
+      "const": {
+        "id": "immutable-structural-probe-sandbox-v1",
+        "version": "1",
+        "source": "verified-full-model-with-unchanged-regime-preparation",
+        "derivedGraph": "separate-source-bound-shadow-graph",
+        "operations": [
+          "identity",
+          "remove-edges",
+          "reverse-edges"
+        ],
+        "targets": "whole-scope-or-exhaustive-all-each-internal-edge",
+        "ordering": "source-id-serialization-only-no-tie-selection",
+        "copies": "every-target-starts-from-baseline",
+        "nodes": "retain-all-scoped-nodes",
+        "annotations": "untyped-excludes-typed-preserves-five-present-fields",
+        "reversalTypes": "carried-without-semantic-recoding",
+        "parallelEdges": "reject-target-without-merging",
+        "emptyTargets": "unavailable-zero-runs",
+        "invalidInput": "error-no-partial-result",
+        "observations": "not-run",
+        "codeExecution": "closed-data-operations-only",
+        "work": "baseline-edges-examined-once-per-target-excludes-source-validation-and-serialization",
+        "limits": {
+          "maxTargets": 32,
+          "maxTransformationEdgeVisits": 1024,
+          "maxCanonicalEntries": 500000,
+          "maxArtifactBytes": 4194304
+        },
+        "contentHash": "sha256:5ca0df781b98fcf114d7d4889e0663f99722672763c3c340ff34ea0e5d81f2fe"
+      }
+    },
+    "request": {},
+    "preparation": {
+      "$ref": "https://onto2d.dev/schemas/v1/structural-regime-preparation.schema.json"
+    },
+    "baseline": {},
+    "selection": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "enum": [
+            "whole-scope",
+            "all-scoped-edges",
+            "each-scoped-edge"
+          ]
+        },
+        "eligibleSourceEdgeIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/sourceId"
+          },
+          "minItems": 0,
+          "maxItems": 256,
+          "uniqueItems": true
+        },
+        "eligibleShadowEdgeIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/edgeId"
+          },
+          "minItems": 0,
+          "maxItems": 256,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "kind",
+        "eligibleSourceEdgeIds",
+        "eligibleShadowEdgeIds"
+      ]
+    },
+    "observationEvaluation": {
+      "const": "not-run"
+    },
+    "execution": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "state": {
+              "const": "completed"
+            },
+            "reason": {
+              "type": "null"
+            },
+            "targetCount": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 32
+            },
+            "appliedCount": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 32
+            },
+            "rejectedCount": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 32
+            }
+          },
+          "required": [
+            "state",
+            "reason",
+            "targetCount",
+            "appliedCount",
+            "rejectedCount"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "state": {
+              "const": "unavailable"
+            },
+            "reason": {
+              "const": "empty-target-set"
+            },
+            "targetCount": {
+              "const": 0
+            },
+            "appliedCount": {
+              "const": 0
+            },
+            "rejectedCount": {
+              "const": 0
+            }
+          },
+          "required": [
+            "state",
+            "reason",
+            "targetCount",
+            "appliedCount",
+            "rejectedCount"
+          ]
+        }
+      ]
+    },
+    "work": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "transformationEdgeVisits": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1024
+        },
+        "outputGraphCount": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 33
+        }
+      },
+      "required": [
+        "transformationEdgeVisits",
+        "outputGraphCount"
+      ]
+    },
+    "runs": {},
+    "artifactHash": {
+      "$ref": "#/$defs/hash"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "analysis",
+    "policy",
+    "request",
+    "preparation",
+    "baseline",
+    "selection",
+    "observationEvaluation",
+    "execution",
+    "work",
+    "runs",
+    "artifactHash"
+  ],
+  "$defs": {
+    "nodeId": {
+      "type": "string",
+      "pattern": "^n(?:00[0-9]|0[1-5][0-9]|06[0-3])$(?![\\s\\S])"
+    },
+    "edgeId": {
+      "type": "string",
+      "pattern": "^e(?:[01][0-9]{2}|2[0-4][0-9]|25[0-5])$(?![\\s\\S])"
+    },
+    "sourceId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "hash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$(?![\\s\\S])"
+    },
+    "transformation": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "identity"
+            }
+          },
+          "required": [
+            "kind"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "enum": [
+                "remove-edges",
+                "reverse-edges"
+              ]
+            },
+            "targets": {
+              "enum": [
+                "all-scoped-edges",
+                "each-scoped-edge"
+              ]
+            }
+          },
+          "required": [
+            "kind",
+            "targets"
+          ]
+        }
+      ]
+    },
+    "types": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "dependencyTypeId": {
+          "$ref": "https://onto2d.dev/schemas/v1/structural-typed-observation.schema.json#/$defs/types/properties/dependencyTypeId"
+        },
+        "interactionModeIds": {
+          "$ref": "https://onto2d.dev/schemas/v1/structural-typed-observation.schema.json#/$defs/types/properties/interactionModeIds"
+        },
+        "ontologicalRole": {
+          "$ref": "https://onto2d.dev/schemas/v1/structural-typed-observation.schema.json#/$defs/types/properties/ontologicalRole"
+        },
+        "necessity": {
+          "$ref": "https://onto2d.dev/schemas/v1/structural-typed-observation.schema.json#/$defs/types/properties/necessity"
+        },
+        "causalDirectionIds": {
+          "$ref": "https://onto2d.dev/schemas/v1/structural-typed-observation.schema.json#/$defs/types/properties/causalDirectionIds"
+        }
+      },
+      "required": []
+    },
+    "canonical-structure-v1": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schemaVersion": {
+          "const": "1"
+        },
+        "kind": {
+          "const": "structural-shadow-graph"
+        },
+        "regime": {
+          "const": {
+            "id": "canonical-structure-v1",
+            "version": "1",
+            "contentHash": "sha256:9276d8ad6a0d6e872783a79af4de63727b6452b42db1928ffc9f20111d86a97c"
+          }
+        },
+        "source": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "contextHash": {
+              "$ref": "#/$defs/hash"
+            },
+            "scopeHash": {
+              "$ref": "#/$defs/hash"
+            }
+          },
+          "required": [
+            "contextHash",
+            "scopeHash"
+          ]
+        },
+        "nodes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "$ref": "#/$defs/nodeId"
+              }
+            },
+            "required": [
+              "id"
+            ]
+          },
+          "minItems": 1,
+          "maxItems": 6,
+          "uniqueItems": true
+        },
+        "edges": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "$ref": "#/$defs/edgeId"
+              },
+              "source": {
+                "$ref": "#/$defs/nodeId"
+              },
+              "target": {
+                "$ref": "#/$defs/nodeId"
+              }
+            },
+            "required": [
+              "id",
+              "source",
+              "target"
+            ]
+          },
+          "minItems": 0,
+          "maxItems": 30,
+          "uniqueItems": true
+        },
+        "graphHash": {
+          "$ref": "#/$defs/hash"
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "kind",
+        "regime",
+        "source",
+        "nodes",
+        "edges",
+        "graphHash"
+      ]
+    },
+    "topology-only-v1": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schemaVersion": {
+          "const": "1"
+        },
+        "kind": {
+          "const": "structural-shadow-graph"
+        },
+        "regime": {
+          "const": {
+            "id": "topology-only-v1",
+            "version": "1",
+            "contentHash": "sha256:41a6fa10321e885da08f671de608de62cb1e51154b05a1c3cc2154d107f7646c"
+          }
+        },
+        "source": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "contextHash": {
+              "$ref": "#/$defs/hash"
+            },
+            "scopeHash": {
+              "$ref": "#/$defs/hash"
+            }
+          },
+          "required": [
+            "contextHash",
+            "scopeHash"
+          ]
+        },
+        "nodes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "$ref": "#/$defs/nodeId"
+              }
+            },
+            "required": [
+              "id"
+            ]
+          },
+          "minItems": 1,
+          "maxItems": 64,
+          "uniqueItems": true
+        },
+        "edges": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "$ref": "#/$defs/edgeId"
+              },
+              "source": {
+                "$ref": "#/$defs/nodeId"
+              },
+              "target": {
+                "$ref": "#/$defs/nodeId"
+              }
+            },
+            "required": [
+              "id",
+              "source",
+              "target"
+            ]
+          },
+          "minItems": 0,
+          "maxItems": 256,
+          "uniqueItems": true
+        },
+        "graphHash": {
+          "$ref": "#/$defs/hash"
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "kind",
+        "regime",
+        "source",
+        "nodes",
+        "edges",
+        "graphHash"
+      ]
+    },
+    "typed-relations-v1": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schemaVersion": {
+          "const": "1"
+        },
+        "kind": {
+          "const": "structural-shadow-graph"
+        },
+        "regime": {
+          "const": {
+            "id": "typed-relations-v1",
+            "version": "1",
+            "contentHash": "sha256:5fe49b9439e107998e170cf8cf1e690598dfe8937321f5202ac4c2f270414868"
+          }
+        },
+        "source": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "contextHash": {
+              "$ref": "#/$defs/hash"
+            },
+            "scopeHash": {
+              "$ref": "#/$defs/hash"
+            }
+          },
+          "required": [
+            "contextHash",
+            "scopeHash"
+          ]
+        },
+        "nodes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "$ref": "#/$defs/nodeId"
+              }
+            },
+            "required": [
+              "id"
+            ]
+          },
+          "minItems": 1,
+          "maxItems": 6,
+          "uniqueItems": true
+        },
+        "edges": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "$ref": "#/$defs/edgeId"
+              },
+              "source": {
+                "$ref": "#/$defs/nodeId"
+              },
+              "target": {
+                "$ref": "#/$defs/nodeId"
+              },
+              "types": {
+                "$ref": "#/$defs/types"
+              }
+            },
+            "required": [
+              "id",
+              "source",
+              "target",
+              "types"
+            ]
+          },
+          "minItems": 0,
+          "maxItems": 30,
+          "uniqueItems": true
+        },
+        "graphHash": {
+          "$ref": "#/$defs/hash"
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "kind",
+        "regime",
+        "source",
+        "nodes",
+        "edges",
+        "graphHash"
+      ]
+    },
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "enum": [
+            "whole-scope",
+            "all-scoped-edges",
+            "single-scoped-edge"
+          ]
+        },
+        "sourceEdgeIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/sourceId"
+          },
+          "minItems": 0,
+          "maxItems": 256,
+          "uniqueItems": true
+        },
+        "shadowEdgeIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/edgeId"
+          },
+          "minItems": 0,
+          "maxItems": 256,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "kind",
+        "sourceEdgeIds",
+        "shadowEdgeIds"
+      ],
+      "oneOf": [
+        {
+          "properties": {
+            "kind": {
+              "const": "whole-scope"
+            }
+          }
+        },
+        {
+          "properties": {
+            "kind": {
+              "const": "all-scoped-edges"
+            },
+            "sourceEdgeIds": {
+              "minItems": 1
+            },
+            "shadowEdgeIds": {
+              "minItems": 1
+            }
+          }
+        },
+        {
+          "properties": {
+            "kind": {
+              "const": "single-scoped-edge"
+            },
+            "sourceEdgeIds": {
+              "minItems": 1,
+              "maxItems": 1
+            },
+            "shadowEdgeIds": {
+              "minItems": 1,
+              "maxItems": 1
+            }
+          }
+        }
+      ]
+    },
+    "edgeMapping": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "sourceEdgeId": {
+              "$ref": "#/$defs/sourceId"
+            },
+            "beforeEdgeId": {
+              "$ref": "#/$defs/edgeId"
+            },
+            "afterEdgeId": {
+              "$ref": "#/$defs/edgeId"
+            },
+            "action": {
+              "enum": [
+                "preserved",
+                "reversed"
+              ]
+            }
+          },
+          "required": [
+            "sourceEdgeId",
+            "beforeEdgeId",
+            "afterEdgeId",
+            "action"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "sourceEdgeId": {
+              "$ref": "#/$defs/sourceId"
+            },
+            "beforeEdgeId": {
+              "$ref": "#/$defs/edgeId"
+            },
+            "afterEdgeId": {
+              "type": "null"
+            },
+            "action": {
+              "const": "removed"
+            }
+          },
+          "required": [
+            "sourceEdgeId",
+            "beforeEdgeId",
+            "afterEdgeId",
+            "action"
+          ]
+        }
+      ]
+    },
+    "changes": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "removedSourceEdgeIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/sourceId"
+          },
+          "minItems": 0,
+          "maxItems": 256,
+          "uniqueItems": true
+        },
+        "reversedSourceEdgeIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/sourceId"
+          },
+          "minItems": 0,
+          "maxItems": 256,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "removedSourceEdgeIds",
+        "reversedSourceEdgeIds"
+      ]
+    },
+    "rejection": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "const": "parallel-edge-after-reversal"
+        },
+        "sourceEdgeIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/sourceId"
+          },
+          "minItems": 2,
+          "maxItems": 2,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "code",
+        "sourceEdgeIds"
+      ]
+    }
+  },
+  "oneOf": [
+    {
+      "properties": {
+        "request": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "regimeId": {
+              "const": "canonical-structure-v1"
+            },
+            "scope": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "kind": {
+                      "const": "full"
+                    }
+                  },
+                  "required": [
+                    "kind"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "kind": {
+                      "const": "induced"
+                    },
+                    "nodeIds": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "minItems": 1,
+                      "maxItems": 6,
+                      "uniqueItems": true
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "nodeIds"
+                  ]
+                }
+              ]
+            },
+            "transformation": {
+              "$ref": "#/$defs/transformation"
+            }
+          },
+          "required": [
+            "regimeId",
+            "scope",
+            "transformation"
+          ]
+        },
+        "preparation": {
+          "properties": {
+            "request": {
+              "properties": {
+                "regimeId": {
+                  "const": "canonical-structure-v1"
+                }
+              }
+            }
+          }
+        },
+        "baseline": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "graph": {
+              "$ref": "#/$defs/canonical-structure-v1"
+            },
+            "mapping": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "nodes": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "sourceNodeId": {
+                        "$ref": "#/$defs/sourceId"
+                      },
+                      "shadowNodeId": {
+                        "$ref": "#/$defs/nodeId"
+                      }
+                    },
+                    "required": [
+                      "sourceNodeId",
+                      "shadowNodeId"
+                    ]
+                  },
+                  "minItems": 1,
+                  "maxItems": 6,
+                  "uniqueItems": true
+                },
+                "edges": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "sourceEdgeId": {
+                        "$ref": "#/$defs/sourceId"
+                      },
+                      "shadowEdgeId": {
+                        "$ref": "#/$defs/edgeId"
+                      }
+                    },
+                    "required": [
+                      "sourceEdgeId",
+                      "shadowEdgeId"
+                    ]
+                  },
+                  "minItems": 0,
+                  "maxItems": 30,
+                  "uniqueItems": true
+                }
+              },
+              "required": [
+                "nodes",
+                "edges"
+              ]
+            }
+          },
+          "required": [
+            "graph",
+            "mapping"
+          ]
+        },
+        "runs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "target": {
+                "$ref": "#/$defs/target"
+              },
+              "transformation": {
+                "$ref": "#/$defs/transformation"
+              },
+              "beforeGraphHash": {
+                "$ref": "#/$defs/hash"
+              },
+              "runHash": {
+                "$ref": "#/$defs/hash"
+              },
+              "execution": {
+                "enum": [
+                  "applied",
+                  "rejected"
+                ]
+              },
+              "rejection": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/rejection"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "graph": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/canonical-structure-v1"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "edgeMapping": {
+                "anyOf": [
+                  {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/$defs/edgeMapping"
+                    },
+                    "minItems": 0,
+                    "maxItems": 30,
+                    "uniqueItems": true
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "changes": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/changes"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "target",
+              "transformation",
+              "beforeGraphHash",
+              "runHash",
+              "execution",
+              "rejection",
+              "graph",
+              "edgeMapping",
+              "changes"
+            ],
+            "oneOf": [
+              {
+                "properties": {
+                  "execution": {
+                    "const": "applied"
+                  },
+                  "rejection": {
+                    "type": "null"
+                  },
+                  "graph": {
+                    "type": "object"
+                  },
+                  "edgeMapping": {
+                    "type": "array"
+                  },
+                  "changes": {
+                    "type": "object"
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "execution": {
+                    "const": "rejected"
+                  },
+                  "rejection": {
+                    "type": "object"
+                  },
+                  "graph": {
+                    "type": "null"
+                  },
+                  "edgeMapping": {
+                    "type": "null"
+                  },
+                  "changes": {
+                    "type": "null"
+                  },
+                  "transformation": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "kind": {
+                        "const": "reverse-edges"
+                      },
+                      "targets": {
+                        "const": "each-scoped-edge"
+                      }
+                    },
+                    "required": [
+                      "kind",
+                      "targets"
+                    ]
+                  },
+                  "target": {
+                    "properties": {
+                      "kind": {
+                        "const": "single-scoped-edge"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "transformation": {
+                      "properties": {
+                        "kind": {
+                          "const": "identity"
+                        }
+                      }
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "execution": {
+                      "const": "applied"
+                    },
+                    "target": {
+                      "properties": {
+                        "kind": {
+                          "const": "whole-scope"
+                        }
+                      }
+                    },
+                    "changes": {
+                      "properties": {
+                        "removedSourceEdgeIds": {
+                          "maxItems": 0
+                        },
+                        "reversedSourceEdgeIds": {
+                          "maxItems": 0
+                        }
+                      }
+                    },
+                    "edgeMapping": {
+                      "items": {
+                        "properties": {
+                          "action": {
+                            "const": "preserved"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "transformation": {
+                      "properties": {
+                        "kind": {
+                          "const": "remove-edges"
+                        }
+                      }
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "execution": {
+                      "const": "applied"
+                    },
+                    "changes": {
+                      "properties": {
+                        "reversedSourceEdgeIds": {
+                          "maxItems": 0
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "execution": {
+                      "const": "applied"
+                    },
+                    "transformation": {
+                      "properties": {
+                        "kind": {
+                          "const": "reverse-edges"
+                        }
+                      }
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "changes": {
+                      "properties": {
+                        "removedSourceEdgeIds": {
+                          "maxItems": 0
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "minItems": 0,
+          "maxItems": 32
+        }
+      }
+    },
+    {
+      "properties": {
+        "request": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "regimeId": {
+              "const": "topology-only-v1"
+            },
+            "scope": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "kind": {
+                      "const": "full"
+                    }
+                  },
+                  "required": [
+                    "kind"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "kind": {
+                      "const": "induced"
+                    },
+                    "nodeIds": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "minItems": 1,
+                      "maxItems": 64,
+                      "uniqueItems": true
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "nodeIds"
+                  ]
+                }
+              ]
+            },
+            "transformation": {
+              "$ref": "#/$defs/transformation"
+            }
+          },
+          "required": [
+            "regimeId",
+            "scope",
+            "transformation"
+          ]
+        },
+        "preparation": {
+          "properties": {
+            "request": {
+              "properties": {
+                "regimeId": {
+                  "const": "topology-only-v1"
+                }
+              }
+            }
+          }
+        },
+        "baseline": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "graph": {
+              "$ref": "#/$defs/topology-only-v1"
+            },
+            "mapping": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "nodes": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "sourceNodeId": {
+                        "$ref": "#/$defs/sourceId"
+                      },
+                      "shadowNodeId": {
+                        "$ref": "#/$defs/nodeId"
+                      }
+                    },
+                    "required": [
+                      "sourceNodeId",
+                      "shadowNodeId"
+                    ]
+                  },
+                  "minItems": 1,
+                  "maxItems": 64,
+                  "uniqueItems": true
+                },
+                "edges": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "sourceEdgeId": {
+                        "$ref": "#/$defs/sourceId"
+                      },
+                      "shadowEdgeId": {
+                        "$ref": "#/$defs/edgeId"
+                      }
+                    },
+                    "required": [
+                      "sourceEdgeId",
+                      "shadowEdgeId"
+                    ]
+                  },
+                  "minItems": 0,
+                  "maxItems": 256,
+                  "uniqueItems": true
+                }
+              },
+              "required": [
+                "nodes",
+                "edges"
+              ]
+            }
+          },
+          "required": [
+            "graph",
+            "mapping"
+          ]
+        },
+        "runs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "target": {
+                "$ref": "#/$defs/target"
+              },
+              "transformation": {
+                "$ref": "#/$defs/transformation"
+              },
+              "beforeGraphHash": {
+                "$ref": "#/$defs/hash"
+              },
+              "runHash": {
+                "$ref": "#/$defs/hash"
+              },
+              "execution": {
+                "enum": [
+                  "applied",
+                  "rejected"
+                ]
+              },
+              "rejection": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/rejection"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "graph": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/topology-only-v1"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "edgeMapping": {
+                "anyOf": [
+                  {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/$defs/edgeMapping"
+                    },
+                    "minItems": 0,
+                    "maxItems": 256,
+                    "uniqueItems": true
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "changes": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/changes"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "target",
+              "transformation",
+              "beforeGraphHash",
+              "runHash",
+              "execution",
+              "rejection",
+              "graph",
+              "edgeMapping",
+              "changes"
+            ],
+            "oneOf": [
+              {
+                "properties": {
+                  "execution": {
+                    "const": "applied"
+                  },
+                  "rejection": {
+                    "type": "null"
+                  },
+                  "graph": {
+                    "type": "object"
+                  },
+                  "edgeMapping": {
+                    "type": "array"
+                  },
+                  "changes": {
+                    "type": "object"
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "execution": {
+                    "const": "rejected"
+                  },
+                  "rejection": {
+                    "type": "object"
+                  },
+                  "graph": {
+                    "type": "null"
+                  },
+                  "edgeMapping": {
+                    "type": "null"
+                  },
+                  "changes": {
+                    "type": "null"
+                  },
+                  "transformation": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "kind": {
+                        "const": "reverse-edges"
+                      },
+                      "targets": {
+                        "const": "each-scoped-edge"
+                      }
+                    },
+                    "required": [
+                      "kind",
+                      "targets"
+                    ]
+                  },
+                  "target": {
+                    "properties": {
+                      "kind": {
+                        "const": "single-scoped-edge"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "transformation": {
+                      "properties": {
+                        "kind": {
+                          "const": "identity"
+                        }
+                      }
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "execution": {
+                      "const": "applied"
+                    },
+                    "target": {
+                      "properties": {
+                        "kind": {
+                          "const": "whole-scope"
+                        }
+                      }
+                    },
+                    "changes": {
+                      "properties": {
+                        "removedSourceEdgeIds": {
+                          "maxItems": 0
+                        },
+                        "reversedSourceEdgeIds": {
+                          "maxItems": 0
+                        }
+                      }
+                    },
+                    "edgeMapping": {
+                      "items": {
+                        "properties": {
+                          "action": {
+                            "const": "preserved"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "transformation": {
+                      "properties": {
+                        "kind": {
+                          "const": "remove-edges"
+                        }
+                      }
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "execution": {
+                      "const": "applied"
+                    },
+                    "changes": {
+                      "properties": {
+                        "reversedSourceEdgeIds": {
+                          "maxItems": 0
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "execution": {
+                      "const": "applied"
+                    },
+                    "transformation": {
+                      "properties": {
+                        "kind": {
+                          "const": "reverse-edges"
+                        }
+                      }
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "changes": {
+                      "properties": {
+                        "removedSourceEdgeIds": {
+                          "maxItems": 0
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "minItems": 0,
+          "maxItems": 32
+        }
+      }
+    },
+    {
+      "properties": {
+        "request": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "regimeId": {
+              "const": "typed-relations-v1"
+            },
+            "scope": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "kind": {
+                      "const": "full"
+                    }
+                  },
+                  "required": [
+                    "kind"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "kind": {
+                      "const": "induced"
+                    },
+                    "nodeIds": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "minItems": 1,
+                      "maxItems": 6,
+                      "uniqueItems": true
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "nodeIds"
+                  ]
+                }
+              ]
+            },
+            "transformation": {
+              "$ref": "#/$defs/transformation"
+            }
+          },
+          "required": [
+            "regimeId",
+            "scope",
+            "transformation"
+          ]
+        },
+        "preparation": {
+          "properties": {
+            "request": {
+              "properties": {
+                "regimeId": {
+                  "const": "typed-relations-v1"
+                }
+              }
+            }
+          }
+        },
+        "baseline": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "graph": {
+              "$ref": "#/$defs/typed-relations-v1"
+            },
+            "mapping": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "nodes": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "sourceNodeId": {
+                        "$ref": "#/$defs/sourceId"
+                      },
+                      "shadowNodeId": {
+                        "$ref": "#/$defs/nodeId"
+                      }
+                    },
+                    "required": [
+                      "sourceNodeId",
+                      "shadowNodeId"
+                    ]
+                  },
+                  "minItems": 1,
+                  "maxItems": 6,
+                  "uniqueItems": true
+                },
+                "edges": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "sourceEdgeId": {
+                        "$ref": "#/$defs/sourceId"
+                      },
+                      "shadowEdgeId": {
+                        "$ref": "#/$defs/edgeId"
+                      }
+                    },
+                    "required": [
+                      "sourceEdgeId",
+                      "shadowEdgeId"
+                    ]
+                  },
+                  "minItems": 0,
+                  "maxItems": 30,
+                  "uniqueItems": true
+                }
+              },
+              "required": [
+                "nodes",
+                "edges"
+              ]
+            }
+          },
+          "required": [
+            "graph",
+            "mapping"
+          ]
+        },
+        "runs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "target": {
+                "$ref": "#/$defs/target"
+              },
+              "transformation": {
+                "$ref": "#/$defs/transformation"
+              },
+              "beforeGraphHash": {
+                "$ref": "#/$defs/hash"
+              },
+              "runHash": {
+                "$ref": "#/$defs/hash"
+              },
+              "execution": {
+                "enum": [
+                  "applied",
+                  "rejected"
+                ]
+              },
+              "rejection": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/rejection"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "graph": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/typed-relations-v1"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "edgeMapping": {
+                "anyOf": [
+                  {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/$defs/edgeMapping"
+                    },
+                    "minItems": 0,
+                    "maxItems": 30,
+                    "uniqueItems": true
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "changes": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/changes"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "target",
+              "transformation",
+              "beforeGraphHash",
+              "runHash",
+              "execution",
+              "rejection",
+              "graph",
+              "edgeMapping",
+              "changes"
+            ],
+            "oneOf": [
+              {
+                "properties": {
+                  "execution": {
+                    "const": "applied"
+                  },
+                  "rejection": {
+                    "type": "null"
+                  },
+                  "graph": {
+                    "type": "object"
+                  },
+                  "edgeMapping": {
+                    "type": "array"
+                  },
+                  "changes": {
+                    "type": "object"
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "execution": {
+                    "const": "rejected"
+                  },
+                  "rejection": {
+                    "type": "object"
+                  },
+                  "graph": {
+                    "type": "null"
+                  },
+                  "edgeMapping": {
+                    "type": "null"
+                  },
+                  "changes": {
+                    "type": "null"
+                  },
+                  "transformation": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "kind": {
+                        "const": "reverse-edges"
+                      },
+                      "targets": {
+                        "const": "each-scoped-edge"
+                      }
+                    },
+                    "required": [
+                      "kind",
+                      "targets"
+                    ]
+                  },
+                  "target": {
+                    "properties": {
+                      "kind": {
+                        "const": "single-scoped-edge"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "transformation": {
+                      "properties": {
+                        "kind": {
+                          "const": "identity"
+                        }
+                      }
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "execution": {
+                      "const": "applied"
+                    },
+                    "target": {
+                      "properties": {
+                        "kind": {
+                          "const": "whole-scope"
+                        }
+                      }
+                    },
+                    "changes": {
+                      "properties": {
+                        "removedSourceEdgeIds": {
+                          "maxItems": 0
+                        },
+                        "reversedSourceEdgeIds": {
+                          "maxItems": 0
+                        }
+                      }
+                    },
+                    "edgeMapping": {
+                      "items": {
+                        "properties": {
+                          "action": {
+                            "const": "preserved"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "transformation": {
+                      "properties": {
+                        "kind": {
+                          "const": "remove-edges"
+                        }
+                      }
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "execution": {
+                      "const": "applied"
+                    },
+                    "changes": {
+                      "properties": {
+                        "reversedSourceEdgeIds": {
+                          "maxItems": 0
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "execution": {
+                      "const": "applied"
+                    },
+                    "transformation": {
+                      "properties": {
+                        "kind": {
+                          "const": "reverse-edges"
+                        }
+                      }
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "changes": {
+                      "properties": {
+                        "removedSourceEdgeIds": {
+                          "maxItems": 0
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "minItems": 0,
+          "maxItems": 32
+        }
+      }
+    }
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "execution": {
+            "properties": {
+              "state": {
+                "const": "unavailable"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "runs": {
+            "maxItems": 0
+          },
+          "request": {
+            "properties": {
+              "transformation": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "kind": {
+                    "enum": [
+                      "remove-edges",
+                      "reverse-edges"
+                    ]
+                  },
+                  "targets": {
+                    "enum": [
+                      "all-scoped-edges",
+                      "each-scoped-edge"
+                    ]
+                  }
+                },
+                "required": [
+                  "kind",
+                  "targets"
+                ]
+              }
+            }
+          },
+          "selection": {
+            "properties": {
+              "kind": {
+                "enum": [
+                  "all-scoped-edges",
+                  "each-scoped-edge"
+                ]
+              },
+              "eligibleSourceEdgeIds": {
+                "maxItems": 0
+              },
+              "eligibleShadowEdgeIds": {
+                "maxItems": 0
+              }
+            }
+          },
+          "baseline": {
+            "properties": {
+              "graph": {
+                "properties": {
+                  "edges": {
+                    "maxItems": 0
+                  }
+                }
+              }
+            }
+          },
+          "work": {
+            "const": {
+              "transformationEdgeVisits": 0,
+              "outputGraphCount": 1
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "runs": {
+            "minItems": 1
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "request": {
+            "properties": {
+              "transformation": {
+                "properties": {
+                  "kind": {
+                    "const": "identity"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "selection": {
+            "properties": {
+              "kind": {
+                "const": "whole-scope"
+              }
+            }
+          },
+          "runs": {
+            "minItems": 1,
+            "maxItems": 1
+          },
+          "execution": {
+            "const": {
+              "state": "completed",
+              "reason": null,
+              "targetCount": 1,
+              "appliedCount": 1,
+              "rejectedCount": 0
+            }
+          },
+          "work": {
+            "properties": {
+              "outputGraphCount": {
+                "const": 2
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

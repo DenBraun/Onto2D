@@ -70,5 +70,5 @@ artifacts as distinct indeterminate or exhausted states. A schema-valid object
 is not trusted until the relevant verifier reproduces its prerequisites and
 hashes.
 
-See the repository [Architecture](../../docs/KERNEL_ARCHITECTURE.md) and
-[Implementation Status](../../docs/KERNEL_IMPLEMENTATION_STATUS.md).
+See the repository [Architecture](../../docs/architecture/KERNEL.md#kernel-model-and-boundaries) and
+[Implementation Status](../../docs/ROADMAP.md).

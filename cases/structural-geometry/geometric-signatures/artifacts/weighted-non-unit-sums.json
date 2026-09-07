@@ -1,0 +1,741 @@
+{
+  "analysis": {
+    "id": "geometric-signature",
+    "version": "1"
+  },
+  "artifactHash": "sha256:8c33c3e73b4e055cd189f448eaebca564c162025d5ed0e1c1e24c0a54f8bdcf2",
+  "evaluation": "measured",
+  "evidence": {
+    "flow": null,
+    "forman": {
+      "analysis": {
+        "id": "structural-provider-analysis",
+        "version": "1"
+      },
+      "artifactHash": "sha256:dae0cf1aeb8bfcfbdf98e3abb80d90e8e35b16b347ff367cafadbc73651a59e9",
+      "context": {
+        "contextHash": "sha256:2c1ea43d529d27214fa0d17e2536a082c5c9cff2eb24293c641d9ea2a7c39a22",
+        "dictionaryHash": "sha256:c7cd166f910f4e619ad8fbf7d2ef37c7d4d9decd7f6340899bcd28cdf679c1d9",
+        "model": {
+          "manifestHash": "sha256:5cdb1e6d070c26f256d5255b0f9e40d36e6fa420cb30004a6518c3d03f011c41",
+          "modelId": "flow-non-unit-sums",
+          "modelRootHash": "sha256:824af45117e41daa28f6460a45887cd981b4a8f596e5c465775ea7072ff69087",
+          "modelVersion": "1"
+        },
+        "normalizationContext": "full-source-projection",
+        "projectionPolicyHash": "sha256:25f5cdb778b7fdf05ff071dd9d8c672a9726ca50958a6192066e72a8523172d1",
+        "schemaVersion": "1",
+        "sourceProjectionHash": "sha256:c91277e86b846fd51d86cac8d59a1a5dfc4b0ff494854a9af2adf06a3a0ecaae"
+      },
+      "legacyArtifact": {
+        "accounting": {
+          "excludedEdgeIds": [],
+          "missingChannelEdgeIds": [],
+          "selectedEdgeIds": [
+            "a->c",
+            "b->c",
+            "c->d"
+          ],
+          "sourceEdgeCount": 3,
+          "sourceNodeCount": 4
+        },
+        "algorithm": {
+          "id": "forman-directed-interval",
+          "version": "1"
+        },
+        "analysis": {
+          "id": "structural-metric-experiment",
+          "version": "1"
+        },
+        "artifactHash": "sha256:aa8aefbd77a455eacd2d7b2ed38e11e6e57f49a12a782b211d9de331c948de09",
+        "metricContextHash": "sha256:99b884f2899a36ff1c380064e50709dff8c6bd11695135f4ace01a1a4060f637",
+        "metricPolicy": {
+          "edgeLength": "incoming-source-weight-sum-divided-by-source-weight",
+          "edgeWeight": "edge-length",
+          "id": "inverse-target-share-v1",
+          "invalidWeight": "reject",
+          "maximumSourceWeight": 1,
+          "minimumSourceWeight": 0.000001,
+          "normalizationContext": "full-source-projection",
+          "sourceMutation": "none",
+          "status": "experimental",
+          "version": "1",
+          "vertexWeight": 1
+        },
+        "metricPolicyHash": "sha256:1c480b47143387b0a974416b2210b535950a4ed639eaac77d7ee235a76303e9e",
+        "model": {
+          "manifestHash": "sha256:5cdb1e6d070c26f256d5255b0f9e40d36e6fa420cb30004a6518c3d03f011c41",
+          "modelId": "flow-non-unit-sums",
+          "modelRootHash": "sha256:824af45117e41daa28f6460a45887cd981b4a8f596e5c465775ea7072ff69087",
+          "modelVersion": "1"
+        },
+        "numericPolicy": {
+          "decimalPlaces": 12,
+          "id": "outward-decimal-interval-v1",
+          "maxIncidences": 100000,
+          "rounding": "outward-per-incidence",
+          "sourceNumberInterpretation": "canonical-json-decimal",
+          "squareRoot": "integer-isqrt",
+          "version": "1"
+        },
+        "numericPolicyHash": "sha256:8760d4d2c1fe233508914d4ba6b66f87e8849b5b051694c79c0f5ab12ea6e517",
+        "parameters": {},
+        "parametersHash": "sha256:b548afe8f45bf170a9fa1325aca825e0dfed84d6f1be6cfd503004e7c2d06f46",
+        "projectionHash": "sha256:b54372170f32d85dfd9367bbdca8c8e8b80db015ad2679e1810c7ac311d20e93",
+        "request": {
+          "metricPolicyId": "inverse-target-share-v1",
+          "selection": {
+            "kind": "all"
+          }
+        },
+        "result": {
+          "connectivity": {
+            "cyclicNodeCount": 0,
+            "isolatedNodeCount": 0,
+            "strongComponentCount": 4,
+            "weakComponentCount": 1
+          },
+          "edges": [
+            {
+              "curvature": {
+                "lowerTicks": "267949192431",
+                "upperTicks": "267949192432"
+              },
+              "id": "a->c",
+              "length": {
+                "denominator": "1",
+                "numerator": "3"
+              },
+              "sign": "positive",
+              "source": "a",
+              "target": "c",
+              "unitComparison": "lower",
+              "unitCurvature": 1
+            },
+            {
+              "curvature": {
+                "lowerTicks": "775255128608",
+                "upperTicks": "775255128609"
+              },
+              "id": "b->c",
+              "length": {
+                "denominator": "2",
+                "numerator": "3"
+              },
+              "sign": "positive",
+              "source": "b",
+              "target": "c",
+              "unitComparison": "lower",
+              "unitCurvature": 1
+            },
+            {
+              "curvature": {
+                "lowerTicks": "606153149882",
+                "upperTicks": "606153149884"
+              },
+              "id": "c->d",
+              "length": {
+                "denominator": "1",
+                "numerator": "1"
+              },
+              "sign": "positive",
+              "source": "c",
+              "target": "d",
+              "unitComparison": "higher",
+              "unitCurvature": 0
+            }
+          ],
+          "incidenceCount": 4,
+          "nodes": [
+            {
+              "balance": {
+                "lowerTicks": "-267949192432",
+                "upperTicks": "-267949192431"
+              },
+              "id": "a",
+              "inDegree": 0,
+              "incomingCurvature": {
+                "lowerTicks": "0",
+                "upperTicks": "0"
+              },
+              "outDegree": 1,
+              "outgoingCurvature": {
+                "lowerTicks": "267949192431",
+                "upperTicks": "267949192432"
+              }
+            },
+            {
+              "balance": {
+                "lowerTicks": "-775255128609",
+                "upperTicks": "-775255128608"
+              },
+              "id": "b",
+              "inDegree": 0,
+              "incomingCurvature": {
+                "lowerTicks": "0",
+                "upperTicks": "0"
+              },
+              "outDegree": 1,
+              "outgoingCurvature": {
+                "lowerTicks": "775255128608",
+                "upperTicks": "775255128609"
+              }
+            },
+            {
+              "balance": {
+                "lowerTicks": "437051171155",
+                "upperTicks": "437051171159"
+              },
+              "id": "c",
+              "inDegree": 2,
+              "incomingCurvature": {
+                "lowerTicks": "1043204321039",
+                "upperTicks": "1043204321041"
+              },
+              "outDegree": 1,
+              "outgoingCurvature": {
+                "lowerTicks": "606153149882",
+                "upperTicks": "606153149884"
+              }
+            },
+            {
+              "balance": {
+                "lowerTicks": "606153149882",
+                "upperTicks": "606153149884"
+              },
+              "id": "d",
+              "inDegree": 1,
+              "incomingCurvature": {
+                "lowerTicks": "606153149882",
+                "upperTicks": "606153149884"
+              },
+              "outDegree": 0,
+              "outgoingCurvature": {
+                "lowerTicks": "0",
+                "upperTicks": "0"
+              }
+            }
+          ],
+          "summary": {
+            "count": 3,
+            "maximum": {
+              "lowerTicks": "775255128608",
+              "upperTicks": "775255128609"
+            },
+            "mean": {
+              "denominator": 3,
+              "lowerNumeratorTicks": "1649357470921",
+              "upperNumeratorTicks": "1649357470925"
+            },
+            "minimum": {
+              "lowerTicks": "267949192431",
+              "upperTicks": "267949192432"
+            },
+            "signs": {
+              "negative": 0,
+              "positive": 3,
+              "unresolved": 0,
+              "zero": 0
+            },
+            "sum": {
+              "lowerTicks": "1649357470921",
+              "upperTicks": "1649357470925"
+            },
+            "unitComparison": {
+              "equal": 0,
+              "higher": 1,
+              "lower": 2,
+              "overlapping": 0
+            }
+          }
+        },
+        "schemaVersion": "1",
+        "selectionPolicy": {
+          "channels": [
+            "dependencyTypeId",
+            "interactionModeIds",
+            "causalDirectionIds"
+          ],
+          "id": "typed-source-parent-subgraph-v1",
+          "missingCategory": "reject",
+          "missingChannel": "exclude-and-account",
+          "necessityOrder": [
+            "necessary",
+            "enabling",
+            "contextual",
+            "optional"
+          ],
+          "nodePopulation": "all-source-nodes",
+          "roleOrder": "subset-lattice",
+          "roleUniverse": [
+            "arising",
+            "maintenance",
+            "modulation"
+          ],
+          "version": "1"
+        },
+        "selectionPolicyHash": "sha256:19c266351895ee05760ea8791d6880a4587966271182e28252c8afc89e5aab7d",
+        "sourceProjectionHash": "sha256:c91277e86b846fd51d86cac8d59a1a5dfc4b0ff494854a9af2adf06a3a0ecaae",
+        "weightAuditHash": "sha256:64addfa7cf9e0ebbc7e9c5353a43b9b752ffd8a46e0ff5e3c254b4a0c898979b"
+      },
+      "metricArtifact": {
+        "analysis": {
+          "id": "structural-metric-provider",
+          "version": "1"
+        },
+        "artifactHash": "sha256:e999c5ccdf2cb5038c6c1cf49968739bc68ee4688f108128578eec03c3f77e10",
+        "context": {
+          "contextHash": "sha256:2c1ea43d529d27214fa0d17e2536a082c5c9cff2eb24293c641d9ea2a7c39a22",
+          "dictionaryHash": "sha256:c7cd166f910f4e619ad8fbf7d2ef37c7d4d9decd7f6340899bcd28cdf679c1d9",
+          "model": {
+            "manifestHash": "sha256:5cdb1e6d070c26f256d5255b0f9e40d36e6fa420cb30004a6518c3d03f011c41",
+            "modelId": "flow-non-unit-sums",
+            "modelRootHash": "sha256:824af45117e41daa28f6460a45887cd981b4a8f596e5c465775ea7072ff69087",
+            "modelVersion": "1"
+          },
+          "normalizationContext": "full-source-projection",
+          "projectionPolicyHash": "sha256:25f5cdb778b7fdf05ff071dd9d8c672a9726ca50958a6192066e72a8523172d1",
+          "schemaVersion": "1",
+          "sourceProjectionHash": "sha256:c91277e86b846fd51d86cac8d59a1a5dfc4b0ff494854a9af2adf06a3a0ecaae"
+        },
+        "provider": {
+          "capabilities": [
+            "positive-edge-lengths",
+            "vertex-weights",
+            "edge-weights"
+          ],
+          "context": {
+            "dictionaryMeaning": "model-local",
+            "normalization": "full-source-projection",
+            "source": "verified-full-model",
+            "sourceWeights": "required-and-audited"
+          },
+          "id": "inverse-target-share-v1",
+          "kind": "metric-values",
+          "limits": {
+            "maxArtifactBytes": 8388608,
+            "maxCanonicalEntries": 500000,
+            "maxEdges": 16384,
+            "maxNodes": 4096,
+            "maxTotalViewEdges": 32768,
+            "maxViews": 32
+          },
+          "numeric": "exact-positive-rational",
+          "origin": "existing-structural-geometry-v1",
+          "representationPolicyId": "source-parent-directed-v1",
+          "version": "1"
+        },
+        "providerHash": "sha256:b293ddbb9f7d4386afd7f5782dacbe190eb19e090cc6eaaf4c89712b49b2f3c0",
+        "request": {
+          "parameters": {},
+          "providerId": "inverse-target-share-v1"
+        },
+        "result": {
+          "edges": [
+            {
+              "id": "a->c",
+              "length": {
+                "denominator": "1",
+                "numerator": "3"
+              },
+              "source": "a",
+              "target": "c",
+              "weight": {
+                "denominator": "1",
+                "numerator": "3"
+              }
+            },
+            {
+              "id": "b->c",
+              "length": {
+                "denominator": "2",
+                "numerator": "3"
+              },
+              "source": "b",
+              "target": "c",
+              "weight": {
+                "denominator": "2",
+                "numerator": "3"
+              }
+            },
+            {
+              "id": "c->d",
+              "length": {
+                "denominator": "1",
+                "numerator": "1"
+              },
+              "source": "c",
+              "target": "d",
+              "weight": {
+                "denominator": "1",
+                "numerator": "1"
+              }
+            }
+          ],
+          "kind": "metric-values",
+          "metricContextHash": "sha256:99b884f2899a36ff1c380064e50709dff8c6bd11695135f4ace01a1a4060f637",
+          "metricPolicy": {
+            "edgeLength": "incoming-source-weight-sum-divided-by-source-weight",
+            "edgeWeight": "edge-length",
+            "id": "inverse-target-share-v1",
+            "invalidWeight": "reject",
+            "maximumSourceWeight": 1,
+            "minimumSourceWeight": 0.000001,
+            "normalizationContext": "full-source-projection",
+            "sourceMutation": "none",
+            "status": "experimental",
+            "version": "1",
+            "vertexWeight": 1
+          },
+          "metricPolicyHash": "sha256:1c480b47143387b0a974416b2210b535950a4ed639eaac77d7ee235a76303e9e",
+          "nodes": [
+            {
+              "id": "a",
+              "weight": {
+                "denominator": "1",
+                "numerator": "1"
+              }
+            },
+            {
+              "id": "b",
+              "weight": {
+                "denominator": "1",
+                "numerator": "1"
+              }
+            },
+            {
+              "id": "c",
+              "weight": {
+                "denominator": "1",
+                "numerator": "1"
+              }
+            },
+            {
+              "id": "d",
+              "weight": {
+                "denominator": "1",
+                "numerator": "1"
+              }
+            }
+          ],
+          "weightAuditHash": "sha256:64addfa7cf9e0ebbc7e9c5353a43b9b752ffd8a46e0ff5e3c254b4a0c898979b"
+        },
+        "schemaVersion": "1"
+      },
+      "request": {
+        "analysis": "structural-metric-experiment",
+        "metricProviderId": "inverse-target-share-v1",
+        "selection": {
+          "kind": "all"
+        }
+      },
+      "schemaVersion": "1",
+      "viewArtifact": null
+    },
+    "ollivier": null
+  },
+  "features": [
+    {
+      "coverage": {
+        "complete": true,
+        "denominator": 3,
+        "numerator": 3
+      },
+      "id": "forman-curvature-v1",
+      "provenance": {
+        "maximum": {
+          "certainEdgeIds": [
+            "b->c"
+          ],
+          "possibleEdgeIds": [
+            "b->c"
+          ]
+        },
+        "minimum": {
+          "certainEdgeIds": [
+            "a->c"
+          ],
+          "possibleEdgeIds": [
+            "a->c"
+          ]
+        }
+      },
+      "reasons": [],
+      "state": "observed",
+      "value": {
+        "count": 3,
+        "distribution": [
+          {
+            "count": 1,
+            "value": {
+              "lower": {
+                "denominator": "1000000000000",
+                "numerator": "267949192431"
+              },
+              "upper": {
+                "denominator": "62500000000",
+                "numerator": "16746824527"
+              }
+            }
+          },
+          {
+            "count": 1,
+            "value": {
+              "lower": {
+                "denominator": "500000000000",
+                "numerator": "303076574941"
+              },
+              "upper": {
+                "denominator": "250000000000",
+                "numerator": "151538287471"
+              }
+            }
+          },
+          {
+            "count": 1,
+            "value": {
+              "lower": {
+                "denominator": "31250000000",
+                "numerator": "24226722769"
+              },
+              "upper": {
+                "denominator": "1000000000000",
+                "numerator": "775255128609"
+              }
+            }
+          }
+        ],
+        "maximum": {
+          "certainRoles": [
+            {
+              "count": 1,
+              "value": {
+                "sourceInDegree": 0,
+                "sourceOutDegree": 1,
+                "targetInDegree": 2,
+                "targetOutDegree": 1
+              }
+            }
+          ],
+          "lower": {
+            "denominator": "31250000000",
+            "numerator": "24226722769"
+          },
+          "possibleRoles": [
+            {
+              "count": 1,
+              "value": {
+                "sourceInDegree": 0,
+                "sourceOutDegree": 1,
+                "targetInDegree": 2,
+                "targetOutDegree": 1
+              }
+            }
+          ],
+          "upper": {
+            "denominator": "1000000000000",
+            "numerator": "775255128609"
+          }
+        },
+        "minimum": {
+          "certainRoles": [
+            {
+              "count": 1,
+              "value": {
+                "sourceInDegree": 0,
+                "sourceOutDegree": 1,
+                "targetInDegree": 2,
+                "targetOutDegree": 1
+              }
+            }
+          ],
+          "lower": {
+            "denominator": "1000000000000",
+            "numerator": "267949192431"
+          },
+          "possibleRoles": [
+            {
+              "count": 1,
+              "value": {
+                "sourceInDegree": 0,
+                "sourceOutDegree": 1,
+                "targetInDegree": 2,
+                "targetOutDegree": 1
+              }
+            }
+          ],
+          "upper": {
+            "denominator": "62500000000",
+            "numerator": "16746824527"
+          }
+        },
+        "numeric": "certified-interval",
+        "signs": {
+          "negative": 0,
+          "positive": 3,
+          "unresolved": 0,
+          "zero": 0
+        }
+      },
+      "valueHash": "sha256:23d16f195d4c2278af4668d9586c22959ed681b5ce2be18eced2b021f996b317"
+    },
+    {
+      "coverage": {
+        "complete": false,
+        "denominator": 3,
+        "numerator": 0
+      },
+      "id": "ollivier-curvature-v1",
+      "provenance": null,
+      "reasons": [
+        "not-requested"
+      ],
+      "state": "unavailable",
+      "value": null,
+      "valueHash": null
+    },
+    {
+      "coverage": {
+        "complete": false,
+        "denominator": 0,
+        "numerator": 0
+      },
+      "id": "flow-trajectory-v1",
+      "provenance": null,
+      "reasons": [
+        "not-requested"
+      ],
+      "state": "unavailable",
+      "value": null,
+      "valueHash": null
+    }
+  ],
+  "policy": {
+    "alignment": "absolute-iteration-through-requested-cap-no-padding",
+    "comparison": "no-distance-or-cross-source-comparability-authority",
+    "contentHash": "sha256:0f9af7849baee9674666e82ea0022e716f841d73cfd0dc40500f0a1f4fe884dd",
+    "cuts": "strict-threshold-events-and-terminal-consecutive-run-lengths",
+    "earlyStop": "unavailable-tail-partial-horizon-never-convergence-substitution",
+    "errors": "throw-no-partial-success",
+    "extrema": "possible-and-certain-attainment-with-inclusive-ties",
+    "flow": "joint-normalized-length-curvature-multisets",
+    "id": "geometric-signature-v1",
+    "intervals": "retain-certified-endpoints-no-midpoints",
+    "layers": [
+      "forman-curvature-v1",
+      "ollivier-curvature-v1",
+      "flow-trajectory-v1"
+    ],
+    "limits": {
+      "maxArtifactBytes": 25165824,
+      "maxCanonicalEntries": 2000000,
+      "maxEdges": 64,
+      "maxFrames": 25,
+      "maxJointSamples": 1600,
+      "maxNodes": 64,
+      "maxScalarSamples": 3328
+    },
+    "missingness": "observed-partial-unavailable-whole-value-only-if-all-three-observed",
+    "population": "same-exact-scoped-nodes-and-edges-for-all-requested-layers",
+    "provenance": "exact-edge-ids-excluded-from-values",
+    "roles": "source-target-in-out-degree-multisets",
+    "scalar": "exact-multiset-of-closed-rational-intervals",
+    "source": "expected-verified-model-pack",
+    "verification": "expected-source-request-and-external-evidence-replay",
+    "version": "1"
+  },
+  "population": {
+    "edgeIds": [
+      "a->c",
+      "b->c",
+      "c->d"
+    ],
+    "nodeIds": [
+      "a",
+      "b",
+      "c",
+      "d"
+    ],
+    "populationHash": "sha256:9001abf30b69384c32c92464d8d09fae9ae2c67d4421e70fffedf4582baaac64"
+  },
+  "profile": {
+    "flow": null,
+    "forman": {
+      "algorithm": {
+        "id": "forman-directed-interval",
+        "version": "1"
+      },
+      "metricPolicyHash": "sha256:1c480b47143387b0a974416b2210b535950a4ed639eaac77d7ee235a76303e9e",
+      "numericPolicy": {
+        "decimalPlaces": 12,
+        "id": "outward-decimal-interval-v1",
+        "maxIncidences": 100000,
+        "rounding": "outward-per-incidence",
+        "sourceNumberInterpretation": "canonical-json-decimal",
+        "squareRoot": "integer-isqrt",
+        "version": "1"
+      },
+      "providerHash": "sha256:b293ddbb9f7d4386afd7f5782dacbe190eb19e090cc6eaaf4c89712b49b2f3c0",
+      "request": {
+        "analysis": "structural-metric-experiment",
+        "metricProviderId": "inverse-target-share-v1",
+        "selection": {
+          "kind": "all"
+        }
+      }
+    },
+    "ollivier": null,
+    "policy": {
+      "contentHash": "sha256:0f9af7849baee9674666e82ea0022e716f841d73cfd0dc40500f0a1f4fe884dd",
+      "id": "geometric-signature-v1",
+      "version": "1"
+    },
+    "profileHash": "sha256:08e11ff6d8f42c654e4e4b336edc9459ec0f51b3ab8991cb57516621bd72abc7"
+  },
+  "request": {
+    "flow": null,
+    "forman": {
+      "analysis": "structural-metric-experiment",
+      "metricProviderId": "inverse-target-share-v1",
+      "selection": {
+        "kind": "all"
+      }
+    },
+    "ollivier": null
+  },
+  "schemaVersion": "1",
+  "source": {
+    "contextHash": "sha256:2c1ea43d529d27214fa0d17e2536a082c5c9cff2eb24293c641d9ea2a7c39a22",
+    "dictionaryHash": "sha256:c7cd166f910f4e619ad8fbf7d2ef37c7d4d9decd7f6340899bcd28cdf679c1d9",
+    "model": {
+      "manifestHash": "sha256:5cdb1e6d070c26f256d5255b0f9e40d36e6fa420cb30004a6518c3d03f011c41",
+      "modelId": "flow-non-unit-sums",
+      "modelRootHash": "sha256:824af45117e41daa28f6460a45887cd981b4a8f596e5c465775ea7072ff69087",
+      "modelVersion": "1"
+    },
+    "normalizationContext": "full-source-projection",
+    "projectionPolicyHash": "sha256:25f5cdb778b7fdf05ff071dd9d8c672a9726ca50958a6192066e72a8523172d1",
+    "schemaVersion": "1",
+    "sourceProjectionHash": "sha256:c91277e86b846fd51d86cac8d59a1a5dfc4b0ff494854a9af2adf06a3a0ecaae"
+  },
+  "summary": {
+    "coverage": {
+      "complete": false,
+      "denominator": 3,
+      "numerator": 1
+    },
+    "partialFeatureIds": [],
+    "status": "indeterminate",
+    "unavailableFeatureIds": [
+      "ollivier-curvature-v1",
+      "flow-trajectory-v1"
+    ]
+  },
+  "value": null,
+  "valueHash": null,
+  "work": {
+    "jointSamples": 0,
+    "scalarSamples": 3,
+    "trajectoryFrames": 0
+  }
+}

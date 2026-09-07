@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "1",
+  "regimes": ["canonical-structure-v1", "topology-only-v1", "typed-relations-v1"],
+  "completeFragments": ["diamond-feedback", "subdivided-feedback", "isolated-extension", "necessity-change"],
+  "additionalFragments": ["chain", "mixed", "missing-role", "missing-necessity", "isolates"],
+  "cases": [
+    {"id":"partial-chain-diamond","regimeId":"topology-only-v1","left":"chain","right":"diamond-feedback","diagnostics":"partial-with-coverage"},
+    {"id":"partial-diamond-chain","regimeId":"topology-only-v1","left":"diamond-feedback","right":"chain","diagnostics":"partial-with-coverage"},
+    {"id":"partial-chain-self","regimeId":"topology-only-v1","left":"chain","right":"chain","diagnostics":"partial-with-coverage"},
+    {"id":"empty-self","regimeId":"topology-only-v1","left":"isolates","right":"isolates","diagnostics":"partial-with-coverage"},
+    {"id":"rejected-targets","regimeId":"topology-only-v1","left":"mixed","right":"diamond-feedback","diagnostics":"partial-with-coverage"},
+    {"id":"missing-role","regimeId":"typed-relations-v1","left":"missing-role","right":"diamond-feedback","diagnostics":"partial-with-coverage"},
+    {"id":"missing-necessity","regimeId":"typed-relations-v1","left":"missing-necessity","right":"diamond-feedback","diagnostics":"partial-with-coverage"},
+    {"id":"external-canonical","regimeId":"canonical-structure-v1","left":"diamond-feedback","right":"external"},
+    {"id":"external-topology","regimeId":"topology-only-v1","left":"diamond-feedback","right":"external"},
+    {"id":"external-typed","regimeId":"typed-relations-v1","left":"diamond-feedback","right":"external","diagnostics":"partial-with-coverage"},
+    {"id":"foreign-context","regimeId":"typed-relations-v1","left":"diamond-feedback","right":"foreign","diagnostics":"partial-with-coverage"},
+    {"id":"maximum","regimeId":"topology-only-v1","left":"maximum","right":"maximum","diagnostics":"partial-with-coverage"}
+  ]
+}

@@ -4,7 +4,23 @@ import { schemaUrls, SCHEMA_VERSION } from "../../packages/schemas/src/index.js"
 
 test("schema package exposes every initial contract as a file URL", () => {
   assert.equal(SCHEMA_VERSION, "1");
-  assert.equal(Object.keys(schemaUrls).length, 201);
+  assert.equal(Object.keys(schemaUrls).length, 217);
+  assert.ok(schemaUrls.geometricAddedValueUnit.pathname.endsWith("geometric-added-value-unit.schema.json"));
+  assert.ok(schemaUrls.geometricAddedValueSuite.pathname.endsWith("geometric-added-value-suite.schema.json"));
+  assert.ok(schemaUrls.geometricSignatureInput.pathname.endsWith("geometric-signature-input.schema.json"));
+  assert.ok(schemaUrls.geometricSignatureArtifact.pathname.endsWith("geometric-signature-artifact.schema.json"));
+  assert.ok(schemaUrls.structuralPseudometricInput.pathname.endsWith("structural-pseudometric-input.schema.json"));
+  assert.ok(schemaUrls.structuralPseudometricArtifact.pathname.endsWith("structural-pseudometric-artifact.schema.json"));
+  assert.ok(schemaUrls.structuralResponseSignatureInput.pathname.endsWith("structural-response-signature-input.schema.json"));
+  assert.ok(schemaUrls.structuralResponseSignatureArtifact.pathname.endsWith("structural-response-signature-artifact.schema.json"));
+  assert.ok(schemaUrls.structuralResponseInput.pathname.endsWith("structural-response-input.schema.json"));
+  assert.ok(schemaUrls.structuralResponseArtifact.pathname.endsWith("structural-response-artifact.schema.json"));
+  assert.ok(schemaUrls.structuralInvarianceInput.pathname.endsWith("structural-invariance-input.schema.json"));
+  assert.ok(schemaUrls.structuralInvarianceArtifact.pathname.endsWith("structural-invariance-artifact.schema.json"));
+  assert.ok(schemaUrls.structuralProbeSandboxInput.pathname.endsWith("structural-probe-sandbox-input.schema.json"));
+  assert.ok(schemaUrls.structuralProbeSandboxArtifact.pathname.endsWith("structural-probe-sandbox-artifact.schema.json"));
+  assert.ok(schemaUrls.structuralComparisonInput.pathname.endsWith("structural-comparison-input.schema.json"));
+  assert.ok(schemaUrls.structuralComparisonArtifact.pathname.endsWith("structural-comparison-artifact.schema.json"));
   for (const [name, file] of [["structuralTypedInput", "structural-typed-input"], ["structuralTypedObservation", "structural-typed-observation"],
     ["structuralVocabularyMappingInput", "structural-vocabulary-mapping-input"], ["structuralVocabularyMapping", "structural-vocabulary-mapping"],
     ["structuralTypedAlignment", "structural-typed-alignment"]]) assert.ok(schemaUrls[name].pathname.endsWith(`${file}.schema.json`));

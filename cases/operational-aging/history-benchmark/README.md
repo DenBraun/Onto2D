@@ -62,7 +62,7 @@ npm run history-benchmark:check
 After intentional protocol or compiler changes, regenerate preparation with
 `npm run history-benchmark:aging:prepare`, then refresh the dependent pilot with
 `npm run history-benchmark:reference`. Verification itself never regenerates
-fixtures. See the [testing guide](../../../docs/history/HISTORY_BENCHMARK_TESTING.md).
+fixtures. See the [testing guide](../../../docs/history/BENCHMARK.md#history-matters-testing-and-acceptance).
 
 To recapture observations from an explicitly supplied exact archive:
 

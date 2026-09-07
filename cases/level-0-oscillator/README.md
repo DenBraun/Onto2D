@@ -39,7 +39,7 @@ pipelines remain available as `npm run case:level-0:v1:verify` and
 [`LEVEL_ZERO_VALIDATION_V2.md`](LEVEL_ZERO_VALIDATION_V2.md).
 
 For the interactive evidence view, open
-[`Level-0 Numerical Validation`](../../apps/level-zero-validation/).
+[`Level-0 Numerical Validation`](../../apps/level-zero-validation).
 
 The external handoff and independent derivations are listed in
 [`REVIEW.md`](REVIEW.md). Review remains pending and is not implied by passing

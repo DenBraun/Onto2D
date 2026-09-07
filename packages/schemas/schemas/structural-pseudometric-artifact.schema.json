@@ -1,0 +1,2298 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/structural-pseudometric-artifact.schema.json",
+  "title": "Measured fixed-domain structural pseudometric artifact",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": "1"
+    },
+    "analysis": {
+      "const": {
+        "id": "structural-pseudometric",
+        "version": "1"
+      }
+    },
+    "evaluation": {
+      "const": "measured"
+    },
+    "policy": {
+      "const": {
+        "id": "fixed-domain-response-pseudometric-v0",
+        "version": "1",
+        "signature": {
+          "id": "graph-native-response-signature-v0",
+          "version": "1",
+          "contentHash": "sha256:00d8b7982278d47e633bcae4a8cb5bd8152009760e9e215d33a83b85afd9cb20"
+        },
+        "components": "all-ordered-compatible-signature-families",
+        "componentDistance": "exact-joint-multiset-mismatch-zero-or-one",
+        "weight": 1,
+        "scale": 1,
+        "aggregation": "mismatch-count-over-fixed-family-count",
+        "numeric": "reduced-bounded-integer-fraction-zero-is-0-over-1",
+        "domain": "complete-signature-with-passed-invariance",
+        "untypedDomain": "common-fixed-profile",
+        "typedDomain": "one-verified-full-source-context",
+        "vocabulary": "no-pairwise-mapping-or-approval-override",
+        "missingness": "strict-null-distance-retain-component-reasons",
+        "partial": "opt-in-pairwise-available-mean-no-metric-guarantee",
+        "equality": "exact-values-not-fingerprints",
+        "metadata": "excluded-from-distance",
+        "errors": "throw-no-partial-artifact",
+        "limits": {
+          "maxComponents": 5,
+          "maxObservationEvaluations": 140,
+          "maxCanonicalizerCalls": 280,
+          "maxCanonicalEntries": 2000000,
+          "maxArtifactBytes": 16777216
+        },
+        "contentHash": "sha256:f0b827304c6f974a43bddc239846b4b7047a7907be4e82b1a36804289f1b1138"
+      }
+    },
+    "profile": {},
+    "request": {
+      "allOf": [
+        {
+          "$ref": "https://onto2d.dev/schemas/v1/structural-pseudometric-input.schema.json"
+        },
+        {
+          "required": [
+            "regimeId",
+            "leftScope",
+            "rightScope",
+            "diagnostics"
+          ]
+        }
+      ]
+    },
+    "domains": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "left": {
+          "$ref": "#/$defs/domain"
+        },
+        "right": {
+          "$ref": "#/$defs/domain"
+        },
+        "compatible": {
+          "type": "boolean"
+        },
+        "commonDomainHash": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}(?![\\s\\S])"
+            },
+            {
+              "const": null
+            }
+          ]
+        },
+        "membership": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "left": {
+              "enum": [
+                "eligible",
+                "ineligible"
+              ]
+            },
+            "right": {
+              "enum": [
+                "eligible",
+                "ineligible"
+              ]
+            }
+          },
+          "required": [
+            "left",
+            "right"
+          ]
+        }
+      },
+      "required": [
+        "left",
+        "right",
+        "compatible",
+        "commonDomainHash",
+        "membership"
+      ]
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "left": {
+          "$ref": "https://onto2d.dev/schemas/v1/structural-response-signature-artifact.schema.json"
+        },
+        "right": {
+          "$ref": "https://onto2d.dev/schemas/v1/structural-response-signature-artifact.schema.json"
+        }
+      },
+      "required": [
+        "left",
+        "right"
+      ]
+    },
+    "components": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/component"
+      },
+      "minItems": 3,
+      "maxItems": 5
+    },
+    "status": {
+      "enum": [
+        "indeterminate",
+        "indistinguishable-under-signature",
+        "distinguishable-under-signature"
+      ]
+    },
+    "distance": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/rational"
+        },
+        {
+          "const": null
+        }
+      ]
+    },
+    "coverage": {
+      "$ref": "#/$defs/coverage"
+    },
+    "diagnostics": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "equalFeatureIds": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "feedback-response-multiset-v0",
+              "necessary-response-multiset-v0",
+              "enabling-response-multiset-v0",
+              "direction-response-multiset-v0",
+              "support-response-multiset-v0"
+            ]
+          },
+          "uniqueItems": true,
+          "maxItems": 5
+        },
+        "differentFeatureIds": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "feedback-response-multiset-v0",
+              "necessary-response-multiset-v0",
+              "enabling-response-multiset-v0",
+              "direction-response-multiset-v0",
+              "support-response-multiset-v0"
+            ]
+          },
+          "uniqueItems": true,
+          "maxItems": 5
+        },
+        "incompleteFeatureIds": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "feedback-response-multiset-v0",
+              "necessary-response-multiset-v0",
+              "enabling-response-multiset-v0",
+              "direction-response-multiset-v0",
+              "support-response-multiset-v0"
+            ]
+          },
+          "uniqueItems": true,
+          "maxItems": 5
+        },
+        "partial": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/partial"
+            },
+            {
+              "const": null
+            }
+          ]
+        }
+      },
+      "required": [
+        "equalFeatureIds",
+        "differentFeatureIds",
+        "incompleteFeatureIds",
+        "partial"
+      ]
+    },
+    "work": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "componentComparisons": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 5
+        },
+        "observationEvaluations": {
+          "type": "integer",
+          "minimum": 12,
+          "maximum": 140
+        },
+        "canonicalizerCalls": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 280
+        }
+      },
+      "required": [
+        "componentComparisons",
+        "observationEvaluations",
+        "canonicalizerCalls"
+      ]
+    },
+    "artifactHash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}(?![\\s\\S])"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "analysis",
+    "evaluation",
+    "policy",
+    "profile",
+    "request",
+    "domains",
+    "evidence",
+    "components",
+    "status",
+    "distance",
+    "coverage",
+    "diagnostics",
+    "work",
+    "artifactHash"
+  ],
+  "$defs": {
+    "rational": {
+      "enum": [
+        {
+          "numerator": 0,
+          "denominator": 1
+        },
+        {
+          "numerator": 1,
+          "denominator": 1
+        },
+        {
+          "numerator": 1,
+          "denominator": 2
+        },
+        {
+          "numerator": 1,
+          "denominator": 3
+        },
+        {
+          "numerator": 2,
+          "denominator": 3
+        },
+        {
+          "numerator": 1,
+          "denominator": 4
+        },
+        {
+          "numerator": 3,
+          "denominator": 4
+        },
+        {
+          "numerator": 1,
+          "denominator": 5
+        },
+        {
+          "numerator": 2,
+          "denominator": 5
+        },
+        {
+          "numerator": 3,
+          "denominator": 5
+        },
+        {
+          "numerator": 4,
+          "denominator": 5
+        }
+      ]
+    },
+    "side": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "measurement": {
+              "const": "observed"
+            },
+            "valueHash": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}(?![\\s\\S])"
+            }
+          },
+          "required": [
+            "measurement",
+            "valueHash"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "measurement": {
+              "const": "indeterminate"
+            },
+            "valueHash": {
+              "const": null
+            }
+          },
+          "required": [
+            "measurement",
+            "valueHash"
+          ]
+        }
+      ]
+    },
+    "reason": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "side": {
+              "enum": [
+                "left",
+                "right"
+              ]
+            },
+            "code": {
+              "enum": [
+                "no-eligible-targets",
+                "missing-selector-evidence",
+                "rejected-transformations",
+                "missing-observations",
+                "invariance-failed",
+                "invariance-indeterminate"
+              ]
+            },
+            "count": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 64
+            }
+          },
+          "required": [
+            "side",
+            "code",
+            "count"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "side": {
+              "const": "pair"
+            },
+            "code": {
+              "const": "incompatible-domain"
+            },
+            "count": {
+              "const": 1
+            }
+          },
+          "required": [
+            "side",
+            "code",
+            "count"
+          ]
+        }
+      ]
+    },
+    "component": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "featureId": {
+          "enum": [
+            "feedback-response-multiset-v0",
+            "necessary-response-multiset-v0",
+            "enabling-response-multiset-v0",
+            "direction-response-multiset-v0",
+            "support-response-multiset-v0"
+          ]
+        },
+        "weight": {
+          "const": 1
+        },
+        "scale": {
+          "const": 1
+        },
+        "left": {
+          "$ref": "#/$defs/side"
+        },
+        "right": {
+          "$ref": "#/$defs/side"
+        },
+        "state": {
+          "enum": [
+            "equal",
+            "different",
+            "indeterminate"
+          ]
+        },
+        "distance": {
+          "enum": [
+            0,
+            1,
+            null
+          ]
+        },
+        "reasons": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/reason"
+          },
+          "maxItems": 11,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "featureId",
+        "weight",
+        "scale",
+        "left",
+        "right",
+        "state",
+        "distance",
+        "reasons"
+      ],
+      "oneOf": [
+        {
+          "properties": {
+            "state": {
+              "const": "equal"
+            },
+            "distance": {
+              "const": 0
+            },
+            "reasons": {
+              "maxItems": 0
+            },
+            "left": {
+              "properties": {
+                "measurement": {
+                  "const": "observed"
+                }
+              }
+            },
+            "right": {
+              "properties": {
+                "measurement": {
+                  "const": "observed"
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "state": {
+              "const": "different"
+            },
+            "distance": {
+              "const": 1
+            },
+            "reasons": {
+              "maxItems": 0
+            },
+            "left": {
+              "properties": {
+                "measurement": {
+                  "const": "observed"
+                }
+              }
+            },
+            "right": {
+              "properties": {
+                "measurement": {
+                  "const": "observed"
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "state": {
+              "const": "indeterminate"
+            },
+            "distance": {
+              "const": null
+            },
+            "reasons": {
+              "minItems": 1
+            }
+          }
+        }
+      ]
+    },
+    "coverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "numerator": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 5
+        },
+        "denominator": {
+          "enum": [
+            3,
+            5
+          ]
+        },
+        "complete": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "numerator",
+        "denominator",
+        "complete"
+      ]
+    },
+    "partial": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "const": "exploratory-pairwise-available-mean"
+        },
+        "guarantee": {
+          "const": "none"
+        },
+        "coverage": {
+          "$ref": "#/$defs/coverage"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/rational"
+            },
+            {
+              "const": null
+            }
+          ]
+        }
+      },
+      "required": [
+        "kind",
+        "guarantee",
+        "coverage",
+        "value"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "coverage": {
+                "properties": {
+                  "numerator": {
+                    "const": 0
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "const": null
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "value": {
+                "$ref": "#/$defs/rational"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "domain": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "profileHash": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}(?![\\s\\S])"
+        },
+        "vocabulary": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "kind": {
+                  "const": "untyped-graph"
+                }
+              },
+              "required": [
+                "kind"
+              ]
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "kind": {
+                  "const": "source-local-typed"
+                },
+                "contextHash": {
+                  "type": "string",
+                  "pattern": "^sha256:[0-9a-f]{64}(?![\\s\\S])"
+                }
+              },
+              "required": [
+                "kind",
+                "contextHash"
+              ]
+            }
+          ]
+        },
+        "membership": {
+          "const": "complete-signature-with-passed-invariance"
+        },
+        "domainHash": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}(?![\\s\\S])"
+        }
+      },
+      "required": [
+        "profileHash",
+        "vocabulary",
+        "membership",
+        "domainHash"
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "oneOf": [
+        {
+          "properties": {
+            "status": {
+              "const": "indeterminate"
+            },
+            "distance": {
+              "const": null
+            },
+            "coverage": {
+              "properties": {
+                "complete": {
+                  "const": false
+                }
+              }
+            },
+            "diagnostics": {
+              "properties": {
+                "incompleteFeatureIds": {
+                  "minItems": 1
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "status": {
+              "const": "indistinguishable-under-signature"
+            },
+            "distance": {
+              "enum": [
+                {
+                  "numerator": 0,
+                  "denominator": 1
+                }
+              ]
+            },
+            "coverage": {
+              "properties": {
+                "complete": {
+                  "const": true
+                }
+              }
+            },
+            "diagnostics": {
+              "properties": {
+                "incompleteFeatureIds": {
+                  "maxItems": 0
+                }
+              }
+            },
+            "domains": {
+              "properties": {
+                "compatible": {
+                  "const": true
+                },
+                "membership": {
+                  "const": {
+                    "left": "eligible",
+                    "right": "eligible"
+                  }
+                }
+              }
+            },
+            "components": {
+              "items": {
+                "properties": {
+                  "state": {
+                    "enum": [
+                      "equal",
+                      "different"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "status": {
+              "const": "distinguishable-under-signature"
+            },
+            "distance": {
+              "enum": [
+                {
+                  "numerator": 1,
+                  "denominator": 1
+                },
+                {
+                  "numerator": 1,
+                  "denominator": 2
+                },
+                {
+                  "numerator": 1,
+                  "denominator": 3
+                },
+                {
+                  "numerator": 2,
+                  "denominator": 3
+                },
+                {
+                  "numerator": 1,
+                  "denominator": 4
+                },
+                {
+                  "numerator": 3,
+                  "denominator": 4
+                },
+                {
+                  "numerator": 1,
+                  "denominator": 5
+                },
+                {
+                  "numerator": 2,
+                  "denominator": 5
+                },
+                {
+                  "numerator": 3,
+                  "denominator": 5
+                },
+                {
+                  "numerator": 4,
+                  "denominator": 5
+                }
+              ]
+            },
+            "coverage": {
+              "properties": {
+                "complete": {
+                  "const": true
+                }
+              }
+            },
+            "diagnostics": {
+              "properties": {
+                "incompleteFeatureIds": {
+                  "maxItems": 0
+                }
+              }
+            },
+            "domains": {
+              "properties": {
+                "compatible": {
+                  "const": true
+                },
+                "membership": {
+                  "const": {
+                    "left": "eligible",
+                    "right": "eligible"
+                  }
+                }
+              }
+            },
+            "components": {
+              "items": {
+                "properties": {
+                  "state": {
+                    "enum": [
+                      "equal",
+                      "different"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "if": {
+        "properties": {
+          "request": {
+            "properties": {
+              "diagnostics": {
+                "const": "coverage-only"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "diagnostics": {
+            "properties": {
+              "partial": {
+                "const": null
+              }
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "diagnostics": {
+            "properties": {
+              "partial": {
+                "$ref": "#/$defs/partial"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "domains": {
+            "properties": {
+              "compatible": {
+                "const": false
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "domains": {
+            "properties": {
+              "commonDomainHash": {
+                "const": null
+              }
+            }
+          },
+          "components": {
+            "items": {
+              "properties": {
+                "state": {
+                  "const": "indeterminate"
+                }
+              }
+            }
+          },
+          "coverage": {
+            "properties": {
+              "numerator": {
+                "const": 0
+              }
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "domains": {
+            "properties": {
+              "commonDomainHash": {
+                "type": "string",
+                "pattern": "^sha256:[0-9a-f]{64}(?![\\s\\S])"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "request": {
+            "properties": {
+              "regimeId": {
+                "const": "canonical-structure-v1"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "profile": {
+            "const": {
+              "policy": {
+                "id": "fixed-domain-response-pseudometric-v0",
+                "version": "1",
+                "contentHash": "sha256:f0b827304c6f974a43bddc239846b4b7047a7907be4e82b1a36804289f1b1138"
+              },
+              "regime": {
+                "id": "canonical-structure-v1",
+                "version": "1",
+                "contentHash": "sha256:9276d8ad6a0d6e872783a79af4de63727b6452b42db1928ffc9f20111d86a97c"
+              },
+              "signatureProfileHash": "sha256:3db94c5fbfa024b5bc7f95af8740e5d03f99909d70da9d75f0e5fab03145446e",
+              "components": [
+                {
+                  "featureId": "feedback-response-multiset-v0",
+                  "weight": 1,
+                  "scale": 1
+                },
+                {
+                  "featureId": "direction-response-multiset-v0",
+                  "weight": 1,
+                  "scale": 1
+                },
+                {
+                  "featureId": "support-response-multiset-v0",
+                  "weight": 1,
+                  "scale": 1
+                }
+              ],
+              "profileHash": "sha256:53cf1983bbb141e6e59434bf5542d15c5b8150668a4ba79d1e5fe66e4f318ab6"
+            }
+          },
+          "components": {
+            "minItems": 3,
+            "maxItems": 3,
+            "prefixItems": [
+              {
+                "properties": {
+                  "featureId": {
+                    "const": "feedback-response-multiset-v0"
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "featureId": {
+                    "const": "direction-response-multiset-v0"
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "featureId": {
+                    "const": "support-response-multiset-v0"
+                  }
+                }
+              }
+            ]
+          },
+          "coverage": {
+            "properties": {
+              "numerator": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 3
+              },
+              "denominator": {
+                "const": 3
+              }
+            },
+            "oneOf": [
+              {
+                "properties": {
+                  "numerator": {
+                    "const": 0
+                  },
+                  "complete": {
+                    "const": false
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "numerator": {
+                    "const": 1
+                  },
+                  "complete": {
+                    "const": false
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "numerator": {
+                    "const": 2
+                  },
+                  "complete": {
+                    "const": false
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "numerator": {
+                    "const": 3
+                  },
+                  "complete": {
+                    "const": true
+                  }
+                }
+              }
+            ]
+          },
+          "distance": {
+            "enum": [
+              null,
+              {
+                "numerator": 0,
+                "denominator": 1
+              },
+              {
+                "numerator": 1,
+                "denominator": 3
+              },
+              {
+                "numerator": 2,
+                "denominator": 3
+              },
+              {
+                "numerator": 1,
+                "denominator": 1
+              }
+            ]
+          },
+          "domains": {
+            "properties": {
+              "left": {
+                "properties": {
+                  "profileHash": {
+                    "const": "sha256:53cf1983bbb141e6e59434bf5542d15c5b8150668a4ba79d1e5fe66e4f318ab6"
+                  },
+                  "vocabulary": {
+                    "properties": {
+                      "kind": {
+                        "const": "untyped-graph"
+                      }
+                    }
+                  }
+                }
+              },
+              "right": {
+                "properties": {
+                  "profileHash": {
+                    "const": "sha256:53cf1983bbb141e6e59434bf5542d15c5b8150668a4ba79d1e5fe66e4f318ab6"
+                  },
+                  "vocabulary": {
+                    "properties": {
+                      "kind": {
+                        "const": "untyped-graph"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "evidence": {
+            "properties": {
+              "left": {
+                "properties": {
+                  "profile": {
+                    "const": {
+                      "policy": {
+                        "id": "graph-native-response-signature-v0",
+                        "version": "1",
+                        "contentHash": "sha256:00d8b7982278d47e633bcae4a8cb5bd8152009760e9e215d33a83b85afd9cb20"
+                      },
+                      "regime": {
+                        "id": "canonical-structure-v1",
+                        "version": "1",
+                        "contentHash": "sha256:9276d8ad6a0d6e872783a79af4de63727b6452b42db1928ffc9f20111d86a97c"
+                      },
+                      "features": [
+                        {
+                          "id": "feedback-response-multiset-v0",
+                          "probe": {
+                            "id": "feedback-edge-ablation-v1",
+                            "version": "1",
+                            "contentHash": "sha256:e34b09111206809eefb62c085a1579fef8ffd1abd00bcd0668d84970eb39ffb8"
+                          },
+                          "observables": [
+                            {
+                              "id": "canonical-directed-structure-v1",
+                              "version": "1",
+                              "contentHash": "sha256:48f137781781c54724e172256925e44c9a2be42a08610c88abaca8a9f6016e7b"
+                            }
+                          ]
+                        },
+                        {
+                          "id": "direction-response-multiset-v0",
+                          "probe": {
+                            "id": "edge-direction-reversal-v1",
+                            "version": "1",
+                            "contentHash": "sha256:d9b288a8dfe06aa50f00206edf05900db8d2e2eb7096de222a059917f0904aa9"
+                          },
+                          "observables": [
+                            {
+                              "id": "canonical-directed-structure-v1",
+                              "version": "1",
+                              "contentHash": "sha256:48f137781781c54724e172256925e44c9a2be42a08610c88abaca8a9f6016e7b"
+                            }
+                          ]
+                        },
+                        {
+                          "id": "support-response-multiset-v0",
+                          "probe": {
+                            "id": "redundant-support-path-ablation-v1",
+                            "version": "1",
+                            "contentHash": "sha256:370b3e2fc6cb4f9dcca380a8a4419c9d0dc78d24c9dd9a153dd57e627695bab1"
+                          },
+                          "observables": [
+                            {
+                              "id": "canonical-directed-structure-v1",
+                              "version": "1",
+                              "contentHash": "sha256:48f137781781c54724e172256925e44c9a2be42a08610c88abaca8a9f6016e7b"
+                            }
+                          ]
+                        }
+                      ],
+                      "profileHash": "sha256:3db94c5fbfa024b5bc7f95af8740e5d03f99909d70da9d75f0e5fab03145446e"
+                    }
+                  },
+                  "request": {
+                    "properties": {
+                      "regimeId": {
+                        "const": "canonical-structure-v1"
+                      }
+                    }
+                  }
+                }
+              },
+              "right": {
+                "properties": {
+                  "profile": {
+                    "const": {
+                      "policy": {
+                        "id": "graph-native-response-signature-v0",
+                        "version": "1",
+                        "contentHash": "sha256:00d8b7982278d47e633bcae4a8cb5bd8152009760e9e215d33a83b85afd9cb20"
+                      },
+                      "regime": {
+                        "id": "canonical-structure-v1",
+                        "version": "1",
+                        "contentHash": "sha256:9276d8ad6a0d6e872783a79af4de63727b6452b42db1928ffc9f20111d86a97c"
+                      },
+                      "features": [
+                        {
+                          "id": "feedback-response-multiset-v0",
+                          "probe": {
+                            "id": "feedback-edge-ablation-v1",
+                            "version": "1",
+                            "contentHash": "sha256:e34b09111206809eefb62c085a1579fef8ffd1abd00bcd0668d84970eb39ffb8"
+                          },
+                          "observables": [
+                            {
+                              "id": "canonical-directed-structure-v1",
+                              "version": "1",
+                              "contentHash": "sha256:48f137781781c54724e172256925e44c9a2be42a08610c88abaca8a9f6016e7b"
+                            }
+                          ]
+                        },
+                        {
+                          "id": "direction-response-multiset-v0",
+                          "probe": {
+                            "id": "edge-direction-reversal-v1",
+                            "version": "1",
+                            "contentHash": "sha256:d9b288a8dfe06aa50f00206edf05900db8d2e2eb7096de222a059917f0904aa9"
+                          },
+                          "observables": [
+                            {
+                              "id": "canonical-directed-structure-v1",
+                              "version": "1",
+                              "contentHash": "sha256:48f137781781c54724e172256925e44c9a2be42a08610c88abaca8a9f6016e7b"
+                            }
+                          ]
+                        },
+                        {
+                          "id": "support-response-multiset-v0",
+                          "probe": {
+                            "id": "redundant-support-path-ablation-v1",
+                            "version": "1",
+                            "contentHash": "sha256:370b3e2fc6cb4f9dcca380a8a4419c9d0dc78d24c9dd9a153dd57e627695bab1"
+                          },
+                          "observables": [
+                            {
+                              "id": "canonical-directed-structure-v1",
+                              "version": "1",
+                              "contentHash": "sha256:48f137781781c54724e172256925e44c9a2be42a08610c88abaca8a9f6016e7b"
+                            }
+                          ]
+                        }
+                      ],
+                      "profileHash": "sha256:3db94c5fbfa024b5bc7f95af8740e5d03f99909d70da9d75f0e5fab03145446e"
+                    }
+                  },
+                  "request": {
+                    "properties": {
+                      "regimeId": {
+                        "const": "canonical-structure-v1"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "request": {
+            "properties": {
+              "regimeId": {
+                "const": "topology-only-v1"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "profile": {
+            "const": {
+              "policy": {
+                "id": "fixed-domain-response-pseudometric-v0",
+                "version": "1",
+                "contentHash": "sha256:f0b827304c6f974a43bddc239846b4b7047a7907be4e82b1a36804289f1b1138"
+              },
+              "regime": {
+                "id": "topology-only-v1",
+                "version": "1",
+                "contentHash": "sha256:41a6fa10321e885da08f671de608de62cb1e51154b05a1c3cc2154d107f7646c"
+              },
+              "signatureProfileHash": "sha256:caf48585aa639bd964a860448862a9d7b5cafb01582e9772e9341f91927faf30",
+              "components": [
+                {
+                  "featureId": "feedback-response-multiset-v0",
+                  "weight": 1,
+                  "scale": 1
+                },
+                {
+                  "featureId": "direction-response-multiset-v0",
+                  "weight": 1,
+                  "scale": 1
+                },
+                {
+                  "featureId": "support-response-multiset-v0",
+                  "weight": 1,
+                  "scale": 1
+                }
+              ],
+              "profileHash": "sha256:8daa61b9ff28ec85c6af5b83b373003bc3a3a7daaa8526fe365ef8a183d199ee"
+            }
+          },
+          "components": {
+            "minItems": 3,
+            "maxItems": 3,
+            "prefixItems": [
+              {
+                "properties": {
+                  "featureId": {
+                    "const": "feedback-response-multiset-v0"
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "featureId": {
+                    "const": "direction-response-multiset-v0"
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "featureId": {
+                    "const": "support-response-multiset-v0"
+                  }
+                }
+              }
+            ]
+          },
+          "coverage": {
+            "properties": {
+              "numerator": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 3
+              },
+              "denominator": {
+                "const": 3
+              }
+            },
+            "oneOf": [
+              {
+                "properties": {
+                  "numerator": {
+                    "const": 0
+                  },
+                  "complete": {
+                    "const": false
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "numerator": {
+                    "const": 1
+                  },
+                  "complete": {
+                    "const": false
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "numerator": {
+                    "const": 2
+                  },
+                  "complete": {
+                    "const": false
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "numerator": {
+                    "const": 3
+                  },
+                  "complete": {
+                    "const": true
+                  }
+                }
+              }
+            ]
+          },
+          "distance": {
+            "enum": [
+              null,
+              {
+                "numerator": 0,
+                "denominator": 1
+              },
+              {
+                "numerator": 1,
+                "denominator": 3
+              },
+              {
+                "numerator": 2,
+                "denominator": 3
+              },
+              {
+                "numerator": 1,
+                "denominator": 1
+              }
+            ]
+          },
+          "domains": {
+            "properties": {
+              "left": {
+                "properties": {
+                  "profileHash": {
+                    "const": "sha256:8daa61b9ff28ec85c6af5b83b373003bc3a3a7daaa8526fe365ef8a183d199ee"
+                  },
+                  "vocabulary": {
+                    "properties": {
+                      "kind": {
+                        "const": "untyped-graph"
+                      }
+                    }
+                  }
+                }
+              },
+              "right": {
+                "properties": {
+                  "profileHash": {
+                    "const": "sha256:8daa61b9ff28ec85c6af5b83b373003bc3a3a7daaa8526fe365ef8a183d199ee"
+                  },
+                  "vocabulary": {
+                    "properties": {
+                      "kind": {
+                        "const": "untyped-graph"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "evidence": {
+            "properties": {
+              "left": {
+                "properties": {
+                  "profile": {
+                    "const": {
+                      "policy": {
+                        "id": "graph-native-response-signature-v0",
+                        "version": "1",
+                        "contentHash": "sha256:00d8b7982278d47e633bcae4a8cb5bd8152009760e9e215d33a83b85afd9cb20"
+                      },
+                      "regime": {
+                        "id": "topology-only-v1",
+                        "version": "1",
+                        "contentHash": "sha256:41a6fa10321e885da08f671de608de62cb1e51154b05a1c3cc2154d107f7646c"
+                      },
+                      "features": [
+                        {
+                          "id": "feedback-response-multiset-v0",
+                          "probe": {
+                            "id": "feedback-edge-ablation-v1",
+                            "version": "1",
+                            "contentHash": "sha256:e34b09111206809eefb62c085a1579fef8ffd1abd00bcd0668d84970eb39ffb8"
+                          },
+                          "observables": [
+                            {
+                              "id": "node-count-v1",
+                              "version": "1",
+                              "contentHash": "sha256:fcde1a54025bdc9f964cdfb6cbd9f015fb94cc473949584abe8ba01031d9d983"
+                            },
+                            {
+                              "id": "edge-count-v1",
+                              "version": "1",
+                              "contentHash": "sha256:13f1db7824b26dd6ec1d8ff6ca169670637dd780b11db2ba308c6356e24197c5"
+                            },
+                            {
+                              "id": "weak-component-sizes-v1",
+                              "version": "1",
+                              "contentHash": "sha256:bd3c0c2440644cb1da3251a1b3b585d061e172fa6e674aca0de8250b1f800ee1"
+                            },
+                            {
+                              "id": "strong-component-sizes-v1",
+                              "version": "1",
+                              "contentHash": "sha256:9ee44d035a7da8c0bb040c0a2d4dc39a91bdc8fa0f08a588aff4955931e12671"
+                            },
+                            {
+                              "id": "reachable-ordered-pair-count-v1",
+                              "version": "1",
+                              "contentHash": "sha256:0d267b9b833a0a7b7e341190e4522a1c9fac9792d651d10081ea82468618f74f"
+                            },
+                            {
+                              "id": "cyclic-node-count-v1",
+                              "version": "1",
+                              "contentHash": "sha256:325e52ae7471466b4e032c7067585331bb1ce4c49be9e10b28d4685874aacbd6"
+                            },
+                            {
+                              "id": "isolated-node-count-v1",
+                              "version": "1",
+                              "contentHash": "sha256:df7729800602b4a29082552fbcdd36d9f44cf2851024cc3396196b94f95823d6"
+                            }
+                          ]
+                        },
+                        {
+                          "id": "direction-response-multiset-v0",
+                          "probe": {
+                            "id": "edge-direction-reversal-v1",
+                            "version": "1",
+                            "contentHash": "sha256:d9b288a8dfe06aa50f00206edf05900db8d2e2eb7096de222a059917f0904aa9"
+                          },
+                          "observables": [
+                            {
+                              "id": "node-count-v1",
+                              "version": "1",
+                              "contentHash": "sha256:fcde1a54025bdc9f964cdfb6cbd9f015fb94cc473949584abe8ba01031d9d983"
+                            },
+                            {
+                              "id": "edge-count-v1",
+                              "version": "1",
+                              "contentHash": "sha256:13f1db7824b26dd6ec1d8ff6ca169670637dd780b11db2ba308c6356e24197c5"
+                            },
+                            {
+                              "id": "weak-component-sizes-v1",
+                              "version": "1",
+                              "contentHash": "sha256:bd3c0c2440644cb1da3251a1b3b585d061e172fa6e674aca0de8250b1f800ee1"
+                            },
+                            {
+                              "id": "strong-component-sizes-v1",
+                              "version": "1",
+                              "contentHash": "sha256:9ee44d035a7da8c0bb040c0a2d4dc39a91bdc8fa0f08a588aff4955931e12671"
+                            },
+                            {
+                              "id": "reachable-ordered-pair-count-v1",
+                              "version": "1",
+                              "contentHash": "sha256:0d267b9b833a0a7b7e341190e4522a1c9fac9792d651d10081ea82468618f74f"
+                            },
+                            {
+                              "id": "cyclic-node-count-v1",
+                              "version": "1",
+                              "contentHash": "sha256:325e52ae7471466b4e032c7067585331bb1ce4c49be9e10b28d4685874aacbd6"
+                            },
+                            {
+                              "id": "isolated-node-count-v1",
+                              "version": "1",
+                              "contentHash": "sha256:df7729800602b4a29082552fbcdd36d9f44cf2851024cc3396196b94f95823d6"
+                            }
+                          ]
+                        },
+                        {
+                          "id": "support-response-multiset-v0",
+                          "probe": {
+                            "id": "redundant-support-path-ablation-v1",
+                            "version": "1",
+                            "contentHash": "sha256:370b3e2fc6cb4f9dcca380a8a4419c9d0dc78d24c9dd9a153dd57e627695bab1"
+                          },
+                          "observables": [
+                            {
+                              "id": "node-count-v1",
+                              "version": "1",
+                              "contentHash": "sha256:fcde1a54025bdc9f964cdfb6cbd9f015fb94cc473949584abe8ba01031d9d983"
+                            },
+                            {
+                              "id": "edge-count-v1",
+                              "version": "1",
+                              "contentHash": "sha256:13f1db7824b26dd6ec1d8ff6ca169670637dd780b11db2ba308c6356e24197c5"
+                            },
+                            {
+                              "id": "weak-component-sizes-v1",
+                              "version": "1",
+                              "contentHash": "sha256:bd3c0c2440644cb1da3251a1b3b585d061e172fa6e674aca0de8250b1f800ee1"
+                            },
+                            {
+                              "id": "strong-component-sizes-v1",
+                              "version": "1",
+                              "contentHash": "sha256:9ee44d035a7da8c0bb040c0a2d4dc39a91bdc8fa0f08a588aff4955931e12671"
+                            },
+                            {
+                              "id": "reachable-ordered-pair-count-v1",
+                              "version": "1",
+                              "contentHash": "sha256:0d267b9b833a0a7b7e341190e4522a1c9fac9792d651d10081ea82468618f74f"
+                            },
+                            {
+                              "id": "cyclic-node-count-v1",
+                              "version": "1",
+                              "contentHash": "sha256:325e52ae7471466b4e032c7067585331bb1ce4c49be9e10b28d4685874aacbd6"
+                            },
+                            {
+                              "id": "isolated-node-count-v1",
+                              "version": "1",
+                              "contentHash": "sha256:df7729800602b4a29082552fbcdd36d9f44cf2851024cc3396196b94f95823d6"
+                            }
+                          ]
+                        }
+                      ],
+                      "profileHash": "sha256:caf48585aa639bd964a860448862a9d7b5cafb01582e9772e9341f91927faf30"
+                    }
+                  },
+                  "request": {
+                    "properties": {
+                      "regimeId": {
+                        "const": "topology-only-v1"
+                      }
+                    }
+                  }
+                }
+              },
+              "right": {
+                "properties": {
+                  "profile": {
+                    "const": {
+                      "policy": {
+                        "id": "graph-native-response-signature-v0",
+                        "version": "1",
+                        "contentHash": "sha256:00d8b7982278d47e633bcae4a8cb5bd8152009760e9e215d33a83b85afd9cb20"
+                      },
+                      "regime": {
+                        "id": "topology-only-v1",
+                        "version": "1",
+                        "contentHash": "sha256:41a6fa10321e885da08f671de608de62cb1e51154b05a1c3cc2154d107f7646c"
+                      },
+                      "features": [
+                        {
+                          "id": "feedback-response-multiset-v0",
+                          "probe": {
+                            "id": "feedback-edge-ablation-v1",
+                            "version": "1",
+                            "contentHash": "sha256:e34b09111206809eefb62c085a1579fef8ffd1abd00bcd0668d84970eb39ffb8"
+                          },
+                          "observables": [
+                            {
+                              "id": "node-count-v1",
+                              "version": "1",
+                              "contentHash": "sha256:fcde1a54025bdc9f964cdfb6cbd9f015fb94cc473949584abe8ba01031d9d983"
+                            },
+                            {
+                              "id": "edge-count-v1",
+                              "version": "1",
+                              "contentHash": "sha256:13f1db7824b26dd6ec1d8ff6ca169670637dd780b11db2ba308c6356e24197c5"
+                            },
+                            {
+                              "id": "weak-component-sizes-v1",
+                              "version": "1",
+                              "contentHash": "sha256:bd3c0c2440644cb1da3251a1b3b585d061e172fa6e674aca0de8250b1f800ee1"
+                            },
+                            {
+                              "id": "strong-component-sizes-v1",
+                              "version": "1",
+                              "contentHash": "sha256:9ee44d035a7da8c0bb040c0a2d4dc39a91bdc8fa0f08a588aff4955931e12671"
+                            },
+                            {
+                              "id": "reachable-ordered-pair-count-v1",
+                              "version": "1",
+                              "contentHash": "sha256:0d267b9b833a0a7b7e341190e4522a1c9fac9792d651d10081ea82468618f74f"
+                            },
+                            {
+                              "id": "cyclic-node-count-v1",
+                              "version": "1",
+                              "contentHash": "sha256:325e52ae7471466b4e032c7067585331bb1ce4c49be9e10b28d4685874aacbd6"
+                            },
+                            {
+                              "id": "isolated-node-count-v1",
+                              "version": "1",
+                              "contentHash": "sha256:df7729800602b4a29082552fbcdd36d9f44cf2851024cc3396196b94f95823d6"
+                            }
+                          ]
+                        },
+                        {
+                          "id": "direction-response-multiset-v0",
+                          "probe": {
+                            "id": "edge-direction-reversal-v1",
+                            "version": "1",
+                            "contentHash": "sha256:d9b288a8dfe06aa50f00206edf05900db8d2e2eb7096de222a059917f0904aa9"
+                          },
+                          "observables": [
+                            {
+                              "id": "node-count-v1",
+                              "version": "1",
+                              "contentHash": "sha256:fcde1a54025bdc9f964cdfb6cbd9f015fb94cc473949584abe8ba01031d9d983"
+                            },
+                            {
+                              "id": "edge-count-v1",
+                              "version": "1",
+                              "contentHash": "sha256:13f1db7824b26dd6ec1d8ff6ca169670637dd780b11db2ba308c6356e24197c5"
+                            },
+                            {
+                              "id": "weak-component-sizes-v1",
+                              "version": "1",
+                              "contentHash": "sha256:bd3c0c2440644cb1da3251a1b3b585d061e172fa6e674aca0de8250b1f800ee1"
+                            },
+                            {
+                              "id": "strong-component-sizes-v1",
+                              "version": "1",
+                              "contentHash": "sha256:9ee44d035a7da8c0bb040c0a2d4dc39a91bdc8fa0f08a588aff4955931e12671"
+                            },
+                            {
+                              "id": "reachable-ordered-pair-count-v1",
+                              "version": "1",
+                              "contentHash": "sha256:0d267b9b833a0a7b7e341190e4522a1c9fac9792d651d10081ea82468618f74f"
+                            },
+                            {
+                              "id": "cyclic-node-count-v1",
+                              "version": "1",
+                              "contentHash": "sha256:325e52ae7471466b4e032c7067585331bb1ce4c49be9e10b28d4685874aacbd6"
+                            },
+                            {
+                              "id": "isolated-node-count-v1",
+                              "version": "1",
+                              "contentHash": "sha256:df7729800602b4a29082552fbcdd36d9f44cf2851024cc3396196b94f95823d6"
+                            }
+                          ]
+                        },
+                        {
+                          "id": "support-response-multiset-v0",
+                          "probe": {
+                            "id": "redundant-support-path-ablation-v1",
+                            "version": "1",
+                            "contentHash": "sha256:370b3e2fc6cb4f9dcca380a8a4419c9d0dc78d24c9dd9a153dd57e627695bab1"
+                          },
+                          "observables": [
+                            {
+                              "id": "node-count-v1",
+                              "version": "1",
+                              "contentHash": "sha256:fcde1a54025bdc9f964cdfb6cbd9f015fb94cc473949584abe8ba01031d9d983"
+                            },
+                            {
+                              "id": "edge-count-v1",
+                              "version": "1",
+                              "contentHash": "sha256:13f1db7824b26dd6ec1d8ff6ca169670637dd780b11db2ba308c6356e24197c5"
+                            },
+                            {
+                              "id": "weak-component-sizes-v1",
+                              "version": "1",
+                              "contentHash": "sha256:bd3c0c2440644cb1da3251a1b3b585d061e172fa6e674aca0de8250b1f800ee1"
+                            },
+                            {
+                              "id": "strong-component-sizes-v1",
+                              "version": "1",
+                              "contentHash": "sha256:9ee44d035a7da8c0bb040c0a2d4dc39a91bdc8fa0f08a588aff4955931e12671"
+                            },
+                            {
+                              "id": "reachable-ordered-pair-count-v1",
+                              "version": "1",
+                              "contentHash": "sha256:0d267b9b833a0a7b7e341190e4522a1c9fac9792d651d10081ea82468618f74f"
+                            },
+                            {
+                              "id": "cyclic-node-count-v1",
+                              "version": "1",
+                              "contentHash": "sha256:325e52ae7471466b4e032c7067585331bb1ce4c49be9e10b28d4685874aacbd6"
+                            },
+                            {
+                              "id": "isolated-node-count-v1",
+                              "version": "1",
+                              "contentHash": "sha256:df7729800602b4a29082552fbcdd36d9f44cf2851024cc3396196b94f95823d6"
+                            }
+                          ]
+                        }
+                      ],
+                      "profileHash": "sha256:caf48585aa639bd964a860448862a9d7b5cafb01582e9772e9341f91927faf30"
+                    }
+                  },
+                  "request": {
+                    "properties": {
+                      "regimeId": {
+                        "const": "topology-only-v1"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "request": {
+            "properties": {
+              "regimeId": {
+                "const": "typed-relations-v1"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "profile": {
+            "const": {
+              "policy": {
+                "id": "fixed-domain-response-pseudometric-v0",
+                "version": "1",
+                "contentHash": "sha256:f0b827304c6f974a43bddc239846b4b7047a7907be4e82b1a36804289f1b1138"
+              },
+              "regime": {
+                "id": "typed-relations-v1",
+                "version": "1",
+                "contentHash": "sha256:5fe49b9439e107998e170cf8cf1e690598dfe8937321f5202ac4c2f270414868"
+              },
+              "signatureProfileHash": "sha256:02ef1abdc97b58c7866605724f22800bbc8fa1b45256a3cea738f0888602c2dc",
+              "components": [
+                {
+                  "featureId": "feedback-response-multiset-v0",
+                  "weight": 1,
+                  "scale": 1
+                },
+                {
+                  "featureId": "necessary-response-multiset-v0",
+                  "weight": 1,
+                  "scale": 1
+                },
+                {
+                  "featureId": "enabling-response-multiset-v0",
+                  "weight": 1,
+                  "scale": 1
+                },
+                {
+                  "featureId": "direction-response-multiset-v0",
+                  "weight": 1,
+                  "scale": 1
+                },
+                {
+                  "featureId": "support-response-multiset-v0",
+                  "weight": 1,
+                  "scale": 1
+                }
+              ],
+              "profileHash": "sha256:3abcdeee902f64c18279d2b88b150b946cd421f062f341d18c086a242d34d215"
+            }
+          },
+          "components": {
+            "minItems": 5,
+            "maxItems": 5,
+            "prefixItems": [
+              {
+                "properties": {
+                  "featureId": {
+                    "const": "feedback-response-multiset-v0"
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "featureId": {
+                    "const": "necessary-response-multiset-v0"
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "featureId": {
+                    "const": "enabling-response-multiset-v0"
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "featureId": {
+                    "const": "direction-response-multiset-v0"
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "featureId": {
+                    "const": "support-response-multiset-v0"
+                  }
+                }
+              }
+            ]
+          },
+          "coverage": {
+            "properties": {
+              "numerator": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 5
+              },
+              "denominator": {
+                "const": 5
+              }
+            },
+            "oneOf": [
+              {
+                "properties": {
+                  "numerator": {
+                    "const": 0
+                  },
+                  "complete": {
+                    "const": false
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "numerator": {
+                    "const": 1
+                  },
+                  "complete": {
+                    "const": false
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "numerator": {
+                    "const": 2
+                  },
+                  "complete": {
+                    "const": false
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "numerator": {
+                    "const": 3
+                  },
+                  "complete": {
+                    "const": false
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "numerator": {
+                    "const": 4
+                  },
+                  "complete": {
+                    "const": false
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "numerator": {
+                    "const": 5
+                  },
+                  "complete": {
+                    "const": true
+                  }
+                }
+              }
+            ]
+          },
+          "distance": {
+            "enum": [
+              null,
+              {
+                "numerator": 0,
+                "denominator": 1
+              },
+              {
+                "numerator": 1,
+                "denominator": 5
+              },
+              {
+                "numerator": 2,
+                "denominator": 5
+              },
+              {
+                "numerator": 3,
+                "denominator": 5
+              },
+              {
+                "numerator": 4,
+                "denominator": 5
+              },
+              {
+                "numerator": 1,
+                "denominator": 1
+              }
+            ]
+          },
+          "domains": {
+            "properties": {
+              "left": {
+                "properties": {
+                  "profileHash": {
+                    "const": "sha256:3abcdeee902f64c18279d2b88b150b946cd421f062f341d18c086a242d34d215"
+                  },
+                  "vocabulary": {
+                    "properties": {
+                      "kind": {
+                        "const": "source-local-typed"
+                      }
+                    }
+                  }
+                }
+              },
+              "right": {
+                "properties": {
+                  "profileHash": {
+                    "const": "sha256:3abcdeee902f64c18279d2b88b150b946cd421f062f341d18c086a242d34d215"
+                  },
+                  "vocabulary": {
+                    "properties": {
+                      "kind": {
+                        "const": "source-local-typed"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "evidence": {
+            "properties": {
+              "left": {
+                "properties": {
+                  "profile": {
+                    "const": {
+                      "policy": {
+                        "id": "graph-native-response-signature-v0",
+                        "version": "1",
+                        "contentHash": "sha256:00d8b7982278d47e633bcae4a8cb5bd8152009760e9e215d33a83b85afd9cb20"
+                      },
+                      "regime": {
+                        "id": "typed-relations-v1",
+                        "version": "1",
+                        "contentHash": "sha256:5fe49b9439e107998e170cf8cf1e690598dfe8937321f5202ac4c2f270414868"
+                      },
+                      "features": [
+                        {
+                          "id": "feedback-response-multiset-v0",
+                          "probe": {
+                            "id": "feedback-edge-ablation-v1",
+                            "version": "1",
+                            "contentHash": "sha256:e34b09111206809eefb62c085a1579fef8ffd1abd00bcd0668d84970eb39ffb8"
+                          },
+                          "observables": [
+                            {
+                              "id": "canonical-directed-structure-v1",
+                              "version": "1",
+                              "contentHash": "sha256:48f137781781c54724e172256925e44c9a2be42a08610c88abaca8a9f6016e7b"
+                            },
+                            {
+                              "id": "canonical-typed-directed-structure-v1",
+                              "version": "1",
+                              "contentHash": "sha256:3df933040d1a5002b2338cf07b11eefd68e63f76597e72873d897fd3ea86efd3"
+                            }
+                          ]
+                        },
+                        {
+                          "id": "necessary-response-multiset-v0",
+                          "probe": {
+                            "id": "necessary-parent-ablation-v1",
+                            "version": "1",
+                            "contentHash": "sha256:3ee91de04581d927b52be13da134ccb353c9eaa833b19748339d65a59270748b"
+                          },
+                          "observables": [
+                            {
+                              "id": "canonical-directed-structure-v1",
+                              "version": "1",
+                              "contentHash": "sha256:48f137781781c54724e172256925e44c9a2be42a08610c88abaca8a9f6016e7b"
+                            },
+                            {
+                              "id": "canonical-typed-directed-structure-v1",
+                              "version": "1",
+                              "contentHash": "sha256:3df933040d1a5002b2338cf07b11eefd68e63f76597e72873d897fd3ea86efd3"
+                            }
+                          ]
+                        },
+                        {
+                          "id": "enabling-response-multiset-v0",
+                          "probe": {
+                            "id": "enabling-parent-ablation-v1",
+                            "version": "1",
+                            "contentHash": "sha256:62b34a1e365e74604705626d28f3e239762f224888d25e9c883c321a262fda04"
+                          },
+                          "observables": [
+                            {
+                              "id": "canonical-directed-structure-v1",
+                              "version": "1",
+                              "contentHash": "sha256:48f137781781c54724e172256925e44c9a2be42a08610c88abaca8a9f6016e7b"
+                            },
+                            {
+                              "id": "canonical-typed-directed-structure-v1",
+                              "version": "1",
+                              "contentHash": "sha256:3df933040d1a5002b2338cf07b11eefd68e63f76597e72873d897fd3ea86efd3"
+                            }
+                          ]
+                        },
+                        {
+                          "id": "direction-response-multiset-v0",
+                          "probe": {
+                            "id": "edge-direction-reversal-v1",
+                            "version": "1",
+                            "contentHash": "sha256:d9b288a8dfe06aa50f00206edf05900db8d2e2eb7096de222a059917f0904aa9"
+                          },
+                          "observables": [
+                            {
+                              "id": "canonical-directed-structure-v1",
+                              "version": "1",
+                              "contentHash": "sha256:48f137781781c54724e172256925e44c9a2be42a08610c88abaca8a9f6016e7b"
+                            },
+                            {
+                              "id": "canonical-typed-directed-structure-v1",
+                              "version": "1",
+                              "contentHash": "sha256:3df933040d1a5002b2338cf07b11eefd68e63f76597e72873d897fd3ea86efd3"
+                            }
+                          ]
+                        },
+                        {
+                          "id": "support-response-multiset-v0",
+                          "probe": {
+                            "id": "redundant-support-path-ablation-v1",
+                            "version": "1",
+                            "contentHash": "sha256:370b3e2fc6cb4f9dcca380a8a4419c9d0dc78d24c9dd9a153dd57e627695bab1"
+                          },
+                          "observables": [
+                            {
+                              "id": "canonical-directed-structure-v1",
+                              "version": "1",
+                              "contentHash": "sha256:48f137781781c54724e172256925e44c9a2be42a08610c88abaca8a9f6016e7b"
+                            },
+                            {
+                              "id": "canonical-typed-directed-structure-v1",
+                              "version": "1",
+                              "contentHash": "sha256:3df933040d1a5002b2338cf07b11eefd68e63f76597e72873d897fd3ea86efd3"
+                            }
+                          ]
+                        }
+                      ],
+                      "profileHash": "sha256:02ef1abdc97b58c7866605724f22800bbc8fa1b45256a3cea738f0888602c2dc"
+                    }
+                  },
+                  "request": {
+                    "properties": {
+                      "regimeId": {
+                        "const": "typed-relations-v1"
+                      }
+                    }
+                  }
+                }
+              },
+              "right": {
+                "properties": {
+                  "profile": {
+                    "const": {
+                      "policy": {
+                        "id": "graph-native-response-signature-v0",
+                        "version": "1",
+                        "contentHash": "sha256:00d8b7982278d47e633bcae4a8cb5bd8152009760e9e215d33a83b85afd9cb20"
+                      },
+                      "regime": {
+                        "id": "typed-relations-v1",
+                        "version": "1",
+                        "contentHash": "sha256:5fe49b9439e107998e170cf8cf1e690598dfe8937321f5202ac4c2f270414868"
+                      },
+                      "features": [
+                        {
+                          "id": "feedback-response-multiset-v0",
+                          "probe": {
+                            "id": "feedback-edge-ablation-v1",
+                            "version": "1",
+                            "contentHash": "sha256:e34b09111206809eefb62c085a1579fef8ffd1abd00bcd0668d84970eb39ffb8"
+                          },
+                          "observables": [
+                            {
+                              "id": "canonical-directed-structure-v1",
+                              "version": "1",
+                              "contentHash": "sha256:48f137781781c54724e172256925e44c9a2be42a08610c88abaca8a9f6016e7b"
+                            },
+                            {
+                              "id": "canonical-typed-directed-structure-v1",
+                              "version": "1",
+                              "contentHash": "sha256:3df933040d1a5002b2338cf07b11eefd68e63f76597e72873d897fd3ea86efd3"
+                            }
+                          ]
+                        },
+                        {
+                          "id": "necessary-response-multiset-v0",
+                          "probe": {
+                            "id": "necessary-parent-ablation-v1",
+                            "version": "1",
+                            "contentHash": "sha256:3ee91de04581d927b52be13da134ccb353c9eaa833b19748339d65a59270748b"
+                          },
+                          "observables": [
+                            {
+                              "id": "canonical-directed-structure-v1",
+                              "version": "1",
+                              "contentHash": "sha256:48f137781781c54724e172256925e44c9a2be42a08610c88abaca8a9f6016e7b"
+                            },
+                            {
+                              "id": "canonical-typed-directed-structure-v1",
+                              "version": "1",
+                              "contentHash": "sha256:3df933040d1a5002b2338cf07b11eefd68e63f76597e72873d897fd3ea86efd3"
+                            }
+                          ]
+                        },
+                        {
+                          "id": "enabling-response-multiset-v0",
+                          "probe": {
+                            "id": "enabling-parent-ablation-v1",
+                            "version": "1",
+                            "contentHash": "sha256:62b34a1e365e74604705626d28f3e239762f224888d25e9c883c321a262fda04"
+                          },
+                          "observables": [
+                            {
+                              "id": "canonical-directed-structure-v1",
+                              "version": "1",
+                              "contentHash": "sha256:48f137781781c54724e172256925e44c9a2be42a08610c88abaca8a9f6016e7b"
+                            },
+                            {
+                              "id": "canonical-typed-directed-structure-v1",
+                              "version": "1",
+                              "contentHash": "sha256:3df933040d1a5002b2338cf07b11eefd68e63f76597e72873d897fd3ea86efd3"
+                            }
+                          ]
+                        },
+                        {
+                          "id": "direction-response-multiset-v0",
+                          "probe": {
+                            "id": "edge-direction-reversal-v1",
+                            "version": "1",
+                            "contentHash": "sha256:d9b288a8dfe06aa50f00206edf05900db8d2e2eb7096de222a059917f0904aa9"
+                          },
+                          "observables": [
+                            {
+                              "id": "canonical-directed-structure-v1",
+                              "version": "1",
+                              "contentHash": "sha256:48f137781781c54724e172256925e44c9a2be42a08610c88abaca8a9f6016e7b"
+                            },
+                            {
+                              "id": "canonical-typed-directed-structure-v1",
+                              "version": "1",
+                              "contentHash": "sha256:3df933040d1a5002b2338cf07b11eefd68e63f76597e72873d897fd3ea86efd3"
+                            }
+                          ]
+                        },
+                        {
+                          "id": "support-response-multiset-v0",
+                          "probe": {
+                            "id": "redundant-support-path-ablation-v1",
+                            "version": "1",
+                            "contentHash": "sha256:370b3e2fc6cb4f9dcca380a8a4419c9d0dc78d24c9dd9a153dd57e627695bab1"
+                          },
+                          "observables": [
+                            {
+                              "id": "canonical-directed-structure-v1",
+                              "version": "1",
+                              "contentHash": "sha256:48f137781781c54724e172256925e44c9a2be42a08610c88abaca8a9f6016e7b"
+                            },
+                            {
+                              "id": "canonical-typed-directed-structure-v1",
+                              "version": "1",
+                              "contentHash": "sha256:3df933040d1a5002b2338cf07b11eefd68e63f76597e72873d897fd3ea86efd3"
+                            }
+                          ]
+                        }
+                      ],
+                      "profileHash": "sha256:02ef1abdc97b58c7866605724f22800bbc8fa1b45256a3cea738f0888602c2dc"
+                    }
+                  },
+                  "request": {
+                    "properties": {
+                      "regimeId": {
+                        "const": "typed-relations-v1"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

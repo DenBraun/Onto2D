@@ -66,5 +66,5 @@ declared positive or negative unless its entire range permits that conclusion;
 exact [0,0] is distinguished from unresolved sign. They are computational bounds
 under the declared metric, not confidence intervals or measured precision.
 
-Read the [experiment contract](../../../docs/structural-geometry/METRIC_EXPERIMENTS.md)
+Read the [experiment contract](../../../docs/structural-geometry/GEOMETRY.md#typed-filtration-and-local-weight-experiments)
 for selection, normalization, arithmetic, identity and resource limits.

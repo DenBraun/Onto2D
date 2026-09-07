@@ -1,0 +1,16 @@
+{
+  "schemaVersion": "1",
+  "baseControlIds": ["chain-topology", "chain-canonical", "cycle-topology", "cycle-typed", "reciprocal-typed", "diamond-topology", "diamond-feedback-typed", "transitive-canonical", "mixed-topology", "missing-necessity", "missing-role", "isolates", "opaque", "boundary", "causal", "maximum"],
+  "regimes": ["canonical-structure-v1", "topology-only-v1", "typed-relations-v1"],
+  "graphs": [
+    {"id": "diamond-feedback", "nodes": 4, "edges": [[0,1,"necessary"],[1,3,"enabling"],[0,2,"contextual"],[2,3,"optional"],[3,0,"necessary"]]},
+    {"id": "subdivided-feedback", "nodes": 5, "edges": [[0,1,"necessary"],[1,3,"enabling"],[0,2,"contextual"],[2,3,"optional"],[3,4,"necessary"],[4,0,"necessary"]]},
+    {"id": "isolated-extension", "nodes": 5, "edges": [[0,1,"necessary"],[1,3,"enabling"],[0,2,"contextual"],[2,3,"optional"],[3,0,"necessary"]]},
+    {"id": "necessity-change", "nodes": 4, "edges": [[0,1,"necessary"],[1,3,"enabling"],[0,2,"contextual-necessary"],[2,3,"optional"],[3,0,"necessary"]]}
+  ],
+  "contrasts": [
+    {"id": "subdivision", "left": "diamond-feedback", "right": "subdivided-feedback", "expectation": ["different", "different", "different"]},
+    {"id": "isolated-collision", "left": "diamond-feedback", "right": "isolated-extension", "expectation": ["equal", "equal", "equal"]},
+    {"id": "typed-selection", "left": "diamond-feedback", "right": "necessity-change", "expectation": ["equal", "equal", "different"]}
+  ]
+}

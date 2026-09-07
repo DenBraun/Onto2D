@@ -1,0 +1,4441 @@
+{
+  "schemaVersion": "1",
+  "method": "source-permutations-matrix-closure-and-strict-complete-profile",
+  "sourceHashes": {
+    "controls.json": "271f3c56827aedd81d790f4d9408e1e7dbad34867dc9ac254d387307b2c8980f",
+    "PROTOCOL.md": "2a958b1671f026d70317d7f15d426b800185037f237e74c698b816bc11229efb",
+    "../typed/controls.json": "213f06a1e24b94835fee4eaf1c9149754f528f3619c0d6ea9e3c7b00015e2585",
+    "../typed/reference.py": "e3ef0ac2137c428ded9f316ce50218abfda5bf9ca5f77b230ffb5c672b7506f2",
+    "../canonical/reference.py": "0c2471a756bc606580db9be70b05046a6fbf62b5817cc137f93af433757a7cce",
+    "../topology/reference.py": "98946a8296c754b425e865b0d56febcb59bc23ce98fe304116cc722dce410b10",
+    "../../../models/causal-emergence/releases/2026.08.15/bundle.json": "8aaf04c157d4b303f499d35516611fc9aa69aa8c9829621ca0dbb93de36e0c29"
+  },
+  "aggregationCensus": [
+    {
+      "components": 0,
+      "profiles": 1,
+      "equal": 0,
+      "different": 0,
+      "indeterminate": 1
+    },
+    {
+      "components": 1,
+      "profiles": 3,
+      "equal": 1,
+      "different": 1,
+      "indeterminate": 1
+    },
+    {
+      "components": 2,
+      "profiles": 9,
+      "equal": 1,
+      "different": 3,
+      "indeterminate": 5
+    },
+    {
+      "components": 3,
+      "profiles": 27,
+      "equal": 1,
+      "different": 7,
+      "indeterminate": 19
+    },
+    {
+      "components": 4,
+      "profiles": 81,
+      "equal": 1,
+      "different": 15,
+      "indeterminate": 65
+    },
+    {
+      "components": 5,
+      "profiles": 243,
+      "equal": 1,
+      "different": 31,
+      "indeterminate": 211
+    },
+    {
+      "components": 6,
+      "profiles": 729,
+      "equal": 1,
+      "different": 63,
+      "indeterminate": 665
+    },
+    {
+      "components": 7,
+      "profiles": 2187,
+      "equal": 1,
+      "different": 127,
+      "indeterminate": 2059
+    }
+  ],
+  "cases": [
+    {
+      "id": "self-canonical-structure-v1",
+      "components": [
+        {
+          "observableId": "canonical-directed-structure-v1",
+          "family": "structure",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": {
+              "nodeCount": 2,
+              "key": 1
+            },
+            "right": {
+              "nodeCount": 2,
+              "key": 1
+            }
+          },
+          "reasons": []
+        }
+      ],
+      "coverage": {
+        "numerator": 1,
+        "denominator": 1,
+        "complete": true,
+        "families": [
+          {
+            "family": "structure",
+            "numerator": 1,
+            "denominator": 1
+          }
+        ]
+      },
+      "distance": 0,
+      "status": "indistinguishable-under-regime",
+      "diagnostics": {
+        "equalObservableIds": [
+          "canonical-directed-structure-v1"
+        ],
+        "differentObservableIds": [],
+        "incompleteObservableIds": []
+      }
+    },
+    {
+      "id": "self-topology-only-v1",
+      "components": [
+        {
+          "observableId": "node-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": 2,
+            "right": 2
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "edge-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": 1,
+            "right": 1
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "weak-component-sizes-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": [
+              2
+            ],
+            "right": [
+              2
+            ]
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "strong-component-sizes-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": [
+              1,
+              1
+            ],
+            "right": [
+              1,
+              1
+            ]
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "reachable-ordered-pair-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": 1,
+            "right": 1
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "cyclic-node-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": 0,
+            "right": 0
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "isolated-node-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": 0,
+            "right": 0
+          },
+          "reasons": []
+        }
+      ],
+      "coverage": {
+        "numerator": 7,
+        "denominator": 7,
+        "complete": true,
+        "families": [
+          {
+            "family": "topology",
+            "numerator": 7,
+            "denominator": 7
+          }
+        ]
+      },
+      "distance": 0,
+      "status": "indistinguishable-under-regime",
+      "diagnostics": {
+        "equalObservableIds": [
+          "node-count-v1",
+          "edge-count-v1",
+          "weak-component-sizes-v1",
+          "strong-component-sizes-v1",
+          "reachable-ordered-pair-count-v1",
+          "cyclic-node-count-v1",
+          "isolated-node-count-v1"
+        ],
+        "differentObservableIds": [],
+        "incompleteObservableIds": []
+      }
+    },
+    {
+      "id": "self-typed-relations-v1",
+      "components": [
+        {
+          "observableId": "canonical-directed-structure-v1",
+          "family": "structure",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": {
+              "nodeCount": 2,
+              "key": 1
+            },
+            "right": {
+              "nodeCount": 2,
+              "key": 1
+            }
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "canonical-typed-directed-structure-v1",
+          "family": "typed-relations",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": {
+              "nodeCount": 2,
+              "key": "[2,[[0,1,{\"causalDirectionIds\":[0],\"dependencyTypeId\":0,\"interactionModeIds\":[0],\"necessity\":\"necessary\",\"ontologicalRole\":\"arising\"}]]]"
+            },
+            "right": {
+              "nodeCount": 2,
+              "key": "[2,[[0,1,{\"causalDirectionIds\":[0],\"dependencyTypeId\":0,\"interactionModeIds\":[0],\"necessity\":\"necessary\",\"ontologicalRole\":\"arising\"}]]]"
+            }
+          },
+          "reasons": []
+        }
+      ],
+      "coverage": {
+        "numerator": 2,
+        "denominator": 2,
+        "complete": true,
+        "families": [
+          {
+            "family": "structure",
+            "numerator": 1,
+            "denominator": 1
+          },
+          {
+            "family": "typed-relations",
+            "numerator": 1,
+            "denominator": 1
+          }
+        ]
+      },
+      "distance": 0,
+      "status": "indistinguishable-under-regime",
+      "diagnostics": {
+        "equalObservableIds": [
+          "canonical-directed-structure-v1",
+          "canonical-typed-directed-structure-v1"
+        ],
+        "differentObservableIds": [],
+        "incompleteObservableIds": []
+      }
+    },
+    {
+      "id": "relabel-canonical-structure-v1",
+      "components": [
+        {
+          "observableId": "canonical-directed-structure-v1",
+          "family": "structure",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": {
+              "nodeCount": 6,
+              "key": 1120529
+            },
+            "right": {
+              "nodeCount": 6,
+              "key": 1120529
+            }
+          },
+          "reasons": []
+        }
+      ],
+      "coverage": {
+        "numerator": 1,
+        "denominator": 1,
+        "complete": true,
+        "families": [
+          {
+            "family": "structure",
+            "numerator": 1,
+            "denominator": 1
+          }
+        ]
+      },
+      "distance": 0,
+      "status": "indistinguishable-under-regime",
+      "diagnostics": {
+        "equalObservableIds": [
+          "canonical-directed-structure-v1"
+        ],
+        "differentObservableIds": [],
+        "incompleteObservableIds": []
+      }
+    },
+    {
+      "id": "relabel-topology-only-v1",
+      "components": [
+        {
+          "observableId": "node-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": 6,
+            "right": 6
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "edge-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": 7,
+            "right": 7
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "weak-component-sizes-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": [
+              6
+            ],
+            "right": [
+              6
+            ]
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "strong-component-sizes-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": [
+              1,
+              1,
+              1,
+              3
+            ],
+            "right": [
+              1,
+              1,
+              1,
+              3
+            ]
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "reachable-ordered-pair-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": 18,
+            "right": 18
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "cyclic-node-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": 3,
+            "right": 3
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "isolated-node-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": 0,
+            "right": 0
+          },
+          "reasons": []
+        }
+      ],
+      "coverage": {
+        "numerator": 7,
+        "denominator": 7,
+        "complete": true,
+        "families": [
+          {
+            "family": "topology",
+            "numerator": 7,
+            "denominator": 7
+          }
+        ]
+      },
+      "distance": 0,
+      "status": "indistinguishable-under-regime",
+      "diagnostics": {
+        "equalObservableIds": [
+          "node-count-v1",
+          "edge-count-v1",
+          "weak-component-sizes-v1",
+          "strong-component-sizes-v1",
+          "reachable-ordered-pair-count-v1",
+          "cyclic-node-count-v1",
+          "isolated-node-count-v1"
+        ],
+        "differentObservableIds": [],
+        "incompleteObservableIds": []
+      }
+    },
+    {
+      "id": "relabel-typed-relations-v1",
+      "components": [
+        {
+          "observableId": "canonical-directed-structure-v1",
+          "family": "structure",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": {
+              "nodeCount": 6,
+              "key": 1120529
+            },
+            "right": {
+              "nodeCount": 6,
+              "key": 1120529
+            }
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "canonical-typed-directed-structure-v1",
+          "family": "typed-relations",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": {
+              "nodeCount": 6,
+              "key": "[6,[[0,1,{\"causalDirectionIds\":[0],\"dependencyTypeId\":0,\"interactionModeIds\":[0],\"necessity\":\"necessary\",\"ontologicalRole\":\"arising\"}],[0,2,{\"causalDirectionIds\":[1],\"dependencyTypeId\":1,\"interactionModeIds\":[1],\"necessity\":\"optional\",\"ontologicalRole\":\"maintenance\"}],[1,2,{\"causalDirectionIds\":[0],\"dependencyTypeId\":0,\"interactionModeIds\":[0],\"necessity\":\"necessary\",\"ontologicalRole\":\"arising\"}],[2,3,{\"causalDirectionIds\":[1],\"dependencyTypeId\":1,\"interactionModeIds\":[1],\"necessity\":\"optional\",\"ontologicalRole\":\"maintenance\"}],[3,4,{\"causalDirectionIds\":[0],\"dependencyTypeId\":0,\"interactionModeIds\":[0],\"necessity\":\"necessary\",\"ontologicalRole\":\"arising\"}],[4,2,{\"causalDirectionIds\":[1],\"dependencyTypeId\":1,\"interactionModeIds\":[1],\"necessity\":\"optional\",\"ontologicalRole\":\"maintenance\"}],[4,5,{\"causalDirectionIds\":[0],\"dependencyTypeId\":0,\"interactionModeIds\":[0],\"necessity\":\"necessary\",\"ontologicalRole\":\"arising\"}]]]"
+            },
+            "right": {
+              "nodeCount": 6,
+              "key": "[6,[[0,1,{\"causalDirectionIds\":[0],\"dependencyTypeId\":0,\"interactionModeIds\":[0],\"necessity\":\"necessary\",\"ontologicalRole\":\"arising\"}],[0,2,{\"causalDirectionIds\":[1],\"dependencyTypeId\":1,\"interactionModeIds\":[1],\"necessity\":\"optional\",\"ontologicalRole\":\"maintenance\"}],[1,2,{\"causalDirectionIds\":[0],\"dependencyTypeId\":0,\"interactionModeIds\":[0],\"necessity\":\"necessary\",\"ontologicalRole\":\"arising\"}],[2,3,{\"causalDirectionIds\":[1],\"dependencyTypeId\":1,\"interactionModeIds\":[1],\"necessity\":\"optional\",\"ontologicalRole\":\"maintenance\"}],[3,4,{\"causalDirectionIds\":[0],\"dependencyTypeId\":0,\"interactionModeIds\":[0],\"necessity\":\"necessary\",\"ontologicalRole\":\"arising\"}],[4,2,{\"causalDirectionIds\":[1],\"dependencyTypeId\":1,\"interactionModeIds\":[1],\"necessity\":\"optional\",\"ontologicalRole\":\"maintenance\"}],[4,5,{\"causalDirectionIds\":[0],\"dependencyTypeId\":0,\"interactionModeIds\":[0],\"necessity\":\"necessary\",\"ontologicalRole\":\"arising\"}]]]"
+            }
+          },
+          "reasons": []
+        }
+      ],
+      "coverage": {
+        "numerator": 2,
+        "denominator": 2,
+        "complete": true,
+        "families": [
+          {
+            "family": "structure",
+            "numerator": 1,
+            "denominator": 1
+          },
+          {
+            "family": "typed-relations",
+            "numerator": 1,
+            "denominator": 1
+          }
+        ]
+      },
+      "distance": 0,
+      "status": "indistinguishable-under-regime",
+      "diagnostics": {
+        "equalObservableIds": [
+          "canonical-directed-structure-v1",
+          "canonical-typed-directed-structure-v1"
+        ],
+        "differentObservableIds": [],
+        "incompleteObservableIds": []
+      }
+    },
+    {
+      "id": "annotations-canonical-structure-v1",
+      "components": [
+        {
+          "observableId": "canonical-directed-structure-v1",
+          "family": "structure",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": {
+              "nodeCount": 6,
+              "key": 1120529
+            },
+            "right": {
+              "nodeCount": 6,
+              "key": 1120529
+            }
+          },
+          "reasons": []
+        }
+      ],
+      "coverage": {
+        "numerator": 1,
+        "denominator": 1,
+        "complete": true,
+        "families": [
+          {
+            "family": "structure",
+            "numerator": 1,
+            "denominator": 1
+          }
+        ]
+      },
+      "distance": 0,
+      "status": "indistinguishable-under-regime",
+      "diagnostics": {
+        "equalObservableIds": [
+          "canonical-directed-structure-v1"
+        ],
+        "differentObservableIds": [],
+        "incompleteObservableIds": []
+      }
+    },
+    {
+      "id": "annotations-topology-only-v1",
+      "components": [
+        {
+          "observableId": "node-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": 6,
+            "right": 6
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "edge-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": 7,
+            "right": 7
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "weak-component-sizes-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": [
+              6
+            ],
+            "right": [
+              6
+            ]
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "strong-component-sizes-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": [
+              1,
+              1,
+              1,
+              3
+            ],
+            "right": [
+              1,
+              1,
+              1,
+              3
+            ]
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "reachable-ordered-pair-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": 18,
+            "right": 18
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "cyclic-node-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": 3,
+            "right": 3
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "isolated-node-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": 0,
+            "right": 0
+          },
+          "reasons": []
+        }
+      ],
+      "coverage": {
+        "numerator": 7,
+        "denominator": 7,
+        "complete": true,
+        "families": [
+          {
+            "family": "topology",
+            "numerator": 7,
+            "denominator": 7
+          }
+        ]
+      },
+      "distance": 0,
+      "status": "indistinguishable-under-regime",
+      "diagnostics": {
+        "equalObservableIds": [
+          "node-count-v1",
+          "edge-count-v1",
+          "weak-component-sizes-v1",
+          "strong-component-sizes-v1",
+          "reachable-ordered-pair-count-v1",
+          "cyclic-node-count-v1",
+          "isolated-node-count-v1"
+        ],
+        "differentObservableIds": [],
+        "incompleteObservableIds": []
+      }
+    },
+    {
+      "id": "annotations-typed-relations-v1",
+      "components": [
+        {
+          "observableId": "canonical-directed-structure-v1",
+          "family": "structure",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": {
+              "nodeCount": 6,
+              "key": 1120529
+            },
+            "right": {
+              "nodeCount": 6,
+              "key": 1120529
+            }
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "canonical-typed-directed-structure-v1",
+          "family": "typed-relations",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": {
+              "nodeCount": 6,
+              "key": "[6,[[0,1,{\"causalDirectionIds\":[0],\"dependencyTypeId\":0,\"interactionModeIds\":[0],\"necessity\":\"necessary\",\"ontologicalRole\":\"arising\"}],[0,2,{\"causalDirectionIds\":[1],\"dependencyTypeId\":1,\"interactionModeIds\":[1],\"necessity\":\"optional\",\"ontologicalRole\":\"maintenance\"}],[1,2,{\"causalDirectionIds\":[0],\"dependencyTypeId\":0,\"interactionModeIds\":[0],\"necessity\":\"necessary\",\"ontologicalRole\":\"arising\"}],[2,3,{\"causalDirectionIds\":[1],\"dependencyTypeId\":1,\"interactionModeIds\":[1],\"necessity\":\"optional\",\"ontologicalRole\":\"maintenance\"}],[3,4,{\"causalDirectionIds\":[0],\"dependencyTypeId\":0,\"interactionModeIds\":[0],\"necessity\":\"necessary\",\"ontologicalRole\":\"arising\"}],[4,2,{\"causalDirectionIds\":[1],\"dependencyTypeId\":1,\"interactionModeIds\":[1],\"necessity\":\"optional\",\"ontologicalRole\":\"maintenance\"}],[4,5,{\"causalDirectionIds\":[0],\"dependencyTypeId\":0,\"interactionModeIds\":[0],\"necessity\":\"necessary\",\"ontologicalRole\":\"arising\"}]]]"
+            },
+            "right": {
+              "nodeCount": 6,
+              "key": "[6,[[0,1,{\"causalDirectionIds\":[0],\"dependencyTypeId\":0,\"interactionModeIds\":[0],\"necessity\":\"necessary\",\"ontologicalRole\":\"arising\"}],[0,2,{\"causalDirectionIds\":[1],\"dependencyTypeId\":1,\"interactionModeIds\":[1],\"necessity\":\"optional\",\"ontologicalRole\":\"maintenance\"}],[1,2,{\"causalDirectionIds\":[0],\"dependencyTypeId\":0,\"interactionModeIds\":[0],\"necessity\":\"necessary\",\"ontologicalRole\":\"arising\"}],[2,3,{\"causalDirectionIds\":[1],\"dependencyTypeId\":1,\"interactionModeIds\":[1],\"necessity\":\"optional\",\"ontologicalRole\":\"maintenance\"}],[3,4,{\"causalDirectionIds\":[0],\"dependencyTypeId\":0,\"interactionModeIds\":[0],\"necessity\":\"necessary\",\"ontologicalRole\":\"arising\"}],[4,2,{\"causalDirectionIds\":[1],\"dependencyTypeId\":1,\"interactionModeIds\":[1],\"necessity\":\"optional\",\"ontologicalRole\":\"maintenance\"}],[4,5,{\"causalDirectionIds\":[0],\"dependencyTypeId\":0,\"interactionModeIds\":[0],\"necessity\":\"necessary\",\"ontologicalRole\":\"arising\"}]]]"
+            }
+          },
+          "reasons": []
+        }
+      ],
+      "coverage": {
+        "numerator": 2,
+        "denominator": 2,
+        "complete": true,
+        "families": [
+          {
+            "family": "structure",
+            "numerator": 1,
+            "denominator": 1
+          },
+          {
+            "family": "typed-relations",
+            "numerator": 1,
+            "denominator": 1
+          }
+        ]
+      },
+      "distance": 0,
+      "status": "indistinguishable-under-regime",
+      "diagnostics": {
+        "equalObservableIds": [
+          "canonical-directed-structure-v1",
+          "canonical-typed-directed-structure-v1"
+        ],
+        "differentObservableIds": [],
+        "incompleteObservableIds": []
+      }
+    },
+    {
+      "id": "topology-collision-canonical-structure-v1",
+      "components": [
+        {
+          "observableId": "canonical-directed-structure-v1",
+          "family": "structure",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "different",
+          "values": {
+            "left": {
+              "nodeCount": 3,
+              "key": 3
+            },
+            "right": {
+              "nodeCount": 3,
+              "key": 10
+            }
+          },
+          "reasons": []
+        }
+      ],
+      "coverage": {
+        "numerator": 1,
+        "denominator": 1,
+        "complete": true,
+        "families": [
+          {
+            "family": "structure",
+            "numerator": 1,
+            "denominator": 1
+          }
+        ]
+      },
+      "distance": 1,
+      "status": "distinguishable-under-regime",
+      "diagnostics": {
+        "equalObservableIds": [],
+        "differentObservableIds": [
+          "canonical-directed-structure-v1"
+        ],
+        "incompleteObservableIds": []
+      }
+    },
+    {
+      "id": "topology-collision-topology-only-v1",
+      "components": [
+        {
+          "observableId": "node-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": 3,
+            "right": 3
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "edge-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": 2,
+            "right": 2
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "weak-component-sizes-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": [
+              3
+            ],
+            "right": [
+              3
+            ]
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "strong-component-sizes-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": [
+              1,
+              1,
+              1
+            ],
+            "right": [
+              1,
+              1,
+              1
+            ]
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "reachable-ordered-pair-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": 2,
+            "right": 2
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "cyclic-node-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": 0,
+            "right": 0
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "isolated-node-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": 0,
+            "right": 0
+          },
+          "reasons": []
+        }
+      ],
+      "coverage": {
+        "numerator": 7,
+        "denominator": 7,
+        "complete": true,
+        "families": [
+          {
+            "family": "topology",
+            "numerator": 7,
+            "denominator": 7
+          }
+        ]
+      },
+      "distance": 0,
+      "status": "indistinguishable-under-regime",
+      "diagnostics": {
+        "equalObservableIds": [
+          "node-count-v1",
+          "edge-count-v1",
+          "weak-component-sizes-v1",
+          "strong-component-sizes-v1",
+          "reachable-ordered-pair-count-v1",
+          "cyclic-node-count-v1",
+          "isolated-node-count-v1"
+        ],
+        "differentObservableIds": [],
+        "incompleteObservableIds": []
+      }
+    },
+    {
+      "id": "topology-collision-typed-relations-v1",
+      "components": [
+        {
+          "observableId": "canonical-directed-structure-v1",
+          "family": "structure",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "different",
+          "values": {
+            "left": {
+              "nodeCount": 3,
+              "key": 3
+            },
+            "right": {
+              "nodeCount": 3,
+              "key": 10
+            }
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "canonical-typed-directed-structure-v1",
+          "family": "typed-relations",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "different",
+          "values": {
+            "left": {
+              "nodeCount": 3,
+              "key": "[3,[[0,1,{\"causalDirectionIds\":[0],\"dependencyTypeId\":0,\"interactionModeIds\":[0],\"necessity\":\"necessary\",\"ontologicalRole\":\"arising\"}],[0,2,{\"causalDirectionIds\":[0],\"dependencyTypeId\":0,\"interactionModeIds\":[0],\"necessity\":\"necessary\",\"ontologicalRole\":\"arising\"}]]]"
+            },
+            "right": {
+              "nodeCount": 3,
+              "key": "[3,[[0,1,{\"causalDirectionIds\":[0],\"dependencyTypeId\":0,\"interactionModeIds\":[0],\"necessity\":\"necessary\",\"ontologicalRole\":\"arising\"}],[2,1,{\"causalDirectionIds\":[0],\"dependencyTypeId\":0,\"interactionModeIds\":[0],\"necessity\":\"necessary\",\"ontologicalRole\":\"arising\"}]]]"
+            }
+          },
+          "reasons": []
+        }
+      ],
+      "coverage": {
+        "numerator": 2,
+        "denominator": 2,
+        "complete": true,
+        "families": [
+          {
+            "family": "structure",
+            "numerator": 1,
+            "denominator": 1
+          },
+          {
+            "family": "typed-relations",
+            "numerator": 1,
+            "denominator": 1
+          }
+        ]
+      },
+      "distance": 1,
+      "status": "distinguishable-under-regime",
+      "diagnostics": {
+        "equalObservableIds": [],
+        "differentObservableIds": [
+          "canonical-directed-structure-v1",
+          "canonical-typed-directed-structure-v1"
+        ],
+        "incompleteObservableIds": []
+      }
+    },
+    {
+      "id": "joint-fields-canonical-structure-v1",
+      "components": [
+        {
+          "observableId": "canonical-directed-structure-v1",
+          "family": "structure",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": {
+              "nodeCount": 2,
+              "key": 3
+            },
+            "right": {
+              "nodeCount": 2,
+              "key": 3
+            }
+          },
+          "reasons": []
+        }
+      ],
+      "coverage": {
+        "numerator": 1,
+        "denominator": 1,
+        "complete": true,
+        "families": [
+          {
+            "family": "structure",
+            "numerator": 1,
+            "denominator": 1
+          }
+        ]
+      },
+      "distance": 0,
+      "status": "indistinguishable-under-regime",
+      "diagnostics": {
+        "equalObservableIds": [
+          "canonical-directed-structure-v1"
+        ],
+        "differentObservableIds": [],
+        "incompleteObservableIds": []
+      }
+    },
+    {
+      "id": "joint-fields-topology-only-v1",
+      "components": [
+        {
+          "observableId": "node-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": 2,
+            "right": 2
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "edge-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": 2,
+            "right": 2
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "weak-component-sizes-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": [
+              2
+            ],
+            "right": [
+              2
+            ]
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "strong-component-sizes-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": [
+              2
+            ],
+            "right": [
+              2
+            ]
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "reachable-ordered-pair-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": 2,
+            "right": 2
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "cyclic-node-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": 2,
+            "right": 2
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "isolated-node-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": 0,
+            "right": 0
+          },
+          "reasons": []
+        }
+      ],
+      "coverage": {
+        "numerator": 7,
+        "denominator": 7,
+        "complete": true,
+        "families": [
+          {
+            "family": "topology",
+            "numerator": 7,
+            "denominator": 7
+          }
+        ]
+      },
+      "distance": 0,
+      "status": "indistinguishable-under-regime",
+      "diagnostics": {
+        "equalObservableIds": [
+          "node-count-v1",
+          "edge-count-v1",
+          "weak-component-sizes-v1",
+          "strong-component-sizes-v1",
+          "reachable-ordered-pair-count-v1",
+          "cyclic-node-count-v1",
+          "isolated-node-count-v1"
+        ],
+        "differentObservableIds": [],
+        "incompleteObservableIds": []
+      }
+    },
+    {
+      "id": "joint-fields-typed-relations-v1",
+      "components": [
+        {
+          "observableId": "canonical-directed-structure-v1",
+          "family": "structure",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": {
+              "nodeCount": 2,
+              "key": 3
+            },
+            "right": {
+              "nodeCount": 2,
+              "key": 3
+            }
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "canonical-typed-directed-structure-v1",
+          "family": "typed-relations",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "different",
+          "values": {
+            "left": {
+              "nodeCount": 2,
+              "key": "[2,[[0,1,{\"causalDirectionIds\":[0],\"dependencyTypeId\":0,\"interactionModeIds\":[0],\"necessity\":\"necessary\",\"ontologicalRole\":\"arising\"}],[1,0,{\"causalDirectionIds\":[1],\"dependencyTypeId\":1,\"interactionModeIds\":[1],\"necessity\":\"optional\",\"ontologicalRole\":\"maintenance\"}]]]"
+            },
+            "right": {
+              "nodeCount": 2,
+              "key": "[2,[[0,1,{\"causalDirectionIds\":[0],\"dependencyTypeId\":0,\"interactionModeIds\":[1],\"necessity\":\"necessary\",\"ontologicalRole\":\"arising\"}],[1,0,{\"causalDirectionIds\":[1],\"dependencyTypeId\":1,\"interactionModeIds\":[0],\"necessity\":\"optional\",\"ontologicalRole\":\"maintenance\"}]]]"
+            }
+          },
+          "reasons": []
+        }
+      ],
+      "coverage": {
+        "numerator": 2,
+        "denominator": 2,
+        "complete": true,
+        "families": [
+          {
+            "family": "structure",
+            "numerator": 1,
+            "denominator": 1
+          },
+          {
+            "family": "typed-relations",
+            "numerator": 1,
+            "denominator": 1
+          }
+        ]
+      },
+      "distance": 1,
+      "status": "distinguishable-under-regime",
+      "diagnostics": {
+        "equalObservableIds": [
+          "canonical-directed-structure-v1"
+        ],
+        "differentObservableIds": [
+          "canonical-typed-directed-structure-v1"
+        ],
+        "incompleteObservableIds": []
+      }
+    },
+    {
+      "id": "set-order-canonical-structure-v1",
+      "components": [
+        {
+          "observableId": "canonical-directed-structure-v1",
+          "family": "structure",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": {
+              "nodeCount": 2,
+              "key": 1
+            },
+            "right": {
+              "nodeCount": 2,
+              "key": 1
+            }
+          },
+          "reasons": []
+        }
+      ],
+      "coverage": {
+        "numerator": 1,
+        "denominator": 1,
+        "complete": true,
+        "families": [
+          {
+            "family": "structure",
+            "numerator": 1,
+            "denominator": 1
+          }
+        ]
+      },
+      "distance": 0,
+      "status": "indistinguishable-under-regime",
+      "diagnostics": {
+        "equalObservableIds": [
+          "canonical-directed-structure-v1"
+        ],
+        "differentObservableIds": [],
+        "incompleteObservableIds": []
+      }
+    },
+    {
+      "id": "set-order-topology-only-v1",
+      "components": [
+        {
+          "observableId": "node-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": 2,
+            "right": 2
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "edge-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": 1,
+            "right": 1
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "weak-component-sizes-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": [
+              2
+            ],
+            "right": [
+              2
+            ]
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "strong-component-sizes-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": [
+              1,
+              1
+            ],
+            "right": [
+              1,
+              1
+            ]
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "reachable-ordered-pair-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": 1,
+            "right": 1
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "cyclic-node-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": 0,
+            "right": 0
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "isolated-node-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": 0,
+            "right": 0
+          },
+          "reasons": []
+        }
+      ],
+      "coverage": {
+        "numerator": 7,
+        "denominator": 7,
+        "complete": true,
+        "families": [
+          {
+            "family": "topology",
+            "numerator": 7,
+            "denominator": 7
+          }
+        ]
+      },
+      "distance": 0,
+      "status": "indistinguishable-under-regime",
+      "diagnostics": {
+        "equalObservableIds": [
+          "node-count-v1",
+          "edge-count-v1",
+          "weak-component-sizes-v1",
+          "strong-component-sizes-v1",
+          "reachable-ordered-pair-count-v1",
+          "cyclic-node-count-v1",
+          "isolated-node-count-v1"
+        ],
+        "differentObservableIds": [],
+        "incompleteObservableIds": []
+      }
+    },
+    {
+      "id": "set-order-typed-relations-v1",
+      "components": [
+        {
+          "observableId": "canonical-directed-structure-v1",
+          "family": "structure",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": {
+              "nodeCount": 2,
+              "key": 1
+            },
+            "right": {
+              "nodeCount": 2,
+              "key": 1
+            }
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "canonical-typed-directed-structure-v1",
+          "family": "typed-relations",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": {
+              "nodeCount": 2,
+              "key": "[2,[[0,1,{\"causalDirectionIds\":[1,2],\"dependencyTypeId\":0,\"interactionModeIds\":[0,2],\"necessity\":\"necessary\",\"ontologicalRole\":\"arising\"}]]]"
+            },
+            "right": {
+              "nodeCount": 2,
+              "key": "[2,[[0,1,{\"causalDirectionIds\":[1,2],\"dependencyTypeId\":0,\"interactionModeIds\":[0,2],\"necessity\":\"necessary\",\"ontologicalRole\":\"arising\"}]]]"
+            }
+          },
+          "reasons": []
+        }
+      ],
+      "coverage": {
+        "numerator": 2,
+        "denominator": 2,
+        "complete": true,
+        "families": [
+          {
+            "family": "structure",
+            "numerator": 1,
+            "denominator": 1
+          },
+          {
+            "family": "typed-relations",
+            "numerator": 1,
+            "denominator": 1
+          }
+        ]
+      },
+      "distance": 0,
+      "status": "indistinguishable-under-regime",
+      "diagnostics": {
+        "equalObservableIds": [
+          "canonical-directed-structure-v1",
+          "canonical-typed-directed-structure-v1"
+        ],
+        "differentObservableIds": [],
+        "incompleteObservableIds": []
+      }
+    },
+    {
+      "id": "missing-evidence-canonical-structure-v1",
+      "components": [
+        {
+          "observableId": "canonical-directed-structure-v1",
+          "family": "structure",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": {
+              "nodeCount": 2,
+              "key": 1
+            },
+            "right": {
+              "nodeCount": 2,
+              "key": 1
+            }
+          },
+          "reasons": []
+        }
+      ],
+      "coverage": {
+        "numerator": 1,
+        "denominator": 1,
+        "complete": true,
+        "families": [
+          {
+            "family": "structure",
+            "numerator": 1,
+            "denominator": 1
+          }
+        ]
+      },
+      "distance": 0,
+      "status": "indistinguishable-under-regime",
+      "diagnostics": {
+        "equalObservableIds": [
+          "canonical-directed-structure-v1"
+        ],
+        "differentObservableIds": [],
+        "incompleteObservableIds": []
+      }
+    },
+    {
+      "id": "missing-evidence-topology-only-v1",
+      "components": [
+        {
+          "observableId": "node-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": 2,
+            "right": 2
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "edge-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": 1,
+            "right": 1
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "weak-component-sizes-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": [
+              2
+            ],
+            "right": [
+              2
+            ]
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "strong-component-sizes-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": [
+              1,
+              1
+            ],
+            "right": [
+              1,
+              1
+            ]
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "reachable-ordered-pair-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": 1,
+            "right": 1
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "cyclic-node-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": 0,
+            "right": 0
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "isolated-node-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": 0,
+            "right": 0
+          },
+          "reasons": []
+        }
+      ],
+      "coverage": {
+        "numerator": 7,
+        "denominator": 7,
+        "complete": true,
+        "families": [
+          {
+            "family": "topology",
+            "numerator": 7,
+            "denominator": 7
+          }
+        ]
+      },
+      "distance": 0,
+      "status": "indistinguishable-under-regime",
+      "diagnostics": {
+        "equalObservableIds": [
+          "node-count-v1",
+          "edge-count-v1",
+          "weak-component-sizes-v1",
+          "strong-component-sizes-v1",
+          "reachable-ordered-pair-count-v1",
+          "cyclic-node-count-v1",
+          "isolated-node-count-v1"
+        ],
+        "differentObservableIds": [],
+        "incompleteObservableIds": []
+      }
+    },
+    {
+      "id": "missing-evidence-typed-relations-v1",
+      "components": [
+        {
+          "observableId": "canonical-directed-structure-v1",
+          "family": "structure",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": {
+              "nodeCount": 2,
+              "key": 1
+            },
+            "right": {
+              "nodeCount": 2,
+              "key": 1
+            }
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "canonical-typed-directed-structure-v1",
+          "family": "typed-relations",
+          "left": {
+            "availability": "missing",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "indeterminate",
+          "values": null,
+          "reasons": [
+            {
+              "code": "missing-typed-observation",
+              "side": "left"
+            }
+          ]
+        }
+      ],
+      "coverage": {
+        "numerator": 1,
+        "denominator": 2,
+        "complete": false,
+        "families": [
+          {
+            "family": "structure",
+            "numerator": 1,
+            "denominator": 1
+          },
+          {
+            "family": "typed-relations",
+            "numerator": 0,
+            "denominator": 1
+          }
+        ]
+      },
+      "distance": null,
+      "status": "indeterminate",
+      "diagnostics": {
+        "equalObservableIds": [
+          "canonical-directed-structure-v1"
+        ],
+        "differentObservableIds": [],
+        "incompleteObservableIds": [
+          "canonical-typed-directed-structure-v1"
+        ]
+      }
+    },
+    {
+      "id": "missing-with-difference-canonical-structure-v1",
+      "components": [
+        {
+          "observableId": "canonical-directed-structure-v1",
+          "family": "structure",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "different",
+          "values": {
+            "left": {
+              "nodeCount": 2,
+              "key": 1
+            },
+            "right": {
+              "nodeCount": 2,
+              "key": 0
+            }
+          },
+          "reasons": []
+        }
+      ],
+      "coverage": {
+        "numerator": 1,
+        "denominator": 1,
+        "complete": true,
+        "families": [
+          {
+            "family": "structure",
+            "numerator": 1,
+            "denominator": 1
+          }
+        ]
+      },
+      "distance": 1,
+      "status": "distinguishable-under-regime",
+      "diagnostics": {
+        "equalObservableIds": [],
+        "differentObservableIds": [
+          "canonical-directed-structure-v1"
+        ],
+        "incompleteObservableIds": []
+      }
+    },
+    {
+      "id": "missing-with-difference-topology-only-v1",
+      "components": [
+        {
+          "observableId": "node-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": 2,
+            "right": 2
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "edge-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "different",
+          "values": {
+            "left": 1,
+            "right": 0
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "weak-component-sizes-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "different",
+          "values": {
+            "left": [
+              2
+            ],
+            "right": [
+              1,
+              1
+            ]
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "strong-component-sizes-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": [
+              1,
+              1
+            ],
+            "right": [
+              1,
+              1
+            ]
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "reachable-ordered-pair-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "different",
+          "values": {
+            "left": 1,
+            "right": 0
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "cyclic-node-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": 0,
+            "right": 0
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "isolated-node-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "different",
+          "values": {
+            "left": 0,
+            "right": 2
+          },
+          "reasons": []
+        }
+      ],
+      "coverage": {
+        "numerator": 7,
+        "denominator": 7,
+        "complete": true,
+        "families": [
+          {
+            "family": "topology",
+            "numerator": 7,
+            "denominator": 7
+          }
+        ]
+      },
+      "distance": 1,
+      "status": "distinguishable-under-regime",
+      "diagnostics": {
+        "equalObservableIds": [
+          "node-count-v1",
+          "strong-component-sizes-v1",
+          "cyclic-node-count-v1"
+        ],
+        "differentObservableIds": [
+          "edge-count-v1",
+          "weak-component-sizes-v1",
+          "reachable-ordered-pair-count-v1",
+          "isolated-node-count-v1"
+        ],
+        "incompleteObservableIds": []
+      }
+    },
+    {
+      "id": "missing-with-difference-typed-relations-v1",
+      "components": [
+        {
+          "observableId": "canonical-directed-structure-v1",
+          "family": "structure",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "different",
+          "values": {
+            "left": {
+              "nodeCount": 2,
+              "key": 1
+            },
+            "right": {
+              "nodeCount": 2,
+              "key": 0
+            }
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "canonical-typed-directed-structure-v1",
+          "family": "typed-relations",
+          "left": {
+            "availability": "missing",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "indeterminate",
+          "values": null,
+          "reasons": [
+            {
+              "code": "missing-typed-observation",
+              "side": "left"
+            }
+          ]
+        }
+      ],
+      "coverage": {
+        "numerator": 1,
+        "denominator": 2,
+        "complete": false,
+        "families": [
+          {
+            "family": "structure",
+            "numerator": 1,
+            "denominator": 1
+          },
+          {
+            "family": "typed-relations",
+            "numerator": 0,
+            "denominator": 1
+          }
+        ]
+      },
+      "distance": null,
+      "status": "indeterminate",
+      "diagnostics": {
+        "equalObservableIds": [],
+        "differentObservableIds": [
+          "canonical-directed-structure-v1"
+        ],
+        "incompleteObservableIds": [
+          "canonical-typed-directed-structure-v1"
+        ]
+      }
+    },
+    {
+      "id": "dictionary-change-canonical-structure-v1",
+      "components": [
+        {
+          "observableId": "canonical-directed-structure-v1",
+          "family": "structure",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": {
+              "nodeCount": 2,
+              "key": 1
+            },
+            "right": {
+              "nodeCount": 2,
+              "key": 1
+            }
+          },
+          "reasons": []
+        }
+      ],
+      "coverage": {
+        "numerator": 1,
+        "denominator": 1,
+        "complete": true,
+        "families": [
+          {
+            "family": "structure",
+            "numerator": 1,
+            "denominator": 1
+          }
+        ]
+      },
+      "distance": 0,
+      "status": "indistinguishable-under-regime",
+      "diagnostics": {
+        "equalObservableIds": [
+          "canonical-directed-structure-v1"
+        ],
+        "differentObservableIds": [],
+        "incompleteObservableIds": []
+      }
+    },
+    {
+      "id": "dictionary-change-topology-only-v1",
+      "components": [
+        {
+          "observableId": "node-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": 2,
+            "right": 2
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "edge-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": 1,
+            "right": 1
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "weak-component-sizes-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": [
+              2
+            ],
+            "right": [
+              2
+            ]
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "strong-component-sizes-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": [
+              1,
+              1
+            ],
+            "right": [
+              1,
+              1
+            ]
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "reachable-ordered-pair-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": 1,
+            "right": 1
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "cyclic-node-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": 0,
+            "right": 0
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "isolated-node-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": 0,
+            "right": 0
+          },
+          "reasons": []
+        }
+      ],
+      "coverage": {
+        "numerator": 7,
+        "denominator": 7,
+        "complete": true,
+        "families": [
+          {
+            "family": "topology",
+            "numerator": 7,
+            "denominator": 7
+          }
+        ]
+      },
+      "distance": 0,
+      "status": "indistinguishable-under-regime",
+      "diagnostics": {
+        "equalObservableIds": [
+          "node-count-v1",
+          "edge-count-v1",
+          "weak-component-sizes-v1",
+          "strong-component-sizes-v1",
+          "reachable-ordered-pair-count-v1",
+          "cyclic-node-count-v1",
+          "isolated-node-count-v1"
+        ],
+        "differentObservableIds": [],
+        "incompleteObservableIds": []
+      }
+    },
+    {
+      "id": "dictionary-change-typed-relations-v1",
+      "components": [
+        {
+          "observableId": "canonical-directed-structure-v1",
+          "family": "structure",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": {
+              "nodeCount": 2,
+              "key": 1
+            },
+            "right": {
+              "nodeCount": 2,
+              "key": 1
+            }
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "canonical-typed-directed-structure-v1",
+          "family": "typed-relations",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "indeterminate",
+          "values": null,
+          "reasons": [
+            {
+              "code": "cross-source-mapping-required"
+            }
+          ]
+        }
+      ],
+      "coverage": {
+        "numerator": 1,
+        "denominator": 2,
+        "complete": false,
+        "families": [
+          {
+            "family": "structure",
+            "numerator": 1,
+            "denominator": 1
+          },
+          {
+            "family": "typed-relations",
+            "numerator": 0,
+            "denominator": 1
+          }
+        ]
+      },
+      "distance": null,
+      "status": "indeterminate",
+      "diagnostics": {
+        "equalObservableIds": [
+          "canonical-directed-structure-v1"
+        ],
+        "differentObservableIds": [],
+        "incompleteObservableIds": [
+          "canonical-typed-directed-structure-v1"
+        ]
+      }
+    },
+    {
+      "id": "causal-self-canonical-structure-v1",
+      "components": [
+        {
+          "observableId": "canonical-directed-structure-v1",
+          "family": "structure",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": {
+              "nodeCount": 6,
+              "key": 3691222
+            },
+            "right": {
+              "nodeCount": 6,
+              "key": 3691222
+            }
+          },
+          "reasons": []
+        }
+      ],
+      "coverage": {
+        "numerator": 1,
+        "denominator": 1,
+        "complete": true,
+        "families": [
+          {
+            "family": "structure",
+            "numerator": 1,
+            "denominator": 1
+          }
+        ]
+      },
+      "distance": 0,
+      "status": "indistinguishable-under-regime",
+      "diagnostics": {
+        "equalObservableIds": [
+          "canonical-directed-structure-v1"
+        ],
+        "differentObservableIds": [],
+        "incompleteObservableIds": []
+      }
+    },
+    {
+      "id": "causal-self-topology-only-v1",
+      "components": [
+        {
+          "observableId": "node-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": 6,
+            "right": 6
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "edge-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": 11,
+            "right": 11
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "weak-component-sizes-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": [
+              6
+            ],
+            "right": [
+              6
+            ]
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "strong-component-sizes-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            "right": [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ]
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "reachable-ordered-pair-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": 14,
+            "right": 14
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "cyclic-node-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": 0,
+            "right": 0
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "isolated-node-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": 0,
+            "right": 0
+          },
+          "reasons": []
+        }
+      ],
+      "coverage": {
+        "numerator": 7,
+        "denominator": 7,
+        "complete": true,
+        "families": [
+          {
+            "family": "topology",
+            "numerator": 7,
+            "denominator": 7
+          }
+        ]
+      },
+      "distance": 0,
+      "status": "indistinguishable-under-regime",
+      "diagnostics": {
+        "equalObservableIds": [
+          "node-count-v1",
+          "edge-count-v1",
+          "weak-component-sizes-v1",
+          "strong-component-sizes-v1",
+          "reachable-ordered-pair-count-v1",
+          "cyclic-node-count-v1",
+          "isolated-node-count-v1"
+        ],
+        "differentObservableIds": [],
+        "incompleteObservableIds": []
+      }
+    },
+    {
+      "id": "causal-self-typed-relations-v1",
+      "components": [
+        {
+          "observableId": "canonical-directed-structure-v1",
+          "family": "structure",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": {
+              "nodeCount": 6,
+              "key": 3691222
+            },
+            "right": {
+              "nodeCount": 6,
+              "key": 3691222
+            }
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "canonical-typed-directed-structure-v1",
+          "family": "typed-relations",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": {
+              "nodeCount": 6,
+              "key": "[6,[[0,1,{\"causalDirectionIds\":[0],\"dependencyTypeId\":10,\"interactionModeIds\":[1],\"necessity\":\"necessary\",\"ontologicalRole\":\"arising\"}],[0,2,{\"causalDirectionIds\":[0],\"dependencyTypeId\":10,\"interactionModeIds\":[2],\"necessity\":\"necessary\",\"ontologicalRole\":\"arising\"}],[0,3,{\"causalDirectionIds\":[0],\"dependencyTypeId\":10,\"interactionModeIds\":[3],\"necessity\":\"necessary\",\"ontologicalRole\":\"arising\"}],[1,2,{\"causalDirectionIds\":[1],\"dependencyTypeId\":10,\"interactionModeIds\":[1],\"necessity\":\"necessary\",\"ontologicalRole\":\"maintenance\"}],[1,3,{\"causalDirectionIds\":[1],\"dependencyTypeId\":10,\"interactionModeIds\":[1],\"necessity\":\"necessary\",\"ontologicalRole\":\"arising\"}],[2,3,{\"causalDirectionIds\":[1],\"dependencyTypeId\":10,\"interactionModeIds\":[1],\"necessity\":\"necessary\",\"ontologicalRole\":\"arising\"}],[4,0,{\"causalDirectionIds\":[0],\"dependencyTypeId\":10,\"interactionModeIds\":[3],\"necessity\":\"necessary\",\"ontologicalRole\":\"arising\"}],[4,5,{\"causalDirectionIds\":[0],\"dependencyTypeId\":10,\"interactionModeIds\":[3],\"necessity\":\"necessary\",\"ontologicalRole\":\"arising\"}],[5,1,{\"causalDirectionIds\":[0],\"dependencyTypeId\":10,\"interactionModeIds\":[1],\"necessity\":\"necessary\",\"ontologicalRole\":\"arising\"}],[5,2,{\"causalDirectionIds\":[0],\"dependencyTypeId\":10,\"interactionModeIds\":[2],\"necessity\":\"necessary\",\"ontologicalRole\":\"arising\"}],[5,3,{\"causalDirectionIds\":[0],\"dependencyTypeId\":10,\"interactionModeIds\":[3],\"necessity\":\"necessary\",\"ontologicalRole\":\"arising\"}]]]"
+            },
+            "right": {
+              "nodeCount": 6,
+              "key": "[6,[[0,1,{\"causalDirectionIds\":[0],\"dependencyTypeId\":10,\"interactionModeIds\":[1],\"necessity\":\"necessary\",\"ontologicalRole\":\"arising\"}],[0,2,{\"causalDirectionIds\":[0],\"dependencyTypeId\":10,\"interactionModeIds\":[2],\"necessity\":\"necessary\",\"ontologicalRole\":\"arising\"}],[0,3,{\"causalDirectionIds\":[0],\"dependencyTypeId\":10,\"interactionModeIds\":[3],\"necessity\":\"necessary\",\"ontologicalRole\":\"arising\"}],[1,2,{\"causalDirectionIds\":[1],\"dependencyTypeId\":10,\"interactionModeIds\":[1],\"necessity\":\"necessary\",\"ontologicalRole\":\"maintenance\"}],[1,3,{\"causalDirectionIds\":[1],\"dependencyTypeId\":10,\"interactionModeIds\":[1],\"necessity\":\"necessary\",\"ontologicalRole\":\"arising\"}],[2,3,{\"causalDirectionIds\":[1],\"dependencyTypeId\":10,\"interactionModeIds\":[1],\"necessity\":\"necessary\",\"ontologicalRole\":\"arising\"}],[4,0,{\"causalDirectionIds\":[0],\"dependencyTypeId\":10,\"interactionModeIds\":[3],\"necessity\":\"necessary\",\"ontologicalRole\":\"arising\"}],[4,5,{\"causalDirectionIds\":[0],\"dependencyTypeId\":10,\"interactionModeIds\":[3],\"necessity\":\"necessary\",\"ontologicalRole\":\"arising\"}],[5,1,{\"causalDirectionIds\":[0],\"dependencyTypeId\":10,\"interactionModeIds\":[1],\"necessity\":\"necessary\",\"ontologicalRole\":\"arising\"}],[5,2,{\"causalDirectionIds\":[0],\"dependencyTypeId\":10,\"interactionModeIds\":[2],\"necessity\":\"necessary\",\"ontologicalRole\":\"arising\"}],[5,3,{\"causalDirectionIds\":[0],\"dependencyTypeId\":10,\"interactionModeIds\":[3],\"necessity\":\"necessary\",\"ontologicalRole\":\"arising\"}]]]"
+            }
+          },
+          "reasons": []
+        }
+      ],
+      "coverage": {
+        "numerator": 2,
+        "denominator": 2,
+        "complete": true,
+        "families": [
+          {
+            "family": "structure",
+            "numerator": 1,
+            "denominator": 1
+          },
+          {
+            "family": "typed-relations",
+            "numerator": 1,
+            "denominator": 1
+          }
+        ]
+      },
+      "distance": 0,
+      "status": "indistinguishable-under-regime",
+      "diagnostics": {
+        "equalObservableIds": [
+          "canonical-directed-structure-v1",
+          "canonical-typed-directed-structure-v1"
+        ],
+        "differentObservableIds": [],
+        "incompleteObservableIds": []
+      }
+    },
+    {
+      "id": "causal-scopes-canonical-structure-v1",
+      "components": [
+        {
+          "observableId": "canonical-directed-structure-v1",
+          "family": "structure",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "different",
+          "values": {
+            "left": {
+              "nodeCount": 6,
+              "key": 3691222
+            },
+            "right": {
+              "nodeCount": 5,
+              "key": 14506
+            }
+          },
+          "reasons": []
+        }
+      ],
+      "coverage": {
+        "numerator": 1,
+        "denominator": 1,
+        "complete": true,
+        "families": [
+          {
+            "family": "structure",
+            "numerator": 1,
+            "denominator": 1
+          }
+        ]
+      },
+      "distance": 1,
+      "status": "distinguishable-under-regime",
+      "diagnostics": {
+        "equalObservableIds": [],
+        "differentObservableIds": [
+          "canonical-directed-structure-v1"
+        ],
+        "incompleteObservableIds": []
+      }
+    },
+    {
+      "id": "causal-scopes-topology-only-v1",
+      "components": [
+        {
+          "observableId": "node-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "different",
+          "values": {
+            "left": 6,
+            "right": 5
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "edge-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "different",
+          "values": {
+            "left": 11,
+            "right": 7
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "weak-component-sizes-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "different",
+          "values": {
+            "left": [
+              6
+            ],
+            "right": [
+              5
+            ]
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "strong-component-sizes-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "different",
+          "values": {
+            "left": [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            "right": [
+              1,
+              1,
+              1,
+              1,
+              1
+            ]
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "reachable-ordered-pair-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "different",
+          "values": {
+            "left": 14,
+            "right": 9
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "cyclic-node-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": 0,
+            "right": 0
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "isolated-node-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": 0,
+            "right": 0
+          },
+          "reasons": []
+        }
+      ],
+      "coverage": {
+        "numerator": 7,
+        "denominator": 7,
+        "complete": true,
+        "families": [
+          {
+            "family": "topology",
+            "numerator": 7,
+            "denominator": 7
+          }
+        ]
+      },
+      "distance": 1,
+      "status": "distinguishable-under-regime",
+      "diagnostics": {
+        "equalObservableIds": [
+          "cyclic-node-count-v1",
+          "isolated-node-count-v1"
+        ],
+        "differentObservableIds": [
+          "node-count-v1",
+          "edge-count-v1",
+          "weak-component-sizes-v1",
+          "strong-component-sizes-v1",
+          "reachable-ordered-pair-count-v1"
+        ],
+        "incompleteObservableIds": []
+      }
+    },
+    {
+      "id": "causal-scopes-typed-relations-v1",
+      "components": [
+        {
+          "observableId": "canonical-directed-structure-v1",
+          "family": "structure",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "different",
+          "values": {
+            "left": {
+              "nodeCount": 6,
+              "key": 3691222
+            },
+            "right": {
+              "nodeCount": 5,
+              "key": 14506
+            }
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "canonical-typed-directed-structure-v1",
+          "family": "typed-relations",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "different",
+          "values": {
+            "left": {
+              "nodeCount": 6,
+              "key": "[6,[[0,1,{\"causalDirectionIds\":[0],\"dependencyTypeId\":10,\"interactionModeIds\":[1],\"necessity\":\"necessary\",\"ontologicalRole\":\"arising\"}],[0,2,{\"causalDirectionIds\":[0],\"dependencyTypeId\":10,\"interactionModeIds\":[2],\"necessity\":\"necessary\",\"ontologicalRole\":\"arising\"}],[0,3,{\"causalDirectionIds\":[0],\"dependencyTypeId\":10,\"interactionModeIds\":[3],\"necessity\":\"necessary\",\"ontologicalRole\":\"arising\"}],[1,2,{\"causalDirectionIds\":[1],\"dependencyTypeId\":10,\"interactionModeIds\":[1],\"necessity\":\"necessary\",\"ontologicalRole\":\"maintenance\"}],[1,3,{\"causalDirectionIds\":[1],\"dependencyTypeId\":10,\"interactionModeIds\":[1],\"necessity\":\"necessary\",\"ontologicalRole\":\"arising\"}],[2,3,{\"causalDirectionIds\":[1],\"dependencyTypeId\":10,\"interactionModeIds\":[1],\"necessity\":\"necessary\",\"ontologicalRole\":\"arising\"}],[4,0,{\"causalDirectionIds\":[0],\"dependencyTypeId\":10,\"interactionModeIds\":[3],\"necessity\":\"necessary\",\"ontologicalRole\":\"arising\"}],[4,5,{\"causalDirectionIds\":[0],\"dependencyTypeId\":10,\"interactionModeIds\":[3],\"necessity\":\"necessary\",\"ontologicalRole\":\"arising\"}],[5,1,{\"causalDirectionIds\":[0],\"dependencyTypeId\":10,\"interactionModeIds\":[1],\"necessity\":\"necessary\",\"ontologicalRole\":\"arising\"}],[5,2,{\"causalDirectionIds\":[0],\"dependencyTypeId\":10,\"interactionModeIds\":[2],\"necessity\":\"necessary\",\"ontologicalRole\":\"arising\"}],[5,3,{\"causalDirectionIds\":[0],\"dependencyTypeId\":10,\"interactionModeIds\":[3],\"necessity\":\"necessary\",\"ontologicalRole\":\"arising\"}]]]"
+            },
+            "right": {
+              "nodeCount": 5,
+              "key": "[5,[[0,1,{\"causalDirectionIds\":[0],\"dependencyTypeId\":10,\"interactionModeIds\":[1],\"necessity\":\"necessary\",\"ontologicalRole\":\"arising\"}],[0,2,{\"causalDirectionIds\":[0],\"dependencyTypeId\":10,\"interactionModeIds\":[2],\"necessity\":\"necessary\",\"ontologicalRole\":\"arising\"}],[1,2,{\"causalDirectionIds\":[1],\"dependencyTypeId\":10,\"interactionModeIds\":[1],\"necessity\":\"necessary\",\"ontologicalRole\":\"maintenance\"}],[3,0,{\"causalDirectionIds\":[0],\"dependencyTypeId\":10,\"interactionModeIds\":[3],\"necessity\":\"necessary\",\"ontologicalRole\":\"arising\"}],[3,4,{\"causalDirectionIds\":[0],\"dependencyTypeId\":10,\"interactionModeIds\":[3],\"necessity\":\"necessary\",\"ontologicalRole\":\"arising\"}],[4,1,{\"causalDirectionIds\":[0],\"dependencyTypeId\":10,\"interactionModeIds\":[1],\"necessity\":\"necessary\",\"ontologicalRole\":\"arising\"}],[4,2,{\"causalDirectionIds\":[0],\"dependencyTypeId\":10,\"interactionModeIds\":[2],\"necessity\":\"necessary\",\"ontologicalRole\":\"arising\"}]]]"
+            }
+          },
+          "reasons": []
+        }
+      ],
+      "coverage": {
+        "numerator": 2,
+        "denominator": 2,
+        "complete": true,
+        "families": [
+          {
+            "family": "structure",
+            "numerator": 1,
+            "denominator": 1
+          },
+          {
+            "family": "typed-relations",
+            "numerator": 1,
+            "denominator": 1
+          }
+        ]
+      },
+      "distance": 1,
+      "status": "distinguishable-under-regime",
+      "diagnostics": {
+        "equalObservableIds": [],
+        "differentObservableIds": [
+          "canonical-directed-structure-v1",
+          "canonical-typed-directed-structure-v1"
+        ],
+        "incompleteObservableIds": []
+      }
+    },
+    {
+      "id": "renumbered-approved-typed-relations-v1",
+      "components": [
+        {
+          "observableId": "canonical-directed-structure-v1",
+          "family": "structure",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": {
+              "nodeCount": 2,
+              "key": 3
+            },
+            "right": {
+              "nodeCount": 2,
+              "key": 3
+            }
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "canonical-typed-directed-structure-v1",
+          "family": "typed-relations",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": {
+              "nodeCount": 2,
+              "key": "[2,[[0,1,{\"causalDirectionIds\":[0],\"dependencyTypeId\":0,\"interactionModeIds\":[0],\"necessity\":\"necessary\",\"ontologicalRole\":\"arising\"}],[1,0,{\"causalDirectionIds\":[1],\"dependencyTypeId\":1,\"interactionModeIds\":[1],\"necessity\":\"optional\",\"ontologicalRole\":\"maintenance\"}]]]"
+            },
+            "right": {
+              "nodeCount": 2,
+              "key": "[2,[[0,1,{\"causalDirectionIds\":[0],\"dependencyTypeId\":0,\"interactionModeIds\":[0],\"necessity\":\"necessary\",\"ontologicalRole\":\"arising\"}],[1,0,{\"causalDirectionIds\":[1],\"dependencyTypeId\":1,\"interactionModeIds\":[1],\"necessity\":\"optional\",\"ontologicalRole\":\"maintenance\"}]]]"
+            }
+          },
+          "reasons": []
+        }
+      ],
+      "coverage": {
+        "numerator": 2,
+        "denominator": 2,
+        "complete": true,
+        "families": [
+          {
+            "family": "structure",
+            "numerator": 1,
+            "denominator": 1
+          },
+          {
+            "family": "typed-relations",
+            "numerator": 1,
+            "denominator": 1
+          }
+        ]
+      },
+      "distance": 0,
+      "status": "indistinguishable-under-regime",
+      "diagnostics": {
+        "equalObservableIds": [
+          "canonical-directed-structure-v1",
+          "canonical-typed-directed-structure-v1"
+        ],
+        "differentObservableIds": [],
+        "incompleteObservableIds": []
+      }
+    },
+    {
+      "id": "renumbered-unapproved-typed-relations-v1",
+      "components": [
+        {
+          "observableId": "canonical-directed-structure-v1",
+          "family": "structure",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": {
+              "nodeCount": 2,
+              "key": 3
+            },
+            "right": {
+              "nodeCount": 2,
+              "key": 3
+            }
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "canonical-typed-directed-structure-v1",
+          "family": "typed-relations",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "indeterminate",
+          "values": null,
+          "reasons": [
+            {
+              "code": "mapping-not-approved"
+            }
+          ]
+        }
+      ],
+      "coverage": {
+        "numerator": 1,
+        "denominator": 2,
+        "complete": false,
+        "families": [
+          {
+            "family": "structure",
+            "numerator": 1,
+            "denominator": 1
+          },
+          {
+            "family": "typed-relations",
+            "numerator": 0,
+            "denominator": 1
+          }
+        ]
+      },
+      "distance": null,
+      "status": "indeterminate",
+      "diagnostics": {
+        "equalObservableIds": [
+          "canonical-directed-structure-v1"
+        ],
+        "differentObservableIds": [],
+        "incompleteObservableIds": [
+          "canonical-typed-directed-structure-v1"
+        ]
+      }
+    },
+    {
+      "id": "partial-approved-typed-relations-v1",
+      "components": [
+        {
+          "observableId": "canonical-directed-structure-v1",
+          "family": "structure",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": {
+              "nodeCount": 2,
+              "key": 3
+            },
+            "right": {
+              "nodeCount": 2,
+              "key": 3
+            }
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "canonical-typed-directed-structure-v1",
+          "family": "typed-relations",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "indeterminate",
+          "values": null,
+          "reasons": [
+            {
+              "code": "mapping-value-uncovered",
+              "side": "left",
+              "field": "dependencyTypeId",
+              "value": 1
+            },
+            {
+              "code": "mapping-value-uncovered",
+              "side": "right",
+              "field": "dependencyTypeId",
+              "value": 10
+            }
+          ]
+        }
+      ],
+      "coverage": {
+        "numerator": 1,
+        "denominator": 2,
+        "complete": false,
+        "families": [
+          {
+            "family": "structure",
+            "numerator": 1,
+            "denominator": 1
+          },
+          {
+            "family": "typed-relations",
+            "numerator": 0,
+            "denominator": 1
+          }
+        ]
+      },
+      "distance": null,
+      "status": "indeterminate",
+      "diagnostics": {
+        "equalObservableIds": [
+          "canonical-directed-structure-v1"
+        ],
+        "differentObservableIds": [],
+        "incompleteObservableIds": [
+          "canonical-typed-directed-structure-v1"
+        ]
+      }
+    },
+    {
+      "id": "cross-source-unbound-typed-relations-v1",
+      "components": [
+        {
+          "observableId": "canonical-directed-structure-v1",
+          "family": "structure",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": {
+              "nodeCount": 2,
+              "key": 1
+            },
+            "right": {
+              "nodeCount": 2,
+              "key": 1
+            }
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "canonical-typed-directed-structure-v1",
+          "family": "typed-relations",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "indeterminate",
+          "values": null,
+          "reasons": [
+            {
+              "code": "cross-source-mapping-required"
+            }
+          ]
+        }
+      ],
+      "coverage": {
+        "numerator": 1,
+        "denominator": 2,
+        "complete": false,
+        "families": [
+          {
+            "family": "structure",
+            "numerator": 1,
+            "denominator": 1
+          },
+          {
+            "family": "typed-relations",
+            "numerator": 0,
+            "denominator": 1
+          }
+        ]
+      },
+      "distance": null,
+      "status": "indeterminate",
+      "diagnostics": {
+        "equalObservableIds": [
+          "canonical-directed-structure-v1"
+        ],
+        "differentObservableIds": [],
+        "incompleteObservableIds": [
+          "canonical-typed-directed-structure-v1"
+        ]
+      }
+    },
+    {
+      "id": "same-source-scopes-typed-relations-v1",
+      "components": [
+        {
+          "observableId": "canonical-directed-structure-v1",
+          "family": "structure",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "different",
+          "values": {
+            "left": {
+              "nodeCount": 2,
+              "key": 1
+            },
+            "right": {
+              "nodeCount": 1,
+              "key": 0
+            }
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "canonical-typed-directed-structure-v1",
+          "family": "typed-relations",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "different",
+          "values": {
+            "left": {
+              "nodeCount": 2,
+              "key": "[2,[[0,1,{\"causalDirectionIds\":[0],\"dependencyTypeId\":0,\"interactionModeIds\":[0],\"necessity\":\"necessary\",\"ontologicalRole\":\"arising\"}]]]"
+            },
+            "right": {
+              "nodeCount": 1,
+              "key": "[1,[]]"
+            }
+          },
+          "reasons": []
+        }
+      ],
+      "coverage": {
+        "numerator": 2,
+        "denominator": 2,
+        "complete": true,
+        "families": [
+          {
+            "family": "structure",
+            "numerator": 1,
+            "denominator": 1
+          },
+          {
+            "family": "typed-relations",
+            "numerator": 1,
+            "denominator": 1
+          }
+        ]
+      },
+      "distance": 1,
+      "status": "distinguishable-under-regime",
+      "diagnostics": {
+        "equalObservableIds": [],
+        "differentObservableIds": [
+          "canonical-directed-structure-v1",
+          "canonical-typed-directed-structure-v1"
+        ],
+        "incompleteObservableIds": []
+      }
+    },
+    {
+      "id": "unavailable-summary-topology-only-v1",
+      "components": [
+        {
+          "observableId": "node-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "unavailable"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "indeterminate",
+          "values": null,
+          "reasons": [
+            {
+              "code": "evidence-unavailable",
+              "side": "left"
+            }
+          ]
+        },
+        {
+          "observableId": "edge-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": 2,
+            "right": 2
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "weak-component-sizes-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": [
+              3
+            ],
+            "right": [
+              3
+            ]
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "strong-component-sizes-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": [
+              1,
+              1,
+              1
+            ],
+            "right": [
+              1,
+              1,
+              1
+            ]
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "reachable-ordered-pair-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": 2,
+            "right": 2
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "cyclic-node-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": 0,
+            "right": 0
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "isolated-node-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": 0,
+            "right": 0
+          },
+          "reasons": []
+        }
+      ],
+      "coverage": {
+        "numerator": 6,
+        "denominator": 7,
+        "complete": false,
+        "families": [
+          {
+            "family": "topology",
+            "numerator": 6,
+            "denominator": 7
+          }
+        ]
+      },
+      "distance": null,
+      "status": "indeterminate",
+      "diagnostics": {
+        "equalObservableIds": [
+          "edge-count-v1",
+          "weak-component-sizes-v1",
+          "strong-component-sizes-v1",
+          "reachable-ordered-pair-count-v1",
+          "cyclic-node-count-v1",
+          "isolated-node-count-v1"
+        ],
+        "differentObservableIds": [],
+        "incompleteObservableIds": [
+          "node-count-v1"
+        ]
+      }
+    },
+    {
+      "id": "rejected-summary-with-difference-topology-only-v1",
+      "components": [
+        {
+          "observableId": "node-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "rejected"
+          },
+          "state": "indeterminate",
+          "values": null,
+          "reasons": [
+            {
+              "code": "evidence-rejected",
+              "side": "right"
+            }
+          ]
+        },
+        {
+          "observableId": "edge-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "different",
+          "values": {
+            "left": 1,
+            "right": 0
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "weak-component-sizes-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "different",
+          "values": {
+            "left": [
+              2
+            ],
+            "right": [
+              1,
+              1
+            ]
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "strong-component-sizes-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": [
+              1,
+              1
+            ],
+            "right": [
+              1,
+              1
+            ]
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "reachable-ordered-pair-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "different",
+          "values": {
+            "left": 1,
+            "right": 0
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "cyclic-node-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": 0,
+            "right": 0
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "isolated-node-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "different",
+          "values": {
+            "left": 0,
+            "right": 2
+          },
+          "reasons": []
+        }
+      ],
+      "coverage": {
+        "numerator": 6,
+        "denominator": 7,
+        "complete": false,
+        "families": [
+          {
+            "family": "topology",
+            "numerator": 6,
+            "denominator": 7
+          }
+        ]
+      },
+      "distance": null,
+      "status": "indeterminate",
+      "diagnostics": {
+        "equalObservableIds": [
+          "strong-component-sizes-v1",
+          "cyclic-node-count-v1"
+        ],
+        "differentObservableIds": [
+          "edge-count-v1",
+          "weak-component-sizes-v1",
+          "reachable-ordered-pair-count-v1",
+          "isolated-node-count-v1"
+        ],
+        "incompleteObservableIds": [
+          "node-count-v1"
+        ]
+      }
+    },
+    {
+      "id": "all-summary-evidence-unavailable-topology-only-v1",
+      "components": [
+        {
+          "observableId": "node-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "unavailable"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "indeterminate",
+          "values": null,
+          "reasons": [
+            {
+              "code": "evidence-unavailable",
+              "side": "left"
+            }
+          ]
+        },
+        {
+          "observableId": "edge-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "unavailable"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "indeterminate",
+          "values": null,
+          "reasons": [
+            {
+              "code": "evidence-unavailable",
+              "side": "left"
+            }
+          ]
+        },
+        {
+          "observableId": "weak-component-sizes-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "unavailable"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "indeterminate",
+          "values": null,
+          "reasons": [
+            {
+              "code": "evidence-unavailable",
+              "side": "left"
+            }
+          ]
+        },
+        {
+          "observableId": "strong-component-sizes-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "unavailable"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "indeterminate",
+          "values": null,
+          "reasons": [
+            {
+              "code": "evidence-unavailable",
+              "side": "left"
+            }
+          ]
+        },
+        {
+          "observableId": "reachable-ordered-pair-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "unavailable"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "indeterminate",
+          "values": null,
+          "reasons": [
+            {
+              "code": "evidence-unavailable",
+              "side": "left"
+            }
+          ]
+        },
+        {
+          "observableId": "cyclic-node-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "unavailable"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "indeterminate",
+          "values": null,
+          "reasons": [
+            {
+              "code": "evidence-unavailable",
+              "side": "left"
+            }
+          ]
+        },
+        {
+          "observableId": "isolated-node-count-v1",
+          "family": "topology",
+          "left": {
+            "availability": "observed",
+            "disposition": "unavailable"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "indeterminate",
+          "values": null,
+          "reasons": [
+            {
+              "code": "evidence-unavailable",
+              "side": "left"
+            }
+          ]
+        }
+      ],
+      "coverage": {
+        "numerator": 0,
+        "denominator": 7,
+        "complete": false,
+        "families": [
+          {
+            "family": "topology",
+            "numerator": 0,
+            "denominator": 7
+          }
+        ]
+      },
+      "distance": null,
+      "status": "indeterminate",
+      "diagnostics": {
+        "equalObservableIds": [],
+        "differentObservableIds": [],
+        "incompleteObservableIds": [
+          "node-count-v1",
+          "edge-count-v1",
+          "weak-component-sizes-v1",
+          "strong-component-sizes-v1",
+          "reachable-ordered-pair-count-v1",
+          "cyclic-node-count-v1",
+          "isolated-node-count-v1"
+        ]
+      }
+    },
+    {
+      "id": "rejected-typed-evidence-typed-relations-v1",
+      "components": [
+        {
+          "observableId": "canonical-directed-structure-v1",
+          "family": "structure",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": {
+              "nodeCount": 2,
+              "key": 3
+            },
+            "right": {
+              "nodeCount": 2,
+              "key": 3
+            }
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "canonical-typed-directed-structure-v1",
+          "family": "typed-relations",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "rejected"
+          },
+          "state": "indeterminate",
+          "values": null,
+          "reasons": [
+            {
+              "code": "evidence-rejected",
+              "side": "right"
+            }
+          ]
+        }
+      ],
+      "coverage": {
+        "numerator": 1,
+        "denominator": 2,
+        "complete": false,
+        "families": [
+          {
+            "family": "structure",
+            "numerator": 1,
+            "denominator": 1
+          },
+          {
+            "family": "typed-relations",
+            "numerator": 0,
+            "denominator": 1
+          }
+        ]
+      },
+      "distance": null,
+      "status": "indeterminate",
+      "diagnostics": {
+        "equalObservableIds": [
+          "canonical-directed-structure-v1"
+        ],
+        "differentObservableIds": [],
+        "incompleteObservableIds": [
+          "canonical-typed-directed-structure-v1"
+        ]
+      }
+    },
+    {
+      "id": "missing-and-rejected-typed-relations-v1",
+      "components": [
+        {
+          "observableId": "canonical-directed-structure-v1",
+          "family": "structure",
+          "left": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "equal",
+          "values": {
+            "left": {
+              "nodeCount": 2,
+              "key": 1
+            },
+            "right": {
+              "nodeCount": 2,
+              "key": 1
+            }
+          },
+          "reasons": []
+        },
+        {
+          "observableId": "canonical-typed-directed-structure-v1",
+          "family": "typed-relations",
+          "left": {
+            "availability": "missing",
+            "disposition": "rejected"
+          },
+          "right": {
+            "availability": "observed",
+            "disposition": "accepted"
+          },
+          "state": "indeterminate",
+          "values": null,
+          "reasons": [
+            {
+              "code": "missing-typed-observation",
+              "side": "left"
+            },
+            {
+              "code": "evidence-rejected",
+              "side": "left"
+            }
+          ]
+        }
+      ],
+      "coverage": {
+        "numerator": 1,
+        "denominator": 2,
+        "complete": false,
+        "families": [
+          {
+            "family": "structure",
+            "numerator": 1,
+            "denominator": 1
+          },
+          {
+            "family": "typed-relations",
+            "numerator": 0,
+            "denominator": 1
+          }
+        ]
+      },
+      "distance": null,
+      "status": "indeterminate",
+      "diagnostics": {
+        "equalObservableIds": [
+          "canonical-directed-structure-v1"
+        ],
+        "differentObservableIds": [],
+        "incompleteObservableIds": [
+          "canonical-typed-directed-structure-v1"
+        ]
+      }
+    }
+  ]
+}

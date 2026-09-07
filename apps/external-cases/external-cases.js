@@ -7,7 +7,7 @@ import {
   historyModeLabel,
   loadHistoryRegistry,
   modelStudioHref
-} from "./external-cases-catalog.js?v=20260905.1";
+} from "./external-cases-catalog.js?v=20260907.1";
 
 const PROJECT_ROOT = new URL("../../", import.meta.url);
 const GITHUB_BLOB_ROOT = "https://github.com/DenBraun/Onto2D/blob/main/";
@@ -109,7 +109,7 @@ function renderActions(entry) {
     studio.href = modelStudioHref(entry, PROJECT_ROOT);
     links.push(studio);
   }
-  const documentLink = element("a", "action-link", "Implementation plan on GitHub");
+  const documentLink = element("a", "action-link", "Case guide on GitHub");
   documentLink.href = githubDocumentUrl(entry.implementationDoc);
   documentLink.target = "_blank";
   documentLink.rel = "noopener noreferrer";

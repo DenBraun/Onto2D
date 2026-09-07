@@ -1,0 +1,3314 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://onto2d.dev/schemas/v1/structural-comparison-artifact.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": "1"
+    },
+    "analysis": {
+      "const": {
+        "id": "structural-comparison",
+        "version": "1"
+      }
+    },
+    "policy": {
+      "const": {
+        "id": "strict-discrete-structural-comparison-v1",
+        "version": "1",
+        "profile": "all-ordered-mandatory-regime-observables",
+        "equality": "exact-canonical-value",
+        "distance": "complete-equal-zero-complete-different-one-incomplete-null",
+        "missingness": "strict-indeterminate-v1",
+        "emptyProfile": "indeterminate",
+        "diagnostics": "retain-comparable-equalities-and-differences",
+        "vocabulary": "existing-explicit-typed-alignment",
+        "metadata": "excluded-from-distance",
+        "evidenceRestrictions": "caller-declared-use-only-never-skip-source-or-mapping-verification",
+        "errors": "throw-no-partial-success",
+        "partialDistance": "unsupported",
+        "signaturePseudometric": "deferred-to-R6",
+        "ordering": "regime-observable-then-left-right",
+        "limits": {
+          "maxComponents": 7,
+          "maxEvidenceGaps": 14,
+          "maxCanonicalizerCalls": 5,
+          "maxCanonicalEntries": 500000,
+          "maxArtifactBytes": 4194304
+        },
+        "contentHash": "sha256:8a82cfeea8dd4829eca1e071dd002a4bb988831e48520421955d3e9b5f168d98"
+      }
+    },
+    "regime": {},
+    "request": {},
+    "evidence": {},
+    "components": {},
+    "coverage": {},
+    "diagnostics": {},
+    "status": {
+      "enum": [
+        "indistinguishable-under-regime",
+        "distinguishable-under-regime",
+        "indeterminate"
+      ]
+    },
+    "distance": {
+      "enum": [
+        0,
+        1,
+        null
+      ]
+    },
+    "artifactHash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$(?![\\s\\S])"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "analysis",
+    "policy",
+    "regime",
+    "request",
+    "evidence",
+    "components",
+    "coverage",
+    "diagnostics",
+    "status",
+    "distance",
+    "artifactHash"
+  ],
+  "oneOf": [
+    {
+      "properties": {
+        "regime": {
+          "const": {
+            "id": "canonical-structure-v1",
+            "version": "1",
+            "contentHash": "sha256:9276d8ad6a0d6e872783a79af4de63727b6452b42db1928ffc9f20111d86a97c"
+          }
+        },
+        "request": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "regimeId": {
+              "const": "canonical-structure-v1"
+            },
+            "leftScope": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "kind": {
+                      "const": "full"
+                    }
+                  },
+                  "required": [
+                    "kind"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "kind": {
+                      "const": "induced"
+                    },
+                    "nodeIds": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "minItems": 1,
+                      "maxItems": 6,
+                      "uniqueItems": true
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "nodeIds"
+                  ]
+                }
+              ]
+            },
+            "rightScope": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "kind": {
+                      "const": "full"
+                    }
+                  },
+                  "required": [
+                    "kind"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "kind": {
+                      "const": "induced"
+                    },
+                    "nodeIds": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "minItems": 1,
+                      "maxItems": 6,
+                      "uniqueItems": true
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "nodeIds"
+                  ]
+                }
+              ]
+            },
+            "vocabulary": {
+              "type": "null"
+            },
+            "evidenceGaps": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "side": {
+                    "enum": [
+                      "left",
+                      "right"
+                    ]
+                  },
+                  "observableId": {
+                    "enum": [
+                      "canonical-directed-structure-v1"
+                    ]
+                  },
+                  "disposition": {
+                    "enum": [
+                      "unavailable",
+                      "rejected"
+                    ]
+                  },
+                  "reference": {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "^\\S(?:[\\s\\S]*\\S)?$(?![\\s\\S])"
+                  },
+                  "contentHash": {
+                    "type": "string",
+                    "pattern": "^sha256:[0-9a-f]{64}$(?![\\s\\S])"
+                  }
+                },
+                "required": [
+                  "side",
+                  "observableId",
+                  "disposition",
+                  "reference",
+                  "contentHash"
+                ]
+              },
+              "minItems": 0,
+              "maxItems": 2,
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "regimeId",
+            "leftScope",
+            "rightScope",
+            "vocabulary",
+            "evidenceGaps"
+          ]
+        },
+        "evidence": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "canonical"
+            },
+            "left": {
+              "$ref": "https://onto2d.dev/schemas/v1/structural-canonical-observation.schema.json"
+            },
+            "right": {
+              "$ref": "https://onto2d.dev/schemas/v1/structural-canonical-observation.schema.json"
+            }
+          },
+          "required": [
+            "kind",
+            "left",
+            "right"
+          ]
+        },
+        "components": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "observable": {
+                  "const": {
+                    "id": "canonical-directed-structure-v1",
+                    "version": "1",
+                    "contentHash": "sha256:48f137781781c54724e172256925e44c9a2be42a08610c88abaca8a9f6016e7b"
+                  }
+                },
+                "family": {
+                  "const": "structure"
+                },
+                "mandatory": {
+                  "const": true
+                },
+                "left": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "availability": {
+                      "const": "observed"
+                    },
+                    "disposition": {
+                      "enum": [
+                        "accepted",
+                        "unavailable",
+                        "rejected"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "availability",
+                    "disposition"
+                  ]
+                },
+                "right": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "availability": {
+                      "const": "observed"
+                    },
+                    "disposition": {
+                      "enum": [
+                        "accepted",
+                        "unavailable",
+                        "rejected"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "availability",
+                    "disposition"
+                  ]
+                },
+                "values": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "left": {
+                          "$ref": "https://onto2d.dev/schemas/v1/structural-canonical-observation.schema.json#/properties/observation/properties/value"
+                        },
+                        "right": {
+                          "$ref": "https://onto2d.dev/schemas/v1/structural-canonical-observation.schema.json#/properties/observation/properties/value"
+                        }
+                      },
+                      "required": [
+                        "left",
+                        "right"
+                      ]
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "state": {
+                  "enum": [
+                    "equal",
+                    "different",
+                    "indeterminate"
+                  ]
+                },
+                "reasons": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "code": {
+                        "enum": [
+                          "evidence-unavailable",
+                          "evidence-rejected"
+                        ]
+                      },
+                      "side": {
+                        "enum": [
+                          "left",
+                          "right"
+                        ]
+                      },
+                      "reference": {
+                        "type": "string",
+                        "minLength": 1,
+                        "pattern": "^\\S(?:[\\s\\S]*\\S)?$(?![\\s\\S])"
+                      },
+                      "contentHash": {
+                        "type": "string",
+                        "pattern": "^sha256:[0-9a-f]{64}$(?![\\s\\S])"
+                      }
+                    },
+                    "required": [
+                      "code",
+                      "side",
+                      "reference",
+                      "contentHash"
+                    ]
+                  },
+                  "minItems": 0,
+                  "maxItems": 2
+                }
+              },
+              "required": [
+                "observable",
+                "family",
+                "mandatory",
+                "left",
+                "right",
+                "values",
+                "state",
+                "reasons"
+              ],
+              "oneOf": [
+                {
+                  "properties": {
+                    "state": {
+                      "enum": [
+                        "equal",
+                        "different"
+                      ]
+                    },
+                    "left": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "availability": {
+                          "const": "observed"
+                        },
+                        "disposition": {
+                          "const": "accepted"
+                        }
+                      },
+                      "required": [
+                        "availability",
+                        "disposition"
+                      ]
+                    },
+                    "right": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "availability": {
+                          "const": "observed"
+                        },
+                        "disposition": {
+                          "const": "accepted"
+                        }
+                      },
+                      "required": [
+                        "availability",
+                        "disposition"
+                      ]
+                    },
+                    "values": {
+                      "type": "object"
+                    },
+                    "reasons": {
+                      "maxItems": 0
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "state": {
+                      "const": "indeterminate"
+                    },
+                    "values": {
+                      "type": "null"
+                    },
+                    "reasons": {
+                      "minItems": 1
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "items": false,
+          "minItems": 1,
+          "maxItems": 1
+        },
+        "coverage": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "numerator": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "denominator": {
+              "const": 1
+            },
+            "complete": {
+              "type": "boolean"
+            },
+            "families": {
+              "type": "array",
+              "prefixItems": [
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "family": {
+                      "const": "structure"
+                    },
+                    "numerator": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 1
+                    },
+                    "denominator": {
+                      "const": 1
+                    }
+                  },
+                  "required": [
+                    "family",
+                    "numerator",
+                    "denominator"
+                  ]
+                }
+              ],
+              "items": false,
+              "minItems": 1,
+              "maxItems": 1
+            }
+          },
+          "required": [
+            "numerator",
+            "denominator",
+            "complete",
+            "families"
+          ],
+          "oneOf": [
+            {
+              "properties": {
+                "complete": {
+                  "const": true
+                },
+                "numerator": {
+                  "const": 1
+                },
+                "families": {
+                  "type": "array",
+                  "prefixItems": [
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "family": {
+                          "const": "structure"
+                        },
+                        "numerator": {
+                          "const": 1
+                        },
+                        "denominator": {
+                          "const": 1
+                        }
+                      },
+                      "required": [
+                        "family",
+                        "numerator",
+                        "denominator"
+                      ]
+                    }
+                  ],
+                  "items": false,
+                  "minItems": 1,
+                  "maxItems": 1
+                }
+              }
+            },
+            {
+              "properties": {
+                "complete": {
+                  "const": false
+                },
+                "numerator": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 0
+                }
+              }
+            }
+          ]
+        },
+        "diagnostics": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "equalObservableIds": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "canonical-directed-structure-v1"
+                ]
+              },
+              "minItems": 0,
+              "maxItems": 1,
+              "uniqueItems": true
+            },
+            "differentObservableIds": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "canonical-directed-structure-v1"
+                ]
+              },
+              "minItems": 0,
+              "maxItems": 1,
+              "uniqueItems": true
+            },
+            "incompleteObservableIds": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "canonical-directed-structure-v1"
+                ]
+              },
+              "minItems": 0,
+              "maxItems": 1,
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "equalObservableIds",
+            "differentObservableIds",
+            "incompleteObservableIds"
+          ]
+        }
+      }
+    },
+    {
+      "properties": {
+        "regime": {
+          "const": {
+            "id": "topology-only-v1",
+            "version": "1",
+            "contentHash": "sha256:41a6fa10321e885da08f671de608de62cb1e51154b05a1c3cc2154d107f7646c"
+          }
+        },
+        "request": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "regimeId": {
+              "const": "topology-only-v1"
+            },
+            "leftScope": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "kind": {
+                      "const": "full"
+                    }
+                  },
+                  "required": [
+                    "kind"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "kind": {
+                      "const": "induced"
+                    },
+                    "nodeIds": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "minItems": 1,
+                      "maxItems": 64,
+                      "uniqueItems": true
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "nodeIds"
+                  ]
+                }
+              ]
+            },
+            "rightScope": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "kind": {
+                      "const": "full"
+                    }
+                  },
+                  "required": [
+                    "kind"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "kind": {
+                      "const": "induced"
+                    },
+                    "nodeIds": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "minItems": 1,
+                      "maxItems": 64,
+                      "uniqueItems": true
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "nodeIds"
+                  ]
+                }
+              ]
+            },
+            "vocabulary": {
+              "type": "null"
+            },
+            "evidenceGaps": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "side": {
+                    "enum": [
+                      "left",
+                      "right"
+                    ]
+                  },
+                  "observableId": {
+                    "enum": [
+                      "node-count-v1",
+                      "edge-count-v1",
+                      "weak-component-sizes-v1",
+                      "strong-component-sizes-v1",
+                      "reachable-ordered-pair-count-v1",
+                      "cyclic-node-count-v1",
+                      "isolated-node-count-v1"
+                    ]
+                  },
+                  "disposition": {
+                    "enum": [
+                      "unavailable",
+                      "rejected"
+                    ]
+                  },
+                  "reference": {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "^\\S(?:[\\s\\S]*\\S)?$(?![\\s\\S])"
+                  },
+                  "contentHash": {
+                    "type": "string",
+                    "pattern": "^sha256:[0-9a-f]{64}$(?![\\s\\S])"
+                  }
+                },
+                "required": [
+                  "side",
+                  "observableId",
+                  "disposition",
+                  "reference",
+                  "contentHash"
+                ]
+              },
+              "minItems": 0,
+              "maxItems": 14,
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "regimeId",
+            "leftScope",
+            "rightScope",
+            "vocabulary",
+            "evidenceGaps"
+          ]
+        },
+        "evidence": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "topology"
+            },
+            "left": {
+              "$ref": "https://onto2d.dev/schemas/v1/structural-topology-observation.schema.json"
+            },
+            "right": {
+              "$ref": "https://onto2d.dev/schemas/v1/structural-topology-observation.schema.json"
+            }
+          },
+          "required": [
+            "kind",
+            "left",
+            "right"
+          ]
+        },
+        "components": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "observable": {
+                  "const": {
+                    "id": "node-count-v1",
+                    "version": "1",
+                    "contentHash": "sha256:fcde1a54025bdc9f964cdfb6cbd9f015fb94cc473949584abe8ba01031d9d983"
+                  }
+                },
+                "family": {
+                  "const": "topology"
+                },
+                "mandatory": {
+                  "const": true
+                },
+                "left": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "availability": {
+                      "const": "observed"
+                    },
+                    "disposition": {
+                      "enum": [
+                        "accepted",
+                        "unavailable",
+                        "rejected"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "availability",
+                    "disposition"
+                  ]
+                },
+                "right": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "availability": {
+                      "const": "observed"
+                    },
+                    "disposition": {
+                      "enum": [
+                        "accepted",
+                        "unavailable",
+                        "rejected"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "availability",
+                    "disposition"
+                  ]
+                },
+                "values": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "left": {
+                          "$ref": "https://onto2d.dev/schemas/v1/structural-topology-observation.schema.json#/properties/observation/properties/value/properties/nodeCount"
+                        },
+                        "right": {
+                          "$ref": "https://onto2d.dev/schemas/v1/structural-topology-observation.schema.json#/properties/observation/properties/value/properties/nodeCount"
+                        }
+                      },
+                      "required": [
+                        "left",
+                        "right"
+                      ]
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "state": {
+                  "enum": [
+                    "equal",
+                    "different",
+                    "indeterminate"
+                  ]
+                },
+                "reasons": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "code": {
+                        "enum": [
+                          "evidence-unavailable",
+                          "evidence-rejected"
+                        ]
+                      },
+                      "side": {
+                        "enum": [
+                          "left",
+                          "right"
+                        ]
+                      },
+                      "reference": {
+                        "type": "string",
+                        "minLength": 1,
+                        "pattern": "^\\S(?:[\\s\\S]*\\S)?$(?![\\s\\S])"
+                      },
+                      "contentHash": {
+                        "type": "string",
+                        "pattern": "^sha256:[0-9a-f]{64}$(?![\\s\\S])"
+                      }
+                    },
+                    "required": [
+                      "code",
+                      "side",
+                      "reference",
+                      "contentHash"
+                    ]
+                  },
+                  "minItems": 0,
+                  "maxItems": 2
+                }
+              },
+              "required": [
+                "observable",
+                "family",
+                "mandatory",
+                "left",
+                "right",
+                "values",
+                "state",
+                "reasons"
+              ],
+              "oneOf": [
+                {
+                  "properties": {
+                    "state": {
+                      "enum": [
+                        "equal",
+                        "different"
+                      ]
+                    },
+                    "left": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "availability": {
+                          "const": "observed"
+                        },
+                        "disposition": {
+                          "const": "accepted"
+                        }
+                      },
+                      "required": [
+                        "availability",
+                        "disposition"
+                      ]
+                    },
+                    "right": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "availability": {
+                          "const": "observed"
+                        },
+                        "disposition": {
+                          "const": "accepted"
+                        }
+                      },
+                      "required": [
+                        "availability",
+                        "disposition"
+                      ]
+                    },
+                    "values": {
+                      "type": "object"
+                    },
+                    "reasons": {
+                      "maxItems": 0
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "state": {
+                      "const": "indeterminate"
+                    },
+                    "values": {
+                      "type": "null"
+                    },
+                    "reasons": {
+                      "minItems": 1
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "observable": {
+                  "const": {
+                    "id": "edge-count-v1",
+                    "version": "1",
+                    "contentHash": "sha256:13f1db7824b26dd6ec1d8ff6ca169670637dd780b11db2ba308c6356e24197c5"
+                  }
+                },
+                "family": {
+                  "const": "topology"
+                },
+                "mandatory": {
+                  "const": true
+                },
+                "left": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "availability": {
+                      "const": "observed"
+                    },
+                    "disposition": {
+                      "enum": [
+                        "accepted",
+                        "unavailable",
+                        "rejected"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "availability",
+                    "disposition"
+                  ]
+                },
+                "right": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "availability": {
+                      "const": "observed"
+                    },
+                    "disposition": {
+                      "enum": [
+                        "accepted",
+                        "unavailable",
+                        "rejected"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "availability",
+                    "disposition"
+                  ]
+                },
+                "values": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "left": {
+                          "$ref": "https://onto2d.dev/schemas/v1/structural-topology-observation.schema.json#/properties/observation/properties/value/properties/edgeCount"
+                        },
+                        "right": {
+                          "$ref": "https://onto2d.dev/schemas/v1/structural-topology-observation.schema.json#/properties/observation/properties/value/properties/edgeCount"
+                        }
+                      },
+                      "required": [
+                        "left",
+                        "right"
+                      ]
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "state": {
+                  "enum": [
+                    "equal",
+                    "different",
+                    "indeterminate"
+                  ]
+                },
+                "reasons": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "code": {
+                        "enum": [
+                          "evidence-unavailable",
+                          "evidence-rejected"
+                        ]
+                      },
+                      "side": {
+                        "enum": [
+                          "left",
+                          "right"
+                        ]
+                      },
+                      "reference": {
+                        "type": "string",
+                        "minLength": 1,
+                        "pattern": "^\\S(?:[\\s\\S]*\\S)?$(?![\\s\\S])"
+                      },
+                      "contentHash": {
+                        "type": "string",
+                        "pattern": "^sha256:[0-9a-f]{64}$(?![\\s\\S])"
+                      }
+                    },
+                    "required": [
+                      "code",
+                      "side",
+                      "reference",
+                      "contentHash"
+                    ]
+                  },
+                  "minItems": 0,
+                  "maxItems": 2
+                }
+              },
+              "required": [
+                "observable",
+                "family",
+                "mandatory",
+                "left",
+                "right",
+                "values",
+                "state",
+                "reasons"
+              ],
+              "oneOf": [
+                {
+                  "properties": {
+                    "state": {
+                      "enum": [
+                        "equal",
+                        "different"
+                      ]
+                    },
+                    "left": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "availability": {
+                          "const": "observed"
+                        },
+                        "disposition": {
+                          "const": "accepted"
+                        }
+                      },
+                      "required": [
+                        "availability",
+                        "disposition"
+                      ]
+                    },
+                    "right": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "availability": {
+                          "const": "observed"
+                        },
+                        "disposition": {
+                          "const": "accepted"
+                        }
+                      },
+                      "required": [
+                        "availability",
+                        "disposition"
+                      ]
+                    },
+                    "values": {
+                      "type": "object"
+                    },
+                    "reasons": {
+                      "maxItems": 0
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "state": {
+                      "const": "indeterminate"
+                    },
+                    "values": {
+                      "type": "null"
+                    },
+                    "reasons": {
+                      "minItems": 1
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "observable": {
+                  "const": {
+                    "id": "weak-component-sizes-v1",
+                    "version": "1",
+                    "contentHash": "sha256:bd3c0c2440644cb1da3251a1b3b585d061e172fa6e674aca0de8250b1f800ee1"
+                  }
+                },
+                "family": {
+                  "const": "topology"
+                },
+                "mandatory": {
+                  "const": true
+                },
+                "left": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "availability": {
+                      "const": "observed"
+                    },
+                    "disposition": {
+                      "enum": [
+                        "accepted",
+                        "unavailable",
+                        "rejected"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "availability",
+                    "disposition"
+                  ]
+                },
+                "right": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "availability": {
+                      "const": "observed"
+                    },
+                    "disposition": {
+                      "enum": [
+                        "accepted",
+                        "unavailable",
+                        "rejected"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "availability",
+                    "disposition"
+                  ]
+                },
+                "values": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "left": {
+                          "$ref": "https://onto2d.dev/schemas/v1/structural-topology-observation.schema.json#/properties/observation/properties/value/properties/weakComponentSizes"
+                        },
+                        "right": {
+                          "$ref": "https://onto2d.dev/schemas/v1/structural-topology-observation.schema.json#/properties/observation/properties/value/properties/weakComponentSizes"
+                        }
+                      },
+                      "required": [
+                        "left",
+                        "right"
+                      ]
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "state": {
+                  "enum": [
+                    "equal",
+                    "different",
+                    "indeterminate"
+                  ]
+                },
+                "reasons": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "code": {
+                        "enum": [
+                          "evidence-unavailable",
+                          "evidence-rejected"
+                        ]
+                      },
+                      "side": {
+                        "enum": [
+                          "left",
+                          "right"
+                        ]
+                      },
+                      "reference": {
+                        "type": "string",
+                        "minLength": 1,
+                        "pattern": "^\\S(?:[\\s\\S]*\\S)?$(?![\\s\\S])"
+                      },
+                      "contentHash": {
+                        "type": "string",
+                        "pattern": "^sha256:[0-9a-f]{64}$(?![\\s\\S])"
+                      }
+                    },
+                    "required": [
+                      "code",
+                      "side",
+                      "reference",
+                      "contentHash"
+                    ]
+                  },
+                  "minItems": 0,
+                  "maxItems": 2
+                }
+              },
+              "required": [
+                "observable",
+                "family",
+                "mandatory",
+                "left",
+                "right",
+                "values",
+                "state",
+                "reasons"
+              ],
+              "oneOf": [
+                {
+                  "properties": {
+                    "state": {
+                      "enum": [
+                        "equal",
+                        "different"
+                      ]
+                    },
+                    "left": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "availability": {
+                          "const": "observed"
+                        },
+                        "disposition": {
+                          "const": "accepted"
+                        }
+                      },
+                      "required": [
+                        "availability",
+                        "disposition"
+                      ]
+                    },
+                    "right": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "availability": {
+                          "const": "observed"
+                        },
+                        "disposition": {
+                          "const": "accepted"
+                        }
+                      },
+                      "required": [
+                        "availability",
+                        "disposition"
+                      ]
+                    },
+                    "values": {
+                      "type": "object"
+                    },
+                    "reasons": {
+                      "maxItems": 0
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "state": {
+                      "const": "indeterminate"
+                    },
+                    "values": {
+                      "type": "null"
+                    },
+                    "reasons": {
+                      "minItems": 1
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "observable": {
+                  "const": {
+                    "id": "strong-component-sizes-v1",
+                    "version": "1",
+                    "contentHash": "sha256:9ee44d035a7da8c0bb040c0a2d4dc39a91bdc8fa0f08a588aff4955931e12671"
+                  }
+                },
+                "family": {
+                  "const": "topology"
+                },
+                "mandatory": {
+                  "const": true
+                },
+                "left": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "availability": {
+                      "const": "observed"
+                    },
+                    "disposition": {
+                      "enum": [
+                        "accepted",
+                        "unavailable",
+                        "rejected"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "availability",
+                    "disposition"
+                  ]
+                },
+                "right": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "availability": {
+                      "const": "observed"
+                    },
+                    "disposition": {
+                      "enum": [
+                        "accepted",
+                        "unavailable",
+                        "rejected"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "availability",
+                    "disposition"
+                  ]
+                },
+                "values": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "left": {
+                          "$ref": "https://onto2d.dev/schemas/v1/structural-topology-observation.schema.json#/properties/observation/properties/value/properties/strongComponentSizes"
+                        },
+                        "right": {
+                          "$ref": "https://onto2d.dev/schemas/v1/structural-topology-observation.schema.json#/properties/observation/properties/value/properties/strongComponentSizes"
+                        }
+                      },
+                      "required": [
+                        "left",
+                        "right"
+                      ]
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "state": {
+                  "enum": [
+                    "equal",
+                    "different",
+                    "indeterminate"
+                  ]
+                },
+                "reasons": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "code": {
+                        "enum": [
+                          "evidence-unavailable",
+                          "evidence-rejected"
+                        ]
+                      },
+                      "side": {
+                        "enum": [
+                          "left",
+                          "right"
+                        ]
+                      },
+                      "reference": {
+                        "type": "string",
+                        "minLength": 1,
+                        "pattern": "^\\S(?:[\\s\\S]*\\S)?$(?![\\s\\S])"
+                      },
+                      "contentHash": {
+                        "type": "string",
+                        "pattern": "^sha256:[0-9a-f]{64}$(?![\\s\\S])"
+                      }
+                    },
+                    "required": [
+                      "code",
+                      "side",
+                      "reference",
+                      "contentHash"
+                    ]
+                  },
+                  "minItems": 0,
+                  "maxItems": 2
+                }
+              },
+              "required": [
+                "observable",
+                "family",
+                "mandatory",
+                "left",
+                "right",
+                "values",
+                "state",
+                "reasons"
+              ],
+              "oneOf": [
+                {
+                  "properties": {
+                    "state": {
+                      "enum": [
+                        "equal",
+                        "different"
+                      ]
+                    },
+                    "left": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "availability": {
+                          "const": "observed"
+                        },
+                        "disposition": {
+                          "const": "accepted"
+                        }
+                      },
+                      "required": [
+                        "availability",
+                        "disposition"
+                      ]
+                    },
+                    "right": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "availability": {
+                          "const": "observed"
+                        },
+                        "disposition": {
+                          "const": "accepted"
+                        }
+                      },
+                      "required": [
+                        "availability",
+                        "disposition"
+                      ]
+                    },
+                    "values": {
+                      "type": "object"
+                    },
+                    "reasons": {
+                      "maxItems": 0
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "state": {
+                      "const": "indeterminate"
+                    },
+                    "values": {
+                      "type": "null"
+                    },
+                    "reasons": {
+                      "minItems": 1
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "observable": {
+                  "const": {
+                    "id": "reachable-ordered-pair-count-v1",
+                    "version": "1",
+                    "contentHash": "sha256:0d267b9b833a0a7b7e341190e4522a1c9fac9792d651d10081ea82468618f74f"
+                  }
+                },
+                "family": {
+                  "const": "topology"
+                },
+                "mandatory": {
+                  "const": true
+                },
+                "left": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "availability": {
+                      "const": "observed"
+                    },
+                    "disposition": {
+                      "enum": [
+                        "accepted",
+                        "unavailable",
+                        "rejected"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "availability",
+                    "disposition"
+                  ]
+                },
+                "right": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "availability": {
+                      "const": "observed"
+                    },
+                    "disposition": {
+                      "enum": [
+                        "accepted",
+                        "unavailable",
+                        "rejected"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "availability",
+                    "disposition"
+                  ]
+                },
+                "values": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "left": {
+                          "$ref": "https://onto2d.dev/schemas/v1/structural-topology-observation.schema.json#/properties/observation/properties/value/properties/reachableOrderedPairCount"
+                        },
+                        "right": {
+                          "$ref": "https://onto2d.dev/schemas/v1/structural-topology-observation.schema.json#/properties/observation/properties/value/properties/reachableOrderedPairCount"
+                        }
+                      },
+                      "required": [
+                        "left",
+                        "right"
+                      ]
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "state": {
+                  "enum": [
+                    "equal",
+                    "different",
+                    "indeterminate"
+                  ]
+                },
+                "reasons": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "code": {
+                        "enum": [
+                          "evidence-unavailable",
+                          "evidence-rejected"
+                        ]
+                      },
+                      "side": {
+                        "enum": [
+                          "left",
+                          "right"
+                        ]
+                      },
+                      "reference": {
+                        "type": "string",
+                        "minLength": 1,
+                        "pattern": "^\\S(?:[\\s\\S]*\\S)?$(?![\\s\\S])"
+                      },
+                      "contentHash": {
+                        "type": "string",
+                        "pattern": "^sha256:[0-9a-f]{64}$(?![\\s\\S])"
+                      }
+                    },
+                    "required": [
+                      "code",
+                      "side",
+                      "reference",
+                      "contentHash"
+                    ]
+                  },
+                  "minItems": 0,
+                  "maxItems": 2
+                }
+              },
+              "required": [
+                "observable",
+                "family",
+                "mandatory",
+                "left",
+                "right",
+                "values",
+                "state",
+                "reasons"
+              ],
+              "oneOf": [
+                {
+                  "properties": {
+                    "state": {
+                      "enum": [
+                        "equal",
+                        "different"
+                      ]
+                    },
+                    "left": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "availability": {
+                          "const": "observed"
+                        },
+                        "disposition": {
+                          "const": "accepted"
+                        }
+                      },
+                      "required": [
+                        "availability",
+                        "disposition"
+                      ]
+                    },
+                    "right": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "availability": {
+                          "const": "observed"
+                        },
+                        "disposition": {
+                          "const": "accepted"
+                        }
+                      },
+                      "required": [
+                        "availability",
+                        "disposition"
+                      ]
+                    },
+                    "values": {
+                      "type": "object"
+                    },
+                    "reasons": {
+                      "maxItems": 0
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "state": {
+                      "const": "indeterminate"
+                    },
+                    "values": {
+                      "type": "null"
+                    },
+                    "reasons": {
+                      "minItems": 1
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "observable": {
+                  "const": {
+                    "id": "cyclic-node-count-v1",
+                    "version": "1",
+                    "contentHash": "sha256:325e52ae7471466b4e032c7067585331bb1ce4c49be9e10b28d4685874aacbd6"
+                  }
+                },
+                "family": {
+                  "const": "topology"
+                },
+                "mandatory": {
+                  "const": true
+                },
+                "left": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "availability": {
+                      "const": "observed"
+                    },
+                    "disposition": {
+                      "enum": [
+                        "accepted",
+                        "unavailable",
+                        "rejected"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "availability",
+                    "disposition"
+                  ]
+                },
+                "right": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "availability": {
+                      "const": "observed"
+                    },
+                    "disposition": {
+                      "enum": [
+                        "accepted",
+                        "unavailable",
+                        "rejected"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "availability",
+                    "disposition"
+                  ]
+                },
+                "values": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "left": {
+                          "$ref": "https://onto2d.dev/schemas/v1/structural-topology-observation.schema.json#/properties/observation/properties/value/properties/cyclicNodeCount"
+                        },
+                        "right": {
+                          "$ref": "https://onto2d.dev/schemas/v1/structural-topology-observation.schema.json#/properties/observation/properties/value/properties/cyclicNodeCount"
+                        }
+                      },
+                      "required": [
+                        "left",
+                        "right"
+                      ]
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "state": {
+                  "enum": [
+                    "equal",
+                    "different",
+                    "indeterminate"
+                  ]
+                },
+                "reasons": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "code": {
+                        "enum": [
+                          "evidence-unavailable",
+                          "evidence-rejected"
+                        ]
+                      },
+                      "side": {
+                        "enum": [
+                          "left",
+                          "right"
+                        ]
+                      },
+                      "reference": {
+                        "type": "string",
+                        "minLength": 1,
+                        "pattern": "^\\S(?:[\\s\\S]*\\S)?$(?![\\s\\S])"
+                      },
+                      "contentHash": {
+                        "type": "string",
+                        "pattern": "^sha256:[0-9a-f]{64}$(?![\\s\\S])"
+                      }
+                    },
+                    "required": [
+                      "code",
+                      "side",
+                      "reference",
+                      "contentHash"
+                    ]
+                  },
+                  "minItems": 0,
+                  "maxItems": 2
+                }
+              },
+              "required": [
+                "observable",
+                "family",
+                "mandatory",
+                "left",
+                "right",
+                "values",
+                "state",
+                "reasons"
+              ],
+              "oneOf": [
+                {
+                  "properties": {
+                    "state": {
+                      "enum": [
+                        "equal",
+                        "different"
+                      ]
+                    },
+                    "left": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "availability": {
+                          "const": "observed"
+                        },
+                        "disposition": {
+                          "const": "accepted"
+                        }
+                      },
+                      "required": [
+                        "availability",
+                        "disposition"
+                      ]
+                    },
+                    "right": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "availability": {
+                          "const": "observed"
+                        },
+                        "disposition": {
+                          "const": "accepted"
+                        }
+                      },
+                      "required": [
+                        "availability",
+                        "disposition"
+                      ]
+                    },
+                    "values": {
+                      "type": "object"
+                    },
+                    "reasons": {
+                      "maxItems": 0
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "state": {
+                      "const": "indeterminate"
+                    },
+                    "values": {
+                      "type": "null"
+                    },
+                    "reasons": {
+                      "minItems": 1
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "observable": {
+                  "const": {
+                    "id": "isolated-node-count-v1",
+                    "version": "1",
+                    "contentHash": "sha256:df7729800602b4a29082552fbcdd36d9f44cf2851024cc3396196b94f95823d6"
+                  }
+                },
+                "family": {
+                  "const": "topology"
+                },
+                "mandatory": {
+                  "const": true
+                },
+                "left": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "availability": {
+                      "const": "observed"
+                    },
+                    "disposition": {
+                      "enum": [
+                        "accepted",
+                        "unavailable",
+                        "rejected"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "availability",
+                    "disposition"
+                  ]
+                },
+                "right": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "availability": {
+                      "const": "observed"
+                    },
+                    "disposition": {
+                      "enum": [
+                        "accepted",
+                        "unavailable",
+                        "rejected"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "availability",
+                    "disposition"
+                  ]
+                },
+                "values": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "left": {
+                          "$ref": "https://onto2d.dev/schemas/v1/structural-topology-observation.schema.json#/properties/observation/properties/value/properties/isolatedNodeCount"
+                        },
+                        "right": {
+                          "$ref": "https://onto2d.dev/schemas/v1/structural-topology-observation.schema.json#/properties/observation/properties/value/properties/isolatedNodeCount"
+                        }
+                      },
+                      "required": [
+                        "left",
+                        "right"
+                      ]
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "state": {
+                  "enum": [
+                    "equal",
+                    "different",
+                    "indeterminate"
+                  ]
+                },
+                "reasons": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "code": {
+                        "enum": [
+                          "evidence-unavailable",
+                          "evidence-rejected"
+                        ]
+                      },
+                      "side": {
+                        "enum": [
+                          "left",
+                          "right"
+                        ]
+                      },
+                      "reference": {
+                        "type": "string",
+                        "minLength": 1,
+                        "pattern": "^\\S(?:[\\s\\S]*\\S)?$(?![\\s\\S])"
+                      },
+                      "contentHash": {
+                        "type": "string",
+                        "pattern": "^sha256:[0-9a-f]{64}$(?![\\s\\S])"
+                      }
+                    },
+                    "required": [
+                      "code",
+                      "side",
+                      "reference",
+                      "contentHash"
+                    ]
+                  },
+                  "minItems": 0,
+                  "maxItems": 2
+                }
+              },
+              "required": [
+                "observable",
+                "family",
+                "mandatory",
+                "left",
+                "right",
+                "values",
+                "state",
+                "reasons"
+              ],
+              "oneOf": [
+                {
+                  "properties": {
+                    "state": {
+                      "enum": [
+                        "equal",
+                        "different"
+                      ]
+                    },
+                    "left": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "availability": {
+                          "const": "observed"
+                        },
+                        "disposition": {
+                          "const": "accepted"
+                        }
+                      },
+                      "required": [
+                        "availability",
+                        "disposition"
+                      ]
+                    },
+                    "right": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "availability": {
+                          "const": "observed"
+                        },
+                        "disposition": {
+                          "const": "accepted"
+                        }
+                      },
+                      "required": [
+                        "availability",
+                        "disposition"
+                      ]
+                    },
+                    "values": {
+                      "type": "object"
+                    },
+                    "reasons": {
+                      "maxItems": 0
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "state": {
+                      "const": "indeterminate"
+                    },
+                    "values": {
+                      "type": "null"
+                    },
+                    "reasons": {
+                      "minItems": 1
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "items": false,
+          "minItems": 7,
+          "maxItems": 7
+        },
+        "coverage": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "numerator": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 7
+            },
+            "denominator": {
+              "const": 7
+            },
+            "complete": {
+              "type": "boolean"
+            },
+            "families": {
+              "type": "array",
+              "prefixItems": [
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "family": {
+                      "const": "topology"
+                    },
+                    "numerator": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 7
+                    },
+                    "denominator": {
+                      "const": 7
+                    }
+                  },
+                  "required": [
+                    "family",
+                    "numerator",
+                    "denominator"
+                  ]
+                }
+              ],
+              "items": false,
+              "minItems": 1,
+              "maxItems": 1
+            }
+          },
+          "required": [
+            "numerator",
+            "denominator",
+            "complete",
+            "families"
+          ],
+          "oneOf": [
+            {
+              "properties": {
+                "complete": {
+                  "const": true
+                },
+                "numerator": {
+                  "const": 7
+                },
+                "families": {
+                  "type": "array",
+                  "prefixItems": [
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "family": {
+                          "const": "topology"
+                        },
+                        "numerator": {
+                          "const": 7
+                        },
+                        "denominator": {
+                          "const": 7
+                        }
+                      },
+                      "required": [
+                        "family",
+                        "numerator",
+                        "denominator"
+                      ]
+                    }
+                  ],
+                  "items": false,
+                  "minItems": 1,
+                  "maxItems": 1
+                }
+              }
+            },
+            {
+              "properties": {
+                "complete": {
+                  "const": false
+                },
+                "numerator": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 6
+                }
+              }
+            }
+          ]
+        },
+        "diagnostics": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "equalObservableIds": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "node-count-v1",
+                  "edge-count-v1",
+                  "weak-component-sizes-v1",
+                  "strong-component-sizes-v1",
+                  "reachable-ordered-pair-count-v1",
+                  "cyclic-node-count-v1",
+                  "isolated-node-count-v1"
+                ]
+              },
+              "minItems": 0,
+              "maxItems": 7,
+              "uniqueItems": true
+            },
+            "differentObservableIds": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "node-count-v1",
+                  "edge-count-v1",
+                  "weak-component-sizes-v1",
+                  "strong-component-sizes-v1",
+                  "reachable-ordered-pair-count-v1",
+                  "cyclic-node-count-v1",
+                  "isolated-node-count-v1"
+                ]
+              },
+              "minItems": 0,
+              "maxItems": 7,
+              "uniqueItems": true
+            },
+            "incompleteObservableIds": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "node-count-v1",
+                  "edge-count-v1",
+                  "weak-component-sizes-v1",
+                  "strong-component-sizes-v1",
+                  "reachable-ordered-pair-count-v1",
+                  "cyclic-node-count-v1",
+                  "isolated-node-count-v1"
+                ]
+              },
+              "minItems": 0,
+              "maxItems": 7,
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "equalObservableIds",
+            "differentObservableIds",
+            "incompleteObservableIds"
+          ]
+        }
+      }
+    },
+    {
+      "properties": {
+        "regime": {
+          "const": {
+            "id": "typed-relations-v1",
+            "version": "1",
+            "contentHash": "sha256:5fe49b9439e107998e170cf8cf1e690598dfe8937321f5202ac4c2f270414868"
+          }
+        },
+        "request": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "regimeId": {
+              "const": "typed-relations-v1"
+            },
+            "leftScope": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "kind": {
+                      "const": "full"
+                    }
+                  },
+                  "required": [
+                    "kind"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "kind": {
+                      "const": "induced"
+                    },
+                    "nodeIds": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "minItems": 1,
+                      "maxItems": 6,
+                      "uniqueItems": true
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "nodeIds"
+                  ]
+                }
+              ]
+            },
+            "rightScope": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "kind": {
+                      "const": "full"
+                    }
+                  },
+                  "required": [
+                    "kind"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "kind": {
+                      "const": "induced"
+                    },
+                    "nodeIds": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "minItems": 1,
+                      "maxItems": 6,
+                      "uniqueItems": true
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "nodeIds"
+                  ]
+                }
+              ]
+            },
+            "vocabulary": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "mappingHash": {
+                      "type": "null"
+                    },
+                    "approvedMappingHash": {
+                      "type": "null"
+                    }
+                  },
+                  "required": [
+                    "mappingHash",
+                    "approvedMappingHash"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "mappingHash": {
+                      "type": "string",
+                      "pattern": "^sha256:[0-9a-f]{64}$(?![\\s\\S])"
+                    },
+                    "approvedMappingHash": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "pattern": "^sha256:[0-9a-f]{64}$(?![\\s\\S])"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    }
+                  },
+                  "required": [
+                    "mappingHash",
+                    "approvedMappingHash"
+                  ]
+                }
+              ]
+            },
+            "evidenceGaps": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "side": {
+                    "enum": [
+                      "left",
+                      "right"
+                    ]
+                  },
+                  "observableId": {
+                    "enum": [
+                      "canonical-directed-structure-v1",
+                      "canonical-typed-directed-structure-v1"
+                    ]
+                  },
+                  "disposition": {
+                    "enum": [
+                      "unavailable",
+                      "rejected"
+                    ]
+                  },
+                  "reference": {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "^\\S(?:[\\s\\S]*\\S)?$(?![\\s\\S])"
+                  },
+                  "contentHash": {
+                    "type": "string",
+                    "pattern": "^sha256:[0-9a-f]{64}$(?![\\s\\S])"
+                  }
+                },
+                "required": [
+                  "side",
+                  "observableId",
+                  "disposition",
+                  "reference",
+                  "contentHash"
+                ]
+              },
+              "minItems": 0,
+              "maxItems": 4,
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "regimeId",
+            "leftScope",
+            "rightScope",
+            "vocabulary",
+            "evidenceGaps"
+          ]
+        },
+        "evidence": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "typed"
+            },
+            "alignment": {
+              "$ref": "https://onto2d.dev/schemas/v1/structural-typed-alignment.schema.json"
+            }
+          },
+          "required": [
+            "kind",
+            "alignment"
+          ]
+        },
+        "components": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "observable": {
+                  "const": {
+                    "id": "canonical-directed-structure-v1",
+                    "version": "1",
+                    "contentHash": "sha256:48f137781781c54724e172256925e44c9a2be42a08610c88abaca8a9f6016e7b"
+                  }
+                },
+                "family": {
+                  "const": "structure"
+                },
+                "mandatory": {
+                  "const": true
+                },
+                "left": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "availability": {
+                      "const": "observed"
+                    },
+                    "disposition": {
+                      "enum": [
+                        "accepted",
+                        "unavailable",
+                        "rejected"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "availability",
+                    "disposition"
+                  ]
+                },
+                "right": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "availability": {
+                      "const": "observed"
+                    },
+                    "disposition": {
+                      "enum": [
+                        "accepted",
+                        "unavailable",
+                        "rejected"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "availability",
+                    "disposition"
+                  ]
+                },
+                "values": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "left": {
+                          "$ref": "https://onto2d.dev/schemas/v1/structural-canonical-observation.schema.json#/properties/observation/properties/value"
+                        },
+                        "right": {
+                          "$ref": "https://onto2d.dev/schemas/v1/structural-canonical-observation.schema.json#/properties/observation/properties/value"
+                        }
+                      },
+                      "required": [
+                        "left",
+                        "right"
+                      ]
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "state": {
+                  "enum": [
+                    "equal",
+                    "different",
+                    "indeterminate"
+                  ]
+                },
+                "reasons": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "code": {
+                        "enum": [
+                          "evidence-unavailable",
+                          "evidence-rejected"
+                        ]
+                      },
+                      "side": {
+                        "enum": [
+                          "left",
+                          "right"
+                        ]
+                      },
+                      "reference": {
+                        "type": "string",
+                        "minLength": 1,
+                        "pattern": "^\\S(?:[\\s\\S]*\\S)?$(?![\\s\\S])"
+                      },
+                      "contentHash": {
+                        "type": "string",
+                        "pattern": "^sha256:[0-9a-f]{64}$(?![\\s\\S])"
+                      }
+                    },
+                    "required": [
+                      "code",
+                      "side",
+                      "reference",
+                      "contentHash"
+                    ]
+                  },
+                  "minItems": 0,
+                  "maxItems": 2
+                }
+              },
+              "required": [
+                "observable",
+                "family",
+                "mandatory",
+                "left",
+                "right",
+                "values",
+                "state",
+                "reasons"
+              ],
+              "oneOf": [
+                {
+                  "properties": {
+                    "state": {
+                      "enum": [
+                        "equal",
+                        "different"
+                      ]
+                    },
+                    "left": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "availability": {
+                          "const": "observed"
+                        },
+                        "disposition": {
+                          "const": "accepted"
+                        }
+                      },
+                      "required": [
+                        "availability",
+                        "disposition"
+                      ]
+                    },
+                    "right": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "availability": {
+                          "const": "observed"
+                        },
+                        "disposition": {
+                          "const": "accepted"
+                        }
+                      },
+                      "required": [
+                        "availability",
+                        "disposition"
+                      ]
+                    },
+                    "values": {
+                      "type": "object"
+                    },
+                    "reasons": {
+                      "maxItems": 0
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "state": {
+                      "const": "indeterminate"
+                    },
+                    "values": {
+                      "type": "null"
+                    },
+                    "reasons": {
+                      "minItems": 1
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "observable": {
+                  "const": {
+                    "id": "canonical-typed-directed-structure-v1",
+                    "version": "1",
+                    "contentHash": "sha256:3df933040d1a5002b2338cf07b11eefd68e63f76597e72873d897fd3ea86efd3"
+                  }
+                },
+                "family": {
+                  "const": "typed-relations"
+                },
+                "mandatory": {
+                  "const": true
+                },
+                "left": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "availability": {
+                      "enum": [
+                        "observed",
+                        "missing"
+                      ]
+                    },
+                    "disposition": {
+                      "enum": [
+                        "accepted",
+                        "unavailable",
+                        "rejected"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "availability",
+                    "disposition"
+                  ]
+                },
+                "right": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "availability": {
+                      "enum": [
+                        "observed",
+                        "missing"
+                      ]
+                    },
+                    "disposition": {
+                      "enum": [
+                        "accepted",
+                        "unavailable",
+                        "rejected"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "availability",
+                    "disposition"
+                  ]
+                },
+                "values": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "left": {
+                          "$ref": "https://onto2d.dev/schemas/v1/structural-typed-observation.schema.json#/$defs/typedValue"
+                        },
+                        "right": {
+                          "$ref": "https://onto2d.dev/schemas/v1/structural-typed-observation.schema.json#/$defs/typedValue"
+                        }
+                      },
+                      "required": [
+                        "left",
+                        "right"
+                      ]
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "state": {
+                  "enum": [
+                    "equal",
+                    "different",
+                    "indeterminate"
+                  ]
+                },
+                "reasons": {
+                  "type": "array",
+                  "items": {
+                    "oneOf": [
+                      {
+                        "$ref": "https://onto2d.dev/schemas/v1/structural-typed-alignment.schema.json#/properties/compatibility/oneOf/1/properties/reasons/items"
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "code": {
+                            "enum": [
+                              "evidence-unavailable",
+                              "evidence-rejected"
+                            ]
+                          },
+                          "side": {
+                            "enum": [
+                              "left",
+                              "right"
+                            ]
+                          },
+                          "reference": {
+                            "type": "string",
+                            "minLength": 1,
+                            "pattern": "^\\S(?:[\\s\\S]*\\S)?$(?![\\s\\S])"
+                          },
+                          "contentHash": {
+                            "type": "string",
+                            "pattern": "^sha256:[0-9a-f]{64}$(?![\\s\\S])"
+                          }
+                        },
+                        "required": [
+                          "code",
+                          "side",
+                          "reference",
+                          "contentHash"
+                        ]
+                      }
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "observable",
+                "family",
+                "mandatory",
+                "left",
+                "right",
+                "values",
+                "state",
+                "reasons"
+              ],
+              "oneOf": [
+                {
+                  "properties": {
+                    "state": {
+                      "enum": [
+                        "equal",
+                        "different"
+                      ]
+                    },
+                    "left": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "availability": {
+                          "const": "observed"
+                        },
+                        "disposition": {
+                          "const": "accepted"
+                        }
+                      },
+                      "required": [
+                        "availability",
+                        "disposition"
+                      ]
+                    },
+                    "right": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "availability": {
+                          "const": "observed"
+                        },
+                        "disposition": {
+                          "const": "accepted"
+                        }
+                      },
+                      "required": [
+                        "availability",
+                        "disposition"
+                      ]
+                    },
+                    "values": {
+                      "type": "object"
+                    },
+                    "reasons": {
+                      "maxItems": 0
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "state": {
+                      "const": "indeterminate"
+                    },
+                    "values": {
+                      "type": "null"
+                    },
+                    "reasons": {
+                      "minItems": 1
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "items": false,
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "coverage": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "numerator": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2
+            },
+            "denominator": {
+              "const": 2
+            },
+            "complete": {
+              "type": "boolean"
+            },
+            "families": {
+              "type": "array",
+              "prefixItems": [
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "family": {
+                      "const": "structure"
+                    },
+                    "numerator": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 1
+                    },
+                    "denominator": {
+                      "const": 1
+                    }
+                  },
+                  "required": [
+                    "family",
+                    "numerator",
+                    "denominator"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "family": {
+                      "const": "typed-relations"
+                    },
+                    "numerator": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 1
+                    },
+                    "denominator": {
+                      "const": 1
+                    }
+                  },
+                  "required": [
+                    "family",
+                    "numerator",
+                    "denominator"
+                  ]
+                }
+              ],
+              "items": false,
+              "minItems": 2,
+              "maxItems": 2
+            }
+          },
+          "required": [
+            "numerator",
+            "denominator",
+            "complete",
+            "families"
+          ],
+          "oneOf": [
+            {
+              "properties": {
+                "complete": {
+                  "const": true
+                },
+                "numerator": {
+                  "const": 2
+                },
+                "families": {
+                  "type": "array",
+                  "prefixItems": [
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "family": {
+                          "const": "structure"
+                        },
+                        "numerator": {
+                          "const": 1
+                        },
+                        "denominator": {
+                          "const": 1
+                        }
+                      },
+                      "required": [
+                        "family",
+                        "numerator",
+                        "denominator"
+                      ]
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "family": {
+                          "const": "typed-relations"
+                        },
+                        "numerator": {
+                          "const": 1
+                        },
+                        "denominator": {
+                          "const": 1
+                        }
+                      },
+                      "required": [
+                        "family",
+                        "numerator",
+                        "denominator"
+                      ]
+                    }
+                  ],
+                  "items": false,
+                  "minItems": 2,
+                  "maxItems": 2
+                }
+              }
+            },
+            {
+              "properties": {
+                "complete": {
+                  "const": false
+                },
+                "numerator": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 1
+                }
+              }
+            }
+          ]
+        },
+        "diagnostics": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "equalObservableIds": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "canonical-directed-structure-v1",
+                  "canonical-typed-directed-structure-v1"
+                ]
+              },
+              "minItems": 0,
+              "maxItems": 2,
+              "uniqueItems": true
+            },
+            "differentObservableIds": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "canonical-directed-structure-v1",
+                  "canonical-typed-directed-structure-v1"
+                ]
+              },
+              "minItems": 0,
+              "maxItems": 2,
+              "uniqueItems": true
+            },
+            "incompleteObservableIds": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "canonical-directed-structure-v1",
+                  "canonical-typed-directed-structure-v1"
+                ]
+              },
+              "minItems": 0,
+              "maxItems": 2,
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "equalObservableIds",
+            "differentObservableIds",
+            "incompleteObservableIds"
+          ]
+        }
+      }
+    }
+  ],
+  "allOf": [
+    {
+      "oneOf": [
+        {
+          "properties": {
+            "status": {
+              "const": "indistinguishable-under-regime"
+            },
+            "distance": {
+              "const": 0
+            },
+            "coverage": {
+              "properties": {
+                "complete": {
+                  "const": true
+                }
+              }
+            },
+            "components": {
+              "items": {
+                "properties": {
+                  "state": {
+                    "const": "equal"
+                  }
+                }
+              }
+            },
+            "diagnostics": {
+              "properties": {
+                "differentObservableIds": {
+                  "maxItems": 0
+                },
+                "incompleteObservableIds": {
+                  "maxItems": 0
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "status": {
+              "const": "distinguishable-under-regime"
+            },
+            "distance": {
+              "const": 1
+            },
+            "coverage": {
+              "properties": {
+                "complete": {
+                  "const": true
+                }
+              }
+            },
+            "components": {
+              "items": {
+                "properties": {
+                  "state": {
+                    "enum": [
+                      "equal",
+                      "different"
+                    ]
+                  }
+                }
+              },
+              "contains": {
+                "properties": {
+                  "state": {
+                    "const": "different"
+                  }
+                }
+              }
+            },
+            "diagnostics": {
+              "properties": {
+                "differentObservableIds": {
+                  "minItems": 1
+                },
+                "incompleteObservableIds": {
+                  "maxItems": 0
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "status": {
+              "const": "indeterminate"
+            },
+            "distance": {
+              "type": "null"
+            },
+            "coverage": {
+              "properties": {
+                "complete": {
+                  "const": false
+                }
+              }
+            },
+            "components": {
+              "contains": {
+                "properties": {
+                  "state": {
+                    "const": "indeterminate"
+                  }
+                }
+              }
+            },
+            "diagnostics": {
+              "properties": {
+                "incompleteObservableIds": {
+                  "minItems": 1
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

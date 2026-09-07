@@ -1,8 +1,6 @@
 # Model Pack v2 format proposal
 
-Status: proposed, 2026-09-05. This completes the format-proposal milestone in the
-[Engine Roadmap](../ENGINE_ROADMAP.md); acceptance and runtime implementation are
-subsequent milestones. Public builders, loaders, schemas, registry, cache, worker
+Status: proposed; format implementation is pending. Public builders, loaders, schemas, registry, cache, worker
 protocol and released models still use v1. The draft schemas and examples here
 are documentation assets, not supported Model Packs or release goldens.
 
@@ -331,7 +329,7 @@ Node SHA-256, compare against frozen examples, exercise adversarial contract
 mutations and assert that the current v1 verifier rejects v2. They are included
 by the existing `npm test` discovery. This small reference check is not a new
 public verifier, HTTP loader or evidence of independent format acceptance.
-See the [review record](REVIEW.md) and [ADR 0125](../adr/0125-model-pack-v2-proposal.md).
+See the [review record](README.md) and [Documentation](README.md).
 
 1. Review and accept this format separately, including the distinction between
    manifest-authenticated chunks and root membership proofs. Obtain independent
