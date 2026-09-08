@@ -223,7 +223,14 @@
     "structural-geometry:flow:controls:build": "node cases/structural-geometry/flow-controls/build.mjs --write",
     "structural-geometry:flow:controls:report": "node cases/structural-geometry/flow-controls/build.mjs --report",
     "structural-geometry:datasets:verify": "python3 cases/structural-geometry/datasets/sources.py",
-    "structural-geometry:datasets:fetch": "python3 cases/structural-geometry/datasets/sources.py --fetch"
+    "structural-geometry:datasets:fetch": "python3 cases/structural-geometry/datasets/sources.py --fetch",
+    "structural-geometry:datasets:prepare": "node cases/structural-geometry/datasets/build.mjs --write",
+    "structural-geometry:datasets:replay": "node cases/structural-geometry/datasets/build.mjs --verify",
+    "structural-geometry:datasets:check": "node cases/structural-geometry/datasets/build.mjs --check",
+    "structural-geometry:protocol:check": "node scripts/check-biological-protocol.mjs",
+    "structural-geometry:protocol:methods:fetch": "python3 -B cases/structural-geometry/protocol/methods.py --fetch",
+    "structural-geometry:protocol:methods:verify": "python3 -B cases/structural-geometry/protocol/methods.py",
+    "structural-geometry:protocol:audit": "node cases/structural-geometry/protocol/audit.mjs --verify"
   },
   "dependencies": {
     "@onto2d/canonical-identity-analysis": "0.1.0",

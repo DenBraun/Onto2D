@@ -1,14 +1,18 @@
 # Structural Geometry research plan
 
 The selected research datasets are DREAM4 and C. elegans. The question is
-whether geometry adds information about independently measured or simulated
-responses beyond simpler graph features. Exact discrimination of arbitrary
+whether geometric features improve held-out response ranking relative to simpler
+graph features under the fixed learner. Exact discrimination of arbitrary
 small graphs is a computational control, not the principal biological task.
 
 This is the authoritative plan for remaining geometry work. Implemented API
 contracts remain in [geometry](GEOMETRY.md), [observations](OBSERVATIONS.md),
 [signatures](SIGNATURES.md) and [shadow flow](SHADOW_FLOW.md). Frozen experiment
 protocols remain beside their results; this plan does not rewrite those inputs.
+The [D3 biological protocol](../../cases/structural-geometry/protocol/PROTOCOL.md)
+and its [machine contract](../../cases/structural-geometry/protocol/protocol.json)
+own the fixed targets, populations, features, learner and evaluation rules for
+the selected studies.
 
 ## Evidence motivating the study
 
@@ -34,28 +38,30 @@ nonidentical feature family into distance 1 and call that calibrated similarity.
 | Dataset | Role | Independent target | Unit and limits |
 |---|---|---|---|
 | DREAM4 In Silico Size10, all five networks | First bounded diagnostic pilot | Off-target expression response to published knockout/knockdown interventions | Entire network is a split unit; five networks cannot support broad biological inference |
-| C. elegans, Randi et al. 2023 | Primary empirical functional study | Optogenetic stimulation and calcium-response observations | Trials/animals when available; source neuron and repeated pair dependence must be retained |
+| C. elegans, Randi et al. 2023 | Primary empirical processed-signal study | Adapted fluorescence-window contrast following recorded stimulation | Hold out stimulated-neuron groups; recordings and receivers may be shared across folds; animal identity is unverified |
 | C. elegans, Witvliet et al. 2021 | Secondary developmental structural study and explicitly selected anatomical context | Developmental stage or independently justified structural question | Eight different animals, not repeated measurements of one animal |
 
 The [source acquisition guide](../../cases/structural-geometry/datasets/README.md)
 owns exact downloadable files, local verification and source terms. Dataset
-adoption is not yet an evaluated result or a Model Pack integration.
+adoption is not yet an evaluated result. Native adapters now produce local
+preparation artifacts and transient computational Model Packs, without registering
+or publishing a biological model. The source guide owns the current census.
 
 ### DREAM4 contract
 
 Use all five Size10 networks, not a result-selected subset. The challenge
 provides noisy simulated mRNA expression, wild type, gene knockouts, knockdowns,
 multifactorial perturbations and time series. The published task primarily
-infers networks; our task instead uses a known network to evaluate added
-information about intervention responses. This is an adapted experiment, not a
+infers networks; our task instead uses a known network to evaluate predictive
+utility for intervention responses. This is an adapted experiment, not a
 DREAM leaderboard submission or replication of its network-inference score.
 [Official challenge description](https://www.bioconductor.org/packages/2.12/data/experiment/vignettes/DREAM4/inst/doc/DREAM4_InSilico_Description.pdf).
 
 The archived Bioconductor package includes lightly processed, consistently named
 tables and gold standards. Preserve this distribution provenance instead of
-calling the tables untouched original challenge ZIPs. Inspect every table's
-shape and intervention labels before making a scoring contract. A file called
-`dualknockouts.tsv` is not proof that held-out dual-knockout outcomes are present.
+calling the tables untouched original challenge ZIPs. The native adapter verifies
+the table shapes and intervention alignment. `dualknockouts.tsv` contains gene
+pairs only, with no supplied response outcomes.
 
 Preserve all directed nodes and regulatory edges, including isolates if any;
 record explicit zero gold-standard entries separately from absent records.
@@ -63,16 +69,18 @@ Do not invent signs, strengths, self-loops or kinetic parameters. The known
 unsigned topology underdetermines quantitative dynamics. Source node identifiers
 remain network-local, and simulation outputs are targets rather than input edges.
 
-The proposed first target is the **ranking of off-target response magnitudes**
-within an intervention, measured relative to the corresponding wild type.
-Exclude the directly intervened gene from the primary outcome, since its
-forced response would make the task trivial. Freeze the exact normalization,
-zero/missing rules and rank ties after source-shape inspection and before scoring.
-Keep knockout and knockdown as separate contrasts. Temporal experiments are a
-separate protocol, not extra independent replicates of the steady-state task.
+The frozen primary target is the **ranking of off-target response magnitudes**:
+`abs(perturbed - wildtype)` on the native expression scale, with no division,
+pseudocount or threshold. Exclude the directly intervened gene. Exact numeric
+ties receive average ranks. The primary requires all ten interventions in each
+of the five networks, nine finite off-target values per intervention and at least
+two distinct magnitudes. A constant target makes the strict primary unavailable;
+eligible-only summaries cannot replace it. Knockdowns repeat the same fitting
+and tuning as a separate secondary contrast. Temporal and multifactorial
+experiments are outside this protocol and supply no additional independent units.
 
-Use leave-one-network-out evaluation with any tuning confined to training
-networks. Report per-network results and a declared aggregate. Gene pairs,
+Use five outer leave-one-network-out folds and four inner folds on the training
+networks. Report per-network results and an equal-network aggregate. Gene pairs,
 perturbations and temporal rows from one network must not cross its split.
 With five units, uncertainty is coarse and results remain a pilot. GeneNetWeaver
 creates a controlled simulation, not direct E. coli/yeast experimental evidence.
@@ -82,9 +90,10 @@ creates a controlled simulation, not direct E. coli/yeast experimental evidence.
 
 Randi et al. measure directed signal propagation through optogenetic stimulation
 and calcium imaging: the paper reports 23,433 neuron pairs spanning 186 of 188
-head neurons across 113 animals. Preserve actual stimulation/response records,
-quality measures, observation counts and uncertainty. Unobserved pairs are
-missing, not negative responses.
+head neurons across 113 animals. Those published counts describe the paper's
+study, not the eligible population of our adapted protocol. Preserve native
+stimulation records and observation coverage. Unobserved pairs are missing,
+not negative responses.
 [Paper and data availability](https://pmc.ncbi.nlm.nih.gov/articles/PMC10632145/),
 [author dataset](https://osf.io/e2syt/).
 
@@ -100,18 +109,35 @@ projection. A reciprocal chemical pair is not a gap junction. Initial geometric
 lengths are an analysis policy, not measured conduction delays or synaptic
 strengths. Extrasynaptic signaling is a plausible limit on anatomy-only models.
 
-The proposed first target is a fixed functional response magnitude/rank on
-observed, eligible stimulus-response pairs. A binary connection-detection task,
-its q-value threshold and imbalance metrics require a separately fixed contrast.
-Select quality thresholds from source methods, not by maximizing geometric gain.
+The fixed primary anatomical context is Dataset7, the first author-indexed adult
+chemical graph; Dataset8 is a separate sensitivity contrast. Use complete D2
+one-hop neighborhoods rooted at the stimulus, with common provider preparation.
+All anatomical roots remain in the census. D3 accounts for every native stimulus
+in aggregate; its identity remains in the bound native artifact. D5 adds explicit
+event-level mapping, window and receiver exclusion records.
 
-Use animal-disjoint splits only if the chosen records retain animal/trial IDs
-and support that split. A pooled atlas cannot substantiate an animal-disjoint
-claim. If only pooled data are usable, declare a weaker held-out neuron-block
-study with dependence-aware reporting; do not describe it as validation on new
-animals. Pairwise IID confidence intervals are inappropriate for shared neurons
-and repeated trials. Any mapping, scope selection or calibration using targets
-must be restricted to training data and disclosed.
+The target is an adapted absolute change in **processed exported fluorescence**.
+Use complete 30-second baseline and post-stimulation windows on the exact native
+grid, a strictly positive baseline mean, and no added interpolation. Duplicate
+stimulation times and any other native stimulus in the combined half-open window
+exclude an event. Aggregate magnitudes by median within a recording/source/receiver
+and then across recordings. A pair requires two measured recording medians;
+a source group requires three eligible receivers with a nonconstant target.
+At least five eligible source groups are required. The full rules and source
+method evidence live in the [protocol](../../cases/structural-geometry/protocol/PROTOCOL.md#c-elegans-outcome-and-limits).
+
+The export omits the original acquisition missingness mask, target-hit/auto-response
+flags, label confidence and per-column processing lineage. Finite values may
+include upstream interpolation. This contrast cannot reproduce the paper's
+quality filters, q-values or functional-edge classifier and does not establish
+successful stimulation. Actual trace-derived eligibility remains to be computed.
+
+Hold out each entire stimulated-neuron group across all its recordings and
+receivers, with tuning restricted to training groups. This is transductive
+evaluation on one anatomy: recordings and receivers may be shared across folds.
+It is neither new-animal nor unseen-graph validation. Exact-label matches are an
+explicit operational mapping rule, not a confidence certificate. Pairwise IID
+confidence intervals are inappropriate for this dependence structure.
 
 ### C. elegans developmental contract
 
@@ -139,61 +165,74 @@ Current public contracts have different bounds:
 | Full-source projection / unit Forman | 4,096 nodes, 16,384 edges |
 | Exact canonical and typed matching | 6 nodes, 30 edges |
 | Topology response scope | 64 nodes, 256 edges, with additional target/work limits |
-| Certified Ollivier | 64 nodes, 256 edges, plus transport/certificate limits |
+| Certified Ollivier | 64 nodes, 256 scoped edges, at most 32 analyzed edges per request, plus transport/certificate limits |
 | Shadow flow and combined geometric signature | 64 nodes, 64 edges, 25 frames |
 
 DREAM4 Size10 already exceeds exact six-node matching. Dense C. elegans scopes
-may exceed the 64-edge flow bound even when their node count is small. The plan
-must audit real node/edge counts, reciprocity, components, probe applicability,
-transport work and stopping behavior before promising full-graph evaluation.
+can exceed the 64-edge flow bound even when their node count is small. D2 audits
+native counts, reciprocity, components, probe applicability and preparation work;
+complete anatomical execution and its stopping/certificate behavior remain open.
+The case-local [scope policy](../../cases/structural-geometry/datasets/scopes.mjs)
+also bounds aggregate census work and complete scope-ledger references before
+allocation. These limits do not change the public provider contracts.
 
-Choose scopes using anatomical/topological rules fixed without held-out response
-labels. Record the parent source, selected IDs, omitted edges, boundary policy,
-selection algorithm and coverage. Forman on the full parent graph and Ollivier
-on an induced fragment describe different populations. Either compile a
-separately source-bound fragment for every compared provider or implement and
-verify a common scoped-provider contract. Never combine incompatible contexts
-silently or truncate by incidental file order.
+D2 fixes scopes using anatomical/topological rules without held-out response
+labels. Each scope records its parent source, selected IDs, omitted edges,
+boundary policy, selection algorithm and coverage. Compared providers use the
+same separately compiled fragment. Forman on the full parent graph describes a
+different population and stays separate from fragment results. No scope is
+truncated by incidental file order.
 
 The current ResponseSignature-v0 requires all mandatory probe families. A DAG
-with no feedback target stays incomplete under that contract. A new task-specific
-profile may distinguish **observed zero**, **not applicable**, **unobserved**,
-**rejected transformation** and **budget failure**, but must define the meaning
-and comparison domain of each state explicitly. Reciprocal edges also require
+with no feedback target stays incomplete under that contract. The independently
+versioned availability profile distinguishes **observed zero**, **not applicable**,
+**unobserved**, **rejected transformation** and **budget failure**, with explicit
+meanings and comparison domains. D3 target and population helpers
+apply their separate scientific eligibility rules. Reciprocal edges also require
 probe-policy review: reversing an edge into an existing edge is not an accepted
 simple-graph mutation. Biological knockouts/stimulation are external observations;
 current graph-edit probes do not simulate those interventions.
 
+The D2 diagnostic compiles every full DREAM4 graph and audits all 1,361
+closed one-hop chemical neighborhoods across eight separate anatomical graphs.
+Common preparation succeeds for 720 neighborhoods; all exclusions are retained.
+This is a census of candidates, not a selected empirical population or 720
+independent samples. Its all-edges Ollivier request makes the common edge bound
+32. Every provider in a candidate uses the same compiled fragment; parent Forman
+is reported separately. The five DREAM4 flows stop at the four-update diagnostic
+cap; their five observed frames do not establish convergence. Anatomical flow
+execution remains pending.
+
 An early certified flow fixed point is a measured stopping event. Retain that
 record; do not pad an unobserved four-frame tail with invented observations.
-Any event-aware flow descriptor is a separately versioned feature profile.
+D3 defines a separate terminal-event feature profile using actual final lengths,
+curvatures and stopping metadata. D4 must implement its verified pair extraction;
+existing GeometricSignature-v1 remains unchanged.
 
-## Evaluation contract to freeze
+## Frozen evaluation contract
 
-The following are required protocol fields, not claims of an already frozen
-biological experiment:
+The [D3 protocol](../../cases/structural-geometry/protocol/PROTOCOL.md) and
+[freeze manifest](../../cases/structural-geometry/protocol/frozen.json) own the
+reviewed scientific inputs and helper/reference identities. The baseline has
+23 graph-only coordinates; the full specified predictor adds Forman, Ollivier
+and terminal-flow coordinates on the identical scoped graph. Weighted ridge
+uses normalized average-rank targets, training-only standardization and a fixed
+lambda grid with nested group validation.
 
-1. Source versions, bytes, terms, mappings, populations, scope selection and
-   exclusions, with a census before scoring.
-2. Structural inputs, independent target and observation availability; identify
-   which source fields can enter features and which remain targets.
-3. Baselines: joint in/out degrees, size/density, reciprocity, components,
-   directed reachability/shortest paths, motif counts and simple propagation
-   using the same allowed input and training information.
-4. Geometry ablations: baseline alone, baseline plus Forman, plus Ollivier,
-   and plus flow/event features. Report each provider's incremental contribution.
-   Compare at matched coverage and disclose the full population separately.
-5. A meaningful fixed response distance or predictive objective. For the
-   proposed rank task, specify rank correlation, ties and non-estimable cases;
-   do not reuse whole-family categorical inequality as calibrated similarity.
-6. Grouped training/evaluation splits, fixed transforms, tuning budget and
-   nulls preserving relevant degree/channel structure. Relabelings and variants
-   of one graph stay in the same group.
-7. One primary outcome and declared secondary outcomes, per-unit results,
-   uncertainty appropriate to the independent units, missingness and exact
-   computation cost. Record local timing separately from semantic identity.
-8. Independent reference calculations, blind-to-results implementation checks,
-   replayable outputs and conditions under which the hypothesis is rejected.
+The primary metric is pairwise rank skill on unequal observed target pairs:
+correct ordering contributes +1, reversed ordering −1 and a prediction tie 0.
+Constant predictions therefore have a defined zero skill; constant observed
+targets remain non-estimable. Spearman and Kendall tau-b are secondary diagnostics.
+The sole primary comparison in each study is full geometry minus the baseline,
+on exactly matched eligible populations, with all ablations and exclusions shown.
+
+Report complete group vectors, equal-group means and descriptive ranges without
+pairwise IID confidence intervals or a significance claim. A nonpositive mean
+is no observed gain for this pipeline. A positive mean supports usefulness of
+this representation for the frozen learner and baseline; all geometry remains a
+function of the same graph. It does not establish new information beyond the
+graph or a biological causal mechanism. The fixed D6 robustness plan is separate
+from primary tuning.
 
 Public datasets and the existing synthetic outcomes have already been inspected.
 A prospective local protocol records choices before the next scoring run; it
@@ -211,8 +250,22 @@ cannot retroactively create external preregistration or untouched validation dat
 | D6 — robustness | Provider/initial-length/idleness sensitivity, constrained nulls and scope robustness | Repeated conclusions or a disclosed failure; no tuning to force a positive result |
 | D7 — publication | Verified artifacts and a readable geometry page | Numerical, source, evidence and claim checks pass; actual outcomes and exclusions visible |
 
-D1 acquisition is recorded in the source guide. D2–D7 remain unimplemented for
-these datasets. The developmental cohort is a separate follow-up, not a hidden
+D1 acquisition, D2 source/applicability infrastructure and D3 protocol/helpers
+are implemented. The [source guide](../../cases/structural-geometry/datasets/README.md)
+owns native replay; the [protocol](../../cases/structural-geometry/protocol/PROTOCOL.md)
+owns frozen scientific choices and synthetic/reference checks. D3 supplies
+target/population eligibility, rank metrics, graph baselines, grouped ridge and
+processed-window/aggregation helpers. It does not supply comparative biological
+scores or claim that functional outcome extraction has run over the corpus.
+
+D4 is next: implement complete verified pair-geometry collection and the nested
+DREAM4 evaluation. D5 applies the functional contract and reports actual eligible
+response populations with all source exclusions. The 42 unbound trailing label
+slots, unidentified/duplicate labels, negative stimulus sentinels and anomalous
+stimulation rows remain preserved; fixed eligibility rules now govern their use.
+D4–D7 and anatomical scope execution remain open.
+
+The developmental cohort is a separate follow-up, not a hidden
 extra primary endpoint. Directed persistence and higher-order dependencies remain
 conditional research: proceed only if a concrete target requires information
 that the current graph/response/geometry profiles cannot supply.

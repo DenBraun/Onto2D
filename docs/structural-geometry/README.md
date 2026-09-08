@@ -15,7 +15,8 @@ roles, applicability, evaluation and delivery gates.
 | Sandbox, invariance/response probes, signatures and pseudometric | [Signatures](SIGNATURES.md) |
 | Exact normalized lengths, stopping and cut events | [Shadow flow](SHADOW_FLOW.md) |
 | Measured evidence, controls, interpretation and verification | [Evidence](EVIDENCE.md) |
-| DREAM4 / C. elegans sources and local acquisition | [Source guide](../../cases/structural-geometry/datasets/README.md) |
+| DREAM4 / C. elegans native adapters, census and applicability | [Source guide](../../cases/structural-geometry/datasets/README.md) |
+| Fixed biological targets, features, learner and evaluation | [D3 protocol](../../cases/structural-geometry/protocol/PROTOCOL.md) |
 | Remaining work and website gate | [Research plan](RESEARCH.md) |
 
 ## Current boundary
@@ -32,11 +33,22 @@ npm run structural-geometry:added-value:check
 npm run structural-geometry:added-value:report
 ```
 
-The next implementation gate is native dataset/scoped-provider applicability and
-a task-specific response profile. Biological adapters, scoring, robustness
-experiments and the result-bearing geometry page remain open. Existing graph
-probes are deterministic structural edits, not simulations of gene knockouts or
-neural stimulation.
+Native adapters account for all five DREAM4 networks, 113 functional recordings
+and eight anatomical graphs. A versioned availability profile, exact-label mapping
+candidates and exhaustive bounded chemical scopes are implemented. D3 fixes the
+scientific protocol and implements target/population checks, rank metrics, graph
+baselines, grouped ridge helpers and processed-signal window/aggregation helpers.
+The protocol and independent references are bound by its
+[freeze manifest](../../cases/structural-geometry/protocol/frozen.json).
+
+D4 is next: collect verified pair geometry and run the complete nested DREAM4
+evaluation. No comparative biological scores exist yet. The C. elegans target is
+an adapted contrast of processed exported fluorescence; the original acquisition
+missingness mask and source-paper quality flags are absent. It cannot certify
+successful stimulation or reproduce the paper's q-values. Actual functional
+response eligibility, robustness experiments and the result-bearing geometry
+page remain open. Existing graph probes are deterministic structural edits,
+not simulations of gene knockouts or stimulation.
 
 Geometry is opt-in and separate from kernel semantics. Source identities and
 relations remain immutable; analysis lengths, policies, scopes and artifacts

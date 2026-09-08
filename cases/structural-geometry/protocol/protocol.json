@@ -1,0 +1,223 @@
+{
+  "schemaVersion": "1",
+  "id": "biological-geometric-rank-study-v1",
+  "version": "1",
+  "freezeDate": "2026-09-08",
+  "claim": "Incremental predictive rank utility of fixed graph-derived representations under one frozen ridge learner; no new information beyond the source graph, no causal identification or universal geometry score.",
+  "sources": {
+    "datasetLockSha256": "2da6ea3135d3db85f7c94f25ff566fd849c4ac3a868325df5c7355d88d8eff11",
+    "censusSha256": "7d2f1c9c32c4f4430883686f03cab0d8da396e11abe6845cb03b90aeb1f2cdac",
+    "methodLockSha256": "c11fbe5b0f26786029ed28b0e02dd122415cc6c7f8240f451cafbd760834a9f6"
+  },
+  "inspection": {
+    "publicDataAlreadyInspected": true,
+    "d2NumericalDiagnosticsAlreadyInspected": true,
+    "biologicalPredictiveScoresComputed": false,
+    "externalPreregistration": false,
+    "functionalMetadataOnlyAudit": {
+      "anatomicalUnit": "Dataset7",
+      "preparedAnatomicalRoots": 29,
+      "mappedStimulusRows": 201,
+      "completeUncontaminatedWindows": 198,
+      "stimulatedSourceGroups": 19,
+      "traceValuesInspectedForThisAudit": false
+    },
+    "auditContentSha256": "a3f8f6786909239be69f50c16e7bf5618040f9cccc3fb6866481030a373a0b25"
+  },
+  "dream4": {
+    "unitIds": [
+      "insilico_size10_1",
+      "insilico_size10_2",
+      "insilico_size10_3",
+      "insilico_size10_4",
+      "insilico_size10_5"
+    ],
+    "input": "full unsigned directed native gold-standard topology; source IDs/hashes and all expression values excluded from predictors",
+    "targetProfileId": "dream4-off-target-absolute-rank-v1",
+    "primaryContrast": "knockouts",
+    "secondaryContrast": "knockdowns",
+    "contrastTraining": "fit and tune separately; no KO/KD pooling or transfer claim",
+    "target": "absolute(perturbed expression - corresponding wildtype expression), rank within intervention",
+    "normalization": "none before ranking; no division, logarithm, pseudocount or noise floor",
+    "directGene": "exclude exactly the intervened gene",
+    "primaryCoverage": "all five networks, all ten interventions and all nine off-target genes per intervention; each intervention population must have at least two distinct magnitudes; otherwise primary unavailable before fitting",
+    "secondaryCoverage": "eligible-only summaries separately labelled with exact denominators; never replace strict primary",
+    "outerSplit": "leave-one-network-out",
+    "innerSplit": "leave-one-of-four-training-networks-out",
+    "averaging": "mean of ten intervention rankSkill values within network, then equal mean over all five networks",
+    "unavailableSources": [
+      "dual-knockout outcomes absent"
+    ],
+    "outsideProtocol": [
+      "time series",
+      "multifactorial",
+      "Size100"
+    ],
+    "graphProbeFailures": "graph-edit probe rejection or budget failure does not exclude independent biological KO/KD targets"
+  },
+  "celegans": {
+    "primaryAnatomy": "Dataset7",
+    "anatomyReason": "first author-indexed adult anatomical unit, fixed without comparative predictive results",
+    "secondaryAnatomy": "Dataset8, separate D6 sensitivity only",
+    "channel": "witvliet-neuron-chemical-simple-v1; gap junctions remain a separate unused channel",
+    "scope": "D2 closed weak one-hop induced chemical neighborhood rooted at the stimulus; require entire rooted scope to pass common provider preparation; no truncation",
+    "scopePopulation": "all 180 anatomical neuronal endpoints retained in the root census; all 5808 native stimulus rows accounted for by aggregate D3 exclusions and retained by identity in the bound D2 artifact; D5 retains event-level mapping/window/receiver exclusions; 29 prepared anatomical roots are candidates, not independent animals",
+    "mapping": "D2 exact-label candidates accepted operationally only when one trace column exactly names an individual neuron in the chosen anatomy; trim outer whitespace only; no aliases or class expansion; not an identity-confidence certificate",
+    "targetProfileId": "randi-processed-export-window-rank-v1",
+    "target": "absolute((mean processed exported receiver signal [t,t+30s) - mean [t-30s,t)) / mean [t-30s,t))",
+    "windows": "exact 0.5s native grid, 60 finite samples in each window, strictly positive baseline; no new interpolation or source-quality inference",
+    "eventExclusions": [
+      "negative native target index",
+      "unmapped or duplicate source/receiver label",
+      "directly stimulated receiver",
+      "incomplete window",
+      "duplicate stimulation time",
+      "any other native stimulation in [t-30s,t+30s), including negative-index rows"
+    ],
+    "pairAggregation": "median magnitudes over eligible trials per recording/source/receiver, then median of those recording medians per source/receiver",
+    "pairEligibility": "at least two distinct source recordings with an eligible magnitude; unavailable-only pairs retained explicitly",
+    "rankEligibility": "at least three eligible receiver neurons in the rooted scope with at least two distinct magnitudes; rank only this fixed observed target population",
+    "outerSplit": "leave-one-stimulated-neuron-out across every recording, receiver and repeated trial",
+    "innerSplit": "leave-one-training-stimulated-neuron-out",
+    "minimumGroups": 5,
+    "averaging": "equal mean over all eligible stimulated-neuron groups; no pairwise IID uncertainty or new-animal generalization",
+    "sourceQuality": "processed/interpolated export; original nan_mask, per-column processing lineage, target-hit/autoresponse criteria and unstimulated controls absent; source-paper q-values and quality selection not reproducible; publication code snapshots do not establish the exact installed software/flags used to produce the archive",
+    "claim": "descriptive held-out-source-neuron association with processed signal following recorded/attempted stimulation; anatomical and functional animals differ",
+    "dependence": "transductive on one fixed anatomy; receiver neurons and recordings may be shared across source-neuron folds; no unseen-animal or unseen-graph claim"
+  },
+  "metrics": {
+    "primary": "rankSkill=(concordant-discordant)/(concordant+discordant+prediction-only-ties) over unequal observed target pairs; prediction ties contribute zero",
+    "targetTies": "exact binary64 numeric equality, one-based average ranks; no epsilon",
+    "undefined": "constant observed target or fewer than two values gives null, never zero; nonconstant targets with constant predictions give rankSkill zero by definition",
+    "secondary": [
+      "Spearman rho with exact centered rank integer components",
+      "Kendall tau-b with explicit tie counts"
+    ],
+    "trainingTarget": "(average rank - 1)/(eligible target count - 1)"
+  },
+  "learner": {
+    "profileId": "biological-weighted-ridge-v1",
+    "lambdas": [
+      0.01,
+      0.1,
+      1,
+      10,
+      100
+    ],
+    "lambdaSelection": "maximize mean inner-group rankSkill on identical declared validation populations; exact tie chooses largest lambda",
+    "transforms": "weighted training-only means and population standard deviations; constant training columns set to zero for all splits; no target/test rows in fitting, tuning or normalization",
+    "weights": "equal training groups, then equal interventions in group, then equal eligible receivers",
+    "failures": "no fallback model, sampled tuning grid or altered fold; numeric failure makes requested primary unavailable with retained diagnostics"
+  },
+  "baselines": {
+    "profileId": "biological-graph-baselines-v1",
+    "featureCount": 23,
+    "standalone": "sum(2^-k * P^k(source,target),k=1..4), row-normalized directed adjacency with zero sink rows",
+    "regressionBaseline": "all 23 fixed graph features; same scoped input as geometry"
+  },
+  "geometry": {
+    "profileId": "biological-pair-terminal-geometry-v1",
+    "population": "same exact nodes and edges for every requested family; all certificates verified against expected source and request",
+    "parameters": {
+      "initialLengths": "unit",
+      "idleness": "half",
+      "step": "half",
+      "maxIterations": 4,
+      "stableSteps": 2,
+      "tolerance": {
+        "numerator": "1",
+        "denominator": "1000000"
+      },
+      "cut": {
+        "kind": "none"
+      }
+    },
+    "edgeFields": {
+      "forman": "exact unit directed Forman curvature",
+      "ollivier": "exact half-idleness unit Ollivier curvature on every scoped edge",
+      "flow": [
+        "actual terminal normalized edge length",
+        "actual terminal curvature"
+      ]
+    },
+    "sixCoordinatesPerField": [
+      "mean over incoming edges at source",
+      "mean over outgoing edges at source",
+      "mean over incoming edges at target",
+      "mean over outgoing edges at target",
+      "value on direct source-to-target edge",
+      "mean over distinct edges in the union of all unit-hop shortest source-to-target paths"
+    ],
+    "emptySets": "known structural absence gives zero sentinel masked by baseline degrees/direct_edge/unreachable; missing or invalid numerical evidence never gives zero",
+    "shortestUnion": "edge (u,v) belongs iff hop(s,u)+1+hop(v,t)=hop(s,t); count each edge once, not once per path",
+    "flowAdditional": [
+      "actual terminal weighted directed shortest source-to-target distance; zero only if baseline unreachable=1",
+      "actual terminal iteration",
+      "five one-hot reasons: fixed-point,tolerance,cycle,degenerate-length,iteration-limit"
+    ],
+    "flowCoverage": "terminal-event profile uses only actual certified states; retain stop reason; no padded fixed horizon and no convergence claim at iteration cap",
+    "numeric": "aggregate rational fields exactly before one finite binary64 conversion; reject overflow/underflow; no interval midpoints",
+    "featureCounts": {
+      "forman": 6,
+      "ollivier": 6,
+      "flow": 19,
+      "fullWithBaseline": 54
+    }
+  },
+  "ablations": {
+    "ordered": [
+      "B",
+      "B+F",
+      "B+O",
+      "B+flow",
+      "B+F+O",
+      "B+F+O+flow"
+    ],
+    "primaryComparison": "B+F+O+flow minus B on exactly the same target-eligible and fully verified geometry population",
+    "secondaryComparisons": [
+      "B+F minus B",
+      "B+O minus B",
+      "B+flow minus B",
+      "B+F+O minus B+F",
+      "B+F+O+flow minus B+F+O",
+      "standalone propagation score"
+    ],
+    "coverage": "eligibility fixed jointly for all ablations before fitting; disclose full native population and every exclusion separately; prediction ties never remove observations"
+  },
+  "reporting": {
+    "perGroup": true,
+    "primary": "equal-group mean paired rankSkill difference for each study separately; no combined DREAM4/C.elegans score",
+    "uncertainty": "report complete group vectors, min/max and leave-one-group-out aggregate range as descriptive sensitivity, not confidence intervals; overlapping training folds and shared neurons prohibit IID pair inference",
+    "negativePolicy": "mean delta <= 0 is no observed gain for this pipeline; positive mean is limited representation gain with per-group heterogeneity, not statistical or biological generality",
+    "indeterminate": "insufficient predeclared groups/targets or missing required computations leaves primary null with reasons, not a zero/positive result",
+    "costs": "record preprocessing, geometry, fitting and inference timings/peak resources separately from semantic identity; record graph, target and feature counts and exclusions",
+    "disclosure": "publish zero/negative results and all declared ablations; no outcome-selected replacements"
+  },
+  "robustness": {
+    "gate": "D6, after primary pilot; never used to tune D4/D5 primary",
+    "degreeNull": "32 indexed directed double-edge-swap nulls per parent/scope; preserve each labelled node in/out degree and weak component membership; reject loops/parallel arcs; no channel mixing",
+    "nullSampler": "Null indices 0..31, proposal counters 0..4095; UTF-8 SHA256 of JSON.stringify([\"onto2d-biological-rank-null-v1\",datasetId,scopeRootOrNull,originalGraphSha256,nullIndex,proposalCounter]); originalGraphSha256 is the lowercase unprefixed D2 scope graph hash; sort current ordered edges lexicographically by source then target using ECMAScript UTF-16 string order before each proposal; first and second uint32 big-endian digest words modulo edge count choose edges; discard equal indices; propose (a,b),(c,d)->(a,d),(c,b); accept only changed simple loopless edge set preserving the original labelled weak-component partition; stop at 10*m accepted swaps or 4096 proposals, with fewer than 10*m marked unavailable; empty graphs unavailable; duplicate sampled graphs retained with multiplicity; not a uniform graph null",
+    "nullEvaluation": "recompute every baseline/geometry and all nested fits with the same unchanged independent targets; retain every failed/null scope; no calibrated p-value claim",
+    "sensitivity": [
+      "Dataset8 anatomy separately",
+      "larger graph-only feature/capacity controls",
+      "provider, idleness and initial-length changes as separately versioned secondary profiles",
+      "scope and low-degree coverage sensitivity"
+    ]
+  },
+  "implementationBoundary": {
+    "implementedAtD3": [
+      "target and rank metrics",
+      "graph baselines",
+      "grouped folds and weighted ridge helpers",
+      "processed-window eligibility/contrast and aggregation helpers",
+      "source-bound protocol and independent synthetic references"
+    ],
+    "notRunAtD3": [
+      "biological predictor fitting",
+      "comparative predictive scores",
+      "functional trace outcome extraction"
+    ],
+    "next": "D4 must implement verified pair-geometry collection and complete nested evaluation exactly under this protocol; D5 applies the functional extraction contract without silent quality upgrades"
+  }
+}

@@ -3,6 +3,8 @@ import { fileURLToPath } from "node:url";
 
 const cwd = fileURLToPath(new URL("../", import.meta.url));
 const commands = [
+  [process.execPath, ["--test", "cases/structural-geometry/datasets/datasets.test.mjs", "cases/structural-geometry/datasets/applicability.test.mjs"]],
+  [process.execPath, ["scripts/check-biological-protocol.mjs"]],
   ["python3", ["cases/structural-geometry/synthetic/reference.py", "--verify"]],
   [process.execPath, ["cases/structural-geometry/build.mjs", "--verify"]],
   [process.execPath, ["--test", "packages/structural-geometry/test/geometry.test.mjs",

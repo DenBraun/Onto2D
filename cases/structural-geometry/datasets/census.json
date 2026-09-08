@@ -1,0 +1,2159 @@
+{
+  "format": "onto2d-biological-applicability-v1",
+  "status": "source-applicability-only-not-biological-evaluation",
+  "sourceLockSha256": "2da6ea3135d3db85f7c94f25ff566fd849c4ac3a868325df5c7355d88d8eff11",
+  "sourceFileCount": 14,
+  "sourceBytes": 530722562,
+  "implementation": {
+    "../../../package-lock.json": "6a211d376e0659a8584de4663afbfd8a2235e3af701ace1d890c8f2837a27a8f",
+    "../../../packages/engine/src/diff.js": "3dd94b6460c6ddc794c6168c4fec6f6529e197879e7c2ec8b6537d939b948d7b",
+    "../../../packages/engine/src/engine.js": "407588e300d7ef14d71698a14a0d324d0e29353eb8d1fe20d4abcb1ee1f8fa66",
+    "../../../packages/engine/src/errors.js": "83d995ace1902ffe88f2a070362a0c8955a5a0e4b8ca3e3e6ce461a1e9bb2d4d",
+    "../../../packages/engine/src/index.js": "8c3def4ad51941435754aae1c992684eeda0af504bee4cce2a4bdb7d38a0fc7b",
+    "../../../packages/engine/src/input.js": "0deccd3d19814f1361fdada709db1215ca3b2936c6e0e5f3708b0b3bad6adb97",
+    "../../../packages/engine/src/lineage.js": "6949aeb3afffe48c7068b80ebdfecf094aca8efa37dbe0343f257cfd75531ba0",
+    "../../../packages/engine/src/model.js": "a44869007fe485cd2bad791278d83b5dbbef40dee636400aea611b7b59dc4638",
+    "../../../packages/engine/src/presentation.js": "4ae6114fb86b6122b2614f5f0279bd984189dfb81b8d7a1118e22e79644d2742",
+    "../../../packages/engine/src/registry.js": "d1d57e0c4a5f21f682a1b2f0abba0838e2ab50f2d7d066bf41c4dbc9af7f2232",
+    "../../../packages/engine/src/workspace.js": "26a40783afb66c67901e5af58c79a309448e00d1ae837dd3f2cc711af71534a2",
+    "../../../packages/kernel/src/candidate-enumerator.js": "f7d7e5fa38519f62b185c874904ebb8e6b69e69a5164230765be23f161bac950",
+    "../../../packages/kernel/src/candidate-store.js": "937d927dcd55ebf914d0ce5e3eadd7c42dd8da47f505b4c87763b6f23fe08fd5",
+    "../../../packages/kernel/src/canonical-entry.js": "161e8ba4ce0f788e98eeb82e6363f9a098bd654a0f92c2b91a5c79afd85eba9c",
+    "../../../packages/kernel/src/canonical.js": "d8aa01d5cbecdd687cd633051f3e688554b1a07501bf26adc36da916dd2bcaf5",
+    "../../../packages/kernel/src/decimal.js": "b252d2ce54b3f6faebf0f56942e8dc68e4497465b3c5a9f2abffc06a7f10fbe3",
+    "../../../packages/kernel/src/errors.js": "a234098d50fc24c05cf64709c4053e8db25c693d245d983c6c0cf8cb312f4a49",
+    "../../../packages/kernel/src/expression-analyzer.js": "a5aae50d1b682941a9f057b591dcb21c0ad7962c3ab0784d29fcecfffeebc66b",
+    "../../../packages/kernel/src/graph-canonicalizer.js": "8c3d241345d28eed2cdbeb0b33896fcb8e8e2d5cac25bfd7a478fd8c8aa7e6c2",
+    "../../../packages/kernel/src/graph-predicate-evaluator.js": "f8f3e98e21713a4ab311940b7c013cd9ec1ec862f5f721a9d87adda7a5380c23",
+    "../../../packages/kernel/src/hash.js": "7a7ab2abbe1d5972281e78f8eb16aaeeecbbec981ac94e9a39ceed8c142ca4ce",
+    "../../../packages/kernel/src/index.js": "d2e17c7ad713ec4b32d7326bc7419bcdafc326080fe7621ea224284502ee68a8",
+    "../../../packages/kernel/src/invariant.js": "1fbb64f12bc070f6f2c215f8a1492e1da80dbc3b92f062230c09ba1e9d656edb",
+    "../../../packages/kernel/src/kernel.js": "95c5d81868d8868a85638576f5f61d82bd9b982ccdd9b0a67355c691f3fda30a",
+    "../../../packages/kernel/src/loaded-package-verifier.js": "ac242accf93583c140ae17d83f4ba68debd57a6b493f87faef9afdf229a10615",
+    "../../../packages/kernel/src/local-predicate-evaluator.js": "ad7486f5c4c3ef9d2b97dc85da7751693534b8afd950a0e7daba686be6ee698d",
+    "../../../packages/kernel/src/numeric-binding.js": "ef87a7a2e5eab54d04b54112331fa5163fea0e5737c41debe1a515c652e64c15",
+    "../../../packages/kernel/src/oracle-validator.js": "6a431800cf385ba8db394b58acf62168bced9547c45ddbf905e0b5be602c3075",
+    "../../../packages/kernel/src/package-candidate-census.js": "07491c29856eec5de79d7008d46add9a37f5837f9d98b1ff63b680570ce880be",
+    "../../../packages/kernel/src/package-candidate-filter.js": "c6fbd532eef44b059fee60b15f4d78638c3142dd243d8ec054e7c942c01fcb1f",
+    "../../../packages/kernel/src/package-candidate-generator.js": "c27940738e0fa64a239fd788fb56f2e25feefaacee4d045216dfd68d651e19a4",
+    "../../../packages/kernel/src/package-carrier-promotion.js": "b0a09dbc62275502eb7117d63f22cca54267d8eb1a6a729de1ca4a85b1156ba1",
+    "../../../packages/kernel/src/package-cohort-partitioner.js": "ede082565c8064cb5a8d8b1c1d264d77ba7db76bf9e5ed87e3ab4f3c0365ef55",
+    "../../../packages/kernel/src/package-depth-candidate-census.js": "54ddb73e63c2c53ad136cc2e548ae6fe39008de8ca2a8461a1a475c55fd1a196",
+    "../../../packages/kernel/src/package-depth-candidate-filter.js": "219de7feb03eadd612ed17dcbe241fec43dc5ce4b5984dd99b6ce220b78a491f",
+    "../../../packages/kernel/src/package-depth-candidate-generator.js": "5c2427bcc0e85f87e134f614e73a3555a8956e8f04d0a9a21aa363757ef7f558",
+    "../../../packages/kernel/src/package-depth-cohort-partitioner.js": "2c13c7a15dd0d47f510022955c6e8c95d0e1ef4776b9441a04f627db3a52a2d4",
+    "../../../packages/kernel/src/package-depth-derived-population.js": "31b6edba91aa5e4814b957c0757afe05bcf67b12da5a478fc35bd1f3731bb922",
+    "../../../packages/kernel/src/package-depth-derived-profiles.js": "f9c5bf930c893458d91944e92db61e1f051f60c4427aa98a7e9f0d8b2831dcb0",
+    "../../../packages/kernel/src/package-depth-level-closure.js": "c872a6d67feeadac8805e3dd7bf592fbe4d872a08861b101d72d2e8a5b506c48",
+    "../../../packages/kernel/src/package-depth-pruning.js": "793721870793655491de5d31f305ae20806e0949e70181a2c7844344f2a89be3",
+    "../../../packages/kernel/src/package-depth-selected-formations.js": "176b1e01467f789920aeddb1b3f35bbe6fea406e720b4a6c241a946e2a04b60f",
+    "../../../packages/kernel/src/package-depth-selector-admission.js": "0ba16beb4f1dcb2f8d15575b2fa390da0c0ddd512b86cd647ed542b6d1d114c3",
+    "../../../packages/kernel/src/package-depth-selector-ranker.js": "ea94d242627d38759aa93bdb29d331c80f836bc5cd5fd1da817fd83dd17d52e2",
+    "../../../packages/kernel/src/package-depth-selector-sensitivity.js": "21ecb47d4025f144e347dbc032041f472ed922dfdb9cdc2d6bfdc7f606005f56",
+    "../../../packages/kernel/src/package-depth-source-selection.js": "c8d33b6b28b68a002dd8fe1d3d6c3f96e601f55fcbd0ec7638a9b2b5aac70bf3",
+    "../../../packages/kernel/src/package-derived-depth-population.js": "afe12955ec3301e9e6d5ba2d863b8d65be4b70b8daf8ffcaa30b2299931191d9",
+    "../../../packages/kernel/src/package-derived-profiles.js": "b56a0427e3340d4f0d35c429d980a381abfbf1b85d6e88d197064ad184562abc",
+    "../../../packages/kernel/src/package-fixpoint-closure.js": "a01a704e6f78f6285c69d4a07fbd4b07e999486fae1a4e83f25e349d1636fe6e",
+    "../../../packages/kernel/src/package-functional-evaluator.js": "5463a6143b1fd19341551eec47495c5953c224034391d24130be385fd4561cd3",
+    "../../../packages/kernel/src/package-generator-frontier-audit.js": "9b25041a7e635e14d23fb37bdae5502fce6d0555589ec66814815bdb1b767011",
+    "../../../packages/kernel/src/package-ladder-closure.js": "5fd2aea316ccbe5304bd4cad46c5db499da273a03defd251fe14d61ffcb769f8",
+    "../../../packages/kernel/src/package-level-closure.js": "82fdbc769c3b479375b2bda23e5061b92cb6bdbd1a3bfe595f3f738ee67f845a",
+    "../../../packages/kernel/src/package-level-explanation-index.js": "b8fea27bad1d0ec2446cd796076122cfafb392b311d9cc580a249bd00b21b7ba",
+    "../../../packages/kernel/src/package-level-result-census.js": "cefaac1464b1daf3c37e6f908c716b9141ae8046c9ec590847dafd62eafb4fdd",
+    "../../../packages/kernel/src/package-loader.js": "8611b551730c22df4502cc3967c7d4a64ee1e6e0b9372f9ef9a53674c8aa97fa",
+    "../../../packages/kernel/src/package-node-frontier-audit.js": "6d6c004b6c5b949cdaa80f831d5c730923823b4b472e7530553c75fd0458f0ee",
+    "../../../packages/kernel/src/package-node-growth-pruned-candidate-generator.js": "32660b4cf09bbe8f82a0982f4fa0967f22651d3ffe88c35381a85c96f032cf65",
+    "../../../packages/kernel/src/package-null-model-baseline.js": "60a972fda40c281ae10c14603e9bfe50e25485b92b6c925b6063bca2e6313261",
+    "../../../packages/kernel/src/package-null-model-plan.js": "6bc1fee32d4928400d18895bfdb0cc9811e6e26682eb093348c32aea63a01ab8",
+    "../../../packages/kernel/src/package-null-model-proposals.js": "1dde4d3c4a3851d4728fc99231db5962eabb46f285e97f0be2229ac1ab2d054c",
+    "../../../packages/kernel/src/package-null-model-trial-census.js": "4686837de4c9ee5e12284f321a9525d6ebb952ee631e2910f26acea37cff8b8c",
+    "../../../packages/kernel/src/package-null-model-trial-selection.js": "d106e1bc66e53f37895ad3f2229157bb0dab3f96687814fe2f32ec40839f8aa3",
+    "../../../packages/kernel/src/package-profile-collapse.js": "11979661a0d70570c1abd313ab0796d869efae1ea499eb0c81341c85902af5ab",
+    "../../../packages/kernel/src/package-profile-composition.js": "8014c5e71a813827b117c41b069540fbc71a3d1633055d439413afea71e6ddb8",
+    "../../../packages/kernel/src/package-profile-pruning-extension.js": "182bb8627d7d3da7953aaaa8d9b607cba6e666d0a8689f57d3e01be4ca379d3e",
+    "../../../packages/kernel/src/package-pruned-candidate-generator.js": "41066fdd0b14bda79bfbba088cf7d988e8210cbb644258e9475c2e8496a67bb6",
+    "../../../packages/kernel/src/package-pruning-audit.js": "25a44055df0efa5ef55af1c9b64c15c2faf836db45b2ef9f7110e4ac1f4cb88e",
+    "../../../packages/kernel/src/package-recursive-pruned-candidate-generator.js": "4f0860255ec0ac9910ffd7a6d95eb1882e05565380a40a1c1693ce9ba3e1dc7a",
+    "../../../packages/kernel/src/package-run-artifact-bundle.js": "bae76b68ea06ba84f8ba44e95996db433092ee787125bee646af1eeead498f1f",
+    "../../../packages/kernel/src/package-selected-formations.js": "7fe4203245f6868c295be862270775ee671bbc5519ea03141cdbfb8979ab1e9f",
+    "../../../packages/kernel/src/package-selector-admission.js": "1cf409df48731865e5da49f09b92a3994c3b6a9bfbd6dead7b619c98fa35be04",
+    "../../../packages/kernel/src/package-selector-ranker.js": "cc9ffc9edf42eecf968fc548dd1b4dd548da2b43399ce1cdb2c37dc2b95da124",
+    "../../../packages/kernel/src/package-selector-sensitivity.js": "88c39e2090c2af353ad5e464dc0900634ab98362941404a706d46770da11236d",
+    "../../../packages/kernel/src/predicate-analyzer.js": "057c62015130bf14a603e1ccd2c5af379a6cecbf9043b8957e6b37d18db04d0c",
+    "../../../packages/kernel/src/predicate-plan-verifier.js": "7c1657c6e17851a29eb4fe875475c4c136dde8dc8d2c87bb7828a709a2aca3fa",
+    "../../../packages/kernel/src/primitive-depth-population.js": "2e44549490c5cc8347dc0f3047f281304edd594fb7a60018bdf6a1aa38be31bd",
+    "../../../packages/kernel/src/profile-guard.js": "adf391447e6a474fd614f5af9d9a2fce52633b9e2fc1df7b3f9b82e574964bd6",
+    "../../../packages/kernel/src/profile-invariant-aggregation.js": "9c5da680ab517196a434e5315b0784f0c47c4e9939f6d9ff05f6266ccc6f1429",
+    "../../../packages/kernel/src/profile.js": "ca994a552babc93f81b189f01fcbb0fdb0b0e905e60140f32c8e37d4fd8bc839",
+    "../../../packages/kernel/src/quantity.js": "960e3e51effa8786997eed1dbcf5ff29e73e8d4af745bf1093603e8e39db487f",
+    "../../../packages/kernel/src/resumable-candidate-enumerator.js": "92db92b3a7193a7a20662d9a4ae8b8aecd0021073b54fceb8274202558155bc4",
+    "../../../packages/kernel/src/run-axis.js": "e46254438e24282fbc1e0bc0eb6dd4a851e5072462aa827d628f23de30a5f9c5",
+    "../../../packages/kernel/src/run-config.js": "5481a78ceb8b0fee58932b5587b7d94a6121981de126baacb5c99c48a543fa44",
+    "../../../packages/kernel/src/sha256.js": "778d91d4490751c5ca8ee7b864a00e88ef9c32c8201f93b4ca40cef0e4d5414b",
+    "../../../packages/kernel/src/skeleton-enumerator.js": "0eb9d1d8ba6b046397080b95eaac359516791cad6bfe6ac7a2315a2694e91e02",
+    "../../../packages/kernel/src/source-classification-amendments.js": "3309d5c7d76b99fe60397307c203a8fca581181f0f9028e8ab83e9604cb2b29e",
+    "../../../packages/kernel/src/source-classification.js": "da6f2e1f50a653c01f7b249b3393464525b6023f191b57566d8f5aa50d082369",
+    "../../../packages/kernel/src/source-policy.js": "28e39b249292a10b7ccab563eb66cd679a45b6a84daf7cec2c455a028f160a6e",
+    "../../../packages/kernel/src/stratification.js": "3d5d9674e2586a681bb5a1de6f2ba7699e779a36df5a1cf236d3a7973858671f",
+    "../../../packages/model-pack/src/browser.js": "70ef8e6d94582e50fa7594d3364492a3009e2352bffcbc945f4bca6d8e3ceedc",
+    "../../../packages/model-pack/src/cache.js": "aad69aa95f45b5d49a00d818d448685e40686de20303d7a6488f023ff2c7482c",
+    "../../../packages/model-pack/src/crc32.js": "494b48929b88b72b3d948a1368de20aa98698e1ab1a31931218ab2b5872b2794",
+    "../../../packages/model-pack/src/index.js": "8adc749f099281cc3dc8ce531273ec9438265a5e5a3e60469a65eacece64fdee",
+    "../../../packages/model-pack/src/node-archive.js": "170c2475179d1ec580c0fffc5f26bffc18aa4f17fc783ee2a03f16a76066e00e",
+    "../../../packages/model-pack/src/node.js": "fde0a9cd9932efa44d11b8a93465285c3f28d6f47f01a91513e534830c4fff62",
+    "../../../packages/model-pack/src/registry.js": "19f234ea1a5a17c17eec3bf54836e27ca96df0b9aff7555983c2724b7495ca42",
+    "../../../packages/model-pack/src/transport-layout.js": "69c51f3aaebb78afefd440e533a314b4d398d36329e4296361a683ddd1b49ec7",
+    "../../../packages/model-pack/src/worker.js": "3e1cba401ab75c4241d7f25b418e897a48d04c298ae977d5c4bb9309888cb678",
+    "../../../packages/scientific-adapter/src/index.js": "534988b87f20685aa0048c51d81eb7215761751138a0847a0950cab20ea3dcc6",
+    "../../../packages/structural-geometry/src/canonical-core.js": "380072b4198e5c3bc332be59569ace1fd35840549c09e69b7712005cf73fe203",
+    "../../../packages/structural-geometry/src/canonical.js": "637051e54e205bbdf9d7918b19e94939f7c85fa063d9ca6cf5739a53bb9712e3",
+    "../../../packages/structural-geometry/src/comparison-core.js": "0a71947f903e9b4292544825c4ae898d3eabdfbcdbd9b62114a6bead9fe3ee8f",
+    "../../../packages/structural-geometry/src/comparison.js": "a9cdfee77cc672a49277ddef3fb68821ea77b78daa418557f52d5c45c8a8fad7",
+    "../../../packages/structural-geometry/src/connectivity.js": "809c379beab5694b9015ec6e76e39a609ea8bbca065ae7297699d20c4ff2753d",
+    "../../../packages/structural-geometry/src/engine-model.js": "0cb4e4ed4769d15670b89ced6db0cc375c3c77841c83432447f864545179ddb5",
+    "../../../packages/structural-geometry/src/experiment-core.js": "ce594310a91521f52844142f1a13844857fdbce5c3526026568608807d12640d",
+    "../../../packages/structural-geometry/src/experiment-policies.js": "87d8c9c98809b23e25e8ed010fd5b845b13e2f21e35e2edecb985603e071dd93",
+    "../../../packages/structural-geometry/src/experiments.js": "6a58ce9a2ee1e59036d0d2315cfa9c35a2ca518d0b8f4671d4e8c7f15d496f34",
+    "../../../packages/structural-geometry/src/flow-math.js": "fdf95a9524d4b6c355983c9c564b711f0e4517d247e24a214c7b8db42e65bb96",
+    "../../../packages/structural-geometry/src/flow-node.js": "94a612c07510866e5f3e3e93b589fe22251bc7d0cdfe59a9d568bbe3928fa4f7",
+    "../../../packages/structural-geometry/src/flow-policy.js": "1c628472cc2731159ac8a4b434cafceb8a146f3a6443fd3d4881870ea378e48b",
+    "../../../packages/structural-geometry/src/flow-transport.js": "c2bc17d28772473a5d98ed4c66e2ea784612b975a3671a493b8fabd6f32e4c64",
+    "../../../packages/structural-geometry/src/flow.js": "8af363089f1a5c45a15a73d134a6c0f12d6eed4af7ae9c3d6783f1279d657ddb",
+    "../../../packages/structural-geometry/src/forman.js": "956ac9ab57d4c72053a2e18eacd5a2a6c522cfdf5bc9e1dac540edc09f11e7f5",
+    "../../../packages/structural-geometry/src/geometric-signature-core.js": "447b05bed7d0b78a5ae5d50571733ee11d8d898588885c0b36fae7b8c6ba55b4",
+    "../../../packages/structural-geometry/src/geometric-signature.js": "1f08d365570e258e296758185b4aebd4e65f972ff699d98948ff2e200671f198",
+    "../../../packages/structural-geometry/src/index.js": "08d27a05ca08a1a1b6da07d6a25a25dc74723765ea38f577eceb41487abf3be0",
+    "../../../packages/structural-geometry/src/invariance-core.js": "f424a32daac8acd51fa87e3b0221e86922a1e3d8221cdbe6917d70fc3bef1b92",
+    "../../../packages/structural-geometry/src/invariance.js": "b0130585d555eade30af769f0d8c501d2082b4a4e38d7ee059124d3278fd88fc",
+    "../../../packages/structural-geometry/src/ollivier-node.js": "071cd9a58007ee14ffc28c90c147ae088397ff77f21f394719ba7d0697ff38b5",
+    "../../../packages/structural-geometry/src/ollivier-policy.js": "a9563f8ee36f266e35dc5f89b564d8849f2aca784189b1d13311416bd677d262",
+    "../../../packages/structural-geometry/src/ollivier.js": "fda49f96625c59def3c7e7fc941f9f85946e9ea79eece9d3c40583e023dcc755",
+    "../../../packages/structural-geometry/src/policies.js": "d82581bfcabcc2b049f1acc242b901de4d1d15a03e929daf8b01bc70d303b6b2",
+    "../../../packages/structural-geometry/src/providers.js": "10b4c41801930cf2acbfc69799a1c4618c34da1d89347c89b11268e7c0e652ae",
+    "../../../packages/structural-geometry/src/pseudometric-core.js": "c250e7047d5d28606f0d9fa0cfa9917f787f4c1c989523022bb40a05cbf0dfd6",
+    "../../../packages/structural-geometry/src/pseudometric.js": "735f7774d5cecac0902b48af95bddfb2a10cbd4afb925e95c32207608bc0ed9c",
+    "../../../packages/structural-geometry/src/python-adapter.js": "1895cc8bf34548aa54c56fe17e5cbffeeb9dad5f3a2a35e4f55bf395562d6a1a",
+    "../../../packages/structural-geometry/src/python/flow_oracle.py": "598a41f25a772679a32f093acbb2fd15e645c0b045a4aaf24019d093c52b2896",
+    "../../../packages/structural-geometry/src/python/ollivier_oracle.py": "8177713309b13ac72aed210b1d3ba628a625fce22db90f608d73e9c62bae21f6",
+    "../../../packages/structural-geometry/src/rational.js": "869414bd0d3c2e9c5b75c348f03e354638f92971771e9465bff7dd413a607fe7",
+    "../../../packages/structural-geometry/src/regime-policies.js": "b690f35f9103705be241931d0770a83ac37bd99edf847689a820309b31a96237",
+    "../../../packages/structural-geometry/src/regimes.js": "d70333f901a4c4ae6efa2619571542ce455f7e04b9b4810115b40535cca47d5d",
+    "../../../packages/structural-geometry/src/responses-core.js": "767a330ceac9fa634a444701fd7b03f493ea58bede5bab604d2d81a5d7570e83",
+    "../../../packages/structural-geometry/src/responses-observation.js": "7b5b9ec9b5f9ad5839d87bc69bedf64148c21cacdf08c82a7eaf38067b4983dc",
+    "../../../packages/structural-geometry/src/responses.js": "d624644cdd190f266c64fbf318adbd7a7c219fc68d4c0d75c897c6fb1317d1c9",
+    "../../../packages/structural-geometry/src/sandbox-core.js": "a62843c161c478f8b542979a396604e18612bbcb6740077efd441ef654b36361",
+    "../../../packages/structural-geometry/src/sandbox.js": "1db97a9dba615127985241e8fc4f844b947eabb8de6adfff680ca47da11c94a8",
+    "../../../packages/structural-geometry/src/signature-core.js": "3a6c1c4d3d1ad5ca038f168639abc6d461f2117fca85f89c2ea67b2c5889898f",
+    "../../../packages/structural-geometry/src/signature.js": "1a861f46738232fa38e93aded536eb93e8dd6f286878fe48df6723d0fce3b503",
+    "../../../packages/structural-geometry/src/topology-core.js": "c5f86b77a8610d32892d36c42030ec676813d2ee595964d2f21926c79d849499",
+    "../../../packages/structural-geometry/src/topology.js": "072346e06d89ec7883496dd1a1411ae6c99467baea389a8742f148d5a168cb02",
+    "../../../packages/structural-geometry/src/typed-common.js": "a3b2e2d6184936b4448ca4ef4a517feec813a152ee54ae4589932b17afacfcac",
+    "../../../packages/structural-geometry/src/typed-core.js": "d0256861877e00c8d6b6f6229038a75e33224182e1ef03c8388e21ffb8e0f238",
+    "../../../packages/structural-geometry/src/typed-observation.js": "85028454e56556e716ab7a20212593f284cd2852138a3f12e60a3794a2fa77f3",
+    "../../../packages/structural-geometry/src/typed-vocabulary.js": "d44d50903dc70bec1d18f910dc79df53086fa698224f1e20dd961fb3ce99adec",
+    "../../../packages/structural-geometry/src/typed.js": "505306857f963a231bc792bb7bb905850161449bd8afc0585809f64ef813f316",
+    "build.mjs": "8bccdbaa0b6246aa02a50b1fb3d85cb149b0558edc4e4f7a2555c77e99341fd6",
+    "dream4.py": "cd343f305a8ce9af969d06ee2c23238ce0c02c8e0ee956ac4faa08373c2c3904",
+    "prepare.py": "255505b398e184f892926eb9ab3746e92d2dc7659ea50ba6aba12dbffdb249c0",
+    "randi.py": "38fdae1dcecfdd84a17d5235d9fe5a044b45043212d1eabd4f1f1e72cbc7086e",
+    "scopes.mjs": "8dd0d19b52babdce337f44c16e770b151ca5c9e53b94c16ca7306710e408ebd0",
+    "sources.py": "a682f952cf7a7e58459cb2e2be1eed76ad28c853468cab32c70aa341b010bea7",
+    "task-profile.mjs": "54e8d59036ea6bdacaf71a04eb813c3114bce2afccb8ad457872685550891904",
+    "witvliet.py": "9c9a297b1486f13208f280fb372548a3d20de7c4407f4a1abfa15e72e41cc4b9"
+  },
+  "nativeSha256": "647f6e8a78d184312c24f00cf98895030240cc61f168761987b51bb36c97f503",
+  "scopePolicy": {
+    "id": "biological-source-scopes-v1",
+    "version": "1",
+    "dream4": "every-full-size10-network",
+    "anatomy": "full-channel-parent-and-every-closed-one-hop-weak-neighborhood",
+    "membership": "topology-only-before-functional-label-mapping",
+    "edges": "induced-directed-simple-channel-edges",
+    "boundary": "record-all-omitted-edges",
+    "overflow": "reject-whole-scope-never-truncate",
+    "weights": "unit-analysis-lengths",
+    "bounds": {
+      "maxCensusReachabilityEntries": 1048576,
+      "maxCensusTraversalWork": 8388608,
+      "maxScopeReferences": 2097152
+    },
+    "numericalDiagnostic": {
+      "idleness": "half",
+      "maxIterations": 4
+    },
+    "evaluation": "applicability-only-no-predictive-score"
+  },
+  "taskProfile": {
+    "id": "biological-task-availability-v1",
+    "version": "1",
+    "purpose": "source-availability-before-freezing-an-outcome-transform",
+    "states": [
+      "observed",
+      "observed-zero",
+      "not-applicable",
+      "unobserved",
+      "rejected-transformation",
+      "budget-failure"
+    ],
+    "measurement": "finite-native-scalar-in-explicit-domain-and-units",
+    "zero": "explicit-numeric-zero-only",
+    "missingness": "null-value-with-explicit-reason",
+    "comparison": "only-observed-values-in-the-same-domain-quantity-and-unit",
+    "pooling": "retain-network-recording-and-source-neuron-dependence",
+    "dream4": "directly-intervened-gene-excluded-from-primary-outcome",
+    "celegans": "trace-availability-does-not-certify-a-functional-response",
+    "graphProbes": "graph-edits-are-not-biological-interventions",
+    "flow": "retain-certified-stop-no-invented-tail",
+    "responseSignatureV0": "unchanged",
+    "scoring": "not-defined-by-this-profile"
+  },
+  "dream4": {
+    "census": {
+      "distributionMembers": 41,
+      "dualKnockoutPairs": 25,
+      "dualKnockoutResponseRows": 0,
+      "edges": 71,
+      "explicitOffDiagonalEntries": 450,
+      "explicitZeroEntries": 379,
+      "expressionRows": 680,
+      "expressionValues": 6800,
+      "nativeMembers": 171,
+      "nodes": 50,
+      "temporalSeries": 25,
+      "units": 5
+    },
+    "units": [
+      {
+        "id": "insilico_size10_1",
+        "splitGroup": "insilico_size10_1",
+        "graph": {
+          "nodeCount": 10,
+          "edgeCount": 15,
+          "isolatedNodeCount": 0,
+          "reciprocalArcCount": 4,
+          "feedbackArcCount": 5,
+          "reachableOrderedPairCount": 21,
+          "weakComponentSizes": [
+            10
+          ],
+          "strongComponentSizes": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            3
+          ]
+        },
+        "providers": {
+          "forman": {
+            "state": "size-eligible",
+            "reason": null
+          },
+          "canonical": {
+            "state": "ineligible",
+            "reason": "canonical-size-bound"
+          },
+          "typed": {
+            "state": "ineligible",
+            "reason": "native-channels-do-not-supply-the-five-required-typed-fields"
+          },
+          "topology": {
+            "state": "size-eligible",
+            "reason": null
+          },
+          "ollivier": {
+            "state": "prepared",
+            "requestHash": "sha256:667fa3e9ed10b8fcc1b6e26f9d8fca04de1c540f6114228f52d47768b747576b",
+            "reason": null,
+            "transportCells": 75
+          },
+          "flow": {
+            "state": "prepared",
+            "requestHash": "sha256:63cd125fa79d700d3c07e0e124602fd4ce759f8d360d1549e5f8ba564be29266",
+            "reason": null
+          },
+          "commonGeometry": {
+            "state": "prepared",
+            "execution": "verified",
+            "stoppingEvent": {
+              "reason": "iteration-limit",
+              "iteration": 4,
+              "cycleStart": null,
+              "cyclePeriod": null,
+              "edgeIds": []
+            }
+          }
+        },
+        "expressionAvailability": {
+          "population": 200,
+          "applicable": 180,
+          "observed": 180,
+          "counts": {
+            "observed": 180,
+            "observed-zero": 0,
+            "not-applicable": 20,
+            "unobserved": 0,
+            "rejected-transformation": 0,
+            "budget-failure": 0
+          }
+        },
+        "diagnostic": {
+          "ollivierArtifactHash": "sha256:e66968b9dfc4fa834dd248d47c338a8c8919ddc0230427b39b416d47d87bfb2a",
+          "flowArtifactHash": "sha256:11b82d62b1d43e932a0f0e28a2a36cc1aff1812fa0d3537907497aea5bd22c9c",
+          "flowTermination": {
+            "reason": "iteration-limit",
+            "iteration": 4,
+            "cycleStart": null,
+            "cyclePeriod": null,
+            "edgeIds": []
+          },
+          "observedFlowFrames": 5,
+          "requestedFlowFrames": 5,
+          "graphProbes": {
+            "state": "executed",
+            "artifactHash": "sha256:dc8305620ba9c338879b37f22bd6f3325449b4eafda65eef5493e176e7438c98",
+            "summary": {
+              "status": "indeterminate",
+              "coverage": {
+                "numerator": 2,
+                "denominator": 3,
+                "complete": false
+              },
+              "targets": {
+                "total": 38,
+                "applied": 34,
+                "rejected": 4
+              }
+            }
+          }
+        }
+      },
+      {
+        "id": "insilico_size10_2",
+        "splitGroup": "insilico_size10_2",
+        "graph": {
+          "nodeCount": 10,
+          "edgeCount": 16,
+          "isolatedNodeCount": 0,
+          "reciprocalArcCount": 8,
+          "feedbackArcCount": 10,
+          "reachableOrderedPairCount": 47,
+          "weakComponentSizes": [
+            10
+          ],
+          "strongComponentSizes": [
+            1,
+            1,
+            1,
+            1,
+            2,
+            4
+          ]
+        },
+        "providers": {
+          "forman": {
+            "state": "size-eligible",
+            "reason": null
+          },
+          "canonical": {
+            "state": "ineligible",
+            "reason": "canonical-size-bound"
+          },
+          "typed": {
+            "state": "ineligible",
+            "reason": "native-channels-do-not-supply-the-five-required-typed-fields"
+          },
+          "topology": {
+            "state": "size-eligible",
+            "reason": null
+          },
+          "ollivier": {
+            "state": "prepared",
+            "requestHash": "sha256:4312bf5b3589e0a08b3f8e1782ed83fa2012f56a823425786285156018996c15",
+            "reason": null,
+            "transportCells": 144
+          },
+          "flow": {
+            "state": "prepared",
+            "requestHash": "sha256:b3fabb1396039db7443aba56616d2bc56847792dda333fae58712467a82ac0fa",
+            "reason": null
+          },
+          "commonGeometry": {
+            "state": "prepared",
+            "execution": "verified",
+            "stoppingEvent": {
+              "reason": "iteration-limit",
+              "iteration": 4,
+              "cycleStart": null,
+              "cyclePeriod": null,
+              "edgeIds": []
+            }
+          }
+        },
+        "expressionAvailability": {
+          "population": 200,
+          "applicable": 180,
+          "observed": 180,
+          "counts": {
+            "observed": 180,
+            "observed-zero": 0,
+            "not-applicable": 20,
+            "unobserved": 0,
+            "rejected-transformation": 0,
+            "budget-failure": 0
+          }
+        },
+        "diagnostic": {
+          "ollivierArtifactHash": "sha256:6bcf41f1380e1c713f864af5e1f1753ef70cd7f577fc72a3d385b5f39d95eb6a",
+          "flowArtifactHash": "sha256:a41960e8d747f4df7b706446ed4574abd28621a10391fd40444e0a01097b4d9a",
+          "flowTermination": {
+            "reason": "iteration-limit",
+            "iteration": 4,
+            "cycleStart": null,
+            "cyclePeriod": null,
+            "edgeIds": []
+          },
+          "observedFlowFrames": 5,
+          "requestedFlowFrames": 5,
+          "graphProbes": {
+            "state": "executed",
+            "artifactHash": "sha256:20745e27ea3ca8686fb84716a6e2026c9970d431b0e2cbac6375ac02fe726051",
+            "summary": {
+              "status": "indeterminate",
+              "coverage": {
+                "numerator": 2,
+                "denominator": 3,
+                "complete": false
+              },
+              "targets": {
+                "total": 49,
+                "applied": 41,
+                "rejected": 8
+              }
+            }
+          }
+        }
+      },
+      {
+        "id": "insilico_size10_3",
+        "splitGroup": "insilico_size10_3",
+        "graph": {
+          "nodeCount": 10,
+          "edgeCount": 15,
+          "isolatedNodeCount": 0,
+          "reciprocalArcCount": 0,
+          "feedbackArcCount": 8,
+          "reachableOrderedPairCount": 59,
+          "weakComponentSizes": [
+            10
+          ],
+          "strongComponentSizes": [
+            1,
+            1,
+            1,
+            1,
+            6
+          ]
+        },
+        "providers": {
+          "forman": {
+            "state": "size-eligible",
+            "reason": null
+          },
+          "canonical": {
+            "state": "ineligible",
+            "reason": "canonical-size-bound"
+          },
+          "typed": {
+            "state": "ineligible",
+            "reason": "native-channels-do-not-supply-the-five-required-typed-fields"
+          },
+          "topology": {
+            "state": "size-eligible",
+            "reason": null
+          },
+          "ollivier": {
+            "state": "prepared",
+            "requestHash": "sha256:39cf734b73d388ed533a76d54faa464dae258b2dcf36d449d633f9fb36052c09",
+            "reason": null,
+            "transportCells": 89
+          },
+          "flow": {
+            "state": "prepared",
+            "requestHash": "sha256:751a177a9516ed5877b808493fcdd7632c7fe6c6ac21ff8b4770603261c38246",
+            "reason": null
+          },
+          "commonGeometry": {
+            "state": "prepared",
+            "execution": "verified",
+            "stoppingEvent": {
+              "reason": "iteration-limit",
+              "iteration": 4,
+              "cycleStart": null,
+              "cyclePeriod": null,
+              "edgeIds": []
+            }
+          }
+        },
+        "expressionAvailability": {
+          "population": 200,
+          "applicable": 180,
+          "observed": 180,
+          "counts": {
+            "observed": 180,
+            "observed-zero": 0,
+            "not-applicable": 20,
+            "unobserved": 0,
+            "rejected-transformation": 0,
+            "budget-failure": 0
+          }
+        },
+        "diagnostic": {
+          "ollivierArtifactHash": "sha256:ae30abe0736911c89fd274e037015d4d90efa6b6326e5007449327d5f67b7290",
+          "flowArtifactHash": "sha256:ac423d53294d1b4637baa32fbec8b4549680a8443ef972f5f894d12aefada128",
+          "flowTermination": {
+            "reason": "iteration-limit",
+            "iteration": 4,
+            "cycleStart": null,
+            "cyclePeriod": null,
+            "edgeIds": []
+          },
+          "observedFlowFrames": 5,
+          "requestedFlowFrames": 5,
+          "graphProbes": {
+            "state": "budget-failure",
+            "reason": "STRUCTURAL_RESPONSE_LIMIT_EXCEEDED"
+          }
+        }
+      },
+      {
+        "id": "insilico_size10_4",
+        "splitGroup": "insilico_size10_4",
+        "graph": {
+          "nodeCount": 10,
+          "edgeCount": 13,
+          "isolatedNodeCount": 0,
+          "reciprocalArcCount": 0,
+          "feedbackArcCount": 4,
+          "reachableOrderedPairCount": 40,
+          "weakComponentSizes": [
+            10
+          ],
+          "strongComponentSizes": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            4
+          ]
+        },
+        "providers": {
+          "forman": {
+            "state": "size-eligible",
+            "reason": null
+          },
+          "canonical": {
+            "state": "ineligible",
+            "reason": "canonical-size-bound"
+          },
+          "typed": {
+            "state": "ineligible",
+            "reason": "native-channels-do-not-supply-the-five-required-typed-fields"
+          },
+          "topology": {
+            "state": "size-eligible",
+            "reason": null
+          },
+          "ollivier": {
+            "state": "prepared",
+            "requestHash": "sha256:585a93dce39e5bbde86e01601713928a78dbdeae1a40c0fb3cc190829a3df52a",
+            "reason": null,
+            "transportCells": 54
+          },
+          "flow": {
+            "state": "prepared",
+            "requestHash": "sha256:5e8f724358b5551e1f856e33f7791e122b52fa536db931866fb5ade714d5ccfd",
+            "reason": null
+          },
+          "commonGeometry": {
+            "state": "prepared",
+            "execution": "verified",
+            "stoppingEvent": {
+              "reason": "iteration-limit",
+              "iteration": 4,
+              "cycleStart": null,
+              "cyclePeriod": null,
+              "edgeIds": []
+            }
+          }
+        },
+        "expressionAvailability": {
+          "population": 200,
+          "applicable": 180,
+          "observed": 180,
+          "counts": {
+            "observed": 180,
+            "observed-zero": 0,
+            "not-applicable": 20,
+            "unobserved": 0,
+            "rejected-transformation": 0,
+            "budget-failure": 0
+          }
+        },
+        "diagnostic": {
+          "ollivierArtifactHash": "sha256:b461f1912565adcdb2767fd18adb40bfb24cbbee84905174e4a0adfdc238b5c2",
+          "flowArtifactHash": "sha256:f6acd73c79469a00fad399b812291acad6a5f3ecfec93e8aec228a67db380a30",
+          "flowTermination": {
+            "reason": "iteration-limit",
+            "iteration": 4,
+            "cycleStart": null,
+            "cyclePeriod": null,
+            "edgeIds": []
+          },
+          "observedFlowFrames": 5,
+          "requestedFlowFrames": 5,
+          "graphProbes": {
+            "state": "executed",
+            "artifactHash": "sha256:990d9600cb4ca645d9747c7d0ced3ec283e03a019d1512477a43b411ce2e2833",
+            "summary": {
+              "status": "observed",
+              "coverage": {
+                "numerator": 3,
+                "denominator": 3,
+                "complete": true
+              },
+              "targets": {
+                "total": 31,
+                "applied": 31,
+                "rejected": 0
+              }
+            }
+          }
+        }
+      },
+      {
+        "id": "insilico_size10_5",
+        "splitGroup": "insilico_size10_5",
+        "graph": {
+          "nodeCount": 10,
+          "edgeCount": 12,
+          "isolatedNodeCount": 0,
+          "reciprocalArcCount": 0,
+          "feedbackArcCount": 4,
+          "reachableOrderedPairCount": 33,
+          "weakComponentSizes": [
+            10
+          ],
+          "strongComponentSizes": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            4
+          ]
+        },
+        "providers": {
+          "forman": {
+            "state": "size-eligible",
+            "reason": null
+          },
+          "canonical": {
+            "state": "ineligible",
+            "reason": "canonical-size-bound"
+          },
+          "typed": {
+            "state": "ineligible",
+            "reason": "native-channels-do-not-supply-the-five-required-typed-fields"
+          },
+          "topology": {
+            "state": "size-eligible",
+            "reason": null
+          },
+          "ollivier": {
+            "state": "prepared",
+            "requestHash": "sha256:709a241798dabeef8889d446b29d32ab135b19259b82faa62c869360a5609eda",
+            "reason": null,
+            "transportCells": 48
+          },
+          "flow": {
+            "state": "prepared",
+            "requestHash": "sha256:7a5370bbbba21884fd644a1711fc2974ae876d90ff69b7a909526aa4b9fa04d4",
+            "reason": null
+          },
+          "commonGeometry": {
+            "state": "prepared",
+            "execution": "verified",
+            "stoppingEvent": {
+              "reason": "iteration-limit",
+              "iteration": 4,
+              "cycleStart": null,
+              "cyclePeriod": null,
+              "edgeIds": []
+            }
+          }
+        },
+        "expressionAvailability": {
+          "population": 200,
+          "applicable": 180,
+          "observed": 180,
+          "counts": {
+            "observed": 180,
+            "observed-zero": 0,
+            "not-applicable": 20,
+            "unobserved": 0,
+            "rejected-transformation": 0,
+            "budget-failure": 0
+          }
+        },
+        "diagnostic": {
+          "ollivierArtifactHash": "sha256:f1bdcc3c3db844372e99f3eb2480ebd67fd0c7af4946e6e7becaa15aacbcfe42",
+          "flowArtifactHash": "sha256:aad4595d624eae06c2e7fe84520a625642b34e236be8ea5ada32bc3fbccece88",
+          "flowTermination": {
+            "reason": "iteration-limit",
+            "iteration": 4,
+            "cycleStart": null,
+            "cyclePeriod": null,
+            "edgeIds": []
+          },
+          "observedFlowFrames": 5,
+          "requestedFlowFrames": 5,
+          "graphProbes": {
+            "state": "executed",
+            "artifactHash": "sha256:3ce1b90b9ad01b3163f041bc20f51d7b14515a1efa4df3b4eb13da049fa07baa",
+            "summary": {
+              "status": "observed",
+              "coverage": {
+                "numerator": 3,
+                "denominator": 3,
+                "complete": true
+              },
+              "targets": {
+                "total": 27,
+                "applied": 27,
+                "rejected": 0
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "witvliet": {
+    "census": {
+      "scoringPerformed": false,
+      "stageCounts": {
+        "Adult": 2,
+        "L1": 4,
+        "L2": 1,
+        "L3": 1
+      },
+      "unitCount": 8,
+      "units": [
+        {
+          "chemicalExcludedNeuronLoopCount": 0,
+          "chemicalExcludedNonNeuronOrUnresolvedCount": 100,
+          "chemicalRecordCount": 775,
+          "completeNodeUniverse": false,
+          "duplicateConnectionRecordCount": 0,
+          "endpointNodeCount": 187,
+          "gapMirrorCounts": {
+            "self-loop": 2,
+            "verified-mirror": 81
+          },
+          "gapRecordCount": 164,
+          "gapUndirectedPairCount": 83,
+          "id": "Dataset1",
+          "nativeContactEntries": 1502,
+          "nativeRecordCount": 939,
+          "nativeSelfLoopCount": 2,
+          "nodeLabelResolutionCounts": {
+            "individual-member": 187
+          },
+          "nodeTypeCounts": {
+            "inter": 44,
+            "modulatory": 22,
+            "motor": 38,
+            "muscle": 17,
+            "other": 9,
+            "sensory": 57
+          },
+          "projectionEdgeCount": 675,
+          "projectionNodeCount": 161,
+          "stage": "L1",
+          "unobservedIsolates": null
+        },
+        {
+          "chemicalExcludedNeuronLoopCount": 0,
+          "chemicalExcludedNonNeuronOrUnresolvedCount": 121,
+          "chemicalRecordCount": 986,
+          "completeNodeUniverse": false,
+          "duplicateConnectionRecordCount": 0,
+          "endpointNodeCount": 194,
+          "gapMirrorCounts": {
+            "self-loop": 2,
+            "single-native-orientation": 1,
+            "verified-mirror": 121
+          },
+          "gapRecordCount": 245,
+          "gapUndirectedPairCount": 124,
+          "id": "Dataset2",
+          "nativeContactEntries": 2158,
+          "nativeRecordCount": 1231,
+          "nativeSelfLoopCount": 2,
+          "nodeLabelResolutionCounts": {
+            "individual-member": 194
+          },
+          "nodeTypeCounts": {
+            "inter": 44,
+            "modulatory": 23,
+            "motor": 38,
+            "muscle": 21,
+            "other": 11,
+            "sensory": 57
+          },
+          "projectionEdgeCount": 865,
+          "projectionNodeCount": 162,
+          "stage": "L1",
+          "unobservedIsolates": null
+        },
+        {
+          "chemicalExcludedNeuronLoopCount": 0,
+          "chemicalExcludedNonNeuronOrUnresolvedCount": 125,
+          "chemicalRecordCount": 1012,
+          "completeNodeUniverse": false,
+          "duplicateConnectionRecordCount": 0,
+          "endpointNodeCount": 198,
+          "gapMirrorCounts": {
+            "self-loop": 2,
+            "verified-mirror": 92
+          },
+          "gapRecordCount": 186,
+          "gapUndirectedPairCount": 94,
+          "id": "Dataset3",
+          "nativeContactEntries": 2344,
+          "nativeRecordCount": 1198,
+          "nativeSelfLoopCount": 2,
+          "nodeLabelResolutionCounts": {
+            "individual-member": 198
+          },
+          "nodeTypeCounts": {
+            "inter": 44,
+            "modulatory": 23,
+            "motor": 38,
+            "muscle": 27,
+            "other": 9,
+            "sensory": 57
+          },
+          "projectionEdgeCount": 887,
+          "projectionNodeCount": 162,
+          "stage": "L1",
+          "unobservedIsolates": null
+        },
+        {
+          "chemicalExcludedNeuronLoopCount": 0,
+          "chemicalExcludedNonNeuronOrUnresolvedCount": 125,
+          "chemicalRecordCount": 1136,
+          "completeNodeUniverse": false,
+          "duplicateConnectionRecordCount": 0,
+          "endpointNodeCount": 204,
+          "gapMirrorCounts": {
+            "self-loop": 3,
+            "verified-mirror": 206
+          },
+          "gapRecordCount": 415,
+          "gapUndirectedPairCount": 209,
+          "id": "Dataset4",
+          "nativeContactEntries": 3260,
+          "nativeRecordCount": 1551,
+          "nativeSelfLoopCount": 3,
+          "nodeLabelResolutionCounts": {
+            "individual-member": 204
+          },
+          "nodeTypeCounts": {
+            "inter": 44,
+            "modulatory": 23,
+            "motor": 40,
+            "muscle": 26,
+            "other": 10,
+            "sensory": 61
+          },
+          "projectionEdgeCount": 1011,
+          "projectionNodeCount": 168,
+          "stage": "L1",
+          "unobservedIsolates": null
+        },
+        {
+          "chemicalExcludedNeuronLoopCount": 0,
+          "chemicalExcludedNonNeuronOrUnresolvedCount": 191,
+          "chemicalRecordCount": 1515,
+          "completeNodeUniverse": false,
+          "duplicateConnectionRecordCount": 0,
+          "endpointNodeCount": 211,
+          "gapMirrorCounts": {
+            "self-loop": 6,
+            "single-native-orientation": 1,
+            "verified-mirror": 285
+          },
+          "gapRecordCount": 577,
+          "gapUndirectedPairCount": 292,
+          "id": "Dataset5",
+          "nativeContactEntries": 4947,
+          "nativeRecordCount": 2092,
+          "nativeSelfLoopCount": 6,
+          "nodeLabelResolutionCounts": {
+            "individual-member": 211
+          },
+          "nodeTypeCounts": {
+            "inter": 44,
+            "modulatory": 25,
+            "motor": 42,
+            "muscle": 28,
+            "other": 9,
+            "sensory": 63
+          },
+          "projectionEdgeCount": 1324,
+          "projectionNodeCount": 174,
+          "stage": "L2",
+          "unobservedIsolates": null
+        },
+        {
+          "chemicalExcludedNeuronLoopCount": 0,
+          "chemicalExcludedNonNeuronOrUnresolvedCount": 211,
+          "chemicalRecordCount": 1525,
+          "completeNodeUniverse": false,
+          "duplicateConnectionRecordCount": 0,
+          "endpointNodeCount": 217,
+          "gapMirrorCounts": {
+            "self-loop": 2,
+            "single-native-orientation": 1,
+            "verified-mirror": 212
+          },
+          "gapRecordCount": 427,
+          "gapUndirectedPairCount": 215,
+          "id": "Dataset6",
+          "nativeContactEntries": 4989,
+          "nativeRecordCount": 1952,
+          "nativeSelfLoopCount": 2,
+          "nodeLabelResolutionCounts": {
+            "individual-member": 216,
+            "unclassified": 1
+          },
+          "nodeTypeCounts": {
+            "inter": 44,
+            "modulatory": 25,
+            "motor": 42,
+            "muscle": 32,
+            "other": 10,
+            "sensory": 63,
+            "unclassified": 1
+          },
+          "projectionEdgeCount": 1314,
+          "projectionNodeCount": 174,
+          "stage": "L3",
+          "unobservedIsolates": null
+        },
+        {
+          "chemicalExcludedNeuronLoopCount": 11,
+          "chemicalExcludedNonNeuronOrUnresolvedCount": 258,
+          "chemicalRecordCount": 2202,
+          "completeNodeUniverse": false,
+          "duplicateConnectionRecordCount": 0,
+          "endpointNodeCount": 224,
+          "gapMirrorCounts": {
+            "self-loop": 6,
+            "single-native-orientation": 3,
+            "verified-mirror": 285
+          },
+          "gapRecordCount": 579,
+          "gapUndirectedPairCount": 294,
+          "id": "Dataset7",
+          "nativeContactEntries": 8264,
+          "nativeRecordCount": 2781,
+          "nativeSelfLoopCount": 17,
+          "nodeLabelResolutionCounts": {
+            "individual-member": 222,
+            "unclassified": 2
+          },
+          "nodeTypeCounts": {
+            "inter": 44,
+            "modulatory": 29,
+            "motor": 42,
+            "muscle": 32,
+            "other": 10,
+            "sensory": 65,
+            "unclassified": 2
+          },
+          "projectionEdgeCount": 1933,
+          "projectionNodeCount": 180,
+          "stage": "Adult",
+          "unobservedIsolates": null
+        },
+        {
+          "chemicalExcludedNeuronLoopCount": 0,
+          "chemicalExcludedNonNeuronOrUnresolvedCount": 253,
+          "chemicalRecordCount": 2186,
+          "completeNodeUniverse": false,
+          "duplicateConnectionRecordCount": 0,
+          "endpointNodeCount": 221,
+          "gapMirrorCounts": {
+            "self-loop": 8,
+            "single-native-orientation": 4,
+            "verified-mirror": 302
+          },
+          "gapRecordCount": 616,
+          "gapUndirectedPairCount": 314,
+          "id": "Dataset8",
+          "nativeContactEntries": 8825,
+          "nativeRecordCount": 2802,
+          "nativeSelfLoopCount": 8,
+          "nodeLabelResolutionCounts": {
+            "class-label": 1,
+            "individual-member": 219,
+            "unclassified": 1
+          },
+          "nodeTypeCounts": {
+            "inter": 44,
+            "modulatory": 29,
+            "motor": 43,
+            "muscle": 32,
+            "other": 7,
+            "sensory": 65,
+            "unclassified": 1
+          },
+          "projectionEdgeCount": 1933,
+          "projectionNodeCount": 180,
+          "stage": "Adult",
+          "unobservedIsolates": null
+        }
+      ]
+    },
+    "units": [
+      {
+        "id": "Dataset1",
+        "stage": "L1",
+        "graph": {
+          "nodeCount": 161,
+          "edgeCount": 675,
+          "isolatedNodeCount": 0,
+          "reciprocalArcCount": 116,
+          "feedbackArcCount": 401,
+          "reachableOrderedPairCount": 16464,
+          "weakComponentSizes": [
+            161
+          ],
+          "strongComponentSizes": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            98
+          ]
+        },
+        "fullParentProviders": {
+          "forman": {
+            "state": "size-eligible",
+            "reason": null
+          },
+          "canonical": {
+            "state": "ineligible",
+            "reason": "canonical-size-bound"
+          },
+          "typed": {
+            "state": "ineligible",
+            "reason": "native-channels-do-not-supply-the-five-required-typed-fields"
+          },
+          "topology": {
+            "state": "ineligible",
+            "reason": "topology-size-bound"
+          },
+          "ollivier": {
+            "state": "ineligible",
+            "reason": "ollivier-size-or-empty-bound"
+          },
+          "flow": {
+            "state": "ineligible",
+            "reason": "flow-size-or-empty-bound"
+          },
+          "commonGeometry": {
+            "state": "ineligible",
+            "execution": "not-run",
+            "stoppingEvent": null
+          }
+        },
+        "neighborhoodScopes": {
+          "candidateCount": 161,
+          "providers": {
+            "forman": {
+              "size-eligible": 161
+            },
+            "canonical": {
+              "ineligible:canonical-size-bound": 92,
+              "size-eligible": 69
+            },
+            "typed": {
+              "ineligible:native-channels-do-not-supply-the-five-required-typed-fields": 161
+            },
+            "topology": {
+              "size-eligible": 161
+            },
+            "ollivier": {
+              "ineligible:ollivier-size-or-empty-bound": 22,
+              "prepared": 139
+            },
+            "flow": {
+              "ineligible:flow-size-or-empty-bound": 2,
+              "prepared": 159
+            },
+            "commonGeometry": {
+              "ineligible": 22,
+              "prepared": 139
+            }
+          },
+          "commonPrepared": 139
+        },
+        "parentFormanArtifactHash": "sha256:b44148eca1998cc5ebeee63902cd4e4053e6e9c7ea6a1dfead7301570ec14c77"
+      },
+      {
+        "id": "Dataset2",
+        "stage": "L1",
+        "graph": {
+          "nodeCount": 162,
+          "edgeCount": 865,
+          "isolatedNodeCount": 0,
+          "reciprocalArcCount": 166,
+          "feedbackArcCount": 599,
+          "reachableOrderedPairCount": 18945,
+          "weakComponentSizes": [
+            162
+          ],
+          "strongComponentSizes": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            2,
+            2,
+            2,
+            2,
+            4,
+            115
+          ]
+        },
+        "fullParentProviders": {
+          "forman": {
+            "state": "size-eligible",
+            "reason": null
+          },
+          "canonical": {
+            "state": "ineligible",
+            "reason": "canonical-size-bound"
+          },
+          "typed": {
+            "state": "ineligible",
+            "reason": "native-channels-do-not-supply-the-five-required-typed-fields"
+          },
+          "topology": {
+            "state": "ineligible",
+            "reason": "topology-size-bound"
+          },
+          "ollivier": {
+            "state": "ineligible",
+            "reason": "ollivier-size-or-empty-bound"
+          },
+          "flow": {
+            "state": "ineligible",
+            "reason": "flow-size-or-empty-bound"
+          },
+          "commonGeometry": {
+            "state": "ineligible",
+            "execution": "not-run",
+            "stoppingEvent": null
+          }
+        },
+        "neighborhoodScopes": {
+          "candidateCount": 162,
+          "providers": {
+            "forman": {
+              "size-eligible": 162
+            },
+            "canonical": {
+              "ineligible:canonical-size-bound": 121,
+              "size-eligible": 41
+            },
+            "typed": {
+              "ineligible:native-channels-do-not-supply-the-five-required-typed-fields": 162
+            },
+            "topology": {
+              "size-eligible": 162
+            },
+            "ollivier": {
+              "ineligible:ollivier-size-or-empty-bound": 38,
+              "prepared": 124
+            },
+            "flow": {
+              "ineligible:STRUCTURAL_FLOW_LIMIT_EXCEEDED": 4,
+              "ineligible:flow-size-or-empty-bound": 7,
+              "prepared": 151
+            },
+            "commonGeometry": {
+              "ineligible": 38,
+              "prepared": 124
+            }
+          },
+          "commonPrepared": 124
+        },
+        "parentFormanArtifactHash": "sha256:5297a70565d818fcd28760bf9a30eb5c2658b1c91e861535dc757a57c8826e8a"
+      },
+      {
+        "id": "Dataset3",
+        "stage": "L1",
+        "graph": {
+          "nodeCount": 162,
+          "edgeCount": 887,
+          "isolatedNodeCount": 0,
+          "reciprocalArcCount": 198,
+          "feedbackArcCount": 618,
+          "reachableOrderedPairCount": 19370,
+          "weakComponentSizes": [
+            162
+          ],
+          "strongComponentSizes": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            2,
+            2,
+            4,
+            119
+          ]
+        },
+        "fullParentProviders": {
+          "forman": {
+            "state": "size-eligible",
+            "reason": null
+          },
+          "canonical": {
+            "state": "ineligible",
+            "reason": "canonical-size-bound"
+          },
+          "typed": {
+            "state": "ineligible",
+            "reason": "native-channels-do-not-supply-the-five-required-typed-fields"
+          },
+          "topology": {
+            "state": "ineligible",
+            "reason": "topology-size-bound"
+          },
+          "ollivier": {
+            "state": "ineligible",
+            "reason": "ollivier-size-or-empty-bound"
+          },
+          "flow": {
+            "state": "ineligible",
+            "reason": "flow-size-or-empty-bound"
+          },
+          "commonGeometry": {
+            "state": "ineligible",
+            "execution": "not-run",
+            "stoppingEvent": null
+          }
+        },
+        "neighborhoodScopes": {
+          "candidateCount": 162,
+          "providers": {
+            "forman": {
+              "size-eligible": 162
+            },
+            "canonical": {
+              "ineligible:canonical-size-bound": 121,
+              "size-eligible": 41
+            },
+            "typed": {
+              "ineligible:native-channels-do-not-supply-the-five-required-typed-fields": 162
+            },
+            "topology": {
+              "size-eligible": 162
+            },
+            "ollivier": {
+              "ineligible:ollivier-size-or-empty-bound": 44,
+              "prepared": 118
+            },
+            "flow": {
+              "ineligible:STRUCTURAL_FLOW_LIMIT_EXCEEDED": 2,
+              "ineligible:flow-size-or-empty-bound": 5,
+              "prepared": 155
+            },
+            "commonGeometry": {
+              "ineligible": 44,
+              "prepared": 118
+            }
+          },
+          "commonPrepared": 118
+        },
+        "parentFormanArtifactHash": "sha256:8589712a63d69f3f993a4037442d63139f7d0741a3fc5308f91e43d6de16df5b"
+      },
+      {
+        "id": "Dataset4",
+        "stage": "L1",
+        "graph": {
+          "nodeCount": 168,
+          "edgeCount": 1011,
+          "isolatedNodeCount": 0,
+          "reciprocalArcCount": 208,
+          "feedbackArcCount": 686,
+          "reachableOrderedPairCount": 21015,
+          "weakComponentSizes": [
+            168
+          ],
+          "strongComponentSizes": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            123
+          ]
+        },
+        "fullParentProviders": {
+          "forman": {
+            "state": "size-eligible",
+            "reason": null
+          },
+          "canonical": {
+            "state": "ineligible",
+            "reason": "canonical-size-bound"
+          },
+          "typed": {
+            "state": "ineligible",
+            "reason": "native-channels-do-not-supply-the-five-required-typed-fields"
+          },
+          "topology": {
+            "state": "ineligible",
+            "reason": "topology-size-bound"
+          },
+          "ollivier": {
+            "state": "ineligible",
+            "reason": "ollivier-size-or-empty-bound"
+          },
+          "flow": {
+            "state": "ineligible",
+            "reason": "flow-size-or-empty-bound"
+          },
+          "commonGeometry": {
+            "state": "ineligible",
+            "execution": "not-run",
+            "stoppingEvent": null
+          }
+        },
+        "neighborhoodScopes": {
+          "candidateCount": 168,
+          "providers": {
+            "forman": {
+              "size-eligible": 168
+            },
+            "canonical": {
+              "ineligible:canonical-size-bound": 139,
+              "size-eligible": 29
+            },
+            "typed": {
+              "ineligible:native-channels-do-not-supply-the-five-required-typed-fields": 168
+            },
+            "topology": {
+              "size-eligible": 168
+            },
+            "ollivier": {
+              "ineligible:ollivier-size-or-empty-bound": 59,
+              "prepared": 109
+            },
+            "flow": {
+              "ineligible:STRUCTURAL_FLOW_LIMIT_EXCEEDED": 4,
+              "ineligible:flow-size-or-empty-bound": 15,
+              "prepared": 149
+            },
+            "commonGeometry": {
+              "ineligible": 59,
+              "prepared": 109
+            }
+          },
+          "commonPrepared": 109
+        },
+        "parentFormanArtifactHash": "sha256:b573aa9e61fd2b476614b7b06a03c021cee9f170988a58c90037c04ecedfdd0c"
+      },
+      {
+        "id": "Dataset5",
+        "stage": "L2",
+        "graph": {
+          "nodeCount": 174,
+          "edgeCount": 1324,
+          "isolatedNodeCount": 1,
+          "reciprocalArcCount": 316,
+          "feedbackArcCount": 1104,
+          "reachableOrderedPairCount": 26012,
+          "weakComponentSizes": [
+            1,
+            173
+          ],
+          "strongComponentSizes": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            151
+          ]
+        },
+        "fullParentProviders": {
+          "forman": {
+            "state": "size-eligible",
+            "reason": null
+          },
+          "canonical": {
+            "state": "ineligible",
+            "reason": "canonical-size-bound"
+          },
+          "typed": {
+            "state": "ineligible",
+            "reason": "native-channels-do-not-supply-the-five-required-typed-fields"
+          },
+          "topology": {
+            "state": "ineligible",
+            "reason": "topology-size-bound"
+          },
+          "ollivier": {
+            "state": "ineligible",
+            "reason": "ollivier-size-or-empty-bound"
+          },
+          "flow": {
+            "state": "ineligible",
+            "reason": "flow-size-or-empty-bound"
+          },
+          "commonGeometry": {
+            "state": "ineligible",
+            "execution": "not-run",
+            "stoppingEvent": null
+          }
+        },
+        "neighborhoodScopes": {
+          "candidateCount": 174,
+          "providers": {
+            "forman": {
+              "size-eligible": 174
+            },
+            "canonical": {
+              "ineligible:canonical-size-bound": 157,
+              "size-eligible": 17
+            },
+            "typed": {
+              "ineligible:native-channels-do-not-supply-the-five-required-typed-fields": 174
+            },
+            "topology": {
+              "size-eligible": 174
+            },
+            "ollivier": {
+              "ineligible:ollivier-size-or-empty-bound": 93,
+              "prepared": 81
+            },
+            "flow": {
+              "ineligible:STRUCTURAL_FLOW_LIMIT_EXCEEDED": 7,
+              "ineligible:flow-size-or-empty-bound": 39,
+              "prepared": 128
+            },
+            "commonGeometry": {
+              "ineligible": 93,
+              "prepared": 81
+            }
+          },
+          "commonPrepared": 81
+        },
+        "parentFormanArtifactHash": "sha256:7bf4cd63d1c0290c832a381b3a5b613e6620e6ac3cff9ab730e7172f11c03cc8"
+      },
+      {
+        "id": "Dataset6",
+        "stage": "L3",
+        "graph": {
+          "nodeCount": 174,
+          "edgeCount": 1314,
+          "isolatedNodeCount": 0,
+          "reciprocalArcCount": 278,
+          "feedbackArcCount": 1010,
+          "reachableOrderedPairCount": 25042,
+          "weakComponentSizes": [
+            174
+          ],
+          "strongComponentSizes": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            145
+          ]
+        },
+        "fullParentProviders": {
+          "forman": {
+            "state": "size-eligible",
+            "reason": null
+          },
+          "canonical": {
+            "state": "ineligible",
+            "reason": "canonical-size-bound"
+          },
+          "typed": {
+            "state": "ineligible",
+            "reason": "native-channels-do-not-supply-the-five-required-typed-fields"
+          },
+          "topology": {
+            "state": "ineligible",
+            "reason": "topology-size-bound"
+          },
+          "ollivier": {
+            "state": "ineligible",
+            "reason": "ollivier-size-or-empty-bound"
+          },
+          "flow": {
+            "state": "ineligible",
+            "reason": "flow-size-or-empty-bound"
+          },
+          "commonGeometry": {
+            "state": "ineligible",
+            "execution": "not-run",
+            "stoppingEvent": null
+          }
+        },
+        "neighborhoodScopes": {
+          "candidateCount": 174,
+          "providers": {
+            "forman": {
+              "size-eligible": 174
+            },
+            "canonical": {
+              "ineligible:canonical-size-bound": 158,
+              "size-eligible": 16
+            },
+            "typed": {
+              "ineligible:native-channels-do-not-supply-the-five-required-typed-fields": 174
+            },
+            "topology": {
+              "size-eligible": 174
+            },
+            "ollivier": {
+              "ineligible:ollivier-size-or-empty-bound": 86,
+              "prepared": 88
+            },
+            "flow": {
+              "ineligible:STRUCTURAL_FLOW_LIMIT_EXCEEDED": 4,
+              "ineligible:flow-size-or-empty-bound": 35,
+              "prepared": 135
+            },
+            "commonGeometry": {
+              "ineligible": 86,
+              "prepared": 88
+            }
+          },
+          "commonPrepared": 88
+        },
+        "parentFormanArtifactHash": "sha256:cb67aaef3083e5f1c96351a3230dddf307c02fcc885e7f9237ca9a35c0ead4cb"
+      },
+      {
+        "id": "Dataset7",
+        "stage": "Adult",
+        "graph": {
+          "nodeCount": 180,
+          "edgeCount": 1933,
+          "isolatedNodeCount": 0,
+          "reciprocalArcCount": 528,
+          "feedbackArcCount": 1590,
+          "reachableOrderedPairCount": 28461,
+          "weakComponentSizes": [
+            180
+          ],
+          "strongComponentSizes": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            159
+          ]
+        },
+        "fullParentProviders": {
+          "forman": {
+            "state": "size-eligible",
+            "reason": null
+          },
+          "canonical": {
+            "state": "ineligible",
+            "reason": "canonical-size-bound"
+          },
+          "typed": {
+            "state": "ineligible",
+            "reason": "native-channels-do-not-supply-the-five-required-typed-fields"
+          },
+          "topology": {
+            "state": "ineligible",
+            "reason": "topology-size-bound"
+          },
+          "ollivier": {
+            "state": "ineligible",
+            "reason": "ollivier-size-or-empty-bound"
+          },
+          "flow": {
+            "state": "ineligible",
+            "reason": "flow-size-or-empty-bound"
+          },
+          "commonGeometry": {
+            "state": "ineligible",
+            "execution": "not-run",
+            "stoppingEvent": null
+          }
+        },
+        "neighborhoodScopes": {
+          "candidateCount": 180,
+          "providers": {
+            "forman": {
+              "size-eligible": 180
+            },
+            "canonical": {
+              "ineligible:canonical-size-bound": 175,
+              "size-eligible": 5
+            },
+            "typed": {
+              "ineligible:native-channels-do-not-supply-the-five-required-typed-fields": 180
+            },
+            "topology": {
+              "ineligible:topology-size-bound": 2,
+              "size-eligible": 178
+            },
+            "ollivier": {
+              "ineligible:ollivier-size-or-empty-bound": 151,
+              "prepared": 29
+            },
+            "flow": {
+              "ineligible:STRUCTURAL_FLOW_LIMIT_EXCEEDED": 1,
+              "ineligible:flow-size-or-empty-bound": 101,
+              "prepared": 78
+            },
+            "commonGeometry": {
+              "ineligible": 151,
+              "prepared": 29
+            }
+          },
+          "commonPrepared": 29
+        },
+        "parentFormanArtifactHash": "sha256:e10c6e9d8308825e979affe0489112ce0df9defea47b6d1a81a65e69039753b5"
+      },
+      {
+        "id": "Dataset8",
+        "stage": "Adult",
+        "graph": {
+          "nodeCount": 180,
+          "edgeCount": 1933,
+          "isolatedNodeCount": 0,
+          "reciprocalArcCount": 600,
+          "feedbackArcCount": 1594,
+          "reachableOrderedPairCount": 28481,
+          "weakComponentSizes": [
+            180
+          ],
+          "strongComponentSizes": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            159
+          ]
+        },
+        "fullParentProviders": {
+          "forman": {
+            "state": "size-eligible",
+            "reason": null
+          },
+          "canonical": {
+            "state": "ineligible",
+            "reason": "canonical-size-bound"
+          },
+          "typed": {
+            "state": "ineligible",
+            "reason": "native-channels-do-not-supply-the-five-required-typed-fields"
+          },
+          "topology": {
+            "state": "ineligible",
+            "reason": "topology-size-bound"
+          },
+          "ollivier": {
+            "state": "ineligible",
+            "reason": "ollivier-size-or-empty-bound"
+          },
+          "flow": {
+            "state": "ineligible",
+            "reason": "flow-size-or-empty-bound"
+          },
+          "commonGeometry": {
+            "state": "ineligible",
+            "execution": "not-run",
+            "stoppingEvent": null
+          }
+        },
+        "neighborhoodScopes": {
+          "candidateCount": 180,
+          "providers": {
+            "forman": {
+              "size-eligible": 180
+            },
+            "canonical": {
+              "ineligible:canonical-size-bound": 173,
+              "size-eligible": 7
+            },
+            "typed": {
+              "ineligible:native-channels-do-not-supply-the-five-required-typed-fields": 180
+            },
+            "topology": {
+              "ineligible:topology-size-bound": 2,
+              "size-eligible": 178
+            },
+            "ollivier": {
+              "ineligible:ollivier-size-or-empty-bound": 148,
+              "prepared": 32
+            },
+            "flow": {
+              "ineligible:STRUCTURAL_FLOW_LIMIT_EXCEEDED": 1,
+              "ineligible:flow-size-or-empty-bound": 93,
+              "prepared": 86
+            },
+            "commonGeometry": {
+              "ineligible": 148,
+              "prepared": 32
+            }
+          },
+          "commonPrepared": 32
+        },
+        "parentFormanArtifactHash": "sha256:281155f2634589996fcb387b5d4173e4c6a11014e10afc2abef8cc10e7645c54"
+      }
+    ]
+  },
+  "randi": {
+    "census": {
+      "animal_mapping": "unverified",
+      "bound_column_label_states": {
+        "exact_name_candidate": 7682,
+        "numeric_placeholder": 38,
+        "source_marker": 780,
+        "unidentified": 5793,
+        "unresolved_label": 86
+      },
+      "distinct_source_dataset_names": 113,
+      "duplicate_source_dataset_name_groups": 0,
+      "finite_values": 48882229,
+      "label_states": {
+        "exact_name_candidate": 7682,
+        "numeric_placeholder": 38,
+        "source_marker": 780,
+        "unidentified": 5835,
+        "unresolved_label": 86
+      },
+      "missing_values": 2528877,
+      "native_label_slots": 14421,
+      "negative_stimulation_sentinels": {
+        "-1": 162,
+        "-2": 1008,
+        "-3": 28
+      },
+      "recordings": 113,
+      "recordings_with_duplicate_labels": 84,
+      "recordings_with_nonmonotonic_or_duplicate_stimulations": 1,
+      "recordings_with_unbound_trailing_labels": 3,
+      "regular_members": 678,
+      "response_extraction": "not_performed",
+      "stimulation_rows_with_duplicate_volume": 2,
+      "stimulations": 5808,
+      "time_rows": 394084,
+      "trace_columns": 14379,
+      "trace_values": 51411106,
+      "unbound_trailing_label_slots": 42,
+      "uncompressed_member_bytes": 1242576695,
+      "zero_values": 169338
+    },
+    "mappingByAnatomicalUnit": [
+      {
+        "anatomicalUnitId": "Dataset1",
+        "traceLabelStates": {
+          "absent-from-anatomy": 2076,
+          "ambiguous-within-recording": 230,
+          "exact-label-candidate": 5376,
+          "unidentified-or-marked": 6697
+        },
+        "stimulationStates": {
+          "absent-from-anatomy": 749,
+          "ambiguous-within-recording": 95,
+          "exact-label-candidate": 2604,
+          "native-negative-sentinel": 1198,
+          "unidentified-or-marked": 1162
+        },
+        "animalIdentity": "unverified",
+        "responseTarget": "not-extracted"
+      },
+      {
+        "anatomicalUnitId": "Dataset2",
+        "traceLabelStates": {
+          "absent-from-anatomy": 2073,
+          "ambiguous-within-recording": 230,
+          "exact-label-candidate": 5379,
+          "unidentified-or-marked": 6697
+        },
+        "stimulationStates": {
+          "absent-from-anatomy": 747,
+          "ambiguous-within-recording": 95,
+          "exact-label-candidate": 2606,
+          "native-negative-sentinel": 1198,
+          "unidentified-or-marked": 1162
+        },
+        "animalIdentity": "unverified",
+        "responseTarget": "not-extracted"
+      },
+      {
+        "anatomicalUnitId": "Dataset3",
+        "traceLabelStates": {
+          "absent-from-anatomy": 2073,
+          "ambiguous-within-recording": 230,
+          "exact-label-candidate": 5379,
+          "unidentified-or-marked": 6697
+        },
+        "stimulationStates": {
+          "absent-from-anatomy": 747,
+          "ambiguous-within-recording": 95,
+          "exact-label-candidate": 2606,
+          "native-negative-sentinel": 1198,
+          "unidentified-or-marked": 1162
+        },
+        "animalIdentity": "unverified",
+        "responseTarget": "not-extracted"
+      },
+      {
+        "anatomicalUnitId": "Dataset4",
+        "traceLabelStates": {
+          "absent-from-anatomy": 2006,
+          "ambiguous-within-recording": 230,
+          "exact-label-candidate": 5446,
+          "unidentified-or-marked": 6697
+        },
+        "stimulationStates": {
+          "absent-from-anatomy": 705,
+          "ambiguous-within-recording": 95,
+          "exact-label-candidate": 2648,
+          "native-negative-sentinel": 1198,
+          "unidentified-or-marked": 1162
+        },
+        "animalIdentity": "unverified",
+        "responseTarget": "not-extracted"
+      },
+      {
+        "anatomicalUnitId": "Dataset5",
+        "traceLabelStates": {
+          "absent-from-anatomy": 1967,
+          "ambiguous-within-recording": 230,
+          "exact-label-candidate": 5485,
+          "unidentified-or-marked": 6697
+        },
+        "stimulationStates": {
+          "absent-from-anatomy": 698,
+          "ambiguous-within-recording": 95,
+          "exact-label-candidate": 2655,
+          "native-negative-sentinel": 1198,
+          "unidentified-or-marked": 1162
+        },
+        "animalIdentity": "unverified",
+        "responseTarget": "not-extracted"
+      },
+      {
+        "anatomicalUnitId": "Dataset6",
+        "traceLabelStates": {
+          "absent-from-anatomy": 1968,
+          "ambiguous-within-recording": 230,
+          "exact-label-candidate": 5484,
+          "unidentified-or-marked": 6697
+        },
+        "stimulationStates": {
+          "absent-from-anatomy": 696,
+          "ambiguous-within-recording": 95,
+          "exact-label-candidate": 2657,
+          "native-negative-sentinel": 1198,
+          "unidentified-or-marked": 1162
+        },
+        "animalIdentity": "unverified",
+        "responseTarget": "not-extracted"
+      },
+      {
+        "anatomicalUnitId": "Dataset7",
+        "traceLabelStates": {
+          "absent-from-anatomy": 1964,
+          "ambiguous-within-recording": 230,
+          "exact-label-candidate": 5488,
+          "unidentified-or-marked": 6697
+        },
+        "stimulationStates": {
+          "absent-from-anatomy": 694,
+          "ambiguous-within-recording": 95,
+          "exact-label-candidate": 2659,
+          "native-negative-sentinel": 1198,
+          "unidentified-or-marked": 1162
+        },
+        "animalIdentity": "unverified",
+        "responseTarget": "not-extracted"
+      },
+      {
+        "anatomicalUnitId": "Dataset8",
+        "traceLabelStates": {
+          "absent-from-anatomy": 1964,
+          "ambiguous-within-recording": 230,
+          "exact-label-candidate": 5488,
+          "unidentified-or-marked": 6697
+        },
+        "stimulationStates": {
+          "absent-from-anatomy": 694,
+          "ambiguous-within-recording": 95,
+          "exact-label-candidate": 2659,
+          "native-negative-sentinel": 1198,
+          "unidentified-or-marked": 1162
+        },
+        "animalIdentity": "unverified",
+        "responseTarget": "not-extracted"
+      }
+    ]
+  },
+  "localApplicabilitySha256": "b63e520b814c200855f4e78c87ffc3fd0a8162aabef4fda5e50cedb02306ad99",
+  "reportSha256": "37f28806241ede2b8c1c706df81dd8f61fd2b52cf655a00981ba9155173866a2"
+}

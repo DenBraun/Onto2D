@@ -22,16 +22,26 @@ model versions do not certify scientific validity or announce a software release
 
 The [research plan](structural-geometry/RESEARCH.md) owns the detailed gates.
 
-1. Source acquisition is complete for 13 locked downloads: DREAM4, the
-   C. elegans functional archive, eight anatomical graphs and author metadata.
-   Native graph/observation adapters and neuron mappings are next.
-2. Audit applicability, missing observations and graph size. Define bounded
-   source scopes and a task-specific response/feature profile before scoring.
-3. Freeze independent targets, baselines, grouped splits, metrics, costs and
-   negative-result reporting. Public, already inspected data is not blinded
-   preregistration.
-4. Run the DREAM4 pilot, then the C. elegans functional study. Keep the
-   developmental connectomes as a separate secondary study.
+1. Source acquisition and native applicability infrastructure are complete for
+   14 locked downloads: five DREAM4 networks, 113 functional recordings, eight
+   anatomical graphs and author metadata/export specifications.
+2. Native adapters, full census, exhaustive chemical neighborhood scopes,
+   exact-label mapping candidates and a versioned availability profile are
+   implemented. Source anomalies and unavailable states remain explicit;
+   mapping candidates do not certify animal identity or functional targets.
+3. The [D3 protocol](../cases/structural-geometry/protocol/PROTOCOL.md) fixes targets,
+   baselines, geometry features, grouped splits, metrics, costs and negative-result
+   reporting. Target/population, baseline, ridge and processed-window helpers have
+   synthetic controls and independent numerical references. Public, already
+   inspected data is not blinded preregistration. No biological predictors have
+   been fitted or compared.
+4. Next, D4 implements verified pair geometry and complete nested evaluation for
+   the five-network DREAM4 pilot. D5 then applies the functional contract to
+   C. elegans. Its processed fluorescence export lacks the original acquisition
+   missingness mask and source-paper quality flags; the adapted window contrast
+   cannot reproduce the paper's q-values or functional-edge classifier. Actual
+   response-eligible populations remain to be established. Keep developmental
+   connectomes as a separate secondary study.
 5. Evaluate provider sensitivity, robustness and cost on the accepted task.
    Publish findings and limitations regardless of direction.
 6. Implement a Structural Geometry page over verified artifacts once source,

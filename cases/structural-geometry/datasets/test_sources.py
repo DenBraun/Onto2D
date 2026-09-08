@@ -71,7 +71,7 @@ class SourceIntegrityTests(unittest.TestCase):
 
     def test_committed_source_lock(self):
         entries = sources.load_lock(sources.HERE / "source-lock.json")
-        self.assertEqual(len(entries), 13)
+        self.assertEqual(len(entries), 14)
 
 
 if __name__ == "__main__":
