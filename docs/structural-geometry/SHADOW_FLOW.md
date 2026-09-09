@@ -171,6 +171,7 @@ threshold. It reaches `iteration-limit`, not a convergence result. The original
 
 These outputs describe the selected representation under the declared flow.
 Community truth, causal significance, full-model scalability and empirical
-usefulness remain open. Remaining response-versus-geometry evaluation follows the
-[research plan](RESEARCH.md).
+usefulness remain open in general. Completed biological response comparisons
+and D6 sensitivity results, with their mixed outcomes and coverage limits, are
+described in the [research plan](RESEARCH.md); D7 presents them on the site.
 Directed persistence is conditional on a concrete unmet task.

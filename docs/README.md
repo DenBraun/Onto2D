@@ -23,6 +23,7 @@ separate documents.
 | Understand the foundational paper and its limits | [Foundations](architecture/FOUNDATIONS.md) |
 | Explore the history model and examples | [History](history/README.md), [portfolio](history/PORTFOLIO.md) |
 | Understand the History Matters benchmark | [Benchmark](history/BENCHMARK.md) |
+| Explore the Structural Geometry page and reproduce its data | [Lab guide](../apps/structural-geometry-lab/README.md) |
 | Work on Structural Geometry | [Structural Geometry](structural-geometry/README.md) |
 | Review the unimplemented Model Pack format proposal | [Model Pack v2](model-pack-v2/README.md) |
 

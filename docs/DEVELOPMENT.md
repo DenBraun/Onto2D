@@ -5,6 +5,9 @@
 Use Node.js 22+ with npm, Git, and Python 3.9+. Normal tests and Structural
 Geometry checks invoke Python standard-library references. NetworkX belongs in
 a separate reference environment; it is not a JavaScript runtime dependency.
+CI tests Node.js 22 with Python 3.11 and Node.js 24 with Python 3.13 on Linux,
+macOS and Windows. Python versions are explicit rather than inherited from
+the runner image.
 
 ```sh
 npm ci
@@ -72,6 +75,17 @@ must not rewrite their bytes. Keep linked mathematical contracts available.
 A protocol revision starts a separately identified study and preserves the
 reported result of the prior study.
 
+The biological reports retain the implementation hashes that produced them.
+[Runtime compatibility receipts](../cases/structural-geometry/runtime-compatibility.json)
+pin narrowly reviewed portability changes to exact historical report bytes,
+original and current source hashes, and the verifier itself. They do not change
+the frozen protocol, predictions or source population. Replay must still match
+every scientific field and local artifact hash; only the listed implementation
+metadata may differ. Unlisted source changes fail verification. A scientific
+change requires a separately identified study, not another portability receipt.
+Reference cost records use `null` with `resource-module-unavailable` when Python
+cannot measure peak RSS; unavailable memory is never reported as zero.
+
 `python3 scripts/reference/generate-conformance-fixtures.py` deliberately writes
 canonicalization/skeleton fixtures. `npm run check:goldens` compares without
 writing. Use case-specific `:verify` or `:check` commands for normal work;
@@ -86,6 +100,13 @@ repository file census.
 
 ## Browser and publication checks
 
+All public pages except Model Studio share a static header and footer generated
+by `scripts/site-shell.mjs`. Edit that template and `assets/css/project-shell.css`,
+then run `npm run site:shell:build`. Page subtitles live in `data-project-subtitle`;
+case links come from the validated history registry. `npm run check:site-shell`
+is included in the build and rejects stale generated regions. Navigation remains
+usable without JavaScript; `project-navigation.js` adds search and menu dismissal.
+
 Verify selection, navigation, evidence disclosure, loading failures, worker
 cancellation and comparison/missingness states for the affected interface.
 Confirm that displayed results come from the verified artifact and that a
@@ -99,3 +120,10 @@ commit; inspect `npm pack --dry-run`, public declarations, licenses and source
 notices; confirm package visibility and publication scope. Report observed local
 checks separately from CI and independent scientific review. Package version
 fields alone do not authorize or establish publication.
+
+The Structural Geometry page is generated from committed, validated research
+reports. Use `npm run structural-geometry:site:build` after changing its projection
+or worker, and `npm run structural-geometry:site:check` to require exact release
+bytes. The latter is included in the repository build. Follow the
+[lab review guide](../apps/structural-geometry-lab/README.md) for browser checks;
+page generation does not retrain the biological studies.

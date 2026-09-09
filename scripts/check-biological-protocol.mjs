@@ -13,4 +13,4 @@ const result = spawnSync(process.execPath, ["--test", ...tests.map(file => relat
 });
 if (result.error) console.error(result.error.message);
 if (result.status !== 0) process.exit(result.status ?? 1);
-console.log("Frozen biological protocol, source-bound eligibility audit and independent synthetic controls verified; no biological predictive scores.");
+console.log("Frozen D3 protocol, source-bound eligibility audit and independent synthetic controls verified; D4 pilot results are checked separately.");

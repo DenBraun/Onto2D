@@ -1,0 +1,200 @@
+{
+  "id": "biological-graph-capacity-v1",
+  "role": "D6.3-secondary-sensitivity",
+  "inspectionBoundary": "Predictor, population and comparison choices specified after D4, D5, D6.1 and D6.2 were inspected, before this profile's predictive scoring. Numerical reporting is audited during implementation. Not blinded preregistration.",
+  "studies": [
+    "dream4-knockouts",
+    "dream4-knockdowns",
+    "celegans-Dataset7"
+  ],
+  "population": "Exactly the authenticated D4/D5 target rows, magnitudes, ranks, groups and scoped graphs. No reranking, filtering, rescoping, anatomy substitution or pooling. Dataset8 is outside this capacity study; its failed D6.2 comparison is retained.",
+  "basisOrder": [
+    "B:23-frozen-graph-coordinates",
+    "Q:31-fixed-quadratic-coordinates",
+    "S:31-expanded-graph-coordinates",
+    "G:31-frozen-geometry-coordinates"
+  ],
+  "models": [
+    "B",
+    "B+G",
+    "B+Q",
+    "B+S",
+    "B+Q+G",
+    "B+S+G"
+  ],
+  "quadraticSquares": [
+    "node_count",
+    "edge_count",
+    "directed_density",
+    "source_in_degree",
+    "source_out_degree",
+    "target_in_degree",
+    "target_out_degree",
+    "global_reciprocity",
+    "directed_distance",
+    "common_predecessors",
+    "common_successors",
+    "two_step_path_count",
+    "propagation_step_2",
+    "propagation_step_3",
+    "propagation_step_4"
+  ],
+  "quadraticProducts": [
+    [
+      "source_in_degree",
+      "target_in_degree"
+    ],
+    [
+      "source_in_degree",
+      "target_out_degree"
+    ],
+    [
+      "source_out_degree",
+      "target_in_degree"
+    ],
+    [
+      "source_out_degree",
+      "target_out_degree"
+    ],
+    [
+      "source_in_degree",
+      "source_out_degree"
+    ],
+    [
+      "target_in_degree",
+      "target_out_degree"
+    ],
+    [
+      "directed_distance",
+      "source_in_degree"
+    ],
+    [
+      "directed_distance",
+      "source_out_degree"
+    ],
+    [
+      "directed_distance",
+      "target_in_degree"
+    ],
+    [
+      "directed_distance",
+      "target_out_degree"
+    ],
+    [
+      "directed_distance",
+      "two_step_path_count"
+    ],
+    [
+      "directed_distance",
+      "propagation_step_2"
+    ],
+    [
+      "directed_distance",
+      "propagation_step_3"
+    ],
+    [
+      "directed_distance",
+      "propagation_step_4"
+    ],
+    [
+      "common_predecessors",
+      "common_successors"
+    ],
+    [
+      "propagation_step_2",
+      "propagation_step_4"
+    ]
+  ],
+  "expandedFeatures": [
+    "reverse_distance",
+    "reverse_unreachable",
+    "forward_shortest_path_count",
+    "forward_shortest_path_edge_union_count",
+    "reverse_shortest_path_count",
+    "reverse_shortest_path_edge_union_count",
+    "source_out_harmonic",
+    "source_in_harmonic",
+    "target_out_harmonic",
+    "target_in_harmonic",
+    "source_in_neighbors_mean_in_degree",
+    "source_in_neighbors_mean_out_degree",
+    "source_out_neighbors_mean_in_degree",
+    "source_out_neighbors_mean_out_degree",
+    "target_in_neighbors_mean_in_degree",
+    "target_in_neighbors_mean_out_degree",
+    "target_out_neighbors_mean_in_degree",
+    "target_out_neighbors_mean_out_degree",
+    "source_reciprocal_in_fraction",
+    "source_reciprocal_out_fraction",
+    "target_reciprocal_in_fraction",
+    "target_reciprocal_out_fraction",
+    "propagation_step_5",
+    "propagation_step_6",
+    "propagation_step_7",
+    "propagation_step_8",
+    "reverse_propagation_step_2",
+    "reverse_propagation_step_3",
+    "reverse_propagation_step_4",
+    "predecessor_jaccard",
+    "successor_jaccard"
+  ],
+  "expandedDefinitions": {
+    "paths": "Unweighted directed shortest paths. Reverse means target to source on the same graph, not graph transposition. Path count counts distinct shortest paths; edge union counts each arc on any shortest path once. Unreachable distance/count/union is zero, with an explicit reverse-unreachable mask (forward mask already in B).",
+    "harmonic": "sum(1/d(u,v) over reachable v != u)/(n-1); incoming swaps u,v; singleton zero. Unreachable nodes contribute zero, no largest-component restriction.",
+    "neighborMeans": "At each endpoint, mean in-degree then out-degree over its incoming neighbors, then outgoing neighbors. Empty sets give zero and the corresponding B endpoint degree supplies the mask.",
+    "reciprocity": "Number of neighbors joined in both directions divided by endpoint in-degree, then out-degree; zero for an empty denominator.",
+    "propagation": "Same row-substochastic P as D3: terminate at sinks, no added self-loops, exact walk lengths and revisits allowed. Forward P^5..P^8; reverse P^2..P^4[target,source].",
+    "jaccard": "Common incoming/outgoing neighbor count divided by union size; empty union zero. No alias, label, parent-graph, response or geometry lookup."
+  },
+  "arithmetic": "Graph-derived S quantities are exact reduced rationals and path counts are BigInt before Number(numerator)/Number(denominator) conversion. Q is the stated binary64 product of two raw B coordinates before any training standardization. No transformations learned from held-out data.",
+  "limits": {
+    "nodes": 64,
+    "edges": 64,
+    "pairCoordinates": 467712,
+    "workUnits": 4000000,
+    "workFormula": "12*n^3+n^2*m+16*n*m",
+    "rationalDigits": 256,
+    "rows": 4096,
+    "columns": 116
+  },
+  "learner": "Unchanged D3 balanced weighted ridge, normalized-rank target, train-only standardization, zero constant-training columns, unpenalized intercept, five penalties and nested whole-group holdouts. Every model uses the same fixed grid and groups; strongest penalty wins an exact inner-score tie.",
+  "capacity": "B+G, B+Q and B+S each expose 54 coefficients; the two augmented controls expose 85. Equal coordinate count/grid is not equal statistical capacity. Report constant/nonconstant outer-training columns; nonconstant count is not matrix rank or effective degrees of freedom. Q tests fixed nonlinear recoding of B, while S adds graph context. Neither is asserted to outperform B before measurement.",
+  "comparisons": [
+    [
+      "B+S+G",
+      "B+S"
+    ],
+    [
+      "B+Q+G",
+      "B+Q"
+    ],
+    [
+      "B+G",
+      "B"
+    ],
+    [
+      "B+Q",
+      "B"
+    ],
+    [
+      "B+S",
+      "B"
+    ],
+    [
+      "B+G",
+      "B+Q"
+    ],
+    [
+      "B+G",
+      "B+S"
+    ],
+    [
+      "B+S",
+      "B+Q"
+    ]
+  ],
+  "primaryWithinSecondaryStudy": "B+S+G minus B+S, selected before this scoring run. Retain every comparison and complete equal-group vector; no selecting the best control after observing outcomes. Refit B and B+G and require exact agreement with the recorded primary reports.",
+  "failure": "Any declared feature limit or required model computation failure aborts the complete run with a diagnostic, before replacing a stored report. No partial successful report, reduced features, dropped groups, partial populations or fallback comparisons. Integrity mismatches also abort. Authenticated successful primary geometry is reused and its extraction cost is not attributed to this run.",
+  "interpretation": "Descriptive fixed-pipeline sensitivity with group ranges and leave-one-group-out aggregate ranges; not confidence intervals, calibrated significance, new biological samples or independent scientific validation. DREAM4 has five networks; C. elegans reuses one anatomy with shared functional recordings/receivers. Geometry and every control remain functions of the same scoped graph.",
+  "aggregationAudit": "Keep D3 binary64 group means, differences and descriptive ranges for compatibility. Additionally derive exact equal-group/equal-intervention differences from integer rank-skill numerators and denominators. Interpret the sign of that exact fraction, so a floating summation tail cannot become a positive-gain claim. Prediction ties remain exact binary64 equality; no tolerance or outcome-dependent threshold is introduced."
+}

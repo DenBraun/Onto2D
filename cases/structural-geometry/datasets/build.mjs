@@ -11,6 +11,7 @@ import { createPythonStructuralFlowAdapter } from "@onto2d/structural-geometry/f
 import { runStructuralResponseProbes } from "@onto2d/structural-geometry/responses";
 import { SCOPE_POLICY, digest, enumerateScopes, graphCensus, preflightProviders, scopePack } from "./scopes.mjs";
 import { TASK_PROFILE, availability, mapNeuronLabels, observation } from "./task-profile.mjs";
+import { verifyImplementationBinding, verifyCompatibleReplay } from "../runtime-compatibility.mjs";
 
 const here = new URL("./", import.meta.url);
 const json = async name => JSON.parse(await readFile(new URL(name, here), "utf8"));
@@ -193,7 +194,7 @@ export async function build({ verify = false } = {}) {
   report.localApplicabilitySha256 = sha256(localEncoded);
   const sealed = { ...report, reportSha256: digest(report) }, encoded = `${JSON.stringify(sealed, null, 2)}\n`;
   if (verify) {
-    if (await readFile(new URL("census.json", here), "utf8") !== encoded) throw new Error("Biological census replay differs.");
+    await verifyCompatibleReplay(new URL("census.json", here), sealed);
   }
   // A failed replay must not replace the accepted applicability artifact.
   await atomicText("cache/prepared/applicability.json", localEncoded);
@@ -203,9 +204,9 @@ export async function build({ verify = false } = {}) {
 }
 
 export async function verifyReport() {
-  const { reportSha256, ...report } = await json("census.json");
+  const sealed = await json("census.json"), { reportSha256, ...report } = sealed;
+  await verifyImplementationBinding(new URL("census.json", here), sealed, await implementationBinding());
   if (digest(report) !== reportSha256 || report.sourceLockSha256 !== sha256(await readFile(new URL("source-lock.json", here))) ||
-      JSON.stringify(report.implementation) !== JSON.stringify(await implementationBinding()) ||
       JSON.stringify(report.scopePolicy) !== JSON.stringify(SCOPE_POLICY) || JSON.stringify(report.taskProfile) !== JSON.stringify(TASK_PROFILE)) throw new Error("Biological census integrity or implementation binding differs; rerun the explicit source preparation.");
   if (report.dream4.units.length !== 5 || report.witvliet.units.length !== 8 || report.randi.census.recordings !== 113) throw new Error("Incomplete selected source population.");
   return report;

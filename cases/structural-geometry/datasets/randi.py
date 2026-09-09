@@ -71,14 +71,14 @@ class _ArchiveReader:
 class _NativeTarInfo(tarfile.TarInfo):
     """Reject hidden extension headers before tarfile allocates their payload."""
 
-    @classmethod
-    def frombuf(cls, buf, encoding, errors):
-        member = super().frombuf(buf, encoding, errors)
-        if member.type not in (tarfile.REGTYPE, tarfile.AREGTYPE, tarfile.DIRTYPE):
+    def _proc_member(self, archive):
+        # Recent Python versions parse via _frombuf rather than frombuf.
+        # Check the dispatch boundary before any extension payload is read.
+        if self.type not in (tarfile.REGTYPE, tarfile.AREGTYPE, tarfile.DIRTYPE):
             raise ValueError("Unexpected Randi archive member type")
-        if member.size < 0 or member.size > MAX_MEMBER_BYTES:
+        if self.size < 0 or self.size > MAX_MEMBER_BYTES:
             raise ValueError("Randi member exceeds byte limit")
-        return member
+        return super()._proc_member(archive)
 
 
 def _archive_identity(path):

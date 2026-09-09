@@ -140,11 +140,18 @@ function renderCase(cases, caseId = document.body.dataset.caseId) {
 
   document.body.dataset.caseId = entry.caseId;
   document.title = `${entry.title} - Onto2D History Case`;
+  document.querySelector(".project-brand small").textContent = entry.title;
+  for (const link of document.querySelectorAll(".project-nav a")) {
+    if (link.href === projectUrl(entry.casePagePath)) link.setAttribute("aria-current", "page");
+    else link.removeAttribute("aria-current");
+  }
+  const pageMethod = document.querySelector("[data-page-method]");
+  if (pageMethod) pageMethod.href = `${GITHUB_BLOB_ROOT}${entry.implementationDoc}`;
   const description = document.querySelector('meta[name="description"]');
   if (description) description.content = `${entry.title}: ${entry.question}`;
   document.getElementById("case-header-title").textContent = entry.shortTitle;
   document.getElementById("case-domain").textContent = entry.domainLabel;
-  const studioNavigation = document.querySelector('.history-case-nav a[href*="model-studio/"]');
+  const studioNavigation = document.querySelector('.project-page-links a[data-page-model]');
   if (!studioNavigation) throw new Error("History case markup is missing its Model Studio navigation link.");
   studioNavigation.href = modelStudioHref(entry, PROJECT_ROOT);
   const status = document.getElementById("case-status");

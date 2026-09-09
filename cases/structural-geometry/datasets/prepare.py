@@ -16,7 +16,7 @@ def write_json_atomic(target, value):
         raise ValueError("Prepared artifact must not use a symlink")
     temporary = None
     try:
-        with tempfile.NamedTemporaryFile(mode="w", encoding="utf-8", dir=target.parent,
+        with tempfile.NamedTemporaryFile(mode="w", encoding="utf-8", newline="\n", dir=target.parent,
                                          delete=False) as output:
             temporary = Path(output.name)
             json.dump(value, output, sort_keys=True, separators=(",", ":"), allow_nan=False)

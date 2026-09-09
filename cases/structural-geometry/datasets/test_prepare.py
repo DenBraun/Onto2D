@@ -23,6 +23,18 @@ class NativePublicationTests(unittest.TestCase):
         self.assertEqual(json.loads(self.target.read_text()), {"result": 2})
         self.assertEqual(list(self.root.iterdir()), [self.target])
 
+    def test_native_bytes_do_not_depend_on_windows_default_newlines(self):
+        named_temporary_file = tempfile.NamedTemporaryFile
+
+        def windows_text_default(*args, **kwargs):
+            if kwargs.get("newline") is None:
+                kwargs["newline"] = "\r\n"
+            return named_temporary_file(*args, **kwargs)
+
+        with patch("prepare.tempfile.NamedTemporaryFile", side_effect=windows_text_default):
+            write_json_atomic(self.target, {"label": "AVAL", "missing": None})
+        self.assertEqual(self.target.read_bytes(), b'{"label":"AVAL","missing":null}\n')
+
     def test_failed_serialization_preserves_existing_artifact_and_removes_temporary(self):
         previous = b'{"previous":true}\n'
         self.target.write_bytes(previous)

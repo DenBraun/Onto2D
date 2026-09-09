@@ -182,6 +182,17 @@ class RandiTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "Unexpected"):
             randi.adapt_randi(self.path, expected_recordings=1)
 
+    def test_extension_headers_are_rejected_even_with_a_complete_valid_population(self):
+        with tarfile.open(self.path, "w:gz", format=tarfile.PAX_FORMAT) as archive:
+            for index, (name, content) in enumerate(fixture().items()):
+                member = tarfile.TarInfo(name)
+                member.size = len(content)
+                if index == 0:
+                    member.pax_headers = {"comment": "unsupported extension"}
+                archive.addfile(member, io.BytesIO(content))
+        with self.assertRaisesRegex(ValueError, "Unexpected"):
+            randi.adapt_randi(self.path, expected_recordings=1)
+
     def test_resource_limits_fail_explicitly(self):
         self.archive()
         for constant, limit in (("MAX_COMPRESSED_BYTES", 1), ("MAX_EXPANDED_BYTES", 100),

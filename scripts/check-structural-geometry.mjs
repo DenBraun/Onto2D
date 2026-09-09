@@ -5,6 +5,13 @@ const cwd = fileURLToPath(new URL("../", import.meta.url));
 const commands = [
   [process.execPath, ["--test", "cases/structural-geometry/datasets/datasets.test.mjs", "cases/structural-geometry/datasets/applicability.test.mjs"]],
   [process.execPath, ["scripts/check-biological-protocol.mjs"]],
+  [process.execPath, ["scripts/check-dream4-geometry.mjs"]],
+  [process.execPath, ["scripts/check-celegans-geometry.mjs"]],
+  [process.execPath, ["scripts/check-biological-robustness.mjs"]],
+  [process.execPath, ["scripts/check-biological-anatomy.mjs"]],
+  [process.execPath, ["scripts/check-biological-capacity.mjs"]],
+  [process.execPath, ["scripts/check-biological-metric.mjs"]],
+  [process.execPath, ["scripts/check-biological-scope.mjs"]],
   ["python3", ["cases/structural-geometry/synthetic/reference.py", "--verify"]],
   [process.execPath, ["cases/structural-geometry/build.mjs", "--verify"]],
   [process.execPath, ["--test", "packages/structural-geometry/test/geometry.test.mjs",

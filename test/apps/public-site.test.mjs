@@ -30,7 +30,7 @@ const externalCasesMarkup = read("apps/external-cases/index.html");
 const externalCasesApp = read("apps/external-cases/external-cases.js");
 const externalCasesCatalog = read("apps/external-cases/external-cases-catalog.js");
 const externalCasesStyles = read("assets/css/external-cases.css");
-const historyCaseHeaderStyles = read("assets/css/history-case-header.css");
+const projectShellStyles = read("assets/css/project-shell.css");
 const historyAtlasMarkup = read("apps/history-atlas/index.html");
 const historyAtlasApp = read("apps/history-atlas/history-atlas.js");
 const historyAtlasStyles = read("assets/css/history-atlas.css");
@@ -139,9 +139,10 @@ const historyCasePageMarkups = historyCaseRegistry.cases.map((entry) => read(`${
 const modelPackWorker = read("assets/js/model-pack-worker.js");
 const siteServer = read("apps/historical-load-explorer/serve.mjs");
 const documentLifecycle = read("assets/js/document-state-reset.js");
-const caseMenuScript = read("assets/js/case-menu.js");
+const navigationScript = read("assets/js/project-navigation.js");
 const iconSprite = read("assets/icons/ui-symbols.svg");
 const publicDirectories = [
+  "apps/structural-geometry-lab",
   "apps/historical-load-explorer",
   "apps/three-node-motif-explorer",
   "apps/canonical-identity-lab",
@@ -203,10 +204,10 @@ const publicFiles = [
   "assets/css/study-cell-lineage.css",
   "assets/css/study-seshat-evidence-dependency.css",
   "assets/css/external-cases.css",
-  "assets/css/history-case-header.css",
+  "assets/css/project-shell.css",
   "assets/css/history-atlas.css",
   "assets/js/document-state-reset.js",
-  "assets/js/case-menu.js",
+  "assets/js/project-navigation.js",
   "assets/js/model-pack-worker.js",
   "assets/icons/ui-symbols.svg",
   "assets/icons/onto2d-mark.svg",
@@ -244,34 +245,30 @@ function assertScriptIdsExist(script, markup) {
   }
 }
 
-test("the root keeps three study lenses and exposes the registry-backed Case Studies menu", () => {
+test("the root connects the distinguishability foundation, three directions and geometry lab", () => {
   assert.doesNotMatch(landing, /http-equiv="refresh"/i);
-  assert.match(landingStyles, /html,body\s*\{[^}]*overflow:hidden/s);
+  assert.doesNotMatch(landingStyles, /(?:html|body)\s*\{[^}]*overflow:hidden/s);
+  assert.match(landing, /class="foundation" href=".\/apps\/structural-geometry-lab\/#distinctions"/);
+  assert.match(landing, /class="geometry-entry" href=".\/apps\/structural-geometry-lab\/"/);
   const studyLinks = [...landing.matchAll(/class="study-card[^"']*" href="([^"]+)"/g)]
     .map((match) => match[1].split("?")[0]);
   assert.deepEqual(studyLinks, [
-    "./apps/historical-load-explorer/",
+    "./apps/canonical-identity-lab/",
     "./apps/three-node-motif-explorer/",
-    "./apps/canonical-identity-lab/"
+    "./apps/historical-load-explorer/"
   ]);
   assert.match(landing, /href="\.\/apps\/level-zero-validation\/(?:\?v=[^"]+)?"/);
   assert.match(landing, /href="\.\/apps\/model-studio\/(?:\?v=[^"]+)?"/);
-  assert.match(landing, /<details class="cases-menu">/);
-  const menuRevision = landing.match(/type="module" src="\.\/assets\/js\/case-menu\.js\?v=(\d{8}\.\d+)"/);
-  assert.ok(menuRevision, "the case menu must have an explicit cache revision");
-  assert.ok(caseMenuScript.includes(`external-cases-catalog.js?v=${menuRevision[1]}`),
-    "the menu and registry validator must use the same cache revision");
+  assert.match(landing, /class="project-nav" aria-label="Main navigation"/);
+  assert.match(landing, /project-navigation\.js\?v=\d{8}\.\d+/);
   assert.match(landing, /href="\.\/apps\/history-atlas\/"/);
-  assert.match(landing, new RegExp(`${historyCaseRegistry.cases.length} cases mapped by history access and effect`));
-  assert.match(landing, /id="history-case-menu-groups"/);
-  assert.match(landing, />Case Studies <svg/);
-  assert.match(landingStyles, /\.cases-menu-panel>\.cases-menu-overview\s*\{[^}]*padding:15px 18px/s);
-  assert.match(landing, /Make complex-system claims/);
-  assert.match(caseMenuScript, /loadHistoryRegistry\(\)/);
-  assert.match(caseMenuScript, /createHistoryCases/);
-  assert.match(caseMenuScript, /entry\.primaryHistoryMode === mode\.id/);
-  assert.match(caseMenuScript, /!caseMenu\.contains\(event\.target\)/);
-  assert.match(caseMenuScript, /event\.key !== "Escape"/);
+  assert.match(landing, /data-case-filter/);
+  assert.equal([...landing.matchAll(/data-case-search=/g)].length, historyCaseRegistry.cases.length);
+  assert.match(landing, /<h1 id="landing-title">Research map<\/h1>/);
+  assert.match(landing, /Choose what counts/);
+  assert.match(landing, /Test the added value/);
+  assert.match(navigationScript, /!menu\.contains\(event\.target\)/);
+  assert.match(navigationScript, /event\.key !== "Escape"/);
 });
 
 test("the History Atlas exposes the validated 3 x 3 portfolio and honest availability", () => {
@@ -302,50 +299,43 @@ test("the History Atlas exposes the validated 3 x 3 portfolio and honest availab
   assert.match(externalCasesStyles, /@media \(max-width:760px\)/);
 });
 
-test("all History case surfaces share one header component and navigation layout", () => {
-  const surfaces = [
-    historyAtlasMarkup,
-    externalCasesMarkup,
-    bootstrapMarkup,
-    gitHistoryMarkup,
-    nixMarkup,
-    ociMarkup,
-    inTotoMarkup,
-    chemicalMarkup,
-    buildEquivalenceMarkup,
-    artworkMarkup,
-    languageMarkup,
-    manuscriptMarkup,
-    operationalMarkup,
-    ecologicalMarkup,
-    legalMarkup,
-    clinicalMarkup,
-    galacticMarkup,
-    materialMarkup,
-    lteeMarkup,
-    airflowMarkup,
-    mineralMarkup,
-    cellLineageMarkup,
-    seshatMarkup,
-    ...historyCasePageMarkups
-  ];
-  for (const markup of surfaces) {
-    assert.match(markup, /<header class="history-case-header">/);
-    assert.match(markup, /class="history-case-brand"/);
-    assert.match(markup, /class="history-case-nav" aria-label="History navigation"/);
-    assert.match(markup, /class="history-case-context"/);
-    assert.match(markup, />History Atlas<\/a>/);
-    assert.match(markup, />Model Studio<\/a>/);
-    assert.match(markup, />History model <svg class="ui-icon" aria-hidden="true">/);
-    assert.doesNotMatch(markup, /<header class="(?:case-site-header|site-header)">/);
+test("public research and case pages share accessible static navigation and a resource footer", () => {
+  const pages = publicFiles.filter(file => file.endsWith(".html") && !file.includes("model-studio/"));
+  for (const file of pages) {
+    const markup = read(file);
+    assert.equal([...markup.matchAll(/<header class="project-header">/g)].length, 1, file);
+    assert.equal([...markup.matchAll(/<footer class="project-footer">/g)].length, 1, file);
+    assert.match(markup, /class="project-brand"/);
+    assert.match(markup, /<strong>Onto2D<\/strong><small>[^<]+<\/small>/);
+    assert.match(markup, /class="project-nav" aria-label="Main navigation"/);
+    assert.match(markup, /aria-label="Documentation"/);
+    assert.match(markup, /aria-label="Evidence and data"/);
+    assert.match(markup, /aria-label="Project resources"/);
+    assert.match(markup, /project-shell\.css\?v=\d{8}\.\d+/);
+    assert.doesNotMatch(markup, /<header class="(?:landing-header|site-header|history-case-header)">/);
+    for (const entry of historyCaseRegistry.cases) {
+      assert.ok(markup.includes(`external-cases/${entry.caseId}/`), `${file}: missing ${entry.caseId}`);
+      if (entry.explorerPath) assert.ok(markup.includes(entry.explorerPath.replace("apps/", "")), `${file}: missing laboratory`);
+    }
   }
-  assert.match(historyCaseHeaderStyles, /grid-template-columns:\s*minmax\(190px, 1fr\) auto minmax\(190px, 1fr\)/);
-  assert.match(historyCaseHeaderStyles, /@media \(max-width: 700px\)/);
-  for (const styles of [externalCasesStyles, bootstrapStyles, gitHistoryStyles, nixStyles, ociStyles, inTotoStyles, chemicalStyles, buildEquivalenceStyles, artworkStyles, languageStyles, manuscriptStyles, operationalStyles, ecologicalStyles, legalStyles, clinicalStyles, galacticStyles, materialStyles, lteeStyles, airflowStyles, mineralStyles, cellLineageStyles, seshatStyles]) {
-    assert.match(styles, /@import url\("\.\/history-case-header\.css\?v=20260818\.2"\);/);
-  }
-  for (const markup of [chemicalMarkup, buildEquivalenceMarkup, artworkMarkup, languageMarkup, manuscriptMarkup, operationalMarkup, ecologicalMarkup, legalMarkup, clinicalMarkup, galacticMarkup, materialMarkup, lteeMarkup, airflowMarkup, mineralMarkup, cellLineageMarkup, seshatMarkup]) {
-    assert.match(markup, /<div class="history-case-context"><span>[^<]+<\/span><strong class="history-case-state"><i><\/i><span id="load-state" role="status" aria-live="polite">Verifying artifact<\/span><\/strong><\/div>/);
+  assert.doesNotMatch(studioMarkup, /project-(?:header|footer|shell)/);
+  assertReadableInterfaceText(projectShellStyles, "Shared site layout");
+});
+
+test("shared navigation resolves at a nested deployment path and retains valid section targets", () => {
+  const pages = [...publicFiles.filter(file => file.endsWith(".html") && !file.includes("model-studio/")), "apps/history-matters-benchmark/index.html"];
+  for (const file of pages) {
+    const markup = read(file);
+    const regions = [...markup.matchAll(/<!-- project:(?:header|footer|assets) -->[\s\S]*?<!-- \/project:(?:header|footer|assets) -->/g)];
+    assert.equal(regions.length, 3, file);
+    for (const region of regions) for (const match of region[0].matchAll(/(?:href|src)="([^"]+)"/g)) {
+      const url = new URL(match[1].replaceAll("&amp;", "&"), `https://example.invalid/Onto2D/${file}`);
+      if (url.origin !== "https://example.invalid") continue;
+      assert.ok(url.pathname.startsWith("/Onto2D/"), `${file}: link escapes deployment prefix`);
+      const relative = url.pathname.slice("/Onto2D/".length) + (url.pathname.endsWith("/") ? "index.html" : "");
+      const target = read(relative);
+      if (url.hash) assert.ok(target.includes(`id="${url.hash.slice(1)}"`), `${file}: missing target ${url.href}`);
+    }
   }
 });
 
@@ -389,7 +379,7 @@ test("public Markdown actions open rendered GitHub documents instead of local do
       assert.match(match[1], /^https:\/\/github\.com\/DenBraun\/Onto2D\/blob\/main\//, `${file} keeps a local Markdown link`);
       assert.match(match[0], /target="_blank"/);
       assert.match(match[0], /rel="noopener noreferrer"/);
-      assert.match(match[0], /ui-symbols\.svg#external-link/);
+      assert.match(match[0], /ui-symbols\.svg#external-link|aria-hidden="true">&#8599;/);
     }
   }
   assert.match(externalCasesApp, /GITHUB_BLOB_ROOT/);

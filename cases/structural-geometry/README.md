@@ -4,8 +4,17 @@ The [stage-three experiments](experiments/README.md) extend this foundation with
 typed selections and an optional local-weight metric. Their artifacts and
 numeric contract remain separate from the original unit results below.
 
-Status: computational controls and descriptive source-snapshot analysis.
-No empirical benchmark result or independently reviewed scientific conclusion.
+The cases below supply computational controls and descriptive source-snapshot
+analysis. The separate [DREAM4 pilot](dream4/README.md) and
+[C. elegans study](celegans/README.md) add nested response-ranking results and
+their limits. The [biological robustness studies](robustness/README.md) retain
+indexed null, adult-anatomy and graph-feature/capacity comparisons, including
+numerical and population limits that prevent scoring. Five metric/idleness/
+initialization variants are also verified. D6.5 verifies all scope selections and
+low-degree coverage, retaining population-dependent results and unavailable
+comparisons. The [D7 laboratory](../../apps/structural-geometry-lab/README.md)
+presents these findings alongside the computational tools. No external reviewer
+approval or public release is claimed.
 
 The [revised program](../../docs/structural-geometry/RESEARCH.md) preserves
 these cases as the [pre-regime baseline](../../docs/structural-geometry/EVIDENCE.md).

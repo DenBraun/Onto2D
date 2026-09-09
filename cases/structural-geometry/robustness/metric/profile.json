@@ -1,0 +1,28 @@
+{
+  "id": "biological-metric-sensitivity-v1",
+  "role": "D6.4-secondary-sensitivity",
+  "inspection": "D4, D5 and D6.1–D6.3 outcomes were inspected. The following variants, populations, features and comparisons are specified before their predictive scoring; not blinded preregistration.",
+  "variants": [
+    { "id": "unit-half", "provider": "unit-v1", "idleness": "half", "initial": "provider", "role": "reference" },
+    { "id": "unit-zero", "provider": "unit-v1", "idleness": "zero", "initial": "provider", "role": "idleness" },
+    { "id": "inverse-share-half", "provider": "inverse-target-share-v1", "idleness": "half", "initial": "provider", "role": "transport-metric" },
+    { "id": "outdegree-initial", "provider": "unit-v1", "idleness": "half", "initial": "one-plus-source-outdegree", "role": "initial-shape" },
+    { "id": "double-unit-initial", "provider": "unit-v1", "idleness": "half", "initial": "double-unit", "role": "scale-invariance-control" }
+  ],
+  "studies": ["dream4-knockouts", "dream4-knockdowns", "celegans-Dataset7"],
+  "population": "Exactly D6.3's authenticated 34 scoped graphs, 450/450/60 target rows, magnitudes, normalized ranks and 5/5/9 groups. No outcome-dependent rescoping, receiver deletion, reranking, graph weighting, anatomy substitution or study pooling. Dataset8 remains outside this profile.",
+  "providerMass": "Explicit synthetic unit edge masses in a source-bound analysis carrier, not measured biological weights. Unit provider lengths are 1; inverse-target-share lengths are the scoped target in-degree. The full provider context is precisely the already selected scoped graph, never its parent anatomy.",
+  "geometry": "Keep the 31-coordinate D3 pair layout and unit Forman. Static O is directed transport curvature at the declared provider metric after shortest-endpoint closure and mean-one normalization; idleness affects both static O and flow. The terminal flow fields and stopping rule remain D3. Static O keeps the provider metric when only initial lengths change. This is transport-metric sensitivity, not weighted Forman or a new distance API; no interval midpoints.",
+  "flow": { "step": "half", "maxIterations": 4, "stableSteps": 2, "tolerance": { "numerator": "1", "denominator": "1000000" }, "cut": { "kind": "none" } },
+  "initialization": "Provider variants initialize flow with provider lengths. The shape variant uses 1+out-degree(source) on every scoped edge; the scale control uses 2 on every edge. Both preserve unit static O. Existing exact closure and mean-one normalization precede iteration zero.",
+  "models": ["B+G", "B+S+G"],
+  "baselines": ["B", "B+S"],
+  "learner": "Reuse D3 weighted ridge, train-only transforms, five penalties, exact ties and identical nested whole-group splits. Refit both geometry models for every available variant/study. B and B+S are unchanged authenticated D6.3 controls, reused with disclosed costs. Q is outside this sensitivity, not selected by its score.",
+  "comparisons": ["B+S+G minus B+S", "B+G minus B", "variant B+S+G minus reference B+S+G", "variant B+G minus reference B+G"],
+  "primaryWithinSecondaryStudy": "Geometry gain over the fixed expanded graph baseline, separately for every declared variant and study. Retain all alternatives and reference differences; no winner selection or parameter tuning across variants. One-factor studies do not cover interactions or arbitrary idleness values.",
+  "aggregation": "Equal intervention means within groups, then equal group means. Exact rational differences from integer rank-skill counts determine signs. Retain D3 binary64 means and descriptive group/leave-one-group-out ranges; these are not confidence intervals or significance tests.",
+  "coverage": "A variant/study requires every original prepared scoped graph in its domain, including non-target-bearing Dataset7 roots, and all original target groups. A declared geometry limit makes that whole variant/study unavailable with null comparisons; continue and retain every scope attempt and all other variants. Never fit a surviving subset. Unexpected integrity/runtime errors and model fitting failures abort the run before report replacement.",
+  "bounds": "Unchanged runtime provider and flow policies, including 64 nodes/edges, support 16, exact rational digit bound 256 and four iterations. Unavailable flow attempts are reproduced by runtime replay; independent NetworkX certifies successful trajectories, not the runtime digit-limit failure itself.",
+  "controls": "Unit-half must reproduce all D6.3 geometry and model summaries exactly. Doubling every initial length must preserve all normalized edge fields, terminal geometry and model summaries exactly. Source/target/group identities and B/S columns are unchanged in every variant.",
+  "independent": { "package": "networkx", "version": "3.2.1", "algorithm": "network_simplex", "algorithmSourceSha256": "7a298e509e27dbe8d104df0b80fa1eb85ad4dfc3b6251081d4ed2e1241bbc248", "scope": "Dijkstra distances and integer-scaled transport independently replay every successful flow state. Separate Bellman-Ford/pair aggregation and joint-intercept ridge verify feature joins, nested fits and exact comparisons. The external algorithm is independent; the repository wrapper is not independent scientific review." }
+}

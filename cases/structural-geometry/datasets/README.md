@@ -6,9 +6,10 @@ the Randi functional archive, eight Witvliet anatomical graphs and four author
 metadata/parser/exporter files. They total 530,722,562 bytes. Native adapters,
 source census, bounded chemical graph scopes and an availability profile are
 implemented. The [D3 protocol](../protocol/PROTOCOL.md) defines the scientific
-targets and supplies tested eligibility, metric and learner helpers. Applying
-functional outcome extraction to the corpus and running predictive scoring remain
-open.
+targets and supplies tested eligibility, metric and learner helpers. The separate
+[DREAM4](../dream4/README.md) and [C. elegans](../celegans/README.md) studies apply
+those contracts to measured response tables and report predictive comparisons;
+this directory retains the source-only census.
 
 The [research plan](../../../docs/structural-geometry/RESEARCH.md) owns scientific
 questions, source roles, applicability, evaluation and the next delivery gates.
@@ -171,7 +172,10 @@ All artifacts are replaced atomically after successful preparation. Source lock
 and implementation changes during execution fail the run.
 
 `replay` repeats the complete native scan and computations and compares the
-committed census byte for byte. `check` needs no corpus: it checks the report's
+committed scientific census and local artifact hashes exactly. The
+[runtime compatibility receipts](../runtime-compatibility.json) retain the
+original report bytes while pinning reviewed portability replacements; they
+permit no scientific-content change. `check` needs no corpus: it checks the report's
 payload digest, source-lock identity and case/runtime implementation hashes.
 This static check does not independently rerun the sources or numerical work.
 Normal tests/builds use synthetic adapter fixtures and the static check. Only
@@ -219,7 +223,18 @@ in the same domain, quantity and unit can be compared. It defines availability
 of native measurements, not a response distance, wild-type normalization or
 predictive score; ResponseSignature-v0 is unchanged.
 
-## Next implementation boundary
+## Evaluation and delivery boundary
+
+[D6.5 scope and low-degree coverage](../robustness/README.md#d65-scope-selection-and-low-degree-coverage)
+adds an exhaustive, separately versioned census of weak/incoming/outgoing one-hop
+and weak two-hop neighborhoods in both adult anatomies. It preserves all 1,440
+selections and their boundaries, using parent degrees and distinct observation,
+preparation and response-eligibility stages. Dataset7's five low-degree roots
+prepare but supply no eligible primary pairs. Incoming scopes permit a matched
+35-pair / 6-group secondary comparison; this does not expand the original native
+response population or replace D2/D3 scope rules. D1–D6 are complete with disclosed
+limitations; the [D7 laboratory](../../../apps/structural-geometry-lab/README.md)
+presents the results and interactive instrument controls.
 
 D2 infrastructure and the [D3 protocol/helpers](../protocol/PROTOCOL.md) are
 implemented. The [machine contract](../protocol/protocol.json) fixes absolute
@@ -240,12 +255,14 @@ The functional contract selects Dataset7 chemical neighborhoods, exact-label
 mapping, complete uncontaminated 30-second baseline/post windows, a positive
 baseline and median aggregation within/across recordings. It holds out stimulated
 neuron groups; it makes no animal-disjoint claim. Population helpers preserve
-missing receivers and excluded roots with explicit reasons. Applying the window
-contract to actual traces and establishing the resulting eligible response
-population remain open; native counts and metadata-window candidates do not
-establish that population.
+missing receivers and excluded roots with explicit reasons. The separate
+[D5 study](../celegans/README.md) applies these rules to actual samples and
+establishes 9 eligible source groups and 60 pairs. Native counts and metadata
+candidates alone do not establish that response population.
 
-D4 next implements verified pair-geometry extraction and the complete nested
-DREAM4 evaluation. D5 applies the functional contract while preserving export
-quality and dependence limits. No biological comparative scores or result-bearing
-website are claimed by these source and protocol stages.
+The [D4 pilot](../dream4/README.md) now implements verified pair-geometry extraction
+and the complete nested DREAM4 evaluation, including positive primary knockout
+and negative secondary knockdown differences. Its report is separate from this
+source-only census and the frozen D3 inspection state. D5 reports a negative
+full-minus-baseline difference while preserving export quality and dependence limits.
+The laboratory exposes these results with their coverage and limitations.

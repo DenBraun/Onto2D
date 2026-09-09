@@ -33,20 +33,57 @@ The [research plan](structural-geometry/RESEARCH.md) owns the detailed gates.
    baselines, geometry features, grouped splits, metrics, costs and negative-result
    reporting. Target/population, baseline, ridge and processed-window helpers have
    synthetic controls and independent numerical references. Public, already
-   inspected data is not blinded preregistration. No biological predictors have
-   been fitted or compared.
-4. Next, D4 implements verified pair geometry and complete nested evaluation for
-   the five-network DREAM4 pilot. D5 then applies the functional contract to
-   C. elegans. Its processed fluorescence export lacks the original acquisition
-   missingness mask and source-paper quality flags; the adapted window contrast
-   cannot reproduce the paper's q-values or functional-edge classifier. Actual
-   response-eligible populations remain to be established. Keep developmental
-   connectomes as a separate secondary study.
-5. Evaluate provider sensitivity, robustness and cost on the accepted task.
-   Publish findings and limitations regardless of direction.
-6. Implement a Structural Geometry page over verified artifacts once source,
-   protocol, replay and interpretation gates pass. A positive result is not a
-   prerequisite; an honest reproducible result is.
+   inspected data is not blinded preregistration. The frozen D3 inspection state
+   records the boundary before comparative fitting.
+4. The [D4 DREAM4 pilot](../cases/structural-geometry/dream4/README.md) is complete:
+   verified pair geometry and all six nested ablations cover 450 targets in each
+   separate contrast. Full geometry improves primary knockout rank skill by
+   0.0767 and decreases secondary knockdown rank skill by 0.0433. These are limited
+   five-network results; both are retained with independent references and costs.
+5. The [D5 C. elegans study](../cases/structural-geometry/celegans/README.md) is
+   complete: all 5,808 events and 29 prepared Dataset7 scopes are accounted for;
+   9 source groups and 60 target pairs meet the frozen signal/recording rules.
+   Full geometry decreases mean rank skill from 0.2852 to 0.0499. Independent
+   sample, geometry and model checks retain the negative outcome and exclusions.
+   This processed-export association has no animal-disjoint claim and cannot
+   reproduce the source paper's q-values or quality classifier.
+6. D6 evaluates robustness and cost on the accepted task. The
+   [D6.1 constrained-null comparison](../cases/structural-geometry/robustness/README.md)
+   is complete: all 32 indices and 1,088 scope combinations are accounted for.
+   The original DREAM4 knockout gain exceeds 31 of 32 null gains; this is
+   descriptive, not a significance test. All 32 matched C. elegans null comparisons
+   are unavailable because URADL cannot meet the fixed switch target.
+   The [D6.2 Dataset8 comparison](../cases/structural-geometry/robustness/README.md#d62-adult-anatomy-sensitivity)
+   is complete with disclosed unavailability: 8 groups / 37 pairs qualify, but
+   ALML exceeds the fixed flow arithmetic bound; the complete prepared-scope
+   gate prevents a Dataset8 predictive score. The matched subset has only
+   4 groups / 18 pairs, below the unchanged five-group requirement.
+   The [D6.3 graph-feature/capacity study](../cases/structural-geometry/robustness/README.md#d63-graph-features-and-capacity-controls)
+   is complete on the unchanged populations: all six models and eight comparisons
+   are retained. Geometry over expanded graph features changes mean rank skill
+   by +0.0189 / +0.0089 / −0.1158 for knockout / knockdown / Dataset7. Knockdown's
+   two compared scores remain negative. Equal feature counts do not establish
+   equal statistical capacity, and no best control is chosen after scoring.
+   The [D6.4 metric/idleness/initialization study](../cases/structural-geometry/robustness/README.md#d64-transport-metric-idleness-and-initialization)
+   is complete: five declared variants retain all 170 scope combinations and
+   15 study evaluations. Dataset7 stays below both graph-only baselines; DREAM4
+   knockdown's original-baseline gain changes sign with the provider. Uniform
+   scaling preserves geometry and predictions exactly. No new default is selected.
+   [D6.5 scope/low-degree coverage](../cases/structural-geometry/robustness/README.md#d65-scope-selection-and-low-degree-coverage)
+   is complete: 1,440 selections cover all roots of both adult anatomies. All
+   five low-degree Dataset7 roots prepare, but none contributes an eligible
+   primary source/receiver pair. Incoming neighborhoods permit a 35-pair / 6-group
+   matched comparison with scope/population/baseline-dependent signs; outgoing
+   and two-hop comparisons are unavailable. Every outcome is retained.
+   Publish findings and limitations regardless of direction. Further sensitivity
+   profiles must be specified before their own comparative runs.
+7. D7 is implemented locally: the [Structural Geometry Lab](../apps/structural-geometry-lab/README.md)
+   combines declared regimes, Graph / Geometry / Flow / Signature views, compact
+   instrument controls and the verified biological evidence. The homepage is a
+   connected research map with distinguishability as its foundation. Original
+   ablations, expanded baselines, all metric/scope outcomes, coverage gaps and
+   unavailable comparisons remain visible. Local browser verification and site
+   generation are distinct from deployment, external review and a first release.
 
 Provider sweeps, persistence, higher-order models and additional domains are
 conditional extensions. They do not precede a usable task and an informative

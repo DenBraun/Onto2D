@@ -126,4 +126,7 @@ per-unit response/geometry/baseline durations. It does not enter scientific
 hashes or claim portable performance. Deterministic work and byte bounds remain
 in the suite. See the [contract](../../../docs/structural-geometry/EVIDENCE.md#finite-prospective-response-versus-geometry-evaluation)
 and [acceptance review](../../../docs/structural-geometry/EVIDENCE.md).
-SG2-042/043 sensitivity and robustness remain open.
+The active biological [D6 robustness studies](../robustness/README.md) are
+complete with mixed and unavailable outcomes. They preserve this fixed synthetic
+result; further sensitivity on this synthetic panel is a separate follow-up,
+not a prerequisite for the D7 biological results page.

@@ -27,7 +27,75 @@ higher-order interaction; persistence alone does not establish significance.
 
 Independent code is not independent scientific review. The Python reference
 implementation is maintained in this repository and authored with the initial
-implementation. No external reviewer approval or empirical result is claimed.
+implementation. No external reviewer approval is claimed. The computational
+controls alone establish no empirical result; the separate
+[DREAM4 pilot](../../cases/structural-geometry/dream4/README.md) and
+[C. elegans study](../../cases/structural-geometry/celegans/README.md) report
+response-ranking comparisons under the frozen biological protocol, including
+the negative C. elegans result and its narrow eligible population. The separate
+[D6.1 null comparison](../../cases/structural-geometry/robustness/README.md)
+repeats the fixed learner on constrained rewired graphs with unchanged targets.
+Its deterministic bounded sampler is not uniform; duplicates, insufficient
+switches and unavailable comparisons remain explicit. Relative positions in
+these indexed results are descriptive, not calibrated p-values.
+The [D6.2 anatomy comparison](../../cases/structural-geometry/robustness/README.md#d62-adult-anatomy-sensitivity)
+retains a different kind of result: Dataset8 has 8 eligible response groups /
+37 pairs but fails the complete prepared-scope geometry gate at ALML. Its
+shared subset with Dataset7 has only 4 groups / 18 pairs, below the fixed
+study threshold. Source samples, target ranks and successful descriptors were
+independently verified; no predictive fit was run or zero gain estimated for
+these unavailable comparisons. A synthetic five-group control checks the
+otherwise unused model path. Fixing a numerical bound alone cannot resolve
+the insufficient shared population.
+
+The [D6.3 graph-feature/capacity comparison](../../cases/structural-geometry/robustness/README.md#d63-graph-features-and-capacity-controls)
+retains the primary targets, scopes and grouped learner while testing fixed
+nonlinear B coordinates and expanded graph context. Geometry over expanded
+context yields +0.0189 / +0.0089 / −0.1158 for DREAM4 knockout / knockdown /
+Dataset7. Knockdown's conditional increase leaves both scores negative; Dataset7
+improves with graph-only context and worsens when geometry is appended. All six
+models and eight comparisons remain visible, without selecting the best control
+after inspection. Equal coordinate count and tuning grid do not prove equal
+statistical capacity. The reported nonconstant-column counts are not matrix
+rank or effective degrees of freedom. Exact rational differences determine the
+gain interpretation; binary64 summation tails cannot establish an improvement.
+This is a secondary design after inspected primary results, with independently
+checked arithmetic and models, not independent scientific validation.
+
+The [D6.4 parameter comparison](../../cases/structural-geometry/robustness/README.md#d64-transport-metric-idleness-and-initialization)
+retains five declared transport-metric/idleness/initialization variants and every
+original scope and target. Static Forman remains unit; inverse target share uses
+explicit synthetic unit analysis masses, not measured biological strengths.
+Dataset7 remains below both respective graph-only baselines throughout this
+panel. DREAM4 knockdown's original-baseline gain changes sign with the provider;
+its expanded-geometry model's absolute scores remain negative. Parameter and
+baseline dependence are findings, not permission to select a new primary after
+scoring. Uniform scaling preserves normalized geometry and predictions exactly,
+which verifies the computational normalization rule rather than biological
+usefulness. Independent NetworkX checks successful flow trajectories; runtime
+replay owns reproduction of declared arithmetic failures. One-factor settings
+do not establish robustness over all parameters, their interactions or domains.
+
+The [D6.5 scope/coverage comparison](../../cases/structural-geometry/robustness/README.md#d65-scope-selection-and-low-degree-coverage)
+accounts for all 1,440 declared rooted selections in Dataset7/8. Parent degree
+and mapping, stimulation, preparation and response eligibility are separate
+coverage stages. Dataset7's five nodes with degree ≤5 all have prepared original
+scopes, but none occurs in a primary target pair; predictive usefulness for
+this stratum is untested. Dataset8's low-degree candidate pairs remain part of
+its unavailable primary, not a new score. Incoming scopes retain 35 common
+Dataset7 pairs in 6 groups. Both weak and incoming contexts refit all four
+models on those rows: expanded geometry gain is +0.0897 and −0.0462 respectively,
+while incoming gain over B is +0.0722. The weak-context expanded gain was −0.1158
+on all 60 original pairs. Population, graph context and baseline therefore
+affect the observed sign. Outgoing/two-hop comparisons lack sufficient common
+groups. Independent reconstruction checks selections, matched ranks, 69 new flow
+states, 1,316 descriptors, 2,160 distinct fits and 26,960 predictions. No scope
+or subset becomes a replacement primary. The research stages D1–D6 are complete
+with disclosed limitations. The [D7 laboratory](../../apps/structural-geometry-lab/README.md)
+presents this evidence alongside the instrument controls. Its byte-pinned browser
+payloads retain the original feature ablations, expanded baselines, every metric
+and scope outcome, low-degree coverage and unavailable null/anatomy results.
+Browser score replay is not biological retraining or independent validation.
 
 The Ollivier stage additionally compares with the independently maintained
 NetworkX network-simplex implementation. Our wrapper reconstructs neighborhoods
