@@ -1,7 +1,13 @@
 import { Onto2D as EngineOnto2D } from "@onto2d/engine";
 import { verifyModelPack } from "@onto2d/model-pack";
 import { canonicalIdentityAnalysis } from "@onto2d/canonical-identity-analysis";
-import bundledPackJson from "../models/causal-emergence/releases/2026.08.15/bundle.json" with { type: "json" };
+import bundledPackJson from "../models/causal-emergence/releases/2026.09.12.4/bundle.json" with { type: "json" };
+import routingPackJson from "../models/causal-emergence/releases/2026.09.12.3/bundle.json" with { type: "json" };
+import functionalPilotPackJson from "../models/causal-emergence/releases/2026.09.12.2/bundle.json" with { type: "json" };
+import firstRetinalPackJson from "../models/causal-emergence/releases/2026.09.12.1/bundle.json" with { type: "json" };
+import levelZeroPackJson from "../models/causal-emergence/releases/2026.09.12/bundle.json" with { type: "json" };
+import firstCanonicalPackJson from "../models/causal-emergence/releases/2026.09.11/bundle.json" with { type: "json" };
+import legacyPackJson from "../models/causal-emergence/releases/2026.08.15/bundle.json" with { type: "json" };
 
 const CREATE_OPTION_FIELDS = new Set(["models", "aliases", "lineages", "model", "analyses"]);
 const FORBIDDEN_KEYS = new Set(["__proto__", "constructor", "prototype"]);
@@ -115,6 +121,12 @@ export {
 } from "@onto2d/view";
 
 export const bundledCausalEmergenceModelPack = verifyModelPack(bundledPackJson);
+const routingCausalEmergenceModelPack = verifyModelPack(routingPackJson);
+const functionalPilotCausalEmergenceModelPack = verifyModelPack(functionalPilotPackJson);
+const firstRetinalCausalEmergenceModelPack = verifyModelPack(firstRetinalPackJson);
+const levelZeroCausalEmergenceModelPack = verifyModelPack(levelZeroPackJson);
+const firstCanonicalCausalEmergenceModelPack = verifyModelPack(firstCanonicalPackJson);
+const legacyCausalEmergenceModelPack = verifyModelPack(legacyPackJson);
 
 export class Onto2D {
   static async create(options = {}) {
@@ -133,6 +145,12 @@ export class Onto2D {
     return EngineOnto2D.create({
       models: [
         bundledCausalEmergenceModelPack,
+        routingCausalEmergenceModelPack,
+        functionalPilotCausalEmergenceModelPack,
+        firstRetinalCausalEmergenceModelPack,
+        levelZeroCausalEmergenceModelPack,
+        firstCanonicalCausalEmergenceModelPack,
+        legacyCausalEmergenceModelPack,
         ...arrayValues(suppliedModels, "Onto2D.create models")
       ],
       aliases,

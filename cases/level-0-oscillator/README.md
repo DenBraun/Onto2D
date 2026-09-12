@@ -55,6 +55,12 @@ d2_t psi - d2_x psi + m2 psi = 0
 m2 = omega^2 - k^2
 ```
 
+The [2026-09-11 source review](../../models/causal-emergence/reconstruction/README.md#f02--an-explicit-operatormass-sign-inconsistency)
+finds that the PDF's equations (24)–(26) are mutually inconsistent in their
+operator/mass sign. The frozen case above uses a consistent declared convention;
+successful replay does not validate all three printed equations simultaneously.
+The source PDF, numerical model and historical artifacts remain unchanged.
+
 The solver evaluates stationarity on `256 x 256` and `512 x 512` periodic
 grids with second-order central differences. It reports the fine-grid L2
 residual and the observed convergence order. Transport values are rounded to

@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { readFileSync, readdirSync } from "node:fs";
 import test from "node:test";
+import { resolveModelPackRegistry } from "@onto2d/model-pack/registry";
 
 const read = (relative) => readFileSync(new URL(`../../${relative}`, import.meta.url), "utf8");
 const assertReadableInterfaceText = (styles, label) => {
@@ -980,7 +981,12 @@ test("Model Studio fully verifies the real pack before using the shared view lay
   assert.match(studioApp, /MODEL_PACK_CACHE_STORAGE_/);
   assert.match(studioApp, /dataset\.cache = "unavailable"/);
   assert.match(studioApp, /"Cached model verified"/);
-  assert.match(studioApp, /sha256:2a57d52a041107064a425ba8640de9f4dde0b308c05c91a27e5c03d60348b205/);
+  const modelRegistry = JSON.parse(read("models/registry.json"));
+  const firstRelease = modelRegistry.entries[0];
+  const registryIdentity = resolveModelPackRegistry(modelRegistry, "https://onto2d.dev/models/registry.json", {
+    modelId: firstRelease.modelId, version: firstRelease.version
+  });
+  assert.equal(studioApp.match(/const EXPECTED_REGISTRY_HASH = "(sha256:[a-f0-9]{64})";/)?.[1], registryIdentity.registryHash);
   assert.match(studioApp, /new Worker\(MODEL_PACK_WORKER_URL, \{/);
   assert.match(studioApp, /type: "module"/);
   assert.match(studioApp, /ownsWorker: true/);

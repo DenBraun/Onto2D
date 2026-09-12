@@ -1,40 +1,42 @@
 import {
   loadModelPackBundle,
   loadModelPackHttpDirectory
-} from "../../packages/model-pack/src/browser.js?v=20260905.4";
+} from "../../packages/model-pack/src/browser.js?v=20260912.5";
 import {
   createIndexedDbModelPackCacheStorage,
   createVerifiedModelPackCache
-} from "../../packages/model-pack/src/cache.js?v=20260905.4";
+} from "../../packages/model-pack/src/cache.js?v=20260912.5";
 import {
   loadModelPackRegistryHttp,
   matchModelPackRegistryResolution,
   resolveModelPackRegistry
-} from "../../packages/model-pack/src/registry.js?v=20260905.4";
-import { createModelPackWorkerClient } from "../../packages/model-pack/src/worker.js?v=20260905.4";
-import { RDF_IMPORT_LIMITS, importNTriples } from "../../packages/rdf-import/src/index.js?v=20260905.4";
+} from "../../packages/model-pack/src/registry.js?v=20260912.5";
+import { createModelPackWorkerClient } from "../../packages/model-pack/src/worker.js?v=20260912.5";
+import { RDF_IMPORT_LIMITS, importNTriples } from "../../packages/rdf-import/src/index.js?v=20260912.5";
 import {
   buildRdfMappedModelPack,
   verifyRdfMappingPolicy
-} from "../../packages/rdf-mapping/src/index.js?v=20260905.4";
-import { validateShacl } from "../../packages/shacl-validation/src/index.js?v=20260905.4";
-import { createVerifiedModelPresentation } from "../../packages/engine/src/presentation.js?v=20260905.4";
-import { layoutNeighborhood, wrapGraphNodeLabel } from "../../packages/view/src/index.js?v=20260905.4";
-import { graphHighlight } from "./graph-interactions.js?v=20260905.4";
+} from "../../packages/rdf-mapping/src/index.js?v=20260912.5";
+import { validateShacl } from "../../packages/shacl-validation/src/index.js?v=20260912.5";
+import { createVerifiedModelPresentation } from "../../packages/engine/src/presentation.js?v=20260912.5";
+import { layoutNeighborhood, wrapGraphNodeLabel } from "../../packages/view/src/index.js?v=20260912.5";
+import { graphHighlight } from "./graph-interactions.js?v=20260912.5";
+import { citationLinks } from "./evidence-links.js?v=20260912.5";
 import {
   modelSelectionKey,
   modelSelectionLabel,
   registryEntryForKey,
   requestedRegistryEntry,
   requestedWorkspaceState
-} from "./model-selection.js?v=20260905.4";
+} from "./model-selection.js?v=20260912.5";
 
 const MODEL_REGISTRY_URL = new URL("../../models/registry.json", import.meta.url);
+const DEFAULT_MODEL_SELECTION = Object.freeze({ modelId: "causal-emergence", version: "2026.09.12.4" });
 const MODEL_PACK_WORKER_URL = new URL(
-  "../../assets/js/model-pack-worker.js?v=20260905.4",
+  "../../assets/js/model-pack-worker.js?v=20260912.5",
   import.meta.url
 );
-const EXPECTED_REGISTRY_HASH = "sha256:2a57d52a041107064a425ba8640de9f4dde0b308c05c91a27e5c03d60348b205";
+const EXPECTED_REGISTRY_HASH = "sha256:c25cce42563686de6394414e4f68eb8be3dd2bfd67b7e49575d8a119f525b999";
 const MODEL_CACHE_OPTIONS = Object.freeze({
   databaseName: "onto2d-model-studio-cache-v1",
   maxEntries: 4,
@@ -63,10 +65,12 @@ const ids = [
   "graph-nodes", "graph-message", "graph-counts", "selected-id", "selected-coordinate",
   "selected-name", "selected-tags", "selected-summary", "parent-count", "child-count",
   "degree-count", "parents-total", "children-total", "parent-list", "child-list",
-  "selected-description", "selected-record", "model-boundary-title", "model-boundary-summary",
+  "selected-description", "selected-record", "selected-rationale", "model-boundary-title", "model-boundary-summary",
   "model-boundary-note", "records-title-label", "parents-title-label", "children-title-label",
   "level-filter-control", "role-filter-control", "phase-filter-control", "status-filter-control",
-  "level-filter-label", "role-filter-label", "phase-filter-label", "status-filter-label"
+  "level-filter-label", "role-filter-label", "phase-filter-label", "status-filter-label",
+  "vocabulary-panel", "vocabulary-scope", "vocabulary-group", "vocabulary-records",
+  "quantitative-summary", "quantitative-download"
 ];
 const elements = Object.fromEntries(ids.map((id) => [id, document.getElementById(id)]));
 for (const [id, element] of Object.entries(elements)) {
@@ -496,6 +500,7 @@ function renderInspector() {
     ? record.description
     : "No full description is declared for this record.";
   elements["selected-record"].textContent = JSON.stringify(record, null, 2);
+  renderRationale(record);
   elements["parent-count"].textContent = String(node.parentCount);
   elements["child-count"].textContent = String(node.childCount);
   elements["degree-count"].textContent = String(node.degree);
@@ -503,6 +508,78 @@ function renderInspector() {
   elements["children-total"].textContent = String(detail.relationCounts.childCount);
   renderRelationList(elements["parent-list"], detail.relations.parents, "No direct parents in this release.");
   renderRelationList(elements["child-list"], detail.relations.children, "No direct children in this release.");
+}
+
+function renderRationale(record) {
+  const container = elements["selected-rationale"];
+  const items = Array.isArray(record.rationale) ? record.rationale : [];
+  const sections = items.map((claim) => {
+    const section = createElement("section");
+    section.append(createElement("h5", "", `${claim.id} \u00b7 ${claim.status}`));
+    section.append(createElement("p", "", claim.statement));
+    section.append(createElement("p", "", `Scope: ${claim.scope}`));
+    for (const experiment of Array.isArray(claim.experimentalContexts) ? claim.experimentalContexts : []) {
+      const context = createElement("details");
+      context.append(createElement("summary", "", `Experimental comparison: ${experiment.id} \u00b7 ${experiment.cellType}`));
+      context.append(createElement("p", "", `${experiment.organism}. ${experiment.preparation}`));
+      context.append(createElement("p", "", `Adaptation: ${experiment.adaptation}`));
+      context.append(createElement("p", "", `Stimulus: ${experiment.stimulus.description}`));
+      const light = experiment.stimulus.light;
+      context.append(createElement("p", "", `${light.role}: ${light.value} ${light.unit}; nominal ${light.nominalValue}.`));
+      context.append(createElement("p", "", `Comparison: ${experiment.comparison}`));
+      context.append(createElement("p", "", `Readout: ${experiment.observable}`));
+      context.append(createElement("p", "", `Observation: ${experiment.review.observation}`));
+      context.append(createElement("p", "", `Interpretation: ${experiment.review.inference}`));
+      for (const candidate of experiment.review.candidates) {
+        const route = experiment.routes.find((r) => r.id === candidate.routeId);
+        context.append(createElement("p", "", `${route.name}: ${candidate.status}. ${candidate.reason}`));
+        context.append(createElement("p", "", route.logic === "any"
+          ? `Alternatives (inclusive OR): ${route.alternativeRouteIds.join("; ")}`
+          : `Candidate mechanism: ${route.components.join(" \u2192 ")}`));
+      }
+      if (experiment.measurement) {
+        const m = experiment.measurement;
+        context.append(createElement("p", "", `Source table: ${m.sheet}!${m.intensityCell},${m.ratioCell}; response ratio ${m.responseRatio} (${m.ratioUnit}). Uncertainty: ${m.uncertainty}. ${m.sampling}`));
+      }
+      context.append(createElement("p", "", `Revisit: ${experiment.review.refutation}`));
+      context.append(createElement("p", "", experiment.review.quantitativeInference));
+      section.append(context);
+    }
+    for (const study of Array.isArray(claim.contexts) ? claim.contexts : []) {
+      if (!study || typeof study !== "object") continue;
+      const context = createElement("details");
+      context.append(createElement("summary", "", `Study context: ${study.id} \u00b7 ${study.organism}`));
+      context.append(createElement("p", "", `Preparation: ${study.preparation}`));
+      context.append(createElement("p", "", `Observable: ${study.observable}`));
+      context.append(createElement("p", "", `Reviewed: ${study.readExtent}. ${(study.reviewedLocators ?? []).join("; ")}`));
+      for (const limit of Array.isArray(study.limitations) ? study.limitations : []) context.append(createElement("p", "", `Study limit: ${limit}`));
+      section.append(context);
+    }
+    for (const citation of Array.isArray(claim.citations) ? claim.citations : []) {
+      const paragraph = createElement("p");
+      const year = citation.source?.year ? ` (${citation.source.year})` : "";
+      paragraph.append(createElement("span", "", `${citation.role}: ${citation.source?.title ?? citation.sourceId}${year} \u2014 ${citation.locator}. ${citation.note} `));
+      for (const link of citationLinks(citation, new URL("../../", import.meta.url))) {
+        const anchor = createElement("a", "evidence-link", link.label);
+        anchor.href = link.href;
+        anchor.target = "_blank";
+        anchor.rel = "noopener noreferrer";
+        paragraph.append(anchor, document.createTextNode(" "));
+      }
+      section.append(paragraph);
+    }
+    for (const limit of Array.isArray(claim.limitations) ? claim.limitations : []) {
+      section.append(createElement("p", "", `Limit: ${limit}`));
+    }
+    return section;
+  });
+  if (Array.isArray(record.conditions)) {
+    const conditions = createElement("section");
+    conditions.append(createElement("h5", "", "Joint conditions \u2014 every condition is required"));
+    for (const condition of record.conditions) conditions.append(createElement("p", "", condition));
+    sections.unshift(conditions);
+  }
+  container.replaceChildren(...(sections.length ? sections : [createElement("p", "", "This release has no structured claim rationale for this record. Inspect its original source fields below.")]));
 }
 
 function updateControls() {
@@ -555,6 +632,70 @@ function configureFacet(filterId, entries, allLabel, label) {
   elements[`${prefix}-filter-control`].hidden = entries.length === 0;
 }
 
+function renderVocabulary(pack) {
+  const dictionaries = pack.files["model/dictionaries.json"];
+  const vocabulary = dictionaries?.vocabulary;
+  const panel = elements["vocabulary-panel"];
+  panel.hidden = !Array.isArray(vocabulary) || vocabulary.length === 0;
+  panel.open = false;
+  const groupSelect = elements["vocabulary-group"];
+  groupSelect.onchange = null;
+  elements["quantitative-download"].onclick = null;
+  elements["vocabulary-records"].replaceChildren();
+  groupSelect.replaceChildren();
+  if (panel.hidden) return;
+  elements["vocabulary-scope"].textContent = scalarLabel(dictionaries.dictionaryReview?.scope);
+  for (const group of new Set(vocabulary.map((r) => r.group))) {
+    const option = createElement("option", "", String(group).replace(/([a-z])([A-Z])/g, "$1 $2"));
+    option.value = group;
+    groupSelect.append(option);
+  }
+  const renderGroup = () => {
+    const sections = vocabulary.filter((r) => r.group === groupSelect.value).map((record) => {
+      const section = createElement("details", "record-details");
+      section.append(createElement("summary", "", `${record.legacyId}: ${record.name}`));
+      section.append(createElement("p", "", `${record.disposition} / ${record.status}`));
+      section.append(createElement("p", "", record.definition));
+      section.append(createElement("p", "", record.finding));
+      for (const citation of record.citations ?? []) {
+        const line = createElement("p", "", `${citation.role}: ${citation.locator}. `);
+        for (const link of citationLinks(citation, new URL("../../", import.meta.url))) {
+          const anchor = createElement("a", "evidence-link", link.label);
+          anchor.href = link.href;
+          anchor.rel = "noopener noreferrer";
+          line.append(anchor, document.createTextNode(" "));
+        }
+        section.append(line);
+      }
+      const decision = dictionaries.dictionaryReview?.records?.find((r) => r.id === record.id);
+      if (decision) {
+        const original = createElement("details", "record-details");
+        original.append(createElement("summary", "", `Original record and field decisions: ${record.sourcePointer}`));
+        original.append(createElement("pre", "", JSON.stringify({ original: decision.original, fieldDecisions: decision.fieldDecisions }, null, 2)));
+        section.append(original);
+      }
+      return section;
+    });
+    elements["vocabulary-records"].replaceChildren(...sections);
+  };
+  groupSelect.onchange = renderGroup;
+  renderGroup();
+  const census = dictionaries.quantitativeCensus;
+  const summary = census?.summary;
+  elements["quantitative-summary"].textContent = summary
+    ? `${summary.assertionCount} historical quantitative assertions; ${summary.carrierMismatchCount} carrier-group conflicts across ${summary.carrierMismatchNodeCount} cards (${summary.carrierMismatchesByLevel?.[5]} at Level 5); ${summary.weightSumAnomalyCount} weight-sum anomalies. ${summary.activeLegacyQuantitativeAdmissions} admitted legacy numerical claims. This census does not add scientific-review coverage.`
+    : "No quantitative census is supplied by this release.";
+  elements["quantitative-download"].hidden = !census;
+  if (census) elements["quantitative-download"].onclick = () => {
+    const url = URL.createObjectURL(new Blob([`${JSON.stringify(census, null, 2)}\n`], { type: "application/json" }));
+    const anchor = createElement("a");
+    anchor.href = url;
+    anchor.download = `quantitative-census-${pack.manifest.model.version}.json`;
+    anchor.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  };
+}
+
 function activateModelPack(pack, options = {}) {
   const presentationOptions = options.resolution
     ? { resolution: options.resolution, defaultCatalogPageSize: CATALOG_PAGE_SIZE }
@@ -599,6 +740,7 @@ function activateModelPack(pack, options = {}) {
   elements["model-boundary-title"].textContent = metadata.boundary.title;
   elements["model-boundary-summary"].textContent = metadata.boundary.summary;
   elements["model-boundary-note"].textContent = metadata.boundary.note;
+  renderVocabulary(pack);
   configureFacet("level-filter", descriptor.facets.levels, "All levels", metadata.labels.levelFilter);
   configureFacet("role-filter", descriptor.facets.typeRoles, "All types", metadata.labels.typeFilter);
   configureFacet("phase-filter", descriptor.facets.phases, "All phases", metadata.labels.phaseFilter);
@@ -725,7 +867,8 @@ async function restoreLocationState() {
   const parameters = new URLSearchParams(location.hash.slice(1));
   const requestedEntry = requestedRegistryEntry(
     state.registrySnapshot.registry.entries,
-    parameters
+    parameters,
+    DEFAULT_MODEL_SELECTION
   );
   if (
     state.selection === null
@@ -972,7 +1115,8 @@ async function start() {
   populateRegistrySelector(snapshot);
   const selection = requestedRegistryEntry(
     snapshot.registry.entries,
-    new URLSearchParams(location.hash.slice(1))
+    new URLSearchParams(location.hash.slice(1)),
+    DEFAULT_MODEL_SELECTION
   );
   await openRegisteredModel(selection, { useLocation: true });
   bindEvents();

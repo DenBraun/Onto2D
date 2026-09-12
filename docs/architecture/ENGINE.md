@@ -58,7 +58,8 @@ external RDF 1.1 N-Triples
 
 `@onto2d/engine` is a headless, catalogue-independent facade. It resolves an
 exact Model Pack before exposing a model. The repository root facade bundles
-the frozen Causal Emergence snapshot and provides `stable` and `latest`
+the current canonical research reconstruction and the historical Causal
+Emergence snapshot, and provides `stable` and `latest`
 aliases for convenience; the root package remains private while this preview
 API is reviewed.
 
@@ -67,7 +68,7 @@ import { Onto2D } from "onto2d";
 
 const engine = await Onto2D.create();
 const model = engine.model;
-const node = model.require("0.8");
+const node = model.require("R-object");
 const parents = model.parents(node.id);
 ```
 
@@ -75,6 +76,11 @@ The model API provides immutable reads, deterministic filtering, parent and
 child traversal, ancestors, descendants, bounded neighborhoods, and bounded
 all-shortest directed paths. It does not assign new scientific meaning to
 source relations.
+
+The current default is `causal-emergence@2026.09.12.4`, a partial research
+reconstruction. `stable` identifies the bundled software artifact, not
+scientific confirmation. Select `causal-emergence@2026.08.15` explicitly for
+the historical 249-record catalogue and its original source-parent semantics.
 
 The root facade also registers `canonical-identity`. It calls the kernel's
 canonicalizer and returns a replayable artifact bound to the exact selected

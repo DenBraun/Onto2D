@@ -67,11 +67,15 @@ After `npm ci`, save either example as `example.mjs` in the repository root and
 run `node example.mjs` with Node.js 22+. These examples use the local workspace;
 the root `onto2d` package is private and has not been published to npm.
 
-### Read a catalogue node and its direct parents
+### Read a canonical construction rule and its premises
 
-`Onto2D.create()` loads and verifies the bundled Causal Emergence catalogue.
-A Model Pack contains the model's nodes, connections and metadata. Here,
-`"0.8"` is a record ID in that catalogue, not a numerical parameter.
+`Onto2D.create()` loads the canonical research reconstruction, version
+`2026.09.12.4`. It records Level-0 definitions and proposed construction
+rules alongside scoped optical/retinal findings. It does not assert successful
+physical CRT instances or whole-graph empirical validation. See the [source and review ledger](references/canonical/README.md).
+The [dictionary review](references/canonical/DICTIONARY_REVIEW.md) supplies
+scoped vocabulary, mathematical corrections and a complete quantitative census;
+unjustified numerical defaults do not enter active graph semantics.
 
 ```js
 import { Onto2D } from "onto2d";
@@ -80,25 +84,26 @@ const engine = await Onto2D.create();
 const model = engine.model;
 console.log(`${model.name}: ${model.nodes().length} nodes, ${model.edges().length} connections`);
 
-const node = model.require("0.8"); // Look up this record; throw if it is missing.
+const node = model.require("R-object"); // Look up the objecthood rule specification.
 console.log(node.name);
 
-// Follow incoming connections in the catalogue's source-parent relation layer.
-const parents = model.parents(node.id, { relationLayer: "source-parent" });
+// These jointly required premises describe the rule, not measured physical causes.
+const parents = model.parents(node.id, { relationLayer: "descriptive" });
 console.log("Direct parent IDs:", parents.map(parent => parent.id).join(", "));
 ```
 
 Expected output:
 
 ```text
-Causal Emergence Catalogue: 249 nodes, 971 connections
-Resonant Localized Configuration (CRT-Node)
-Direct parent IDs: 0.18, 0.19, 0.20, 0.21, 0.22, 0.6, 0.7
+Causal Emergence — Canonical Reconstruction: 56 nodes, 60 connections
+Test localized objecthood
+Direct parent IDs: l0:deformation, l0:integrated-density, l0:local-density, l0:nonlinear-action, l0:triad-configuration
 ```
 
-Each parent is a node with its own `id`, `name` and `description`, so you can
-inspect it in the same way. These are connections recorded in the source
-catalogue; the engine does not establish that they are causal relationships.
+Each premise can be inspected with its claim rationale, citations and limits.
+The historical catalogue remains available through
+`Onto2D.create({ model: "causal-emergence@2026.08.15" })` with its original
+249 records and 971 source-parent assertions.
 
 ### Check whether two directed graphs have the same structure
 

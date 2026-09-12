@@ -82,6 +82,14 @@ test("switching models cannot reuse a node selection from another model", () => 
   });
 });
 
+test("the explicit Studio default survives registry canonical sorting and respects exact historical URLs", () => {
+  const preferred = { modelId: "causal-emergence", version: "2026.09.12.4" };
+  const sorted = [{ modelId: "airflow", version: "v1" }, entries[0], preferred];
+  assert.equal(requestedRegistryEntry(sorted, new URLSearchParams(), preferred), preferred);
+  assert.equal(requestedRegistryEntry(sorted, new URLSearchParams({ model: "causal-emergence", version: "2026.08.15" }), preferred), entries[0]);
+  assert.equal(requestedRegistryEntry(sorted, new URLSearchParams(), { modelId: "absent", version: "v1" }), sorted[0]);
+});
+
 test("all exact registry releases open through the same verified presentation boundary", async () => {
   const registry = await json("models/registry.json");
   for (const entry of registry.entries) {

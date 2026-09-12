@@ -1,0 +1,101 @@
+{
+  "id": "dictionary-review-policy-v1",
+  "reviewMode": "retrospective-internal-semantic-review",
+  "exposure": "The original dictionaries, manuscripts, existing reconstruction and source census were inspected before these decisions. No blinded or independent scientific review is claimed.",
+  "groups": {
+    "InteractionModes": 5,
+    "CausalDirections": 6,
+    "TypeRoles": 5,
+    "LevelPhases": 4,
+    "DependencyTypes": 13,
+    "CarrierGroups": 6,
+    "CarrierTypes": 14,
+    "ComplexityLevels": 14,
+    "Ontologicals": 45
+  },
+  "identity": "Use group plus legacy Id for dictionary identity, and Level.Id for historical node identity. Preserve exact JSON pointers; neither Id alone nor a label is globally unique.",
+  "fieldActions": {
+    "Id": "retain-identifier",
+    "Code": "retain-identifier",
+    "EnumValue": "retain-identifier",
+    "Name": "retain-label",
+    "Icon": "retain-label",
+    "Definition": "replace-with-scoped-definition",
+    "GroupId": "retain-dictionary-membership",
+    "Causality": "withhold-ambiguous-axes"
+  },
+  "defaultFieldAction": "withhold-as-rule",
+  "aliases": [
+    {
+      "sourcePointer": "/InteractionModes/1/validation",
+      "canonicalLabel": "Validation",
+      "limit": "Spelling normalization only; no prediction or falsifier is adopted."
+    },
+    {
+      "sourcePointer": "/InteractionModes/1/validation/predictions",
+      "canonicalLabel": "Predictions",
+      "limit": "Spelling normalization only."
+    },
+    {
+      "sourcePointer": "/InteractionModes/1/validation/falsifiable_if",
+      "canonicalLabel": "FalsifiableIf",
+      "limit": "Spelling normalization only."
+    }
+  ],
+  "schemaAliases": {
+    "Levels": "ComplexityLevels",
+    "type_roles": "TypeRoles",
+    "causal_directions": "CausalDirections",
+    "interaction_modes": "InteractionModes"
+  },
+  "phaseLabels": [
+    {
+      "legacyId": 0,
+      "label": "A"
+    },
+    {
+      "legacyId": 1,
+      "label": "B"
+    },
+    {
+      "legacyId": 2,
+      "label": "C"
+    },
+    {
+      "legacyId": 3,
+      "label": "D"
+    }
+  ],
+  "ambiguousReferences": "TypeRoles.Causality pair axes are undocumented. CommonConfusions can cross namespaces. Preserve these as historical prose/data without guessing typed causal permissions.",
+  "projection": "Only reviewed identity, labels, scoped definition, limitation, disposition and evidence links enter the vocabulary view. No dictionary term creates a graph node, relation, successful rule instance or numerical default.",
+  "quantities": {
+    "legacyDisposition": "withheld-unoperationalized",
+    "carrierMismatchDisposition": "unresolved-mechanism-review",
+    "nullMeaning": "The historical null value has no declared missingness reason. It is neither zero nor infinity nor an assertion of nonapplicability.",
+    "weightMeaning": "Historical normalized annotations have no calibrated estimand, measurement procedure or intervention model. Normalization does not establish probabilities, causal effects or necessity.",
+    "requiredBeforeAdmission": [
+      "quantity kind and intended role",
+      "identified bearer and target observable",
+      "unit or explicit reference",
+      "sample, boundary and observation window",
+      "measurement or derivation procedure",
+      "source and exact locator",
+      "context and validity regime",
+      "uncertainty value or explicit unavailable/not-applicable reason"
+    ],
+    "countAdditionalRequirements": [
+      "occurrence versus type and individuation rule",
+      "membership and equivalence rules",
+      "direct integer count versus estimated mean, concentration or amount",
+      "target property, candidate universe, allowed removals and search limits for minimality"
+    ],
+    "thresholdAdditionalRequirements": [
+      "operational target and detection criterion",
+      "threshold definition and comparison protocol",
+      "calibration or derivation with uncertainty and applicability limits"
+    ],
+    "numericalAdmissions": [],
+    "limit": "This edition admits no legacy quantitative value into an active causal or formation relation. Existing retinal measurements retain their separate source/context contract; they are not carrier thresholds or edge weights."
+  },
+  "remainingWork": "Resolve carrier mechanisms in the domain batches; obtain quantitative evidence before admitting numbers. A corrected lookup alone cannot repair the scientific choice of carrier."
+}

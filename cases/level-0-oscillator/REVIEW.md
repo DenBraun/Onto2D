@@ -34,6 +34,14 @@ reproduced, or the source lock fails.
 
 ## Scientific checks
 
+The [foundation review of 2026-09-11](../../models/causal-emergence/reconstruction/README.md#mathematical-findings-that-change-representation)
+adds source-to-case obligations: independently substitute the plane wave into
+PDF equations (24)–(26), record the sign discrepancy and the frozen case's
+consistent convention, and distinguish stationarity from action minimization
+and dynamic stability. Check that balance and `|Psi|^2` alone are not presented
+as localization or irreducible-closure certificates. These findings do not
+change the frozen numerical result or mark its independent review complete.
+
 1. Verify the source DOI, version, local byte count, and SHA-256 in
    [`source-lock.json`](source-lock.json).
 2. Confirm that the Phase-B positive and negative controls match the declared

@@ -36,6 +36,9 @@ case or app from the site navigation after the checks pass.
 | `npm run check:public-revisions` | Coherent public module revisions |
 | `npm run check:worker` | Reproducible browser worker bundle |
 | `npm run audit:catalogue` | Preserved source-catalogue audit |
+| `npm run audit:references` | Complete legacy source JSON census, schema defects, missing bibliography and dictionary consistency; diagnostic, not a clean-data gate |
+| `npm run check:canonical` | Active source schema, claim/migration/dictionary accounting, mathematical witnesses, quantitative census, retinal data and exact current/historical release replay |
+| `npm run model:causal-emergence:legacy:verify` | Exact reproduction of the historical `2026.08.15` catalogue |
 | `npm run structural-geometry:check` | Combined geometry evidence and independent references |
 | `npm run structural-geometry:added-value:check` | Frozen synthetic added-value study, coverage and baselines |
 | `npm run history-benchmark:check` | History Matters sources, replay and registry |

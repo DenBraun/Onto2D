@@ -1,0 +1,1121 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Canonical research source v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "graph",
+    "migration",
+    "edgeReviews",
+    "relationPolicy"
+  ],
+  "properties": {
+    "graph": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "model",
+        "scope",
+        "sources",
+        "claims",
+        "entities",
+        "rules",
+        "relations"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "enum": [
+            "2"
+          ]
+        },
+        "model": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "id",
+            "name",
+            "version",
+            "status"
+          ],
+          "properties": {
+            "id": {
+              "enum": [
+                "causal-emergence"
+              ]
+            },
+            "name": {
+              "type": "string",
+              "minLength": 1
+            },
+            "version": {
+              "type": "string",
+              "pattern": "^\\d{4}\\.\\d{2}\\.\\d{2}(?:\\.\\d+)?$"
+            },
+            "status": {
+              "enum": [
+                "research-reconstruction-partial"
+              ]
+            }
+          }
+        },
+        "scope": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "reviewedLegacyLevels",
+            "pendingLegacyLevels",
+            "empiricalValidationClaimed",
+            "independentScientificReviewComplete",
+            "summary"
+          ],
+          "properties": {
+            "reviewedLegacyLevels": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 7
+              },
+              "minItems": 1,
+              "uniqueItems": true
+            },
+            "pendingLegacyLevels": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 7
+              },
+              "minItems": 0,
+              "uniqueItems": true
+            },
+            "empiricalValidationClaimed": {
+              "enum": [
+                false
+              ]
+            },
+            "independentScientificReviewComplete": {
+              "enum": [
+                false
+              ]
+            },
+            "summary": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "kind",
+              "title",
+              "authors",
+              "year",
+              "doi",
+              "url",
+              "path",
+              "sha256",
+              "review"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "kind": {
+                "enum": [
+                  "author-manuscript",
+                  "author-drafts",
+                  "internal-review",
+                  "executable-check",
+                  "numerical-artifact",
+                  "research-publication",
+                  "legacy-catalogue"
+                ]
+              },
+              "title": {
+                "type": "string",
+                "minLength": 1
+              },
+              "authors": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "minItems": 0,
+                "uniqueItems": true
+              },
+              "year": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 1800,
+                    "maximum": 2100
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "doi": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^10\\.\\d{4,9}/\\S+$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "url": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^https://[^\\s]+$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "path": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[A-Za-z0-9_./\u0410\u0440\u0445\u0438\u0432-]+$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "sha256": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^[a-f0-9]{64}$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "review": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "extent",
+                  "locators",
+                  "limit"
+                ],
+                "properties": {
+                  "extent": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "locators": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "minItems": 1,
+                    "uniqueItems": true
+                  },
+                  "limit": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              }
+            }
+          },
+          "minItems": 1
+        },
+        "claims": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "kind",
+              "statement",
+              "scope",
+              "status",
+              "citations",
+              "checkIds",
+              "limitations"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "kind": {
+                "enum": [
+                  "author-definition",
+                  "review-finding",
+                  "method"
+                ]
+              },
+              "statement": {
+                "type": "string",
+                "minLength": 1
+              },
+              "scope": {
+                "type": "string",
+                "minLength": 1
+              },
+              "status": {
+                "enum": [
+                  "definition",
+                  "unresolved",
+                  "analytically-checked",
+                  "case-negative",
+                  "method-contract"
+                ]
+              },
+              "citations": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "sourceId",
+                    "locator",
+                    "role",
+                    "note"
+                  ],
+                  "properties": {
+                    "sourceId": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "locator": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "role": {
+                      "enum": [
+                        "provenance",
+                        "supports",
+                        "limits",
+                        "method"
+                      ]
+                    },
+                    "note": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                },
+                "minItems": 1
+              },
+              "checkIds": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "minItems": 0,
+                "uniqueItems": true
+              },
+              "limitations": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "minItems": 1
+              }
+            }
+          },
+          "minItems": 1
+        },
+        "entities": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "name",
+              "kind",
+              "description",
+              "legacyCodes",
+              "claimIds",
+              "status",
+              "sourceCoordinates",
+              "openObligations"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "name": {
+                "type": "string",
+                "minLength": 1
+              },
+              "kind": {
+                "enum": [
+                  "definition",
+                  "primitive",
+                  "quantity-definition",
+                  "carrier-class",
+                  "rule-family",
+                  "admission-rule",
+                  "transformation-claim",
+                  "context",
+                  "model-assumption",
+                  "hypothesis",
+                  "selection-rule",
+                  "perturbation-protocol-candidate",
+                  "hypothesized-effect",
+                  "candidate-carrier-class",
+                  "variable-domain"
+                ]
+              },
+              "description": {
+                "type": "string",
+                "minLength": 1
+              },
+              "legacyCodes": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "minItems": 0,
+                "uniqueItems": true
+              },
+              "claimIds": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "minItems": 1,
+                "uniqueItems": true
+              },
+              "status": {
+                "enum": [
+                  "definition",
+                  "hypothesis",
+                  "assumption",
+                  "class-uninstantiated"
+                ]
+              },
+              "sourceCoordinates": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "sourceId",
+                    "locator"
+                  ],
+                  "properties": {
+                    "sourceId": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "locator": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                },
+                "minItems": 1
+              },
+              "openObligations": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "minItems": 1
+              }
+            }
+          },
+          "minItems": 1
+        },
+        "rules": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "name",
+              "semantics",
+              "inputLogic",
+              "inputs",
+              "outputEntityIds",
+              "conditions",
+              "claimIds",
+              "status",
+              "instanceAdmission",
+              "limitations"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "name": {
+                "type": "string",
+                "minLength": 1
+              },
+              "semantics": {
+                "enum": [
+                  "specification-only"
+                ]
+              },
+              "inputLogic": {
+                "enum": [
+                  "all"
+                ]
+              },
+              "inputs": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "entityId",
+                    "minCount",
+                    "maxCount",
+                    "distinct",
+                    "role"
+                  ],
+                  "properties": {
+                    "entityId": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "minCount": {
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "maxCount": {
+                      "anyOf": [
+                        {
+                          "type": "integer",
+                          "minimum": 1
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "distinct": {
+                      "type": "boolean"
+                    },
+                    "role": {
+                      "enum": [
+                        "candidate-instances",
+                        "declared-context"
+                      ]
+                    }
+                  }
+                },
+                "minItems": 1
+              },
+              "outputEntityIds": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "minItems": 0,
+                "uniqueItems": true
+              },
+              "conditions": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "minItems": 1,
+                "uniqueItems": true
+              },
+              "claimIds": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "minItems": 1,
+                "uniqueItems": true
+              },
+              "status": {
+                "type": "string",
+                "minLength": 1
+              },
+              "instanceAdmission": {
+                "enum": [
+                  "none"
+                ]
+              },
+              "limitations": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "minItems": 1
+              }
+            }
+          },
+          "minItems": 1
+        },
+        "relations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "source",
+              "target",
+              "kind",
+              "role",
+              "assertion",
+              "claimIds",
+              "legacyReviewId"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "source": {
+                "type": "string",
+                "minLength": 1
+              },
+              "target": {
+                "type": "string",
+                "minLength": 1
+              },
+              "kind": {
+                "enum": [
+                  "descriptive"
+                ]
+              },
+              "role": {
+                "enum": [
+                  "definition-dependency"
+                ]
+              },
+              "assertion": {
+                "type": "string",
+                "minLength": 1
+              },
+              "claimIds": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "minItems": 1,
+                "uniqueItems": true
+              },
+              "legacyReviewId": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            }
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        }
+      }
+    },
+    "migration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "fromVersion",
+        "toVersion",
+        "nodes",
+        "edges"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "enum": [
+            "2"
+          ]
+        },
+        "fromVersion": {
+          "enum": [
+            "2026.08.15"
+          ]
+        },
+        "toVersion": {
+          "type": "string",
+          "minLength": 1
+        },
+        "nodes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "legacyId",
+              "sourceId",
+              "pointer",
+              "status",
+              "targetIds",
+              "reason"
+            ],
+            "properties": {
+              "legacyId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "sourceId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "pointer": {
+                "type": "string",
+                "pattern": "^/\\d+(?:/Parents/\\d+)?$"
+              },
+              "status": {
+                "enum": [
+                  "reinterpreted-with-obligations",
+                  "pending-scientific-review"
+                ]
+              },
+              "targetIds": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "minItems": 0,
+                "uniqueItems": true
+              },
+              "reason": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "minItems": 1
+        },
+        "edges": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "legacyId",
+              "sourceId",
+              "pointer",
+              "status",
+              "targetIds",
+              "reason",
+              "reviewId"
+            ],
+            "properties": {
+              "legacyId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "sourceId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "pointer": {
+                "type": "string",
+                "pattern": "^/\\d+(?:/Parents/\\d+)?$"
+              },
+              "status": {
+                "enum": [
+                  "internally-reviewed",
+                  "pending-scientific-review"
+                ]
+              },
+              "targetIds": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "minItems": 0,
+                "uniqueItems": true
+              },
+              "reason": {
+                "type": "string",
+                "minLength": 1
+              },
+              "reviewId": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            }
+          },
+          "minItems": 1
+        }
+      }
+    },
+    "edgeReviews": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "policyId",
+        "policySha256",
+        "date",
+        "scope",
+        "records"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "enum": [
+            "1"
+          ]
+        },
+        "policyId": {
+          "enum": [
+            "level-zero-relations-v1"
+          ]
+        },
+        "policySha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "date": {
+          "enum": [
+            "2026-09-12"
+          ]
+        },
+        "scope": {
+          "type": "string",
+          "minLength": 1
+        },
+        "records": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "legacyId",
+              "sourceId",
+              "pointer",
+              "original",
+              "reviewStatus",
+              "decision",
+              "adoptedKind",
+              "legacyLifecycle",
+              "reason",
+              "alternative",
+              "revisitWhen",
+              "claimId",
+              "targetRelationIds",
+              "targetRuleIds",
+              "quantitativeDisposition"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "legacyId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "sourceId": {
+                "enum": [
+                  "legacy-0"
+                ]
+              },
+              "pointer": {
+                "type": "string",
+                "pattern": "^/\\d+/Parents/\\d+$"
+              },
+              "original": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "ParentCode",
+                  "CausalDirections",
+                  "InteractionModes",
+                  "Weight",
+                  "Necessity",
+                  "DependencyType",
+                  "OntologicalRole",
+                  "Quantization"
+                ],
+                "properties": {
+                  "ParentCode": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "CausalDirections": {
+                    "type": "array",
+                    "items": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "minItems": 1,
+                    "uniqueItems": true
+                  },
+                  "InteractionModes": {
+                    "type": "array",
+                    "items": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "minItems": 1,
+                    "uniqueItems": true
+                  },
+                  "Weight": {
+                    "type": "number"
+                  },
+                  "Necessity": {
+                    "enum": [
+                      "necessary",
+                      "enabling"
+                    ]
+                  },
+                  "DependencyType": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "OntologicalRole": {
+                    "enum": [
+                      "arising",
+                      "maintenance",
+                      "modulation"
+                    ]
+                  },
+                  "Quantization": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "CarrierGroupId",
+                      "CarrierTypeId",
+                      "N_min",
+                      "N_crit",
+                      "N_sat"
+                    ],
+                    "properties": {
+                      "CarrierGroupId": {
+                        "type": "integer",
+                        "minimum": 0
+                      },
+                      "CarrierTypeId": {
+                        "type": "integer",
+                        "minimum": 0
+                      },
+                      "N_min": {
+                        "anyOf": [
+                          {
+                            "type": "number",
+                            "minimum": 0
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "N_crit": {
+                        "anyOf": [
+                          {
+                            "type": "number",
+                            "minimum": 0
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "N_sat": {
+                        "anyOf": [
+                          {
+                            "type": "number",
+                            "minimum": 0
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              },
+              "reviewStatus": {
+                "enum": [
+                  "internal-review-complete"
+                ]
+              },
+              "decision": {
+                "enum": [
+                  "retain-as-description",
+                  "replace-with-rule",
+                  "withhold"
+                ]
+              },
+              "adoptedKind": {
+                "enum": [
+                  "descriptive",
+                  null
+                ]
+              },
+              "legacyLifecycle": {
+                "enum": [
+                  "arising",
+                  "maintenance",
+                  "modulation"
+                ]
+              },
+              "reason": {
+                "type": "string",
+                "minLength": 1
+              },
+              "alternative": {
+                "type": "string",
+                "minLength": 1
+              },
+              "revisitWhen": {
+                "type": "string",
+                "minLength": 1
+              },
+              "claimId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "targetRelationIds": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "minItems": 0,
+                "uniqueItems": true
+              },
+              "targetRuleIds": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "minItems": 0,
+                "uniqueItems": true
+              },
+              "quantitativeDisposition": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "status",
+                  "flags",
+                  "expectedCarrierGroupId",
+                  "rationale"
+                ],
+                "properties": {
+                  "status": {
+                    "enum": [
+                      "not-carried-without-calibration"
+                    ]
+                  },
+                  "flags": {
+                    "type": "array",
+                    "items": {
+                      "enum": [
+                        "weight-without-calibration",
+                        "necessity-without-contextual-test",
+                        "thresholds-without-counting-contract",
+                        "carrier-group-type-mismatch",
+                        "transport-label-without-specified-mechanism"
+                      ]
+                    },
+                    "minItems": 3,
+                    "uniqueItems": true
+                  },
+                  "expectedCarrierGroupId": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "rationale": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              }
+            }
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        }
+      }
+    },
+    "relationPolicy": {
+      "const": {
+        "id": "level-zero-relations-v1",
+        "date": "2026-09-12",
+        "status": "adopted-for-internal-level-zero-review",
+        "priorExposure": "The reviewer has already inspected the catalogue, its cycles, the foundation review, the first reconstruction and the negative numerical case. This is not a blind or preregistered classification.",
+        "reviewUnit": "One complete legacy incoming parent assertion, including its direction, mechanism labels, lifecycle, necessity, weight and carrier thresholds.",
+        "semanticKinds": [
+          "generative",
+          "constitutive",
+          "intra-closure-support",
+          "evidential",
+          "descriptive",
+          "regulatory-feedback"
+        ],
+        "lifecycleRoles": [
+          "arising",
+          "maintenance",
+          "modulation"
+        ],
+        "decisions": {
+          "retain-as-description": "Adopt an explicitly scoped definitional or contextual relation. This does not retain an asserted physical cause, numeric weight or measured threshold.",
+          "replace-with-rule": "Replace a flat assertion with identified joint rule specifications and their conditional stages. Mapping is not scientific equivalence or successful rule execution.",
+          "withhold": "Complete the internal assessment but adopt no active edge: the reviewed sources leave an obligation unresolved or the asserted implication fails in the stated scope. Withholding is not proof of physical absence."
+        },
+        "evidenceRules": [
+          "Bind each decision to the exact legacy record and a source-specific locator or a scoped counterexample.",
+          "Use a manuscript as evidence of an author's definition or proposal, not independent empirical confirmation.",
+          "A claim-specific sufficient implication can be rejected by a counterexample only within its declared assumptions; do not universalize a bounded negative case.",
+          "Treat missing model variables, interventions or source support as unresolved; do not infer falsity from failure to locate a publication.",
+          "Use the descriptive kind for adopted definition and rule-incidence relations. Physical relations require an independently specified mechanism, context and admissible test.",
+          "Record legacy lifecycle separately from the proposed semantic kind. A modulation label does not by itself establish feedback.",
+          "Review weight, necessity and threshold provenance separately. Do not make unsupported numbers meaningful by normalizing them.",
+          "Do not select dispositions to produce a desired cycle count, connected component count or preferred geometry.",
+          "Require a specific alternative and a revisiting condition for every decision. Internal review completion and scientific support status remain separate."
+        ],
+        "acceptance": "Every one of the 84 Level-0 assertions receives one locatable decision, endpoint-specific reasoning, a declared replacement or withholding, quantitative disposition and an explicit remaining test. Other levels remain pending. Independent scientific review is not claimed."
+      }
+    }
+  }
+}

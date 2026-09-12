@@ -66,6 +66,13 @@ function expectedFiles(pack) {
 
 export async function writeCausalEmergenceRelease(pack) {
   verifyModelPack(pack);
+  try {
+    await readFile(path.join(RELEASE_ROOT, "bundle.json"));
+    try { return await verifyCausalEmergenceRelease(pack); }
+    catch (error) { throw new Error(`Refusing to overwrite the historical 2026.08.15 release. Use the canonical source and a new version. ${error.message}`); }
+  } catch (error) {
+    if (error.code !== "ENOENT") throw error;
+  }
   await mkdir(RELEASE_ROOT, { recursive: true });
   await writeFile(path.join(RELEASE_ROOT, "manifest.json"), serialize(pack.manifest));
   for (const [relative, value] of Object.entries(pack.files)) {

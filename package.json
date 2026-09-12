@@ -102,8 +102,8 @@
     "case:rdf-mapping:verify": "node cases/rdf-mapping-reference/run.mjs --verify",
     "dev:site": "node apps/historical-load-explorer/serve.mjs",
     "dev:explorer": "node apps/historical-load-explorer/serve.mjs",
-    "model:causal-emergence": "node models/causal-emergence/build.mjs",
-    "model:causal-emergence:verify": "node models/causal-emergence/build.mjs --verify",
+    "model:causal-emergence": "node models/causal-emergence/canonical/build.mjs",
+    "model:causal-emergence:verify": "node models/causal-emergence/canonical/build.mjs --verify",
     "model:live-bootstrap": "node models/live-bootstrap-provenance/build.mjs",
     "model:live-bootstrap:verify": "node models/live-bootstrap-provenance/build.mjs --verify",
     "model:nix-derivations": "node models/nix-derivations/build.mjs",
@@ -160,6 +160,7 @@
     "test:live-bootstrap-trace": "node --test tools/live-bootstrap-trace/export.test.mjs",
     "test:kernel": "node scripts/test.mjs packages/kernel/test",
     "audit:catalogue": "node scripts/audit-catalogue.mjs",
+    "audit:references": "node scripts/audit-references.mjs",
     "history-benchmark:reference": "node cases/history-matters-reference/build.mjs",
     "history-benchmark:check": "node scripts/check-history-benchmark.mjs",
     "history-benchmark:goldens": "node cases/history-matters-reference/build.mjs --verify",
@@ -256,7 +257,9 @@
     "structural-geometry:scope-coverage:replay": "node cases/structural-geometry/robustness/scope/build.mjs --verify",
     "structural-geometry:scope-coverage:check": "node scripts/check-biological-scope.mjs",
     "structural-geometry:site:build": "node apps/structural-geometry-lab/build.mjs --write",
-    "structural-geometry:site:check": "node apps/structural-geometry-lab/build.mjs --check"
+    "structural-geometry:site:check": "node apps/structural-geometry-lab/build.mjs --check",
+    "model:causal-emergence:legacy:verify": "node models/causal-emergence/build.mjs --verify",
+    "check:canonical": "node scripts/check-canonical-source.mjs"
   },
   "dependencies": {
     "@onto2d/canonical-identity-analysis": "0.1.0",

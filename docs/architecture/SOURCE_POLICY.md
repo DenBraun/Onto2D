@@ -5,6 +5,7 @@ annotation artifacts; actual scientific classification/resolution rules and
 reviewed current-catalogue annotations remain open work in the
 [roadmap](../ROADMAP.md).
 
+- [Construction rationale and testable reconstruction](#construction-rationale-and-testable-reconstruction)
 - [Source relation classification policy](#source-relation-classification-policy)
 - [Source node resolution policy](#source-node-resolution-policy)
 - [Source policy freeze contracts](#source-policy-freeze-contracts)
@@ -19,6 +20,221 @@ reviewed current-catalogue annotations remain open work in the
 - [Source-cluster concentration](#source-cluster-concentration)
 - [Closed source-migration package and run binding](#closed-source-migration-package-and-run-binding)
 - [Adapter-owned source explanations and closed kernel registry](#adapter-owned-source-explanations-and-closed-kernel-registry)
+
+## Construction rationale and testable reconstruction
+
+The active implementation is the
+[canonical research source](../../references/canonical/README.md), release
+`2026.09.12.4`. It separates definitions, scoped claims and joint rule
+specifications, with complete legacy accounting and explicit negative case
+evidence. Level-0 relations remain descriptive. The retinal pilot and routing extension add twelve
+scoped operating dependencies in `functional-support`, with published
+observations distinguished from whole-graph validation. This layer is not
+included in the kernel's formation-support projection; no closure or formation
+claim follows from a functional response. The
+[Level-0 review policy](../../references/canonical/relation-review-policy.json)
+has been applied to all 84 assertions at that level: 14 scoped descriptions,
+13 replacements by joint specifications and 57 withheld assertions. This is
+internal adjudication, not verification of physical causation. The
+[retinal policy](../../references/canonical/retinal-policy.json) covers six
+additional cards and all twenty-two incoming assertions; its ledger retains
+two scoped assertions, replaces nine and withholds eleven. The remaining 865
+historical assertions are pending. Study contexts and read extents are required;
+separate preparations cannot become a purportedly measured single cascade.
+The [routing review](../../references/canonical/ROUTING_REVIEW.md) adds complete
+experimental comparison contexts and explicit alternative-route decisions.
+Publication-level contexts remain distinct from protocol-level contexts.
+Mean background and flash intensity have different quantity roles even when
+their units agree. Published response ratios are source observations, not
+causal weights. A non-primary route is an inclusive OR; its support cannot
+identify one member. Common context across an entire path is a compatibility
+requirement only, not a proof of measured causal composition.
+
+The [dictionary review](../../references/canonical/DICTIONARY_REVIEW.md)
+adds 112 internal semantic dispositions and ten executable counterexamples.
+Vocabulary labels do not create physical entities or causal permissions.
+The derived quantitative census preserves all 971 original assertions,
+including 164 unresolved carrier conflicts; no numerical default is admitted
+by normalization, dictionary consistency or a missing value. Future counts
+and thresholds require explicit quantity, individuation, target, context,
+method and provenance specifications. These are internal admission rules;
+scientific carrier choices remain part of the domain reviews.
+
+Status: **proposed method for rebuilding an exploratory draft**, added for the current
+`references/` audit. The bounded Level-0 policy is adopted; the broader framework
+below has not been applied to all source records. These are new rules, not a recovered original
+construction algorithm. The source inventory and derivative boundaries are owned by
+the [catalogue guide](../../models/causal-emergence/README.md).
+
+### What the existing graph actually documents
+
+The source organizes phenomena along complexity level, phase and ontological
+role, then declares categorized parent dependencies, requirements, numerical
+weights and carrier thresholds. Its dictionaries provide a qualitative
+construction vocabulary. The graph can therefore be described as an authored
+multiscale catalogue of proposed dependencies. The files do not supply a
+replayable inference from scientific observations to this exact set of nodes
+and edges. The levels are declared placements; they are not demonstrated
+construction depths, a physical chronology, or an experimentally established
+universal ladder.
+
+On 2026-09-11, the author clarified that the original catalogue was an intuitive
+logical draft, with no explicit node/edge/level selection procedure. Treat the
+current graph as a source of candidate concepts and hypotheses to examine.
+The task is to define and test a professional construction procedure now,
+allowing it to produce a substantially different graph. Do not retrospectively
+attribute the newer project's formal methods to the original authoring process.
+
+The subsequently supplied archive and the author's clarification about
+`topology-of-arising.pdf` establish an important distinction: the project does
+have theoretical construction principles. They concern minimal admissibility,
+stable closure, carrier formation and changes to the next admissibility domain.
+The missing procedure is the justified translation of those principles into
+this exact catalogue. The [foundation review and Level-0 proposal](../../models/causal-emergence/reconstruction/README.md)
+records the source passages, mathematical issues, all ten archived drafts and
+a proposed separation of concepts, rules, instances and evidence. It must not
+be described as a reconstruction of the original per-edge decision history.
+
+Repository history preserves the imported catalogue, not its individual
+decision history. All eight level files and `descriptions.json` match their
+initial `scr/` bytes in commit `4def9f2` (2026-05-01); commit `3b7aa86`
+(2026-09-05) moved them to `references/` without changing those bytes. Original
+recorded decisions are not available in that history. Rules adopted now need
+their own version, reasons and truthful prior-exposure declaration; they are
+not an original preregistered derivation.
+
+The user's current scope permits rebuilding levels, node boundaries and
+relations. Neither 249 nodes, 971 edges, eight populated levels, the present
+root, nor the current topology is a target that a revised model must preserve.
+Preserving a historical source snapshot and an old-to-new mapping is compatible
+with substantially replacing the active graph.
+
+### What recent work contributes
+
+| Existing work | Transferable method | What it does not establish about this catalogue |
+|---|---|---|
+| [Distinguishability regimes](../structural-geometry/OBSERVATIONS.md#distinguishability-regime-and-observable-contracts), expanded September 6–9 | Declare which observations distinguish two records and which transformations preserve identity; make unresolved comparisons explicit | A preferred vocabulary, physical level hierarchy or uniquely correct graph |
+| [Kernel removal and minimality](EXECUTION.md#exhaustive-policy-bound-minimal-subgraphs) | In a bounded, declared model, enumerate removals/alternatives and retain failure witnesses | Physical necessity merely because a graph predicate fails after an edge is removed |
+| [History Matters](../history/BENCHMARK.md), September 5 | Compare a proposed representation against a simpler one on the same independently specified task; retain negative and neutral controls | Evidence that extra distinctions or extra historical detail always improve an explanation |
+| [Seshat evidence dependencies](../../cases/seshat-epistemic-provenance/README.md#evidence-contract) | Trace a claim through source passages, mappings and interpretation; distinguish independent works from repeated support branches | Claim truth from citation count or a verified support hash |
+| [Biological geometry protocol and results](../structural-geometry/RESEARCH.md), September 8–9 | Declare inputs, independent targets, baselines, selection rules, scope and exclusions before comparative scoring | Validation of the Causal Emergence catalogue by studying different graphs |
+| [Level-0 numerical studies](../../cases/level-0-oscillator/README.md) | Turn a formal claim into explicit equations, parameter families, controls and rejection tests | Complete Level-0 emergence: the studied Phase-C candidates do not establish stable localized CRT objecthood |
+
+The recent geometry results constrain the proposed method. The synthetic
+added-value panel gained zero new distinctions on 210 eligible pairs; the
+original DREAM4 comparison improves primary knockout ranking and worsens
+secondary knockdown ranking; the C. elegans full-model comparison is worse than
+its original graph-only baseline. Retain these
+[reported outcomes](../ROADMAP.md#structural-geometry-program). Curvature or a
+visually coherent graph cannot serve as a certificate of physical correctness.
+
+### Reviewable construction rules
+
+1. **Declare the question and domain.** State which phenomena and conditions the
+   graph should explain, which scales and times are represented, and which
+   boundary conditions are outside it. A universal scope claim needs additional
+   support beyond success on a selected fragment.
+2. **Specify why a node is distinct.** Give an operational definition or a
+   clearly marked theoretical construct, its identifying observations, relevant
+   invariances and exclusions. Record whether a distinction is empirical,
+   analytical or conventional. Merge cards when their distinction has no role
+   in the declared task; split cards that combine differently supported claims.
+3. **Specify the assertion behind each edge.** State the source/target roles,
+   mechanism, conditions and temporal/scale scope. Classify generation,
+   constitution, within-closure support, regulation/feedback, description and
+   evidence separately using the six existing relation kinds below. A paper
+   supporting a phenomenon does not automatically support every incoming edge.
+4. **Represent dependency logic.** Distinguish jointly necessary conditions
+   (`A AND B`), alternative routes (`A OR B`), constitutive parts, and factors
+   that change a rate without being required. Record substitutions and context
+   explicitly. The current flat `Parents` list and `MustCover` categories cannot
+   by themselves express all of these claims; a revised representation may
+   need rule nodes, grouped relations or a separately versioned contract.
+5. **Bind a reason and a possible refutation.** For a physical dependency,
+   specify what observation, intervention, natural contrast or counterexample
+   bears on it, including assumptions and confounders. Removing an edge from a
+   drawing is a computational ablation, not an intervention on the world.
+   Failure to find a paper is unresolved support, not proof of absence.
+6. **Justify quantitative claims separately.** Define the units, counted entities,
+   measurement/estimation method and uncertainty of weights and thresholds.
+   Uncalibrated illustrative numbers must remain explicitly hypothetical or be
+   removed from the evidential representation. Sum-to-one normalization alone
+   cannot give an arbitrary number a measured interpretation.
+7. **Allow competing graphs.** Freeze candidate-generation/edit rules before
+   comparing results. Compare the current graph with evidence-derived, simpler,
+   differently grouped and appropriately randomized alternatives. Preserve
+   domain constraints in controls and record every considered candidate and
+   exclusion. Do not choose classification labels to eliminate known cycles.
+8. **Report the identified result.** A graph can be reproducibly constructed yet
+   scientifically weak. A graph can predict well without its edges being
+   identified causal mechanisms. Several graphs can fit the available evidence
+   equally well; return that unresolved alternative set instead of inventing
+   uniqueness. Minimality is relative to a specified candidate family, target,
+   observation regime and resource bound.
+
+After applying these rules, the defensible explanation for a graph should have
+this form: *these source observations, definitions, inclusion rules and tested
+alternatives led to this version; these results support these relationships
+within these conditions; these remaining choices are assumptions or unresolved*.
+This is a target for the reconstruction, not a description of a completed
+validation of today's catalogue.
+
+### Decision record and validation obligations
+
+Before selecting a source schema extension, make each decision reviewable with
+the following information. These are proposed logical fields, not implemented
+JSON keys or a new public runtime contract.
+
+| Decision record | Required content |
+|---|---|
+| Identity and scope | Stable claim ID; affected old/new node or edge IDs; species/material/system, scale, time and conditions |
+| Source basis | Exact publication identity, locator and relevant passage/figure/dataset; source independence and contrary evidence |
+| Interpretation | Operational statement; node-distinction or relation rule; AND/OR/substitution logic where applicable |
+| Status | Observation, accepted model result, author hypothesis, convention, contradicted-in-scope or unresolved; keep these distinct from review completion |
+| Test | Predicted observable outcome; admissible intervention/counterexample; independently specified target, control and failure condition |
+| Alternatives | Candidate graph/edit, motivation, preserved constraints, selection/exclusion rule and comparison outcome |
+| Provenance | Reviewer/tool, actual prior exposure, decision rationale, policy/version and source identity |
+
+Validation should separately answer whether the sources are identifiable,
+whether the same rules reproduce the decisions, whether independent readers
+agree under those rules, and whether the representation explains or predicts
+an independently defined outcome better than an appropriate baseline. Exact
+agreement thresholds, loss/complexity trade-offs and uncertainty procedures must
+be chosen for the particular task before evaluation. There is no justified
+single percentage of "graph truth" from the current data.
+
+### First reconstruction pilots
+
+Use the [full Level-0 representation proposal](../../models/causal-emergence/reconstruction/level-0-proposal.json)
+as the foundational pilot: all 24 legacy cards have an explicit proposed
+mapping, and all 84 incoming relations are inventoried for subsequent
+claim-specific classification. Rule applications and carrier instances are
+separate from class definitions; failed objecthood tests cannot supply admitted
+inputs to later collective gates. The proposal is not yet a frozen policy or
+a new active source graph.
+
+Pair it with an empirical candidate scope covering photopigment response and
+retinal signaling (`3.49`, `4.22`, `5.18–5.21`), while explicitly retaining its
+external inputs and boundary conditions. For every proposed relation, identify
+the measured quantities, source support, alternatives and a discriminating
+observation. Availability of a suitable independent outcome is a gate; no new
+predictive result is claimed. This scope is chosen retrospectively for concrete
+mechanisms and interpretability, not as a representative sample of the catalogue.
+
+Alongside it, use `0.6–0.9` as a theoretical reconstruction control. Link the
+paper's predicates to the actual Phase-B/Phase-C studies, their operational
+surrogates and rejected candidates. A successful encoded triadic criterion must
+not be promoted to proof of stable CRT objecthood or a physical Level-0→Level-1
+transition. The negative bounded results should change which claims are
+eligible for a supported status in the reconstruction. The current Level-0
+cards already use `methodological-placeholder`; bind them to the actual study
+results instead of treating those results as missing or as positive validation.
+
+The pilot output is a reviewed claim/edge ledger, explicit alternative graphs,
+recorded tests or missing targets, and a proposed active structure. Source
+reconstruction can then continue through the complete level batches using the
+revised rules. Existing exact comparison and enumeration limits still apply;
+do not promise exhaustive search of all 249-node alternatives.
 
 <a id="source-relation-classification-policy"></a>
 

@@ -1,0 +1,822 @@
+{
+  "id": "retinal-routing-review-v1",
+  "policyId": "retinal-routing-policy-v1",
+  "policySha256": "325066a196f9b5167dc1ca848b56f275b5af4c5f1b432ef78f49eed5c5b2a3a6",
+  "reviewStatus": "internal-retrospective-review",
+  "independentScientificReviewComplete": false,
+  "studies": [
+    {
+      "id": "grimes2018",
+      "sourceId": "grimes2018",
+      "studyType": "primary-experiment",
+      "doi": "10.7554/eLife.38281",
+      "pmid": "30299254",
+      "journal": "eLife",
+      "volume": "7",
+      "issue": "",
+      "pages": "e38281",
+      "organism": "Macaca fascicularis, M. mulatta and M. nemestrina; C57/BL6 mouse",
+      "preparation": "Isolated whole-mount OFF RGC recordings, with species-specific adaptation and light calibration; additional cell and slice experiments in the paper are not merged into these contexts.",
+      "observable": "Excitatory synaptic input to OFF parasol (primate) and OFF sustained alpha (mouse) RGCs before and during LY/APB.",
+      "finding": "The paired pharmacological responses differ with species and background; the experiment identifies primary versus combined non-primary routing more strongly than it identifies secondary versus tertiary contributions.",
+      "limitations": [
+        "Isolated retina without normal pigment regeneration; prolonged adaptation and in vivo neuromodulation were not tested.",
+        "LY/APB affects all ON bipolar pathways and may have additional effects; residual signaling does not uniquely distinguish secondary from tertiary routes.",
+        "OFF parasol responses at the high background can include substantial cone drive. Species are pooled within the reported macaque cohort; individual animals are not resolved by the summary spreadsheet.",
+        "Figure 6F spreadsheet contains summary amplitudes, not individual samples or SEM.",
+        "The modulation frequency of the six Figure 6F summary rows is not resolved by the reviewed metadata. Do not import 2 Hz from the separate A-C or supplement experiment; no fully specified replication protocol is claimed."
+      ],
+      "readExtent": "Selected full-text Results, Methods, Discussion and figure captions; publisher Figure 6 source workbook inspected; Figure 6 image visually checked",
+      "reviewedLocators": [
+        "Figure 1 and Introduction (s1)",
+        "Results: Routing of rod signals in Off retinal circuits (s2-5); Figure 6D-G and mouse comparison paragraph",
+        "Figure 6-figure supplement 1",
+        "Discussion: Potential limitations (s3-3)",
+        "Materials and methods: Electrophysiology, Cell selection criteria, Visual stimuli and Analysis (s4-1 to s4-4)"
+      ],
+      "metadataCheckedAt": "2026-09-12",
+      "metadataUrl": "https://api.elifesciences.org/articles/38281",
+      "correctionCheck": "Publisher API returned version of record 2 dated 2018-11-05; this version was read. No comprehensive external correction/retraction search completed."
+    },
+    {
+      "id": "jin2022",
+      "sourceId": "jin2022",
+      "studyType": "primary-experiment",
+      "doi": "10.1126/sciadv.abm4491",
+      "pmid": "35363529",
+      "journal": "Science Advances",
+      "volume": "8",
+      "issue": "13",
+      "pages": "eabm4491",
+      "organism": "Mus musculus; C57BL/6 background",
+      "preparation": "Dark-adapted isolated whole mounts, 2-6 month mice of either sex, separate rod- and cone-specific Cx36 KO lines and corresponding wild-type littermate controls.",
+      "observable": "Loose-patch, baseline-subtracted peak firing response of transient OFF alpha RGCs at light offset.",
+      "finding": "Genetic and pharmacological contrasts support a secondary rod-pathway contribution in the selected dark-adapted flash protocol, without making a universal statement about other cell classes or light adaptation.",
+      "limitations": [
+        "Constitutive cell-specific Cx36 deletion is not an acute isolated edge removal; the two mutant lines are separate comparisons.",
+        "APB blocks ON pathways and changes crossover inhibition and basal firing; its effect is not a calibrated contribution weight.",
+        "Fully dark-adapted flash measurements in B6-background transient OFF alpha cells do not transfer to sustained OFF alpha cells or adapting sinusoidal backgrounds.",
+        "Supplementary files and original electrophysiology traces were not independently reanalysed."
+      ],
+      "readExtent": "Selected full-text Results, Methods, Discussion and figure captions; NLM BioC representation inspected; supplementary files not read",
+      "reviewedLocators": [
+        "Figure 1 and Introduction",
+        "Results: Light responses of tOFF alpha RGCs; Figure 3A-F",
+        "Results: cone-input controls; Figures 4 and 5",
+        "Discussion: APB limitations and adaptation dependence",
+        "Materials and Methods: Animals; Minimizing the influence of light/dark adaptation and circadian time; Preparation of the retinal tissue; Light stimulus; Single-cell recording of alpha RGCs; Data analysis"
+      ],
+      "metadataCheckedAt": "2026-09-12",
+      "metadataUrl": "https://www.ncbi.nlm.nih.gov/research/bionlp/RESTful/pmcoa.cgi/BioC_xml/PMC10938630/unicode",
+      "correctionCheck": "DOI, title, authors, year, volume and issue checked against the NLM article representation; no comprehensive external correction/retraction search completed."
+    }
+  ],
+  "contexts": [
+    {
+      "id": "grimes-primate-2",
+      "studyId": "grimes2018",
+      "organismGroup": "primate",
+      "organism": "Macaca fascicularis, M. mulatta and M. nemestrina",
+      "cellType": "OFF parasol RGC",
+      "preparation": "Isolated living retinal whole mount; no in vivo or developmental inference.",
+      "adaptation": "Primate: dark adaptation at least 1 h before recording; typically at least 1 min on each new background; mainly nominal circadian day.",
+      "stimulus": {
+        "kind": "sinusoidal-modulation",
+        "wavelengthNm": 405,
+        "frequencyHz": null,
+        "durationSeconds": null,
+        "light": {
+          "role": "mean-background",
+          "value": 2,
+          "nominalValue": 2,
+          "unit": "R*/rod/s"
+        },
+        "description": "Rod-preferring sinusoidal modulation; background values preserved from Figure 6F spreadsheet, with rounded nominal values from Results. Modulation frequency is unresolved for these summary rows; nearby experiments do not supply a shared frequency contract."
+      },
+      "comparison": "Control versus 2.5 uM LY341495 plus 7.5 uM APB; suppression of ON bipolar light modulation, including rod and ON cone bipolar cells.",
+      "observable": "Excitatory synaptic input to OFF parasol RGC; reported LY/APB:control response-amplitude ratio.",
+      "reviewedLocators": [
+        "Results: Routing of rod signals in Off retinal circuits (s2-5); Figure 6D-G and mouse comparison paragraph",
+        "Materials and methods: Electrophysiology, Cell selection criteria, Visual stimuli and Analysis (s4-1 to s4-4)"
+      ],
+      "limitations": [
+        "Isolated retina without normal pigment regeneration; prolonged adaptation and in vivo neuromodulation were not tested.",
+        "LY/APB affects all ON bipolar pathways and may have additional effects; residual signaling does not uniquely distinguish secondary from tertiary routes.",
+        "OFF parasol responses at the high background can include substantial cone drive. Species are pooled within the reported macaque cohort; individual animals are not resolved by the summary spreadsheet.",
+        "Figure 6F spreadsheet contains summary amplitudes, not individual samples or SEM.",
+        "The modulation frequency of the six Figure 6F summary rows is not resolved by the reviewed metadata. Do not import 2 Hz from the separate A-C or supplement experiment; no fully specified replication protocol is claimed."
+      ]
+    },
+    {
+      "id": "grimes-primate-20",
+      "studyId": "grimes2018",
+      "organismGroup": "primate",
+      "organism": "Macaca fascicularis, M. mulatta and M. nemestrina",
+      "cellType": "OFF parasol RGC",
+      "preparation": "Isolated living retinal whole mount; no in vivo or developmental inference.",
+      "adaptation": "Primate: dark adaptation at least 1 h before recording; typically at least 1 min on each new background; mainly nominal circadian day.",
+      "stimulus": {
+        "kind": "sinusoidal-modulation",
+        "wavelengthNm": 405,
+        "frequencyHz": null,
+        "durationSeconds": null,
+        "light": {
+          "role": "mean-background",
+          "value": 20,
+          "nominalValue": 20,
+          "unit": "R*/rod/s"
+        },
+        "description": "Rod-preferring sinusoidal modulation; background values preserved from Figure 6F spreadsheet, with rounded nominal values from Results. Modulation frequency is unresolved for these summary rows; nearby experiments do not supply a shared frequency contract."
+      },
+      "comparison": "Control versus 2.5 uM LY341495 plus 7.5 uM APB; suppression of ON bipolar light modulation, including rod and ON cone bipolar cells.",
+      "observable": "Excitatory synaptic input to OFF parasol RGC; reported LY/APB:control response-amplitude ratio.",
+      "reviewedLocators": [
+        "Results: Routing of rod signals in Off retinal circuits (s2-5); Figure 6D-G and mouse comparison paragraph",
+        "Materials and methods: Electrophysiology, Cell selection criteria, Visual stimuli and Analysis (s4-1 to s4-4)"
+      ],
+      "limitations": [
+        "Isolated retina without normal pigment regeneration; prolonged adaptation and in vivo neuromodulation were not tested.",
+        "LY/APB affects all ON bipolar pathways and may have additional effects; residual signaling does not uniquely distinguish secondary from tertiary routes.",
+        "OFF parasol responses at the high background can include substantial cone drive. Species are pooled within the reported macaque cohort; individual animals are not resolved by the summary spreadsheet.",
+        "Figure 6F spreadsheet contains summary amplitudes, not individual samples or SEM.",
+        "The modulation frequency of the six Figure 6F summary rows is not resolved by the reviewed metadata. Do not import 2 Hz from the separate A-C or supplement experiment; no fully specified replication protocol is claimed."
+      ]
+    },
+    {
+      "id": "grimes-primate-200",
+      "studyId": "grimes2018",
+      "organismGroup": "primate",
+      "organism": "Macaca fascicularis, M. mulatta and M. nemestrina",
+      "cellType": "OFF parasol RGC",
+      "preparation": "Isolated living retinal whole mount; no in vivo or developmental inference.",
+      "adaptation": "Primate: dark adaptation at least 1 h before recording; typically at least 1 min on each new background; mainly nominal circadian day.",
+      "stimulus": {
+        "kind": "sinusoidal-modulation",
+        "wavelengthNm": 405,
+        "frequencyHz": null,
+        "durationSeconds": null,
+        "light": {
+          "role": "mean-background",
+          "value": 200,
+          "nominalValue": 200,
+          "unit": "R*/rod/s"
+        },
+        "description": "Rod-preferring sinusoidal modulation; background values preserved from Figure 6F spreadsheet, with rounded nominal values from Results. Modulation frequency is unresolved for these summary rows; nearby experiments do not supply a shared frequency contract."
+      },
+      "comparison": "Control versus 2.5 uM LY341495 plus 7.5 uM APB; suppression of ON bipolar light modulation, including rod and ON cone bipolar cells.",
+      "observable": "Excitatory synaptic input to OFF parasol RGC; reported LY/APB:control response-amplitude ratio.",
+      "reviewedLocators": [
+        "Results: Routing of rod signals in Off retinal circuits (s2-5); Figure 6D-G and mouse comparison paragraph",
+        "Materials and methods: Electrophysiology, Cell selection criteria, Visual stimuli and Analysis (s4-1 to s4-4)"
+      ],
+      "limitations": [
+        "Isolated retina without normal pigment regeneration; prolonged adaptation and in vivo neuromodulation were not tested.",
+        "LY/APB affects all ON bipolar pathways and may have additional effects; residual signaling does not uniquely distinguish secondary from tertiary routes.",
+        "OFF parasol responses at the high background can include substantial cone drive. Species are pooled within the reported macaque cohort; individual animals are not resolved by the summary spreadsheet.",
+        "Figure 6F spreadsheet contains summary amplitudes, not individual samples or SEM.",
+        "The modulation frequency of the six Figure 6F summary rows is not resolved by the reviewed metadata. Do not import 2 Hz from the separate A-C or supplement experiment; no fully specified replication protocol is claimed."
+      ]
+    },
+    {
+      "id": "grimes-mouse-0p5",
+      "studyId": "grimes2018",
+      "organismGroup": "mouse",
+      "organism": "Mus musculus; C57/BL6",
+      "cellType": "OFF sustained alpha RGC",
+      "preparation": "Isolated living retinal whole mount; no in vivo or developmental inference.",
+      "adaptation": "Mouse: dark adaptation at least 12 h; typically at least 1 min on each new background; mainly nominal circadian day.",
+      "stimulus": {
+        "kind": "sinusoidal-modulation",
+        "wavelengthNm": 405,
+        "frequencyHz": null,
+        "durationSeconds": null,
+        "light": {
+          "role": "mean-background",
+          "value": 0.49,
+          "nominalValue": 0.5,
+          "unit": "R*/rod/s"
+        },
+        "description": "Rod-preferring sinusoidal modulation; background values preserved from Figure 6F spreadsheet, with rounded nominal values from Results. Modulation frequency is unresolved for these summary rows; nearby experiments do not supply a shared frequency contract."
+      },
+      "comparison": "Control versus 2.5 uM LY341495 plus 7.5 uM APB; suppression of ON bipolar light modulation, including rod and ON cone bipolar cells.",
+      "observable": "Excitatory synaptic input to OFF sustained alpha RGC; reported LY/APB:control response-amplitude ratio.",
+      "reviewedLocators": [
+        "Results: Routing of rod signals in Off retinal circuits (s2-5); Figure 6D-G and mouse comparison paragraph",
+        "Materials and methods: Electrophysiology, Cell selection criteria, Visual stimuli and Analysis (s4-1 to s4-4)"
+      ],
+      "limitations": [
+        "Isolated retina without normal pigment regeneration; prolonged adaptation and in vivo neuromodulation were not tested.",
+        "LY/APB affects all ON bipolar pathways and may have additional effects; residual signaling does not uniquely distinguish secondary from tertiary routes.",
+        "OFF parasol responses at the high background can include substantial cone drive. Species are pooled within the reported macaque cohort; individual animals are not resolved by the summary spreadsheet.",
+        "Figure 6F spreadsheet contains summary amplitudes, not individual samples or SEM.",
+        "The modulation frequency of the six Figure 6F summary rows is not resolved by the reviewed metadata. Do not import 2 Hz from the separate A-C or supplement experiment; no fully specified replication protocol is claimed."
+      ]
+    },
+    {
+      "id": "grimes-mouse-5",
+      "studyId": "grimes2018",
+      "organismGroup": "mouse",
+      "organism": "Mus musculus; C57/BL6",
+      "cellType": "OFF sustained alpha RGC",
+      "preparation": "Isolated living retinal whole mount; no in vivo or developmental inference.",
+      "adaptation": "Mouse: dark adaptation at least 12 h; typically at least 1 min on each new background; mainly nominal circadian day.",
+      "stimulus": {
+        "kind": "sinusoidal-modulation",
+        "wavelengthNm": 405,
+        "frequencyHz": null,
+        "durationSeconds": null,
+        "light": {
+          "role": "mean-background",
+          "value": 4.9,
+          "nominalValue": 5,
+          "unit": "R*/rod/s"
+        },
+        "description": "Rod-preferring sinusoidal modulation; background values preserved from Figure 6F spreadsheet, with rounded nominal values from Results. Modulation frequency is unresolved for these summary rows; nearby experiments do not supply a shared frequency contract."
+      },
+      "comparison": "Control versus 2.5 uM LY341495 plus 7.5 uM APB; suppression of ON bipolar light modulation, including rod and ON cone bipolar cells.",
+      "observable": "Excitatory synaptic input to OFF sustained alpha RGC; reported LY/APB:control response-amplitude ratio.",
+      "reviewedLocators": [
+        "Results: Routing of rod signals in Off retinal circuits (s2-5); Figure 6D-G and mouse comparison paragraph",
+        "Materials and methods: Electrophysiology, Cell selection criteria, Visual stimuli and Analysis (s4-1 to s4-4)"
+      ],
+      "limitations": [
+        "Isolated retina without normal pigment regeneration; prolonged adaptation and in vivo neuromodulation were not tested.",
+        "LY/APB affects all ON bipolar pathways and may have additional effects; residual signaling does not uniquely distinguish secondary from tertiary routes.",
+        "OFF parasol responses at the high background can include substantial cone drive. Species are pooled within the reported macaque cohort; individual animals are not resolved by the summary spreadsheet.",
+        "Figure 6F spreadsheet contains summary amplitudes, not individual samples or SEM.",
+        "The modulation frequency of the six Figure 6F summary rows is not resolved by the reviewed metadata. Do not import 2 Hz from the separate A-C or supplement experiment; no fully specified replication protocol is claimed."
+      ]
+    },
+    {
+      "id": "grimes-mouse-50",
+      "studyId": "grimes2018",
+      "organismGroup": "mouse",
+      "organism": "Mus musculus; C57/BL6",
+      "cellType": "OFF sustained alpha RGC",
+      "preparation": "Isolated living retinal whole mount; no in vivo or developmental inference.",
+      "adaptation": "Mouse: dark adaptation at least 12 h; typically at least 1 min on each new background; mainly nominal circadian day.",
+      "stimulus": {
+        "kind": "sinusoidal-modulation",
+        "wavelengthNm": 405,
+        "frequencyHz": null,
+        "durationSeconds": null,
+        "light": {
+          "role": "mean-background",
+          "value": 49,
+          "nominalValue": 50,
+          "unit": "R*/rod/s"
+        },
+        "description": "Rod-preferring sinusoidal modulation; background values preserved from Figure 6F spreadsheet, with rounded nominal values from Results. Modulation frequency is unresolved for these summary rows; nearby experiments do not supply a shared frequency contract."
+      },
+      "comparison": "Control versus 2.5 uM LY341495 plus 7.5 uM APB; suppression of ON bipolar light modulation, including rod and ON cone bipolar cells.",
+      "observable": "Excitatory synaptic input to OFF sustained alpha RGC; reported LY/APB:control response-amplitude ratio.",
+      "reviewedLocators": [
+        "Results: Routing of rod signals in Off retinal circuits (s2-5); Figure 6D-G and mouse comparison paragraph",
+        "Materials and methods: Electrophysiology, Cell selection criteria, Visual stimuli and Analysis (s4-1 to s4-4)"
+      ],
+      "limitations": [
+        "Isolated retina without normal pigment regeneration; prolonged adaptation and in vivo neuromodulation were not tested.",
+        "LY/APB affects all ON bipolar pathways and may have additional effects; residual signaling does not uniquely distinguish secondary from tertiary routes.",
+        "OFF parasol responses at the high background can include substantial cone drive. Species are pooled within the reported macaque cohort; individual animals are not resolved by the summary spreadsheet.",
+        "Figure 6F spreadsheet contains summary amplitudes, not individual samples or SEM.",
+        "The modulation frequency of the six Figure 6F summary rows is not resolved by the reviewed metadata. Do not import 2 Hz from the separate A-C or supplement experiment; no fully specified replication protocol is claimed."
+      ]
+    },
+    {
+      "id": "jin-cone-cx36",
+      "studyId": "jin2022",
+      "organismGroup": "mouse",
+      "organism": "Mus musculus; B6-background photoreceptor-specific Cx36 lines",
+      "cellType": "transient OFF alpha RGC",
+      "preparation": "Isolated living retinal whole mount; no in vivo or developmental inference.",
+      "adaptation": "Overnight dark adaptation; daytime recordings under infrared; 60 min post-dissection recovery; renewed dark recovery up to 60 min between stimulus series.",
+      "stimulus": {
+        "kind": "full-field-flash",
+        "wavelengthNm": 500,
+        "frequencyHz": null,
+        "durationSeconds": 0.5,
+        "light": {
+          "role": "flash-intensity",
+          "value": 20,
+          "nominalValue": 20,
+          "unit": "R*/rod/s"
+        },
+        "description": "Full-field 500 nm flash (10 nm half-width), 0.5 s from a dark background; 20 R*/rod/s is flash intensity, not mean background."
+      },
+      "comparison": "cone-specific Cx36 KO versus its wild-type littermate control, each before and during 25 uM APB (>15 min), with washout (>30 min) reported in Figure 3.",
+      "observable": "Loose-patch, baseline-subtracted peak firing response of transient OFF alpha RGCs at light offset.",
+      "reviewedLocators": [
+        "Results: Light responses of tOFF alpha RGCs; Figure 3A-F",
+        "Materials and Methods: Animals; Minimizing the influence of light/dark adaptation and circadian time; Preparation of the retinal tissue; Light stimulus; Single-cell recording of alpha RGCs; Data analysis",
+        "Discussion: APB limitations and adaptation dependence"
+      ],
+      "limitations": [
+        "Constitutive cell-specific Cx36 deletion is not an acute isolated edge removal; the two mutant lines are separate comparisons.",
+        "APB blocks ON pathways and changes crossover inhibition and basal firing; its effect is not a calibrated contribution weight.",
+        "Fully dark-adapted flash measurements in B6-background transient OFF alpha cells do not transfer to sustained OFF alpha cells or adapting sinusoidal backgrounds.",
+        "Supplementary files and original electrophysiology traces were not independently reanalysed."
+      ]
+    },
+    {
+      "id": "jin-rod-cx36",
+      "studyId": "jin2022",
+      "organismGroup": "mouse",
+      "organism": "Mus musculus; B6-background photoreceptor-specific Cx36 lines",
+      "cellType": "transient OFF alpha RGC",
+      "preparation": "Isolated living retinal whole mount; no in vivo or developmental inference.",
+      "adaptation": "Overnight dark adaptation; daytime recordings under infrared; 60 min post-dissection recovery; renewed dark recovery up to 60 min between stimulus series.",
+      "stimulus": {
+        "kind": "full-field-flash",
+        "wavelengthNm": 500,
+        "frequencyHz": null,
+        "durationSeconds": 0.5,
+        "light": {
+          "role": "flash-intensity",
+          "value": 20,
+          "nominalValue": 20,
+          "unit": "R*/rod/s"
+        },
+        "description": "Full-field 500 nm flash (10 nm half-width), 0.5 s from a dark background; 20 R*/rod/s is flash intensity, not mean background."
+      },
+      "comparison": "rod-specific Cx36 KO versus its wild-type littermate control, each before and during 25 uM APB (>15 min), with washout (>30 min) reported in Figure 3.",
+      "observable": "Loose-patch, baseline-subtracted peak firing response of transient OFF alpha RGCs at light offset.",
+      "reviewedLocators": [
+        "Results: Light responses of tOFF alpha RGCs; Figure 3A-F",
+        "Materials and Methods: Animals; Minimizing the influence of light/dark adaptation and circadian time; Preparation of the retinal tissue; Light stimulus; Single-cell recording of alpha RGCs; Data analysis",
+        "Discussion: APB limitations and adaptation dependence"
+      ],
+      "limitations": [
+        "Constitutive cell-specific Cx36 deletion is not an acute isolated edge removal; the two mutant lines are separate comparisons.",
+        "APB blocks ON pathways and changes crossover inhibition and basal firing; its effect is not a calibrated contribution weight.",
+        "Fully dark-adapted flash measurements in B6-background transient OFF alpha cells do not transfer to sustained OFF alpha cells or adapting sinusoidal backgrounds.",
+        "Supplementary files and original electrophysiology traces were not independently reanalysed."
+      ]
+    }
+  ],
+  "routes": [
+    {
+      "id": "primary-off",
+      "name": "Primary OFF rod route",
+      "logic": "sequence",
+      "components": [
+        "rod",
+        "rod bipolar cell",
+        "AII amacrine cell",
+        "OFF cone bipolar / OFF output circuitry"
+      ],
+      "alternativeRouteIds": [],
+      "interpretation": "Candidate route-level mechanism from the reviewed circuit schematics; individual synapses and every possible AII output are not separately certified."
+    },
+    {
+      "id": "secondary-off",
+      "name": "Secondary OFF rod route",
+      "logic": "sequence",
+      "components": [
+        "rod",
+        "rod-cone electrical coupling",
+        "cone",
+        "OFF cone bipolar / OFF output circuitry"
+      ],
+      "alternativeRouteIds": [],
+      "interpretation": "Candidate route via rod-cone coupling; a signal contribution is conditional on the preparation and stimulus."
+    },
+    {
+      "id": "tertiary-off",
+      "name": "Tertiary OFF rod route",
+      "logic": "sequence",
+      "components": [
+        "rod",
+        "direct input to an OFF cone bipolar cell",
+        "OFF output circuitry"
+      ],
+      "alternativeRouteIds": [],
+      "interpretation": "Candidate bypass of rod bipolar and rod-cone routes; residual responses alone may not identify it."
+    },
+    {
+      "id": "non-primary-off",
+      "name": "Secondary and/or tertiary routing",
+      "logic": "any",
+      "components": [],
+      "alternativeRouteIds": [
+        "secondary-off",
+        "tertiary-off"
+      ],
+      "interpretation": "Inclusive OR. Support for this combined candidate cannot be assigned to either member without discriminating evidence."
+    }
+  ],
+  "reviews": [
+    {
+      "id": "review:grimes-primate-2",
+      "contextId": "grimes-primate-2",
+      "relationId": "retinal:routing-primate-off",
+      "claimId": "routing:grimes-primate-2",
+      "observation": "Figure 6F source table reports a LY/APB:control excitatory-response amplitude ratio of 0.09 at a mean background of 2 R*/rod/s (nominal 2).",
+      "inference": "The marked reduction supports predominance of the primary rod route in this preparation and protocol; it does not establish exclusive necessity or absence of parallel routes.",
+      "candidates": [
+        {
+          "routeId": "primary-off",
+          "status": "predominant",
+          "reason": "The marked reduction supports predominance of the primary rod route in this preparation and protocol; it does not establish exclusive necessity or absence of parallel routes."
+        },
+        {
+          "routeId": "secondary-off",
+          "status": "not-resolved",
+          "reason": "This selected contrast does not identify a separate contribution or absence of this candidate."
+        },
+        {
+          "routeId": "tertiary-off",
+          "status": "not-resolved",
+          "reason": "This selected contrast does not identify a separate contribution or absence of this candidate."
+        },
+        {
+          "routeId": "non-primary-off",
+          "status": "not-resolved",
+          "reason": "This selected contrast does not identify a separate contribution or absence of this candidate."
+        }
+      ],
+      "refutation": "Revisit if a matched preparation with a more selective intervention and rod/cone separation fails to reproduce this qualitative contrast or changes its route attribution.",
+      "limitations": [
+        "Isolated retina without normal pigment regeneration; prolonged adaptation and in vivo neuromodulation were not tested.",
+        "LY/APB affects all ON bipolar pathways and may have additional effects; residual signaling does not uniquely distinguish secondary from tertiary routes.",
+        "OFF parasol responses at the high background can include substantial cone drive. Species are pooled within the reported macaque cohort; individual animals are not resolved by the summary spreadsheet.",
+        "Figure 6F spreadsheet contains summary amplitudes, not individual samples or SEM.",
+        "The modulation frequency of the six Figure 6F summary rows is not resolved by the reviewed metadata. Do not import 2 Hz from the separate A-C or supplement experiment; no fully specified replication protocol is claimed."
+      ],
+      "quantitativeInference": "No pathway weights, uncertainty estimates, necessity threshold or N_crit are inferred from these summaries."
+    },
+    {
+      "id": "review:grimes-primate-20",
+      "contextId": "grimes-primate-20",
+      "relationId": "retinal:routing-primate-off",
+      "claimId": "routing:grimes-primate-20",
+      "observation": "Figure 6F source table reports a LY/APB:control excitatory-response amplitude ratio of 0.18 at a mean background of 20 R*/rod/s (nominal 20).",
+      "inference": "The marked reduction supports predominance of the primary rod route in this preparation and protocol; it does not establish exclusive necessity or absence of parallel routes.",
+      "candidates": [
+        {
+          "routeId": "primary-off",
+          "status": "predominant",
+          "reason": "The marked reduction supports predominance of the primary rod route in this preparation and protocol; it does not establish exclusive necessity or absence of parallel routes."
+        },
+        {
+          "routeId": "secondary-off",
+          "status": "not-resolved",
+          "reason": "This selected contrast does not identify a separate contribution or absence of this candidate."
+        },
+        {
+          "routeId": "tertiary-off",
+          "status": "not-resolved",
+          "reason": "This selected contrast does not identify a separate contribution or absence of this candidate."
+        },
+        {
+          "routeId": "non-primary-off",
+          "status": "not-resolved",
+          "reason": "This selected contrast does not identify a separate contribution or absence of this candidate."
+        }
+      ],
+      "refutation": "Revisit if a matched preparation with a more selective intervention and rod/cone separation fails to reproduce this qualitative contrast or changes its route attribution.",
+      "limitations": [
+        "Isolated retina without normal pigment regeneration; prolonged adaptation and in vivo neuromodulation were not tested.",
+        "LY/APB affects all ON bipolar pathways and may have additional effects; residual signaling does not uniquely distinguish secondary from tertiary routes.",
+        "OFF parasol responses at the high background can include substantial cone drive. Species are pooled within the reported macaque cohort; individual animals are not resolved by the summary spreadsheet.",
+        "Figure 6F spreadsheet contains summary amplitudes, not individual samples or SEM.",
+        "The modulation frequency of the six Figure 6F summary rows is not resolved by the reviewed metadata. Do not import 2 Hz from the separate A-C or supplement experiment; no fully specified replication protocol is claimed."
+      ],
+      "quantitativeInference": "No pathway weights, uncertainty estimates, necessity threshold or N_crit are inferred from these summaries."
+    },
+    {
+      "id": "review:grimes-primate-200",
+      "contextId": "grimes-primate-200",
+      "relationId": "retinal:routing-primate-off",
+      "claimId": "routing:grimes-primate-200",
+      "observation": "Figure 6F source table reports a LY/APB:control excitatory-response amplitude ratio of 0.8 at a mean background of 200 R*/rod/s (nominal 200).",
+      "inference": "The retained high-background response does not identify non-primary rod transmission: cone contributions become substantial in this OFF readout.",
+      "candidates": [
+        {
+          "routeId": "primary-off",
+          "status": "not-resolved",
+          "reason": "This selected contrast does not identify a separate contribution or absence of this candidate."
+        },
+        {
+          "routeId": "secondary-off",
+          "status": "not-resolved",
+          "reason": "This selected contrast does not identify a separate contribution or absence of this candidate."
+        },
+        {
+          "routeId": "tertiary-off",
+          "status": "not-resolved",
+          "reason": "This selected contrast does not identify a separate contribution or absence of this candidate."
+        },
+        {
+          "routeId": "non-primary-off",
+          "status": "not-resolved",
+          "reason": "This selected contrast does not identify a separate contribution or absence of this candidate."
+        }
+      ],
+      "refutation": "Revisit if a matched preparation with a more selective intervention and rod/cone separation fails to reproduce this qualitative contrast or changes its route attribution.",
+      "limitations": [
+        "Isolated retina without normal pigment regeneration; prolonged adaptation and in vivo neuromodulation were not tested.",
+        "LY/APB affects all ON bipolar pathways and may have additional effects; residual signaling does not uniquely distinguish secondary from tertiary routes.",
+        "OFF parasol responses at the high background can include substantial cone drive. Species are pooled within the reported macaque cohort; individual animals are not resolved by the summary spreadsheet.",
+        "Figure 6F spreadsheet contains summary amplitudes, not individual samples or SEM.",
+        "The modulation frequency of the six Figure 6F summary rows is not resolved by the reviewed metadata. Do not import 2 Hz from the separate A-C or supplement experiment; no fully specified replication protocol is claimed."
+      ],
+      "quantitativeInference": "No pathway weights, uncertainty estimates, necessity threshold or N_crit are inferred from these summaries."
+    },
+    {
+      "id": "review:grimes-mouse-0p5",
+      "contextId": "grimes-mouse-0p5",
+      "relationId": "retinal:routing-mouse-sustained",
+      "claimId": "routing:grimes-mouse-0p5",
+      "observation": "Figure 6F source table reports a LY/APB:control excitatory-response amplitude ratio of 0.097 at a mean background of 0.49 R*/rod/s (nominal 0.5).",
+      "inference": "The marked reduction supports primary-route predominance at this dim mouse background, subject to the specificity of LY/APB.",
+      "candidates": [
+        {
+          "routeId": "primary-off",
+          "status": "predominant",
+          "reason": "The marked reduction supports primary-route predominance at this dim mouse background, subject to the specificity of LY/APB."
+        },
+        {
+          "routeId": "secondary-off",
+          "status": "not-resolved",
+          "reason": "This selected contrast does not identify a separate contribution or absence of this candidate."
+        },
+        {
+          "routeId": "tertiary-off",
+          "status": "not-resolved",
+          "reason": "This selected contrast does not identify a separate contribution or absence of this candidate."
+        },
+        {
+          "routeId": "non-primary-off",
+          "status": "not-resolved",
+          "reason": "This selected contrast does not identify a separate contribution or absence of this candidate."
+        }
+      ],
+      "refutation": "Revisit if a matched preparation with a more selective intervention and rod/cone separation fails to reproduce this qualitative contrast or changes its route attribution.",
+      "limitations": [
+        "Isolated retina without normal pigment regeneration; prolonged adaptation and in vivo neuromodulation were not tested.",
+        "LY/APB affects all ON bipolar pathways and may have additional effects; residual signaling does not uniquely distinguish secondary from tertiary routes.",
+        "OFF parasol responses at the high background can include substantial cone drive. Species are pooled within the reported macaque cohort; individual animals are not resolved by the summary spreadsheet.",
+        "Figure 6F spreadsheet contains summary amplitudes, not individual samples or SEM.",
+        "The modulation frequency of the six Figure 6F summary rows is not resolved by the reviewed metadata. Do not import 2 Hz from the separate A-C or supplement experiment; no fully specified replication protocol is claimed."
+      ],
+      "quantitativeInference": "No pathway weights, uncertainty estimates, necessity threshold or N_crit are inferred from these summaries."
+    },
+    {
+      "id": "review:grimes-mouse-5",
+      "contextId": "grimes-mouse-5",
+      "relationId": "retinal:routing-mouse-sustained",
+      "claimId": "routing:grimes-mouse-5",
+      "observation": "Figure 6F source table reports a LY/APB:control excitatory-response amplitude ratio of 0.63 at a mean background of 4.9 R*/rod/s (nominal 5).",
+      "inference": "Partial suppression supports a primary contribution and substantial signaling outside the primary route. Secondary versus tertiary routing remains unresolved.",
+      "candidates": [
+        {
+          "routeId": "primary-off",
+          "status": "contributes",
+          "reason": "Partial suppression supports a primary contribution and substantial signaling outside the primary route. Secondary versus tertiary routing remains unresolved."
+        },
+        {
+          "routeId": "secondary-off",
+          "status": "not-resolved",
+          "reason": "This selected contrast does not identify a separate contribution or absence of this candidate."
+        },
+        {
+          "routeId": "tertiary-off",
+          "status": "not-resolved",
+          "reason": "This selected contrast does not identify a separate contribution or absence of this candidate."
+        },
+        {
+          "routeId": "non-primary-off",
+          "status": "contributes",
+          "reason": "Partial suppression supports a primary contribution and substantial signaling outside the primary route. Secondary versus tertiary routing remains unresolved."
+        }
+      ],
+      "refutation": "Revisit if a matched preparation with a more selective intervention and rod/cone separation fails to reproduce this qualitative contrast or changes its route attribution.",
+      "limitations": [
+        "Isolated retina without normal pigment regeneration; prolonged adaptation and in vivo neuromodulation were not tested.",
+        "LY/APB affects all ON bipolar pathways and may have additional effects; residual signaling does not uniquely distinguish secondary from tertiary routes.",
+        "OFF parasol responses at the high background can include substantial cone drive. Species are pooled within the reported macaque cohort; individual animals are not resolved by the summary spreadsheet.",
+        "Figure 6F spreadsheet contains summary amplitudes, not individual samples or SEM.",
+        "The modulation frequency of the six Figure 6F summary rows is not resolved by the reviewed metadata. Do not import 2 Hz from the separate A-C or supplement experiment; no fully specified replication protocol is claimed."
+      ],
+      "quantitativeInference": "No pathway weights, uncertainty estimates, necessity threshold or N_crit are inferred from these summaries."
+    },
+    {
+      "id": "review:grimes-mouse-50",
+      "contextId": "grimes-mouse-50",
+      "relationId": "retinal:routing-mouse-sustained",
+      "claimId": "routing:grimes-mouse-50",
+      "observation": "Figure 6F source table reports a LY/APB:control excitatory-response amplitude ratio of 1 at a mean background of 49 R*/rod/s (nominal 50).",
+      "inference": "The retained response supports substantial non-primary signaling in this mouse protocol; this comparison does not separate secondary and tertiary routes or prove zero primary contribution.",
+      "candidates": [
+        {
+          "routeId": "primary-off",
+          "status": "not-resolved",
+          "reason": "This selected contrast does not identify a separate contribution or absence of this candidate."
+        },
+        {
+          "routeId": "secondary-off",
+          "status": "not-resolved",
+          "reason": "This selected contrast does not identify a separate contribution or absence of this candidate."
+        },
+        {
+          "routeId": "tertiary-off",
+          "status": "not-resolved",
+          "reason": "This selected contrast does not identify a separate contribution or absence of this candidate."
+        },
+        {
+          "routeId": "non-primary-off",
+          "status": "contributes",
+          "reason": "The retained response supports substantial non-primary signaling in this mouse protocol; this comparison does not separate secondary and tertiary routes or prove zero primary contribution."
+        }
+      ],
+      "refutation": "Revisit if a matched preparation with a more selective intervention and rod/cone separation fails to reproduce this qualitative contrast or changes its route attribution.",
+      "limitations": [
+        "Isolated retina without normal pigment regeneration; prolonged adaptation and in vivo neuromodulation were not tested.",
+        "LY/APB affects all ON bipolar pathways and may have additional effects; residual signaling does not uniquely distinguish secondary from tertiary routes.",
+        "OFF parasol responses at the high background can include substantial cone drive. Species are pooled within the reported macaque cohort; individual animals are not resolved by the summary spreadsheet.",
+        "Figure 6F spreadsheet contains summary amplitudes, not individual samples or SEM.",
+        "The modulation frequency of the six Figure 6F summary rows is not resolved by the reviewed metadata. Do not import 2 Hz from the separate A-C or supplement experiment; no fully specified replication protocol is claimed."
+      ],
+      "quantitativeInference": "No pathway weights, uncertainty estimates, necessity threshold or N_crit are inferred from these summaries."
+    },
+    {
+      "id": "review:jin-cone-cx36",
+      "contextId": "jin-cone-cx36",
+      "relationId": "retinal:routing-mouse-transient",
+      "claimId": "routing:jin-cone-cx36",
+      "observation": "At the selected flash intensity, Figure 3 shows greater preservation of APB-insensitive OFF responses in the wild-type control than in the corresponding photoreceptor-specific Cx36 KO; mutant responses are strongly attenuated under APB.",
+      "inference": "The genetic/pharmacological comparison supports a secondary rod-route contribution in this dark-adapted transient OFF alpha preparation. It does not transfer to the sustained OFF alpha background experiment.",
+      "candidates": [
+        {
+          "routeId": "primary-off",
+          "status": "not-resolved",
+          "reason": "This selected contrast does not identify a separate contribution or absence of this candidate."
+        },
+        {
+          "routeId": "secondary-off",
+          "status": "contributes",
+          "reason": "The genetic/pharmacological comparison supports a secondary rod-route contribution in this dark-adapted transient OFF alpha preparation. It does not transfer to the sustained OFF alpha background experiment."
+        },
+        {
+          "routeId": "tertiary-off",
+          "status": "not-resolved",
+          "reason": "This selected contrast does not identify a separate contribution or absence of this candidate."
+        },
+        {
+          "routeId": "non-primary-off",
+          "status": "contributes",
+          "reason": "The genetic/pharmacological comparison supports a secondary rod-route contribution in this dark-adapted transient OFF alpha preparation. It does not transfer to the sustained OFF alpha background experiment."
+        }
+      ],
+      "refutation": "Revisit if a matched preparation with a more selective intervention and rod/cone separation fails to reproduce this qualitative contrast or changes its route attribution.",
+      "limitations": [
+        "Constitutive cell-specific Cx36 deletion is not an acute isolated edge removal; the two mutant lines are separate comparisons.",
+        "APB blocks ON pathways and changes crossover inhibition and basal firing; its effect is not a calibrated contribution weight.",
+        "Fully dark-adapted flash measurements in B6-background transient OFF alpha cells do not transfer to sustained OFF alpha cells or adapting sinusoidal backgrounds.",
+        "Supplementary files and original electrophysiology traces were not independently reanalysed."
+      ],
+      "quantitativeInference": "No pathway weights, uncertainty estimates, necessity threshold or N_crit are inferred from these summaries."
+    },
+    {
+      "id": "review:jin-rod-cx36",
+      "contextId": "jin-rod-cx36",
+      "relationId": "retinal:routing-mouse-transient",
+      "claimId": "routing:jin-rod-cx36",
+      "observation": "At the selected flash intensity, Figure 3 shows greater preservation of APB-insensitive OFF responses in the wild-type control than in the corresponding photoreceptor-specific Cx36 KO; mutant responses are strongly attenuated under APB.",
+      "inference": "The genetic/pharmacological comparison supports a secondary rod-route contribution in this dark-adapted transient OFF alpha preparation. It does not transfer to the sustained OFF alpha background experiment.",
+      "candidates": [
+        {
+          "routeId": "primary-off",
+          "status": "not-resolved",
+          "reason": "This selected contrast does not identify a separate contribution or absence of this candidate."
+        },
+        {
+          "routeId": "secondary-off",
+          "status": "contributes",
+          "reason": "The genetic/pharmacological comparison supports a secondary rod-route contribution in this dark-adapted transient OFF alpha preparation. It does not transfer to the sustained OFF alpha background experiment."
+        },
+        {
+          "routeId": "tertiary-off",
+          "status": "not-resolved",
+          "reason": "This selected contrast does not identify a separate contribution or absence of this candidate."
+        },
+        {
+          "routeId": "non-primary-off",
+          "status": "contributes",
+          "reason": "The genetic/pharmacological comparison supports a secondary rod-route contribution in this dark-adapted transient OFF alpha preparation. It does not transfer to the sustained OFF alpha background experiment."
+        }
+      ],
+      "refutation": "Revisit if a matched preparation with a more selective intervention and rod/cone separation fails to reproduce this qualitative contrast or changes its route attribution.",
+      "limitations": [
+        "Constitutive cell-specific Cx36 deletion is not an acute isolated edge removal; the two mutant lines are separate comparisons.",
+        "APB blocks ON pathways and changes crossover inhibition and basal firing; its effect is not a calibrated contribution weight.",
+        "Fully dark-adapted flash measurements in B6-background transient OFF alpha cells do not transfer to sustained OFF alpha cells or adapting sinusoidal backgrounds.",
+        "Supplementary files and original electrophysiology traces were not independently reanalysed."
+      ],
+      "quantitativeInference": "No pathway weights, uncertainty estimates, necessity threshold or N_crit are inferred from these summaries."
+    }
+  ],
+  "measurements": [
+    {
+      "contextId": "grimes-primate-2",
+      "datasetId": "grimes2018-fig6-data",
+      "sheet": "Sheet1",
+      "intensityCell": "E17",
+      "ratioCell": "F17",
+      "intensity": 2,
+      "responseRatio": 0.09,
+      "intensityUnit": "R*/rod/s",
+      "ratioUnit": "dimensionless",
+      "uncertainty": "not-provided-in-workbook",
+      "sampling": "Published summary; individual cells and animal identities are not supplied in this table."
+    },
+    {
+      "contextId": "grimes-primate-20",
+      "datasetId": "grimes2018-fig6-data",
+      "sheet": "Sheet1",
+      "intensityCell": "E18",
+      "ratioCell": "F18",
+      "intensity": 20,
+      "responseRatio": 0.18,
+      "intensityUnit": "R*/rod/s",
+      "ratioUnit": "dimensionless",
+      "uncertainty": "not-provided-in-workbook",
+      "sampling": "Published summary; individual cells and animal identities are not supplied in this table."
+    },
+    {
+      "contextId": "grimes-primate-200",
+      "datasetId": "grimes2018-fig6-data",
+      "sheet": "Sheet1",
+      "intensityCell": "E19",
+      "ratioCell": "F19",
+      "intensity": 200,
+      "responseRatio": 0.8,
+      "intensityUnit": "R*/rod/s",
+      "ratioUnit": "dimensionless",
+      "uncertainty": "not-provided-in-workbook",
+      "sampling": "Published summary; individual cells and animal identities are not supplied in this table."
+    },
+    {
+      "contextId": "grimes-mouse-0p5",
+      "datasetId": "grimes2018-fig6-data",
+      "sheet": "Sheet1",
+      "intensityCell": "C17",
+      "ratioCell": "D17",
+      "intensity": 0.49,
+      "responseRatio": 0.097,
+      "intensityUnit": "R*/rod/s",
+      "ratioUnit": "dimensionless",
+      "uncertainty": "not-provided-in-workbook",
+      "sampling": "Published summary; individual cells and animal identities are not supplied in this table."
+    },
+    {
+      "contextId": "grimes-mouse-5",
+      "datasetId": "grimes2018-fig6-data",
+      "sheet": "Sheet1",
+      "intensityCell": "C18",
+      "ratioCell": "D18",
+      "intensity": 4.9,
+      "responseRatio": 0.63,
+      "intensityUnit": "R*/rod/s",
+      "ratioUnit": "dimensionless",
+      "uncertainty": "not-provided-in-workbook",
+      "sampling": "Published summary; individual cells and animal identities are not supplied in this table."
+    },
+    {
+      "contextId": "grimes-mouse-50",
+      "datasetId": "grimes2018-fig6-data",
+      "sheet": "Sheet1",
+      "intensityCell": "C19",
+      "ratioCell": "D19",
+      "intensity": 49,
+      "responseRatio": 1,
+      "intensityUnit": "R*/rod/s",
+      "ratioUnit": "dimensionless",
+      "uncertainty": "not-provided-in-workbook",
+      "sampling": "Published summary; individual cells and animal identities are not supplied in this table."
+    }
+  ],
+  "retrievals": [
+    {
+      "studyId": "grimes2018",
+      "url": "https://api.elifesciences.org/articles/38281",
+      "sha256": "7e0804aa7c459b6d48edfd2d3e050fec6369dd8234ba63384dfd38d15b67e524",
+      "format": "Publisher version-of-record JSON, article version 2",
+      "retrievedAt": "2026-09-12"
+    },
+    {
+      "studyId": "jin2022",
+      "url": "https://www.ncbi.nlm.nih.gov/research/bionlp/RESTful/pmcoa.cgi/BioC_xml/PMC10938630/unicode",
+      "sha256": "795d4dc8e24f2143d1aec88571c34e99bbf5c7c0d99d99a23d739b5905db9909",
+      "format": "NLM BioC XML representation of the primary article",
+      "retrievedAt": "2026-09-12"
+    }
+  ],
+  "openObligations": [
+    "No relation joins the earlier toad rod-current, macaque cone/midget filtering, or intrinsic mouse ipRGC fragments to these experiments.",
+    "Obtain sample-level responses and uncertainty before estimating quantitative pathway contributions.",
+    "Resolve secondary versus tertiary routing under matched preparation and selective interventions.",
+    "Review newer adaptation-dependent experiments before extending to other illumination or spatial protocols.",
+    "No extra legacy card or assertion has received a disposition in this extension."
+  ]
+}

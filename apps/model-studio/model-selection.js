@@ -40,15 +40,18 @@ export function registryEntryForKey(entries, key) {
   return requireEntries(entries).find((entry) => modelSelectionKey(entry) === key) ?? null;
 }
 
-export function requestedRegistryEntry(entries, parameters) {
+export function requestedRegistryEntry(entries, parameters, preferredSelection = null) {
   const verifiedEntries = requireEntries(entries);
   if (!(parameters instanceof URLSearchParams)) {
     throw new TypeError("Model selection parameters must be URLSearchParams.");
   }
   const modelId = parameters.get("model");
   const version = parameters.get("version");
+  if (preferredSelection !== null) requireSelection(preferredSelection, "preferred model selection");
   return verifiedEntries.find((entry) => (
     entry.modelId === modelId && entry.version === version
+  )) ?? verifiedEntries.find((entry) => (
+    entry.modelId === preferredSelection?.modelId && entry.version === preferredSelection?.version
   )) ?? verifiedEntries[0];
 }
 

@@ -25,6 +25,15 @@ Source identity used for this analysis:
 
 This document explains how the paper constrains the Onto2D kernel, which claims can be represented directly, which require external numerical or analytical evidence, and which remain research hypotheses rather than software facts.
 
+The [2026-09-11 foundation review](../../models/causal-emergence/reconstruction/README.md#mathematical-findings-that-change-representation)
+adds a source-to-catalogue proposal and concrete mathematical findings. In
+particular, PDF equations (24)–(26) have an operator/mass sign inconsistency;
+stationarity is not a minimum/stability certificate, and resonance balance plus
+`|Psi|^2` does not establish localization or irreducible closure. The Phase-B
+case uses a separately declared consistent operator convention. Read the
+paper-derived claims below as claims being encoded, subject to that review,
+not as accepted proofs. Historical source and case artifacts remain unchanged.
+
 <a id="foundations-and-scientific-interpretation--1-epistemic-scope-of-the-paper"></a>
 
 ### 1. Epistemic scope of the paper
